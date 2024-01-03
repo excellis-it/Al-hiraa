@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/',[AuthenticationController::class,'login'])->name('login');
+Route::post('/login-check',[AuthenticationController::class,'loginCheck'])->name('login.check');
+
+Route::group(['middleware' => ['auth','preventBackHistory']], function () {
+    Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+    Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 });
