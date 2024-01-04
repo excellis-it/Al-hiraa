@@ -18,12 +18,18 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
     <link type="text/css" href="{{asset('assets/bootstrap-5.0.2/css/bootstrap.min.css')}}" rel="stylesheet">
     <link type="text/css" href="{{asset('assets/css/app.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/jquery.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sweetalert2.min.css') }}">
     @stack('styles')
 </head>
 
 <body class="layout-default">
     <!-- <div class="preloader"></div> -->
     <!-- Header Layout -->
+    <section id="loading">
+        <div id="loading-content"></div>
+    </section>
     <div class="mdk-header-layout js-mdk-header-layout">
         <div id="header" class="mdk-header js-mdk-header m-0 d-block d-xl-none">
             <div class="mdk-header__content">
@@ -65,6 +71,44 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
     <script src="{{asset('assets/js/simplebar.min.js')}}"></script>
     <script src="{{asset('assets/js/app.js')}}"></script>
+    <script src="{{ asset('assets/js/toastr.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+
+    <script>
+        @if (Session::has('message'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("{{ session('message') }}");
+        @endif
+
+        @if (Session::has('error'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('error') }}");
+        @endif
+
+        @if (Session::has('info'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.info("{{ session('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
     @stack('scripts')
 </body>
 

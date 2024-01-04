@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,4 +23,25 @@ Route::post('/login-check',[AuthenticationController::class,'loginCheck'])->name
 Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
     Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
+
+    Route::get('/profile',[ProfileController::class,'profile'])->name('profile');
+    Route::get('/change-password',[ProfileController::class,'changePassword'])->name('change.password');
+    Route::post('/profile-update',[ProfileController::class,'profileUpdate'])->name('profile.update');
+    Route::post('/password-update',[ProfileController::class,'passwordUpdate'])->name('password.update');
+
+    // Setting
+    Route::group(['prefix' => 'setting'], function () {
+        Route::get('/social-media',[SettingController::class,'socialMedia'])->name('social-media');
+        Route::get('/support',[SettingController::class,'support'])->name('support');
+
+        // members
+        Route::group(['prefix' => 'members'], function () {
+            Route::get('/',[SettingController::class,'members'])->name('members.index');
+            Route::get('/create',[SettingController::class,'membersCreate'])->name('members.create');
+            Route::post('/store',[SettingController::class,'membersStore'])->name('members.store');
+            Route::get('/edit/{id}',[SettingController::class,'membersEdit'])->name('members.edit');
+            Route::post('/update/{id}',[SettingController::class,'membersUpdate'])->name('members.update');
+            Route::get('/delete/{id}',[SettingController::class,'membersDelete'])->name('members.delete');
+        });
+    });
 });

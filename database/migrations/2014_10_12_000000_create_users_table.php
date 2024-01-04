@@ -24,13 +24,14 @@ return new class extends Migration
             $table->string('role_type')->nullable()->default(null)->comment('role_type');
             $table->string('timezone')->nullable()->default(null)->comment('Timezone');
             $table->string('currency')->nullable()->default(null)->comment('Currency');
-            $table->string('apllication_language')->nullable()->default(null)->comment('Application Language');
-            $table->string('profile_image')->nullable()->default(null)->comment('Profile Image');
+            $table->string('application_language')->nullable()->default(null)->comment('Application Language');
+            $table->string('profile_picture')->nullable()->default(null)->comment('Profile Image');
             $table->boolean('is_active')->default(true)->comment('Is Active');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes()->comment('Deleted At');
         });
     }
 

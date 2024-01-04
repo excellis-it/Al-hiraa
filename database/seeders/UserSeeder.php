@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'role_type' => 'ADMIN',
             'timezone' => 'Asia/Kolkata',
             'currency' => 'INR',
-            'apllication_language' => 'en',
+            'application_language' => 'en',
             'is_active' => true,
         ]);
         $admin->assignRole('ADMIN');
