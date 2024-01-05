@@ -37,11 +37,21 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         // members
         Route::group(['prefix' => 'members'], function () {
             Route::get('/',[SettingController::class,'members'])->name('members.index');
-            Route::get('/create',[SettingController::class,'membersCreate'])->name('members.create');
             Route::post('/store',[SettingController::class,'membersStore'])->name('members.store');
             Route::get('/edit/{id}',[SettingController::class,'membersEdit'])->name('members.edit');
-            Route::post('/update/{id}',[SettingController::class,'membersUpdate'])->name('members.update');
+            Route::put('/update/{id}',[SettingController::class,'membersUpdate'])->name('members.update');
             Route::get('/delete/{id}',[SettingController::class,'membersDelete'])->name('members.delete');
+            Route::get('/filter',[SettingController::class,'memberFilter'])->name('members.filter');
+        });
+
+        // user-access
+        Route::group(['prefix' => 'user-access'], function () {
+            Route::get('/',[SettingController::class,'userAccess'])->name('user-access.index');
+            Route::post('/store',[SettingController::class,'userAccessStore'])->name('user-access.store');
+            Route::get('/edit/{id}',[SettingController::class,'userAccessEdit'])->name('user-access.edit');
+            Route::put('/update/{id}',[SettingController::class,'userAccessUpdate'])->name('user-access.update');
+            Route::get('/delete/{id}',[SettingController::class,'userAccessDelete'])->name('user-access.delete');
+            Route::get('/filter',[SettingController::class,'userAccessFilter'])->name('user-access.filter');
         });
     });
 });

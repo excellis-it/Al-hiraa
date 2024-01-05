@@ -9,144 +9,156 @@
         <div class="container-fluid page__heading-container">
             <div class="page__heading row align-items-center">
                 {{-- member create start --}}
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
-                    style="visibility: hidden;" aria-hidden="true">
-                    <div class="offcanvas-body">
-                        <form action="{{ route('members.store') }}" method="POST" enctype="multipart/form-data"
-                            id="member-form-create">
-                            @csrf
-                            <div class="row justify-content-center">
-                                <div class="col-xl-6">
-                                    <div class="add-mem-1">
-                                        <div class="profile-img-box">
-                                            <div class="profile-img">
-                                                <img src="{{ asset('assets/images/profile-img.png') }}" alt=""
-                                                    id="blah">
-                                                <div class="pro-cam-img-1">
-                                                    <label for="file-input">
-                                                        <img src="{{ asset('assets/images/cam-img.png') }}">
-                                                    </label>
-                                                    <input id="file-input" type="file" name="profile_picture"
-                                                        onchange="readURL(this);">
-                                                </div>
-                                            </div>
-                                            <div class="profile-text">
-                                                <h4>Profile Image</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="add-mem-form">
-
-                                        <div class="row">
-                                            <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="">First Name<span>*</span></label>
-                                                    <input type="text" class="form-control" id="" value=""
-                                                        name="first_name" placeholder="">
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="">Last Name<span>*</span></label>
-                                                    <input type="text" class="form-control" id="" value=""
-                                                        name="last_name" placeholder="">
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="">Email<span>*</span></label>
-                                                    <input type="text" class="form-control" id="" value=""
-                                                        name="email" placeholder="">
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="form-group">
-                                                    <label for="">Phone</label>
-                                                    <input type="text" class="form-control" id="" value=""
-                                                        name="phone" placeholder="">
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-12">
-                                                <div class="form-group">
-                                                    <label for="">Designation <span>*</span></label>
-                                                    <select class="form-select" aria-label="Default select example"
-                                                        name="role_type">
-                                                        <option value="">Select a Designation</option>
-                                                        @foreach ($roles as $role)
-                                                            <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="ps-div">
-                                                    <div class="form-group">
-                                                        <label for="">Password <span>*</span></label>
-                                                        <input type="password" class="form-control" id="password"
-                                                            value="{{ old('password') }}" name="password" placeholder="">
-                                                        <div class="eye-icon-1" id="first-eye">
-                                                            <span><i class="fa-solid fa-eye-slash"></i></span>
-                                                        </div>
+                @can('Create Team')
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+                        style="visibility: hidden;" aria-hidden="true">
+                        <div class="offcanvas-body">
+                            <form action="{{ route('members.store') }}" method="POST" enctype="multipart/form-data"
+                                id="member-form-create">
+                                @csrf
+                                <div class="row justify-content-center">
+                                    <div class="col-xl-6">
+                                        <div class="add-mem-1">
+                                            <div class="profile-img-box">
+                                                <div class="profile-img">
+                                                    <img src="{{ asset('assets/images/profile-img.png') }}" alt=""
+                                                        id="blah">
+                                                    <div class="pro-cam-img-1">
+                                                        <label for="file-input">
+                                                            <img src="{{ asset('assets/images/cam-img.png') }}">
+                                                        </label>
+                                                        <input id="file-input" type="file" name="profile_picture"
+                                                            onchange="readURL(this);">
                                                     </div>
                                                 </div>
-                                                <span class="text-danger"></span>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="ps-div">
-                                                    <div class="form-group">
-                                                        <label for="">Confirm Password <span>*</span></label>
-                                                        <input type="password" class="form-control" id="confirm_password"
-                                                            value="{{ old('confirm_password') }}" name="confirm_password"
-                                                            placeholder="">
-                                                        <div class="eye-icon-1" id="second-eye">
-                                                            <span><i class="fa-solid fa-eye-slash"></i></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <span class="text-danger"></span>
-                                            </div>
-                                            <div class="col-lg-12 mt-3">
-                                                <div class="save-btn-div d-flex align-items-center">
-                                                    <button type="submit" class="btn save-btn"><span><i
-                                                                class="fa-solid fa-check"></i></span> Submit</button>
-                                                    <button type="button"
-                                                        class="btn save-btn save-btn-1 close-btn"><span><i
-                                                                class="fa-solid fa-xmark"></i></span>Cancel</button>
+                                                <div class="profile-text">
+                                                    <h4>Profile Image</h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="add-mem-form">
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    <div class="form-group">
+                                                        <label for="">First Name<span>*</span></label>
+                                                        <input type="text" class="form-control" id="" value=""
+                                                            name="first_name" placeholder="">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="form-group">
+                                                        <label for="">Last Name<span>*</span></label>
+                                                        <input type="text" class="form-control" id="" value=""
+                                                            name="last_name" placeholder="">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="form-group">
+                                                        <label for="">Email<span>*</span></label>
+                                                        <input type="text" class="form-control" id="" value=""
+                                                            name="email" placeholder="">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="form-group">
+                                                        <label for="">Phone</label>
+                                                        <input type="text" class="form-control" id="" value=""
+                                                            name="phone" placeholder="">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-12">
+                                                    <div class="form-group">
+                                                        <label for="">Designation <span>*</span></label>
+                                                        <select class="form-select" aria-label="Default select example"
+                                                            name="role_type">
+                                                            <option value="">Select a Designation</option>
+                                                            @foreach ($roles as $role)
+                                                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="ps-div">
+                                                        <div class="form-group">
+                                                            <label for="">Password <span>*</span></label>
+                                                            <input type="password" class="form-control" id="password"
+                                                                value="{{ old('password') }}" name="password" placeholder="">
+                                                            <div class="eye-icon-1" id="first-eye">
+                                                                <span><i class="fa-solid fa-eye-slash"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-danger"></span>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <div class="ps-div">
+                                                        <div class="form-group">
+                                                            <label for="">Confirm Password <span>*</span></label>
+                                                            <input type="password" class="form-control" id="confirm_password"
+                                                                value="{{ old('confirm_password') }}" name="confirm_password"
+                                                                placeholder="">
+                                                            <div class="eye-icon-1" id="second-eye">
+                                                                <span><i class="fa-solid fa-eye-slash"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="text-danger"></span>
+                                                </div>
+                                                <div class="col-lg-12 mt-3">
+                                                    <div class="save-btn-div d-flex align-items-center">
+                                                        <button type="submit" class="btn save-btn"><span><i
+                                                                    class="fa-solid fa-check"></i></span> Submit</button>
+                                                        <button type="button"
+                                                            class="btn save-btn save-btn-1 close-btn"><span><i
+                                                                    class="fa-solid fa-xmark"></i></span>Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @endcan
+
                 {{-- member create end --}}
+
+                {{-- member edit start --}}
+                @can('Edit Team')
+                <div id="edit-members">
+                    @include('settings.members.edit')
+                </div>
+                @endcan
+
+                {{-- member edit end --}}
 
 
                 <div class="col-xl-8 col-lg-7 col-md-6 mb-3 mb-md-0">
                     <div class="d-flex w-100">
-                        <form class="search-form d-flex w-100" action="index.html">
+                        <form class="search-form d-flex w-100" id="search-form">
                             <button class="btn" type="submit" role="button">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
-                            <input type="text" class="form-control" placeholder="Advance Search..">
+                            <input type="text" class="form-control" placeholder="Advance Search.." name="query"
+                                id="query">
                             <div class="btn-group">
-                                <button type="button" class="btn advance_search_btn">Advance Search</button>
-
+                                <button type="submit" class="btn advance_search_btn">Advance Search</button>
                             </div>
                         </form>
                     </div>
                 </div>
+                @can('Create Team')
                 <div class="col-xl-4 col-lg-5 col-md-6">
                     <div class="d-flex justify-content-center justify-content-md-start">
                         <div class="btn-group me-4">
@@ -157,7 +169,7 @@
                         </div>
                     </div>
                 </div>
-
+                @endcan
             </div>
             <!-- page-contain-start  -->
             <div class="integrations-div team-members-div">
@@ -181,6 +193,7 @@
                                                 <th>Phone Number</th>
                                                 <th>Login ID</th>
                                                 <th>Designation</th>
+                                                @can('Delete Team')
                                                 <th><svg xmlns="http://www.w3.org/2000/svg" width="2" height="12"
                                                         viewBox="0 0 2 12">
                                                         <g id="Group_87" data-name="Group 87"
@@ -196,80 +209,13 @@
                                                                 transform="translate(1898 182)" fill="#989898" />
                                                         </g>
                                                     </svg></th>
+                                                @endcan
                                             </tr>
                                         </thead>
                                         <tbody class="list" id="user_tbody">
-                                            @if (count($members) > 0)
-                                                @foreach ($members as $member)
-                                                    <tr>
-                                                        <td>
-                                                            <span class="user-icon">
-                                                                @if ($member->profile_picture)
-                                                                    <img src="{{ Storage::url($member->profile_picture) }}"
-                                                                        class="table-img" alt="">
-                                                                @else
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25"
-                                                                        height="24" viewBox="0 0 25 24">
-                                                                        <g id="Group_86" data-name="Group 86"
-                                                                            transform="translate(-435.5 -219)">
-                                                                            <g id="Ellipse_85" data-name="Ellipse 85"
-                                                                                transform="translate(435.5 219)"
-                                                                                fill="#fff" stroke="#d9d9d9"
-                                                                                stroke-width="1">
-                                                                                <ellipse cx="12.5" cy="12"
-                                                                                    rx="12.5" ry="12"
-                                                                                    stroke="none" />
-                                                                                <ellipse cx="12.5" cy="12"
-                                                                                    rx="12" ry="11.5"
-                                                                                    fill="none" />
-                                                                            </g>
-                                                                            <g id="user"
-                                                                                transform="translate(444.352 226)">
-                                                                                <ellipse id="Ellipse_12"
-                                                                                    data-name="Ellipse 12" cx="2.588"
-                                                                                    cy="2.588" rx="2.588"
-                                                                                    ry="2.588"
-                                                                                    transform="translate(1.122 0)"
-                                                                                    fill="#6a6a6a" />
-                                                                                <path id="Path_28" data-name="Path 28"
-                                                                                    d="M67.882,298.667A3.887,3.887,0,0,0,64,302.549a.431.431,0,0,0,.431.431h6.9a.431.431,0,0,0,.431-.431A3.887,3.887,0,0,0,67.882,298.667Z"
-                                                                                    transform="translate(-64 -292.628)"
-                                                                                    fill="#6a6a6a" />
-                                                                            </g>
-                                                                        </g>
-                                                                    </svg>
-                                                                @endif
-
-                                                            </span>
-                                                            {{ $member->full_name }}
-                                                        </td>
-                                                        <td>{{ date('d/m/Y', strtotime($member->created_at)) }}</td>
-                                                        <td>{{ $member->phone }}</td>
-                                                        <td>{{ $member->email }}</td>
-                                                        <td>{{ $member->getRoleNames()->first() }}
-                                                            <!-- <span class="del-icon">
-
-                                                                                                            </span> -->
-                                                        </td>
-                                                        <td>
-                                                            <a title="Delete User"
-                                                                data-route="{{ route('members.delete', Crypt::encrypt($member->id)) }}"
-                                                                href="javascipt:void(0);" id="delete"> <span
-                                                                    class="trash-icon"><i
-                                                                        class="fas fa-trash"></i></span></a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                <tr>
-                                                    <td colspan="6" class="text-center">No Data Found</td>
-                                                </tr>
-                                            @endif
+                                            @include('settings.members.filter')
                                         </tbody>
                                     </table>
-                                    <div class="d-flex justify-content-end mt-1">
-                                        {!! $members->links() !!}
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -293,13 +239,25 @@
                     'password');
                 $(this).find('i').toggleClass('fa-eye-slash fa-eye');
             });
+            $(document).on('click', '#third-eye', function() {
+                $('#password_edit').attr('type', $('#password_edit').is(':password') ? 'text' : 'password');
+                $(this).find('i').toggleClass('fa-eye-slash fa-eye');
+            });
+            $(document).on('click', '#fourth-eye', function() {
+                $('#confirm_password_edit').attr('type', $('#confirm_password_edit').is(':password') ?
+                    'text' :
+                    'password');
+                $(this).find('i').toggleClass('fa-eye-slash fa-eye');
+            });
         });
     </script>
     <script>
         $(document).ready(function() {
-            $('.close-btn').click(function() {
+            $(document).on('click', '.close-btn', function() {
+                $('.text-danger').html('');
                 $('#offcanvasRight').offcanvas('hide');
             });
+
             $('#member-form-create').submit(function(e) {
                 e.preventDefault();
 
@@ -366,6 +324,102 @@
                         )
                     }
                 })
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.close-btn-edit', function() {
+                $('.text-danger').html('');
+                $('#offcanvasEdit').offcanvas('hide');
+            });
+
+            $(document).on('click', '.edit-route', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#edit-members').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasEdit').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            // Handle the form submission
+            $(document).on('submit', '#member-edit-form', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        window.location.reload();
+                        toastr.success('Members details updated successfully');
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg').html(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+
+            function fetch_data(page, query) {
+                $.ajax({
+                    url: "{{ route('members.filter') }}",
+                    data: {
+                        page: page,
+                        search: query
+                    },
+                    success: function(data) {
+                        console.log(data.view);
+                        $('#user_tbody').html(data.view);
+                    }
+                });
+            }
+
+            $(document).on('submit', '.search-form', function(e) {
+                e.preventDefault();
+                var query = $('#query').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, query);
+            });
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                $('#hidden_page').val(page);
+                var query = $('#query').val();
+
+                $('li').removeClass('active');
+                $(this).parent().addClass('active');
+                fetch_data(page, query);
+            });
+
         });
     </script>
 @endpush
