@@ -4063,6 +4063,22 @@ h6+[aria-label=breadcrumb],
     right: 10px;
     bottom: 10px;
     z-index: 10;
+    cursor: pointer;
+}
+.eye-icon-2{
+    position: absolute;
+    right: 30px;
+    bottom: 10px;
+    z-index: 10;
+    border-right: 1px solid #ccc;
+    margin: 0px 15px 0px 0px;
+    padding-right: 15px;
+    cursor: pointer;
+}.eye-icon-1 a span{
+    color: #212529;
+}
+.eye-icon-2 a span{
+    color: #212529;
 }
 .avatar img{
     width: 100px;

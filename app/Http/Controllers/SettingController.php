@@ -165,7 +165,8 @@ class SettingController extends Controller
     public function userAccessStore(Request $request)
     {
         $request->validate([
-            'role_name' => 'required|unique:roles,name'
+            'role_name' => 'required|unique:roles,name',
+            'permissions' => 'required'
         ]);
 
         $name             = $request['role_name'];
@@ -189,33 +190,27 @@ class SettingController extends Controller
     {
 
         if (Auth::user()->can('Edit User Access')) {
-
+            $role = Role::findOrFail($id);
             $user = Auth::user();
-
             $permissions = new Collection();
             foreach ($user->roles as $role1) {
                 $permissions = $permissions->merge($role1->permissions);
             }
             $permissions = $permissions->pluck('name', 'id')->toArray();
-
-
-            return view('role.edit', compact('role', 'permissions'));
+            $edit = true;
+            // return $role->permissions;
+            return response()->json(['view' => view('settings.user-access.edit', compact('user', 'edit', 'role', 'permissions'))->render(), 'status' => 'success']);
         } else {
-            return redirect()->back()->with('error', 'Permission denied.');
+            return response()->json(['status' => 'error', 'message' => __('Permission denied.')]);
         }
-
-
-        $role = Role::findOrFail($id);
-        $permissions = Permission::all()->pluck('name', 'id')->toArray();
-        $edit = true;
-        return response()->json(['view' => view('settings.user-access.edit', compact('role', 'edit', 'permissions'))->render(), 'status' => 'success']);
     }
 
     public function userAccessUpdate(Request $request, $id)
     {
         $id = Crypt::decrypt($id);
         $request->validate([
-            'role_name' => 'required|unique:roles,name,' . $id
+            'role_name' => 'required|unique:roles,name,' . $id,
+            'permissions' => 'required'
         ]);
 
         $role = Role::findOrFail($id);
@@ -223,8 +218,15 @@ class SettingController extends Controller
         $permissions = $request['permissions'];
         $role->save();
 
-        if (!empty($permissions)) {
-            $role->syncPermissions($permissions);
+        $p_all = Permission::all();
+
+        foreach ($p_all as $p) {
+            $role->revokePermissionTo($p);
+        }
+
+        foreach ($permissions as $permission) {
+            $p = Permission::where('id', '=', $permission)->firstOrFail();
+            $role->givePermissionTo($p);
         }
 
         return response()->json(['message' => 'User access updated successfully']);

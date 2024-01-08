@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -54,4 +55,8 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
             Route::get('/filter',[SettingController::class,'userAccessFilter'])->name('user-access.filter');
         });
     });
+
+    Route::resources([
+        'candidates' => CandidateController::class
+    ]);
 });

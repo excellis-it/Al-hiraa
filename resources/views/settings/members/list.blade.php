@@ -93,8 +93,11 @@
                                                             <label for="">Password <span>*</span></label>
                                                             <input type="password" class="form-control" id="password"
                                                                 value="{{ old('password') }}" name="password" placeholder="">
+                                                            <div class="eye-icon-2" id="rand-pass">
+                                                               <span><i class="fa fa-random"></i></span>
+                                                            </div>
                                                             <div class="eye-icon-1" id="first-eye">
-                                                                <span><i class="fa-solid fa-eye-slash"></i></span>
+                                                               <span><i class="fa-solid fa-eye-slash"></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -420,6 +423,18 @@
                 fetch_data(page, query);
             });
 
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '#rand-pass', function() {
+                var randomstring = Math.random().toString(36).slice(-8);
+                $('#password').val(randomstring);
+                $('#confirm_password').val(randomstring);
+                $('#password').attr('type','text');
+                $('#first-eye').find('i').addClass('fa-eye');
+
+            });
         });
     </script>
 @endpush

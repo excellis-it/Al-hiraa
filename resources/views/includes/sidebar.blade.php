@@ -52,7 +52,7 @@
                 </li>
                 @if (Gate::check('Manage Candidate'))
                     <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="candidates.html">
+                        <a class="sidebar-menu-button" href="{{route('candidates.index')}}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/user-helmet-safety.svg') }}"></i>
                             <span class="sidebar-menu-text">Candidates</span>
