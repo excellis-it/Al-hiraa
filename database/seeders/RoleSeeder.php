@@ -17,6 +17,7 @@ class RoleSeeder extends Seeder
         $recruiterRole = Role::create(['name' => 'RECRUITER']);
         $processManagerRole = Role::create(['name' => 'PROCESS MANAGER']);
         $dataEntryOperatorRole = Role::create(['name' => 'DATA ENTRY OPERATOR']);
+        $associateRole = Role::create(['name' => 'ASSOCIATE']);
         // $adminRole->givePermissionTo('all');
     }
 }

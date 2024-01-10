@@ -10,37 +10,32 @@
             <div class="page__heading row align-items-center">
                 <div class="col-xl-8 col-lg-7 col-md-6 mb-3 mb-md-0">
                     <div class="d-flex w-100">
-                        <form class="search-form d-flex w-100" action="index.html">
+                        <form class="search-form d-flex w-100" id="search-form">
                             <button class="btn" type="submit" role="button">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
-                            <input type="text" class="form-control" placeholder="Advance Search..">
+                            <input type="text" class="form-control" placeholder="Advance Search.." name="query"
+                                id="query">
                             <div class="btn-group">
-                                <button type="button" class="btn advance_search_btn">Advance Search</button>
-                                <button type="button"
-                                    class="btn dropdown-toggle dropdown-toggle-split advance_search_dropdown"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-lg-end">
-                                    <li><a class="dropdown-item" href="#">Advance Search</a></li>
-                                </ul>
+                                <button type="submit" class="btn advance_search_btn">Advance Search</button>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-6">
                     <div class="d-flex justify-content-center justify-content-md-start">
-                        <div class="btn-group me-4">
-                            <a href="add_candidate.html" class="btn addcandidate_btn">Add Candidate</a>
-                            <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-lg-end">
-                                <li><a class="dropdown-item" href="#">Import CSV</a></li>
-                            </ul>
-                        </div>
+                        @can('Create Candidate')
+                            <div class="btn-group me-4">
+                                <a href="{{ route('candidates.create') }}" class="btn addcandidate_btn">Add Candidate</a>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-lg-end">
+                                    <li><a class="dropdown-item" href="#">Import CSV</a></li>
+                                </ul>
+                            </div>
+                        @endcan
                         <div class="btn-group">
                             <button type="button" class="btn export_csv">Export CSV</button>
                             <button type="button" class="btn dropdown-toggle dropdown-toggle-split export_dropdown"
@@ -100,7 +95,7 @@
                         <table class="table mb-0 table-bordered">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    {{-- <th></th> --}}
                                     <th>Remarks</th>
                                     <th>Enter By</th>
                                     <th>Status</th>
@@ -115,240 +110,8 @@
                                     <th>Contact No:</th>
                                 </tr>
                             </thead>
-                            <tbody class="list" id="staff">
-                                <tr data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                                    aria-controls="offcanvasRight">
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus inactive">
-                                            inactive
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus warning">
-                                            Pending
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td>
-                                    <td></td>
-                                    <td>Abantika</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            Active
-                                        </div>
-                                    </td>
-                                    <td>Calling</td>
-                                    <td>Facebook</td>
-                                    <td>2.8.2023</td>
-                                    <td>Nicson Sarkar</td>
-                                    <td>Male</td>
-                                    <td>1.4.2004</td>
-                                    <td>19</td>
-                                    <td>Class 12</td>
-                                    <td>*************</td>
-                                </tr>
-
-
+                            <tbody class="list" id="candidate_body">
+                                @include('candidates.filter')
                             </tbody>
                         </table>
                     </div>
@@ -359,4 +122,42 @@
 @endsection
 
 @push('scripts')
+<script>
+    $(document).ready(function() {
+
+
+        function fetch_data(page, query) {
+            $.ajax({
+                url: "{{ route('candidates.filter') }}",
+                data: {
+                    page: page,
+                    search: query
+                },
+                success: function(data) {
+                    console.log(data.view);
+                    $('#candidate_body').html(data.view);
+                }
+            });
+        }
+
+        $(document).on('submit', '.search-form', function(e) {
+            e.preventDefault();
+            var query = $('#query').val();
+            var page = $('#hidden_page').val();
+            fetch_data(page, query);
+        });
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('page=')[1];
+            $('#hidden_page').val(page);
+            var query = $('#query').val();
+
+            $('li').removeClass('active');
+            $(this).parent().addClass('active');
+            fetch_data(page, query);
+        });
+
+    });
+</script>
 @endpush

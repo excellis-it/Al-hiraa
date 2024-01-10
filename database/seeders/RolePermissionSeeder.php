@@ -242,5 +242,12 @@ class RolePermissionSeeder extends Seeder
         ];
 
         $processManagerRole->givePermissionTo($processManagerPermissions);
+
+        $associateRole = Role::where('name', 'PROCESS MANAGER')->first();
+        $associatePermissions = [
+            "Manage Support",
+        ];
+
+        $associateRole->givePermissionTo($associatePermissions);
     }
 }

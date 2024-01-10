@@ -18,7 +18,7 @@
                             <div class="form-group">
                                 <label for="name" class="form-label">Name</label>
                                 <input class="form-control" placeholder="" name="role_name" type="text"
-                                    value="{{ $role->name }}">
+                                    value="{{ $role->name }}" @if ($role->name == 'ASSOCIATE') readonly @endif>
                                 <span class="text-danger" id="role_name_msg"></span>
                             </div>
                         </div>

@@ -5,10 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login</title>
+    <title>Reset Password</title>
     <!-- Prevent the demo from appearing in search engines -->
     <meta name="robots" content="noindex">
     <!-- Simplebar -->
+    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/simplebar.min.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/bootstrap-5.0.2/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- App CSS -->
@@ -27,50 +29,54 @@
 
 <body class="layout-login-centered-boxed">
     <div class="layout-login-centered-boxed__form">
-        <h1>Hello;</h1>
+        <h2 class="text-center mb-4"><b>Change Your Password;</b></h2>
         <div class="card p-5">
-            <form method="POST" action="{{ route('login.check') }}">
+            <form action="{{ route('change.password') }}" method="post" name="signupForm" id="signupForm">
                 @csrf
-                <div class="form-group mb-3">
-                    <label class="text-label" for="email_2">Email</label>
-                    <div class="input-group input-group-merge">
-                        <input id="email_2" type="email" class="form-control form-control-prepended" name="email"
-                            placeholder="">
+                <input type="hidden" name="id" value="{{ $id }}">
+                <div class="form-wrap">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Password</label>
+                        <div class="col-md-12">
+                            <div class="cahnge-p">
+                                <input type="password" id="password-field1" class="form-control" name="password"
+                                value="">
+                            <span toggle="#password-field1" class="fas fa-eye-slash field-icon toggle-password eye"
+                                id="ds"></span>
+                            </div>
+
+                            @if ($errors->has('password'))
+                                <div class="error" style="color:red;">{{ $errors->first('password') }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                    @if ($errors->has('email'))
-                        <span class="text-danger">{{ $errors->first('email') }}</span>
-                    @endif
-                </div>
-                <div class="form-group mb-3">
-                    <label class="text-label" for="password_2">Password</label>
-                    <div class="input-group input-group-merge">
-                        <input id="password_2" type="password" name="password"
-                            class="form-control form-control-prepended" placeholder="">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Confirm Password</label>
+                        <div class="col-md-12">
+                            <div class="cahnge-p">
+                            <input id="password-field" type="password" class="form-control" name="confirm_password"
+                                value="secret">
+                            <span toggle="#password-field" class="fas fa-eye-slash field-icon toggle-password eye"
+                                id="ps"></span>
+                            </div>
+                            @if ($errors->has('confirm_password'))
+                                <div class="error" style="color:red;">{{ $errors->first('confirm_password') }}
+                                </div>
+                            @endif
+                        </div>
                     </div>
-                    @if ($errors->has('password'))
-                        <span class="text-danger">{{ $errors->first('password') }}</span>
-                    @endif
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        {{-- <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" value="" id="invalidCheck01">
-                                <label class="custom-control-label" for="invalidCheck01">
-                                    Keep me logged in
-                                </label>
-                            </div>
-                        </div> --}}
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group text-end">
-                            <a href="{{route('forget.password.show')}}" class="forgot_password">Forgot password?</a>
+                        <div class="form-group">
+                            <a href="{{ route('login') }}" class="forgot_password">Back to login page?</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-login" type="submit">Sign in</button>
+                    <button class="btn btn-login" type="submit">Reset Password</button>
                 </div>
 
             </form>
@@ -94,6 +100,28 @@
     <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
+
+    <script>
+        $("#ds").click(function() {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+
+        $("#ps").click(function() {
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
 
     <script>
         @if (Session::has('message'))

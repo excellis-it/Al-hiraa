@@ -27,50 +27,31 @@
 
 <body class="layout-login-centered-boxed">
     <div class="layout-login-centered-boxed__form">
-        <h1>Hello;</h1>
+        <h2 class="text-center mb-4"><b >Forgot Password;</b></h2>
         <div class="card p-5">
-            <form method="POST" action="{{ route('login.check') }}">
+            <form id="register-form" action="{{ route('forget.password') }}" role="form" autocomplete="off"
+                class="form" method="post">
                 @csrf
                 <div class="form-group mb-3">
                     <label class="text-label" for="email_2">Email</label>
                     <div class="input-group input-group-merge">
                         <input id="email_2" type="email" class="form-control form-control-prepended" name="email"
-                            placeholder="">
+                            value="{{ old('email') }}" placeholder="">
                     </div>
                     @if ($errors->has('email'))
                         <span class="text-danger">{{ $errors->first('email') }}</span>
                     @endif
                 </div>
-                <div class="form-group mb-3">
-                    <label class="text-label" for="password_2">Password</label>
-                    <div class="input-group input-group-merge">
-                        <input id="password_2" type="password" name="password"
-                            class="form-control form-control-prepended" placeholder="">
-                    </div>
-                    @if ($errors->has('password'))
-                        <span class="text-danger">{{ $errors->first('password') }}</span>
-                    @endif
-                </div>
                 <div class="row">
                     <div class="col-md-6">
-                        {{-- <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" value="" id="invalidCheck01">
-                                <label class="custom-control-label" for="invalidCheck01">
-                                    Keep me logged in
-                                </label>
-                            </div>
-                        </div> --}}
-                    </div>
-                    <div class="col-md-6">
                         <div class="form-group text-end">
-                            <a href="{{route('forget.password.show')}}" class="forgot_password">Forgot password?</a>
+                            <a href="{{route('login')}}" class="forgot_password">Back to login page?</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-login" type="submit">Sign in</button>
+                    <button class="btn btn-login" type="submit">Reset Password</button>
                 </div>
 
             </form>

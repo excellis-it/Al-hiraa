@@ -20,6 +20,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',[AuthenticationController::class,'login'])->name('login');
 Route::post('/login-check',[AuthenticationController::class,'loginCheck'])->name('login.check');
+Route::post('forget-password', [AuthenticationController::class, 'forgetPassword'])->name('forget.password');
+Route::post('change-password', [AuthenticationController::class, 'changePassword'])->name('change.password');
+Route::get('forget-password/show', [AuthenticationController::class, 'forgetPasswordShow'])->name('forget.password.show');
+Route::get('reset-password/{id}/{token}', [AuthenticationController::class, 'resetPassword'])->name('reset.password');
+Route::post('change-password', [AuthenticationController::class, 'changePassword'])->name('change.password');
 
 Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
@@ -52,11 +57,13 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
             Route::get('/edit/{id}',[SettingController::class,'userAccessEdit'])->name('user-access.edit');
             Route::put('/update/{id}',[SettingController::class,'userAccessUpdate'])->name('user-access.update');
             Route::get('/delete/{id}',[SettingController::class,'userAccessDelete'])->name('user-access.delete');
-            Route::get('/filter',[SettingController::class,'userAccessFilter'])->name('user-access.filter');
         });
     });
 
     Route::resources([
         'candidates' => CandidateController::class
     ]);
+
+    Route::get('/candidates-auto-fill',[CandidateController::class,'userAutoFill'])->name('candidates.auto-fill');
+    Route::get('/candidates-filter',[CandidateController::class,'candidateFilter'])->name('candidates.filter');
 });
