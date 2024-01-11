@@ -4343,6 +4343,17 @@ h6+[aria-label=breadcrumb],
 /* .offcanvas-body {
   padding: 20px 0px;
 } */
+
+.offcanvas-body {
+    max-height: 90vh;
+  }
+
+.candidate_edit_form .form-control{
+    border: none;
+    background: none;
+    padding: 0px;
+    height: 25px;
+}
 /* Responsive */
 @media (max-width: 1600.5px) {}
 @media (max-width: 1440.5px) {
@@ -4495,4 +4506,100 @@ h6+[aria-label=breadcrumb],
 
 /* end loader */
 
+
+/* 10-01-2024 */
+/* Candidates Page */
+.edit-1-btn a{
+    /* color: #11AF65;
+    background: #E6FFE9;
+    border: 1px solid #11AF65;
+    padding: 4px 20px;
+    border-radius: 30px; */
+  }
+  .edit-1-btn button,  .edit-1-btn a {
+    font-size: 14px;
+    color: rgb(0 0 0 / 50%);
+    padding: 8px;
+    border-radius: 50%;
+    border: 1px solid rgb(0 0 0 / 50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+  }
+
+  .edit-1-btn button{
+    color: rgb(17 175 101);
+    border: 1px solid rgb(17 175 101);
+    background: rgb(8 255 139 / 18%);
+}
+
+.edit-1-btn #cross-button button{
+    color: rgb(182, 12, 12);
+    border: 1px solid rgb(175, 17, 17);
+    background: rgba(255, 8, 8, 0.281);
+}
+  .edit-1-btn{
+    display: flex;
+  }
+
+  .edit-1{
+    margin-right: 10px;
+  }
+  .candidate_form .form-control{
+   border-bottom: 1px solid #d0d0d0;
+   border-top: none;
+   border-left: none;
+   border-right: none;
+   border-radius: 0px;
+   /* text-transform: capitalize; */
+   color: #000;
+   height: 35px;
+  }
+  /* .candidate_form tbody, td, tfoot, th, thead, tr{
+    border: none;
+  } */
+  .candidate_details .table tbody td {
+    padding: 4px;
+  }
+  .candidate_form .form-select{
+    border-bottom: 1px solid #d0d0d0;
+   border-top: none;
+   border-left: none;
+   border-right: none;
+   border-radius: 0px;
+   /* text-transform: capitalize; */
+  }
+  /* .candidate_details .table tbody td .form-select option{
+    text-transform: capitalize !important;
+  }
+  .form-group input{
+    text-transform: capitalize !important;
+
+  } */
+  .candidate_form .form-select option{
+
+  }
+  .candidate_form .form-select:focus{
+    box-shadow: none;
+  }
+
+  .candidate_form .form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #000;
+    opacity: 1; /* Firefox */
+  }
+
+  .candidate_form .form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #000;
+
+  }
+
+  .candidate_form .form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: #000;
+
+  }
+  .modal-main{
+    height: 500px;
+  }
 

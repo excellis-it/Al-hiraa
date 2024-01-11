@@ -68,7 +68,7 @@
         $(document).ready(function() {
             $('#contact_no').on('keyup', function() {
                 var contact_no = $(this).val();
-                if (contact_no.length == 10) {
+                if (contact_no.length >= 10) {
                     $.ajax({
                         url: "{{ route('candidates.auto-fill') }}",
                         type: "GET",

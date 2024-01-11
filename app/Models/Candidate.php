@@ -55,5 +55,9 @@ class Candidate extends Model
         return $this->belongsTo(User::class, 'enter_by', 'id');
     }
 
+    public function referredBy()
+    {
+        return $this->belongsTo(User::class, 'referred_by_id', 'id');
+    }
 
 }

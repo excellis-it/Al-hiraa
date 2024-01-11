@@ -41,7 +41,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Gender</label>
-            <select name="gender" class="form-control" id="">
+            <select name="gender" class="form-select" id="">
                 <option value="">Select Gender</option>
                 <option value="Male" {{ $candidate->gender == 'Male' ? 'selected' : '' }}> Male </option>
                 <option value="Female" {{ $candidate->gender == 'Female' ? 'selected' : '' }}>Female</option>
@@ -107,7 +107,7 @@
             @if ($candidate->referred_by_id != null)
                 <label for="">Referred by <span><a href="javascript:void(0);"
                             class="referred_type">Other</a></span></label>
-                <select name="referred_by_id" class="form-control" id="">
+                <select name="referred_by_id" class="form-select" id="">
                     <option value="">Select Type</option>
                     @foreach ($associates as $item)
                         <option value="{{ $item['id'] }}"
@@ -149,7 +149,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">English Speak</label>
-            <select name="english_speak" class="form-control" id="">
+            <select name="english_speak" class="form-select" id="">
                 <option value="">Select Type</option>
                 <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
                 <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
@@ -161,7 +161,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Arabic Speak</label>
-            <select name="arabic_speak" class="form-control" id="">
+            <select name="arabic_speak" class="form-select" id="">
                 <option value="">Select Type</option>
                 <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
                 <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
@@ -173,7 +173,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Return</label>
-            <select name="return" class="form-control" id="">
+            <select name="return" class="form-select" id="">
                 <option value="">Select Return Type</option>
                 <option value="1" {{ $candidate->return == '1' ? 'selected' : '' }}>Yes</option>
                 <option value="0" {{ $candidate->return == '0' ? 'selected' : '' }}>No</option>
@@ -184,7 +184,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">ECR Type</label>
-            <select name="ecr_type" class="form-control" id="">
+            <select name="ecr_type" class="form-select" id="">
                 <option value="">Select ECR</option>
                 <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
                 <option value="ENCR" {{ $candidate->ecr_type == 'ENCR' ? 'selected' : '' }}>ENCR</option>
@@ -232,7 +232,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Status <span>*</span></label>
-            <select name="cnadidate_status_id" class="form-control" id="">
+            <select name="cnadidate_status_id" class="form-select" id="">
                 <option value="">Select A Status</option>
                 @foreach ($candidate_statuses as $status)
                     <option value="{{ $status->id }}"
@@ -295,7 +295,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Gender</label>
-            <select name="gender" class="form-control" id="">
+            <select name="gender" class="form-select" id="">
                 <option value="">Select Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -359,7 +359,7 @@
         <div class="form-group referred_by_id" id="">
             <label for="">Referred by <span><a href="javascript:void(0);"
                         class="referred_type">Other</a></span></label>
-            <select name="referred_by_id" class="form-control" id="">
+            <select name="referred_by_id" class="form-select" id="">
                 <option value="">Select Type</option>
                 @foreach ($associates as $item)
                     <option value="{{ $item['id'] }}">{{ $item['full_name'] }}</option>
@@ -391,7 +391,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">English Speak</label>
-            <select name="english_speak" class="form-control" id="">
+            <select name="english_speak" class="form-select" id="">
                 <option value="">Select Type</option>
                 <option value="Basic">Basic</option>
                 <option value="Good">Good</option>
@@ -403,7 +403,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Arabic Speak</label>
-            <select name="arabic_speak" class="form-control" id="">
+            <select name="arabic_speak" class="form-select" id="">
                 <option value="">Select Type</option>
                 <option value="Basic">Basic</option>
                 <option value="Good">Good</option>
@@ -415,7 +415,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Return</label>
-            <select name="return" class="form-control" id="">
+            <select name="return" class="form-select" id="">
                 <option value="">Select Return Type</option>
                 <option value="1">Yes</option>
                 <option value="0">No</option>
@@ -426,7 +426,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">ECR Type</label>
-            <select name="ecr_type" class="form-control" id="">
+            <select name="ecr_type" class="form-select" id="">
                 <option value="">Select ECR</option>
                 <option value="ECR">ECR</option>
                 <option value="ENCR">ENCR</option>
@@ -474,7 +474,7 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Status<span>*</span></label>
-            <select name="cnadidate_status_id" class="form-control" id="">
+            <select name="cnadidate_status_id" class="form-select" id="">
                 <option value="">Select A Status</option>
                 @foreach ($candidate_statuses as $status)
                     <option value="{{ $status->id }}">{{ $status->name }}</option>

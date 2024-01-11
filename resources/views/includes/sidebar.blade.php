@@ -43,7 +43,7 @@
                 </div>
             </div>
             <ul class="sidebar-menu">
-                <li class="sidebar-menu-item active open">
+                <li class="sidebar-menu-item {{ Request::is('dashboard*') ? 'active open' : '' }} ">
                     <a class="sidebar-menu-button" data-toggle="collapse" href="{{ route('dashboard') }}">
                         <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                 src="{{ asset('assets/images/sidebar-icon/dashboard.svg') }}"></i>
@@ -51,7 +51,7 @@
                     </a>
                 </li>
                 @if (Gate::check('Manage Candidate'))
-                    <li class="sidebar-menu-item">
+                    <li class="sidebar-menu-item {{ Request::is('candidates*') ? 'active open' : '' }}">
                         <a class="sidebar-menu-button" href="{{route('candidates.index')}}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/user-helmet-safety.svg') }}"></i>
