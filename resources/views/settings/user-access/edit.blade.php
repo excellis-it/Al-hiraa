@@ -1,6 +1,6 @@
 @if (isset($edit))
         @php
-            $modules = ['Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access', 'Support'];
+            $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access', 'Support'];
 
         @endphp
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel"
@@ -45,6 +45,7 @@
                                                     <th>Update</th>
                                                     <th>Delete</th>
                                                     <th>View</th>
+                                                    <th>Export</th>
                                                 </tr>
                                             </thead>
                                             <tbody class="list">
@@ -111,6 +112,20 @@
                                                         <td>
                                                             @if (in_array('View ' . $module, (array) $permissions))
                                                                 @if ($key = array_search('View ' . $module, $permissions))
+                                                                    <div class="toggle-check">
+                                                                        <div class="form-check form-switch">
+                                                                            <input class="form-check-input" type="checkbox"  @if (in_array($key, $role->permissions()->pluck('id')->toArray())) checked  @endif
+                                                                                role="switch" name="permissions[]"
+                                                                                value="{{ $key }}"
+                                                                                id="flexSwitchCheckChecked">
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if (in_array('Export ' . $module, (array) $permissions))
+                                                                @if ($key = array_search('Export ' . $module, $permissions))
                                                                     <div class="toggle-check">
                                                                         <div class="form-check form-switch">
                                                                             <input class="form-check-input" type="checkbox"  @if (in_array($key, $role->permissions()->pluck('id')->toArray())) checked  @endif

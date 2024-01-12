@@ -3,7 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Candidate;
-use App\Models\CandidatePosition;
+use App\Models\CandidateFieldUpdate;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -36,7 +36,7 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->full_name = $row['full_name'] ?? '';
             $candidate->gender = $row['gender'] ?? '';
             $candidate->date_of_birth = date('Y-d-m',strtotime($row['dob'])) ?? '';
-            $candidate->age = $row['age'] ?? '';
+            $candidate->age = date_diff(date_create($row['dob']), date_create('today'))->y;
             $candidate->education = $row['education'] ?? '';
             $candidate->other_education = $row['other_education'] ?? '';
             $candidate->contact_no = $row['contact_no'] ?? '';
@@ -58,7 +58,7 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->save();
 
             if (isset($row->position_applied_for)) {
-                $candidatePosition = new CandidatePosition();
+                $candidatePosition = new CandidateFieldUpdate();
                 $candidatePosition->candidate_id = $candidate->id;
                 $candidatePosition->name = $row->position_applied_for;
                 $candidatePosition->save();

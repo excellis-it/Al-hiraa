@@ -11,19 +11,17 @@
             <div class="row">
                 <div class="col-xl-10 col-lg-8 col-md-7 col-6">
                     <div class="">
-                        <form class="search-form d-flex" action="index.html">
+                        {{-- <form class="search-form d-flex" action="index.html">
                             <button class="btn" type="submit" role="button"><i class="fa-solid fa-magnifying-glass"></i></button>
                             <input type="text" class="form-control" placeholder="Advance Search..">
-                        </form>
+                        </form> --}}
                     </div>
                 </div>
                 <div class="col-md-5 col-lg-4 col-xl-2 col-6">
-                    <a href="" class="support_btn">
-                        <span>Support</span>
+                    <a href="{{route('candidates.create')}}" class="support_btn">
+                        <span>Add Candidate</span>
                         <span>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16.47" height="20.952" viewBox="0 0 16.47 20.952">
-                                <path id="user-headset_1_" data-name="user-headset (1)" d="M3.51,7.857a.873.873,0,0,1-.863-1.018,8.328,8.328,0,0,1,2.492-4.6A8.217,8.217,0,0,1,11.36.018,8.448,8.448,0,0,1,19.1,8.676a4.527,4.527,0,0,1-4.547,4.42H12a1.748,1.748,0,1,1,.459-1.746h2.1a2.785,2.785,0,0,0,2.8-2.722,6.7,6.7,0,0,0-6.109-6.866,6.552,6.552,0,0,0-6.889,5.4.853.853,0,0,1-.849.694Zm7.3,6.984a7.179,7.179,0,0,0-6.945,4.978A.873.873,0,0,0,4.7,20.952H16.921a.873.873,0,0,0,.834-1.133A7.179,7.179,0,0,0,10.81,14.841ZM13.372,9.6h2.055A4.8,4.8,0,1,0,7.37,11.639a3.409,3.409,0,0,1,6-2.036Z" transform="translate(-2.634 0)" fill="#fff"/>
-                            </svg>
+                            <i class="fas fa-plus"></i>
 
                         </span>
                     </a>
@@ -33,25 +31,27 @@
         <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
             <div class="col">
                 <div class="border_left_hh">
-                    <div class="card-header__title mb-2">Stats</div>
-                    <div class="text-amount">10,549</div>
-                    <div class="text-stats">Compare to last month</div>
+                    <div class="card-header__title mb-2">All Time Stats</div>
+                    <div class="text-amount">{{ $count['total_candidate_entry']}} </div>
+                    <div class="text-stats">Candidate Entry</div>
                 </div>
             </div>
             <div class="col">
                 <div class="border_left_hh">
-                    <div class="card-header__title mb-2">Stats</div>
-                    <div class="text-amount">10,549</div>
-                    <div class="text-stats">Compare to last month</div>
+                    <div class="card-header__title mb-2">Monthly Stats</div>
+                    <div class="text-amount">{{ $count['monthly_candidate_entry']}} </div>
+                    <div class="text-stats">Candidate Entry</div>
                 </div>
             </div>
             <div class="col">
                 <div class="border_left_hh">
-                    <div class="card-header__title mb-2">Stats</div>
-                    <div class="text-amount">10,549</div>
-                    <div class="text-stats">Compare to last month</div>
+                    <div class="card-header__title mb-2">Today Stats</div>
+                    <div class="text-amount">{{ $count['today_candidate_entry']}} </div>
+                    <div class="text-stats">Candidate Entry</div>
                 </div>
             </div>
+
+
             <div class="col">
                 <div class="border_left_hh">
                     <div class="card-header__title mb-2">Stats</div>
@@ -61,12 +61,64 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
+            {{-- <div class="col-lg-6">
                 <div class="dashboard_graph">
                     <img src="{{asset('assets/images/sidebar-icon/graph.png')}}"/>
                 </div>
-            </div>
-            <div class="col-lg-6">
+            </div> --}}
+            {{-- <div class="col-lg-6">
+                <div class="table_right">
+                    <div class="py-3">
+                        <h4 class="card-header__title">Last 5 Candidate Entry</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered mb-0 thead-border-top-0">
+                            <thead>
+                                <tr>
+                                    <th>Enter By</th>
+                                    <th>Status</th>
+                                    <th>Mode of Registration</th>
+                                    <th>Source</th>
+                                    <th>Last Update Date</th>
+                                    <th>Full Name</th>
+                                    <th>Gender</th>
+                                    <th>DOB</th>
+                                    <th>Age</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (count($candidates) > 0)
+                                @foreach ($candidates as $item)
+                                <tr>
+                                    <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td>
+                                    <td>
+                                        <div class="round_staus active">
+                                            {{ $item->candidateStatus->name ?? 'N/A' }}
+                                        </div>
+                                    </td>
+                                    <td>{{ $item->mode_of_registration ?? 'N/A' }}</td>
+                                    <td>
+                                        {{ $item->source ?? 'N/A' }}
+                                    </td>
+                                    <td>{{ $item->last_update_date != null ? date('d.m.Y', strtotime($item->last_update_date)) : 'N/A' }}</td>
+                                    <td>{{ $item->full_name ?? 'N/A' }}</td>
+                                    <td>{{ $item->gender ?? 'N/A' }}</td>
+                                    <td>{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
+                                    <td>{{  $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
+                                </tr>
+                                @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="9" class="text-center">No Data Found</td>
+                                </tr>
+                                @endif
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> --}}
+            {{-- <div class="col-lg-6">
                 <div class="table_right">
                     <div class="py-3">
                         <h4 class="card-header__title">Current Users</h4>
@@ -197,9 +249,9 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-lg-4">
                 <div class="dashboard_graph">
                     <img src="{{asset('assets/images/sidebar-icon/calennder_icon.png')}}"/>
@@ -269,7 +321,7 @@
                 </div>
             </div>
 
-        </div>
+        </div> --}}
 
     </div>
 </div>

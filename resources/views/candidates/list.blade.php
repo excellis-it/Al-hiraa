@@ -32,31 +32,37 @@
                         @can('Create Candidate')
                             <div class="btn-group me-4">
                                 <a href="{{ route('candidates.create') }}" class="btn addcandidate_btn">Add Candidate</a>
-                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
+                                @if (Auth::user()->hasRole('ADMIN'))
+                                    <button type="button"
+                                        class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-lg-end">
+                                        <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal" data-bs-whatever="@fat">Import CSV</a></li>
+                                    </ul>
+                                @endif
+
+                            </div>
+                        @endcan
+                        @can('Export Candidate')
+                            <div class="btn-group ">
+                                <button type="button" class="btn export_csv export_cnadidate_csv">Export CSV</button>
+                                <button type="button" class="btn dropdown-toggle dropdown-toggle-split export_dropdown"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-lg-end">
-                                    <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal" data-bs-whatever="@fat">Import CSV</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('candidates.export') }}">Export CSV</a></li>
                                 </ul>
                             </div>
                         @endcan
-                        <div class="btn-group ">
-                            <button type="button" class="btn export_csv export_cnadidate_csv">Export CSV</button>
-                            <button type="button" class="btn dropdown-toggle dropdown-toggle-split export_dropdown"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-lg-end">
-                                <li><a class="dropdown-item" href="{{ route('candidates.export') }}">Export CSV</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
 
             </div>
-            
+
         </div>
         <div class="container-fluid page__container">
             <div class="row">
@@ -66,7 +72,6 @@
                             <thead>
                                 <tr>
                                     {{-- <th></th> --}}
-                                    <th>Remarks</th>
                                     <th>Enter By</th>
                                     <th>Status</th>
                                     <th>Mode of Registration</th>
@@ -77,10 +82,13 @@
                                     <th>DOB</th>
                                     <th>Age</th>
                                     <th>Education</th>
-                                    <th>Contact No:</th>
+                                    <th>Position Applied For(1)</th>
+                                    <th>Position Applied For(2)</th>
+                                    <th>Position Applied For(3)</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="candidate_body">
+
                                 @include('candidates.filter')
                             </tbody>
                         </table>
@@ -176,7 +184,7 @@
                     success: function(response) {
                         //windows load with toastr message
                         window.location.reload();
-                        toastr.success('Candidate details imported successfully');
+
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

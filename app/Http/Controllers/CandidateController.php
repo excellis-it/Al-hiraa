@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Exports\CandidateExport;
 use App\Imports\CandidateImport;
 use App\Models\Candidate;
-use App\Models\CandidatePosition;
+use App\Models\CandidateFieldUpdate;
 use App\Models\CandidateStatus;
+use App\Models\CandidateUpdated;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
+
 class CandidateController extends Controller
 {
     /**
@@ -19,7 +21,12 @@ class CandidateController extends Controller
     public function index()
     {
         if (Auth::user()->can('Manage Candidate')) {
-            $candidates = Candidate::paginate(15);
+            if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(15);
+            } else {
+                $candidates = Candidate::orderBy('id', 'desc')->paginate(15);
+            }
+
             return view('candidates.list')->with(compact('candidates'));
         }
     }
@@ -41,11 +48,13 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $request->validate([
             'contact_no' => 'required|digits:10',
             'full_name' => 'required',
             'dob' => 'required',
             'cnadidate_status_id' => 'required',
+            'email' => 'required|email',
         ]);
         $count = Candidate::where('contact_no', $request->contact_no)->count();
         if ($count > 0) {
@@ -68,7 +77,8 @@ class CandidateController extends Controller
         $candidate->full_name = $request->full_name;
         $candidate->gender = $request->gender;
         $candidate->date_of_birth = $request->dob;
-        $candidate->age = $request->age;
+        // age calculation from date of birth
+        $candidate->age = date_diff(date_create($request->dob), date_create('today'))->y;
         $candidate->education = $request->education;
         $candidate->other_education = $request->other_education;
         $candidate->contact_no = $request->contact_no;
@@ -82,20 +92,24 @@ class CandidateController extends Controller
         $candidate->international_driving_license = $request->international_driving_license;
         $candidate->english_speak = $request->english_speak;
         $candidate->arabic_speak = $request->arabic_speak;
-        $candidate->return = $request->return;
-        $candidate->position = $request->position;
+        $candidate->return = ($request->return != null) ? $request->return : 0;
+        $candidate->position_applied_for_1 = $request->position_applied_for_1;
+        $candidate->position_applied_for_2 = $request->position_applied_for_2;
+        $candidate->position_applied_for_3 = $request->position_applied_for_3;
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
         $candidate->remarks = $request->remark;
         $candidate->save();
 
-        if ($request->position_applied_for) {
-            $candidatePosition = new CandidatePosition();
+        if ($request->cnadidate_status_id) {
+            $candidatePosition = new CandidateFieldUpdate();
+            $candidatePosition->user_id = Auth::user()->id;
             $candidatePosition->candidate_id = $candidate->id;
-            $candidatePosition->name = $request->position_applied_for;
+            $candidatePosition->status = $request->cnadidate_status_id;
             $candidatePosition->save();
         }
 
+        session()->flash('message', 'Candidate added successfully');
         return redirect()->route('candidates.index')->with('message', __('Candidate added successfully.'));
     }
 
@@ -115,6 +129,13 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
         $candidate_statuses = CandidateStatus::all();
         $edit = true;
+        if (!Auth::user()->hasRole('ADMIN')) {
+            $candidate_update = new CandidateUpdated();
+            $candidate_update->user_id = Auth::user()->id;
+            $candidate_update->candidate_id = $candidate->id;
+            $candidate_update->save();
+        }
+
         return response()->json(['view' => view('candidates.edit', compact('candidate', 'edit', 'candidate_statuses'))->render(), 'status' => 'success']);
     }
 
@@ -127,13 +148,16 @@ class CandidateController extends Controller
             'full_name' => 'required',
             'dob' => 'required',
             'cnadidate_status_id' => 'required',
-        ],[
+            'email' => 'required|email',
+        ], [
             'cnadidate_status_id.required' => 'The status field is required.'
         ]);
 
         $candidate = Candidate::findOrFail($id);
 
-        $candidate->cnadidate_status_id = $request->cnadidate_status_id;
+        if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+            $candidate->cnadidate_status_id = $request->cnadidate_status_id;
+        }
         $candidate->mode_of_registration = $request->mode_of_registration;
         $candidate->source = $request->source;
         if ($request->referred_by_id) {
@@ -146,7 +170,7 @@ class CandidateController extends Controller
         $candidate->full_name = $request->full_name;
         $candidate->gender = $request->gender;
         $candidate->date_of_birth = $request->dob;
-        $candidate->age = $request->age;
+        $candidate->age = date_diff(date_create($request->dob), date_create('today'))->y;
         $candidate->education = $request->education;
         $candidate->other_education = $request->other_education;
         $candidate->alternate_contact_no = $request->alternate_contact_no;
@@ -160,21 +184,31 @@ class CandidateController extends Controller
         $candidate->english_speak = $request->english_speak;
         $candidate->arabic_speak = $request->arabic_speak;
         $candidate->return = $request->return;
-        $candidate->position = $request->position;
+        $candidate->position_applied_for_1 = $request->position_applied_for_1;
+        $candidate->position_applied_for_2 = $request->position_applied_for_2;
+        $candidate->position_applied_for_3 = $request->position_applied_for_3;
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
         $candidate->remarks = $request->remark;
         $candidate->save();
 
-        if ($request->position_applied_for) {
-            $candidate_position_applied = $candidate->candidatePositions->name;
-            if ($request->position_applied_for !=  $candidate_position_applied) {
-                $candidatePosition = new CandidatePosition();
-                $candidatePosition->candidate_id = $candidate->id;
-                $candidatePosition->name = $request->position_applied_for;
-                $candidatePosition->save();
+
+        $candidate_position_applied = $candidate->candidateFieldUpdate->position ?? '';
+        if ($request->position_applied_for !=  $candidate_position_applied || $request->cnadidate_status_id != $candidate->cnadidate_status_id) {
+            $candidatePosition = new CandidateFieldUpdate();
+            $candidatePosition->user_id = Auth::user()->id;
+            $candidatePosition->candidate_id = $candidate->id;
+            $candidatePosition->status = $request->cnadidate_status_id ?? '';
+            if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+                $candidatePosition->is_granted = 1;
+            } else {
+                $candidatePosition->is_granted = 0;
             }
+
+            $candidatePosition->save();
         }
+        session()->flash('message', 'Candidate updated successfully');
+        return response()->json(['message' => __('Candidate updated successfully.'), 'status' => 'success']);
     }
 
     /**
@@ -209,6 +243,10 @@ class CandidateController extends Controller
                 ->orWhere('gender', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('age', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('education', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('position_applied_for_1', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('position_applied_for_2', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('position_applied_for_3', 'LIKE', '%' . $request->search . '%')
+
                 // enter by
                 ->orWhereHas('enterBy', function ($query) use ($request) {
                     $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%" . $request->search . "%'");
@@ -218,17 +256,25 @@ class CandidateController extends Controller
                 ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
                 ->orWhereRaw("DATE_FORMAT(last_update_date, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
         }
-        $candidates = $candidates->paginate(15);
+        if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+            $candidates->where('enter_by', Auth::user()->id);
+        }
+
+        $candidates = $candidates->orderBy('id', 'desc')->paginate(15);
 
         return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
     }
 
     public function export(Request $request)
     {
-        try {
-            return Excel::download(new CandidateExport(), 'candidate-export.xlsx');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+        if (Auth::user()->can('Export Candidate')) {
+            try {
+                return Excel::download(new CandidateExport(), 'candidate-export.xlsx');
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('error', $th->getMessage());
+            }
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('enter_by')->nullable()->unsigned();
+            $table->bigInteger('enter_by')->nullable();
             $table->bigInteger('cnadidate_status_id')->nullable();
             $table->string('mode_of_registration')->nullable();
             $table->string('source')->nullable();
@@ -38,9 +38,11 @@ return new class extends Migration
             $table->string('english_speak')->nullable();
             $table->string('arabic_speak')->nullable();
             $table->boolean('return')->default(false);
-            $table->string('position')->nullable();
             $table->text('indian_exp')->nullable();
             $table->text('abroad_exp')->nullable();
+            $table->text('position_applied_for_1')->nullable();
+            $table->text('position_applied_for_2')->nullable();
+            $table->text('position_applied_for_3')->nullable();
             $table->longText('remarks')->nullable();
             $table->timestamps();
         });

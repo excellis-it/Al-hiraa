@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_positions', function (Blueprint $table) {
+        Schema::create('candidate_field_updates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('candidate_id')->references('id')->on('candidates')->onDelete('cascade');
-            $table->string('name');
+            $table->foreignId('candidate_id')->nullable()->references('id')->on('candidates')->onDelete('cascade');
+            $table->bigInteger('user_id')->nullable();
+            $table->string('status')->nullable();
+            $table->boolean('is_granted')->default(true);
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_postitions');
+        Schema::dropIfExists('candidate_field_updates');
     }
 };

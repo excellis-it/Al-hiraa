@@ -1,7 +1,6 @@
 @if (count($candidates) > 0)
     @foreach ($candidates as $item)
         <tr @can('Edit Candidate') class="edit-route" data-route="{{ route('candidates.edit', $item['id']) }}" @endcan>
-            <td>{{ $item->remarks ?? 'N/A' }}</td>
             <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td>
             <td>
                 <div class="round_staus active">
@@ -16,9 +15,12 @@
             <td>{{ $item->full_name ?? 'N/A' }}</td>
             <td>{{ $item->gender ?? 'N/A' }}</td>
             <td>{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
-            <td>{{ $item->age ?? 'N/A' }}</td>
+            {{--  age calculation date of birth --}}
+            <td>{{  $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
             <td>{{ $item->education ?? 'N/A' }}</td>
-            <td>*************</td>
+            <td>{{ $item->position_applied_for_1 ?? 'N/A' }}</td>
+            <td>{{ $item->position_applied_for_2 ?? 'N/A' }}</td>
+            <td>{{ $item->position_applied_for_3 ?? 'N/A' }}</td>
         </tr>
     @endforeach
     <tr>

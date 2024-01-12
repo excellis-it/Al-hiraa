@@ -35,7 +35,7 @@ class SettingController extends Controller
     public function members()
     {
         if (Auth::user()->can('Manage Team')) {
-            $members = User::where('role_type', '!=', 'ADMIN')->paginate(15);
+            $members = User::where('role_type', '!=', 'ADMIN')->orderBy('id','desc')->paginate(15);
             $roles = Role::where('name', '!=', 'ADMIN')->get();
             return view('settings.members.list')->with(compact('members', 'roles'));
         } else {
@@ -77,7 +77,7 @@ class SettingController extends Controller
         ];
 
         Mail::to($request->email)->send(new RegistrationMail($maildata));
-
+        session()->flash('message', 'Members added successfully');
         return response()->json(['message' => 'Members added successfully', 'status' => 'success']);
     }
 
@@ -134,7 +134,7 @@ class SettingController extends Controller
         $user->save();
 
         $user->syncRoles($request->role_type);
-
+        session()->flash('message', 'Members updated successfully');
         return response()->json(['message' => 'Members updated successfully']);
     }
 
@@ -147,7 +147,7 @@ class SettingController extends Controller
                 ->orWhere('email', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('phone', 'LIKE', '%' . $request->search . '%');
         }
-        $members = $members->where('role_type', '!=', 'ADMIN')->paginate(15);
+        $members = $members->orderBy('id','desc')->where('role_type', '!=', 'ADMIN')->paginate(15);
         return response()->json(['view' => view('settings.members.filter', compact('members'))->render()]);
     }
 
@@ -182,7 +182,7 @@ class SettingController extends Controller
                 $role->givePermissionTo($p);
             }
         }
-
+         session()->flash('message', 'User access added successfully');
         return response()->json(['message' => 'User access added successfully', 'status' => 'success']);
     }
 
@@ -229,6 +229,7 @@ class SettingController extends Controller
             $role->givePermissionTo($p);
         }
 
+        session()->flash('message', 'User access updated successfully');
         return response()->json(['message' => 'User access updated successfully']);
     }
 

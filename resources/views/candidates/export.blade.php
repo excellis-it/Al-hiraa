@@ -75,7 +75,7 @@
             <td>{{ $item->english_speak ?? 'N/A' }}</td>
             <td>{{ $item->arabic_speak ?? 'N/A' }}</td>
             <td>{{ ($item->return == 1)? 'Yes' : 'N0' }}</td>
-            <td>{{ $item->candidatePositions->name ?? 'N/A' }}</td>
+            <td>{{ $item->candidateFieldUpdate->position ?? 'N/A' }}</td>
             <td>{{ $item->position  ?? 'N/A'}}</td>
             <td>{{ $item->indian_exp  ?? 'N/A'}}</td>
             <td>{{ $item->abroad_exp ?? 'N/A' }}</td>

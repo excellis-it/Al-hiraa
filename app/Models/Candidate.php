@@ -33,16 +33,17 @@ class Candidate extends Model
         'international_driving_license',
         'english_speak',
         'arabic_speak',
-        'return',
-        'position',
+        'position_applied_for_1',
+        'position_applied_for_2',
+        'position_applied_for_3',
         'indian_exp',
         'abroad_exp',
         'remarks',
     ];
 
-    public function candidatePositions()
+    public function candidateFieldUpdate()
     {
-        return $this->hasOne(CandidatePosition::class);
+        return $this->hasOne(CandidateFieldUpdate::class)->orderBy('id', 'desc')->where('is_granted', 1);
     }
 
     public function candidateStatus()
@@ -60,4 +61,8 @@ class Candidate extends Model
         return $this->belongsTo(User::class, 'referred_by_id', 'id');
     }
 
+    public function candidateUpdate()
+    {
+        return $this->hasOne(CandidateUpdated::class)->orderBy('id', 'desc');
+    }
 }

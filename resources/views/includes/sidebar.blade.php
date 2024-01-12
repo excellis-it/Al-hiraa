@@ -7,7 +7,7 @@
                     alt="">
             </a>
             <div class="d-flex align-items-center justify-content-between sidebar-p-a my-4 border-y sidebar-account">
-                <a href="{{ route('profile') }}" class="flex d-flex align-items-center text-underline-0 text-body">
+                <a href="@if (Gate::check('Manage Schedule')) {{ route('profile') }} @endif" class="flex d-flex align-items-center text-underline-0 text-body">
                     <span class="avatar me-3">
                         @if (Auth::user()->profile_picture)
                             <img src="{{ Storage::url(Auth::user()->profile_picture) }}" alt="avatar"
@@ -33,8 +33,10 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item {{ Request::is('dashboard*') ? 'active' : '' }}"
                             href="{{ route('dashboard') }}">Dashboard</a>
-                        <a class="dropdown-item {{ Request::is('profile*') ? 'active' : '' }}"
-                            href="{{ route('profile') }}">My profile</a>
+                            @if (Gate::check('Manage Schedule'))
+                            <a class="dropdown-item {{ Request::is('profile*') ? 'active' : '' }}"
+                                href="{{ route('profile') }}">My profile</a>
+                        @endif
                         <a class="dropdown-item {{ Request::is('change-password*') ? 'active' : '' }}"
                             href="{{ route('change.password') }}">Change Password</a>
                         <div class="dropdown-divider"></div>
@@ -52,7 +54,7 @@
                 </li>
                 @if (Gate::check('Manage Candidate'))
                     <li class="sidebar-menu-item {{ Request::is('candidates*') ? 'active open' : '' }}">
-                        <a class="sidebar-menu-button" href="{{route('candidates.index')}}">
+                        <a class="sidebar-menu-button" href="{{ route('candidates.index') }}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/user-helmet-safety.svg') }}"></i>
                             <span class="sidebar-menu-text">Candidates</span>
@@ -97,26 +99,26 @@
                             <span class="sidebar-menu-text">Reports</span>
                         </a>
                         <ul class="sidebar-submenu collapse" id="collapseReports">
-                            @if(Gate::check('Manage New Registration'))
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="">
-                                    <span class="sidebar-menu-text">New Registrations</span>
-                                </a>
-                            </li>
+                            @if (Gate::check('Manage New Registration'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="">
+                                        <span class="sidebar-menu-text">New Registrations</span>
+                                    </a>
+                                </li>
                             @endif
-                            @if( Gate::check('Manage Revenue'))
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="revenue-collection.html">
-                                    <span class="sidebar-menu-text">Revenue & Collection</span>
-                                </a>
-                            </li>
+                            @if (Gate::check('Manage Revenue'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="revenue-collection.html">
+                                        <span class="sidebar-menu-text">Revenue & Collection</span>
+                                    </a>
+                                </li>
                             @endif
-                            @if( Gate::check('Manage Team Performance'))
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="team-performance.html">
-                                    <span class="sidebar-menu-text">Team Performance</span>
-                                </a>
-                            </li>
+                            @if (Gate::check('Manage Team Performance'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="team-performance.html">
+                                        <span class="sidebar-menu-text">Team Performance</span>
+                                    </a>
+                                </li>
                             @endif
                         </ul>
                     </li>
@@ -131,19 +133,18 @@
                         </a>
                         <ul class="sidebar-submenu collapse" id="collapseExample">
                             @if (Gate::check('Manage Team'))
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="{{ route('members.index') }}">
-                                    <span class="sidebar-menu-text">Team Members - List & Details</span>
-                                </a>
-                            </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('members.index') }}">
+                                        <span class="sidebar-menu-text">Team Members - List & Details</span>
+                                    </a>
+                                </li>
                             @endif
                             @if (Gate::check('Manage User Access'))
-
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="{{ route('user-access.index') }}">
-                                    <span class="sidebar-menu-text">User Access Control</span>
-                                </a>
-                            </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('user-access.index') }}">
+                                        <span class="sidebar-menu-text">User Access Control</span>
+                                    </a>
+                                </li>
                             @endif
                             {{-- <li class="sidebar-menu-item">
                             <a clas s="sidebar-menu-button" href="{{route('social-media')}}">
@@ -151,11 +152,11 @@
                             </a>
                         </li> --}}
                             @if (Gate::check('Manage Support'))
-                            <li class="sidebar-menu-item">
-                                <a class="sidebar-menu-button" href="{{ route('support') }}">
-                                    <span class="sidebar-menu-text">Support</span>
-                                </a>
-                            </li>
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('support') }}">
+                                        <span class="sidebar-menu-text">Support</span>
+                                    </a>
+                                </li>
                             @endif
                         </ul>
                     </li>

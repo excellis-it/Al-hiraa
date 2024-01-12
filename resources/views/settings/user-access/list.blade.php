@@ -37,7 +37,7 @@
                                                     <div class="table-responsive border-bottom" data-toggle="lists">
                                                         @if (!empty($permissions))
                                                             @php
-                                                                $modules = ['Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access', 'Support'];
+                                                                $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access', 'Support'];
 
                                                             @endphp
                                                             <table class="table mb-0 table-bordered">
@@ -55,6 +55,7 @@
                                                                         <th>Update</th>
                                                                         <th>Delete</th>
                                                                         <th>View</th>
+                                                                        <th>Export</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody class="list">
@@ -130,6 +131,22 @@
                                                                             <td>
                                                                                 @if (in_array('View ' . $module, (array) $permissions))
                                                                                     @if ($key = array_search('View ' . $module, $permissions))
+                                                                                        <div class="toggle-check">
+                                                                                            <div class="form-check form-switch">
+                                                                                                <input class="form-check-input"
+                                                                                                    type="checkbox"
+                                                                                                    role="switch"
+                                                                                                    name="permissions[]"
+                                                                                                    value="{{ $key }}"
+                                                                                                    id="flexSwitchCheckChecked">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endif
+                                                                            </td>
+                                                                            <td>
+                                                                                @if (in_array('Export ' . $module, (array) $permissions))
+                                                                                    @if ($key = array_search('Export ' . $module, $permissions))
                                                                                         <div class="toggle-check">
                                                                                             <div class="form-check form-switch">
                                                                                                 <input class="form-check-input"
@@ -310,7 +327,7 @@
                     success: function(response) {
                         // Handle success response
                         window.location.reload();
-                        toastr.success('Role & Permission added successfully');
+                        // toastr.success('Role & Permission added successfully');
                     },
                     error: function(xhr) {
                         $('#loading').removeClass('loading');
@@ -370,7 +387,7 @@
                     processData: false,
                     success: function(response) {
                         window.location.reload();
-                        toastr.success('Role & Permission updated successfully');
+                        // toastr.success('Role & Permission updated successfully');
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

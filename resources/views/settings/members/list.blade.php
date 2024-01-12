@@ -276,7 +276,7 @@
                     success: function(response) {
                         // Handle success response
                         window.location.reload();
-                        toastr.success('Member details added successfully');
+                        // toastr.success('Member details added successfully');
                     },
                     error: function(xhr) {
                         $('#loading').removeClass('loading');
@@ -373,7 +373,7 @@
                     processData: false,
                     success: function(response) {
                         window.location.reload();
-                        toastr.success('Members details updated successfully');
+                        // toastr.success('Members details updated successfully');
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

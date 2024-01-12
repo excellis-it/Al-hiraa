@@ -132,7 +132,7 @@
 </tr>
 <tr>
     <td>Post Applied For</td>
-    <td>{{ $candidate->candidatePositions->name ?? 'N/A' }}
+    <td>{{ $candidate->candidateFieldUpdate->position ?? 'N/A' }}
 
     </td>
 </tr>

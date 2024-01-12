@@ -15,7 +15,11 @@ class ProfileController extends Controller
 
     public function profile()
     {
-        return view('profile');
+        if (Auth::user()->can('Manage Profile')) {
+            return view('profile');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     public function changePassword()

@@ -1,4 +1,9 @@
+@php
+    use App\Helpers\Helper;
+@endphp
 @if (isset($edit))
+
+
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-body">
             <div class="row g-3">
@@ -164,7 +169,7 @@
                                     </tr>
                                     <tr>
                                         <td>Age</td>
-                                        <td>{{ $candidate->age }}
+                                        <td>{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -244,14 +249,20 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Post Applied For</td>
-                                        <td>{{ $candidate->candidatePositions->name ?? 'N/A' }}
+                                        <td>Position Applied For(1)</td>
+                                        <td>{{ $candidate->position_applied_for_1 ?? 'N/A' }}
 
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Position</td>
-                                        <td>{{ $candidate->position ?? 'N/A' }}
+                                        <td>Position Applied For(2)</td>
+                                        <td>{{ $candidate->position_applied_for_2 ?? 'N/A' }}
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Position Applied For(3)</td>
+                                        <td>{{ $candidate->position_applied_for_3 ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -291,36 +302,42 @@
                     <table class="table">
                         <tbody>
                             <tr>
+                                <td>Enter By</td>
+                                <td> {{ $candidate->enterBy->full_name ?? '' }}
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Updated By</td>
-                                <td>Jhon Doe
+                                <td>{{ $candidate->candidateUpdate->user->full_name ?? '' }}
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Assigned By</td>
-                                <td>Jhon Doe
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Mode of Registration</td>
-                                <td>Done
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Source</td>
-                                <td>01/07/2023
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Referred By</td>
-                                <td>01/07/2023
-                                </td>
-                            </tr>
+
+                            @php
+                                if (isset($candidate->candidateUpdate->user->full_name)) {
+                                    $data = Helper::getUpdatedData($candidate->id, $candidate->candidateUpdate->user_id);
+                                } else {
+                                    $data = [];
+                                }
+                            @endphp
+                            @if ($data != null)
+                                <tr>
+                                    <td>Status</td>
+                                    <td>{{ $data['candidateStatus']['name'] ?? '' }}
+                                    </td>
+                                </tr>
+                                {{-- <tr>
+                                    <td>Postion</td>
+                                    <td>{{ $data['position'] ?? '' }}
+                                    </td>
+                                </tr> --}}
+                            @endif
+
                         </tbody>
                     </table>
                 </div>
-                <div class="">
+                {{-- <div class="">
                     <a href="" class="btn-1">See More<img src="{{ asset('assets/images/arrow.png') }}"></a>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -368,7 +385,14 @@
       <tr>
         <td>Source</td>
     <td>
-      <input type="text" class="form-control" id="" value="{{ $candidate->source ?? '' }}" name="source" placeholder="Source">
+        <select name="source" class="form-select" id="">
+                    <option value="">Select Type</option>
+                    <option value="Telecalling" {{ $candidate->source == 'Telecalling' ? 'selected' : '' }}>Telecalling</option>
+                    <option value="Reference" {{ $candidate->source == 'Reference' ? 'selected' : '' }}>Reference</option>
+                    <option value="Facebook" {{ $candidate->source == 'Facebook' ? 'selected' : '' }}>Facebook</option>
+                    <option value="Instagram" {{ $candidate->source == 'Instagram' ? 'selected' : '' }}>Instagram</option>
+                    <option value="Others" {{ $candidate->source == 'Others' ? 'selected' : '' }}>Others </option>
+                </select>
     </td>
   </tr>
       <tr>
@@ -419,13 +443,21 @@
       <tr>
         <td>Age</td>
         <td>
-            <input type="text" class="form-control" id="" value="{{ $candidate->age ?? '' }}" name="age" placeholder="Age">
+            <input type="text" class="form-control" id="" value="{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}" name="age" placeholder="Age" readonly>
         </td>
       </tr>
       <tr>
         <td>Education</td>
         <td>
-          <input type="text" class="form-control" id="" value="{{ $candidate->education ?? '' }}" name="education" placeholder="Education">
+            <select name="education" class="form-select" id="">
+                    <option value="">Select Type</option>
+                    <option value="5th Pass" {{ $candidate->education == '5th Pass' ? 'selected' : '' }}>5th Pass</option>
+                    <option value="8th Pass" {{ $candidate->education == '8th Pass' ? 'selected' : '' }}>8th Pass</option>
+                    <option value="10th Pass" {{ $candidate->education == '10th Pass' ? 'selected' : '' }}>10th Pass</option>
+                    <option value="Higher Secondary Graduates" {{ $candidate->education == 'Higher Secondary Graduates' ? 'selected' : '' }}>Higher Secondary Graduates</option>
+                    <option value="BBA" {{ $candidate->education == 'BBA' ? 'selected' : '' }}>BBA</option>
+                    <option value="MBA" {{ $candidate->education == 'MBA' ? 'selected' : '' }}>MBA</option>
+                </select>
         </td>
       </tr>
       <tr>
@@ -435,14 +467,7 @@
           </select>
         </td>
       </tr>
-      <tr>
-        <td>Contact No.</td>
-        <td>
-          <div class="form-group">
-            <input class="form-control" type="text" placeholder="Contact No." aria-label="" readonly value="{{ $candidate['contact_no'] }}">
-          </div>
-        </td>
-      </tr>
+
       <tr>
         <td>Alternate Contact No.</td>
         <td>
@@ -463,20 +488,68 @@
         <td>Email ID</td>
         <td>
           <div class="form-group">
-            <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID">
+            <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" required>
           </div>
         </td>
       </tr>
       <tr>
         <td>City</td>
         <td>
-            <input type="text" class="form-control" id="" name="city" value="{{ $candidate->city ?? '' }}" placeholder="City">
+            <select name="city" class="form-select" id="">
+                <option value="">Select City</option>
+                <option value="Mumbai" {{ $candidate->city == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
+                <option value="Delhi" {{ $candidate->city == 'Delhi' ? 'selected' : '' }}>Delhi</option>
+                <option value="Kolkata" {{ $candidate->city == 'Kolkata' ? 'selected' : '' }}>Kolkata</option>
+                <option value="Chennai" {{ $candidate->city == 'Chennai' ? 'selected' : '' }}>Chennai</option>
+                <option value="Bangalore" {{ $candidate->city == 'Bangalore' ? 'selected' : '' }}>Bangalore</option>
+                <option value="Hyderabad" {{ $candidate->city == 'Hyderabad' ? 'selected' : '' }}>Hyderabad</option>
+                <option value="Ahmedabad" {{ $candidate->city == 'Ahmedabad' ? 'selected' : '' }}>Ahmedabad</option>
+                <option value="Pune" {{ $candidate->city == 'Pune' ? 'selected' : '' }}>Pune</option>
+                <option value="Surat" {{ $candidate->city == 'Surat' ? 'selected' : '' }}>Surat</option>
+                <option value="Jaipur" {{ $candidate->city == 'Jaipur' ? 'selected' : '' }}>Jaipur</option>
+                <option value="Kanpur" {{ $candidate->city == 'Kanpur' ? 'selected' : '' }}>Kanpur</option>
+                <option value="Nagpur" {{ $candidate->city == 'Nagpur' ? 'selected' : '' }}>Nagpur</option>
+                <option value="Lucknow" {{ $candidate->city == 'Lucknow' ? 'selected' : '' }}>Lucknow</option>
+                <option value="Thane" {{ $candidate->city == 'Thane' ? 'selected' : '' }}>Thane</option>
+                <option value="Bhopal" {{ $candidate->city == 'Bhopal' ? 'selected' : '' }}>Bhopal</option>
+                <option value="Visakhapatnam" {{ $candidate->city == 'Visakhapatnam' ? 'selected' : '' }}>Visakhapatnam
+                </option>
+                <option value="Pimpri-Chinchwad" {{ $candidate->city == 'Pimpri-Chinchwad' ? 'selected' : '' }}>
+                    Pimpri-Chinchwad</option>
+                <option value="Patna" {{ $candidate->city == 'Patna' ? 'selected' : '' }}>Patna</option>
+                <option value="Vadodara" {{ $candidate->city == 'Vadodara' ? 'selected' : '' }}>Vadodara</option>
+                <option value="Ghaziabad" {{ $candidate->city == 'Ghaziabad' ? 'selected' : '' }}>Ghaziabad</option>
+                <option value="Ludhiana" {{ $candidate->city == 'Ludhiana' ? 'selected' : '' }}>Ludhiana</option>
+                <option value="Agra" {{ $candidate->city == 'Agra' ? 'selected' : '' }}>Agra</option>
+                <option value="Nashik" {{ $candidate->city == 'Nashik' ? 'selected' : '' }}>Nashik</option>
+                <option value="Faridabad" {{ $candidate->city == 'Faridabad' ? 'selected' : '' }}>Faridabad</option>
+                <option value="Meerut" {{ $candidate->city == 'Meerut' ? 'selected' : '' }}>Meerut</option>
+                <option value="Rajkot" {{ $candidate->city == 'Rajkot' ? 'selected' : '' }}>Rajkot</option>
+                <option value="Kalyan-Dombivali" {{ $candidate->city == 'Kalyan-Dombivali' ? 'selected' : '' }}>
+                    Kalyan-Dombivali</option>
+                <option value="Vasai-Virar" {{ $candidate->city == 'Vasai-Virar' ? 'selected' : '' }}>Vasai-Virar
+                </option>
+                <option value="Varanasi" {{ $candidate->city == 'Varanasi' ? 'selected' : '' }}>Varanasi</option>
+                <option value="Srinagar" {{ $candidate->city == 'Srinagar' ? 'selected' : '' }}>Srinagar</option>
+                <option value="Aurangabad" {{ $candidate->city == 'Aurangabad' ? 'selected' : '' }}>Aurangabad</option>
+                <option value="Dhanbad" {{ $candidate->city == 'Dhanbad' ? 'selected' : '' }}>Dhanbad</option>
+            </select>
         </td>
       </tr>
       <tr>
         <td>Religion</td>
         <td>
-          <input type="text" class="form-control" id="" name="religion" value="{{ $candidate->religion ?? '' }}" placeholder="Religion">
+            <select name="religion" class="form-select" id="">
+                <option value="">Select Religion</option>
+                <option value="Hindu" {{ $candidate->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                <option value="Muslim" {{ $candidate->religion == 'Muslim' ? 'selected' : '' }}>Muslim</option>
+                <option value="Christian" {{ $candidate->religion == 'Christian' ? 'selected' : '' }}>Christian
+                </option>
+                <option value="Sikh" {{ $candidate->religion == 'Sikh' ? 'selected' : '' }}>Sikh</option>
+                <option value="Buddhist" {{ $candidate->religion == 'Buddhist' ? 'selected' : '' }}>Buddhist</option>
+                <option value="Jain" {{ $candidate->religion == 'Jain' ? 'selected' : '' }}>Jain</option>
+                <option value="Other" {{ $candidate->religion == 'Other' ? 'selected' : '' }}>Other</option>
+            </select>
         </td>
       </tr>
       <tr>
@@ -539,18 +612,69 @@
       </tr>
 
       <tr>
-        <td>Post Applied For</td>
+        <td>Post Applied For(1)</td>
         <td>
-          <input type="text" class="form-control" id="" value="{{ $candidate->candidatePositions->name ?? '' }}" name="position_applied_for" placeholder="Position Applied For">
-
+            <select name="position_applied_for_1" class="form-select" id="">
+                <option value="">Select Position</option>
+                <option value="Driver" {{ $candidate->position_applied_for_1 == 'Driver' ? 'selected' : '' }}>Driver
+                </option>
+                <option value="Housemaid" {{ $candidate->position_applied_for_1 == 'Housemaid' ? 'selected' : '' }}>
+                    Housemaid</option>
+                <option value="Nanny" {{ $candidate->position_applied_for_1 == 'Nanny' ? 'selected' : '' }}>Nanny
+                </option>
+                <option value="Baby Sitter"
+                    {{ $candidate->position_applied_for_1 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
+                <option value="Cook" {{ $candidate->position_applied_for_1 == 'Cook' ? 'selected' : '' }}>Cook
+                </option>
+                <option value="Patient Care"
+                    {{ $candidate->position_applied_for_1 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
+                <option value="Nurse" {{ $candidate->position_applied_for_1 == 'Nurse' ? 'selected' : '' }}>Nurse
+                </option>
+            </select>
         </td>
       </tr>
-
       <tr>
-        <td>Position</td>
+        <td>Post Applied For(2)</td>
         <td>
-            <input type="text" class="form-control" id="" value="{{ $candidate->position ?? '' }}"
-                name="position" placeholder="">
+            <select name="position_applied_for_2" class="form-select" id="">
+                <option value="">Select Position</option>
+                <option value="Driver" {{ $candidate->position_applied_for_2 == 'Driver' ? 'selected' : '' }}>Driver
+                </option>
+                <option value="Housemaid" {{ $candidate->position_applied_for_2 == 'Housemaid' ? 'selected' : '' }}>
+                    Housemaid</option>
+                <option value="Nanny" {{ $candidate->position_applied_for_2 == 'Nanny' ? 'selected' : '' }}>Nanny
+                </option>
+                <option value="Baby Sitter"
+                    {{ $candidate->position_applied_for_2 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
+                <option value="Cook" {{ $candidate->position_applied_for_2 == 'Cook' ? 'selected' : '' }}>Cook
+                </option>
+                <option value="Patient Care"
+                    {{ $candidate->position_applied_for_2 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
+                <option value="Nurse" {{ $candidate->position_applied_for_2 == 'Nurse' ? 'selected' : '' }}>Nurse
+                </option>
+            </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Post Applied For(3)</td>
+        <td>
+            <select name="position_applied_for_3" class="form-select" id="">
+                <option value="">Select Position</option>
+                <option value="Driver" {{ $candidate->position_applied_for_3 == 'Driver' ? 'selected' : '' }}>Driver
+                </option>
+                <option value="Housemaid" {{ $candidate->position_applied_for_3 == 'Housemaid' ? 'selected' : '' }}>
+                    Housemaid</option>
+                <option value="Nanny" {{ $candidate->position_applied_for_3 == 'Nanny' ? 'selected' : '' }}>Nanny
+                </option>
+                <option value="Baby Sitter"
+                    {{ $candidate->position_applied_for_3 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
+                <option value="Cook" {{ $candidate->position_applied_for_3 == 'Cook' ? 'selected' : '' }}>Cook
+                </option>
+                <option value="Patient Care"
+                    {{ $candidate->position_applied_for_3 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
+                <option value="Nurse" {{ $candidate->position_applied_for_3 == 'Nurse' ? 'selected' : '' }}>Nurse
+                </option>
+            </select>
         </td>
       </tr>
       <tr>
@@ -639,7 +763,7 @@
                                     </tr>
                                     <tr>
                                         <td>Age</td>
-                                        <td>{{ $candidate->age }}
+                                        <td>{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -719,14 +843,20 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Post Applied For</td>
-                                        <td>{{ $candidate->candidatePositions->name ?? 'N/A' }}
+                                        <td>Position Applied For(1)</td>
+                                        <td>{{ $candidate->position_applied_for_1 ?? 'N/A' }}
 
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Position</td>
-                                        <td>{{ $candidate->position ?? 'N/A' }}
+                                        <td>Position Applied For(2)</td>
+                                        <td>{{ $candidate->position_applied_for_2 ?? 'N/A' }}
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Position Applied For(3)</td>
+                                        <td>{{ $candidate->position_applied_for_3 ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -825,7 +955,7 @@
                     processData: false,
                     success: function(response) {
                         window.location.reload();
-                        toastr.success('Candidate details updated successfully');
+                        // toastr.success('Candidate details updated successfully');
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

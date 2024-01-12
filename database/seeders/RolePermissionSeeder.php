@@ -18,6 +18,12 @@ class RolePermissionSeeder extends Seeder
     {
         $arrPermissions = [
             [
+                "name" => "Manage Profile",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
                 "name" => "Manage Candidate",
                 "guard_name" => "web",
                 "created_at" => date('Y-m-d H:i:s'),
@@ -31,6 +37,12 @@ class RolePermissionSeeder extends Seeder
             ],
             [
                 "name" => "Edit Candidate",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
+                "name" => "Export Candidate",
                 "guard_name" => "web",
                 "created_at" => date('Y-m-d H:i:s'),
                 "updated_at" => date('Y-m-d H:i:s'),
@@ -179,9 +191,11 @@ class RolePermissionSeeder extends Seeder
 
         $adminRole = Role::where('name', 'ADMIN')->first();
         $adminPermissions = [
+            "Manage Profile",
             "Manage Candidate",
             "Create Candidate",
             "Edit Candidate",
+            "Export Candidate",
             "Manage Job",
             "Create Job",
             "Edit Job",
@@ -214,7 +228,6 @@ class RolePermissionSeeder extends Seeder
         $dataEntryOperatorPermissions = [
             "Manage Candidate",
             "Create Candidate",
-            "Edit Candidate",
             "Manage Support",
         ];
 
@@ -225,6 +238,7 @@ class RolePermissionSeeder extends Seeder
             "Manage Candidate",
             "Create Candidate",
             "Edit Candidate",
+            "Export Candidate",
             "Manage Support",
         ];
 
@@ -235,6 +249,7 @@ class RolePermissionSeeder extends Seeder
             "Manage Candidate",
             "Create Candidate",
             "Edit Candidate",
+            "Export Candidate",
             "Manage Job",
             "Create Job",
             "Edit Job",
@@ -243,7 +258,7 @@ class RolePermissionSeeder extends Seeder
 
         $processManagerRole->givePermissionTo($processManagerPermissions);
 
-        $associateRole = Role::where('name', 'PROCESS MANAGER')->first();
+        $associateRole = Role::where('name', 'ASSOCIATE')->first();
         $associatePermissions = [
             "Manage Support",
         ];
