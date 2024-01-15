@@ -268,15 +268,101 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Indian Work Experience (If Any?)</label>
-            <input type="text" class="form-control" id="" value="{{ $candidate->indian_exp ?? '' }}"
-                name="indian_exp" placeholder="">
+            {{-- <input type="text" class="form-control" id="" value="{{ $candidate->indian_exp ?? '' }}"
+                name="indian_exp" placeholder=""> --}}
+            <select name="indian_exp" class="form-select" id="">
+                <option value="">Select Indian Experience</option>
+                <option value="1 Year Experience" {{ $candidate->indian_exp == '1 Year Experience' ? 'selected' : '' }}>
+                    1 Year Experience</option>
+                <option value="2 Year Experience" {{ $candidate->indian_exp == '2 Year Experience' ? 'selected' : '' }}>
+                    2 Year Experience</option>
+                <option value="3 Year Experience" {{ $candidate->indian_exp == '3 Year Experience' ? 'selected' : '' }}>
+                    3 Year Experience</option>
+                <option value="4 Year Experience" {{ $candidate->indian_exp == '4 Year Experience' ? 'selected' : '' }}>
+                    4 Year Experience</option>
+                <option value="5 Year Experience" {{ $candidate->indian_exp == '5 Year Experience' ? 'selected' : '' }}>
+                    5 Year Experience</option>
+                <option value="6 Year Experience" {{ $candidate->indian_exp == '6 Year Experience' ? 'selected' : '' }}>
+                    6 Year Experience</option>
+                <option value="7 Year Experience" {{ $candidate->indian_exp == '7 Year Experience' ? 'selected' : '' }}>
+                    7 Year Experience</option>
+                <option value="8 Year Experience" {{ $candidate->indian_exp == '8 Year Experience' ? 'selected' : '' }}>
+                    8 Year Experience</option>
+                <option value="9 Year Experience" {{ $candidate->indian_exp == '9 Year Experience' ? 'selected' : '' }}>
+                    9 Year Experience</option>
+                <option value="10 Year Experience"
+                    {{ $candidate->indian_exp == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
+                <option value="11 Year Experience"
+                    {{ $candidate->indian_exp == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
+                <option value="12 Year Experience"
+                    {{ $candidate->indian_exp == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
+                <option value="13 Year Experience"
+                    {{ $candidate->indian_exp == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
+                <option value="14 Year Experience"
+                    {{ $candidate->indian_exp == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
+                <option value="15 Year Experience"
+                    {{ $candidate->indian_exp == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
+                <option value="16 Year Experience"
+                    {{ $candidate->indian_exp == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
+                <option value="17 Year Experience"
+                    {{ $candidate->indian_exp == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
+                <option value="18 Year Experience"
+                    {{ $candidate->indian_exp == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
+                <option value="19 Year Experience"
+                    {{ $candidate->indian_exp == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
+                <option value="20 Year Experience"
+                    {{ $candidate->indian_exp == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
+            </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Abroad Work Experience (If Any?)</label>
-            <input type="text" class="form-control" id="" value="{{ $candidate->abroad_exp ?? '' }}"
-                name="abroad_exp" placeholder="">
+            {{-- <input type="text" class="form-control" id="" value="{{ $candidate->abroad_exp ?? '' }}"
+                name="abroad_exp" placeholder=""> --}}
+                <select name="abroad_exp" class="form-select" id="">
+                    <option value="">Select Abroad Experience</option>
+                    <option value="1 Year Experience" {{ $candidate->abroad_exp == '1 Year Experience' ? 'selected' : '' }}>
+                        1 Year Experience</option>
+                    <option value="2 Year Experience" {{ $candidate->abroad_exp == '2 Year Experience' ? 'selected' : '' }}>
+                        2 Year Experience</option>
+                    <option value="3 Year Experience" {{ $candidate->abroad_exp == '3 Year Experience' ? 'selected' : '' }}>
+                        3 Year Experience</option>
+                    <option value="4 Year Experience" {{ $candidate->abroad_exp == '4 Year Experience' ? 'selected' : '' }}>
+                        4 Year Experience</option>
+                    <option value="5 Year Experience" {{ $candidate->abroad_exp == '5 Year Experience' ? 'selected' : '' }}>
+                        5 Year Experience</option>
+                    <option value="6 Year Experience" {{ $candidate->abroad_exp == '6 Year Experience' ? 'selected' : '' }}>
+                        6 Year Experience</option>
+                    <option value="7 Year Experience" {{ $candidate->abroad_exp == '7 Year Experience' ? 'selected' : '' }}>
+                        7 Year Experience</option>
+                    <option value="8 Year Experience" {{ $candidate->abroad_exp == '8 Year Experience' ? 'selected' : '' }}>
+                        8 Year Experience</option>
+                    <option value="9 Year Experience" {{ $candidate->abroad_exp == '9 Year Experience' ? 'selected' : '' }}>
+                        9 Year Experience</option>
+                    <option value="10 Year Experience"
+                        {{ $candidate->abroad_exp == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
+                    <option value="11 Year Experience"
+                        {{ $candidate->abroad_exp == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
+                    <option value="12 Year Experience"
+                        {{ $candidate->abroad_exp == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
+                    <option value="13 Year Experience"
+                        {{ $candidate->abroad_exp == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
+                    <option value="14 Year Experience"
+                        {{ $candidate->abroad_exp == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
+                    <option value="15 Year Experience"
+                        {{ $candidate->abroad_exp == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
+                    <option value="16 Year Experience"
+                        {{ $candidate->abroad_exp == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
+                    <option value="17 Year Experience"
+                        {{ $candidate->abroad_exp == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
+                    <option value="18 Year Experience"
+                        {{ $candidate->abroad_exp == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
+                    <option value="19 Year Experience"
+                        {{ $candidate->abroad_exp == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
+                    <option value="20 Year Experience"
+                        {{ $candidate->abroad_exp == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
+                </select>
         </div>
     </div>
     <div class="col-lg-4">
@@ -627,15 +713,61 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Indian Work Experience (If Any?)</label>
-            <input type="text" class="form-control" id="" value="{{ old('indian_exp') }}"
-                name="indian_exp" placeholder="">
+            {{-- <input type="text" class="form-control" id="" value="{{ old('indian_exp') }}"
+                name="indian_exp" placeholder=""> --}}
+            <select name="indian_exp" class="form-select" id="">
+                <option value="">Select Indian Experience</option>
+                <option value="1 Year Experience" {{ old('indian_exp') == '1 Year Experience' ? 'selected' : '' }}>1 Year Experience</option>
+                <option value="2 Year Experience" {{ old('indian_exp') == '2 Year Experience' ? 'selected' : '' }}>2 Year Experience</option>
+                <option value="3 Year Experience" {{ old('indian_exp') == '3 Year Experience' ? 'selected' : '' }}>3 Year Experience</option>
+                <option value="4 Year Experience" {{ old('indian_exp') == '4 Year Experience' ? 'selected' : '' }}>4 Year Experience</option>
+                <option value="5 Year Experience" {{ old('indian_exp') == '5 Year Experience' ? 'selected' : '' }}>5 Year Experience</option>
+                <option value="6 Year Experience" {{ old('indian_exp') == '6 Year Experience' ? 'selected' : '' }}>6 Year Experience</option>
+                <option value="7 Year Experience" {{ old('indian_exp') == '7 Year Experience' ? 'selected' : '' }}>7 Year Experience</option>
+                <option value="8 Year Experience" {{ old('indian_exp') == '8 Year Experience' ? 'selected' : '' }}>8 Year Experience</option>
+                <option value="9 Year Experience" {{ old('indian_exp') == '9 Year Experience' ? 'selected' : '' }}>9 Year Experience</option>
+                <option value="10 Year Experience" {{ old('indian_exp') == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
+                <option value="11 Year Experience" {{ old('indian_exp') == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
+                <option value="12 Year Experience" {{ old('indian_exp') == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
+                <option value="13 Year Experience" {{ old('indian_exp') == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
+                <option value="14 Year Experience" {{ old('indian_exp') == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
+                <option value="15 Year Experience" {{ old('indian_exp') == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
+                <option value="16 Year Experience" {{ old('indian_exp') == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
+                <option value="17 Year Experience" {{ old('indian_exp') == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
+                <option value="18 Year Experience" {{ old('indian_exp') == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
+                <option value="19 Year Experience" {{ old('indian_exp') == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
+                <option value="20 Year Experience" {{ old('indian_exp') == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
+            </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Abroad Work Experience (If Any?)</label>
-            <input type="text" class="form-control" id="" value="{{ old('abroad_exp') }}"
-                name="abroad_exp" placeholder="">
+            {{-- <input type="text" class="form-control" id="" value="{{ old('abroad_exp') }}"
+                name="abroad_exp" placeholder=""> --}}
+                <select name="abroad_exp" class="form-select" id="">
+                    <option value="">Select Abroad Experience</option>
+                    <option value="1 Year Experience" {{ old('abroad_exp') == '1 Year Experience' ? 'selected' : '' }}>1 Year Experience</option>
+                    <option value="2 Year Experience" {{ old('abroad_exp') == '2 Year Experience' ? 'selected' : '' }}>2 Year Experience</option>
+                    <option value="3 Year Experience" {{ old('abroad_exp') == '3 Year Experience' ? 'selected' : '' }}>3 Year Experience</option>
+                    <option value="4 Year Experience" {{ old('abroad_exp') == '4 Year Experience' ? 'selected' : '' }}>4 Year Experience</option>
+                    <option value="5 Year Experience" {{ old('abroad_exp') == '5 Year Experience' ? 'selected' : '' }}>5 Year Experience</option>
+                    <option value="6 Year Experience" {{ old('abroad_exp') == '6 Year Experience' ? 'selected' : '' }}>6 Year Experience</option>
+                    <option value="7 Year Experience" {{ old('abroad_exp') == '7 Year Experience' ? 'selected' : '' }}>7 Year Experience</option>
+                    <option value="8 Year Experience" {{ old('abroad_exp') == '8 Year Experience' ? 'selected' : '' }}>8 Year Experience</option>
+                    <option value="9 Year Experience" {{ old('abroad_exp') == '9 Year Experience' ? 'selected' : '' }}>9 Year Experience</option>
+                    <option value="10 Year Experience" {{ old('abroad_exp') == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
+                    <option value="11 Year Experience" {{ old('abroad_exp') == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
+                    <option value="12 Year Experience" {{ old('abroad_exp') == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
+                    <option value="13 Year Experience" {{ old('abroad_exp') == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
+                    <option value="14 Year Experience" {{ old('abroad_exp') == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
+                    <option value="15 Year Experience" {{ old('abroad_exp') == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
+                    <option value="16 Year Experience" {{ old('abroad_exp') == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
+                    <option value="17 Year Experience" {{ old('abroad_exp') == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
+                    <option value="18 Year Experience" {{ old('abroad_exp') == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
+                    <option value="19 Year Experience" {{ old('abroad_exp') == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
+                    <option value="20 Year Experience" {{ old('abroad_exp') == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
+                </select>
         </div>
     </div>
     <div class="col-lg-4">

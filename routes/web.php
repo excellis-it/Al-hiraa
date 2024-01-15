@@ -69,4 +69,5 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::get('/candidates-export', [CandidateController::class, 'export'])->name('candidates.export'); // search export
     Route::post('/candidates-import', [CandidateController::class, 'import'])->name('candidates.import');
     Route::get('/candidates-download-sample', [CandidateController::class, 'downloadSample'])->name('candidates.download.sample');
+    Route::get('/candidates-permission/{candidate_id}/{candidate_field_update_id}',[CandidateController::class,'candidatePermission'])->name('candidates.permission');
 });

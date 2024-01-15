@@ -44,6 +44,7 @@ return new class extends Migration
             $table->text('position_applied_for_2')->nullable();
             $table->text('position_applied_for_3')->nullable();
             $table->longText('remarks')->nullable();
+            $table->string('is_call_id')->nullable();
             $table->timestamps();
         });
     }

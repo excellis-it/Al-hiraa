@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
+use Illuminate\Support\Facades\Session;
 
 class CandidateController extends Controller
 {
@@ -130,10 +131,17 @@ class CandidateController extends Controller
         $candidate_statuses = CandidateStatus::all();
         $edit = true;
         if (!Auth::user()->hasRole('ADMIN')) {
-            $candidate_update = new CandidateUpdated();
-            $candidate_update->user_id = Auth::user()->id;
-            $candidate_update->candidate_id = $candidate->id;
-            $candidate_update->save();
+            if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
+                return response()->json(['message' => __('Candidate already called.'), 'status' => 'error']);
+            } else {
+                $candidate_update = new CandidateUpdated();
+                $candidate_update->user_id = Auth::user()->id;
+                $candidate_update->candidate_id = $candidate->id;
+                $candidate_update->save();
+                session()->put('candidate_id', $candidate->id);
+                $candidate->is_call_id = Auth::user()->id;
+                $candidate->save();
+            }
         }
 
         return response()->json(['view' => view('candidates.edit', compact('candidate', 'edit', 'candidate_statuses'))->render(), 'status' => 'success']);
@@ -190,7 +198,10 @@ class CandidateController extends Controller
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
         $candidate->remarks = $request->remark;
+        $candidate->is_call_id = null;
         $candidate->save();
+
+
 
 
         $candidate_position_applied = $candidate->candidateFieldUpdate->position ?? '';
@@ -207,6 +218,7 @@ class CandidateController extends Controller
 
             $candidatePosition->save();
         }
+        Session::forget('candidate_id');
         session()->flash('message', 'Candidate updated successfully');
         return response()->json(['message' => __('Candidate updated successfully.'), 'status' => 'success']);
     }
@@ -292,5 +304,18 @@ class CandidateController extends Controller
         // return "dsa";
         $pathToFile = public_path('sample_excel/candidate-example.xlsx');
         return response()->download($pathToFile);
+    }
+
+    public function candidatePermission($candidate_id, $candidate_field_update_id)
+    {
+        $candidate_field_update = CandidateFieldUpdate::findOrFail($candidate_field_update_id);
+        $candidate_field_update->is_granted = 1;
+        $candidate_field_update->save();
+
+        $candidate = Candidate::findOrFail($candidate_id);
+        $candidate->cnadidate_status_id = $candidate_field_update->status;
+        $candidate->save();
+
+        return redirect()->back()->with('message', 'Permission granted successfully');
     }
 }

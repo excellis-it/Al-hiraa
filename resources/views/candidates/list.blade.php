@@ -19,14 +19,16 @@
                             <button class="btn" type="submit" role="button">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
-                            <input type="text" class="form-control" placeholder="Advance Search.." name="query"
-                                id="query">
+                            <input type="text" class="form-control" placeholder="Search.." name="query" id="query">
                             <div class="btn-group">
-                                <button type="submit" class="btn advance_search_btn">Advance Search</button>
+                                <button type="submit" class="btn advance_search_btn"
+                                    style="border-right: none;">Search</button>
                             </div>
                         </form>
                     </div>
                 </div>
+
+
                 <div class="col-xl-4 col-lg-5 col-md-6">
                     <div class="d-flex justify-content-center justify-content-md-start">
                         @can('Create Candidate')
@@ -64,6 +66,7 @@
             </div>
 
         </div>
+
         <div class="container-fluid page__container">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
@@ -151,10 +154,17 @@
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                        $('#candidate-edit').html(response.view);
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        $('#offcanvasEdit').offcanvas('show');
+                        if (response.status == 'error') {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            toastr.error(response.message);
+                            return false;
+                        } else {
+                            $('#candidate-edit').html(response.view);
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            $('#offcanvasEdit').offcanvas('show');
+                        }
                     },
                     error: function(xhr) {
                         // Handle errors
@@ -164,6 +174,32 @@
                     }
                 });
             });
+            @if (Session::has('candidate_id'))
+                var route = "{{ route('candidates.edit', Session::get('candidate_id')) }}";
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        if (response.status == 'error') {
+                            toastr.error(response.message);
+                            return false;
+                        } else {
+                            $('#candidate-edit').html(response.view);
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            $('#offcanvasEdit').offcanvas('show');
+                        }
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            @endif
         });
     </script>
     <script>
