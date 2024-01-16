@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('cnadidate_status_id')->nullable();
             $table->string('mode_of_registration')->nullable();
             $table->string('source')->nullable();
+            $table->string('passport_number')->nullable();
             $table->bigInteger('referred_by_id')->nullable();
             $table->string('referred_by')->nullable();
             $table->string('last_update_date')->nullable();

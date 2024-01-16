@@ -39,6 +39,7 @@ class Candidate extends Model
         'indian_exp',
         'abroad_exp',
         'remarks',
+        'passport_number',
     ];
 
     public function candidateFieldUpdate()

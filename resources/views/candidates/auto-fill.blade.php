@@ -1,3 +1,7 @@
+@php
+    use App\Constants\Position;
+@endphp
+
 @if (isset($autofill))
     <div class="col-lg-4">
         <div class="form-group">
@@ -11,7 +15,7 @@
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">Email <span>*</span></label>
+            <label for="">Email</label>
             <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}"
                 name="email" placeholder="">
             @if ($errors->has('email'))
@@ -24,6 +28,12 @@
             <label for="">Alternative Contact No: </label>
             <input type="text" class="form-control" id="" name="alternate_contact_no"
                 value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="">
+                @if ($errors->has('alternate_contact_no'))
+                    @error('alternate_contact_no')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+
+                @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -31,6 +41,21 @@
             <label for="">Whatsapp No: </label>
             <input type="text" class="form-control" id="" name="whatapp_no"
                 value="{{ $candidate->whatapp_no ?? '' }}" placeholder="">
+                @if ($errors->has('whatapp_no'))
+                    <span class="text-danger">{{ $errors->first('whatapp_no') }}</span>
+
+                @endif
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label for="">Passport Number: </label>
+            <input type="text" class="form-control" id="" name="passport_number"
+                value="{{ $candidate->passport_number ?? '' }}" placeholder="">
+                @if ($errors->has('passport_number'))
+                    <span class="text-danger">{{ $errors->first('passport_number') }}</span>
+
+                @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -140,8 +165,13 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Mode of Registration</label>
-            <input type="text" class="form-control" id=""
-                value="{{ $candidate->mode_of_registration ?? '' }}" name="mode_of_registration" placeholder="">
+            {{-- <input type="text" class="form-control" id=""
+                value="{{ $candidate->mode_of_registration ?? '' }}" name="mode_of_registration" placeholder=""> --}}
+                <select name="mode_of_registration" class="form-select" id="">
+                    <option value="">Select Type</option>
+                    <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling</option>
+                    <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in</option>
+                </select>
         </div>
     </div>
     {{-- Source --}}
@@ -181,7 +211,7 @@
                 </select>
             @else
                 <label for="">Referred by <span><a href="javascript:void(0);"
-                            class="referred_type">Associate</a></span></label>
+                            class="referred_type">Agents</a></span></label>
                 <input type="text" class="form-control" id=""
                     value="{{ $candidate->referred_by ?? '' }}" name="referred_by" placeholder="">
             @endif
@@ -195,7 +225,7 @@
             <select name="religion" class="form-select" id="">
                 <option value="">Select Religion</option>
                 <option value="Hindu" {{ $candidate->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                <option value="Muslim" {{ $candidate->religion == 'Muslim' ? 'selected' : '' }}>Muslim</option>
+                <option value="Islam" {{ $candidate->religion == 'Islam' ? 'selected' : '' }}>Islam</option>
                 <option value="Christian" {{ $candidate->religion == 'Christian' ? 'selected' : '' }}>Christian
                 </option>
                 <option value="Sikh" {{ $candidate->religion == 'Sikh' ? 'selected' : '' }}>Sikh</option>
@@ -208,15 +238,46 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Indian Driving License: </label>
-            <input type="text" class="form-control" id="" name="indian_driving_license"
-                value="{{ $candidate->indian_driving_license ?? '' }}" placeholder="">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="two_wheeler" name="indian_driving_license"
+                    value="2 Wheeler" @if ($candidate->indian_driving_license == '2 Wheeler') checked @endif>
+                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="four_wheeler" name="indian_driving_license"
+                    value="4 Wheeler" @if ($candidate->indian_driving_license == '4 Wheeler') checked @endif>
+                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="hv" name="indian_driving_license"
+                    value="HV" @if ($candidate->indian_driving_license == 'HV') checked @endif>
+                <label class="form-check-label" for="hv">HV</label>
+            </div>
+
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">International Driving License: </label>
-            <input type="text" class="form-control" id="" name="international_driving_license"
-                value="{{ $candidate->international_driving_license ?? '' }}" placeholder="">
+            <label for="">Gulf Driving License: </label>
+            {{-- <input type="text" class="form-control" id="" name="international_driving_license"
+                value="{{ $candidate->international_driving_license ?? '' }}" placeholder=""> --}}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="two_wheeler"
+                        name="international_driving_license" value="2 Wheeler"
+                        @if ($candidate->international_driving_license == '2 Wheeler') checked @endif>
+                    <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="four_wheeler"
+                        name="international_driving_license" value="4 Wheeler"
+                        @if ($candidate->international_driving_license == '4 Wheeler') checked @endif>
+                    <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="hv" name="international_driving_license"
+                        value="HV" @if ($candidate->international_driving_license == 'HV') checked @endif>
+                    <label class="form-check-label" for="hv">HV</label>
+                </div>
         </div>
     </div>
     <div class="col-lg-4">
@@ -270,25 +331,34 @@
             <label for="">Indian Work Experience (If Any?)</label>
             {{-- <input type="text" class="form-control" id="" value="{{ $candidate->indian_exp ?? '' }}"
                 name="indian_exp" placeholder=""> --}}
-            <select name="indian_exp" class="form-select" id="">
+            <select name="indian_exp" class="form-select select2" id="">
                 <option value="">Select Indian Experience</option>
-                <option value="1 Year Experience" {{ $candidate->indian_exp == '1 Year Experience' ? 'selected' : '' }}>
+                <option value="1 Year Experience"
+                    {{ $candidate->indian_exp == '1 Year Experience' ? 'selected' : '' }}>
                     1 Year Experience</option>
-                <option value="2 Year Experience" {{ $candidate->indian_exp == '2 Year Experience' ? 'selected' : '' }}>
+                <option value="2 Year Experience"
+                    {{ $candidate->indian_exp == '2 Year Experience' ? 'selected' : '' }}>
                     2 Year Experience</option>
-                <option value="3 Year Experience" {{ $candidate->indian_exp == '3 Year Experience' ? 'selected' : '' }}>
+                <option value="3 Year Experience"
+                    {{ $candidate->indian_exp == '3 Year Experience' ? 'selected' : '' }}>
                     3 Year Experience</option>
-                <option value="4 Year Experience" {{ $candidate->indian_exp == '4 Year Experience' ? 'selected' : '' }}>
+                <option value="4 Year Experience"
+                    {{ $candidate->indian_exp == '4 Year Experience' ? 'selected' : '' }}>
                     4 Year Experience</option>
-                <option value="5 Year Experience" {{ $candidate->indian_exp == '5 Year Experience' ? 'selected' : '' }}>
+                <option value="5 Year Experience"
+                    {{ $candidate->indian_exp == '5 Year Experience' ? 'selected' : '' }}>
                     5 Year Experience</option>
-                <option value="6 Year Experience" {{ $candidate->indian_exp == '6 Year Experience' ? 'selected' : '' }}>
+                <option value="6 Year Experience"
+                    {{ $candidate->indian_exp == '6 Year Experience' ? 'selected' : '' }}>
                     6 Year Experience</option>
-                <option value="7 Year Experience" {{ $candidate->indian_exp == '7 Year Experience' ? 'selected' : '' }}>
+                <option value="7 Year Experience"
+                    {{ $candidate->indian_exp == '7 Year Experience' ? 'selected' : '' }}>
                     7 Year Experience</option>
-                <option value="8 Year Experience" {{ $candidate->indian_exp == '8 Year Experience' ? 'selected' : '' }}>
+                <option value="8 Year Experience"
+                    {{ $candidate->indian_exp == '8 Year Experience' ? 'selected' : '' }}>
                     8 Year Experience</option>
-                <option value="9 Year Experience" {{ $candidate->indian_exp == '9 Year Experience' ? 'selected' : '' }}>
+                <option value="9 Year Experience"
+                    {{ $candidate->indian_exp == '9 Year Experience' ? 'selected' : '' }}>
                     9 Year Experience</option>
                 <option value="10 Year Experience"
                     {{ $candidate->indian_exp == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
@@ -320,127 +390,113 @@
             <label for="">Abroad Work Experience (If Any?)</label>
             {{-- <input type="text" class="form-control" id="" value="{{ $candidate->abroad_exp ?? '' }}"
                 name="abroad_exp" placeholder=""> --}}
-                <select name="abroad_exp" class="form-select" id="">
-                    <option value="">Select Abroad Experience</option>
-                    <option value="1 Year Experience" {{ $candidate->abroad_exp == '1 Year Experience' ? 'selected' : '' }}>
-                        1 Year Experience</option>
-                    <option value="2 Year Experience" {{ $candidate->abroad_exp == '2 Year Experience' ? 'selected' : '' }}>
-                        2 Year Experience</option>
-                    <option value="3 Year Experience" {{ $candidate->abroad_exp == '3 Year Experience' ? 'selected' : '' }}>
-                        3 Year Experience</option>
-                    <option value="4 Year Experience" {{ $candidate->abroad_exp == '4 Year Experience' ? 'selected' : '' }}>
-                        4 Year Experience</option>
-                    <option value="5 Year Experience" {{ $candidate->abroad_exp == '5 Year Experience' ? 'selected' : '' }}>
-                        5 Year Experience</option>
-                    <option value="6 Year Experience" {{ $candidate->abroad_exp == '6 Year Experience' ? 'selected' : '' }}>
-                        6 Year Experience</option>
-                    <option value="7 Year Experience" {{ $candidate->abroad_exp == '7 Year Experience' ? 'selected' : '' }}>
-                        7 Year Experience</option>
-                    <option value="8 Year Experience" {{ $candidate->abroad_exp == '8 Year Experience' ? 'selected' : '' }}>
-                        8 Year Experience</option>
-                    <option value="9 Year Experience" {{ $candidate->abroad_exp == '9 Year Experience' ? 'selected' : '' }}>
-                        9 Year Experience</option>
-                    <option value="10 Year Experience"
-                        {{ $candidate->abroad_exp == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
-                    <option value="11 Year Experience"
-                        {{ $candidate->abroad_exp == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
-                    <option value="12 Year Experience"
-                        {{ $candidate->abroad_exp == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
-                    <option value="13 Year Experience"
-                        {{ $candidate->abroad_exp == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
-                    <option value="14 Year Experience"
-                        {{ $candidate->abroad_exp == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
-                    <option value="15 Year Experience"
-                        {{ $candidate->abroad_exp == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
-                    <option value="16 Year Experience"
-                        {{ $candidate->abroad_exp == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
-                    <option value="17 Year Experience"
-                        {{ $candidate->abroad_exp == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
-                    <option value="18 Year Experience"
-                        {{ $candidate->abroad_exp == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
-                    <option value="19 Year Experience"
-                        {{ $candidate->abroad_exp == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
-                    <option value="20 Year Experience"
-                        {{ $candidate->abroad_exp == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
-                </select>
+            <select name="abroad_exp" class="form-select select2" id="">
+                <option value="">Select Abroad Experience</option>
+                <option value="1 Year Experience"
+                    {{ $candidate->abroad_exp == '1 Year Experience' ? 'selected' : '' }}>
+                    1 Year Experience</option>
+                <option value="2 Year Experience"
+                    {{ $candidate->abroad_exp == '2 Year Experience' ? 'selected' : '' }}>
+                    2 Year Experience</option>
+                <option value="3 Year Experience"
+                    {{ $candidate->abroad_exp == '3 Year Experience' ? 'selected' : '' }}>
+                    3 Year Experience</option>
+                <option value="4 Year Experience"
+                    {{ $candidate->abroad_exp == '4 Year Experience' ? 'selected' : '' }}>
+                    4 Year Experience</option>
+                <option value="5 Year Experience"
+                    {{ $candidate->abroad_exp == '5 Year Experience' ? 'selected' : '' }}>
+                    5 Year Experience</option>
+                <option value="6 Year Experience"
+                    {{ $candidate->abroad_exp == '6 Year Experience' ? 'selected' : '' }}>
+                    6 Year Experience</option>
+                <option value="7 Year Experience"
+                    {{ $candidate->abroad_exp == '7 Year Experience' ? 'selected' : '' }}>
+                    7 Year Experience</option>
+                <option value="8 Year Experience"
+                    {{ $candidate->abroad_exp == '8 Year Experience' ? 'selected' : '' }}>
+                    8 Year Experience</option>
+                <option value="9 Year Experience"
+                    {{ $candidate->abroad_exp == '9 Year Experience' ? 'selected' : '' }}>
+                    9 Year Experience</option>
+                <option value="10 Year Experience"
+                    {{ $candidate->abroad_exp == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
+                <option value="11 Year Experience"
+                    {{ $candidate->abroad_exp == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
+                <option value="12 Year Experience"
+                    {{ $candidate->abroad_exp == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
+                <option value="13 Year Experience"
+                    {{ $candidate->abroad_exp == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
+                <option value="14 Year Experience"
+                    {{ $candidate->abroad_exp == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
+                <option value="15 Year Experience"
+                    {{ $candidate->abroad_exp == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
+                <option value="16 Year Experience"
+                    {{ $candidate->abroad_exp == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
+                <option value="17 Year Experience"
+                    {{ $candidate->abroad_exp == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
+                <option value="18 Year Experience"
+                    {{ $candidate->abroad_exp == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
+                <option value="19 Year Experience"
+                    {{ $candidate->abroad_exp == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
+                <option value="20 Year Experience"
+                    {{ $candidate->abroad_exp == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
+            </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">Position Applied For(1)</label>
+            <label for="">Position Applied For(1) <span>*</span></label>
             {{-- <input type="text" class="form-control" id=""
                 value="{{ $candidate->position_applied_for_1 ?? '' }}" name="position_applied_for_1" placeholder=""> --}}
-            <select name="position_applied_for_1" class="form-select" id="">
+            <select name="position_applied_for_1" class="form-select select2" id="">
                 <option value="">Select Position</option>
-                <option value="Driver" {{ $candidate->position_applied_for_1 == 'Driver' ? 'selected' : '' }}>Driver
-                </option>
-                <option value="Housemaid" {{ $candidate->position_applied_for_1 == 'Housemaid' ? 'selected' : '' }}>
-                    Housemaid</option>
-                <option value="Nanny" {{ $candidate->position_applied_for_1 == 'Nanny' ? 'selected' : '' }}>Nanny
-                </option>
-                <option value="Baby Sitter"
-                    {{ $candidate->position_applied_for_1 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
-                <option value="Cook" {{ $candidate->position_applied_for_1 == 'Cook' ? 'selected' : '' }}>Cook
-                </option>
-                <option value="Patient Care"
-                    {{ $candidate->position_applied_for_1 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
-                <option value="Nurse" {{ $candidate->position_applied_for_1 == 'Nurse' ? 'selected' : '' }}>Nurse
-                </option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ $candidate->position_applied_for_1 == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
             </select>
-
+            @if ($errors->has('position_applied_for_1'))
+                @error('position_applied_for_1')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Position Applied For(2)</label>
-            <select name="position_applied_for_2" class="form-select" id="">
+            <select name="position_applied_for_2" class="form-select select2" id="">
                 <option value="">Select Position</option>
-                <option value="Driver" {{ $candidate->position_applied_for_2 == 'Driver' ? 'selected' : '' }}>Driver
-                </option>
-                <option value="Housemaid" {{ $candidate->position_applied_for_2 == 'Housemaid' ? 'selected' : '' }}>
-                    Housemaid</option>
-                <option value="Nanny" {{ $candidate->position_applied_for_2 == 'Nanny' ? 'selected' : '' }}>Nanny
-                </option>
-                <option value="Baby Sitter"
-                    {{ $candidate->position_applied_for_2 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
-                <option value="Cook" {{ $candidate->position_applied_for_2 == 'Cook' ? 'selected' : '' }}>Cook
-                </option>
-                <option value="Patient Care"
-                    {{ $candidate->position_applied_for_2 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
-                <option value="Nurse" {{ $candidate->position_applied_for_2 == 'Nurse' ? 'selected' : '' }}>Nurse
-                </option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ $candidate->position_applied_for_2 == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
             </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Position Applied For(3)</label>
-            <select name="position_applied_for_3" class="form-select" id="">
+            <select name="position_applied_for_3" class="form-select select2" id="">
                 <option value="">Select Position</option>
-                <option value="Driver" {{ $candidate->position_applied_for_3 == 'Driver' ? 'selected' : '' }}>Driver
-                </option>
-                <option value="Housemaid" {{ $candidate->position_applied_for_3 == 'Housemaid' ? 'selected' : '' }}>
-                    Housemaid</option>
-                <option value="Nanny" {{ $candidate->position_applied_for_3 == 'Nanny' ? 'selected' : '' }}>Nanny
-                </option>
-                <option value="Baby Sitter"
-                    {{ $candidate->position_applied_for_3 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
-                <option value="Cook" {{ $candidate->position_applied_for_3 == 'Cook' ? 'selected' : '' }}>Cook
-                </option>
-                <option value="Patient Care"
-                    {{ $candidate->position_applied_for_3 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
-                <option value="Nurse" {{ $candidate->position_applied_for_3 == 'Nurse' ? 'selected' : '' }}>Nurse
-                </option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ $candidate->position_applied_for_3 == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    {{-- <div class="col-lg-4">
         <div class="form-group">
             <label for="">Last Update Date</label>
             <input type="date" class="form-control" id=""
                 value="{{ $candidate->last_update_date ?? '' }}" name="last_update_date" placeholder="">
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-lg-4">
         <div class="form-group">
@@ -478,7 +534,7 @@
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">Email <span>*</span></label>
+            <label for="">Email </label>
             <input type="text" class="form-control" id="" value="{{ old('email') }}" name="email"
                 placeholder="">
             @if ($errors->has('email'))
@@ -491,6 +547,12 @@
             <label for="">Alternative Contact No: </label>
             <input type="text" class="form-control" id="" name="alternate_contact_no"
                 value="{{ old('alternate_contact_no') }}" placeholder="">
+                @if ($errors->has('alternate_contact_no'))
+                    @error('alternate_contact_no')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+
+                @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -498,6 +560,23 @@
             <label for="">Whatsapp No: </label>
             <input type="text" class="form-control" id="" name="whatapp_no"
                 value="{{ old('whatapp_no') }}" placeholder="">
+                @if ($errors->has('whatapp_no'))
+                    @error('whatapp_no')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    @endif
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label for="">Passport Number: </label>
+            <input type="text" class="form-control" id="" name="passport_number"
+                value="{{ old('passport_number') }}" placeholder="">
+                @if ($errors->has('passport_number'))
+                    @error('passport_number')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                    @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -597,8 +676,13 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Mode of Registration</label>
-            <input type="text" class="form-control" id="" value="{{ old('mode_of_registration') }}"
-                name="mode_of_registration" placeholder="">
+            {{-- <input type="text" class="form-control" id="" value="{{ old('mode_of_registration') }}"
+                name="mode_of_registration" placeholder=""> --}}
+            <select name="mode_of_registration" class="form-select" id="">
+                <option value="">Select Type</option>
+                <option value="Calling" @if (old('mode_of_registration') == 'Calling') selected @endif>Calling</option>
+                <option value="Walk-in" @if (old('mode_of_registration') == 'Walk-in') selected @endif>Walk-in</option>
+            </select>
         </div>
     </div>
     {{-- Source --}}
@@ -639,11 +723,12 @@
             <select name="religion" class="form-select" id="">
                 <option value="">Select Religion</option>
                 <option value="Hindu">Hindu</option>
-                <option value="Muslim">Muslim</option>
+                <option value="Islam">Islam</option>
                 <option value="Christian">Christian</option>
                 <option value="Sikh">Sikh</option>
                 <option value="Buddhist">Buddhist</option>
                 <option value="Jain">Jain</option>
+                <
                 <option value="Other">Other</option>
             </select>
             {{-- <input type="text" class="form-control" id="" name="religion"
@@ -652,16 +737,44 @@
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">Indian Driving License: </label>
-            <input type="text" class="form-control" id="" name="indian_driving_license"
-                value="{{ old('indian_driving_license') }}" placeholder="">
+            <label>Indian Driving License:</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="two_wheeler" name="indian_driving_license"
+                    value="2 Wheeler" @if (old('indian_driving_license') == '2 Wheeler') checked @endif>
+                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="four_wheeler" name="indian_driving_license"
+                    value="4 Wheeler" @if (old('indian_driving_license') == '4 Wheeler') checked @endif>
+                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="hv" name="indian_driving_license"
+                    value="HV" @if (old('indian_driving_license') == 'HV') checked @endif>
+                <label class="form-check-label" for="hv">HV</label>
+            </div>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">International Driving License: </label>
-            <input type="text" class="form-control" id="" name="international_driving_license"
-                value="{{ old('international_driving_license') }}" placeholder="">
+            <label for="">Gulf Driving License: </label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="two_wheeler"
+                    name="international_driving_license" value="2 Wheeler"
+                    @if (old('international_driving_license') == '2 Wheeler') checked @endif>
+                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="four_wheeler"
+                    name="international_driving_license" value="4 Wheeler"
+                    @if (old('international_driving_license') == '4 Wheeler') checked @endif>
+                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="hv" name="international_driving_license"
+                    value="HV" @if (old('international_driving_license') == 'HV') checked @endif>
+                <label class="form-check-label" for="hv">HV</label>
+            </div>
         </div>
     </div>
     <div class="col-lg-4">
@@ -715,28 +828,48 @@
             <label for="">Indian Work Experience (If Any?)</label>
             {{-- <input type="text" class="form-control" id="" value="{{ old('indian_exp') }}"
                 name="indian_exp" placeholder=""> --}}
-            <select name="indian_exp" class="form-select" id="">
+            <select name="indian_exp" class="form-select select2" id="">
                 <option value="">Select Indian Experience</option>
-                <option value="1 Year Experience" {{ old('indian_exp') == '1 Year Experience' ? 'selected' : '' }}>1 Year Experience</option>
-                <option value="2 Year Experience" {{ old('indian_exp') == '2 Year Experience' ? 'selected' : '' }}>2 Year Experience</option>
-                <option value="3 Year Experience" {{ old('indian_exp') == '3 Year Experience' ? 'selected' : '' }}>3 Year Experience</option>
-                <option value="4 Year Experience" {{ old('indian_exp') == '4 Year Experience' ? 'selected' : '' }}>4 Year Experience</option>
-                <option value="5 Year Experience" {{ old('indian_exp') == '5 Year Experience' ? 'selected' : '' }}>5 Year Experience</option>
-                <option value="6 Year Experience" {{ old('indian_exp') == '6 Year Experience' ? 'selected' : '' }}>6 Year Experience</option>
-                <option value="7 Year Experience" {{ old('indian_exp') == '7 Year Experience' ? 'selected' : '' }}>7 Year Experience</option>
-                <option value="8 Year Experience" {{ old('indian_exp') == '8 Year Experience' ? 'selected' : '' }}>8 Year Experience</option>
-                <option value="9 Year Experience" {{ old('indian_exp') == '9 Year Experience' ? 'selected' : '' }}>9 Year Experience</option>
-                <option value="10 Year Experience" {{ old('indian_exp') == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
-                <option value="11 Year Experience" {{ old('indian_exp') == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
-                <option value="12 Year Experience" {{ old('indian_exp') == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
-                <option value="13 Year Experience" {{ old('indian_exp') == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
-                <option value="14 Year Experience" {{ old('indian_exp') == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
-                <option value="15 Year Experience" {{ old('indian_exp') == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
-                <option value="16 Year Experience" {{ old('indian_exp') == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
-                <option value="17 Year Experience" {{ old('indian_exp') == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
-                <option value="18 Year Experience" {{ old('indian_exp') == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
-                <option value="19 Year Experience" {{ old('indian_exp') == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
-                <option value="20 Year Experience" {{ old('indian_exp') == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
+                <option value="1 Year Experience" {{ old('indian_exp') == '1 Year Experience' ? 'selected' : '' }}>1
+                    Year Experience</option>
+                <option value="2 Year Experience" {{ old('indian_exp') == '2 Year Experience' ? 'selected' : '' }}>2
+                    Year Experience</option>
+                <option value="3 Year Experience" {{ old('indian_exp') == '3 Year Experience' ? 'selected' : '' }}>3
+                    Year Experience</option>
+                <option value="4 Year Experience" {{ old('indian_exp') == '4 Year Experience' ? 'selected' : '' }}>4
+                    Year Experience</option>
+                <option value="5 Year Experience" {{ old('indian_exp') == '5 Year Experience' ? 'selected' : '' }}>5
+                    Year Experience</option>
+                <option value="6 Year Experience" {{ old('indian_exp') == '6 Year Experience' ? 'selected' : '' }}>6
+                    Year Experience</option>
+                <option value="7 Year Experience" {{ old('indian_exp') == '7 Year Experience' ? 'selected' : '' }}>7
+                    Year Experience</option>
+                <option value="8 Year Experience" {{ old('indian_exp') == '8 Year Experience' ? 'selected' : '' }}>8
+                    Year Experience</option>
+                <option value="9 Year Experience" {{ old('indian_exp') == '9 Year Experience' ? 'selected' : '' }}>9
+                    Year Experience</option>
+                <option value="10 Year Experience" {{ old('indian_exp') == '10 Year Experience' ? 'selected' : '' }}>
+                    10 Year Experience</option>
+                <option value="11 Year Experience" {{ old('indian_exp') == '11 Year Experience' ? 'selected' : '' }}>
+                    11 Year Experience</option>
+                <option value="12 Year Experience" {{ old('indian_exp') == '12 Year Experience' ? 'selected' : '' }}>
+                    12 Year Experience</option>
+                <option value="13 Year Experience" {{ old('indian_exp') == '13 Year Experience' ? 'selected' : '' }}>
+                    13 Year Experience</option>
+                <option value="14 Year Experience" {{ old('indian_exp') == '14 Year Experience' ? 'selected' : '' }}>
+                    14 Year Experience</option>
+                <option value="15 Year Experience" {{ old('indian_exp') == '15 Year Experience' ? 'selected' : '' }}>
+                    15 Year Experience</option>
+                <option value="16 Year Experience" {{ old('indian_exp') == '16 Year Experience' ? 'selected' : '' }}>
+                    16 Year Experience</option>
+                <option value="17 Year Experience" {{ old('indian_exp') == '17 Year Experience' ? 'selected' : '' }}>
+                    17 Year Experience</option>
+                <option value="18 Year Experience" {{ old('indian_exp') == '18 Year Experience' ? 'selected' : '' }}>
+                    18 Year Experience</option>
+                <option value="19 Year Experience" {{ old('indian_exp') == '19 Year Experience' ? 'selected' : '' }}>
+                    19 Year Experience</option>
+                <option value="20 Year Experience" {{ old('indian_exp') == '20 Year Experience' ? 'selected' : '' }}>
+                    20 Year Experience</option>
             </select>
         </div>
     </div>
@@ -745,85 +878,104 @@
             <label for="">Abroad Work Experience (If Any?)</label>
             {{-- <input type="text" class="form-control" id="" value="{{ old('abroad_exp') }}"
                 name="abroad_exp" placeholder=""> --}}
-                <select name="abroad_exp" class="form-select" id="">
-                    <option value="">Select Abroad Experience</option>
-                    <option value="1 Year Experience" {{ old('abroad_exp') == '1 Year Experience' ? 'selected' : '' }}>1 Year Experience</option>
-                    <option value="2 Year Experience" {{ old('abroad_exp') == '2 Year Experience' ? 'selected' : '' }}>2 Year Experience</option>
-                    <option value="3 Year Experience" {{ old('abroad_exp') == '3 Year Experience' ? 'selected' : '' }}>3 Year Experience</option>
-                    <option value="4 Year Experience" {{ old('abroad_exp') == '4 Year Experience' ? 'selected' : '' }}>4 Year Experience</option>
-                    <option value="5 Year Experience" {{ old('abroad_exp') == '5 Year Experience' ? 'selected' : '' }}>5 Year Experience</option>
-                    <option value="6 Year Experience" {{ old('abroad_exp') == '6 Year Experience' ? 'selected' : '' }}>6 Year Experience</option>
-                    <option value="7 Year Experience" {{ old('abroad_exp') == '7 Year Experience' ? 'selected' : '' }}>7 Year Experience</option>
-                    <option value="8 Year Experience" {{ old('abroad_exp') == '8 Year Experience' ? 'selected' : '' }}>8 Year Experience</option>
-                    <option value="9 Year Experience" {{ old('abroad_exp') == '9 Year Experience' ? 'selected' : '' }}>9 Year Experience</option>
-                    <option value="10 Year Experience" {{ old('abroad_exp') == '10 Year Experience' ? 'selected' : '' }}>10 Year Experience</option>
-                    <option value="11 Year Experience" {{ old('abroad_exp') == '11 Year Experience' ? 'selected' : '' }}>11 Year Experience</option>
-                    <option value="12 Year Experience" {{ old('abroad_exp') == '12 Year Experience' ? 'selected' : '' }}>12 Year Experience</option>
-                    <option value="13 Year Experience" {{ old('abroad_exp') == '13 Year Experience' ? 'selected' : '' }}>13 Year Experience</option>
-                    <option value="14 Year Experience" {{ old('abroad_exp') == '14 Year Experience' ? 'selected' : '' }}>14 Year Experience</option>
-                    <option value="15 Year Experience" {{ old('abroad_exp') == '15 Year Experience' ? 'selected' : '' }}>15 Year Experience</option>
-                    <option value="16 Year Experience" {{ old('abroad_exp') == '16 Year Experience' ? 'selected' : '' }}>16 Year Experience</option>
-                    <option value="17 Year Experience" {{ old('abroad_exp') == '17 Year Experience' ? 'selected' : '' }}>17 Year Experience</option>
-                    <option value="18 Year Experience" {{ old('abroad_exp') == '18 Year Experience' ? 'selected' : '' }}>18 Year Experience</option>
-                    <option value="19 Year Experience" {{ old('abroad_exp') == '19 Year Experience' ? 'selected' : '' }}>19 Year Experience</option>
-                    <option value="20 Year Experience" {{ old('abroad_exp') == '20 Year Experience' ? 'selected' : '' }}>20 Year Experience</option>
-                </select>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Position Applied For(1)</label>
-            {{-- <input type="text" class="form-control" id=""
-                value="{{ $candidate->position_applied_for_1 ?? '' }}" name="position_applied_for_1" placeholder=""> --}}
-            <select name="position_applied_for_1" class="form-select" id="">
-                <option value="">Select Position</option>
-                <option value="Driver">Driver</option>
-                <option value="Housemaid">Housemaid</option>
-                <option value="Nanny">Nanny</option>
-                <option value="Baby Sitter">Baby Sitter</option>
-                <option value="Cook">Cook</option>
-                <option value="Patient Care">Patient Care</option>
-                <option value="Nurse">Nurse</option>
+            <select name="abroad_exp" class="form-select select2" id="">
+                <option value="">Select Abroad Experience</option>
+                <option value="1 Year Experience" {{ old('abroad_exp') == '1 Year Experience' ? 'selected' : '' }}>1
+                    Year Experience</option>
+                <option value="2 Year Experience" {{ old('abroad_exp') == '2 Year Experience' ? 'selected' : '' }}>2
+                    Year Experience</option>
+                <option value="3 Year Experience" {{ old('abroad_exp') == '3 Year Experience' ? 'selected' : '' }}>3
+                    Year Experience</option>
+                <option value="4 Year Experience" {{ old('abroad_exp') == '4 Year Experience' ? 'selected' : '' }}>4
+                    Year Experience</option>
+                <option value="5 Year Experience" {{ old('abroad_exp') == '5 Year Experience' ? 'selected' : '' }}>5
+                    Year Experience</option>
+                <option value="6 Year Experience" {{ old('abroad_exp') == '6 Year Experience' ? 'selected' : '' }}>6
+                    Year Experience</option>
+                <option value="7 Year Experience" {{ old('abroad_exp') == '7 Year Experience' ? 'selected' : '' }}>7
+                    Year Experience</option>
+                <option value="8 Year Experience" {{ old('abroad_exp') == '8 Year Experience' ? 'selected' : '' }}>8
+                    Year Experience</option>
+                <option value="9 Year Experience" {{ old('abroad_exp') == '9 Year Experience' ? 'selected' : '' }}>9
+                    Year Experience</option>
+                <option value="10 Year Experience" {{ old('abroad_exp') == '10 Year Experience' ? 'selected' : '' }}>
+                    10 Year Experience</option>
+                <option value="11 Year Experience" {{ old('abroad_exp') == '11 Year Experience' ? 'selected' : '' }}>
+                    11 Year Experience</option>
+                <option value="12 Year Experience" {{ old('abroad_exp') == '12 Year Experience' ? 'selected' : '' }}>
+                    12 Year Experience</option>
+                <option value="13 Year Experience" {{ old('abroad_exp') == '13 Year Experience' ? 'selected' : '' }}>
+                    13 Year Experience</option>
+                <option value="14 Year Experience" {{ old('abroad_exp') == '14 Year Experience' ? 'selected' : '' }}>
+                    14 Year Experience</option>
+                <option value="15 Year Experience" {{ old('abroad_exp') == '15 Year Experience' ? 'selected' : '' }}>
+                    15 Year Experience</option>
+                <option value="16 Year Experience" {{ old('abroad_exp') == '16 Year Experience' ? 'selected' : '' }}>
+                    16 Year Experience</option>
+                <option value="17 Year Experience" {{ old('abroad_exp') == '17 Year Experience' ? 'selected' : '' }}>
+                    17 Year Experience</option>
+                <option value="18 Year Experience" {{ old('abroad_exp') == '18 Year Experience' ? 'selected' : '' }}>
+                    18 Year Experience</option>
+                <option value="19 Year Experience" {{ old('abroad_exp') == '19 Year Experience' ? 'selected' : '' }}>
+                    19 Year Experience</option>
+                <option value="20 Year Experience" {{ old('abroad_exp') == '20 Year Experience' ? 'selected' : '' }}>
+                    20 Year Experience</option>
             </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">Position Applied For(2)</label>
-            <select name="position_applied_for_2" class="form-select" id="">
+            <label for="">Position Applied For(1) <span>*</span></label>
+            {{-- <input type="text" class="form-control" id=""
+                value="{{ $candidate->position_applied_for_1 ?? '' }}" name="position_applied_for_1" placeholder=""> --}}
+            <select name="position_applied_for_1" class="form-select select2" id="">
                 <option value="">Select Position</option>
-                <option value="Driver">Driver</option>
-                <option value="Housemaid">Housemaid</option>
-                <option value="Nanny">Nanny</option>
-                <option value="Baby Sitter">Baby Sitter</option>
-                <option value="Cook">Cook</option>
-                <option value="Patient Care">Patient Care</option>
-                <option value="Nurse">Nurse</option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ old('position_applied_for_1') == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
+            </select>
+            @if ($errors->has('position_applied_for_1'))
+                @error('position_applied_for_1')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label for="">Position Applied For(2)</label>
+            <select name="position_applied_for_2" class="form-select select2" id="">
+                <option value="">Select Position</option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ old('position_applied_for_2') == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
             </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Position Applied For(3)</label>
-            <select name="position_applied_for_3" class="form-select" id="">
+            <select name="position_applied_for_3" class="form-select select2" id="">
                 <option value="">Select Position</option>
-                <option value="Driver">Driver</option>
-                <option value="Housemaid">Housemaid</option>
-                <option value="Nanny">Nanny</option>
-                <option value="Baby Sitter">Baby Sitter</option>
-                <option value="Cook">Cook</option>
-                <option value="Patient Care">Patient Care</option>
-                <option value="Nurse">Nurse</option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ old('position_applied_for_3') == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    {{-- <div class="col-lg-4">
         <div class="form-group">
             <label for="">Last Update Date</label>
             <input type="date" class="form-control" id="" value="{{ old('last_update_date') }}"
                 name="last_update_date" placeholder="">
         </div>
-    </div>
+    </div> --}}
 
     <div class="col-lg-4">
         <div class="form-group">
@@ -846,5 +998,15 @@
             <textarea class="form-control" id="" rows="3" name="remark">{{ old('remark') }}</textarea>
         </div>
     </div>
-
 @endif
+
+
+<script>
+    $(document).ready(function() {
+             $('.select2').each(function() {
+           $(this).select2({
+               dropdownParent: $(this).parent()
+           });
+       })
+   });
+</script>

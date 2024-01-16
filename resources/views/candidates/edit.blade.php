@@ -1,9 +1,11 @@
 @php
     use App\Helpers\Helper;
+    use App\Constants\Position;
 @endphp
 @if (isset($edit))
 
-    <div class="offcanvas offcanvas-end" data-bs-backdrop="false"  tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" data-bs-backdrop="false" tabindex="-1" id="offcanvasEdit"
+        aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-body">
             <div class="row g-3">
                 <div class="col-lg-4">
@@ -135,7 +137,7 @@
                                     </tr>
                                     <tr>
                                         <td>Last Updated Date</td>
-                                        <td>{{ $candidate->last_update_date != null ? date('d.m.Y', strtotime($candidate->last_update_date)) : 'N/A' }}
+                                        <td>{{ $candidate->updated_at != null ? date('d.m.Y', strtotime($candidate->updated_at)) : 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -192,6 +194,12 @@
                                     <tr>
                                         <td>Whatsapp No.</td>
                                         <td>{{ $candidate->whatapp_no ?? 'N/A' }}
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Passport Number.</td>
+                                        <td>{{ $candidate->passport_number ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -349,6 +357,7 @@
             </div>
         </div>
     </div>
+
     <script>
         $(document).on('click', '#permission', function(e) {
             swal({
@@ -374,7 +383,9 @@
     <script>
         $(document).ready(function() {
             $(document).on("click", '#open-input', function(e) {
+
                 $(this).html(``);
+
                 $(".see-more-container").hide();
                 $('#submit-button').html(
                     `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
@@ -409,7 +420,11 @@
       <tr>
         <td>Mode of Registration</td>
         <td>
-          <input type="text" class="form-control" id="" value="{{ $candidate->mode_of_registration ?? '' }}" name="mode_of_registration" placeholder="Mode of Registration">
+            <select name="mode_of_registration" class="form-select" id="">
+                    <option value="">Select Type</option>
+                    <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling</option>
+                    <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in</option>
+                </select>
         </td>
       </tr>
       <tr>
@@ -426,10 +441,10 @@
     </td>
   </tr>
       <tr>
-        <td>Last Upadate Date</td>
+        <td>Last Updated Date</td>
         <td>
           <div class="form-group">
-            <input type="date" class="form-control" id="" value="{{ $candidate->last_update_date ?? '' }}" name="last_update_date" placeholder="Last Upadate Date">
+            <input type="date" class="form-control" id="" value="{{ date('Y-m-d', strtotime($candidate->updated_at)) ?? '' }}" name="last_update_date" placeholder="Last Updated Date" readonly>
           </div>
         </td>
       </tr>
@@ -503,7 +518,8 @@
         <td>
           <div class="form-group">
             <input type="text" class="form-control" id="" name="alternate_contact_no" value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="Alternate Contact No.">
-          </div>
+            <span class="text-danger"></span>
+            </div>
         </td>
       </tr>
       <tr>
@@ -511,7 +527,18 @@
         <td>
           <div class="form-group">
             <input type="text" class="form-control" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
-          </div>
+            <span class="text-danger"></span>
+            </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Passport Number.</td>
+        <td>
+          <div class="form-group">
+            <input type="text" class="form-control" id="" name="passport_number"
+                value="{{ $candidate->passport_number ?? '' }}" placeholder="">
+            <span class="text-danger"></span>
+            </div>
         </td>
       </tr>
       <tr>
@@ -519,7 +546,8 @@
         <td>
           <div class="form-group">
             <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" required>
-          </div>
+            <span class="text-danger"></span>
+            </div>
         </td>
       </tr>
       <tr>
@@ -572,7 +600,7 @@
             <select name="religion" class="form-select" id="">
                 <option value="">Select Religion</option>
                 <option value="Hindu" {{ $candidate->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                <option value="Muslim" {{ $candidate->religion == 'Muslim' ? 'selected' : '' }}>Muslim</option>
+                <option value="Islam" {{ $candidate->religion == 'Islam' ? 'selected' : '' }}>Islam</option>
                 <option value="Christian" {{ $candidate->religion == 'Christian' ? 'selected' : '' }}>Christian
                 </option>
                 <option value="Sikh" {{ $candidate->religion == 'Sikh' ? 'selected' : '' }}>Sikh</option>
@@ -595,13 +623,43 @@
       <tr>
         <td>Indian Driving License</td>
         <td>
-          <input type="text" class="form-control" id="" name="indian_driving_license" value="{{ $candidate->indian_driving_license ?? '' }}" placeholder="Indian Driving License">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="two_wheeler" name="indian_driving_license"
+                    value="2 Wheeler" @if ($candidate->indian_driving_license == '2 Wheeler') checked @endif>
+                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="four_wheeler" name="indian_driving_license"
+                    value="4 Wheeler" @if ($candidate->indian_driving_license == '4 Wheeler') checked @endif>
+                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="hv" name="indian_driving_license"
+                    value="HV" @if ($candidate->indian_driving_license == 'HV') checked @endif>
+                <label class="form-check-label" for="hv">HV</label>
+            </div>
         </td>
       </tr>
       <tr>
-        <td>International Driving License</td>
+        <td>Gulf Driving License</td>
         <td>
-          <input type="text" class="form-control" id="" name="international_driving_license" value="{{ $candidate->international_driving_license ?? '' }}" placeholder="International Driving License">
+            <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="two_wheeler"
+                        name="international_driving_license" value="2 Wheeler"
+                        @if ($candidate->international_driving_license == '2 Wheeler') checked @endif>
+                    <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="four_wheeler"
+                        name="international_driving_license" value="4 Wheeler"
+                        @if ($candidate->international_driving_license == '4 Wheeler') checked @endif>
+                    <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="hv" name="international_driving_license"
+                        value="HV" @if ($candidate->international_driving_license == 'HV') checked @endif>
+                    <label class="form-check-label" for="hv">HV</label>
+                </div>
         </td>
       </tr>
 
@@ -642,75 +700,49 @@
       </tr>
 
       <tr>
-        <td>Post Applied For(1)</td>
+        <td>Postion Applied For(1)</td>
         <td>
-            <select name="position_applied_for_1" class="form-select" id="">
+            <select name="position_applied_for_1" class="form-select select2" id="">
                 <option value="">Select Position</option>
-                <option value="Driver" {{ $candidate->position_applied_for_1 == 'Driver' ? 'selected' : '' }}>Driver
-                </option>
-                <option value="Housemaid" {{ $candidate->position_applied_for_1 == 'Housemaid' ? 'selected' : '' }}>
-                    Housemaid</option>
-                <option value="Nanny" {{ $candidate->position_applied_for_1 == 'Nanny' ? 'selected' : '' }}>Nanny
-                </option>
-                <option value="Baby Sitter"
-                    {{ $candidate->position_applied_for_1 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
-                <option value="Cook" {{ $candidate->position_applied_for_1 == 'Cook' ? 'selected' : '' }}>Cook
-                </option>
-                <option value="Patient Care"
-                    {{ $candidate->position_applied_for_1 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
-                <option value="Nurse" {{ $candidate->position_applied_for_1 == 'Nurse' ? 'selected' : '' }}>Nurse
-                </option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ $candidate->position_applied_for_1 == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
+            </select>
+            <span class="text-danger"></span>
+        </td>
+      </tr>
+      <tr>
+        <td>Postion Applied For(2)</td>
+        <td>
+            <select name="position_applied_for_2" class="form-select select2" id="">
+                <option value="">Select Position</option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ $candidate->position_applied_for_2 == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
             </select>
         </td>
       </tr>
       <tr>
-        <td>Post Applied For(2)</td>
+        <td>Postion Applied For(3)</td>
         <td>
-            <select name="position_applied_for_2" class="form-select" id="">
+            <select name="position_applied_for_3" class="form-select select2" id="">
                 <option value="">Select Position</option>
-                <option value="Driver" {{ $candidate->position_applied_for_2 == 'Driver' ? 'selected' : '' }}>Driver
-                </option>
-                <option value="Housemaid" {{ $candidate->position_applied_for_2 == 'Housemaid' ? 'selected' : '' }}>
-                    Housemaid</option>
-                <option value="Nanny" {{ $candidate->position_applied_for_2 == 'Nanny' ? 'selected' : '' }}>Nanny
-                </option>
-                <option value="Baby Sitter"
-                    {{ $candidate->position_applied_for_2 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
-                <option value="Cook" {{ $candidate->position_applied_for_2 == 'Cook' ? 'selected' : '' }}>Cook
-                </option>
-                <option value="Patient Care"
-                    {{ $candidate->position_applied_for_2 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
-                <option value="Nurse" {{ $candidate->position_applied_for_2 == 'Nurse' ? 'selected' : '' }}>Nurse
-                </option>
-            </select>
-        </td>
-      </tr>
-      <tr>
-        <td>Post Applied For(3)</td>
-        <td>
-            <select name="position_applied_for_3" class="form-select" id="">
-                <option value="">Select Position</option>
-                <option value="Driver" {{ $candidate->position_applied_for_3 == 'Driver' ? 'selected' : '' }}>Driver
-                </option>
-                <option value="Housemaid" {{ $candidate->position_applied_for_3 == 'Housemaid' ? 'selected' : '' }}>
-                    Housemaid</option>
-                <option value="Nanny" {{ $candidate->position_applied_for_3 == 'Nanny' ? 'selected' : '' }}>Nanny
-                </option>
-                <option value="Baby Sitter"
-                    {{ $candidate->position_applied_for_3 == 'Baby Sitter' ? 'selected' : '' }}>Baby Sitter</option>
-                <option value="Cook" {{ $candidate->position_applied_for_3 == 'Cook' ? 'selected' : '' }}>Cook
-                </option>
-                <option value="Patient Care"
-                    {{ $candidate->position_applied_for_3 == 'Patient Care' ? 'selected' : '' }}>Patient Care</option>
-                <option value="Nurse" {{ $candidate->position_applied_for_3 == 'Nurse' ? 'selected' : '' }}>Nurse
-                </option>
+                @foreach (Position::getPosition() as $item)
+                    <option value="{{ $item }}"
+                        {{ $candidate->position_applied_for_3 == $item ? 'selected' : '' }}>
+                        {{ $item }}</option>
+                @endforeach
             </select>
         </td>
       </tr>
       <tr>
         <td>Indian Experience (If any?)</td>
         <td>
-            <select name="indian_exp" class="form-select" id="">
+            <select name="indian_exp" class="form-select select2" id="">
                 <option value="">Select Indian Experience</option>
                 <option value="1 Year Experience" {{ $candidate->indian_exp == '1 Year Experience' ? 'selected' : '' }}>
                     1 Year Experience</option>
@@ -758,7 +790,7 @@
       <tr>
         <td>Abroad Experience (If any?)</td>
         <td>
-            <select name="abroad_exp" class="form-select" id="">
+            <select name="abroad_exp" class="form-select select2" id="">
                     <option value="">Select Abroad Experience</option>
                     <option value="1 Year Experience" {{ $candidate->abroad_exp == '1 Year Experience' ? 'selected' : '' }}>
                         1 Year Experience</option>
@@ -811,6 +843,12 @@
           </div>
         </td>
       </tr>`)
+
+      $('.select2').each(function() {
+                    $(this).select2({
+                        dropdownParent: $(this).parent()
+                    });
+                })
             });
             $(document).on("click", '#cross-button', function(e) {
 
@@ -844,7 +882,7 @@
                                     </tr>
                                     <tr>
                                         <td>Last Updated Date</td>
-                                        <td>{{ $candidate->last_update_date != null ? date('d.m.Y', strtotime($candidate->last_update_date)) : 'N/A' }}
+                                        <td>{{ $candidate->updated_at != null ? date('d.m.Y', strtotime($candidate->updated_at)) : 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -901,6 +939,12 @@
                                     <tr>
                                         <td>Whatsapp No.</td>
                                         <td>{{ $candidate->whatapp_no ?? 'N/A' }}
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Passport Number.</td>
+                                        <td>{{ $candidate->passport_number ?? 'N/A' }}
 
                                         </td>
                                     </tr>

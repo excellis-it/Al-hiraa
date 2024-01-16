@@ -27,9 +27,11 @@
                                     <div class="row g-2 justify-content-between">
                                         <div class="col-lg-4">
                                             <div class="form-group">
-                                                <label for="">Contact No: <span>*</span></label>
-                                                <input type="text" class="form-control" id="contact_no" value=""
-                                                    name="contact_no" value="{{ old('contact_no') }}" placeholder="">
+                                                <label for="contact_no">Contact No: <span>*</span></label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="contact_no"
+                                                        value="{{ old('contact_no') }}" name="contact_no" placeholder="">
+                                                </div>
                                                 @if ($errors->has('contact_no'))
                                                     <span class="text-danger">{{ $errors->first('contact_no') }}</span>
                                                 @endif
@@ -88,10 +90,10 @@
             $(document).on('click', '.referred_type', function() {
                 var type = $(this).text();
                 // alert(type);
-                if (type == 'Associate') {
+                if (type == 'Agents') {
                     $('.referred_by_id').html(
                         `<label for="">Referred by <span><a href="javascript:void(0);" class="referred_type">Other</a></span></label>
-                    <select name="referred_by_id" class="form-control" id="">
+                    <select name="referred_by_id" class="form-select" id="">
                         <option value="">Select Type</option>
                         @foreach ($associates as $item)
                             <option value="{{ $item['id'] }}">{{ $item['full_name'] }}</option>
@@ -100,11 +102,34 @@
                     );
                 } else {
                     $('.referred_by_id').html(
-                        `<label for="">Referred by <span><a href="javascript:void(0);" class="referred_type">Associate</a></span></label>
+                        `<label for="">Referred by <span><a href="javascript:void(0);" class="referred_type">Agents</a></span></label>
                     <input type="text" class="form-control" id="" name="referred_by" placeholder="">`
                     );
                 }
             });
+        });
+    </script>
+    <script>
+        // whatsapp number start with +91
+        $(document).ready(function() {
+            $(document).on('keyup', 'input[name="whatapp_no"]', function() {
+                    var whatapp_no = $(this).val();
+                    if (whatapp_no.length > 0){
+                        if (!whatapp_no.startsWith('+91')) {
+                            $(this).val('+91' + whatapp_no);
+                        }
+                }
+
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').each(function() {
+                $(this).select2({
+                    dropdownParent: $(this).parent()
+                });
+            })
         });
     </script>
 @endpush

@@ -23,6 +23,8 @@ class CandidateImport implements ToCollection, WithHeadingRow
             '*.full_name' => 'required',
             '*.dob' => 'required',
             '*.contact_no' => 'required|numeric|unique:candidates|digits:10',
+            '*.email' => 'nullable|email|unique:candidates',
+            '*.position_applied_for_1' => 'required',
         ])->validate();
         // dd($rows[0]['last_update_date']);
         foreach ($rows as $row) {
@@ -51,16 +53,19 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->english_speak = $row['english_speak'] ?? '';
             $candidate->arabic_speak = $row['arabic_speak'] ?? '';
             $candidate->return = ($row['return'] == 'Yes') ? 1 : 0;
-            $candidate->position = $row['position'] ?? '';
             $candidate->indian_exp = $row['indian_exp'] ?? '';
             $candidate->abroad_exp = $row['abroad_exp'] ?? '';
             $candidate->remarks = $row['remark'] ?? '';
+            $candidate->position_applied_for_1 = $row['position_applied_for_1'] ?? '';
+            $candidate->position_applied_for_2 = $row['position_applied_for_2'] ?? '';
+            $candidate->position_applied_for_3 = $row['position_applied_for_3'] ?? '';
             $candidate->save();
 
             if (isset($row->position_applied_for)) {
                 $candidatePosition = new CandidateFieldUpdate();
+                $candidatePosition->user_id = Auth::user()->id;
                 $candidatePosition->candidate_id = $candidate->id;
-                $candidatePosition->name = $row->position_applied_for;
+                $candidatePosition->status = 1;
                 $candidatePosition->save();
             }
         }

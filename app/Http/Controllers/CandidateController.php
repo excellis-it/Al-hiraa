@@ -55,11 +55,15 @@ class CandidateController extends Controller
             'full_name' => 'required',
             'dob' => 'required',
             'cnadidate_status_id' => 'required',
-            'email' => 'required|email',
+            'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
+            'position_applied_for_1' => 'required',
+            'alternate_contact_no' => 'nullable|digits:10',
+            'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
+            'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
         ]);
         $count = Candidate::where('contact_no', $request->contact_no)->count();
         if ($count > 0) {
-            $candidate = Candidate::where('contact_no', $request->contact_no)->first();
+             $candidate = Candidate::where('contact_no', $request->contact_no)->first();
         } else {
             $candidate = new Candidate();
         }
@@ -73,8 +77,7 @@ class CandidateController extends Controller
         } else {
             $candidate->referred_by = $request->referred_by;
         }
-
-        $candidate->last_update_date = $request->last_update_date;
+        $candidate->passport_number = $request->passport_number;
         $candidate->full_name = $request->full_name;
         $candidate->gender = $request->gender;
         $candidate->date_of_birth = $request->dob;
@@ -156,9 +159,14 @@ class CandidateController extends Controller
             'full_name' => 'required',
             'dob' => 'required',
             'cnadidate_status_id' => 'required',
-            'email' => 'required|email',
+            'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email,' . $id,
+            'position_applied_for_1' => 'required',
+            'alternate_contact_no' => 'nullable|digits:10',
+            'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
+            'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
         ], [
-            'cnadidate_status_id.required' => 'The status field is required.'
+            'cnadidate_status_id.required' => 'The status field is required.',
+            'position_applied_for_1.required' => 'The position applied for field is required.',
         ]);
 
         $candidate = Candidate::findOrFail($id);
@@ -174,7 +182,6 @@ class CandidateController extends Controller
             $candidate->referred_by = $request->referred_by;
         }
 
-        $candidate->last_update_date = $request->last_update_date;
         $candidate->full_name = $request->full_name;
         $candidate->gender = $request->gender;
         $candidate->date_of_birth = $request->dob;
@@ -198,6 +205,7 @@ class CandidateController extends Controller
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
         $candidate->remarks = $request->remark;
+        $candidate->passport_number = $request->passport_number;
         $candidate->is_call_id = null;
         $candidate->save();
 
@@ -266,7 +274,7 @@ class CandidateController extends Controller
                 ->orWhere('remarks', 'LIKE', '%' . $request->search . '%')
                 // date of birth 09.01.2021 format search
                 ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
-                ->orWhereRaw("DATE_FORMAT(last_update_date, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
+                ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
         }
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             $candidates->where('enter_by', Auth::user()->id);

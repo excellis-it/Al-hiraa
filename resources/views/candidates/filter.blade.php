@@ -11,7 +11,7 @@
             <td>
                 {{ $item->source ?? 'N/A' }}
             </td>
-            <td>{{ $item->last_update_date != null ? date('d.m.Y', strtotime($item->last_update_date)) : 'N/A' }}</td>
+            <td>{{ $item->updated_at != null ? date('d.m.Y', strtotime($item->updated_at)) : 'N/A' }}</td>
             <td>{{ $item->full_name ?? 'N/A' }}</td>
             <td>{{ $item->gender ?? 'N/A' }}</td>
             <td>{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
