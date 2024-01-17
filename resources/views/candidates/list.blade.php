@@ -127,11 +127,11 @@
                                     <th>
                                         Abroad Work Experience
                                     </th>
-                                    @can('View Candidate')
+                                    {{-- @can('View Candidate')
                                     <th>
 
                                     </th>
-                                    @endcan
+                                    @endcan --}}
                                 </tr>
                             </thead>
                             <tbody class="list" id="candidate_body">
