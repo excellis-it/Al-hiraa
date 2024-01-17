@@ -270,7 +270,14 @@ class CandidateController extends Controller
                 ->orWhere('position_applied_for_1', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('position_applied_for_2', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('position_applied_for_3', 'LIKE', '%' . $request->search . '%')
-
+                ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('city', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('religion', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('ecr_type', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('indian_driving_license', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('international_driving_license', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('english_speak', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('arabic_speak', 'LIKE', '%' . $request->search . '%')
                 // enter by
                 ->orWhereHas('enterBy', function ($query) use ($request) {
                     $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%" . $request->search . "%'");

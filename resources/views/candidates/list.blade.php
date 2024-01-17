@@ -85,9 +85,53 @@
                                     <th>DOB</th>
                                     <th>Age</th>
                                     <th>Education</th>
+                                    <th>
+                                        Other Education
+                                    </th>
                                     <th>Position Applied For(1)</th>
                                     <th>Position Applied For(2)</th>
                                     <th>Position Applied For(3)</th>
+                                    <th>
+                                        Passport Number
+                                    </th>
+                                    <th>
+                                        City
+                                    </th>
+                                    <th>
+                                        Referred By
+                                    </th>
+                                    <th>
+                                        Religion
+                                    </th>
+                                    <th>
+                                        Indian Driving License
+                                    </th>
+                                    <th>
+                                        Gulf Driving License
+                                    </th>
+                                    <th>
+                                        English Speak
+                                    </th>
+                                    <th>
+                                        Arabic Speak
+                                    </th>
+                                    <th>
+                                        Gulf Return
+                                    </th>
+                                    <th>
+                                        ECR Type
+                                    </th>
+                                    <th>
+                                        Indian Work Experience
+                                    </th>
+                                    <th>
+                                        Abroad Work Experience
+                                    </th>
+                                    @can('View Candidate')
+                                    <th>
+
+                                    </th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody class="list" id="candidate_body">
