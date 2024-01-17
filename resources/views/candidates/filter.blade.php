@@ -1,6 +1,6 @@
 @if (count($candidates) > 0)
     @foreach ($candidates as $item)
-        <tr @can('Edit Candidate') class="edit-route" data-route="{{ route('candidates.edit', $item['id']) }}" @endcan>
+        <tr @can('View Candidate') class="edit-route" data-route="{{ route('candidates.edit', $item['id']) }}" @endcan>
             <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td>
             <td>
                 <div class="round_staus active">

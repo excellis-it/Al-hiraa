@@ -103,7 +103,9 @@
 
                             </div>
                             <div class="edit-1" id="open-input">
+                                @can('Edit Candidate')
                                 <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -414,7 +416,7 @@
             </option>
             @endforeach
           </select>
-          <span class="text-danger"></span>
+          <span class="text-danger" id="cnadidate_status_id_msg"></span>
         </td>
       </tr>
       <tr>
@@ -461,7 +463,7 @@
         <td>
           <div class="form-group">
             <input type="text" class="form-control" id="" value="{{ $candidate->full_name ?? '' }}" name="full_name" placeholder="Full Name">
-            <span class="text-danger"></span>
+            <span class="text-danger" id="full_name_msg"></span>
           </div>
         </td>
       </tr>
@@ -481,7 +483,7 @@
         <td>
           <div class="form-group">
             <input type="date" class="form-control" id="" value="{{ date('Y-m-d', strtotime($candidate->date_of_birth)) ?? '' }}" name="dob" max="{{ date('Y-m-d') }}" placeholder="DOB">
-            <span class="text-danger"></span>
+            <span class="text-danger" id="date_of_birth_msg"></span>
           </div>
         </td>
       </tr>
@@ -518,7 +520,7 @@
         <td>
           <div class="form-group">
             <input type="text" class="form-control" id="" name="alternate_contact_no" value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="Alternate Contact No.">
-            <span class="text-danger"></span>
+            <span class="text-danger" id="alternate_contact_no_msg"></span>
             </div>
         </td>
       </tr>
@@ -527,7 +529,7 @@
         <td>
           <div class="form-group">
             <input type="text" class="form-control" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
-            <span class="text-danger"></span>
+            <span class="text-danger" id="whatapp_no_msg"></span>
             </div>
         </td>
       </tr>
@@ -537,7 +539,7 @@
           <div class="form-group">
             <input type="text" class="form-control" id="" name="passport_number"
                 value="{{ $candidate->passport_number ?? '' }}" placeholder="">
-            <span class="text-danger"></span>
+            <span class="text-danger" id="passport_number_msg"></span>
             </div>
         </td>
       </tr>
@@ -546,7 +548,7 @@
         <td>
           <div class="form-group">
             <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" required>
-            <span class="text-danger"></span>
+            <span class="text-danger" id="email_msg"></span>
             </div>
         </td>
       </tr>
@@ -710,7 +712,7 @@
                         {{ $item }}</option>
                 @endforeach
             </select>
-            <span class="text-danger"></span>
+            <span class="text-danger" id="position_applied_for_1_msg"></span>
         </td>
       </tr>
       <tr>
@@ -1119,8 +1121,7 @@
                         // Handle errors (e.g., display validation errors)
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            $('#'+ key +'_msg').html(value[0]);
                         });
                     }
                 });

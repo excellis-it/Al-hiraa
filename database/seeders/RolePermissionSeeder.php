@@ -36,6 +36,12 @@ class RolePermissionSeeder extends Seeder
                 "updated_at" => date('Y-m-d H:i:s'),
             ],
             [
+                "name" => "View Candidate",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
                 "name" => "Edit Candidate",
                 "guard_name" => "web",
                 "created_at" => date('Y-m-d H:i:s'),
@@ -194,6 +200,7 @@ class RolePermissionSeeder extends Seeder
             "Manage Profile",
             "Manage Candidate",
             "Create Candidate",
+            "View Candidate",
             "Edit Candidate",
             "Export Candidate",
             "Manage Job",
@@ -228,6 +235,7 @@ class RolePermissionSeeder extends Seeder
         $dataEntryOperatorPermissions = [
             "Manage Candidate",
             "Create Candidate",
+            "View Candidate",
             "Manage Support",
         ];
 
@@ -238,6 +246,7 @@ class RolePermissionSeeder extends Seeder
             "Manage Candidate",
             "Create Candidate",
             "Edit Candidate",
+            "View Candidate",
             "Export Candidate",
             "Manage Support",
         ];
@@ -248,6 +257,7 @@ class RolePermissionSeeder extends Seeder
         $processManagerPermissions = [
             "Manage Candidate",
             "Create Candidate",
+            "View Candidate",
             "Edit Candidate",
             "Export Candidate",
             "Manage Job",

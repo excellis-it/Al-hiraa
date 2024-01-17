@@ -27,7 +27,7 @@ class CandidateController extends Controller
             } else {
                 $candidates = Candidate::orderBy('id', 'desc')->paginate(15);
             }
-
+            // session()->forget('candidate_id');
             return view('candidates.list')->with(compact('candidates'));
         }
     }
@@ -133,7 +133,7 @@ class CandidateController extends Controller
         $candidate = Candidate::findOrFail($id);
         $candidate_statuses = CandidateStatus::all();
         $edit = true;
-        if (!Auth::user()->hasRole('ADMIN')) {
+        if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
                 return response()->json(['message' => __('Candidate already called.'), 'status' => 'error']);
             } else {
@@ -167,6 +167,10 @@ class CandidateController extends Controller
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
+            'dob.required' => 'The date of birth field is required.',
+            'full_name.required' => 'The full name field is required.',
+            'alternate_contact_no.digits' => 'The alternate contact no must be 10 digits.',
+            'whatapp_no.regex' => 'The whatapp no must be +91xxxxxxxxxx format.',
         ]);
 
         $candidate = Candidate::findOrFail($id);
