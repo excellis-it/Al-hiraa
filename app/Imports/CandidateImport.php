@@ -3,7 +3,9 @@
 namespace App\Imports;
 
 use App\Models\Candidate;
+use App\Models\CandidateActivity;
 use App\Models\CandidateFieldUpdate;
+use App\Models\CandidateLicence;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -13,10 +15,10 @@ use Illuminate\Support\Facades\Validator;
 class CandidateImport implements ToCollection, WithHeadingRow
 {
     /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
+     * @param array $row
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
     public function collection(Collection $rows)
     {
         Validator::make($rows->toArray(), [
@@ -25,6 +27,7 @@ class CandidateImport implements ToCollection, WithHeadingRow
             '*.contact_no' => 'required|numeric|unique:candidates|digits:10',
             '*.email' => 'nullable|email|unique:candidates',
             '*.position_applied_for_1' => 'required',
+
         ])->validate();
         // dd($rows[0]['last_update_date']);
         foreach ($rows as $row) {
@@ -34,10 +37,10 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->mode_of_registration = $row['mode_of_registration'] ?? '';
             $candidate->source = $row['source'] ?? '';
             $candidate->referred_by = $row['referred_by'] ?? '';
-            $candidate->last_update_date = ($row['last_update_date'] != null) ?  date('Y-d-m',strtotime($row['last_update_date'])) : '';
+            $candidate->last_update_date = ($row['last_update_date'] != null) ?  date('Y-d-m', strtotime($row['last_update_date'])) : '';
             $candidate->full_name = $row['full_name'] ?? '';
             $candidate->gender = $row['gender'] ?? '';
-            $candidate->date_of_birth = date('Y-d-m',strtotime($row['dob'])) ?? '';
+            $candidate->date_of_birth = date('Y-d-m', strtotime($row['dob'])) ?? '';
             $candidate->age = date_diff(date_create($row['dob']), date_create('today'))->y;
             $candidate->education = $row['education'] ?? '';
             $candidate->other_education = $row['other_education'] ?? '';
@@ -48,18 +51,41 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->city = $row['city'] ?? '';
             $candidate->religion = $row['religion'] ?? '';
             $candidate->ecr_type = $row['ecr_type'] ?? '';
-            $candidate->indian_driving_license = $row['indian_driving_license'] ?? '';
-            $candidate->international_driving_license = $row['international_driving_license'] ?? '';
             $candidate->english_speak = $row['english_speak'] ?? '';
             $candidate->arabic_speak = $row['arabic_speak'] ?? '';
             $candidate->return = ($row['return'] == 'Yes') ? 1 : 0;
             $candidate->indian_exp = $row['indian_exp'] ?? '';
             $candidate->abroad_exp = $row['abroad_exp'] ?? '';
-            $candidate->remarks = $row['remark'] ?? '';
             $candidate->position_applied_for_1 = $row['position_applied_for_1'] ?? '';
             $candidate->position_applied_for_2 = $row['position_applied_for_2'] ?? '';
             $candidate->position_applied_for_3 = $row['position_applied_for_3'] ?? '';
+            $candidate->passport_number = $row['passport_number'] ?? '';
             $candidate->save();
+
+            if ($row['remark']) {
+                $candidate_activity = new CandidateActivity();
+                $candidate_activity->candidate_id = $candidate->id;
+                $candidate_activity->user_id = Auth::user()->id;
+                $candidate_activity->remarks = $row['remark'] ?? '';
+                $candidate_activity->call_status = '';
+                $candidate_activity->save();
+            }
+
+            if ($row['international_driving_license']) {
+                $candidate_licence = new CandidateLicence();
+                $candidate_licence->candidate_id = $candidate->id;
+                $candidate_licence->licence_type = 'gulf';
+                $candidate_licence->licence_name = $row['international_driving_license'] ?? '';
+                $candidate_licence->save();
+            }
+
+            if ($row['indian_driving_license']) {
+                $candidate_licence = new CandidateLicence();
+                $candidate_licence->candidate_id = $candidate->id;
+                $candidate_licence->licence_type = 'indian';
+                $candidate_licence->licence_name = $row['indian_driving_license'] ?? '';
+                $candidate_licence->save();
+            }
 
             if (isset($row->position_applied_for)) {
                 $candidatePosition = new CandidateFieldUpdate();

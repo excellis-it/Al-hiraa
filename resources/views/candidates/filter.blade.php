@@ -1,12 +1,31 @@
 @if (count($candidates) > 0)
     @foreach ($candidates as $item)
-        <tr @can('View Candidate') class="edit-route" data-route="{{ route('candidates.edit', $item['id']) }}" @endcan>
-            <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td>
+        <tr>
+            {{-- <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td> --}}
+            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn" data-route="{{route('candidates.activity', $item['id'])}}" style="cursor: pointer">
+                {{-- remarks only show 10 word --}}
+                @if ($item->lastCandidateActivity != null)
+                    @if (strlen($item->lastCandidateActivity->remarks) > 10)
+                        {{ substr($item->lastCandidateActivity->remarks, 0, 10) . '...' }}
+                    @else
+                        {{ $item->lastCandidateActivity->remarks ?? 'N/A' }}
+                    @endif
+                @else
+                    {{ 'N/A' }}
+                @endif
+            </td>
             <td>
-                <div class="round_staus active">
+                <div class="round_staus active" >
                     {{ $item->candidateStatus->name ?? 'N/A' }}
                 </div>
             </td>
+            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn" data-route="{{route('candidates.activity', $item['id'])}}" style="cursor: pointer">
+                {{-- remarks only show 10 word --}}
+                @if ($item->lastCandidateActivity != null)
+                    {{ $item->lastCandidateActivity->call_status ?? 'N/A' }}
+                @else
+                    {{ 'N/A' }}
+                @endif
             <td>{{ $item->mode_of_registration ?? 'N/A' }}</td>
             <td>
                 {{ $item->source ?? 'N/A' }}
@@ -37,10 +56,26 @@
                 {{ $item->religion ?? 'N/A' }}
             </td>
             <td>
-                {{ $item->indian_driving_license ?? 'N/A' }}
+                @if ($item->candidateIndianLicence()->count() > 0)
+                    @foreach ($item->candidateIndianLicence as $key => $value)
+                        <span class="badge bg-primary rounded-pill">
+                            {{ $value->licence_name ?? 'N/A' }}
+                        </span>
+                    @endforeach
+                @else
+                    {{ 'N/A' }}
+                @endif
             </td>
             <td>
-                {{ $item->international_driving_license ?? 'N/A' }}
+                @if ($item->candidateGulfLicence()->count() > 0)
+                    @foreach ($item->candidateGulfLicence as $key => $value)
+                        <span class="badge bg-primary rounded-pill">
+                            {{ $value->licence_name ?? 'N/A' }}
+                        </span>
+                    @endforeach
+                @else
+                    {{ 'N/A' }}
+                @endif
             </td>
             <td>
                 {{ $item->english_speak ?? 'N/A' }}
@@ -49,7 +84,7 @@
                 {{ $item->arabic_speak ?? 'N/A' }}
             </td>
             <td>
-                {{ $item->return == 1 ? 'Yes' : 'N0' }}
+                {{ $item->return == 1 ? 'Yes' : 'No' }}
             </td>
             <td>
                 {{ $item->ecr_type ?? 'N/A' }}
@@ -60,10 +95,16 @@
             <td>
                 {{ $item->abroad_exp ?? 'N/A' }}
             </td>
+            @can('View Candidate')
+                <td>
+                    <a href="javascript:void(0);" class="edit-route"
+                        data-route="{{ route('candidates.edit', $item['id']) }}"><i class="fas fa-eye"></i></a>
+                </td>
+            @endcan
         </tr>
     @endforeach
     <tr>
-        <td colspan="26" class="text-left">
+        <td colspan="28" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                     (Showing {{ $candidates->firstItem() }} – {{ $candidates->lastItem() }} candidates of
@@ -75,6 +116,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="26" class="text-center">No Data Found</td>
+        <td colspan="28" class="text-center">No Data Found</td>
     </tr>
 @endif

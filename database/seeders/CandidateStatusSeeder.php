@@ -18,32 +18,35 @@ class CandidateStatusSeeder extends Seeder
                 'name' => 'Active',
             ],
             [
-                'name' => 'Passive',
+                'name' => 'In-Active',
             ],
             [
-                'name' => 'Blacklisted',
+                'name' => 'Black List',
             ],
             [
                 'name' => 'Selected',
             ],
             [
-                'name' => 'Under Medical',
+                'name' => 'Backed Out',
             ],
             [
-                'name' => 'Awaiting Fitness',
+                'name' => 'Under Medical',
             ],
             [
                 'name' => 'Fit',
             ],
             [
+                'name' => 'Unfit',
+            ],
+            [
                 'name' => 'Awaiting Visa',
+            ],
+            [
+                'name' => 'Awaiting Deployment',
             ],
             [
                 'name' => 'Deployed',
             ],
-            [
-                'name' => 'Unfit',
-            ]
         ];
 
         foreach ($candidateStatuses as $candidateStatus) {

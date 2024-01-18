@@ -73,8 +73,8 @@
                 @endif
 
                 @if (Gate::check('Manage Company'))
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="companies.html">
+                    <li class="sidebar-menu-item {{ Request::is('companies*') ? 'active open' : '' }}">
+                        <a class="sidebar-menu-button" href="{{route('companies.index')}}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/OfficeBuildings.svg') }}"></i>
                             <span class="sidebar-menu-text">Companies</span>

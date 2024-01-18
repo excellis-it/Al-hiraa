@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Exports\CandidateExport;
 use App\Imports\CandidateImport;
 use App\Models\Candidate;
+use App\Models\CandidateActivity;
 use App\Models\CandidateFieldUpdate;
+use App\Models\CandidateLicence;
 use App\Models\CandidateStatus;
 use App\Models\CandidateUpdated;
 use App\Models\User;
@@ -22,13 +24,17 @@ class CandidateController extends Controller
     public function index()
     {
         if (Auth::user()->can('Manage Candidate')) {
+            $candidate_statuses = CandidateStatus::all();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+
                 $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(15);
             } else {
                 $candidates = Candidate::orderBy('id', 'desc')->paginate(15);
             }
             // session()->forget('candidate_id');
-            return view('candidates.list')->with(compact('candidates'));
+            return view('candidates.list')->with(compact('candidates', 'candidate_statuses'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
@@ -41,6 +47,8 @@ class CandidateController extends Controller
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             return view('candidates.create')->with(compact('candidate_statuses', 'associates'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
@@ -63,7 +71,7 @@ class CandidateController extends Controller
         ]);
         $count = Candidate::where('contact_no', $request->contact_no)->count();
         if ($count > 0) {
-             $candidate = Candidate::where('contact_no', $request->contact_no)->first();
+            $candidate = Candidate::where('contact_no', $request->contact_no)->first();
         } else {
             $candidate = new Candidate();
         }
@@ -92,8 +100,6 @@ class CandidateController extends Controller
         $candidate->city = $request->city;
         $candidate->religion = $request->religion;
         $candidate->ecr_type = $request->ecr_type;
-        $candidate->indian_driving_license = $request->indian_driving_license;
-        $candidate->international_driving_license = $request->international_driving_license;
         $candidate->english_speak = $request->english_speak;
         $candidate->arabic_speak = $request->arabic_speak;
         $candidate->return = ($request->return != null) ? $request->return : 0;
@@ -102,8 +108,42 @@ class CandidateController extends Controller
         $candidate->position_applied_for_3 = $request->position_applied_for_3;
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
-        $candidate->remarks = $request->remark;
         $candidate->save();
+
+        if ($request->remark) {
+            $candidate_activity = new CandidateActivity();
+            $candidate_activity->candidate_id = $candidate->id;
+            $candidate_activity->user_id = Auth::user()->id;
+            $candidate_activity->remarks = $request->remark ?? null;
+            $candidate_activity->call_status = null;
+            $candidate_activity->save();
+        }
+
+        if ($request->international_driving_license) {
+            // delete old licence
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->delete();
+
+            foreach ($request->international_driving_license as $key => $value) {
+                $candidate_licence = new CandidateLicence();
+                $candidate_licence->candidate_id = $candidate->id;
+                $candidate_licence->licence_type = 'gulf';
+                $candidate_licence->licence_name = $value;
+                $candidate_licence->save();
+            }
+        }
+
+        if ($request->indian_driving_license) {
+            // delete old licence
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->delete();
+
+            foreach ($request->indian_driving_license as $key => $value) {
+                $candidate_licence = new CandidateLicence();
+                $candidate_licence->candidate_id = $candidate->id;
+                $candidate_licence->licence_type = 'indian';
+                $candidate_licence->licence_name = $value;
+                $candidate_licence->save();
+            }
+        }
 
         if ($request->cnadidate_status_id) {
             $candidatePosition = new CandidateFieldUpdate();
@@ -132,6 +172,8 @@ class CandidateController extends Controller
     {
         $candidate = Candidate::findOrFail($id);
         $candidate_statuses = CandidateStatus::all();
+        $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
+        $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
         $edit = true;
         if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
@@ -147,7 +189,7 @@ class CandidateController extends Controller
             }
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('candidate', 'edit', 'candidate_statuses'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('candidate', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -164,6 +206,8 @@ class CandidateController extends Controller
             'alternate_contact_no' => 'nullable|digits:10',
             'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
+            'remark' => 'required',
+            'call_status' => 'required',
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
@@ -198,8 +242,6 @@ class CandidateController extends Controller
         $candidate->city = $request->city;
         $candidate->religion = $request->religion;
         $candidate->ecr_type = $request->ecr_type;
-        $candidate->indian_driving_license = $request->indian_driving_license;
-        $candidate->international_driving_license = $request->international_driving_license;
         $candidate->english_speak = $request->english_speak;
         $candidate->arabic_speak = $request->arabic_speak;
         $candidate->return = $request->return;
@@ -208,12 +250,44 @@ class CandidateController extends Controller
         $candidate->position_applied_for_3 = $request->position_applied_for_3;
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
-        $candidate->remarks = $request->remark;
         $candidate->passport_number = $request->passport_number;
         $candidate->is_call_id = null;
         $candidate->save();
 
+        if ($request->remark) {
+            $candidate_activity = new CandidateActivity();
+            $candidate_activity->candidate_id = $candidate->id;
+            $candidate_activity->user_id = Auth::user()->id;
+            $candidate_activity->remarks = $request->remark ?? null;
+            $candidate_activity->call_status = $request->call_status ?? null;
+            $candidate_activity->save();
+        }
 
+        if ($request->international_driving_license) {
+            // delete old licence
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->delete();
+
+            foreach ($request->international_driving_license as $key => $value) {
+                $candidate_licence = new CandidateLicence();
+                $candidate_licence->candidate_id = $candidate->id;
+                $candidate_licence->licence_type = 'gulf';
+                $candidate_licence->licence_name = $value;
+                $candidate_licence->save();
+            }
+        }
+
+        if ($request->indian_driving_license) {
+            // delete old licence
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->delete();
+
+            foreach ($request->indian_driving_license as $key => $value) {
+                $candidate_licence = new CandidateLicence();
+                $candidate_licence->candidate_id = $candidate->id;
+                $candidate_licence->licence_type = 'indian';
+                $candidate_licence->licence_name = $value;
+                $candidate_licence->save();
+            }
+        }
 
 
         $candidate_position_applied = $candidate->candidateFieldUpdate->position ?? '';
@@ -253,8 +327,10 @@ class CandidateController extends Controller
         } else {
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
+            $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
+            $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
             $autofill = true;
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'autofill', 'candidate_statuses', 'associates'))->render(), 'status' => 'success']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
         }
     }
 
@@ -287,6 +363,34 @@ class CandidateController extends Controller
                 ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
                 ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
         }
+
+
+        if ($request->cnadidate_status_id) {
+            $candidates->where('cnadidate_status_id', $request->cnadidate_status_id);
+        }
+
+        if ($request->source) {
+            $candidates->where('source', $request->source);
+        }
+
+        if ($request->gender) {
+            $candidates->where('gender', $request->gender);
+        }
+
+        if ($request->position_applied_for) {
+            $candidates->where('position_applied_for_1', $request->position_applied_for);
+            $candidates->orWhere('position_applied_for_2', $request->position_applied_for);
+            $candidates->orWhere('position_applied_for_3', $request->position_applied_for);
+        }
+
+        if ($request->english_speak) {
+            $candidates->where('english_speak', $request->english_speak);
+        }
+
+        if ($request->arabic_speak) {
+            $candidates->where('arabic_speak', $request->arabic_speak);
+        }
+
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             $candidates->where('enter_by', Auth::user()->id);
         }
@@ -336,5 +440,19 @@ class CandidateController extends Controller
         $candidate->save();
 
         return redirect()->back()->with('message', 'Permission granted successfully');
+    }
+
+    public function candidatesActivity($id)
+    {
+        if (Auth::user()->can('Manage Candidate')) {
+            if (Auth::user()->hasRole('ADMIN')) {
+                $candidate_activities = CandidateActivity::with('user')->where('candidate_id', $id)->orderBy('id', 'desc')->get();
+            } else {
+                $candidate_activities = CandidateActivity::with('user')->where('candidate_id', $id)->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
+            }
+            return response()->json(['status' => true, 'candidate_activities' => $candidate_activities]);
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 }

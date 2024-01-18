@@ -3225,6 +3225,7 @@ h6+[aria-label=breadcrumb],
 
 .table thead th {
   border-bottom: none;
+  white-space:nowrap;
 }
 
 .round_staus{
@@ -3863,6 +3864,44 @@ h6+[aria-label=breadcrumb],
   height: auto;
   border-radius: 8px;
 }
+.integrations-form .form-group .form-select{
+    border: 1px solid #DFDFDF;
+  padding: 10px;
+  height: auto;
+  border-radius: 8px;
+}
+.integrations-form .form-group .select2-container--default .select2-selection--multiple{
+    border: 1px solid #DFDFDF;
+  padding: 10px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.integrations-form .form-group .select2-container--default .select2-selection--single{
+    border: 1px solid #DFDFDF;
+  padding: 9px;
+  height: auto;
+  border-radius: 8px;
+}
+.integrations-form .form-group .select2-container--default .select2-selection--single .select2-selection__arrow{
+    height:40px;
+}
+
+.candidate_details .table tbody.candidate-form-new td:last-child{
+    text-align: left;
+}
+
+.candidate_form .table tbody.candidate-form-new .select2-container .select2-selection--multiple, .candidate_form .table tbody.candidate-form-new .select2-container--default .select2-selection--single {
+    border-bottom: 1px solid #d0d0d0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0px;
+
+}
+
+
+
 
 .integrations-form .form-group {
   margin-bottom: 15px;
@@ -4630,3 +4669,5 @@ h6+[aria-label=breadcrumb],
 .offcanvas-end {
     border: 1px solid rgba(0,0,0,.2) !important;
 }
+
+

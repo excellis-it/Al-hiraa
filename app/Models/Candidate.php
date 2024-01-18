@@ -29,8 +29,6 @@ class Candidate extends Model
         'city',
         'religion',
         'ecr_type',
-        'indian_driving_license',
-        'international_driving_license',
         'english_speak',
         'arabic_speak',
         'position_applied_for_1',
@@ -65,5 +63,20 @@ class Candidate extends Model
     public function candidateUpdate()
     {
         return $this->hasOne(CandidateUpdated::class)->orderBy('id', 'desc');
+    }
+
+    public function candidateIndianLicence()
+    {
+        return $this->hasMany(CandidateLicence::class)->where('licence_type', 'indian');
+    }
+
+    public function candidateGulfLicence()
+    {
+        return $this->hasMany(CandidateLicence::class)->where('licence_type', 'gulf');
+    }
+
+    public function lastCandidateActivity()
+    {
+        return $this->hasOne(CandidateActivity::class)->orderBy('id', 'desc');
     }
 }

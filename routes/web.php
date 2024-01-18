@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -61,7 +62,8 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     });
 
     Route::resources([
-        'candidates' => CandidateController::class
+        'candidates' => CandidateController::class,
+        'companies' => CompanyController::class,
     ]);
 
     Route::get('/candidates-auto-fill',[CandidateController::class,'userAutoFill'])->name('candidates.auto-fill');
@@ -70,4 +72,5 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::post('/candidates-import', [CandidateController::class, 'import'])->name('candidates.import');
     Route::get('/candidates-download-sample', [CandidateController::class, 'downloadSample'])->name('candidates.download.sample');
     Route::get('/candidates-permission/{candidate_id}/{candidate_field_update_id}',[CandidateController::class,'candidatePermission'])->name('candidates.permission');
+    Route::get('/candidates-activity/{id}',[CandidateController::class,'candidatesActivity'])->name('candidates.activity');
 });

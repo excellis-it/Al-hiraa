@@ -1,6 +1,6 @@
 @if (count($candidates) > 0)
     @foreach ($candidates as $item)
-        <tr >
+        <tr @can('View Candidate') class="edit-route" data-route="{{ route('candidates.edit', $item['id']) }}" @endcan>
             <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td>
             <td>
                 <div class="round_staus active">
@@ -49,7 +49,7 @@
                 {{ $item->arabic_speak ?? 'N/A' }}
             </td>
             <td>
-                {{ $item->return == 1 ? 'Yes' : 'N0' }}
+                {{ $item->return == 1 ? 'Yes' : 'No' }}
             </td>
             <td>
                 {{ $item->ecr_type ?? 'N/A' }}
@@ -60,11 +60,6 @@
             <td>
                 {{ $item->abroad_exp ?? 'N/A' }}
             </td>
-            @can('View Candidate')
-            <td>
-                <a href="javascript:void(0);"  class="edit-route" data-route="{{ route('candidates.edit', $item['id']) }}"><i class="fas fa-eye"></i></a>
-            </td>
-            @endcan
         </tr>
     @endforeach
     <tr>

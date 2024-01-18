@@ -247,7 +247,6 @@ class RolePermissionSeeder extends Seeder
             "Create Candidate",
             "Edit Candidate",
             "View Candidate",
-            "Export Candidate",
             "Manage Support",
         ];
 
@@ -259,7 +258,6 @@ class RolePermissionSeeder extends Seeder
             "Create Candidate",
             "View Candidate",
             "Edit Candidate",
-            "Export Candidate",
             "Manage Job",
             "Create Job",
             "Edit Job",

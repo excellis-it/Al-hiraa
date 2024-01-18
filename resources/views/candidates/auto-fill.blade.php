@@ -28,12 +28,11 @@
             <label for="">Alternative Contact No: </label>
             <input type="text" class="form-control" id="" name="alternate_contact_no"
                 value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="">
-                @if ($errors->has('alternate_contact_no'))
-                    @error('alternate_contact_no')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-
-                @endif
+            @if ($errors->has('alternate_contact_no'))
+                @error('alternate_contact_no')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -41,10 +40,9 @@
             <label for="">Whatsapp No: </label>
             <input type="text" class="form-control" id="" name="whatapp_no"
                 value="{{ $candidate->whatapp_no ?? '' }}" placeholder="">
-                @if ($errors->has('whatapp_no'))
-                    <span class="text-danger">{{ $errors->first('whatapp_no') }}</span>
-
-                @endif
+            @if ($errors->has('whatapp_no'))
+                <span class="text-danger">{{ $errors->first('whatapp_no') }}</span>
+            @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -52,10 +50,9 @@
             <label for="">Passport Number: </label>
             <input type="text" class="form-control" id="" name="passport_number"
                 value="{{ $candidate->passport_number ?? '' }}" placeholder="">
-                @if ($errors->has('passport_number'))
-                    <span class="text-danger">{{ $errors->first('passport_number') }}</span>
-
-                @endif
+            @if ($errors->has('passport_number'))
+                <span class="text-danger">{{ $errors->first('passport_number') }}</span>
+            @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -167,11 +164,13 @@
             <label for="">Mode of Registration</label>
             {{-- <input type="text" class="form-control" id=""
                 value="{{ $candidate->mode_of_registration ?? '' }}" name="mode_of_registration" placeholder=""> --}}
-                <select name="mode_of_registration" class="form-select" id="">
-                    <option value="">Select Type</option>
-                    <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling</option>
-                    <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in</option>
-                </select>
+            <select name="mode_of_registration" class="form-select" id="">
+                <option value="">Select Type</option>
+                <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling
+                </option>
+                <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in
+                </option>
+            </select>
         </div>
     </div>
     {{-- Source --}}
@@ -238,21 +237,14 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Indian Driving License: </label>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="two_wheeler" name="indian_driving_license"
-                    value="2 Wheeler" @if ($candidate->indian_driving_license == '2 Wheeler') checked @endif>
-                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="four_wheeler" name="indian_driving_license"
-                    value="4 Wheeler" @if ($candidate->indian_driving_license == '4 Wheeler') checked @endif>
-                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="hv" name="indian_driving_license"
-                    value="HV" @if ($candidate->indian_driving_license == 'HV') checked @endif>
-                <label class="form-check-label" for="hv">HV</label>
-            </div>
+            <select name="indian_driving_license[]" class="form-select select2" id="" multiple>
+                <option value="" disabled>Select Indian Driving License</option>
+                <option value="2 Wheeler" {{ in_array('2 Wheeler', $indian_driving_license) ? 'selected' : '' }}>
+                    2 Wheeler</option>
+                <option value="4 Wheeler" {{ in_array('4 Wheeler', $indian_driving_license) ? 'selected' : '' }}>
+                    4 Wheeler</option>
+                <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
+            </select>
 
         </div>
     </div>
@@ -261,23 +253,14 @@
             <label for="">Gulf Driving License: </label>
             {{-- <input type="text" class="form-control" id="" name="international_driving_license"
                 value="{{ $candidate->international_driving_license ?? '' }}" placeholder=""> --}}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="two_wheeler"
-                        name="international_driving_license" value="2 Wheeler"
-                        @if ($candidate->international_driving_license == '2 Wheeler') checked @endif>
-                    <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="four_wheeler"
-                        name="international_driving_license" value="4 Wheeler"
-                        @if ($candidate->international_driving_license == '4 Wheeler') checked @endif>
-                    <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="hv" name="international_driving_license"
-                        value="HV" @if ($candidate->international_driving_license == 'HV') checked @endif>
-                    <label class="form-check-label" for="hv">HV</label>
-                </div>
+            <select name="international_driving_license[]" class="form-select select2" id="" multiple>
+                <option value="" disabled>Select Gulf Driving License</option>
+                <option value="2 Wheeler" {{ in_array('2 Wheeler', $gulf_driving_license) ? 'selected' : '' }}>
+                    2 Wheeler</option>
+                <option value="4 Wheeler" {{ in_array('4 Wheeler', $gulf_driving_license) ? 'selected' : '' }}>
+                    4 Wheeler</option>
+                <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
+            </select>
         </div>
     </div>
     <div class="col-lg-4">
@@ -518,7 +501,7 @@
     <div class="col-lg-12">
         <div class="form-group">
             <label for="">Remarks</label>
-            <textarea class="form-control" id="" rows="3" name="remark">{{ $candidate->remarks ?? '' }}</textarea>
+            <textarea class="form-control" id="" rows="3" name="remark">{{ $candidate->lastCandidateActivity->remarks ?? '' }}</textarea>
         </div>
     </div>
 @else
@@ -547,12 +530,11 @@
             <label for="">Alternative Contact No: </label>
             <input type="text" class="form-control" id="" name="alternate_contact_no"
                 value="{{ old('alternate_contact_no') }}" placeholder="">
-                @if ($errors->has('alternate_contact_no'))
-                    @error('alternate_contact_no')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-
-                @endif
+            @if ($errors->has('alternate_contact_no'))
+                @error('alternate_contact_no')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -560,11 +542,11 @@
             <label for="">Whatsapp No: </label>
             <input type="text" class="form-control" id="" name="whatapp_no"
                 value="{{ old('whatapp_no') }}" placeholder="">
-                @if ($errors->has('whatapp_no'))
-                    @error('whatapp_no')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                    @endif
+            @if ($errors->has('whatapp_no'))
+                @error('whatapp_no')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -572,11 +554,11 @@
             <label for="">Passport Number: </label>
             <input type="text" class="form-control" id="" name="passport_number"
                 value="{{ old('passport_number') }}" placeholder="">
-                @if ($errors->has('passport_number'))
-                    @error('passport_number')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                    @endif
+            @if ($errors->has('passport_number'))
+                @error('passport_number')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
         </div>
     </div>
     <div class="col-lg-4">
@@ -728,8 +710,7 @@
                 <option value="Sikh">Sikh</option>
                 <option value="Buddhist">Buddhist</option>
                 <option value="Jain">Jain</option>
-                <
-                <option value="Other">Other</option>
+                < <option value="Other">Other</option>
             </select>
             {{-- <input type="text" class="form-control" id="" name="religion"
                 value="{{ old('religion') }}" placeholder=""> --}}
@@ -738,43 +719,29 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label>Indian Driving License:</label>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="two_wheeler" name="indian_driving_license"
-                    value="2 Wheeler" @if (old('indian_driving_license') == '2 Wheeler') checked @endif>
-                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="four_wheeler" name="indian_driving_license"
-                    value="4 Wheeler" @if (old('indian_driving_license') == '4 Wheeler') checked @endif>
-                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="hv" name="indian_driving_license"
-                    value="HV" @if (old('indian_driving_license') == 'HV') checked @endif>
-                <label class="form-check-label" for="hv">HV</label>
-            </div>
+             <select name="indian_driving_license[]" class="form-select select2" id="" multiple>
+                <option value="" disabled>Select Indian Driving License</option>
+                <option value="2 Wheeler" {{ in_array('2 Wheeler', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
+                    2 Wheeler</option>
+                <option value="4 Wheeler" {{ in_array('4 Wheeler', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
+                    4 Wheeler</option>
+                <option value="HV" {{ in_array('HV', old('indian_driving_license') ?? []) ? 'selected' : '' }}>HV</option>
+            </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Gulf Driving License: </label>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="two_wheeler"
-                    name="international_driving_license" value="2 Wheeler"
-                    @if (old('international_driving_license') == '2 Wheeler') checked @endif>
-                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="four_wheeler"
-                    name="international_driving_license" value="4 Wheeler"
-                    @if (old('international_driving_license') == '4 Wheeler') checked @endif>
-                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="hv" name="international_driving_license"
-                    value="HV" @if (old('international_driving_license') == 'HV') checked @endif>
-                <label class="form-check-label" for="hv">HV</label>
-            </div>
+            {{-- <input type="text" class="form-control" id="" name="international_driving_license"
+                value="{{ old('international_driving_license') }}" placeholder=""> --}}
+            <select name="international_driving_license[]" class="form-select select2" id="" multiple>
+                <option value="" disabled>Select Gulf Driving License</option>
+                <option value="2 Wheeler" {{ in_array('2 Wheeler', old('international_driving_license') ?? []) ? 'selected' : '' }}>
+                    2 Wheeler</option>
+                <option value="4 Wheeler" {{ in_array('4 Wheeler', old('international_driving_license') ?? []) ? 'selected' : '' }}>
+                    4 Wheeler</option>
+                <option value="HV" {{ in_array('HV', old('international_driving_license') ?? []) ? 'selected' : '' }}>HV</option>
+            </select>
         </div>
     </div>
     <div class="col-lg-4">
@@ -1003,10 +970,10 @@
 
 <script>
     $(document).ready(function() {
-             $('.select2').each(function() {
-           $(this).select2({
-               dropdownParent: $(this).parent()
-           });
-       })
-   });
+        $('.select2').each(function() {
+            $(this).select2({
+                dropdownParent: $(this).parent()
+            });
+        })
+    });
 </script>

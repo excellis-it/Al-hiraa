@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CandidateUpdated extends Model
+class CandidateActivity extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
         'candidate_id',
+        'remarks',
+        'call_status',
     ];
 
     public function candidate()
@@ -23,5 +25,6 @@ class CandidateUpdated extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
 
 }

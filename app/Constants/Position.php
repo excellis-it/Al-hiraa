@@ -206,4 +206,20 @@ class Position
         ];
 
     }
+
+    public static function getCallStatus()
+    {
+        return [
+            0 => 'Not Interested',
+            1 => 'Interested',
+            2 => 'Not Reachable',
+            3 => 'Switch Off',
+            4 => 'Busy',
+            5 => 'Call Back',
+            6 => 'Wrong Number',
+            7 => 'Not Answered',
+            8 => 'Rejected',
+            9 => 'Interview Scheduled',
+        ];
+    }
 }

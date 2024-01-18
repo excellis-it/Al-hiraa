@@ -104,15 +104,15 @@
                             </div>
                             <div class="edit-1" id="open-input">
                                 @can('Edit Candidate')
-                                <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
                                 @endcan
                             </div>
                         </div>
                     </div>
                     <div class="candidate_form candidate_edit_form">
                         <div class="table-responsive" id="tableContainer">
-                            <table class="table">
-                                <tbody id="candidate-form">
+                            <table class="table" id="candidate-form">
+                                <tbody >
                                     {{-- @include('candidates.details-form') --}}
                                     <tr>
                                         <td>Enter By</td>
@@ -229,15 +229,32 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Indidan Driving Licence</td>
-                                        <td>{{ $candidate->indian_driving_license ?? 'N/A' }}
+                                        <td>Indidan Driving License </td>
+                                        <td>
+                                            @if ($candidate->candidateIndianLicence()->count() > 0)
+                                                @foreach ($candidate->candidateIndianLicence as $key => $value)
+                                                    <span class="badge bg-primary rounded-pill">
+                                                        {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                            @else
+                                                {{ 'N/A' }}
+                                            @endif
 
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>International Driving Licence</td>
-                                        <td>{{ $candidate->international_driving_license ?? 'N/A' }}
-
+                                        <td>International Driving License </td>
+                                        <td>
+                                            @if ($candidate->candidateGulfLicence()->count() > 0)
+                                                @foreach ($candidate->candidateGulfLicence as $key => $value)
+                                                    <span class="badge bg-primary rounded-pill">
+                                                        {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                            @else
+                                                {{ 'N/A' }}
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
@@ -287,8 +304,14 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Call Status</td>
+                                        <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
+
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Remarks</td>
-                                        <td>{{ $candidate->remarks ?? 'N/A' }}
+                                        <td>{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -397,7 +420,7 @@
                     `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
                 )
 
-                $('#candidate-form').html(`<tr>
+                $('#candidate-form').html(`   <tbody class="candidate-form-new"><tr>
                     <td>Enter By</td>
         <td>
           <div class="form-group">
@@ -625,43 +648,27 @@
       <tr>
         <td>Indian Driving License</td>
         <td>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="two_wheeler" name="indian_driving_license"
-                    value="2 Wheeler" @if ($candidate->indian_driving_license == '2 Wheeler') checked @endif>
-                <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="four_wheeler" name="indian_driving_license"
-                    value="4 Wheeler" @if ($candidate->indian_driving_license == '4 Wheeler') checked @endif>
-                <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="hv" name="indian_driving_license"
-                    value="HV" @if ($candidate->indian_driving_license == 'HV') checked @endif>
-                <label class="form-check-label" for="hv">HV</label>
-            </div>
+            <select name="indian_driving_license[]" class="form-select select2" id="" multiple>
+                <option value="" disabled>Select Indian Driving License</option>
+                <option value="2 Wheeler" {{ in_array('2 Wheeler', $indian_driving_license) ? 'selected' : '' }}>
+                    2 Wheeler</option>
+                <option value="4 Wheeler" {{ in_array('4 Wheeler', $indian_driving_license) ? 'selected' : '' }}>
+                    4 Wheeler</option>
+                <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
+            </select>
         </td>
       </tr>
       <tr>
         <td>Gulf Driving License</td>
         <td>
-            <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="two_wheeler"
-                        name="international_driving_license" value="2 Wheeler"
-                        @if ($candidate->international_driving_license == '2 Wheeler') checked @endif>
-                    <label class="form-check-label" for="two_wheeler">2 Wheeler</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="four_wheeler"
-                        name="international_driving_license" value="4 Wheeler"
-                        @if ($candidate->international_driving_license == '4 Wheeler') checked @endif>
-                    <label class="form-check-label" for="four_wheeler">4 Wheeler</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="hv" name="international_driving_license"
-                        value="HV" @if ($candidate->international_driving_license == 'HV') checked @endif>
-                    <label class="form-check-label" for="hv">HV</label>
-                </div>
+            <select name="international_driving_license[]" class="form-select select2" id="" multiple>
+                <option value="" disabled>Select Gulf Driving License</option>
+                <option value="2 Wheeler" {{ in_array('2 Wheeler', $gulf_driving_license) ? 'selected' : '' }}>
+                    2 Wheeler</option>
+                <option value="4 Wheeler" {{ in_array('4 Wheeler', $gulf_driving_license) ? 'selected' : '' }}>
+                    4 Wheeler</option>
+                <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
+            </select>
         </td>
       </tr>
 
@@ -838,15 +845,30 @@
         </td>
       </tr>
       <tr>
+        <td>Call Status</td>
+        <td>
+            <select name="call_status" class="form-select" id="">
+                <option value="">Select Call Status</option>
+                @foreach (Position::getCallStatus() as $item)
+                    <option value="{{ $item }}"
+                       @if(isset($candidate->lastCandidateActivity)) {{ $candidate->lastCandidateActivity->call_status == $item ? 'selected' : '' }} @endif>
+                        {{ $item }}</option>
+                @endforeach
+            </select>
+            <span class="text-danger" id="call_status_msg"></span>
+        </td>
+      </tr>
+      <tr>
         <td>Remarks</td>
         <td>
           <div class="form-group">
-            <textarea class="form-control" id="" rows="3" name="remark" placeholder="Remark">{{ $candidate->remarks ?? '' }}</textarea>
+            <textarea class="form-control" id="" rows="3" name="remark" placeholder="Remark">{{ $candidate->lastCandidateActivity->remarks ?? '' }}</textarea>
+            <span class="text-danger" id="remark_msg"></span>
           </div>
         </td>
-      </tr>`)
+      </tr></tbody>`)
 
-      $('.select2').each(function() {
+                $('.select2').each(function() {
                     $(this).select2({
                         dropdownParent: $(this).parent()
                     });
@@ -859,7 +881,7 @@
                 $('#submit-button').html(``)
                 $('#open-input').html(
                     ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
-                $('#candidate-form').html(` <tr>
+                $('#candidate-form').html(`<tbody > <tr>
                                         <td>Enter By</td>
                                         <td>{{ $candidate->enterBy->full_name ?? '' }}
                                         </td>
@@ -974,14 +996,31 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Indidan Driving Licence</td>
-                                        <td>{{ $candidate->indian_driving_license ?? 'N/A' }}
-
+                                        <td>Indidan Driving License </td>
+                                        <td> @if ($candidate->candidateIndianLicence()->count() > 0)
+                                                @foreach ($candidate->candidateIndianLicence as $key => $value)
+                                                <span
+                                                                    class="badge bg-primary rounded-pill">
+                                                    {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                                @else
+                                             {{ 'N/A' }}
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>International Driving Licence</td>
-                                        <td>{{ $candidate->international_driving_license ?? 'N/A' }}
+                                        <td>International Driving License </td>
+                                        <td> @if ($candidate->candidateGulfLicence()->count() > 0)
+                                                @foreach ($candidate->candidateGulfLicence as $key => $value)
+                                                <span
+                                                                    class="badge bg-primary rounded-pill">
+                                                    {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                                @else
+                                                 {{ 'N/A' }}
+                                            @endif
 
                                         </td>
                                     </tr>
@@ -1032,11 +1071,17 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Remarks</td>
-                                        <td>{{ $candidate->remarks ?? 'N/A' }}
+                                        <td>Call Status</td>
+                                        <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
-                                    </tr>`);
+                                    </tr>
+                                    <tr>
+                                        <td>Remarks</td>
+                                        <td>{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
+
+                                        </td>
+                                    </tr></tbody>`);
                 var visibleRows = 5;
                 showRows(visibleRows);
 
@@ -1044,7 +1089,7 @@
                 $(document).on("click", '#seeMoreBtn', function(e) {
                     e.preventDefault();
                     // Show additional rows (e.g., 5 more)
-                    visibleRows += 25;
+                    visibleRows += 28;
                     showRows(visibleRows);
                 });
 
@@ -1079,7 +1124,7 @@
             $(document).on("click", '#seeMoreBtn', function(e) {
                 e.preventDefault();
                 // Show additional rows (e.g., 5 more)
-                visibleRows += 25;
+                visibleRows += 28;
                 showRows(visibleRows);
             });
 
@@ -1121,7 +1166,7 @@
                         // Handle errors (e.g., display validation errors)
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            $('#'+ key +'_msg').html(value[0]);
+                            $('#' + key + '_msg').html(value[0]);
                         });
                     }
                 });

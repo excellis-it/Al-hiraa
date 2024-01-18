@@ -5,9 +5,14 @@
 @push('styles')
 @endpush
 @section('content')
+    @php
+        use App\Helpers\Helper;
+        use App\Constants\Position;
+    @endphp
     <div class="mdk-drawer-layout__content page">
         <div class="container-fluid page__heading-container">
             <div class="page__heading row align-items-center">
+
                 {{-- edit candidates --}}
                 <div id="candidate-edit">
                     @include('candidates.edit')
@@ -68,6 +73,63 @@
         </div>
 
         <div class="container-fluid page__container">
+            <div class="row mb-2">
+                <div class="col-md-2">
+                    {{-- status --}}
+                    <select name="cnadidate_status_id" class="form-select" id="cnadidate_status_id_filter">
+                        <option value="">Select A Status</option>
+                        @foreach ($candidate_statuses as $status)
+                            <option value="{{ $status->id }}">{{ $status->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="source" class="form-select" id="source_filter">
+                        <option value="">Select Source Type</option>
+                        <option value="Telecalling">Telecalling
+                        </option>
+                        <option value="Reference">Reference</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Others">Others </option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="gender" class="form-select" id="gender_filter">
+                        <option value="">Select Gender</option>
+                        <option value="Male"> Male </option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="position_applied_for" class="form-select select2" id="position_applied_for_filter">
+                        <option value="">Select Position</option>
+                        @foreach (Position::getPosition() as $item)
+                            <option value="{{ $item }}">
+                                {{ $item }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="english_speak" class="form-select" id="english_speak_filter">
+                        <option value="">Select English Type</option>
+                        <option value="Basic">Basic</option>
+                        <option value="Good">Good</option>
+                        <option value="Poor">Poor</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="arabic_speak" class="form-select" id="arabic_speak_filter">
+                        <option value="">Select Arbic Type</option>
+                        <option value="Basic">Basic</option>
+                        <option value="Good">Good</option>
+                        <option value="Poor">Poor</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="table-responsive border-bottom" data-toggle="lists">
@@ -75,8 +137,10 @@
                             <thead>
                                 <tr>
                                     {{-- <th></th> --}}
-                                    <th>Enter By</th>
+                                    {{-- <th>Enter By</th> --}}
+                                    <th>Remarks</th>
                                     <th>Status</th>
+                                    <th>Call Status</th>
                                     <th>Mode of Registration</th>
                                     <th>Source</th>
                                     <th>Last Update Date</th>
@@ -127,11 +191,11 @@
                                     <th>
                                         Abroad Work Experience
                                     </th>
-                                    {{-- @can('View Candidate')
-                                    <th>
+                                    @can('View Candidate')
+                                        <th>
 
-                                    </th>
-                                    @endcan --}}
+                                        </th>
+                                    @endcan
                                 </tr>
                             </thead>
                             <tbody class="list" id="candidate_body">
@@ -154,12 +218,19 @@
                 window.location.href = '{{ route('candidates.export') }}';
             });
 
-            function fetch_data(page, query) {
+            function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                english_speak, arabic_speak) {
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",
                     data: {
                         page: page,
-                        search: query
+                        search: query,
+                        cnadidate_status_id: cnadidate_status_id,
+                        source: source,
+                        gender: gender,
+                        position_applied_for : position_applied_for,
+                        english_speak : english_speak,
+                        arabic_speak : arabic_speak
                     },
                     success: function(data) {
                         console.log(data.view);
@@ -172,7 +243,15 @@
                 e.preventDefault();
                 var query = $('#query').val();
                 var page = $('#hidden_page').val();
-                fetch_data(page, query);
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
             });
 
             $(document).on('click', '.pagination a', function(event) {
@@ -183,7 +262,105 @@
 
                 $('li').removeClass('active');
                 $(this).parent().addClass('active');
-                fetch_data(page, query);
+
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
+            });
+
+            // filter by status & source & gender & position_applied_for & english_speak & arabic_speak
+
+            $(document).on('change', '#cnadidate_status_id_filter', function() {
+                var cnadidate_status_id = $(this).val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
+            });
+
+
+            $(document).on('change', '#source_filter', function() {
+
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $(this).val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#gender_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $(this).val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#position_applied_for_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $(this).val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#english_speak_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var english_speak = $(this).val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#arabic_speak_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $(this).val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                    english_speak, arabic_speak);
             });
 
         });
@@ -277,6 +454,65 @@
                             $('[name="file"]').next('.text-danger').html(value[
                                 0]);
                         });
+                    }
+                });
+            });
+
+            $(document).on('click', '.view-details-btn', function(e) {
+                e.preventDefault();
+                var route = $(this).data('route');
+                // load data from remote url
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: route,
+                    success: function(resp) {
+                        // console.log(resp.view);
+                        //  open modal
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+
+                        var candidate_activities = resp.candidate_activities;
+                        // console.log(candidate_activities);
+                        if (candidate_activities.length == 0) {
+                            $('#show-details').html(
+                                '<div class="testimonial-box"><div class="box-top"><div class="profile"><div class="name-user"><strong class="date">No Activity Found...</strong></div></div></div></div>'
+                            );
+                            return false;
+                        }
+                        var html = '';
+                        $.each(candidate_activities, function(key, value) {
+                            var date = new Date(value.created_at);
+                            var formattedDate = date.getDate().toString().padStart(2,
+                                '0') + ' ' + date.toLocaleString('default', {
+                                month: 'short'
+                            }) + ', ' + date.getFullYear();
+                            html += '<div class="testimonial-box">';
+                            html += '<div class="box-top">';
+                            html += '<div class="profile">';
+                            html += '<div class="name-user">';
+                            html += '<strong class="date">Activity on ' +
+                                formattedDate + '</strong>';
+                            html += '<br>';
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                html += '<p><b>' + value.call_status + '(' + value.user
+                                    .first_name + ' ' + value.user.last_name +
+                                    ')</b></p>';
+                            @else
+                                html += '<p><b>' + value.call_status + '</b></p>';
+                            @endif
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '<div class="client-comment">';
+                            html += '<p>' + value.remarks + '</p>';
+                            html += '</div>';
+                            html += '</div>';
+                        });
+
+                        $('#show-details').html(html);
                     }
                 });
             });

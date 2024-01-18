@@ -34,8 +34,6 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('religion')->nullable();
             $table->string('ecr_type')->nullable();
-            $table->string('indian_driving_license')->nullable();
-            $table->string('international_driving_license')->nullable();
             $table->string('english_speak')->nullable();
             $table->string('arabic_speak')->nullable();
             $table->boolean('return')->default(false);
@@ -44,7 +42,6 @@ return new class extends Migration
             $table->text('position_applied_for_1')->nullable();
             $table->text('position_applied_for_2')->nullable();
             $table->text('position_applied_for_3')->nullable();
-            $table->longText('remarks')->nullable();
             $table->string('is_call_id')->nullable();
             $table->timestamps();
         });

@@ -70,12 +70,20 @@
         $(document).ready(function() {
             $('#contact_no').on('keyup', function() {
                 var contact_no = $(this).val();
-                if (contact_no.length >= 10) {
+                // if +91 in this number then remove it
+                if (contact_no.startsWith('+91')) {
+                    new_number = contact_no.replace('+91', '');
+                    $(this).val(new_number);
+                } else {
+                    new_number = contact_no;
+                }
+                console.log(new_number);
+                if (new_number.length >= 10) {
                     $.ajax({
                         url: "{{ route('candidates.auto-fill') }}",
                         type: "GET",
                         data: {
-                            contact_no: contact_no
+                            contact_no: new_number
                         },
                         success: function(response) {
                             $('.auto-fill').html(response.view);
