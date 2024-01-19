@@ -9,7 +9,7 @@
         <div class="container-fluid page__heading-container">
             <div class="page__heading row align-items-center">
                 {{-- member create start --}}
-                @can('Create Team')
+                @can('Create Position')
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
                          aria-hidden="true">
                         <div class="offcanvas-body">
@@ -18,40 +18,31 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-xl-12">
+                                        <h4>Add Team Position</h4>
                                         <div class="add-mem-form">
                                             <div class="row">
-                                                <div class="col-xl-6">
+                                                <div class="col-xl-12">
                                                     <div class="form-group">
-                                                        <label for="">First Name<span>*</span></label>
+                                                        <label for="">Position Name<span>*</span></label>
                                                         <input type="text" class="form-control" id="" value=""
-                                                            name="first_name" placeholder="">
+                                                            name="position_name" placeholder="">
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-6">
+
+                                                <div class="col-xl-12">
                                                     <div class="form-group">
-                                                        <label for="">Last Name<span>*</span></label>
-                                                        <input type="text" class="form-control" id="" value=""
-                                                            name="last_name" placeholder="">
+                                                        <label for="">Status<span>*</span></label>
+                                                        <select name="position_status"  class="form-control">
+                                                            <option value="">Select Status</option>
+                                                            <option value="1">Active</option>
+                                                            <option value="0">Inactive</option>
+                                                        </select>
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label for="">Email<span>*</span></label>
-                                                        <input type="text" class="form-control" id="" value=""
-                                                            name="email" placeholder="">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label for="">Phone</label>
-                                                        <input type="text" class="form-control" id="" value=""
-                                                            name="phone" placeholder="">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
+                                                
+                                                
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="save-btn-div d-flex align-items-center">
                                                         <button type="submit" class="btn save-btn"><span><i
@@ -73,9 +64,9 @@
                 {{-- member create end --}}
 
                 {{-- member edit start --}}
-                @can('Edit Team')
-                <div id="edit-positions">
-                    {{-- @include('settings.positions.edit') --}}
+                @can('Edit Position')
+                <div id="edit-position">
+                    @include('settings.positions.edit')
                 </div>
                 @endcan
 
@@ -112,12 +103,22 @@
             <!-- page-contain-start  -->
             <div class="integrations-div team-members-div">
                 <div class="page__heading row align-items-center mb-0">
-                    <div class="col-xl-12 mb-3 mb-md-0">
+                    <div class="col-xl-10 mb-3 mb-md-0">
                         <div class="integrations-head">
                             <h2>Team Position</h2>
                         </div>
                     </div>
+                    <div class="col-xl-2 mb-3 mb-md-0">
+                        <select class="form-control" name="search_status" id="status">
+                            <option value="">Search by Status</option>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                        </select>
+                    </div>
+                   
                 </div>
+                
+
                 <div class="user-acces-table team-members-table">
                     <div class="container-fluid page__container">
                         <div class="row">
@@ -129,7 +130,7 @@
                                                 <th>Entry By</th>
                                                 <th>Position Name</th>
                                                 <th>Status</th>
-                                                @can('Delete Team')
+                                                @can('Delete Position')
                                                 <th><svg xmlns="http://www.w3.org/2000/svg" width="2" height="12"
                                                         viewBox="0 0 2 12">
                                                         <g id="Group_87" data-name="Group 87"
@@ -152,6 +153,7 @@
                                             @include('settings.positions.filter')
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                 </div>
                             </div>
                         </div>
@@ -222,7 +224,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this user.",
+                    text: "To delete this position.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -256,7 +258,7 @@
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                        $('#edit-members').html(response.view);
+                        $('#edit-position').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         $('#offcanvasEdit').offcanvas('show');
@@ -271,7 +273,9 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-edit-form', function(e) {
+            $(document).on('submit', '#position-edit-form', function(e) {
+               
+                
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
@@ -302,12 +306,13 @@
         $(document).ready(function() {
 
 
-            function fetch_data(page, query) {
+            function fetch_data(page, query,status) {
                 $.ajax({
                     url: "{{ route('positions.filter') }}",
                     data: {
                         page: page,
-                        search: query
+                        search: query,
+                        status: status,
                     },
                     success: function(data) {
                         console.log(data.view);
@@ -320,7 +325,16 @@
                 e.preventDefault();
                 var query = $('#query').val();
                 var page = $('#hidden_page').val();
-                fetch_data(page, query);
+                var status = $('#status').val();
+                fetch_data(page, query,status);
+            });
+
+            $(document).on('change', '#status', function(e) {
+                e.preventDefault();
+                var status = $('#status').val();
+                var query = $('#query').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, query, status);
             });
 
             $(document).on('click', '.pagination a', function(event) {
@@ -328,24 +342,14 @@
                 var page = $(this).attr('href').split('page=')[1];
                 $('#hidden_page').val(page);
                 var query = $('#query').val();
+                var status = $('#status').val();
 
                 $('li').removeClass('active');
                 $(this).parent().addClass('active');
-                fetch_data(page, query);
+                fetch_data(page, query, status);
             });
 
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#rand-pass', function() {
-                var randomstring = Math.random().toString(36).slice(-8);
-                $('#password').val(randomstring);
-                $('#confirm_password').val(randomstring);
-                $('#password').attr('type','text');
-                $('#first-eye').find('i').addClass('fa-eye');
-
-            });
-        });
-    </script>
+   
 @endpush

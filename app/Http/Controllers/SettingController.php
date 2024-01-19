@@ -258,12 +258,71 @@ class SettingController extends Controller
 
     public function positionsFilter(Request $request)
     {
-        // return $request->all();
-        $positions = CandidatePosition::query();
-        if ($request->search) {
-            $positions->where('name', 'LIKE', '%' . $request->search . '%');
-        }
-        $positions = $positions->orderBy('id','desc')->paginate(15);
+       
+        $positions = CandidatePosition::orderBy('id', 'desc')->where(function ($q) use ($request) {
+            $q->Where('name', 'LIKE', '%' . $request->search . '%')
+                ->Where('is_active', $request->status);
+        })->paginate(15);
+        
+
+        
+
         return response()->json(['view' => view('settings.positions.filter', compact('positions'))->render()]);
     }
+
+    public function positionsStore(Request $requset)
+    {
+        
+        $requset->validate([
+            'position_name' => 'required|unique:candidate_positions,name',
+            'position_status' => 'required|in:1,0'
+        ]);
+
+        $position = new CandidatePosition();
+        $position->user_id = Auth::user()->id;
+        $position->name = $requset->position_name;
+        $position->is_active = $requset->position_status;
+        $position->save();
+        session()->flash('message', 'Position added successfully');
+        return response()->json(['message' => 'Position added successfully', 'status' => 'success']);
+
+    }
+
+    public function positionsEdit($id)
+    {
+
+        $position = CandidatePosition::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('settings.positions.edit', compact('position', 'edit'))->render(), 'status' => 'success']);
+    }
+
+    public function positionsUpdate(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+        $request->validate([
+            'position_name' => 'required',
+            'position_status' => 'required|in:1,0'
+        ]);
+
+        $position = CandidatePosition::findOrFail($id);
+        $position->user_id = Auth::user()->id;
+        $position->name = $request->position_name;
+        $position->is_active = $request->position_status;
+        $position->update();
+        session()->flash('message', 'Position updated successfully');
+        return response()->json(['message' => 'Position updated successfully']);
+    }
+
+    public function positionsDelete($id)
+    {
+        if (Auth::user()->can('Delete Position')) {
+            $id = Crypt::decrypt($id);
+            $position = CandidatePosition::findOrFail($id);
+            $position->delete();
+            return redirect()->back()->with('message', 'Position deleted successfully');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+    
 }
