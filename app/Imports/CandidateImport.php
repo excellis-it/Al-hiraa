@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use App\Models\CandidateActivity;
 use App\Models\CandidateFieldUpdate;
 use App\Models\CandidateLicence;
+use App\Models\CandidatePosition;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -56,9 +57,71 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->return = ($row['return'] == 'Yes') ? 1 : 0;
             $candidate->indian_exp = $row['indian_exp'] ?? '';
             $candidate->abroad_exp = $row['abroad_exp'] ?? '';
-            $candidate->position_applied_for_1 = $row['position_applied_for_1'] ?? '';
-            $candidate->position_applied_for_2 = $row['position_applied_for_2'] ?? '';
-            $candidate->position_applied_for_3 = $row['position_applied_for_3'] ?? '';
+
+            $position_1_count = CandidatePosition::where('id', $row['position_applied_for_1'])->count();
+            $position_2_count = CandidatePosition::where('id', $row['position_applied_for_2'])->count();
+            $position_3_count = CandidatePosition::where('id', $row['position_applied_for_3'])->count();
+            
+            if ($row['position_applied_for_1']) {
+                if ($position_1_count > 0) {
+                    $candidate->position_applied_for_1 = $row['position_applied_for_1'];
+                } else {
+                    $second_position_1_count = CandidatePosition::where('name', $row['position_applied_for_1'])->count();
+                    if ($second_position_1_count > 0) {
+                        $candidate->position_applied_for_1 = CandidatePosition::where('name', $row['position_applied_for_1'])->first()->id;
+                    } else {
+                        $candidate_position_1 = new CandidatePosition();
+                        $candidate_position_1->user_id = Auth::user()->id;
+                        $candidate_position_1->name = $row['position_applied_for_1'];
+                        $candidate_position_1->is_active = 0;
+                        $candidate_position_1->save();
+                        $candidate->position_applied_for_1 = $candidate_position_1->id;
+                    }
+                }
+            } else {
+                $candidate->position_applied_for_1 = null;
+            }
+
+            if ($row['position_applied_for_2']) {
+                if ($position_2_count > 0) {
+                    $candidate->position_applied_for_2 = $row['position_applied_for_2'];
+                } else {
+                    $second_position_2_count = CandidatePosition::where('name', $row['position_applied_for_2'])->count();
+                    if ($second_position_2_count > 0) {
+                        $candidate->position_applied_for_2 = CandidatePosition::where('name', $row['position_applied_for_2'])->first()->id;
+                    } else {
+                        $candidate_position_2 = new CandidatePosition();
+                        $candidate_position_2->user_id = Auth::user()->id;
+                        $candidate_position_2->name = $row['position_applied_for_2'];
+                        $candidate_position_2->is_active = 0;
+                        $candidate_position_2->save();
+                        $candidate->position_applied_for_2 = $candidate_position_2->id;
+                    }
+                }
+            } else {
+                $candidate->position_applied_for_2 = null;
+            }
+
+            if ($row['position_applied_for_3']) {
+                if ($position_3_count > 0) {
+                    $candidate->position_applied_for_3 = $row['position_applied_for_3'];
+                } else {
+                    $second_position_3_count = CandidatePosition::where('name', $row['position_applied_for_3'])->count();
+                    if ($second_position_3_count > 0) {
+                        $candidate->position_applied_for_3 = CandidatePosition::where('name', $row['position_applied_for_3'])->first()->id;
+                    } else {
+                        $candidate_position_3 = new CandidatePosition();
+                        $candidate_position_3->user_id = Auth::user()->id;
+                        $candidate_position_3->name = $row['position_applied_for_3'];
+                        $candidate_position_3->is_active = 0;
+                        $candidate_position_3->save();
+                        $candidate->position_applied_for_3 = $candidate_position_3->id;
+                    }
+                }
+            } else {
+                $candidate->position_applied_for_3 = null;
+            }
+
             $candidate->passport_number = $row['passport_number'] ?? '';
             $candidate->save();
 

@@ -6,7 +6,7 @@
                 id="position-edit-form">
                 @method('PUT')
                 @csrf
-                
+
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="add-mem-form">
@@ -25,15 +25,15 @@
                                 <div class="col-xl-12">
                                     <div class="form-group">
                                         <label for="">Status<span>*</span></label>
-                                        <select name="position_status"  class="form-control">
+                                        <select name="position_status"  class="form-select">
                                             <option value="1" {{ $position->is_active == 1 ? 'selected':'' }}>Active</option>
                                             <option value="0" {{ $position->is_active == 0 ? 'selected':'' }}>Inactive</option>
                                         </select>
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
-                               
-                              
+
+
                                 <div class="col-lg-12 mt-3">
                                     <div class="save-btn-div d-flex align-items-center">
                                         <button type="submit" class="btn save-btn"><span><i
@@ -49,5 +49,5 @@
             </form>
         </div>
     </div>
-  
+
 @endif

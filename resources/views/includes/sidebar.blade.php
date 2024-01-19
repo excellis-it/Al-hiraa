@@ -65,7 +65,7 @@
 
                 @if (Gate::check('Manage Job'))
                     <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="jobs.html">
+                        <a class="sidebar-menu-button" href="#">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/briefcase.svg') }}"></i>
                             <span class="sidebar-menu-text">Jobs</span>
@@ -84,7 +84,7 @@
                 @endif
                 @if (Gate::check('Manage Schedule'))
                     <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="to_do.html">
+                        <a class="sidebar-menu-button" href="#">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/calendar.svg') }}"></i>
                             <span class="sidebar-menu-text">Schedule & To-Do</span>
@@ -109,14 +109,14 @@
                             @endif
                             @if (Gate::check('Manage Revenue'))
                                 <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="revenue-collection.html">
+                                    <a class="sidebar-menu-button" href="#">
                                         <span class="sidebar-menu-text">Revenue & Collection</span>
                                     </a>
                                 </li>
                             @endif
                             @if (Gate::check('Manage Team Performance'))
                                 <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="team-performance.html">
+                                    <a class="sidebar-menu-button" href="#">
                                         <span class="sidebar-menu-text">Team Performance</span>
                                     </a>
                                 </li>

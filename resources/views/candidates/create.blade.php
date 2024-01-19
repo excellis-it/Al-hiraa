@@ -193,12 +193,12 @@
                 // alert(type);
                 if (type == 'Other') {
                     $('.position_applied_3').html(
-                        ` <label for="">Position Applied For(3) <span>*</span> <span><a href="javascript:void(0);"
+                        ` <label for="">Position Applied For(3) <span><a href="javascript:void(0);"
                 class="position_applied_for_3">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_3" placeholder="">`
                     );
                 } else {
                     $('.position_applied_3').html(
-                        ` <label for="">Position Applied For(3) <span>*</span> <span><a href="javascript:void(0);"
+                        ` <label for="">Position Applied For(3)  <span><a href="javascript:void(0);"
                 class="position_applied_for_3">Other</a></span></label><select name="position_applied_for_3" class="form-select select2" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)

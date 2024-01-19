@@ -425,7 +425,7 @@
                     value="{{ $candidate->position_applied_for_3 ?? '' }}" name="position_applied_for_3" placeholder=""> --}}
                 @if ($candidate->positionAppliedFor3)
                     @if ($candidate->positionAppliedFor3()->where('is_active', 1)->count() > 0)
-                        <label for="">Position Applied For(3) <span>* </span> <span><a href="javascript:void(0);"
+                        <label for="">Position Applied For(3)  <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></label>
                         <select name="position_applied_for_3" class="form-select select2" id="">
                             <option value="">Select Position</option>
@@ -436,14 +436,14 @@
                             @endforeach
                         </select>
                     @else
-                        <label for="">Position Applied For(3) <span>* </span> <span><a href="javascript:void(0);"
+                        <label for="">Position Applied For(3)  <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">List</a></span></label>
                         <input type="text" class="form-control" id=""
                             value="{{ $candidate->positionAppliedFor3->name ?? '' }}" name="position_applied_for_3"
                             placeholder="">
                     @endif
                 @else
-                    <label for="">Position Applied For(3) <span>* </span> <span><a href="javascript:void(0);"
+                    <label for="">Position Applied For(3)  <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">Other</a></span></label>
                     <select name="position_applied_for_3" class="form-select select2" id="">
                         <option value="">Select Position</option>
