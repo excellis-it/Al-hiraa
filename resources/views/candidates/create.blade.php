@@ -68,6 +68,15 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('.select2').each(function() {
+                $(this).select2({
+                    dropdownParent: $(this).parent()
+                });
+            })
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
             $('#contact_no').on('keyup', function() {
                 var contact_no = $(this).val();
                 // if +91 in this number then remove it
@@ -118,26 +127,110 @@
         });
     </script>
     <script>
-        // whatsapp number start with +91
         $(document).ready(function() {
-            $(document).on('keyup', 'input[name="whatapp_no"]', function() {
-                    var whatapp_no = $(this).val();
-                    if (whatapp_no.length > 0){
-                        if (!whatapp_no.startsWith('+91')) {
-                            $(this).val('+91' + whatapp_no);
-                        }
+            $(document).on('click', '.position_applied_for_1', function() {
+
+                var type = $(this).text();
+                // alert(type);
+                if (type == 'Other') {
+                    $('.position_applied_1').html(
+                        ` <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
+                class="position_applied_for_1">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_1" placeholder="">`
+                    );
+                } else {
+                    $('.position_applied_1').html(
+                        ` <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
+                class="position_applied_for_1">Other</a></span></label><select name="position_applied_for_1" class="form-select select2" id="">
+                        <option value="">Select Type</option>
+                        @foreach ($candidate_positions as $item)
+                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                        @endforeach
+                    </select>`
+                    );
                 }
 
+                $(document).ready(function() {
+                    $('.select2').each(function() {
+                        $(this).select2({
+                            dropdownParent: $(this).parent()
+                        });
+                    })
+                });
             });
+
+            $(document).on('click', '.position_applied_for_2', function() {
+
+                var type = $(this).text();
+                // alert(type);
+                if (type == 'Other') {
+                    $('.position_applied_2').html(
+                        ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
+                class="position_applied_for_2">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_2" placeholder="">`
+                    );
+                } else {
+                    $('.position_applied_2').html(
+                        ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
+                class="position_applied_for_2">Other</a></span></label><select name="position_applied_for_2" class="form-select select2" id="">
+                        <option value="">Select Type</option>
+                        @foreach ($candidate_positions as $item)
+                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                        @endforeach
+                    </select>`
+                    );
+                }
+                $(document).ready(function() {
+                    $('.select2').each(function() {
+                        $(this).select2({
+                            dropdownParent: $(this).parent()
+                        });
+                    })
+                });
+            });
+
+            $(document).on('click', '.position_applied_for_3', function() {
+
+                var type = $(this).text();
+                // alert(type);
+                if (type == 'Other') {
+                    $('.position_applied_3').html(
+                        ` <label for="">Position Applied For(3) <span>*</span> <span><a href="javascript:void(0);"
+                class="position_applied_for_3">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_3" placeholder="">`
+                    );
+                } else {
+                    $('.position_applied_3').html(
+                        ` <label for="">Position Applied For(3) <span>*</span> <span><a href="javascript:void(0);"
+                class="position_applied_for_3">Other</a></span></label><select name="position_applied_for_3" class="form-select select2" id="">
+                        <option value="">Select Type</option>
+                        @foreach ($candidate_positions as $item)
+                            <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
+                        @endforeach
+                    </select>`
+                    );
+                }
+                $(document).ready(function() {
+                    $('.select2').each(function() {
+                        $(this).select2({
+                            dropdownParent: $(this).parent()
+                        });
+                    })
+                });
+            });
+
+
         });
     </script>
     <script>
+        // whatsapp number start with +91
         $(document).ready(function() {
-            $('.select2').each(function() {
-                $(this).select2({
-                    dropdownParent: $(this).parent()
-                });
-            })
+            $(document).on('keyup', 'input[name="whatapp_no"]', function() {
+                var whatapp_no = $(this).val();
+                if (whatapp_no.length > 0) {
+                    if (!whatapp_no.startsWith('+91')) {
+                        $(this).val('+91' + whatapp_no);
+                    }
+                }
+
+            });
         });
     </script>
 @endpush

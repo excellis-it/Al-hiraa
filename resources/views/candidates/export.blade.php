@@ -108,9 +108,9 @@
                 <td>{{ $item->english_speak ?? 'N/A' }}</td>
                 <td>{{ $item->arabic_speak ?? 'N/A' }}</td>
                 <td>{{ $item->return == 1 ? 'Yes' : 'No' }}</td>
-                <td>{{ $item->position_applied_for_1 ?? 'N/A' }}</td>
-                <td>{{ $item->position_applied_for_2 ?? 'N/A' }}</td>
-                <td>{{ $item->position_applied_for_3 ?? 'N/A' }}</td>
+                <td>{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
+                <td>{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
+                <td>{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
                 <td>{{ $item->passport_number ?? 'N/A' }}</td>
                 <td>{{ $item->indian_exp ?? 'N/A' }}</td>
                 <td>{{ $item->abroad_exp ?? 'N/A' }}</td>

@@ -8,6 +8,7 @@ use App\Models\Candidate;
 use App\Models\CandidateActivity;
 use App\Models\CandidateFieldUpdate;
 use App\Models\CandidateLicence;
+use App\Models\CandidatePosition;
 use App\Models\CandidateStatus;
 use App\Models\CandidateUpdated;
 use App\Models\User;
@@ -25,6 +26,7 @@ class CandidateController extends Controller
     {
         if (Auth::user()->can('Manage Candidate')) {
             $candidate_statuses = CandidateStatus::all();
+            $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
 
                 $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(15);
@@ -32,7 +34,7 @@ class CandidateController extends Controller
                 $candidates = Candidate::orderBy('id', 'desc')->paginate(15);
             }
             // session()->forget('candidate_id');
-            return view('candidates.list')->with(compact('candidates', 'candidate_statuses'));
+            return view('candidates.list')->with(compact('candidates', 'candidate_statuses','candidate_positions'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -46,7 +48,8 @@ class CandidateController extends Controller
         if (Auth::user()->can('Create Candidate')) {
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
-            return view('candidates.create')->with(compact('candidate_statuses', 'associates'));
+            $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
+            return view('candidates.create')->with(compact('candidate_statuses', 'associates','candidate_positions'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -105,9 +108,74 @@ class CandidateController extends Controller
         $candidate->english_speak = $request->english_speak;
         $candidate->arabic_speak = $request->arabic_speak;
         $candidate->return = ($request->return != null) ? $request->return : 0;
-        $candidate->position_applied_for_1 = $request->position_applied_for_1;
-        $candidate->position_applied_for_2 = $request->position_applied_for_2;
-        $candidate->position_applied_for_3 = $request->position_applied_for_3;
+
+        // check position
+        $position_1_count = CandidatePosition::where('id', $request->position_applied_for_1)->count();
+        $position_2_count = CandidatePosition::where('id', $request->position_applied_for_2)->count();
+        $position_3_count = CandidatePosition::where('id', $request->position_applied_for_3)->count();
+        if ($request->position_applied_for_1) {
+            if ($position_1_count > 0) {
+                $candidate->position_applied_for_1 = $request->position_applied_for_1;
+            } else {
+                $second_position_1_count = CandidatePosition::where('name', $request->position_applied_for_1)->count();
+                if ($second_position_1_count > 0) {
+                    $candidate->position_applied_for_1 = CandidatePosition::where('name', $request->position_applied_for_1)->first()->id;
+                } else {
+                    $candidate_position_1 = new CandidatePosition();
+                    $candidate_position_1->user_id = Auth::user()->id;
+                    $candidate_position_1->name = $request->position_applied_for_1;
+                    $candidate_position_1->is_active = 0;
+                    $candidate_position_1->save();
+                    $candidate->position_applied_for_1 = $candidate_position_1->id;
+                }
+
+            }
+        } else {
+            $candidate->position_applied_for_1 = null;
+        }
+
+        if ($request->position_applied_for_2) {
+            if ($position_2_count > 0) {
+                $candidate->position_applied_for_2 = $request->position_applied_for_2;
+            } else {
+                $second_position_2_count = CandidatePosition::where('name', $request->position_applied_for_2)->count();
+                if ($second_position_2_count > 0) {
+                    $candidate->position_applied_for_2 = CandidatePosition::where('name', $request->position_applied_for_2)->first()->id;
+                } else {
+                    $candidate_position_2 = new CandidatePosition();
+                    $candidate_position_2->user_id = Auth::user()->id;
+                    $candidate_position_2->name = $request->position_applied_for_2;
+                    $candidate_position_2->is_active = 0;
+                    $candidate_position_2->save();
+                    $candidate->position_applied_for_2 = $candidate_position_2->id;
+                }
+
+            }
+        } else {
+            $candidate->position_applied_for_2 = null;
+        }
+
+        if ($request->position_applied_for_3) {
+            if ($position_3_count > 0) {
+                $candidate->position_applied_for_3 = $request->position_applied_for_3;
+            } else {
+                $second_position_3_count = CandidatePosition::where('name', $request->position_applied_for_3)->count();
+                if ($second_position_3_count > 0) {
+                    $candidate->position_applied_for_3 = CandidatePosition::where('name', $request->position_applied_for_3)->first()->id;
+                } else {
+                    $candidate_position_3 = new CandidatePosition();
+                    $candidate_position_3->user_id = Auth::user()->id;
+                    $candidate_position_3->name = $request->position_applied_for_3;
+                    $candidate_position_3->is_active = 0;
+                    $candidate_position_3->save();
+                    $candidate->position_applied_for_3 = $candidate_position_3->id;
+                }
+            }
+        } else {
+            $candidate->position_applied_for_3 = null;
+        }
+
+
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
         $candidate->save();
@@ -176,6 +244,7 @@ class CandidateController extends Controller
         $candidate_statuses = CandidateStatus::all();
         $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
         $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
+        $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
         $edit = true;
         if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
@@ -191,7 +260,7 @@ class CandidateController extends Controller
             }
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('candidate', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('candidate','candidate_positions', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -250,9 +319,77 @@ class CandidateController extends Controller
         $candidate->english_speak = $request->english_speak;
         $candidate->arabic_speak = $request->arabic_speak;
         $candidate->return = $request->return;
-        $candidate->position_applied_for_1 = $request->position_applied_for_1;
-        $candidate->position_applied_for_2 = $request->position_applied_for_2;
-        $candidate->position_applied_for_3 = $request->position_applied_for_3;
+       // check position
+       $position_1_count = CandidatePosition::where('id', $request->position_applied_for_1)->count();
+       $position_2_count = CandidatePosition::where('id', $request->position_applied_for_2)->count();
+       $position_3_count = CandidatePosition::where('id', $request->position_applied_for_3)->count();
+
+       $position_1_count = CandidatePosition::where('id', $request->position_applied_for_1)->count();
+        $position_2_count = CandidatePosition::where('id', $request->position_applied_for_2)->count();
+        $position_3_count = CandidatePosition::where('id', $request->position_applied_for_3)->count();
+        if ($request->position_applied_for_1) {
+            if ($position_1_count > 0) {
+                $candidate->position_applied_for_1 = $request->position_applied_for_1;
+            } else {
+                $second_position_1_count = CandidatePosition::where('name', $request->position_applied_for_1)->count();
+                if ($second_position_1_count > 0) {
+                    $candidate->position_applied_for_1 = CandidatePosition::where('name', $request->position_applied_for_1)->first()->id;
+                } else {
+                    $candidate_position_1 = new CandidatePosition();
+                    $candidate_position_1->user_id = Auth::user()->id;
+                    $candidate_position_1->name = $request->position_applied_for_1;
+                    $candidate_position_1->is_active = 0;
+                    $candidate_position_1->save();
+                    $candidate->position_applied_for_1 = $candidate_position_1->id;
+                }
+
+            }
+        } else {
+            $candidate->position_applied_for_1 = null;
+        }
+
+        if ($request->position_applied_for_2) {
+            if ($position_2_count > 0) {
+                $candidate->position_applied_for_2 = $request->position_applied_for_2;
+            } else {
+                $second_position_2_count = CandidatePosition::where('name', $request->position_applied_for_2)->count();
+                if ($second_position_2_count > 0) {
+                    $candidate->position_applied_for_2 = CandidatePosition::where('name', $request->position_applied_for_2)->first()->id;
+                } else {
+                    $candidate_position_2 = new CandidatePosition();
+                    $candidate_position_2->user_id = Auth::user()->id;
+                    $candidate_position_2->name = $request->position_applied_for_2;
+                    $candidate_position_2->is_active = 0;
+                    $candidate_position_2->save();
+                    $candidate->position_applied_for_2 = $candidate_position_2->id;
+                }
+
+            }
+        } else {
+            $candidate->position_applied_for_2 = null;
+        }
+
+        if ($request->position_applied_for_3) {
+            if ($position_3_count > 0) {
+                $candidate->position_applied_for_3 = $request->position_applied_for_3;
+            } else {
+                $second_position_3_count = CandidatePosition::where('name', $request->position_applied_for_3)->count();
+                if ($second_position_3_count > 0) {
+                    $candidate->position_applied_for_3 = CandidatePosition::where('name', $request->position_applied_for_3)->first()->id;
+                } else {
+                    $candidate_position_3 = new CandidatePosition();
+                    $candidate_position_3->user_id = Auth::user()->id;
+                    $candidate_position_3->name = $request->position_applied_for_3;
+                    $candidate_position_3->is_active = 0;
+                    $candidate_position_3->save();
+                    $candidate->position_applied_for_3 = $candidate_position_3->id;
+                }
+            }
+        } else {
+            $candidate->position_applied_for_3 = null;
+        }
+
+        
         $candidate->indian_exp = $request->indian_exp;
         $candidate->abroad_exp = $request->abroad_exp;
         $candidate->passport_number = $request->passport_number;
@@ -326,16 +463,18 @@ class CandidateController extends Controller
     {
         $candidate = Candidate::where('contact_no', $request->contact_no)->first();
         if (!$candidate) {
+            $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'candidate_statuses', 'associates'))->render(), 'status' => 'success']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'candidate_statuses', 'associates','candidate_positions'))->render(), 'status' => 'success']);
         } else {
+            $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
             $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
             $autofill = true;
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license','candidate_positions', 'gulf_driving_license'))->render(), 'status' => 'success']);
         }
     }
 

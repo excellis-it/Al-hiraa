@@ -45,9 +45,9 @@
             <td>{{ $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
             <td>{{ $item->education ?? 'N/A' }}</td>
             <td>{{ $item->other_education ?? 'N/A' }}</td>
-            <td>{{ $item->position_applied_for_1 ?? 'N/A' }}</td>
-            <td>{{ $item->position_applied_for_2 ?? 'N/A' }}</td>
-            <td>{{ $item->position_applied_for_3 ?? 'N/A' }}</td>
+            <td>{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
+            <td>{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
+            <td>{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
             <td>{{ $item->passport_number ?? 'N/A' }}</td>
             <td>
                 {{ $item->city ?? 'N/A' }}

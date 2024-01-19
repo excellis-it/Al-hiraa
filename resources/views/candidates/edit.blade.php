@@ -4,8 +4,8 @@
 @endphp
 @if (isset($edit))
 
-    <div class="offcanvas offcanvas-end"   tabindex="-1" id="offcanvasEdit" @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN')) @else data-bs-backdrop="static" @endif
-        aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
+        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN')) @else data-bs-backdrop="static" @endif aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-body">
             <div class="row g-3">
                 <div class="col-lg-4">
@@ -112,7 +112,7 @@
                     <div class="candidate_form candidate_edit_form">
                         <div class="table-responsive" id="tableContainer">
                             <table class="table" id="candidate-form">
-                                <tbody >
+                                <tbody>
                                     {{-- @include('candidates.details-form') --}}
                                     <tr>
                                         <td>Enter By</td>
@@ -276,20 +276,17 @@
                                     </tr>
                                     <tr>
                                         <td>Position Applied For(1)</td>
-                                        <td>{{ $candidate->position_applied_for_1 ?? 'N/A' }}
-
+                                        <td>{{ $candidate->positionAppliedFor1->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Position Applied For(2)</td>
-                                        <td>{{ $candidate->position_applied_for_2 ?? 'N/A' }}
-
+                                        <td>{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Position Applied For(3)</td>
-                                        <td>{{ $candidate->position_applied_for_3 ?? 'N/A' }}
-
+                                        <td>{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -711,45 +708,142 @@
         </td>
       </tr>
 
-      <tr>
-        <td>Postion Applied For(1)</td>
+      <tr class="position_applied_1">
+
+            @if ($candidate->positionAppliedFor1)
+                @if ($candidate->positionAppliedFor1()->where('is_active', 1)->count() > 0)
+                <td>Position Applied For(1) <span><a href="javascript:void(0);"
+                                class="position_applied_for_1">Other</a></span></td>
         <td>
-            <select name="position_applied_for_1" class="form-select select2" id="">
-                <option value="">Select Position</option>
-                @foreach (Position::getPosition() as $item)
-                    <option value="{{ $item }}"
-                        {{ $candidate->position_applied_for_1 == $item ? 'selected' : '' }}>
-                        {{ $item }}</option>
-                @endforeach
-            </select>
-            <span class="text-danger" id="position_applied_for_1_msg"></span>
-        </td>
+                    <select name="position_applied_for_1" class="form-select select2" id="">
+                        <option value="">Select Position</option>
+                        @foreach ($candidate_positions as $item)
+                            <option value="{{ $item['id'] }}"
+                                {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
+                                {{ $item['name'] }}</option>
+                        @endforeach
+                    </select>
+                </td>
+                <span class="text-danger" id="position_applied_for_1_msg"></span>
+                </td>
+                @else
+                <td>Position Applied For(1) <span><a href="javascript:void(0);"
+                                class="position_applied_for_1">List</a></span></td>
+        <td>
+                    <input type="text" class="form-control" id=""
+                        value="{{ $candidate->positionAppliedFor1->name ?? '' }}" name="position_applied_for_1"
+                        placeholder="">
+                    </td>
+                    <span class="text-danger" id="position_applied_for_1_msg"></span>
+                </td>
+                @endif
+
+            @else
+            <td>Position Applied For(1) <span><a href="javascript:void(0);"
+                                class="position_applied_for_1">Other</a></span></td>
+        <td>
+                <select name="position_applied_for_1" class="form-select select2" id="">
+                    <option value="">Select Position</option>
+                    @foreach ($candidate_positions as $item)
+                        <option value="{{ $item['id'] }}"
+                            {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
+                            {{ $item['name'] }}</option>
+                    @endforeach
+                </select>
+                <span class="text-danger" id="position_applied_for_1_msg"></span>
+                </td>
+
+                </td>
+            @endif
+
       </tr>
-      <tr>
-        <td>Postion Applied For(2)</td>
+      <tr class="position_applied_2">
+
+            @if ($candidate->positionAppliedFor2)
+                @if ($candidate->positionAppliedFor2()->where('is_active', 1)->count() > 0)
+                <td>Position Applied For(2)<span><a href="javascript:void(0);"
+                                class="position_applied_for_2">Other</a></span></td>
         <td>
-            <select name="position_applied_for_2" class="form-select select2" id="">
-                <option value="">Select Position</option>
-                @foreach (Position::getPosition() as $item)
-                    <option value="{{ $item }}"
-                        {{ $candidate->position_applied_for_2 == $item ? 'selected' : '' }}>
-                        {{ $item }}</option>
-                @endforeach
-            </select>
+                    <select name="position_applied_for_2" class="form-select select2" id="">
+                        <option value="">Select Position</option>
+                        @foreach ($candidate_positions as $item)
+                            <option value="{{ $item['id'] }}"
+                                {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
+                                {{ $item['name'] }}</option>
+                        @endforeach
+                    </select>
+                </td>
         </td>
+                @else
+                <td>Position Applied For(2)<span><a href="javascript:void(0);"
+                                class="position_applied_for_2">List</a></span></td>
+        <td>
+                    <input type="text" class="form-control" id=""
+                        value="{{ $candidate->positionAppliedFor2->name ?? '' }}" name="position_applied_for_2"
+                        placeholder="">
+                @endif
+            </td>
+        </td>
+            @else
+            <td>Position Applied For(2)<span><a href="javascript:void(0);"
+                                class="position_applied_for_2">Other</a></span></td>
+        <td>
+                <select name="position_applied_for_2" class="form-select select2" id="">
+                    <option value="">Select Position</option>
+                    @foreach ($candidate_positions as $item)
+                        <option value="{{ $item['id'] }}"
+                            {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
+                            {{ $item['name'] }}</option>
+                    @endforeach
+                </select>
+            </td>
+        </td>
+            @endif
+
       </tr>
-      <tr>
-        <td>Postion Applied For(3)</td>
+      <tr class="position_applied_3">
+
+            @if ($candidate->positionAppliedFor3)
+                    @if ($candidate->positionAppliedFor3()->where('is_active', 1)->count() > 0)
+                    <td>Position Applied For(3) <span><a href="javascript:void(0);"
+                                    class="position_applied_for_3">Other</a></span></td>
         <td>
-            <select name="position_applied_for_3" class="form-select select2" id="">
-                <option value="">Select Position</option>
-                @foreach (Position::getPosition() as $item)
-                    <option value="{{ $item }}"
-                        {{ $candidate->position_applied_for_3 == $item ? 'selected' : '' }}>
-                        {{ $item }}</option>
-                @endforeach
-            </select>
-        </td>
+                        <select name="position_applied_for_3" class="form-select select2" id="">
+                            <option value="">Select Position</option>
+                            @foreach ($candidate_positions as $item)
+                                <option value="{{ $item['id'] }}"
+                                    {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
+                                    {{ $item['name'] }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+            </td>
+                    @else
+                    <td>Position Applied For(3) <span><a href="javascript:void(0);"
+                                    class="position_applied_for_3">List</a></span></td>
+        <td>
+                        <input type="text" class="form-control" id=""
+                            value="{{ $candidate->positionAppliedFor3->name ?? '' }}" name="position_applied_for_3"
+                            placeholder="">
+                        </td>
+            </td>
+                    @endif
+                @else
+                <td>Position Applied For(3) <span><a href="javascript:void(0);"
+                                    class="position_applied_for_3">Other</a></span></td>
+        <td>
+                    <select name="position_applied_for_3" class="form-select select2" id="">
+                        <option value="">Select Position</option>
+                        @foreach ($candidate_positions as $item)
+                            <option value="{{ $item['id'] }}"
+                                {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
+                                {{ $item['name'] }}</option>
+                        @endforeach
+                    </select>
+                </td>
+            </td>
+                @endif
+
       </tr>
       <tr>
         <td>Indian Experience (If any?)</td>
@@ -774,7 +868,7 @@
                 <option value="">Select Call Status</option>
                 @foreach (Position::getCallStatus() as $item)
                     <option value="{{ $item }}"
-                       @if(isset($candidate->lastCandidateActivity)) {{ $candidate->lastCandidateActivity->call_status == $item ? 'selected' : '' }} @endif>
+                       @if (isset($candidate->lastCandidateActivity)) {{ $candidate->lastCandidateActivity->call_status == $item ? 'selected' : '' }} @endif>
                         {{ $item }}</option>
                 @endforeach
             </select>
@@ -966,20 +1060,17 @@
                                     </tr>
                                     <tr>
                                         <td>Position Applied For(1)</td>
-                                        <td>{{ $candidate->position_applied_for_1 ?? 'N/A' }}
-
+                                        <td>{{ $candidate->positionAppliedFor1->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Position Applied For(2)</td>
-                                        <td>{{ $candidate->position_applied_for_2 ?? 'N/A' }}
-
+                                        <td>{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Position Applied For(3)</td>
-                                        <td>{{ $candidate->position_applied_for_3 ?? 'N/A' }}
-
+                                        <td>{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -1093,6 +1184,70 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+
+    <script>
+         $(document).ready(function() {
+            $(document).on('click', '.position_applied_for_1', function() {
+
+                var type = $(this).text();
+                // alert(type);
+                if (type == 'Other') {
+                    $('.position_applied_1').html(`<td>Position Applied For(1) <span><a href="javascript:void(0);"
+                                class="position_applied_for_1">List</a></span></td> <td> <input type="text"
+                                class="form-control" id="" value="{{ $candidate->positionAppliedFor1->name ?? '' }}"
+                                name="position_applied_for_1" placeholder=""> </td>`);
+                } else {
+                    $('.position_applied_1').html(`<td>Position Applied For(1) <span><a href="javascript:void(0);"
+                                class="position_applied_for_1">Other</a></span></td> <td> <select
+                                name="position_applied_for_1" class="form-select select2" id=""> <option
+                                    value="">Select Position</option> @foreach ($candidate_positions as $item)
+                                <option value="{{ $item['id'] }}"
+                                    {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
+                                    {{ $item['name'] }}</option> @endforeach </select> </td>`);
+                }
+            });
+
+            $(document).on('click', '.position_applied_for_2', function() {
+
+                var type = $(this).text();
+                // alert(type);
+                if (type == 'Other') {
+                    $('.position_applied_2').html(`<td>Position Applied For(2) <span><a href="javascript:void(0);"
+                                class="position_applied_for_2">List</a></span></td> <td> <input type="text"
+                                class="form-control" id="" value="{{ $candidate->positionAppliedFor2->name ?? '' }}"
+                                name="position_applied_for_2" placeholder=""> </td>`);
+                } else {
+                    $('.position_applied_2').html(`<td>Position Applied For(2) <span><a href="javascript:void(0);"
+                                class="position_applied_for_2">Other</a></span></td> <td> <select
+                                name="position_applied_for_2" class="form-select select2" id=""> <option
+                                    value="">Select Position</option> @foreach ($candidate_positions as $item)
+                                <option value="{{ $item['id'] }}"
+                                    {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
+                                    {{ $item['name'] }}</option> @endforeach </select> </td>`);
+                }
+            });
+
+            $(document).on('click', '.position_applied_for_3', function() {
+
+                var type = $(this).text();
+                // alert(type);
+                if (type == 'Other') {
+                    $('.position_applied_3').html(`<td>Position Applied For(3) <span><a href="javascript:void(0);"
+                                class="position_applied_for_3">List</a></span></td> <td> <input type="text"
+                                class="form-control" id="" value="{{ $candidate->positionAppliedFor3->name ?? '' }}"
+                                name="position_applied_for_3" placeholder=""> </td>`);
+                } else {
+                    $('.position_applied_3').html(`<td>Position Applied For(3) <span><a href="javascript:void(0);"
+                                class="position_applied_for_3">Other</a></span></td> <td> <select
+                                name="position_applied_for_3" class="form-select select2" id=""> <option
+                                    value="">Select Position</option> @foreach ($candidate_positions as $item)
+                                <option value="{{ $item['id'] }}"
+                                    {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
+                                    {{ $item['name'] }}</option> @endforeach </select> </td>`);
+                }
             });
         });
     </script>

@@ -79,4 +79,19 @@ class Candidate extends Model
     {
         return $this->hasOne(CandidateActivity::class)->orderBy('id', 'desc');
     }
+
+    public function positionAppliedFor1()
+    {
+        return $this->belongsTo(CandidatePosition::class, 'position_applied_for_1');
+    }
+
+    public function positionAppliedFor2()
+    {
+        return $this->belongsTo(CandidatePosition::class, 'position_applied_for_2');
+    }
+
+    public function positionAppliedFor3()
+    {
+        return $this->belongsTo(CandidatePosition::class, 'position_applied_for_3');
+    }
 }

@@ -105,9 +105,9 @@
                 <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
                     <select name="position_applied_for" class="form-select select2" id="position_applied_for_filter">
                         <option value="">Select Position</option>
-                        @foreach (Position::getPosition() as $item)
-                            <option value="{{ $item }}">
-                                {{ $item }}</option>
+                        @foreach ($candidate_positions as $item)
+                            <option value="{{ $item['id'] }}">
+                                {{ $item['name'] }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -230,9 +230,9 @@
                         cnadidate_status_id: cnadidate_status_id,
                         source: source,
                         gender: gender,
-                        position_applied_for : position_applied_for,
-                        english_speak : english_speak,
-                        arabic_speak : arabic_speak
+                        position_applied_for: position_applied_for,
+                        english_speak: english_speak,
+                        arabic_speak: arabic_speak
                     },
                     success: function(data) {
                         // console.log(data.view);
@@ -491,27 +491,23 @@
                                 '0') + ' ' + date.toLocaleString('default', {
                                 month: 'short'
                             }) + ', ' + date.getFullYear();
-                            html += '<div class="testimonial-box">';
-                            html += '<div class="box-top">';
-                            html += '<div class="profile">';
-                            html += '<div class="name-user">';
-                            html += '<strong class="date">Activity on ' +
-                                formattedDate + '</strong>';
-                            html += '<br>';
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                html += '<p><b>' + value.call_status + '(' + value.user
-                                    .first_name + ' ' + value.user.last_name +
-                                    ')</b></p>';
-                            @else
-                                html += '<p><b>' + value.call_status + '</b></p>';
-                            @endif
+                            var call_status = value.call_status == null ? 'N/A' : value.call_status;
+                            html += '<div class="activity_box">';
+                            html += '<div class="activity_box_dd">';
+                            html += '<div class="activity_box_ff">';
+                            html += '<div class="active-user">';
+                            html += value.user.first_name + ' ' + value.user.last_name;
                             html += '</div>';
+                            html += '<div class="all_ansered">Call Status: <span>' + call_status +
+                                '</span></div>';
                             html += '</div>';
+                            html += '<div class="date">' + formattedDate + '</div>';
                             html += '</div>';
-                            html += '<div class="client-comment">';
+                            html += '<div class="active-comment">';
                             html += '<p>' + value.remarks + '</p>';
                             html += '</div>';
                             html += '</div>';
+
                         });
 
                         $('#show-details').html(html);
