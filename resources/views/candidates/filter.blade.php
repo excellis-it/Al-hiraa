@@ -1,6 +1,9 @@
 @if (count($candidates) > 0)
     @foreach ($candidates as $item)
-        <tr>
+        <tr   @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR'))
+            @else
+        class="{{($item->is_call_id != null) ? 'disabled-row' : ''}}"
+        @endif>
             {{-- <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td> --}}
             <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn" data-route="{{route('candidates.activity', $item['id'])}}" style="cursor: pointer">
                 {{-- remarks only show 10 word --}}
@@ -14,6 +17,7 @@
                     {{ 'N/A' }}
                 @endif
             </td>
+
             <td>
                 <div class="round_staus active" >
                     {{ $item->candidateStatus->name ?? 'N/A' }}
@@ -26,6 +30,9 @@
                 @else
                     {{ 'N/A' }}
                 @endif
+            </td>
+            <td>{{ ($item->candidateUpdate()->count() > 0) ?  date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : 'N/A' }}</td>
+            <td>{{ $item->candidateUpdate->user->full_name ?? 'N/A' }}</td>
             <td>{{ $item->mode_of_registration ?? 'N/A' }}</td>
             <td>
                 {{ $item->source ?? 'N/A' }}
@@ -104,7 +111,7 @@
         </tr>
     @endforeach
     <tr>
-        <td colspan="28" class="text-left">
+        <td colspan="30" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                     (Showing {{ $candidates->firstItem() }} – {{ $candidates->lastItem() }} candidates of
@@ -116,6 +123,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="28" class="text-center">No Data Found</td>
+        <td colspan="30" class="text-center">No Data Found</td>
     </tr>
 @endif

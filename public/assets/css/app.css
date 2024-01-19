@@ -1258,7 +1258,7 @@ select.form-control:focus::-ms-value {
 }
 
 
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
   .mdk-drawer__content {
     position: fixed;
     top: 0;
@@ -3470,14 +3470,13 @@ h6+[aria-label=breadcrumb],
   background: #11AF65;
 }
 .offcanvas-end {
-  top: auto;
-  bottom: 25px;
-  right: 15px;
-  width: 700px;
-  border-left: 1px solid rgba(0,0,0,.2);
-  height: auto;
-  border-radius: 15px;
-  transform: translateX(100%);
+  top: auto !important;
+    bottom: 25px;
+    right: 15px !important;
+    width: 700px !important;
+    border-left: 1px solid rgba(0,0,0,.2);
+    height: auto;
+    border-radius: 15px;
 }
 .name_box{
   background: #E5E5E5;
@@ -4671,3 +4670,8 @@ h6+[aria-label=breadcrumb],
 }
 
 
+
+.disabled-row {
+    pointer-events: none;
+    opacity: 0.6;
+}

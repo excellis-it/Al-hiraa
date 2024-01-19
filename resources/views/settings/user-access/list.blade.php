@@ -12,7 +12,7 @@
                     @can('Create User Access')
                         {{-- member create start --}}
                         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
-                            aria-labelledby="offcanvasRightLabel" style="visibility: hidden;" aria-hidden="true">
+                            aria-labelledby="offcanvasRightLabel"  aria-hidden="true">
                             <div class="offcanvas-body">
                                 <div class="user-acces-table">
                                     <form action="{{ route('user-access.store') }}" method="POST" enctype="multipart/form-data"
@@ -37,7 +37,7 @@
                                                     <div class="table-responsive border-bottom" data-toggle="lists">
                                                         @if (!empty($permissions))
                                                             @php
-                                                                $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access', 'Support'];
+                                                                $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access','Position', 'Support'];
 
                                                             @endphp
                                                             <table class="table mb-0 table-bordered">

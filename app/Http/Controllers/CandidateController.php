@@ -68,6 +68,8 @@ class CandidateController extends Controller
             'alternate_contact_no' => 'nullable|digits:10',
             'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
+            'indian_exp' => 'nullable|max:40',
+            'abroad_exp' => 'nullable|max:40',
         ]);
         $count = Candidate::where('contact_no', $request->contact_no)->count();
         if ($count > 0) {
@@ -208,6 +210,9 @@ class CandidateController extends Controller
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
             'remark' => 'required',
             'call_status' => 'required',
+            // indian_exp word limit validation
+            'indian_exp' => 'nullable|max:40',
+            'abroad_exp' => 'nullable|max:40',
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
@@ -445,11 +450,9 @@ class CandidateController extends Controller
     public function candidatesActivity($id)
     {
         if (Auth::user()->can('Manage Candidate')) {
-            if (Auth::user()->hasRole('ADMIN')) {
-                $candidate_activities = CandidateActivity::with('user')->where('candidate_id', $id)->orderBy('id', 'desc')->get();
-            } else {
-                $candidate_activities = CandidateActivity::with('user')->where('candidate_id', $id)->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
-            }
+
+            $candidate_activities = CandidateActivity::with('user')->where('candidate_id', $id)->orderBy('id', 'desc')->get();
+
             return response()->json(['status' => true, 'candidate_activities' => $candidate_activities]);
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));

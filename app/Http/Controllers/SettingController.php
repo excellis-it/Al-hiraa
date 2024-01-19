@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\RegistrationMail;
+use App\Models\CandidatePosition;
 use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
@@ -243,5 +244,26 @@ class SettingController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    public function positions()
+    {
+        if (Auth::user()->can('Manage Position')) {
+            $positions = CandidatePosition::orderBy('id','desc')->paginate(15);
+            return view('settings.positions.list')->with(compact('positions'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function positionsFilter(Request $request)
+    {
+        // return $request->all();
+        $positions = CandidatePosition::query();
+        if ($request->search) {
+            $positions->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+        $positions = $positions->orderBy('id','desc')->paginate(15);
+        return response()->json(['view' => view('settings.positions.filter', compact('positions'))->render()]);
     }
 }

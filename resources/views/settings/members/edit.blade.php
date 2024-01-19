@@ -1,6 +1,6 @@
 @if (isset($edit))
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel"
-        style="visibility: hidden;" aria-hidden="true">
+         aria-hidden="true">
         <div class="offcanvas-body">
             <form action="{{ route('members.update', Crypt::encrypt($member->id)) }}" method="POST" enctype="multipart/form-data"
                 id="member-edit-form">

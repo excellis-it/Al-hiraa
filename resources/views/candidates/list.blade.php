@@ -74,7 +74,7 @@
 
         <div class="container-fluid page__container">
             <div class="row mb-2">
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
                     {{-- status --}}
                     <select name="cnadidate_status_id" class="form-select" id="cnadidate_status_id_filter">
                         <option value="">Select A Status</option>
@@ -83,7 +83,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
                     <select name="source" class="form-select" id="source_filter">
                         <option value="">Select Source Type</option>
                         <option value="Telecalling">Telecalling
@@ -94,7 +94,7 @@
                         <option value="Others">Others </option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
                     <select name="gender" class="form-select" id="gender_filter">
                         <option value="">Select Gender</option>
                         <option value="Male"> Male </option>
@@ -102,7 +102,7 @@
                         <option value="Other">Other</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
                     <select name="position_applied_for" class="form-select select2" id="position_applied_for_filter">
                         <option value="">Select Position</option>
                         @foreach (Position::getPosition() as $item)
@@ -111,7 +111,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
                     <select name="english_speak" class="form-select" id="english_speak_filter">
                         <option value="">Select English Type</option>
                         <option value="Basic">Basic</option>
@@ -120,7 +120,7 @@
                         <option value="No">No</option>
                     </select>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
                     <select name="arabic_speak" class="form-select" id="arabic_speak_filter">
                         <option value="">Select Arbic Type</option>
                         <option value="Basic">Basic</option>
@@ -140,7 +140,9 @@
                                     {{-- <th>Enter By</th> --}}
                                     <th>Remarks</th>
                                     <th>Status</th>
-                                    <th>Call Status</th>
+                                    <th>Last Call Status</th>
+                                    <th>Last Update Date</th>
+                                    <th>Last Update By</th>
                                     <th>Mode of Registration</th>
                                     <th>Source</th>
                                     <th>Last Update Date</th>
@@ -233,7 +235,7 @@
                         arabic_speak : arabic_speak
                     },
                     success: function(data) {
-                        console.log(data.view);
+                        // console.log(data.view);
                         $('#candidate_body').html(data.view);
                     }
                 });
@@ -469,7 +471,7 @@
                     dataType: "json",
                     url: route,
                     success: function(resp) {
-                        // console.log(resp.view);
+                        // console.log(resp);
                         //  open modal
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');

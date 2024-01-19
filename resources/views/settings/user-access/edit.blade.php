@@ -1,10 +1,10 @@
 @if (isset($edit))
         @php
-            $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access', 'Support'];
+            $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access','Position', 'Support'];
 
         @endphp
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel"
-            style="visibility: hidden;" aria-hidden="true">
+             aria-hidden="true">
             <div class="offcanvas-body">
                 <div class="user-acces-table">
                     <form action="{{ route('user-access.update', Crypt::encrypt($role->id)) }}" method="POST" enctype="multipart/form-data"

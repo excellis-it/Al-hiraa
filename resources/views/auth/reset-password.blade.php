@@ -12,7 +12,7 @@
     <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         rel="stylesheet">
     <link type="text/css" href="{{ asset('assets/css/simplebar.min.css') }}" rel="stylesheet">
-    <link type="text/css" href="{{ asset('assets/bootstrap-5.0.2/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/bootstrap-5.3.2/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- App CSS -->
     <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
     <!-- Material Design Icons -->
@@ -85,7 +85,7 @@
     <!-- jQuery -->
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <!-- Bootstrap -->
-    <script src="{{ asset('assets/bootstrap-5.0.2/js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap-5.3.2/js/bootstrap.bundle.js') }}"></script>
     <!-- Simplebar -->
     <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
     <!-- App -->

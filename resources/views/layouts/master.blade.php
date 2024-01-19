@@ -16,7 +16,7 @@
     <!-- Slider -->
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
-    <link type="text/css" href="{{ asset('assets/bootstrap-5.0.2/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('assets/bootstrap-5.3.2/css/bootstrap.min.css') }}" rel="stylesheet">
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"> --}}
     <link type="text/css" href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/toastr.min.css') }}">
@@ -89,7 +89,7 @@
         <div id="loading-content"></div>
     </section>
     <div class="mdk-header-layout js-mdk-header-layout">
-        <div id="header" class="mdk-header js-mdk-header m-0 d-block d-xl-none">
+        <div id="header" class="mdk-header js-mdk-header m-0 d-block d-lg-none">
             <div class="mdk-header__content">
                 <div class="navbar navbar-expand-sm navbar-main mdk-header--fixed" id="navbar"
                     data-primary="data-primary">
@@ -101,7 +101,7 @@
                             </a>
                             <button class="navbar-toggler navbar-toggler-right d-block d-xl-none" type="button">
                                 <span class="navbar-toggler-icon">
-                                    <i class="fa-solid fa-bars-staggered"></i>
+
                                 </span>
                             </button>
                         </div>
@@ -125,7 +125,7 @@
     <!-- // END header-layout -->
     <!-- jQuery -->
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/bootstrap-5.0.2/js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap-5.3.2/js/bootstrap.bundle.js') }}"></script>
     {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script> --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
     <script src="{{ asset('assets/js/simplebar.min.js') }}"></script>
@@ -135,6 +135,7 @@
     <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
     <script>
         @if (Session::has('message'))
             toastr.options = {
@@ -167,6 +168,26 @@
             }
             toastr.warning("{{ session('warning') }}");
         @endif
+    </script>
+
+    {{-- laravel echo with websockets --}}
+    <script>
+        Echo.join("status-update")
+            .here((users) => {
+               console.log(users);
+            })
+
+            .joining((user) => {
+                console.log(user);
+            })
+
+            .leaving((user) => {
+                console.log(user);
+            })
+
+            .listen("UserStatusEvent", (e) => {
+                // console.log(e);
+            });
     </script>
     @stack('scripts')
 </body>

@@ -11,7 +11,7 @@
                 {{-- member create start --}}
                 @can('Create Team')
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
-                        style="visibility: hidden;" aria-hidden="true">
+                         aria-hidden="true">
                         <div class="offcanvas-body">
                             <form action="{{ route('members.store') }}" method="POST" enctype="multipart/form-data"
                                 id="member-form-create">

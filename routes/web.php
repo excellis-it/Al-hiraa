@@ -59,6 +59,16 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
             Route::put('/update/{id}',[SettingController::class,'userAccessUpdate'])->name('user-access.update');
             Route::get('/delete/{id}',[SettingController::class,'userAccessDelete'])->name('user-access.delete');
         });
+
+        // positions
+        Route::group(['prefix' => 'positions'], function () {
+            Route::get('/',[SettingController::class,'positions'])->name('positions.index');
+            Route::post('/store',[SettingController::class,'positionsStore'])->name('positions.store');
+            Route::get('/edit/{id}',[SettingController::class,'positionsEdit'])->name('positions.edit');
+            Route::put('/update/{id}',[SettingController::class,'positionsUpdate'])->name('positions.update');
+            Route::get('/delete/{id}',[SettingController::class,'positionsDelete'])->name('positions.delete');
+            Route::get('/filter',[SettingController::class,'positionsFilter'])->name('positions.filter');
+        });
     });
 
     Route::resources([

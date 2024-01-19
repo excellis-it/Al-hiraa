@@ -17,7 +17,7 @@
                         </form> --}}
                     </div>
                 </div>
-                <div class="col-md-5 col-lg-4 col-xl-3 col-6">
+                <div class="col-md-5 col-lg-4 col-xl-3 col-6 text-end">
                     <a href="{{route('candidates.create')}}" class="support_btn">
                         <span>Add Candidate</span>
                         <span>

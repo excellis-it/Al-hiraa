@@ -190,7 +190,31 @@ class RolePermissionSeeder extends Seeder
                 "guard_name" => "web",
                 "created_at" => date('Y-m-d H:i:s'),
                 "updated_at" => date('Y-m-d H:i:s'),
-            ]
+            ],
+            [
+                "name" => "Manage Position",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
+                "name" => "Create Position",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
+                "name" => "Edit Position",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
+                "name" => "Delete Position",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
 
         ];
         Permission::insert($arrPermissions);
@@ -226,6 +250,10 @@ class RolePermissionSeeder extends Seeder
             "Edit User Access",
             "Delete User Access",
             "Manage Support",
+            "Manage Position",
+            "Create Position",
+            "Edit Position",
+            "Delete Position",
         ];
 
         $adminRole->givePermissionTo($adminPermissions);
