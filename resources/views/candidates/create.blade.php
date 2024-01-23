@@ -95,7 +95,9 @@
                             contact_no: new_number
                         },
                         success: function(response) {
-                            $('.auto-fill').html(response.view);
+                            if (response.status == 'success') {
+                                $('.auto-fill').html(response.view);
+                            }
                         }
                     });
                 }
@@ -137,10 +139,16 @@
                         ` <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
                 class="position_applied_for_1">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_1" placeholder="">`
                     );
+
+                    if ($('.specialisation_1').length) {
+
+                        $('.specialisation_1').remove();
+                    }
+
                 } else {
                     $('.position_applied_1').html(
                         ` <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
-                class="position_applied_for_1">Other</a></span></label><select name="position_applied_for_1" class="form-select select2" id="">
+                class="position_applied_for_1">Other</a></span></label><select name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -167,10 +175,14 @@
                         ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
                 class="position_applied_for_2">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_2" placeholder="">`
                     );
+                    if ($('.specialisation_2').length) {
+
+                        $('.specialisation_2').remove();
+                    }
                 } else {
                     $('.position_applied_2').html(
                         ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
-                class="position_applied_for_2">Other</a></span></label><select name="position_applied_for_2" class="form-select select2" id="">
+                class="position_applied_for_2">Other</a></span></label><select name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -196,10 +208,14 @@
                         ` <label for="">Position Applied For(3) <span><a href="javascript:void(0);"
                 class="position_applied_for_3">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_3" placeholder="">`
                     );
+                    if ($('.specialisation_3').length) {
+
+                        $('.specialisation_3').remove();
+                    }
                 } else {
                     $('.position_applied_3').html(
                         ` <label for="">Position Applied For(3)  <span><a href="javascript:void(0);"
-                class="position_applied_for_3">Other</a></span></label><select name="position_applied_for_3" class="form-select select2" id="">
+                class="position_applied_for_3">Other</a></span></label><select name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -231,6 +247,72 @@
                 }
 
             });
+            $(document).on('change', '.positionAppliedFor1', function() {
+                // Get the selected value
+                var selectedPosition = $(this).val();
+
+                // Check if a position is selected
+                if (selectedPosition !== '') {
+                    // Create a new div with the selected position's name
+                    var newDiv = $(
+                        '<div class="col-lg-4 specialisation_1"><div class="form-group "><label>Specialisation for Position (1)</label><input type="text" class="form-control" name="specialisation_1"></div></div>'
+                    );
+
+                    // only append if the new specialisation_1 div doesn't exist
+                    if (!$('.specialisation_1').length) {
+                        $(this).closest('.col-lg-4').after(newDiv);
+                    }
+
+                } else {
+                    // Remove the new div if position is not selected
+                    $(this).closest('.col-lg-4').next('.col-lg-4').remove();
+                }
+            });
+
+            $(document).on('change', '.positionAppliedFor2', function() {
+                // Get the selected value
+                var selectedPosition = $(this).val();
+
+                // Check if a position is selected
+                if (selectedPosition !== '') {
+                    // Create a new div with the selected position's name
+                    var newDiv = $(
+                        '<div class="col-lg-4 specialisation_2"><div class="form-group "><label>Specialisation for Position (2)</label><input type="text" class="form-control" name="specialisation_2"></div></div>'
+                    );
+
+                    // only append if the new specialisation_2 div doesn't exist
+                    if (!$('.specialisation_2').length) {
+                        $(this).closest('.col-lg-4').after(newDiv);
+                    }
+
+                } else {
+                    // Remove the new div if position is not selected
+                    $(this).closest('.col-lg-4').next('.col-lg-4').remove();
+                }
+            });
+
+            $(document).on('change', '.positionAppliedFor3', function() {
+                // Get the selected value
+                var selectedPosition = $(this).val();
+
+                // Check if a position is selected
+                if (selectedPosition !== '') {
+                    // Create a new div with the selected position's name
+                    var newDiv = $(
+                        '<div class="col-lg-4 specialisation_3"><div class="form-group "><label>Specialisation for Position (3)</label><input type="text" class="form-control" name="specialisation_3"></div></div>'
+                    );
+
+                    // only append if the new specialisation_3 div doesn't exist
+                    if (!$('.specialisation_3').length) {
+                        $(this).closest('.col-lg-4').after(newDiv);
+                    }
+
+                } else {
+                    // Remove the new div if position is not selected
+                    $(this).closest('.col-lg-4').next('.col-lg-4').remove();
+                }
+            });
+
         });
     </script>
 @endpush

@@ -83,4 +83,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::get('/candidates-download-sample', [CandidateController::class, 'downloadSample'])->name('candidates.download.sample');
     Route::get('/candidates-permission/{candidate_id}/{candidate_field_update_id}',[CandidateController::class,'candidatePermission'])->name('candidates.permission');
     Route::get('/candidates-activity/{id}',[CandidateController::class,'candidatesActivity'])->name('candidates.activity');
+    Route::post('/candidates-isCalled',[CandidateController::class,'isCalled'])->name('candidates.iscalled.update');
+
+    Route::get('/companies-filter',[CompanyController::class,'companiesFilter'])->name('companies.filter');
 });

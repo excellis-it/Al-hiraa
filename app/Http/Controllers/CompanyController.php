@@ -2,18 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
+use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
+
+    use ImageTrait;
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         if (Auth::user()->can('Manage Company')) {
-            return view('companies.list');
+            if (Auth::user()->hasRole('ADMIN')) {
+                $companies = Company::orderBy('id', 'DESC')->paginate(15);
+            } else {
+                $companies = Company::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(15);
+            }
+            return view('companies.list')->with(compact('companies'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -32,7 +42,31 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'company_name' => 'required',
+            'company_address' => 'required',
+            'company_website' => 'nullable|url',
+            'company_industry' => 'required',
+            'company_logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'company_description' => 'nullable',
+        ]);
+
+        $count = Company::where(['company_name' => $request->company_name, 'company_address' => $request->company_address])->count();
+        if ($count > 0) {
+            return redirect()->back()->with('error', __('Company already exists.'));
+        }
+
+        $company = new Company();
+        $company->user_id = Auth::user()->id;
+        $company->company_name = $request->company_name;
+        $company->company_address = $request->company_address;
+        $company->company_website = $request->company_website;
+        $company->company_industry = $request->company_industry;
+        $company->company_description = $request->company_description;
+        $company->company_logo = $this->imageUpload($request->file('company_logo'), 'company');
+        $company->save();
+
+        return response()->json(['message' => __('Company created successfully.')]);
     }
 
     /**
@@ -65,5 +99,23 @@ class CompanyController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function companiesFilter(Request $request)
+    {
+        $companies = Company::query();
+
+        if ($request->search) {
+            $companies->where('company_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('company_address', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('company_website', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('company_industry', 'LIKE', '%' . $request->search . '%');
+        }
+        if (!Auth::user()->hasRole('ADMIN')) {
+            $companies->where('user_id', Auth::user()->id);
+        }
+        $companies = $companies->orderBy('id', 'DESC')->paginate(15);
+
+        return response()->json(['view' => view('companies.filter', compact('companies'))->render()]);
     }
 }

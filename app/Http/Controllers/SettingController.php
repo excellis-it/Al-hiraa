@@ -258,21 +258,21 @@ class SettingController extends Controller
 
     public function positionsFilter(Request $request)
     {
-       
-        $positions = CandidatePosition::orderBy('id', 'desc')->where(function ($q) use ($request) {
-            $q->Where('name', 'LIKE', '%' . $request->search . '%')
-                ->Where('is_active', $request->status);
-        })->paginate(15);
-        
 
-        
+        $positions = CandidatePosition::query();
+        if ($request->search) {
+            $positions->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+        $positions = $positions->orderBy('id','desc')->paginate(15);
+
+
 
         return response()->json(['view' => view('settings.positions.filter', compact('positions'))->render()]);
     }
 
     public function positionsStore(Request $requset)
     {
-        
+
         $requset->validate([
             'position_name' => 'required|unique:candidate_positions,name',
             'position_status' => 'required|in:1,0'
@@ -324,5 +324,5 @@ class SettingController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
-    
+
 }

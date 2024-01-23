@@ -20,3 +20,11 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('status-update', function ($user) {
     return $user;
 });
+
+Broadcast::channel('call-candidate', function ($user) {
+    return $user;
+});
+
+Broadcast::channel('call-candidate-end', function ($user) {
+    return $user;
+});

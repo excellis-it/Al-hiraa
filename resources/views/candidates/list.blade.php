@@ -73,9 +73,8 @@
         </div>
 
         <div class="container-fluid page__container">
-            <div class="row mb-2">
+            {{-- <div class="row mb-2">
                 <div class="col-md-4 col-xl-2 col-lg-4 col-6 mb-2">
-                    {{-- status --}}
                     <select name="cnadidate_status_id" class="form-select" id="cnadidate_status_id_filter">
                         <option value="">Select A Status</option>
                         @foreach ($candidate_statuses as $status)
@@ -129,39 +128,221 @@
                         <option value="No">No</option>
                     </select>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-lg-12 col-md-12">
                     <div class="table-responsive border-bottom" data-toggle="lists">
                         <table class="table mb-0 table-bordered">
                             <thead>
                                 <tr>
+                                      <th>  <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row checkAll" name="checkAll">
+                                    </div></th>
+                                    @can('View Candidate')
+                                        <th>
+                                            View
+
+                                            <!--<div class="d-flex">-->
+                                            <!--    <div>View</div> <div class="dropdown">-->
+                                            <!--      <span class="dropdown-toggle ps-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+                                            <!--        <i class="fa-solid fa-filter"></i>-->
+                                            <!--      </span>-->
+                                            <!--      <ul class="dropdown-menu">-->
+                                            <!--        <li><a class="dropdown-item" href="#">Action</a></li>-->
+                                            <!--        <li><a class="dropdown-item" href="#">Another action</a></li>-->
+                                            <!--        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
+                                            <!--      </ul>-->
+                                            <!--    </div>-->
+                                            <!--</div>-->
+                                        </th>
+                                    @endcan
                                     {{-- <th></th> --}}
                                     {{-- <th>Enter By</th> --}}
-                                    <th>Remarks</th>
-                                    <th>Status</th>
-                                    <th>Last Call Status</th>
+
+                                    <th>Status <div>
+                                            <select name="cnadidate_status_id" id="cnadidate_status_id_filter" class="select_width">
+                                                <option value="">Select A Status</option>
+                                                @foreach ($candidate_statuses as $status)
+                                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th>Last Call Status <div>
+                                            <select name="call_status" class="select_width" id="last_call_status_filter">
+                                                <option value="">Select Call Status</option>
+                                                @foreach (Position::getCallStatus() as $item)
+                                                    <option value="{{ $item }}">
+                                                        {{ $item }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
                                     <th>Last Update Date</th>
                                     <th>Last Update By</th>
-                                    <th>Mode of Registration</th>
-                                    <th>Source</th>
-                                    <th>Last Update Date</th>
+                                    <th>Mode of Registration
+                                        <div>
+                                            <select name="mode_of_registration" class="select_width"
+                                                id="mode_of_registration_filter">
+                                                <option value="">Select Type</option>
+                                                <option value="Calling">Calling</option>
+                                                <option value="Walk-in">Walk-in</option>
+                                            </select>
+                                        </div>
+
+                                    </th>
+                                    <th>Source
+                                        <div>
+                                            <select name="source" class="select_width" id="source_filter">
+                                                <option value="">Select Source Type</option>
+                                                <option value="Telecalling">Telecalling
+                                                </option>
+                                                <option value="Reference">Reference</option>
+                                                <option value="Facebook">Facebook</option>
+                                                <option value="Instagram">Instagram</option>
+                                                <option value="Others">Others </option>
+                                            </select>
+                                        </div>
+                                    </th>
                                     <th>Full Name</th>
-                                    <th>Gender</th>
+                                    <th>Gender
+                                        <div>
+                                            <select name="gender" class="select_width" id="gender_filter">
+                                                <option value="">Select Gender</option>
+                                                <option value="Male"> Male </option>
+                                                <option value="Female">Female</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                        </div>
+                                    </th>
                                     <th>DOB</th>
                                     <th>Age</th>
-                                    <th>Education</th>
+                                    <th>Education
+                                        <div>
+                                            <select name="education" class="select_width" id="education_filter">
+                                                <option value="">Select Type</option>
+                                                <option value="5th Pass">5th Pass</option>
+                                                <option value="8th Pass">8th Pass</option>
+                                                <option value="10th Pass">10th Pass </option>
+                                                <option value="Higher Secondary">Higher
+                                                    Secondary</option>
+                                                <option value="Graduates">Graduates</option>
+                                                <option value="Masters">Masters</option>
+                                            </select>
+                                        </div>
+                                    </th>
                                     <th>
                                         Other Education
                                     </th>
-                                    <th>Position Applied For(1)</th>
-                                    <th>Position Applied For(2)</th>
-                                    <th>Position Applied For(3)</th>
+                                    <th>Position Applied For(1) <div>
+                                            <select name="position_applied_for" class="select_width"
+                                                id="position_applied_for_filter">
+                                                <option value="">Select Position</option>
+                                                @foreach ($candidate_positions as $item)
+                                                    <option value="{{ $item['id'] }}">
+                                                        {{ $item['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th>Position Applied For(2) <div>
+                                            <select name="position_applied_for" class="select_width"
+                                                id="position_applied_for_filter_2">
+                                                <option value="">Select Position</option>
+                                                @foreach ($candidate_positions as $item)
+                                                    <option value="{{ $item['id'] }}">
+                                                        {{ $item['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th>Position Applied For(3) <div>
+                                            <select name="position_applied_for" class="select_width"
+                                                id="position_applied_for_filter_3">
+                                                <option value="">Select Position</option>
+                                                @foreach ($candidate_positions as $item)
+                                                    <option value="{{ $item['id'] }}">
+                                                        {{ $item['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
                                     <th>
                                         Passport Number
                                     </th>
                                     <th>
                                         City
+                                        <div>
+                                            <select name="city" class="select_width" id="city_filter">
+                                                <option value="">Select City</option>
+                                                <option value="Mumbai" {{ old('city') == 'Mumbai' ? 'selected' : '' }}>
+                                                    Mumbai</option>
+                                                <option value="Delhi" {{ old('city') == 'Delhi' ? 'selected' : '' }}>
+                                                    Delhi</option>
+                                                <option value="Kolkata" {{ old('city') == 'Kolkata' ? 'selected' : '' }}>
+                                                    Kolkata</option>
+                                                <option value="Chennai" {{ old('city') == 'Chennai' ? 'selected' : '' }}>
+                                                    Chennai</option>
+                                                <option value="Bangalore"
+                                                    {{ old('city') == 'Bangalore' ? 'selected' : '' }}>Bangalore</option>
+                                                <option value="Hyderabad"
+                                                    {{ old('city') == 'Hyderabad' ? 'selected' : '' }}>Hyderabad</option>
+                                                <option value="Ahmedabad"
+                                                    {{ old('city') == 'Ahmedabad' ? 'selected' : '' }}>Ahmedabad</option>
+                                                <option value="Pune" {{ old('city') == 'Pune' ? 'selected' : '' }}>Pune
+                                                </option>
+                                                <option value="Surat" {{ old('city') == 'Surat' ? 'selected' : '' }}>
+                                                    Surat</option>
+                                                <option value="Jaipur" {{ old('city') == 'Jaipur' ? 'selected' : '' }}>
+                                                    Jaipur</option>
+                                                <option value="Kanpur" {{ old('city') == 'Kanpur' ? 'selected' : '' }}>
+                                                    Kanpur</option>
+                                                <option value="Nagpur" {{ old('city') == 'Nagpur' ? 'selected' : '' }}>
+                                                    Nagpur</option>
+                                                <option value="Lucknow" {{ old('city') == 'Lucknow' ? 'selected' : '' }}>
+                                                    Lucknow</option>
+                                                <option value="Thane" {{ old('city') == 'Thane' ? 'selected' : '' }}>
+                                                    Thane</option>
+                                                <option value="Bhopal" {{ old('city') == 'Bhopal' ? 'selected' : '' }}>
+                                                    Bhopal</option>
+                                                <option value="Visakhapatnam"
+                                                    {{ old('city') == 'Visakhapatnam' ? 'selected' : '' }}>Visakhapatnam
+                                                <option value="Pimpri-Chinchwad"
+                                                    {{ old('city') == 'Pimpri-Chinchwad' ? 'selected' : '' }}>
+                                                    Pimpri-Chinchwad</option>
+                                                <option value="Patna" {{ old('city') == 'Patna' ? 'selected' : '' }}>
+                                                    Patna</option>
+                                                <option value="Vadodara"
+                                                    {{ old('city') == 'Vadodara' ? 'selected' : '' }}>Vadodara</option>
+                                                <option value="Ghaziabad"
+                                                    {{ old('city') == 'Ghaziabad' ? 'selected' : '' }}>Ghaziabad</option>
+                                                <option value="Ludhiana"
+                                                    {{ old('city') == 'Ludhiana' ? 'selected' : '' }}>Ludhiana</option>
+                                                <option value="Agra" {{ old('city') == 'Agra' ? 'selected' : '' }}>Agra
+                                                </option>
+                                                <option value="Nashik" {{ old('city') == 'Nashik' ? 'selected' : '' }}>
+                                                    Nashik</option>
+                                                <option value="Faridabad"
+                                                    {{ old('city') == 'Faridabad' ? 'selected' : '' }}>Faridabad</option>
+                                                <option value="Meerut" {{ old('city') == 'Meerut' ? 'selected' : '' }}>
+                                                    Meerut</option>
+                                                <option value="Rajkot" {{ old('city') == 'Rajkot' ? 'selected' : '' }}>
+                                                    Rajkot</option>
+                                                <option value="Kalyan-Dombivali"
+                                                    {{ old('city') == 'Kalyan-Dombivali' ? 'selected' : '' }}>
+                                                    Kalyan-Dombivali</option>
+                                                <option value="Vasai-Virar"
+                                                    {{ old('city') == 'Vasai-Virar' ? 'selected' : '' }}>Vasai-Virar
+                                                <option value="Varanasi"
+                                                    {{ old('city') == 'Varanasi' ? 'selected' : '' }}>Varanasi</option>
+                                                <option value="Srinagar"
+                                                    {{ old('city') == 'Srinagar' ? 'selected' : '' }}>Srinagar</option>
+                                                <option value="Aurangabad"
+                                                    {{ old('city') == 'Aurangabad' ? 'selected' : '' }}>Aurangabad</option>
+                                                <option value="Dhanbad" {{ old('city') == 'Dhanbad' ? 'selected' : '' }}>
+                                                    Dhanbad</option>
+                                            </select>
+                                        </div>
                                     </th>
                                     <th>
                                         Referred By
@@ -177,15 +358,40 @@
                                     </th>
                                     <th>
                                         English Speak
+                                        <div>
+                                            <select name="english_speak" class="select_width" id="english_speak_filter">
+                                                <option value="">Select English Type</option>
+                                                <option value="Basic">Basic</option>
+                                                <option value="Good">Good</option>
+                                                <option value="Poor">Poor</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
                                     </th>
                                     <th>
                                         Arabic Speak
+                                        <div>
+                                            <select name="arabic_speak" class="select_width" id="arabic_speak_filter">
+                                                <option value="">Select Arbic Type</option>
+                                                <option value="Basic">Basic</option>
+                                                <option value="Good">Good</option>
+                                                <option value="Poor">Poor</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
                                     </th>
                                     <th>
                                         Gulf Return
                                     </th>
                                     <th>
                                         ECR Type
+                                        <div>
+                                            <select name="ecr_type" class="select_width" id="ecr_type_filter">
+                                                <option value="">Select ECR</option>
+                                                <option value="ECR">ECR</option>
+                                                <option value="ECNR">ECNR</option>
+                                            </select>
+                                        </div>
                                     </th>
                                     <th>
                                         Indian Work Experience
@@ -193,11 +399,7 @@
                                     <th>
                                         Abroad Work Experience
                                     </th>
-                                    @can('View Candidate')
-                                        <th>
-
-                                        </th>
-                                    @endcan
+                                    <th>Remarks</th>
                                 </tr>
                             </thead>
                             <tbody class="list" id="candidate_body">
@@ -220,7 +422,9 @@
                 window.location.href = '{{ route('candidates.export') }}';
             });
 
-            function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+            function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                last_call_status, mode_of_registration, education, city,
+                position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",
@@ -231,8 +435,15 @@
                         source: source,
                         gender: gender,
                         position_applied_for: position_applied_for,
+                        position_applied_for_2: position_applied_for_2,
+                        position_applied_for_3: position_applied_for_3,
                         english_speak: english_speak,
-                        arabic_speak: arabic_speak
+                        arabic_speak: arabic_speak,
+                        ecr_type: ecr_type,
+                        last_call_status: last_call_status,
+                        mode_of_registration: mode_of_registration,
+                        education: education,
+                        city: city,
                     },
                     success: function(data) {
                         // console.log(data.view);
@@ -249,10 +460,18 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
-
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
 
@@ -269,11 +488,18 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
-
-
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
 
@@ -286,10 +512,18 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var last_call_status = $('#last_call_status_filter').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
-
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
 
@@ -302,10 +536,18 @@
                 var source = $(this).val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
-
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
 
@@ -316,10 +558,18 @@
                 var source = $('#source_filter').val();
                 var gender = $(this).val();
                 var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
-
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
 
@@ -330,10 +580,62 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $(this).val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
 
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+            $(document).on('change', '#position_applied_for_filter_2', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for_2 = $(this).val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#position_applied_for_filter_3', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_3 = $(this).val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
 
@@ -344,10 +646,18 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $(this).val();
                 var arabic_speak = $('#arabic_speak_filter').val();
-
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
 
@@ -358,12 +668,139 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $(this).val();
-
-                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for,
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
+
+            // last_call_status_filter
+
+            $(document).on('change', '#last_call_status_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var last_call_status = $(this).val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#mode_of_registration_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var mode_of_registration = $(this).val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#education_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $(this).val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
+
+            $(document).on('change', '#city_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var city = $(this).val();
+                var ecr_type = $('#ecr_type_filter').val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
+
+
+            $(document).on('change', '#ecr_type_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $(this).val();
+
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
+
 
         });
     </script>
@@ -491,14 +928,16 @@
                                 '0') + ' ' + date.toLocaleString('default', {
                                 month: 'short'
                             }) + ', ' + date.getFullYear();
-                            var call_status = value.call_status == null ? 'N/A' : value.call_status;
+                            var call_status = value.call_status == null ? 'N/A' : value
+                                .call_status;
                             html += '<div class="activity_box">';
                             html += '<div class="activity_box_dd">';
                             html += '<div class="activity_box_ff">';
                             html += '<div class="active-user">';
                             html += value.user.first_name + ' ' + value.user.last_name;
                             html += '</div>';
-                            html += '<div class="all_ansered">Call Status: <span>' + call_status +
+                            html += '<div class="all_ansered">Call Status: <span>' +
+                                call_status +
                                 '</span></div>';
                             html += '</div>';
                             html += '<div class="date">' + formattedDate + '</div>';
@@ -513,6 +952,21 @@
                         $('#show-details').html(html);
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Check-all functionality
+            $(".checkAll").change(function () {
+                $(".js-check-selected-row").prop('checked', $(this).prop('checked'));
+            });
+
+            // Individual checkbox change
+            $(".js-check-selected-row").change(function () {
+                if (!$(this).prop("checked")) {
+                    $(".checkAll").prop("checked", false);
+                }
             });
         });
     </script>

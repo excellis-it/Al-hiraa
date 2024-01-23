@@ -9,7 +9,7 @@
     <div class="container-fluid page__container">
         <div class="page__heading">
             <div class="row">
-                <div class="col-xl-9 col-lg-8 col-md-7 col-6">
+                <div class="col-xl-9 col-lg-8 col-md-7 ">
                     <div class="">
                         {{-- <form class="search-form d-flex" action="index.html">
                             <button class="btn" type="submit" role="button"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -17,7 +17,7 @@
                         </form> --}}
                     </div>
                 </div>
-                <div class="col-md-5 col-lg-4 col-xl-3 col-6 text-end">
+                <div class="col-md-5 col-lg-4 col-xl-3  text-end">
                     <a href="{{route('candidates.create')}}" class="support_btn">
                         <span>Add Candidate</span>
                         <span>

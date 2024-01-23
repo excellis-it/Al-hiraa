@@ -1,29 +1,32 @@
 @if (count($candidates) > 0)
     @foreach ($candidates as $item)
-        <tr   @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR'))
-            @else
-        class="{{($item->is_call_id != null) ? 'disabled-row' : ''}}"
-        @endif>
-            {{-- <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td> --}}
-            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn" data-route="{{route('candidates.activity', $item['id'])}}" style="cursor: pointer">
-                {{-- remarks only show 10 word --}}
-                @if ($item->lastCandidateActivity != null)
-                    @if (strlen($item->lastCandidateActivity->remarks) > 10)
-                        {{ substr($item->lastCandidateActivity->remarks, 0, 10) . '...' }}
-                    @else
-                        {{ $item->lastCandidateActivity->remarks ?? 'N/A' }}
-                    @endif
-                @else
-                    {{ 'N/A' }}
-                @endif
+
+        <tr @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) @else
+        class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" @endif
+            id="candidate-{{ $item['id'] }}">
+            {{-- checkbox for bulk select --}}
+            <td>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input js-check-selected-row">
+                </div>
             </td>
 
+            @can('View Candidate')
+                <td>
+                    <a href="javascript:void(0);" class="edit-route"
+                        data-route="{{ route('candidates.edit', $item['id']) }}"><i class="fas fa-eye"></i></a>
+                </td>
+            @endcan
+            {{-- <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td> --}}
+
+
             <td>
-                <div class="round_staus active" >
+                <div class="round_staus active">
                     {{ $item->candidateStatus->name ?? 'N/A' }}
                 </div>
             </td>
-            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn" data-route="{{route('candidates.activity', $item['id'])}}" style="cursor: pointer">
+            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn"
+                data-route="{{ route('candidates.activity', $item['id']) }}" style="cursor: pointer">
                 {{-- remarks only show 10 word --}}
                 @if ($item->lastCandidateActivity != null)
                     {{ $item->lastCandidateActivity->call_status ?? 'N/A' }}
@@ -31,13 +34,13 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td>{{ ($item->candidateUpdate()->count() > 0) ?  date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : 'N/A' }}</td>
+            <td>{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : 'N/A' }}
+            </td>
             <td>{{ $item->candidateUpdate->user->full_name ?? 'N/A' }}</td>
             <td>{{ $item->mode_of_registration ?? 'N/A' }}</td>
             <td>
                 {{ $item->source ?? 'N/A' }}
             </td>
-            <td>{{ $item->updated_at != null ? date('d.m.Y', strtotime($item->updated_at)) : 'N/A' }}</td>
             <td>{{ $item->full_name ?? 'N/A' }}</td>
             <td>{{ $item->gender ?? 'N/A' }}</td>
             <td>{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
@@ -102,12 +105,19 @@
             <td>
                 {{ $item->abroad_exp ?? 'N/A' }}
             </td>
-            @can('View Candidate')
-                <td>
-                    <a href="javascript:void(0);" class="edit-route"
-                        data-route="{{ route('candidates.edit', $item['id']) }}"><i class="fas fa-eye"></i></a>
-                </td>
-            @endcan
+            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn"
+            data-route="{{ route('candidates.activity', $item['id']) }}" style="cursor: pointer">
+            {{-- remarks only show 10 word --}}
+            @if ($item->lastCandidateActivity != null)
+                @if (strlen($item->lastCandidateActivity->remarks) > 10)
+                    {{ substr($item->lastCandidateActivity->remarks, 0, 10) . '...' }}
+                @else
+                    {{ $item->lastCandidateActivity->remarks ?? 'N/A' }}
+                @endif
+            @else
+                {{ 'N/A' }}
+            @endif
+        </td>
         </tr>
     @endforeach
     <tr>

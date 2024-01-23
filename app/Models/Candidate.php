@@ -32,8 +32,11 @@ class Candidate extends Model
         'english_speak',
         'arabic_speak',
         'position_applied_for_1',
+        'specialisation_1',
         'position_applied_for_2',
+        'specialisation_2',
         'position_applied_for_3',
+        'specialisation_3',
         'indian_exp',
         'abroad_exp',
         'remarks',
@@ -78,6 +81,11 @@ class Candidate extends Model
     public function lastCandidateActivity()
     {
         return $this->hasOne(CandidateActivity::class)->orderBy('id', 'desc');
+    }
+
+    public function candidateActivity()
+    {
+        return $this->hasMany(CandidateActivity::class);
     }
 
     public function positionAppliedFor1()

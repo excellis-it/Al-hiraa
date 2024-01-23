@@ -40,8 +40,11 @@ return new class extends Migration
             $table->text('indian_exp')->nullable();
             $table->text('abroad_exp')->nullable();
             $table->text('position_applied_for_1')->nullable();
+            $table->text('specialisation_1')->nullable();
             $table->text('position_applied_for_2')->nullable();
+            $table->text('specialisation_2')->nullable();
             $table->text('position_applied_for_3')->nullable();
+            $table->text('specialisation_3')->nullable();
             $table->string('is_call_id')->nullable();
             $table->timestamps();
         });

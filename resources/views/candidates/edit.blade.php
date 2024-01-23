@@ -6,6 +6,7 @@
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
         @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN')) @else data-bs-backdrop="static" @endif aria-labelledby="offcanvasRightLabel">
+        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))   <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a> @endif
         <div class="offcanvas-body">
             <div class="row g-3">
                 <div class="col-lg-4">
@@ -280,13 +281,28 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Specialisation for Position (1)</td>
+                                        <td>{{ $candidate->specialisation_1 ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Position Applied For(2)</td>
                                         <td>{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Specialisation for Position (2)</td>
+                                        <td>{{ $candidate->specialisation_2 ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Position Applied For(3)</td>
                                         <td>{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Specialisation for Position (3)</td>
+                                        <td>{{ $candidate->specialisation_3 ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -641,7 +657,7 @@
           <select name="ecr_type" class="form-control" id="">
             <option value="">Select ECR</option>
             <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
-            <option value="ENCR" {{ $candidate->ecr_type == 'ENCR' ? 'selected' : '' }}>ENCR</option>
+            <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
           </select>
         </td>
       </tr>
@@ -715,7 +731,7 @@
                 <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_1" class="form-select select2" id="">
+                    <select name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -742,7 +758,7 @@
             <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                <select name="position_applied_for_1" class="form-select select2" id="">
+                <select name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -757,6 +773,18 @@
             @endif
 
       </tr>
+      @if ($candidate->positionAppliedFor1)
+        @if ($candidate->positionAppliedFor1()->where('is_active', 1)->count() > 0)
+        <tr class="specialisation_1">
+        <td>Specialisation for Position (1)</td>
+        <td>
+            <input type="text"
+                        value="{{ $candidate->specialisation_1 ?? '' }}" class="form-control"
+                        name="specialisation_1">
+        </td>
+    </tr>
+        @endif
+    @endif
       <tr class="position_applied_2">
 
             @if ($candidate->positionAppliedFor2)
@@ -764,7 +792,7 @@
                 <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_2" class="form-select select2" id="">
+                    <select name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -788,7 +816,7 @@
             <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                <select name="position_applied_for_2" class="form-select select2" id="">
+                <select name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -801,6 +829,18 @@
             @endif
 
       </tr>
+      @if ($candidate->positionAppliedFor2)
+        @if ($candidate->positionAppliedFor2()->where('is_active', 1)->count() > 0)
+        <tr class="specialisation_2">
+        <td>Specialisation for Position (2)</td>
+        <td>
+            <input type="text"
+                        value="{{ $candidate->specialisation_2 ?? '' }}" class="form-control"
+                        name="specialisation_2">
+        </td>
+    </tr>
+        @endif
+    @endif
       <tr class="position_applied_3">
 
             @if ($candidate->positionAppliedFor3)
@@ -808,7 +848,7 @@
                     <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                        <select name="position_applied_for_3" class="form-select select2" id="">
+                        <select name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id="">
                             <option value="">Select Position</option>
                             @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
@@ -832,7 +872,7 @@
                 <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_3" class="form-select select2" id="">
+                    <select name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -845,6 +885,18 @@
                 @endif
 
       </tr>
+      @if ($candidate->positionAppliedFor3)
+        @if ($candidate->positionAppliedFor3()->where('is_active', 1)->count() > 0)
+        <tr class="specialisation_3">
+        <td>Specialisation for Position (3)</td>
+        <td>
+            <input type="text"
+                        value="{{ $candidate->specialisation_3 ?? '' }}" class="form-control"
+                        name="specialisation_3">
+        </td>
+    </tr>
+        @endif
+    @endif
       <tr>
         <td>Indian Experience (If any?)</td>
         <td>
@@ -1064,13 +1116,28 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Specialisation for Position (1)</td>
+                                        <td>{{ $candidate->specialisation_1 ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Position Applied For(2)</td>
                                         <td>{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td>Specialisation for Position (2)</td>
+                                        <td>{{ $candidate->specialisation_2 ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Position Applied For(3)</td>
                                         <td>{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Specialisation for Position (3)</td>
+                                        <td>{{ $candidate->specialisation_3 ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -1180,7 +1247,7 @@
                         // Handle errors (e.g., display validation errors)
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            $('#' + key + '_msg').html(value[0]);
+                            toastr.error(value);
                         });
                     }
                 });
@@ -1189,7 +1256,7 @@
     </script>
 
     <script>
-         $(document).ready(function() {
+        $(document).ready(function() {
             $(document).on('click', '.position_applied_for_1', function() {
 
                 var type = $(this).text();
@@ -1199,14 +1266,19 @@
                                 class="position_applied_for_1">List</a></span></td> <td> <input type="text"
                                 class="form-control" id="" value="{{ $candidate->positionAppliedFor1->name ?? '' }}"
                                 name="position_applied_for_1" placeholder=""> </td>`);
+                                if ($('.specialisation_1').length) {
+                                    $('.specialisation_1').remove();
+                                }
                 } else {
-                    $('.position_applied_1').html(`<td>Position Applied For(1) <span><a href="javascript:void(0);"
+                    $('.position_applied_1').html(
+                        `<td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td> <td> <select
-                                name="position_applied_for_1" class="form-select select2" id=""> <option
+                                name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
-                                    {{ $item['name'] }}</option> @endforeach </select> </td>`);
+                                    {{ $item['name'] }}</option> @endforeach </select> </td>`
+                        );
                 }
             });
 
@@ -1219,14 +1291,20 @@
                                 class="position_applied_for_2">List</a></span></td> <td> <input type="text"
                                 class="form-control" id="" value="{{ $candidate->positionAppliedFor2->name ?? '' }}"
                                 name="position_applied_for_2" placeholder=""> </td>`);
+                                if ($('.specialisation_2').length) {
+                                    $('.specialisation_2').remove();
+
+                                }
                 } else {
-                    $('.position_applied_2').html(`<td>Position Applied For(2) <span><a href="javascript:void(0);"
+                    $('.position_applied_2').html(
+                        `<td>Position Applied For(2) <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td> <td> <select
-                                name="position_applied_for_2" class="form-select select2" id=""> <option
+                                name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
-                                    {{ $item['name'] }}</option> @endforeach </select> </td>`);
+                                    {{ $item['name'] }}</option> @endforeach </select> </td>`
+                        );
                 }
             });
 
@@ -1239,14 +1317,77 @@
                                 class="position_applied_for_3">List</a></span></td> <td> <input type="text"
                                 class="form-control" id="" value="{{ $candidate->positionAppliedFor3->name ?? '' }}"
                                 name="position_applied_for_3" placeholder=""> </td>`);
+                                if ($('.specialisation_3').length) {
+                                    $('.specialisation_3').remove();
+
+                                }
                 } else {
-                    $('.position_applied_3').html(`<td>Position Applied For(3) <span><a href="javascript:void(0);"
+                    $('.position_applied_3').html(
+                        `<td>Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">Other</a></span></td> <td> <select
-                                name="position_applied_for_3" class="form-select select2" id=""> <option
+                                name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
-                                    {{ $item['name'] }}</option> @endforeach </select> </td>`);
+                                    {{ $item['name'] }}</option> @endforeach </select> </td>`
+                        );
+                }
+            });
+
+            $(document).on('change', '.positionAppliedFor1', function() {
+                // Get the selected value
+                var selectedPosition = $(this).val();
+
+                // Check if a position is selected
+                if (selectedPosition !== '') {
+                    // Create a new div with the selected position's name
+                    var newTR = '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td><input type="text" class="form-control" name="specialisation_1" placeholder=""></td></tr>';
+                    // Append the new div to the container
+                    if (!$('.specialisation_1').length) {
+                        $('.position_applied_1').after(newTR);
+                    }
+                } else {
+                    // Remove the tr if no position is selected
+                    $('.specialisation_1').remove();
+
+                }
+            });
+
+            $(document).on('change', '.positionAppliedFor2', function() {
+                // Get the selected value
+                var selectedPosition = $(this).val();
+
+                // Check if a position is selected
+                if (selectedPosition !== '') {
+                    // Create a new div with the selected position's name
+                    var newTR = '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td><input type="text" class="form-control" name="specialisation_2" placeholder=""></td></tr>';
+                    // Append the new div to the container
+                    if (!$('.specialisation_2').length) {
+                        $('.position_applied_2').after(newTR);
+                    }
+                } else {
+                    // Remove the tr if no position is selected
+                    $('.specialisation_2').remove();
+
+                }
+            });
+
+            $(document).on('change', '.positionAppliedFor3', function() {
+                // Get the selected value
+                var selectedPosition = $(this).val();
+
+                // Check if a position is selected
+                if (selectedPosition !== '') {
+                    // Create a new div with the selected position's name
+                    var newTR = '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td><input type="text" class="form-control" name="specialisation_3" placeholder=""></td></tr>';
+                    // Append the new div to the container
+                    if (!$('.specialisation_3').length) {
+                        $('.position_applied_3').after(newTR);
+                    }
+                } else {
+                    // Remove the tr if no position is selected
+                    $('.specialisation_3').remove();
+
                 }
             });
         });
