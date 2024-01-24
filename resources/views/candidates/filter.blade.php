@@ -25,7 +25,7 @@
                     {{ $item->candidateStatus->name ?? 'N/A' }}
                 </div>
             </td>
-            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn"
+            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
                 data-route="{{ route('candidates.activity', $item['id']) }}" style="cursor: pointer">
                 {{-- remarks only show 10 word --}}
                 @if ($item->lastCandidateActivity != null)
@@ -34,38 +34,38 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td>{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : 'N/A' }}
+            <td class="content-short">{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : 'N/A' }}
             </td>
-            <td>{{ $item->candidateUpdate->user->full_name ?? 'N/A' }}</td>
-            <td>{{ $item->mode_of_registration ?? 'N/A' }}</td>
-            <td>
+            <td class="content-short">{{ $item->candidateUpdate->user->full_name ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
+            <td class="content-short">
                 {{ $item->source ?? 'N/A' }}
             </td>
-            <td>{{ $item->full_name ?? 'N/A' }}</td>
-            <td>{{ $item->gender ?? 'N/A' }}</td>
-            <td>{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
+            <td class="content-short">{{ $item->full_name ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->gender ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
             {{--  age calculation date of birth --}}
-            <td>{{ $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
-            <td>{{ $item->education ?? 'N/A' }}</td>
-            <td>{{ $item->other_education ?? 'N/A' }}</td>
-            <td>{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
-            <td>{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
-            <td>{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
-            <td>{{ $item->passport_number ?? 'N/A' }}</td>
-            <td>
+            <td class="content-short">{{ $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
+            <td class="content-short">{{ $item->education ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->other_education ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>
+            <td class="content-short">
                 {{ $item->city ?? 'N/A' }}
             </td>
-            <td>
+            <td class="content-short">
                 @if ($item->referred_by_id != null)
                     {{ $item->referredBy->full_name }}
                 @else
                     {{ $item->referred_by ?? 'N/A' }}
                 @endif
             </td>
-            <td>
+            <td class="content-short">
                 {{ $item->religion ?? 'N/A' }}
             </td>
-            <td>
+            <td class="content-short">
                 @if ($item->candidateIndianLicence()->count() > 0)
                     @foreach ($item->candidateIndianLicence as $key => $value)
                         <span class="badge bg-primary rounded-pill">
@@ -76,7 +76,7 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td>
+            <td class="content-short">
                 @if ($item->candidateGulfLicence()->count() > 0)
                     @foreach ($item->candidateGulfLicence as $key => $value)
                         <span class="badge bg-primary rounded-pill">
@@ -87,25 +87,25 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td>
+            <td class="content-short">
                 {{ $item->english_speak ?? 'N/A' }}
             </td>
-            <td>
+            <td class="content-short">
                 {{ $item->arabic_speak ?? 'N/A' }}
             </td>
-            <td>
+            <td class="content-short">
                 {{ $item->return == 1 ? 'Yes' : 'No' }}
             </td>
-            <td>
+            <td class="content-short">
                 {{ $item->ecr_type ?? 'N/A' }}
             </td>
-            <td>
+            <td class="content-short">
                 {{ $item->indian_exp ?? 'N/A' }}
             </td>
-            <td>
+            <td class="content-short">
                 {{ $item->abroad_exp ?? 'N/A' }}
             </td>
-            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn"
+            <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
             data-route="{{ route('candidates.activity', $item['id']) }}" style="cursor: pointer">
             {{-- remarks only show 10 word --}}
             @if ($item->lastCandidateActivity != null)

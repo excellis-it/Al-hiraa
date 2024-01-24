@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class CompanyController extends Controller
 {
@@ -74,7 +75,17 @@ class CompanyController extends Controller
      */
     public function show(string $id)
     {
-        //
+        if (Auth::user()->can('View Company')) {
+            $id = Crypt::decrypt($id);
+            $company = Company::find($id);
+            if ($company) {
+                return view('companies.view')->with(compact('company'));
+            } else {
+                return redirect()->back()->with('error', __('Company not found.'));
+            }
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**

@@ -510,15 +510,12 @@ class CandidateController extends Controller
                 ->orWhere('city', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('religion', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('ecr_type', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('indian_driving_license', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('international_driving_license', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('english_speak', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('arabic_speak', 'LIKE', '%' . $request->search . '%')
                 // enter by
                 ->orWhereHas('enterBy', function ($query) use ($request) {
                     $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%" . $request->search . "%'");
                 })
-                ->orWhere('remarks', 'LIKE', '%' . $request->search . '%')
                 // date of birth 09.01.2021 format search
                 ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
                 ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");

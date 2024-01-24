@@ -18,13 +18,13 @@
                     <div class="food-status-1">
                         <h4>Address:</h4>
                     </div>
-                    <div class="food-status-2">
+                    <div class="food-status-2 company_address">
                         <h4>{{ $company->company_address ?? 'N/A' }}</h4>
                     </div>
                 </div>
                 <div class="food-status">
                     <div class="food-status-1">
-                        <h4>Industry:</h4>
+                        <h4>Industry:</h4> 
                     </div>
                     <div class="food-status-2">
                         <h4>{{ $company->company_industry ?? 'N/A' }}</h4>
@@ -34,7 +34,7 @@
                     <div class="food-status-1">
                         <h4>Company Website:</h4>
                     </div>
-                    <div class="food-status-2">
+                    <div class="food-status-2 companey_wesi">
                         <h4>{{ $company->company_website ?? 'N/A' }}</h4>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     </div>
                 </div> --}}
                 <div class="">
-                    <a href="companie_details.html" class="btn-2">See Open Jobs</a>
+                    <a href="{{route('companies.show', Crypt::encrypt($company->id))}}" class="btn-2">See Open Jobs</a>
                 </div>
             </div>
         </div>
