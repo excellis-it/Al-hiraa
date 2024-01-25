@@ -5,12 +5,14 @@
         class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" @endif
             id="candidate-{{ $item['id'] }}">
             {{-- checkbox for bulk select --}}
+            @if (Auth::user()->hasRole('ADMIN'))
             <td>
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input js-check-selected-row">
+                    <input type="checkbox" class="custom-control-input js-check-selected-row checkd-row"  data-id="{{$item['id']}}">
                 </div>
             </td>
-
+            @endif
+            {{-- checkbox for bulk select --}}
             @can('View Candidate')
                 <td>
                     <a href="javascript:void(0);" class="edit-route"

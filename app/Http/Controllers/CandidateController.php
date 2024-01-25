@@ -32,9 +32,9 @@ class CandidateController extends Controller
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
 
-                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(15);
+                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(20);
             } else {
-                $candidates = Candidate::orderBy('id', 'desc')->paginate(15);
+                $candidates = Candidate::orderBy('id', 'desc')->paginate(20);
             }
             // session()->forget('candidate_id');
             return view('candidates.list')->with(compact('candidates', 'candidate_statuses', 'candidate_positions'));
@@ -76,7 +76,7 @@ class CandidateController extends Controller
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
             'indian_exp' => 'nullable|max:40',
             'abroad_exp' => 'nullable|max:40',
-        ],[
+        ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
             'dob.required' => 'The date of birth field is required.',
@@ -569,10 +569,10 @@ class CandidateController extends Controller
         }
 
         if ($request->last_call_status) {
-           $last_activity = CandidateActivity::orderBy('id', 'desc')->get()->groupBy('candidate_id');
-              $last_activity = $last_activity->map(function ($item, $key) {
+            $last_activity = CandidateActivity::orderBy('id', 'desc')->get()->groupBy('candidate_id');
+            $last_activity = $last_activity->map(function ($item, $key) {
                 return $item->first();
-              });
+            });
 
             $candidates->whereHas('candidateActivity', function ($query) use ($request, $last_activity) {
                 $query->where('call_status', $request->last_call_status)->whereIn('id', $last_activity->pluck('id')->toArray());
@@ -583,7 +583,7 @@ class CandidateController extends Controller
             $candidates->where('enter_by', Auth::user()->id);
         }
 
-        $candidates = $candidates->orderBy('id', 'desc')->paginate(15);
+        $candidates = $candidates->orderBy('id', 'desc')->paginate(20);
 
         return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
     }
@@ -646,6 +646,24 @@ class CandidateController extends Controller
     {
         $candidate = Candidate::where('is_call_id', $request->user_id)->pluck('id')->toArray();
         Candidate::where('is_call_id', $request->user_id)->update(['is_call_id' => null]);
-        return response()->json(['status' => true, 'candidate'=>$candidate, 'message' => 'Candidate called successfully']);
+        return response()->json(['status' => true, 'candidate' => $candidate, 'message' => 'Candidate called successfully']);
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $email = $request->input('email');
+        $phone = $request->input('phone');
+        // Check if the email already exists in the database
+        $exists = Candidate::where('email', $email)->get()->count();
+        if ($exists > 0) {
+            $checkphone = Candidate::where('email', $email)->where('contact_no', $phone)->get()->count();
+            if ($checkphone > 0) {
+                return response()->json(['status' => true]);
+            } else {
+                return response()->json(['status' => false]);
+            }
+        } else {
+            return response()->json(['status' => true]);
+        }
     }
 }

@@ -131,95 +131,102 @@
                 </div>
             </div> --}}
             <div class="row">
+                @if (Auth::user()->hasRole('ADMIN'))
+                    <div class="col-lg-12 col-md-12 mb-2">
+                        <div class="action_btn">
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Action
+                                </a>
 
-                <div class="col-lg-12 col-md-12 mb-2">
-                    <div class="action_btn">
-                        <div class="dropdown">
-                          <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Action
-                          </a>
-
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="javascript:void();" data-bs-toggle="modal" data-bs-target="#action_modal">Changing status</a></li>
-                            <li><a class="dropdown-item" href="#">WhatsApp message</a></li>
-                            <li><a class="dropdown-item" href="#">SMS</a></li>
-                          </ul>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void();" data-bs-toggle="modal"
+                                            data-bs-target="#bulk_status">Changing status</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">WhatsApp message</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">SMS</a></li>
+                                </ul>
+                            </div>
                         </div>
+                        @if (Auth::user()->hasRole('ADMIN'))
+                            <!-- Modal of bulk changing status -->
+                            <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <form action="{{ route('candidates.bulk.status.update') }}" id="change_status">
+                                            @csrf
+                                            <div class="modal-body">
+                                                <div class="">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Status</label>
+                                                        <select name="change_status" class="form-select"
+                                                            id="change_status_id">
+                                                            <option value="">Select A Status</option>
+                                                            @foreach ($candidate_statuses as $status)
+                                                                <option value="{{ $status->id }}">{{ $status->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn save-btn">Save changes</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal -->
+                        @endif
+
                     </div>
-
-                       <!-- Modal -->
-    <div class="modal fade" id="action_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="">
-                <div class="mb-3">
-                  <label for="" class="form-label">Email address</label>
-                  <input type="email" class="form-control" id="" placeholder="name@example.com">
-                </div>
-                <div class="mb-3">
-                    <label for="" class="form-label">Email address</label>
-                    <select name="" class="form-control" id="">
-                        <option value="">Select Arbic Type</option>
-                        <option value="Basic">Basic</option>
-                        <option value="Good">Good</option>
-                        <option value="Poor">Poor</option>
-                        <option value="No">No</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                  <label for="" class="form-label">Example textarea</label>
-                  <textarea class="form-control" id="" rows="3"></textarea>
-                </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Modal -->
-
-
-                </div>
-
+                @endif
                 <div class="col-lg-12 col-md-12">
                     <div class="table-responsive border-bottom" data-toggle="lists">
                         <table class="table mb-0 table-bordered">
                             <thead>
                                 <tr>
-                                      <th>  <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row checkAll" name="checkAll">
-                                    </div></th>
+                                    @if (Auth::user()->hasRole('ADMIN'))
+                                        <th>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox"
+                                                    class="custom-control-input js-check-selected-row checkAll"
+                                                    name="checkAll">
+                                            </div>
+                                        </th>
+                                    @endif
+
                                     @can('View Candidate')
                                         <th>
                                             View
 
-                                            <!--<div class="d-flex">-->
-                                            <!--    <div>View</div> <div class="dropdown">-->
-                                            <!--      <span class="dropdown-toggle ps-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
-                                            <!--        <i class="fa-solid fa-filter"></i>-->
-                                            <!--      </span>-->
-                                            <!--      <ul class="dropdown-menu">-->
-                                            <!--        <li><a class="dropdown-item" href="#">Action</a></li>-->
-                                            <!--        <li><a class="dropdown-item" href="#">Another action</a></li>-->
-                                            <!--        <li><a class="dropdown-item" href="#">Something else here</a></li>-->
-                                            <!--      </ul>-->
-                                            <!--    </div>-->
-                                            <!--</div>-->
+                                            {{-- <div class="d-flex">
+                                                <div>View</div> <div class="dropdown">
+                                                  <span class="dropdown-toggle ps-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa-solid fa-filter"></i>
+                                                  </span>
+                                                  <ul class="dropdown-menu">
+                                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                  </ul>
+                                                </div>
+                                            </div> --}}
                                         </th>
                                     @endcan
                                     {{-- <th></th> --}}
                                     {{-- <th>Enter By</th> --}}
 
                                     <th>Status <div>
-                                            <select name="cnadidate_status_id" id="cnadidate_status_id_filter" class="select_width">
+                                            <select name="cnadidate_status_id" id="cnadidate_status_id_filter"
+                                                class="select_width">
                                                 <option value="">Select A Status</option>
                                                 @foreach ($candidate_statuses as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
@@ -1015,17 +1022,75 @@
         });
     </script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Check-all functionality
-            $(".checkAll").change(function () {
-                $(".js-check-selected-row").prop('checked', $(this).prop('checked'));
+            $(document).on('change', '.checkAll', function() {
+                $(".checkd-row").prop('checked', $(this).prop('checked'));
             });
 
             // Individual checkbox change
-            $(".js-check-selected-row").change(function () {
+            $(document).on('change', '.checkd-row', function() {
                 if (!$(this).prop("checked")) {
                     $(".checkAll").prop("checked", false);
                 }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('submit', '#change_status', function(e) {
+                e.preventDefault();
+                var status_id = $('#change_status_id').val();
+                //  get the candidate id which checkbox is checked
+                var candidate_ids = [];
+                $('.checkd-row:checked').each(function() {
+                    candidate_ids.push($(this).data('id'));
+                });
+                // are you sure you want to change status
+                if (candidate_ids.length == 0) {
+                    toastr.error('Please select atleast one candidate');
+                    return false;
+                }
+                if (status_id == '') {
+                    toastr.error('Please select status');
+                    return false;
+                }
+
+                // are you sure confirm msg show
+                swal({
+                        title: 'Are you sure?',
+                        text: "You want to change status of selected candidates!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, change it!'
+                    })
+                    .then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: $(this).attr('action'),
+                                type: $(this).attr('method'),
+                                data: {
+                                    status_id: status_id,
+                                    candidate_ids: candidate_ids,
+                                },
+                                success: function(response) {
+                                    //windows load with toastr message
+                                    window.location.reload();
+                                },
+                                error: function(xhr) {
+                                    var errors = xhr.responseJSON.errors;
+                                    $.each(errors, function(key, value) {
+                                        toastr.error(value[0]);
+                                    });
+                                }
+                            });
+                        } else {
+                            toastr.error('You have cancelled!');
+                        }
+                    });
             });
         });
     </script>

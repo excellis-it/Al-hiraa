@@ -22,7 +22,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="integrations-form profile-form">
-                                <form action="{{ route('candidates.store') }}" method="POST">
+                                <form action="{{ route('candidates.store') }}" method="POST" id="create-candidate">
                                     @csrf
                                     <div class="row g-2 justify-content-between">
                                         <div class="col-lg-4">
@@ -66,6 +66,145 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+
+            jQuery.validator.addMethod("phoneUS", function(phone_number, element) {
+                phone_number = phone_number.replace(/\s+/g, "");
+                return this.optional(element) || phone_number.length > 9 &&
+                    phone_number.match(/^(\+?1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/);
+            }, "Please specify a valid phone number");
+
+            jQuery.validator.addMethod("phoneIN", function(phone_number, element) {
+                phone_number = phone_number.replace(/\s+/g, "");
+                return this.optional(element) || phone_number.length > 9 &&
+                    phone_number.match(/^(\+91-?)?([6-9]\d{9})$/);
+            }, "Please specify a valid phone number");
+
+            jQuery.validator.addMethod("passportIN", function(passport_no, element) {
+                passport_no = passport_no.replace(/\s+/g, "");
+                return this.optional(element) || passport_no.match(/^[A-Za-z][0-9]{7}$/);
+            }, "Please specify a valid Passport number");
+
+            $("#create-candidate").validate({
+                rules: {
+                    contact_no: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 10,
+                    },
+                    full_name: {
+                        required: true,
+                    },
+                    dob: {
+                        required: true,
+                    },
+                    cnadidate_status_id: {
+                        required: true,
+                    },
+                    email: {
+                        // not required
+                        required: false,
+                        email: true,
+                        remote: {
+                            url: "{{ route('candidates.check-email') }}",
+                            type: "GET",
+                            data: {
+                                phone: function() {
+                                    return $("#contact_no").val();
+                                },
+                                _token: "{{ csrf_token() }}",
+                            },
+                            dataFilter: function(data) {
+                                if (data.status == "true") {
+                                    return '"' + "Email already exists" + '"';
+                                } else {
+                                    return 'true';
+                                }
+                            }
+
+                        },
+                    },
+                    position_applied_for_1: {
+                        required: true,
+                    },
+                    alternate_contact_no: {
+                        required: false,
+                        minlength: 10,
+                        maxlength: 10,
+                    },
+                    whatapp_no: {
+                        required: false,
+                        phoneIN: true,
+                    },
+                    passport_number: {
+                        required: false,
+                        passportIN: true,
+                    },
+                    indian_exp: {
+                        required: false,
+                        minlength: 80,
+                        maxlength: 100,
+                    },
+                    abroad_exp: {
+                        required: false,
+                        minlength: 80,
+                        maxlength: 100,
+                    },
+                },
+
+                messages: {
+                    contact_no: {
+                        required: "Please enter contact number",
+                        minlength: "Contact number should be 10 digits",
+                        maxlength: "Contact number should be 10 digits",
+                    },
+                    full_name: {
+                        required: "Please enter full name",
+                    },
+                    dob: {
+                        required: "Please enter date of birth",
+                    },
+                    cnadidate_status_id: {
+                        required: "Please select candidate status",
+                    },
+                    email: {
+                        // not required
+                        required: "Please enter email",
+                        email: "Please enter valid email",
+
+                    },
+                    position_applied_for_1: {
+                        required: "Please select position applied for",
+                    },
+                    alternate_contact_no: {
+                        required: "Please enter alternate contact number",
+                        minlength: "Alternate contact number should be 10 digits",
+                        maxlength: "Alternate contact number should be 10 digits",
+                    },
+                    whatapp_no: {
+                        required: "Please enter whatsapp number",
+                        phoneIN: "Please enter valid whatsapp number",
+                    },
+                    passport_number: {
+                        required: "Please enter passport number",
+                        passportIN: "Please enter valid passport number",
+                    },
+                    indian_exp: {
+                        required: "Please enter indian experience",
+                        minlength: "Indian experience should be 80 to 100 characters",
+                        maxlength: "Indian experience should be 80 to 100 characters",
+                    },
+                    abroad_exp: {
+                        required: "Please enter abroad experience",
+                        minlength: "Abroad experience should be 80 to 100 characters",
+                        maxlength: "Abroad experience should be 80 to 100 characters",
+                    },
+                },
+            });
+
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('.select2').each(function() {

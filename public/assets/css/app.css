@@ -4695,8 +4695,29 @@ h6+[aria-label=breadcrumb],
     text-overflow: ellipsis;
     max-width: 100px; /* Adjust this value to suit your needs */
 }
-
-
+.error{
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    color: #ff0000 !important;
+}
+.position_applied_1{
+   position: relative;
+}
+.position_applied_1 .error{
+    position: absolute;
+    left: 0;
+    top: 85px;
+    z-index: 10;
+}
+#contact_no{
+    position: relative;
+}
+#contact_no-error{
+    position: absolute;
+    left: 0;
+    top: 50px;
+    z-index: 10;
+}
 /* Responsive */
 @media (max-width: 1600.5px) {}
 @media (max-width: 1440.5px) {

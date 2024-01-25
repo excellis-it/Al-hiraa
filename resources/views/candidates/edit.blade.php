@@ -586,7 +586,7 @@
         <td>Email ID</td>
         <td>
           <div class="form-group">
-            <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" required>
+            <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" >
             <span class="text-danger" id="email_msg"></span>
             </div>
         </td>
