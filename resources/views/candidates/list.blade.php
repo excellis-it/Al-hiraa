@@ -300,9 +300,10 @@
                                     <th>
                                         Other Education
                                     </th>
-                                    <th>Position Applied For(1) <div>
-                                            <select name="position_applied_for" class="select_width"
-                                                id="position_applied_for_filter">
+                                    <th>Position Applied For(1) 
+                                        <div>
+                                            <select name="position_applied_for" class="select_width select2"
+                                                id="position_applied_for_filter" multiple>
                                                 <option value="">Select Position</option>
                                                 @foreach ($candidate_positions as $item)
                                                     <option value="{{ $item['id'] }}">
@@ -312,8 +313,8 @@
                                         </div>
                                     </th>
                                     <th>Position Applied For(2) <div>
-                                            <select name="position_applied_for" class="select_width"
-                                                id="position_applied_for_filter_2">
+                                            <select name="position_applied_for" class="select_width select2"
+                                                id="position_applied_for_filter_2" multiple>
                                                 <option value="">Select Position</option>
                                                 @foreach ($candidate_positions as $item)
                                                     <option value="{{ $item['id'] }}">
@@ -323,8 +324,8 @@
                                         </div>
                                     </th>
                                     <th>Position Applied For(3) <div>
-                                            <select name="position_applied_for" class="select_width"
-                                                id="position_applied_for_filter_3">
+                                            <select name="position_applied_for" class="select_width select2"
+                                                id="position_applied_for_filter_3" multiple>
                                                 <option value="">Select Position</option>
                                                 @foreach ($candidate_positions as $item)
                                                     <option value="{{ $item['id'] }}">
@@ -488,10 +489,15 @@
                 window.location.href = '{{ route('candidates.export') }}';
             });
 
+            
+
             function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
                 last_call_status, mode_of_registration, education, city,
                 position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
+
+           
+                   
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",
                     data: {
@@ -525,9 +531,17 @@
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
+
+                // position applied for array data receive
+
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+
+                
+                // var position_applied_for = $('#position_applied_for_filter').val();
+                // var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                // var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
@@ -646,6 +660,8 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $(this).val();
+
+               
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
@@ -662,14 +678,20 @@
             });
 
             $(document).on('change', '#position_applied_for_filter_2', function() {
+                
+               
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var page = $('#hidden_page').val();
                 var query = $('#query').val();
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
-                var position_applied_for_2 = $(this).val();
+                
                 var position_applied_for = $('#position_applied_for_filter').val();
+                
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                
+                var position_applied_for_2 = $(this).val();
+                
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
@@ -692,6 +714,9 @@
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_3 = $(this).val();
+
+                
+               
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
@@ -734,7 +759,7 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
-                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_2 =$('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $(this).val();
@@ -828,7 +853,7 @@
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
-                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var position_applied_for_3 = $('#position_applied_for_filter3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
@@ -852,7 +877,7 @@
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
-                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var position_applied_for_3 = $('#position_applied_for_filter3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
@@ -1094,4 +1119,18 @@
             });
         });
     </script>
+
+    <script>
+		$(".select2").select2({
+			closeOnSelect : false,
+			placeholder : "Placeholder",
+			// allowHtml: true,
+			allowClear: false,
+			tags: true // создает новые опции на лету
+		});
+
+       
+    </script>
+
+
 @endpush

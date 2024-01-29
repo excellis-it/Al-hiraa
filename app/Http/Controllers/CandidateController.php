@@ -496,7 +496,7 @@ class CandidateController extends Controller
 
     public function candidateFilter(Request $request)
     {
-        // return $request->all();
+       
         $candidates = Candidate::query();
         if ($request->search) {
             $candidates->where('full_name', 'LIKE', '%' . $request->search . '%')
@@ -533,16 +533,20 @@ class CandidateController extends Controller
         if ($request->gender) {
             $candidates->where('gender', $request->gender);
         }
+        $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
 
-        if ($request->position_applied_for) {
-            $candidates->where('position_applied_for_1', $request->position_applied_for);
-        }
-        if ($request->position_applied_for_2) {
-            $candidates->where('position_applied_for_2', $request->position_applied_for_2);
-        }
-        if ($request->position_applied_for_3) {
-            $candidates->where('position_applied_for_3', $request->position_applied_for_3);
-        }
+        $candidates->where(function ($query) use ($positions, $request) {
+            foreach ($positions as $position) {
+                $query->orWhereIn($position, $request->position_applied_for ?? [])
+                      ->orWhereIn($position, $request->position_applied_for_2 ?? [])
+                      ->orWhereIn($position, $request->position_applied_for_3 ?? []);
+            }
+        });
+        
+     
+        
+
+        
 
         if ($request->english_speak) {
             $candidates->where('english_speak', $request->english_speak);
