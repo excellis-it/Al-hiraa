@@ -224,9 +224,9 @@
                                     {{-- <th></th> --}}
                                     {{-- <th>Enter By</th> --}}
 
-                                    <th>Status <div>
+                                    <th> <div>
                                             <select name="cnadidate_status_id" id="cnadidate_status_id_filter"
-                                                class="select_width">
+                                                class="select_width status_select" multiple>
                                                 <option value="">Select A Status</option>
                                                 @foreach ($candidate_statuses as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
@@ -234,9 +234,9 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th>Last Call Status <div>
-                                            <select name="call_status" class="select_width" id="last_call_status_filter">
-                                                <option value="">Select Call Status</option>
+                                    <th> <div>
+                                            <select name="call_status" class="select_width last_call_status" id="last_call_status_filter">
+                                                <option value="" >Select Call Status</option>
                                                 @foreach (Position::getCallStatus() as $item)
                                                     <option value="{{ $item }}">
                                                         {{ $item }}</option>
@@ -246,9 +246,9 @@
                                     </th>
                                     <th>Last Update Date</th>
                                     <th>Last Update By</th>
-                                    <th>Mode of Registration
+                                    <th>
                                         <div>
-                                            <select name="mode_of_registration" class="select_width"
+                                            <select name="mode_of_registration" class="select_width mode_registration_select"
                                                 id="mode_of_registration_filter">
                                                 <option value="">Select Type</option>
                                                 <option value="Calling">Calling</option>
@@ -257,9 +257,9 @@
                                         </div>
 
                                     </th>
-                                    <th>Source
+                                    <th>
                                         <div>
-                                            <select name="source" class="select_width" id="source_filter">
+                                            <select name="source" class="select_width source_status" id="source_filter ">
                                                 <option value="">Select Source Type</option>
                                                 <option value="Telecalling">Telecalling
                                                 </option>
@@ -271,9 +271,9 @@
                                         </div>
                                     </th>
                                     <th>Full Name</th>
-                                    <th>Gender
+                                    <th>
                                         <div>
-                                            <select name="gender" class="select_width" id="gender_filter">
+                                            <select name="gender" class="select_width gender_select" id="gender_filter" multiple>
                                                 <option value="">Select Gender</option>
                                                 <option value="Male"> Male </option>
                                                 <option value="Female">Female</option>
@@ -283,9 +283,9 @@
                                     </th>
                                     <th>DOB</th>
                                     <th>Age</th>
-                                    <th>Education
+                                    <th>
                                         <div>
-                                            <select name="education" class="select_width" id="education_filter">
+                                            <select name="education" class="select_width education_select" id="education_filter" multiple>
                                                 <option value="">Select Type</option>
                                                 <option value="5th Pass">5th Pass</option>
                                                 <option value="8th Pass">8th Pass</option>
@@ -300,9 +300,15 @@
                                     <th>
                                         Other Education
                                     </th>
-                                    <th>Position Applied For(1) 
+                                    <th>
+                                        Indian Work Experience
+                                    </th>
+                                    <th>
+                                        Abroad Work Experience
+                                    </th>
+                                    <th>
                                         <div>
-                                            <select name="position_applied_for" class="select_width select2"
+                                            <select name="position_applied_for" class="select_width position1_select"
                                                 id="position_applied_for_filter" multiple>
                                                 <option value="">Select Position</option>
                                                 @foreach ($candidate_positions as $item)
@@ -312,8 +318,8 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th>Position Applied For(2) <div>
-                                            <select name="position_applied_for" class="select_width select2"
+                                    <th> <div>
+                                            <select name="position_applied_for" class="select_width position2_select"
                                                 id="position_applied_for_filter_2" multiple>
                                                 <option value="">Select Position</option>
                                                 @foreach ($candidate_positions as $item)
@@ -323,8 +329,8 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th>Position Applied For(3) <div>
-                                            <select name="position_applied_for" class="select_width select2"
+                                    <th><div>
+                                            <select name="position_applied_for" class="select_width position3_select"
                                                 id="position_applied_for_filter_3" multiple>
                                                 <option value="">Select Position</option>
                                                 @foreach ($candidate_positions as $item)
@@ -338,9 +344,9 @@
                                         Passport Number
                                     </th>
                                     <th>
-                                        City
+                                        
                                         <div>
-                                            <select name="city" class="select_width" id="city_filter">
+                                            <select name="city" class="select_width city_select" id="city_filter">
                                                 <option value="">Select City</option>
                                                 <option value="Mumbai" {{ old('city') == 'Mumbai' ? 'selected' : '' }}>
                                                     Mumbai</option>
@@ -424,9 +430,9 @@
                                         Gulf Driving License
                                     </th>
                                     <th>
-                                        English Speak
+                                       
                                         <div>
-                                            <select name="english_speak" class="select_width" id="english_speak_filter">
+                                            <select name="english_speak" class="select_width eng_spk_select" id="english_speak_filter">
                                                 <option value="">Select English Type</option>
                                                 <option value="Basic">Basic</option>
                                                 <option value="Good">Good</option>
@@ -436,9 +442,9 @@
                                         </div>
                                     </th>
                                     <th>
-                                        Arabic Speak
+                                        
                                         <div>
-                                            <select name="arabic_speak" class="select_width" id="arabic_speak_filter">
+                                            <select name="arabic_speak" class="select_width arbic_select" id="arabic_speak_filter">
                                                 <option value="">Select Arbic Type</option>
                                                 <option value="Basic">Basic</option>
                                                 <option value="Good">Good</option>
@@ -451,21 +457,16 @@
                                         Gulf Return
                                     </th>
                                     <th>
-                                        ECR Type
+                                       
                                         <div>
-                                            <select name="ecr_type" class="select_width" id="ecr_type_filter">
+                                            <select name="ecr_type" class="select_width ecr_select" id="ecr_type_filter">
                                                 <option value="">Select ECR</option>
                                                 <option value="ECR">ECR</option>
                                                 <option value="ECNR">ECNR</option>
                                             </select>
                                         </div>
                                     </th>
-                                    <th>
-                                        Indian Work Experience
-                                    </th>
-                                    <th>
-                                        Abroad Work Experience
-                                    </th>
+                                    
                                     <th>Remarks</th>
                                 </tr>
                             </thead>
@@ -496,8 +497,8 @@
                 position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
 
-           
-                   
+                
+   
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",
                     data: {
@@ -679,19 +680,14 @@
 
             $(document).on('change', '#position_applied_for_filter_2', function() {
                 
-               
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var page = $('#hidden_page').val();
                 var query = $('#query').val();
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
-                
                 var position_applied_for = $('#position_applied_for_filter').val();
-                
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
-                
                 var position_applied_for_2 = $(this).val();
-                
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
@@ -853,7 +849,7 @@
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
-                var position_applied_for_3 = $('#position_applied_for_filter3').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
@@ -877,7 +873,7 @@
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
-                var position_applied_for_3 = $('#position_applied_for_filter3').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
@@ -1120,17 +1116,94 @@
         });
     </script>
 
+    
     <script>
-		$(".select2").select2({
-			closeOnSelect : false,
-			placeholder : "Placeholder",
+    // status multi select    
+        $('.status_select').select2({
+            closeOnSelect : false,
+			placeholder : "Status",
 			// allowHtml: true,
 			allowClear: false,
-			tags: true // создает новые опции на лету
+			tags: true 
+        });
+        // gender multi select    
+		$(".gender_select").select2({
+			closeOnSelect : false,
+			placeholder : "Gender",
+			allowClear: false,
+			tags: true 
 		});
+        //education multi select
+        $(".education_select").select2({
+            closeOnSelect : false,
+            placeholder : "Education",
+            allowClear: false,
+            tags: true 
+        });
+         //position1 multi select
+         $(".position1_select").select2({
+            closeOnSelect : false,
+            placeholder : "Position Applied For(1)",
+            allowClear: false,
+            tags: true 
+        });
+        //position2 multi select
+        $(".position2_select").select2({
+            closeOnSelect : false,
+            placeholder : "Position Applied For(2)",
+            allowClear: false,
+            tags: true 
+        });
+        //position2 multi select
+        $(".position3_select").select2({
+            closeOnSelect : false,
+            placeholder : "Position Applied For(3)",
+            allowClear: false,
+            tags: true 
+        });
+         //Last call status select
+         $(".last_call_status").select2({
+            placeholder: "Last call Status",
+            allowClear: true,
+            
+            
+        });
 
-       
+        //mode registration status select
+        $(".mode_registration_select").select2({
+            placeholder: "Mode of Registration",
+            allowClear: true,
+        });
+
+        //source status select
+        $(".source_status").select2({
+            placeholder: "Source",
+            allowClear: true,
+        });
+
+        //city select
+        $(".city_select").select2({
+            placeholder: "City",
+            allowClear: true,
+        });
+
+        //english speak select
+        $(".eng_spk_select").select2({
+            placeholder: " English Speak",
+            allowClear: true,
+        })
+
+        // arbic speak select
+        $(".arbic_select").select2({
+            placeholder: "Arabic Speak",
+            allowClear: true,
+        })
+
+        //ecr type select
+        $(".ecr_select").select2({
+            placeholder: "ECR Type",
+            allowClear: true,
+        })
     </script>
-
 
 @endpush

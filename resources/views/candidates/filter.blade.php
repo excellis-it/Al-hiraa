@@ -50,6 +50,12 @@
             <td class="content-short">{{ $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
             <td class="content-short">{{ $item->education ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->other_education ?? 'N/A' }}</td>
+            <td class="content-short">
+                {{ $item->indian_exp ?? 'N/A' }}
+            </td>
+            <td class="content-short">
+                {{ $item->abroad_exp ?? 'N/A' }}
+            </td>
             <td class="content-short">{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
@@ -101,12 +107,7 @@
             <td class="content-short">
                 {{ $item->ecr_type ?? 'N/A' }}
             </td>
-            <td class="content-short">
-                {{ $item->indian_exp ?? 'N/A' }}
-            </td>
-            <td class="content-short">
-                {{ $item->abroad_exp ?? 'N/A' }}
-            </td>
+            
             <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
             data-route="{{ route('candidates.activity', $item['id']) }}" style="cursor: pointer">
             {{-- remarks only show 10 word --}}

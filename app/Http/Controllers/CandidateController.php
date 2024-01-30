@@ -496,7 +496,7 @@ class CandidateController extends Controller
 
     public function candidateFilter(Request $request)
     {
-       
+        // return $request->all();
         $candidates = Candidate::query();
         if ($request->search) {
             $candidates->where('full_name', 'LIKE', '%' . $request->search . '%')
@@ -521,19 +521,35 @@ class CandidateController extends Controller
                 ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
         }
 
-
-        if ($request->cnadidate_status_id) {
-            $candidates->where('cnadidate_status_id', $request->cnadidate_status_id);
+        if ($request->has('cnadidate_status_id')) {
+            if (is_array($request->cnadidate_status_id)) {
+                $candidates->whereIn('cnadidate_status_id', $request->cnadidate_status_id);
+            } else {
+                $candidates->where('cnadidate_status_id', $request->cnadidate_status_id);
+            }
         }
 
         if ($request->source) {
             $candidates->where('source', $request->source);
         }
 
-        if ($request->gender) {
-            $candidates->where('gender', $request->gender);
+        if ($request->has('gender')) {
+            if (is_array($request->gender)) {
+                $candidates->whereIn('gender', $request->gender);
+            } else {
+                $candidates->where('gender', $request->gender);
+            }
         }
 
+        if ($request->has('education')) {
+            if (is_array($request->education)) {
+                $candidates->whereIn('education', $request->education);
+            } else {
+                $candidates->where('education', $request->education);
+            }
+        }
+
+        
 
         $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
         if($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3)
@@ -546,8 +562,6 @@ class CandidateController extends Controller
                 }
             });
         }
-        
-    
 
         if ($request->english_speak) {
             $candidates->where('english_speak', $request->english_speak);
@@ -561,9 +575,7 @@ class CandidateController extends Controller
             $candidates->where('ecr_type', $request->ecr_type);
         }
 
-        if ($request->education) {
-            $candidates->where('education', $request->education);
-        }
+       
 
         if ($request->city) {
             $candidates->where('city', $request->city);
@@ -588,7 +600,7 @@ class CandidateController extends Controller
             $candidates->where('enter_by', Auth::user()->id);
         }
 
-        $candidates = $candidates->orderBy('id', 'desc')->paginate(20);
+        $candidates = $candidates->orderBy('id', 'desc')->paginate(15);
 
         return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
     }
