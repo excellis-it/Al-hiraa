@@ -499,13 +499,14 @@ class CandidateController extends Controller
         // return $request->all();
         $candidates = Candidate::query();
         if ($request->search) {
+            $position_id = CandidatePosition::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
             $candidates->where('full_name', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('gender', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('age', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('education', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('position_applied_for_1', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('position_applied_for_2', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('position_applied_for_3', 'LIKE', '%' . $request->search . '%')
+                ->orWhereIn('position_applied_for_1',  $position_id)
+                ->orWhereIn('position_applied_for_2',  $position_id)
+                ->orWhereIn('position_applied_for_3',  $position_id)
                 ->orWhere('email', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('city', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('religion', 'LIKE', '%' . $request->search . '%')
@@ -549,7 +550,7 @@ class CandidateController extends Controller
             }
         }
 
-        
+
 
         $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
         if($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3)
@@ -575,7 +576,7 @@ class CandidateController extends Controller
             $candidates->where('ecr_type', $request->ecr_type);
         }
 
-       
+
 
         if ($request->city) {
             $candidates->where('city', $request->city);
