@@ -533,20 +533,21 @@ class CandidateController extends Controller
         if ($request->gender) {
             $candidates->where('gender', $request->gender);
         }
+
+
         $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
-
-        $candidates->where(function ($query) use ($positions, $request) {
-            foreach ($positions as $position) {
-                $query->orWhereIn($position, $request->position_applied_for ?? [])
-                      ->orWhereIn($position, $request->position_applied_for_2 ?? [])
-                      ->orWhereIn($position, $request->position_applied_for_3 ?? []);
-            }
-        });
+        if($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3)
+        {
+            $candidates->where(function ($querys) use ($positions, $request) {
+                foreach ($positions as $position) {
+                    $querys->orWhereIn($position, $request->position_applied_for ?? [])
+                        ->orWhereIn($position, $request->position_applied_for_2 ?? [])
+                        ->orWhereIn($position, $request->position_applied_for_3 ?? []);
+                }
+            });
+        }
         
-     
-        
-
-        
+    
 
         if ($request->english_speak) {
             $candidates->where('english_speak', $request->english_speak);
