@@ -210,16 +210,16 @@ class Position
     public static function getCallStatus()
     {
         return [
-            0 => 'Not Interested',
-            1 => 'Interested',
-            2 => 'Not Reachable',
-            3 => 'Switch Off',
-            4 => 'Busy',
-            5 => 'Call Back',
-            6 => 'Wrong Number',
-            7 => 'Not Answered',
-            8 => 'Rejected',
-            9 => 'Interview Scheduled',
+            0 => 'NOT INTERESTED',
+            1 => 'INTERESTED',
+            2 => 'NOT REACHABLE',
+            3 => 'SWITCH OFF',
+            4 => 'BUSY',
+            5 => 'CALL BACK',
+            6 => 'WRONG NUMBER',
+            7 => 'NOT ANSWERED',
+            8 => 'REJECTED',
+            9 => 'INTERVIEW SCHEDULE',
         ];
     }
 }

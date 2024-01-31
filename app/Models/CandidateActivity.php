@@ -16,6 +16,16 @@ class CandidateActivity extends Model
         'call_status',
     ];
 
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        parent::setAttribute($key, strtoupper($value));
+    }
+
     public function candidate()
     {
         return $this->belongsTo(Candidate::class, 'candidate_id');

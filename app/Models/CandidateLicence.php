@@ -15,6 +15,16 @@ class CandidateLicence extends Model
         'licence_name'
     ];
 
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        parent::setAttribute($key, strtoupper($value));
+    }
+
     public function candidate()
     {
         return $this->belongsTo(Candidate::class);

@@ -74,8 +74,6 @@ class CandidateController extends Controller
             'alternate_contact_no' => 'nullable|digits:10',
             'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
-            'indian_exp' => 'nullable|max:40',
-            'abroad_exp' => 'nullable|max:40',
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
@@ -202,12 +200,12 @@ class CandidateController extends Controller
 
         if ($request->international_driving_license) {
             // delete old licence
-            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->delete();
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->delete();
 
             foreach ($request->international_driving_license as $key => $value) {
                 $candidate_licence = new CandidateLicence();
                 $candidate_licence->candidate_id = $candidate->id;
-                $candidate_licence->licence_type = 'gulf';
+                $candidate_licence->licence_type = 'GULF';
                 $candidate_licence->licence_name = $value;
                 $candidate_licence->save();
             }
@@ -215,12 +213,12 @@ class CandidateController extends Controller
 
         if ($request->indian_driving_license) {
             // delete old licence
-            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->delete();
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->delete();
 
             foreach ($request->indian_driving_license as $key => $value) {
                 $candidate_licence = new CandidateLicence();
                 $candidate_licence->candidate_id = $candidate->id;
-                $candidate_licence->licence_type = 'indian';
+                $candidate_licence->licence_type = 'INDIAN';
                 $candidate_licence->licence_name = $value;
                 $candidate_licence->save();
             }
@@ -253,8 +251,8 @@ class CandidateController extends Controller
     {
         $candidate = Candidate::findOrFail($id);
         $candidate_statuses = CandidateStatus::all();
-        $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
-        $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
+        $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray();
+        $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
         $edit = true;
         if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
@@ -292,8 +290,6 @@ class CandidateController extends Controller
             // 'remark' => 'required',
             'call_status' => 'required',
             // indian_exp word limit validation
-            'indian_exp' => 'nullable|max:40',
-            'abroad_exp' => 'nullable|max:40',
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
@@ -420,12 +416,12 @@ class CandidateController extends Controller
 
         if ($request->international_driving_license) {
             // delete old licence
-            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->delete();
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->delete();
 
             foreach ($request->international_driving_license as $key => $value) {
                 $candidate_licence = new CandidateLicence();
                 $candidate_licence->candidate_id = $candidate->id;
-                $candidate_licence->licence_type = 'gulf';
+                $candidate_licence->licence_type = 'GULF';
                 $candidate_licence->licence_name = $value;
                 $candidate_licence->save();
             }
@@ -433,12 +429,12 @@ class CandidateController extends Controller
 
         if ($request->indian_driving_license) {
             // delete old licence
-            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->delete();
+            CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->delete();
 
             foreach ($request->indian_driving_license as $key => $value) {
                 $candidate_licence = new CandidateLicence();
                 $candidate_licence->candidate_id = $candidate->id;
-                $candidate_licence->licence_type = 'indian';
+                $candidate_licence->licence_type = 'INDIAN';
                 $candidate_licence->licence_name = $value;
                 $candidate_licence->save();
             }
@@ -487,8 +483,8 @@ class CandidateController extends Controller
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
-            $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
-            $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
+            $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray();
+            $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
             $autofill = true;
             return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'candidate_positions', 'gulf_driving_license'))->render(), 'status' => 'success']);
         }
@@ -553,8 +549,7 @@ class CandidateController extends Controller
 
 
         $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
-        if($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3)
-        {
+        if ($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3) {
             $candidates->where(function ($querys) use ($positions, $request) {
                 foreach ($positions as $position) {
                     $querys->orWhereIn($position, $request->position_applied_for ?? [])
@@ -676,12 +671,20 @@ class CandidateController extends Controller
         if ($exists > 0) {
             $checkphone = Candidate::where('email', $email)->where('contact_no', $phone)->get()->count();
             if ($checkphone > 0) {
-                return response()->json(['status' => true]);
-            } else {
                 return response()->json(['status' => false]);
+            } else {
+                return response()->json(['status' => true]);
             }
         } else {
-            return response()->json(['status' => true]);
+            return response()->json(['status' => false]);
+        }
+    }
+
+    public function bulkStatusUpdate(Request $request)
+    {
+        if ($request->ajax()) {
+            Candidate::whereIn('id', $request->candidate_ids)->update(['cnadidate_status_id' => $request->status_id]);
+            return response()->json(['status' => true, 'message' => 'Status update successfully.']);
         }
     }
 }

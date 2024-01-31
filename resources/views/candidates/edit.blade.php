@@ -271,7 +271,7 @@
                                     </tr>
                                     <tr>
                                         <td>Return</td>
-                                        <td>{{ $candidate->return == 1 ? 'Yes' : 'N0' }}
+                                        <td>{{ $candidate->return == 1 ? 'YES' : 'N0' }}
 
                                         </td>
                                     </tr>
@@ -402,7 +402,7 @@
                     title: "Are you sure?",
                     text: "To change the status.",
                     type: "warning",
-                    confirmButtonText: "Yes",
+                    confirmButtonText: "YES",
                     showCancelButton: true
                 })
                 .then((result) => {
@@ -437,14 +437,14 @@
                     <td>Enter By</td>
         <td>
           <div class="form-group">
-            <input class="form-control" type="text" placeholder="Enter by" aria-label="default input example" value="{{ $candidate->enterBy->full_name ?? '' }}" readonly>
+            <input class="form-control uppercase-text" type="text" placeholder="Enter by" aria-label="default input example" value="{{ $candidate->enterBy->full_name ?? '' }}" readonly>
           </div>
         </td>
       </tr>
       <tr>
         <td>Status</td>
         <td>
-          <select name="cnadidate_status_id" class="form-control" id="">
+          <select name="cnadidate_status_id" class="form-control uppercase-text" id="">
             <option value="">Select A Status</option>
             @foreach ($candidate_statuses as $status)
             <option value="{{ $status->id }}" {{ $candidate->cnadidate_status_id == $status->id ? 'selected' : '' }}>
@@ -458,7 +458,7 @@
       <tr>
         <td>Mode of Registration</td>
         <td>
-            <select name="mode_of_registration" class="form-select" id="">
+            <select name="mode_of_registration" class="form-select uppercase-text" id="">
                     <option value="">Select Type</option>
                     <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling</option>
                     <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in</option>
@@ -468,7 +468,7 @@
       <tr>
         <td>Source</td>
     <td>
-        <select name="source" class="form-select" id="">
+        <select name="source" class="form-select uppercase-text" id="">
                     <option value="">Select Type</option>
                     <option value="Telecalling" {{ $candidate->source == 'Telecalling' ? 'selected' : '' }}>Telecalling</option>
                     <option value="Reference" {{ $candidate->source == 'Reference' ? 'selected' : '' }}>Reference</option>
@@ -482,14 +482,14 @@
         <td>Last Updated Date</td>
         <td>
           <div class="form-group">
-            <input type="date" class="form-control" id="" value="{{ date('Y-m-d', strtotime($candidate->updated_at)) ?? '' }}" name="last_update_date" placeholder="Last Updated Date" readonly>
+            <input type="date" class="form-control uppercase-text" id="" value="{{ date('Y-m-d', strtotime($candidate->updated_at)) ?? '' }}" name="last_update_date" placeholder="Last Updated Date" readonly>
           </div>
         </td>
       </tr>
       <tr>
         <td>Referred By</td>
         <td>
-          <input type="text" class="form-control" id="" value=" @if ($candidate->referred_by_id != null) {{ $candidate->referredBy->full_name }}@else{{ $candidate->referred_by }} @endif" placeholder="Referred By" readonly>
+          <input type="text" class="form-control uppercase-text" id="" value=" @if ($candidate->referred_by_id != null) {{ $candidate->referredBy->full_name }}@else{{ $candidate->referred_by }} @endif" placeholder="Referred By" readonly>
           </select>
         </td>
       </tr>
@@ -498,7 +498,7 @@
         <td>Full Name</td>
         <td>
           <div class="form-group">
-            <input type="text" class="form-control" id="" value="{{ $candidate->full_name ?? '' }}" name="full_name" placeholder="Full Name">
+            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->full_name ?? '' }}" name="full_name" placeholder="Full Name">
             <span class="text-danger" id="full_name_msg"></span>
           </div>
         </td>
@@ -506,7 +506,7 @@
       <tr>
         <td>Gender</td>
         <td>
-          <select name="gender" class="form-control" id="">
+          <select name="gender" class="form-control uppercase-text" id="">
             <option value="">Select Gender</option>
             <option value="Male" {{ $candidate->gender == 'Male' ? 'selected' : '' }}> Male </option>
             <option value="Female" {{ $candidate->gender == 'Female' ? 'selected' : '' }}>Female</option>
@@ -518,7 +518,7 @@
         <td>DOB</td>
         <td>
           <div class="form-group">
-            <input type="date" class="form-control" id="" value="{{ date('Y-m-d', strtotime($candidate->date_of_birth)) ?? '' }}" name="dob" max="{{ date('Y-m-d') }}" placeholder="DOB">
+            <input type="date" class="form-control uppercase-text" id="" value="{{ date('Y-m-d', strtotime($candidate->date_of_birth)) ?? '' }}" name="dob" max="{{ date('Y-m-d') }}" placeholder="DOB">
             <span class="text-danger" id="date_of_birth_msg"></span>
           </div>
         </td>
@@ -526,13 +526,13 @@
       <tr>
         <td>Age</td>
         <td>
-            <input type="text" class="form-control" id="" value="{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}" name="age" placeholder="Age" readonly>
+            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}" name="age" placeholder="Age" readonly>
         </td>
       </tr>
       <tr>
         <td>Education</td>
         <td>
-            <select name="education" class="form-select" id="">
+            <select name="education" class="form-select uppercase-text" id="">
                 <option value="">Select Type</option>
                 <option value="5th Pass" {{ $candidate->education == '5th Pass' ? 'selected' : '' }}>5th Pass</option>
                 <option value="8th Pass" {{ $candidate->education == '8th Pass' ? 'selected' : '' }}>8th Pass</option>
@@ -549,7 +549,7 @@
       <tr>
         <td>Other Education</td>
         <td>
-          <input type="text" class="form-control" id="" value="{{ $candidate->other_education ?? '' }}" name="other_education" placeholder="Other Education">
+          <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->other_education ?? '' }}" name="other_education" placeholder="Other Education">
           </select>
         </td>
       </tr>
@@ -558,7 +558,7 @@
         <td>Alternate Contact No.</td>
         <td>
           <div class="form-group">
-            <input type="text" class="form-control" id="" name="alternate_contact_no" value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="Alternate Contact No.">
+            <input type="text" class="form-control uppercase-text" id="" name="alternate_contact_no" value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="Alternate Contact No.">
             <span class="text-danger" id="alternate_contact_no_msg"></span>
             </div>
         </td>
@@ -567,7 +567,7 @@
         <td>Whatsapp No.</td>
         <td>
           <div class="form-group">
-            <input type="text" class="form-control" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
+            <input type="text" class="form-control uppercase-text" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
             <span class="text-danger" id="whatapp_no_msg"></span>
             </div>
         </td>
@@ -576,7 +576,7 @@
         <td>Passport Number.</td>
         <td>
           <div class="form-group">
-            <input type="text" class="form-control" id="" name="passport_number"
+            <input type="text" class="form-control uppercase-text" id="" name="passport_number"
                 value="{{ $candidate->passport_number ?? '' }}" placeholder="">
             <span class="text-danger" id="passport_number_msg"></span>
             </div>
@@ -586,7 +586,7 @@
         <td>Email ID</td>
         <td>
           <div class="form-group">
-            <input type="text" class="form-control" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" >
+            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" >
             <span class="text-danger" id="email_msg"></span>
             </div>
         </td>
@@ -594,7 +594,7 @@
       <tr>
         <td>City</td>
         <td>
-            <select name="city" class="form-select" id="">
+            <select name="city" class="form-select uppercase-text" id="">
                 <option value="">Select City</option>
                 <option value="Mumbai" {{ $candidate->city == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
                 <option value="Delhi" {{ $candidate->city == 'Delhi' ? 'selected' : '' }}>Delhi</option>
@@ -638,7 +638,7 @@
       <tr>
         <td>Religion</td>
         <td>
-            <select name="religion" class="form-select" id="">
+            <select name="religion" class="form-select uppercase-text" id="">
                 <option value="">Select Religion</option>
                 <option value="Hindu" {{ $candidate->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
                 <option value="Islam" {{ $candidate->religion == 'Islam' ? 'selected' : '' }}>Islam</option>
@@ -654,7 +654,7 @@
       <tr>
         <td>ECR Type</td>
         <td>
-          <select name="ecr_type" class="form-control" id="">
+          <select name="ecr_type" class="form-control uppercase-text" id="">
             <option value="">Select ECR</option>
             <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
             <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
@@ -664,12 +664,12 @@
       <tr>
         <td>Indian Driving License</td>
         <td>
-            <select name="indian_driving_license[]" class="form-select select2" id="" multiple>
+            <select name="indian_driving_license[]" class="form-select uppercase-text select2" id="" multiple>
                 <option value="" disabled>Select Indian Driving License</option>
-                <option value="2 Wheeler" {{ in_array('2 Wheeler', $indian_driving_license) ? 'selected' : '' }}>
-                    2 Wheeler</option>
-                <option value="4 Wheeler" {{ in_array('4 Wheeler', $indian_driving_license) ? 'selected' : '' }}>
-                    4 Wheeler</option>
+                <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER" {{ in_array('4 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                    4 WHEELER</option>
                 <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
             </select>
         </td>
@@ -677,12 +677,12 @@
       <tr>
         <td>Gulf Driving License</td>
         <td>
-            <select name="international_driving_license[]" class="form-select select2" id="" multiple>
+            <select name="international_driving_license[]" class="form-select uppercase-text select2" id="" multiple>
                 <option value="" disabled>Select Gulf Driving License</option>
-                <option value="2 Wheeler" {{ in_array('2 Wheeler', $gulf_driving_license) ? 'selected' : '' }}>
-                    2 Wheeler</option>
-                <option value="4 Wheeler" {{ in_array('4 Wheeler', $gulf_driving_license) ? 'selected' : '' }}>
-                    4 Wheeler</option>
+                <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER" {{ in_array('4 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                    4 WHEELER</option>
                 <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
             </select>
         </td>
@@ -692,34 +692,34 @@
       <tr>
         <td>English Speak</td>
         <td>
-          <select name="english_speak" class="form-control" id="">
+          <select name="english_speak" class="form-control uppercase-text" id="">
             <option value="">English Speak</option>
             <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
             <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
             <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-            <option value="No" {{ $candidate->english_speak == 'No' ? 'selected' : '' }}>No</option>
+            <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
           </select>
         </td>
       </tr>
       <tr>
         <td>Arabic Speak</td>
         <td>
-          <select name="arabic_speak" class="form-control" id="">
+          <select name="arabic_speak" class="form-control uppercase-text" id="">
             <option value="">Arabic Speak</option>
             <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
             <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
             <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-            <option value="No" {{ $candidate->english_speak == 'No' ? 'selected' : '' }}>No</option>
+            <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
           </select>
         </td>
       </tr>
       <tr>
         <td>Return</td>
         <td>
-          <select name="return" class="form-control" id="">
+          <select name="return" class="form-control uppercase-text" id="">
             <option value="">Return</option>
-            <option value="1" {{ $candidate->return == '1' ? 'selected' : '' }}>Yes</option>
-            <option value="0" {{ $candidate->return == '0' ? 'selected' : '' }}>No</option>
+            <option value="1" {{ $candidate->return == '1' ? 'selected' : '' }}>YES</option>
+            <option value="0" {{ $candidate->return == '0' ? 'selected' : '' }}>NO</option>
           </select>
         </td>
       </tr>
@@ -731,7 +731,7 @@
                 <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id="">
+                    <select name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -746,7 +746,7 @@
                 <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">List</a></span></td>
         <td>
-                    <input type="text" class="form-control" id=""
+                    <input type="text" class="form-control uppercase-text" id=""
                         value="{{ $candidate->positionAppliedFor1->name ?? '' }}" name="position_applied_for_1"
                         placeholder="">
                     </td>
@@ -758,7 +758,7 @@
             <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                <select name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id="">
+                <select name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -779,7 +779,7 @@
         <td>Specialisation for Position (1)</td>
         <td>
             <input type="text"
-                        value="{{ $candidate->specialisation_1 ?? '' }}" class="form-control"
+                        value="{{ $candidate->specialisation_1 ?? '' }}" class="form-control uppercase-text"
                         name="specialisation_1">
         </td>
     </tr>
@@ -792,7 +792,7 @@
                 <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id="">
+                    <select name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -806,7 +806,7 @@
                 <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">List</a></span></td>
         <td>
-                    <input type="text" class="form-control" id=""
+                    <input type="text" class="form-control uppercase-text" id=""
                         value="{{ $candidate->positionAppliedFor2->name ?? '' }}" name="position_applied_for_2"
                         placeholder="">
                 @endif
@@ -816,7 +816,7 @@
             <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                <select name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id="">
+                <select name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -835,7 +835,7 @@
         <td>Specialisation for Position (2)</td>
         <td>
             <input type="text"
-                        value="{{ $candidate->specialisation_2 ?? '' }}" class="form-control"
+                        value="{{ $candidate->specialisation_2 ?? '' }}" class="form-control uppercase-text"
                         name="specialisation_2">
         </td>
     </tr>
@@ -848,7 +848,7 @@
                     <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                        <select name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id="">
+                        <select name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id="">
                             <option value="">Select Position</option>
                             @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
@@ -862,7 +862,7 @@
                     <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">List</a></span></td>
         <td>
-                        <input type="text" class="form-control" id=""
+                        <input type="text" class="form-control uppercase-text" id=""
                             value="{{ $candidate->positionAppliedFor3->name ?? '' }}" name="position_applied_for_3"
                             placeholder="">
                         </td>
@@ -872,7 +872,7 @@
                 <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id="">
+                    <select name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -891,7 +891,7 @@
         <td>Specialisation for Position (3)</td>
         <td>
             <input type="text"
-                        value="{{ $candidate->specialisation_3 ?? '' }}" class="form-control"
+                        value="{{ $candidate->specialisation_3 ?? '' }}" class="form-control uppercase-text"
                         name="specialisation_3">
         </td>
     </tr>
@@ -900,7 +900,7 @@
       <tr>
         <td>Indian Experience (If any?)</td>
         <td>
-            <input type="text" class="form-control" id="" value="{{ $candidate->indian_exp ?? '' }}"
+            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->indian_exp ?? '' }}"
                 name="indian_exp" placeholder="">
                 <span class="text-danger" id="indian_exp_msg"></span>
         </td>
@@ -908,7 +908,7 @@
       <tr>
         <td>Abroad Experience (If any?)</td>
         <td>
-            <input type="text" class="form-control" id="" value="{{ $candidate->abroad_exp ?? '' }}"
+            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->abroad_exp ?? '' }}"
                 name="abroad_exp" placeholder="">
                 <span class="text-danger" id="abroad_exp_msg"></span>
         </td>
@@ -916,7 +916,7 @@
       <tr>
         <td>Call Status</td>
         <td>
-            <select name="call_status" class="form-select" id="">
+            <select name="call_status" class="form-select uppercase-text" id="">
                 <option value="">Select Call Status</option>
                 @foreach (Position::getCallStatus() as $item)
                     <option value="{{ $item }}"
@@ -931,7 +931,7 @@
         <td>Remarks</td>
         <td>
           <div class="form-group">
-            <textarea class="form-control" id="" rows="3" name="remark" placeholder="Remark"></textarea>
+            <textarea class="form-control uppercase-text" id="" rows="3" name="remark" placeholder="Remark"></textarea>
             <span class="text-danger" id="remark_msg"></span>
           </div>
         </td>
@@ -1106,7 +1106,7 @@
                                     </tr>
                                     <tr>
                                         <td>Return</td>
-                                        <td>{{ $candidate->return == 1 ? 'Yes' : 'N0' }}
+                                        <td>{{ $candidate->return == 1 ? 'YES' : 'N0' }}
 
                                         </td>
                                     </tr>
@@ -1264,7 +1264,7 @@
                 if (type == 'Other') {
                     $('.position_applied_1').html(`<td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">List</a></span></td> <td> <input type="text"
-                                class="form-control" id="" value="{{ $candidate->positionAppliedFor1->name ?? '' }}"
+                                class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor1->name ?? '' }}"
                                 name="position_applied_for_1" placeholder=""> </td>`);
                                 if ($('.specialisation_1').length) {
                                     $('.specialisation_1').remove();
@@ -1273,7 +1273,7 @@
                     $('.position_applied_1').html(
                         `<td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td> <td> <select
-                                name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id=""> <option
+                                name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
@@ -1289,7 +1289,7 @@
                 if (type == 'Other') {
                     $('.position_applied_2').html(`<td>Position Applied For(2) <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">List</a></span></td> <td> <input type="text"
-                                class="form-control" id="" value="{{ $candidate->positionAppliedFor2->name ?? '' }}"
+                                class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor2->name ?? '' }}"
                                 name="position_applied_for_2" placeholder=""> </td>`);
                                 if ($('.specialisation_2').length) {
                                     $('.specialisation_2').remove();
@@ -1299,7 +1299,7 @@
                     $('.position_applied_2').html(
                         `<td>Position Applied For(2) <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td> <td> <select
-                                name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id=""> <option
+                                name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
@@ -1315,7 +1315,7 @@
                 if (type == 'Other') {
                     $('.position_applied_3').html(`<td>Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">List</a></span></td> <td> <input type="text"
-                                class="form-control" id="" value="{{ $candidate->positionAppliedFor3->name ?? '' }}"
+                                class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor3->name ?? '' }}"
                                 name="position_applied_for_3" placeholder=""> </td>`);
                                 if ($('.specialisation_3').length) {
                                     $('.specialisation_3').remove();
@@ -1325,7 +1325,7 @@
                     $('.position_applied_3').html(
                         `<td>Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">Other</a></span></td> <td> <select
-                                name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id=""> <option
+                                name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
@@ -1341,7 +1341,7 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td><input type="text" class="form-control" name="specialisation_1" placeholder=""></td></tr>';
+                    var newTR = '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_1" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_1').length) {
                         $('.position_applied_1').after(newTR);
@@ -1360,7 +1360,7 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td><input type="text" class="form-control" name="specialisation_2" placeholder=""></td></tr>';
+                    var newTR = '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_2" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_2').length) {
                         $('.position_applied_2').after(newTR);
@@ -1379,7 +1379,7 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td><input type="text" class="form-control" name="specialisation_3" placeholder=""></td></tr>';
+                    var newTR = '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_3" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_3').length) {
                         $('.position_applied_3').after(newTR);

@@ -84,7 +84,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::get('/candidates-permission/{candidate_id}/{candidate_field_update_id}',[CandidateController::class,'candidatePermission'])->name('candidates.permission');
     Route::get('/candidates-activity/{id}',[CandidateController::class,'candidatesActivity'])->name('candidates.activity');
     Route::post('/candidates-isCalled',[CandidateController::class,'isCalled'])->name('candidates.iscalled.update');
-    Route::post('/bulk-status-update',[CandidateController::class,'bulkStatusUpdate'])->name('candidates.bulk.status.update');
+    Route::get('/bulk-status-update',[CandidateController::class,'bulkStatusUpdate'])->name('candidates.bulk.status.update');
     Route::get('/candidates-check-email',[CandidateController::class,'checkEmail'])->name('candidates.check-email');
 
     Route::get('/companies-filter',[CompanyController::class,'companiesFilter'])->name('companies.filter');

@@ -18,6 +18,16 @@ class CandidateFieldUpdate extends Model
 
     protected $table = 'candidate_field_updates';
 
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        parent::setAttribute($key, strtoupper($value));
+    }
+
     public function candidateStatus()
     {
         return $this->belongsTo(CandidateStatus::class, 'status', 'id');

@@ -103,7 +103,6 @@
                         required: true,
                     },
                     email: {
-                        // not required
                         required: false,
                         email: true,
                         remote: {
@@ -116,7 +115,9 @@
                                 _token: "{{ csrf_token() }}",
                             },
                             dataFilter: function(data) {
-                                if (data.status == "true") {
+                                var response = JSON.parse(data);
+                                 console.log(response.status);
+                                if (response.status == true) {
                                     return '"' + "Email already exists" + '"';
                                 } else {
                                     return 'true';
@@ -143,12 +144,10 @@
                     },
                     indian_exp: {
                         required: false,
-                        minlength: 80,
                         maxlength: 100,
                     },
                     abroad_exp: {
                         required: false,
-                        minlength: 80,
                         maxlength: 100,
                     },
                 },

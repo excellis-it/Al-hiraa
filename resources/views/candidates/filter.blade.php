@@ -102,12 +102,12 @@
                 {{ $item->arabic_speak ?? 'N/A' }}
             </td>
             <td class="content-short">
-                {{ $item->return == 1 ? 'Yes' : 'No' }}
+                {{ $item->return == 1 ? 'YES' : 'NO' }}
             </td>
             <td class="content-short">
                 {{ $item->ecr_type ?? 'N/A' }}
             </td>
-            
+
             <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
             data-route="{{ route('candidates.activity', $item['id']) }}" style="cursor: pointer">
             {{-- remarks only show 10 word --}}

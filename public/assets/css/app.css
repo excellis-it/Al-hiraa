@@ -4730,7 +4730,7 @@ h6+[aria-label=breadcrumb],
   min-width: 140px;
   background: #fff;
   overflow: hidden;
-} 
+}
 */
 
 /* select2 css */
@@ -4785,7 +4785,7 @@ h6+[aria-label=breadcrumb],
 	border-width: 2px;
 }
 .select2-container--open .select2-dropdown--below {
-	
+
 	border-radius: 6px;
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 
@@ -4811,7 +4811,9 @@ h6+[aria-label=breadcrumb],
 
 
 
-
+.uppercase-text {
+    text-transform: uppercase;
+}
 
 /* Responsive */
 @media (max-width: 1600.5px) {}

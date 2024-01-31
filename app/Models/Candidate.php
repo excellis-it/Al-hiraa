@@ -43,6 +43,17 @@ class Candidate extends Model
         'passport_number',
     ];
 
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        parent::setAttribute($key, strtoupper($value));
+    }
+
+
     public function candidateFieldUpdate()
     {
         return $this->hasOne(CandidateFieldUpdate::class)->orderBy('id', 'desc')->where('is_granted', 1);
