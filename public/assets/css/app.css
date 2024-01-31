@@ -4736,7 +4736,7 @@ h6+[aria-label=breadcrumb],
 /* select2 css */
 
 .select2-container {
-  min-width: 400px;
+  min-width: 200px;
 }
 
 .select2-results__option {
