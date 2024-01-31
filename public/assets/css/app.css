@@ -3888,7 +3888,7 @@ h6+[aria-label=breadcrumb],
 }
 .integrations-form .form-group .select2-container--default .select2-selection--multiple{
     border: 1px solid #DFDFDF;
-  padding: 10px;
+  padding: 5px;
   height: auto;
   border-radius: 8px;
 }
@@ -4814,7 +4814,78 @@ h6+[aria-label=breadcrumb],
 .uppercase-text {
     text-transform: uppercase;
 }
-
+.tagator_element{
+    border: none !important;
+    background: transparent !important;
+}
+.tagator_placeholder {
+    top: 8px !important;
+    left: 20px !important;
+    font-size: 16px !important;
+}
+.tagator_tag {
+    background-color: #396d9b;
+}
+.candy-p .select2-container .select2-search--inline .select2-search__field {
+    padding: 0px 0px 0px 10px !important;
+    text-align: center;
+    color: #000;
+    font-size: 14px;
+    font-weight: 700;
+}
+.candy-p .select2-container .select2-search--inline .select2-search__field::placeholder{
+    color: #000;
+}
+.candy-p .select2-container--default .select2-selection--single{
+    border: none !important;
+}
+.candy-p .select2-container--default.select2-container--focus .select2-selection--multiple{
+    border: none !important;
+}
+.candy-p .select2-container--default .select2-selection--multiple{
+    border: none !important;
+}
+.candy-p  .select2-container--default .select2-selection--single .select2-selection__placeholder {
+    color: #000 !important;
+}
+.candy-p  .select2-container--default .select2-selection--multiple {
+    margin-bottom: 0px !important;
+}
+.candy-p select option{
+  font-size: 14px !important;
+}
+.select2-results__option:before{
+    margin-right: 5px !important;
+    height: 15px;
+    width: 15px;
+}
+.select2-container--default .select2-results__option {
+    font-size: 12px;
+}
+.select2-container--default .select2-results>.select2-results__options {
+    min-width: 275px;
+}
+.select2-container--open .select2-dropdown--below {
+    min-width: 275px;
+}
+.candidate-form-new .form-select{
+  padding: 5px 0px !important;
+}
+.candidate-form-new .select2-container .select2-selection--single .select2-selection__rendered {
+  padding-left: 0 !important;
+}
+.table tbody td{
+    white-space: nowrap;
+}
+/* .select2-results__option:before{
+  border-radius: 50% !important;
+} */
+.single_select .select2-results__option::before{
+    border-radius: 50% !important;
+  }
+  #select2-mode_of_registration_filter-result-3f1j-Calling::before{
+    border-radius: 50% !important;
+  }
 /* Responsive */
 @media (max-width: 1600.5px) {}
 @media (max-width: 1440.5px) {

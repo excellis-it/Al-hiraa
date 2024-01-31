@@ -64,6 +64,7 @@ class CandidateController extends Controller
     public function store(Request $request)
     {
         // return $request->all();
+        // return $d = $request->other_education ?? 'n/a';
         $request->validate([
             'contact_no' => 'required|digits:10',
             'full_name' => 'required',
@@ -90,31 +91,31 @@ class CandidateController extends Controller
         }
 
         $candidate->enter_by = Auth::user()->id;
-        $candidate->cnadidate_status_id = $request->cnadidate_status_id;
-        $candidate->mode_of_registration = $request->mode_of_registration;
-        $candidate->source = $request->source;
+        $candidate->cnadidate_status_id = $request->cnadidate_status_id ?? null;
+        $candidate->mode_of_registration = $request->mode_of_registration ?? null;
+        $candidate->source = $request->source ?? null;
         if ($request->referred_by_id) {
-            $candidate->referred_by_id = $request->referred_by_id;
+            $candidate->referred_by_id = $request->referred_by_id ?? null;
         } else {
-            $candidate->referred_by = $request->referred_by;
+            $candidate->referred_by = $request->referred_by ?? null;
         }
-        $candidate->passport_number = $request->passport_number;
-        $candidate->full_name = $request->full_name;
+        $candidate->passport_number = $request->passport_number ?? null;
+        $candidate->full_name = $request->full_name ?? null;
         $candidate->gender = $request->gender;
-        $candidate->date_of_birth = $request->dob;
+        $candidate->date_of_birth = $request->dob ?? null;
         // age calculation from date of birth
         $candidate->age = date_diff(date_create($request->dob), date_create('today'))->y;
-        $candidate->education = $request->education;
-        $candidate->other_education = $request->other_education;
-        $candidate->contact_no = $request->contact_no;
-        $candidate->alternate_contact_no = $request->alternate_contact_no;
-        $candidate->email = $request->email;
-        $candidate->whatapp_no = $request->whatapp_no;
-        $candidate->city = $request->city;
-        $candidate->religion = $request->religion;
-        $candidate->ecr_type = $request->ecr_type;
-        $candidate->english_speak = $request->english_speak;
-        $candidate->arabic_speak = $request->arabic_speak;
+        $candidate->education = $request->education ?? null;
+        $candidate->other_education = $request->other_education ?? null;
+        $candidate->contact_no = $request->contact_no ?? null;
+        $candidate->alternate_contact_no = $request->alternate_contact_no ?? null;
+        $candidate->email = $request->email ?? null;
+        $candidate->whatapp_no = $request->whatapp_no ?? null;
+        $candidate->city = $request->city ?? null;
+        $candidate->religion = $request->religion ?? null;
+        $candidate->ecr_type = $request->ecr_type ?? null;
+        $candidate->english_speak = $request->english_speak ?? null;
+        $candidate->arabic_speak = $request->arabic_speak ?? null;
         $candidate->return = ($request->return != null) ? $request->return : 0;
 
         // check position
@@ -185,8 +186,8 @@ class CandidateController extends Controller
         }
 
 
-        $candidate->indian_exp = $request->indian_exp;
-        $candidate->abroad_exp = $request->abroad_exp;
+        $candidate->indian_exp = $request->indian_exp ?? null;
+        $candidate->abroad_exp = $request->abroad_exp ?? null;
         $candidate->save();
 
         if ($request->remark) {

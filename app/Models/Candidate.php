@@ -50,8 +50,12 @@ class Candidate extends Model
 
     public function setAttribute($key, $value)
     {
-        parent::setAttribute($key, strtoupper($value));
+        if ($value !== null) {
+            $value = strtoupper($value);
+        }
+        parent::setAttribute($key, $value);
     }
+
 
 
     public function candidateFieldUpdate()

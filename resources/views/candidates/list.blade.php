@@ -191,7 +191,7 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="table-responsive border-bottom" data-toggle="lists">
                         <table class="table mb-0 table-bordered">
-                            <thead>
+                            <thead class="candy-p">
                                 <tr>
                                     @if (Auth::user()->hasRole('ADMIN'))
                                         <th>
@@ -236,8 +236,8 @@
                                         </div>
                                     </th>
                                     <th>
-                                        <div>
-                                            <select name="call_status" class="select_width last_call_status"
+                                        <div class="single_select">
+                                            <select name="call_status" class="select_width last_call_status "
                                                 id="last_call_status_filter">
                                                 <option value="">Select Call Status</option>
                                                 @foreach (Position::getCallStatus() as $item)
@@ -250,9 +250,9 @@
                                     <th>Last Update Date</th>
                                     <th>Last Update By</th>
                                     <th>
-                                        <div>
+                                        <div class="single_select">
                                             <select name="mode_of_registration"
-                                                class="select_width mode_registration_select"
+                                                class="select_width mode_registration_select "
                                                 id="mode_of_registration_filter">
                                                 <option value="">Select Type</option>
                                                 <option value="Calling">Calling</option>
@@ -262,8 +262,8 @@
 
                                     </th>
                                     <th>
-                                        <div>
-                                            <select name="source" class="select_width source_status"
+                                        <div class="single_select">
+                                            <select name="source" class="select_width source_status "
                                                 id="source_filter ">
                                                 <option value="">Select Source Type</option>
                                                 <option value="Telecalling">Telecalling
@@ -275,7 +275,7 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th>Full Name</th>
+                                    <th class="can_full">Full Name</th>
                                     <th>
                                         <div>
                                             <select name="gender" class="select_width gender_select" id="gender_filter"
@@ -354,8 +354,8 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="city" class="select_width city_select" id="city_filter">
+                                        <div class="single_select">
+                                            <select name="city" class="select_width city_select " id="city_filter">
                                                 <option value="">Select City</option>
                                                 <option value="Mumbai" {{ old('city') == 'Mumbai' ? 'selected' : '' }}>
                                                     Mumbai</option>
@@ -440,8 +440,8 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="english_speak" class="select_width eng_spk_select"
+                                        <div class="single_select">
+                                            <select name="english_speak" class="select_width eng_spk_select "
                                                 id="english_speak_filter">
                                                 <option value="">Select English Type</option>
                                                 <option value="Basic">Basic</option>
@@ -453,8 +453,8 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="arabic_speak" class="select_width arbic_select"
+                                        <div class="single_select">
+                                            <select name="arabic_speak" class="select_width arbic_select "
                                                 id="arabic_speak_filter">
                                                 <option value="">Select Arbic Type</option>
                                                 <option value="Basic">Basic</option>
@@ -469,8 +469,8 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="ecr_type" class="select_width ecr_select" id="ecr_type_filter">
+                                        <div class="single_select">
+                                            <select name="ecr_type" class="select_width ecr_select " id="ecr_type_filter">
                                                 <option value="">Select ECR</option>
                                                 <option value="ECR">ECR</option>
                                                 <option value="ECNR">ECNR</option>

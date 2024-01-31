@@ -26,7 +26,7 @@ class CandidateFieldUpdate extends Model
     public function setAttribute($key, $value)
     {
         parent::setAttribute($key, strtoupper($value));
-    }
+    }       
 
     public function candidateStatus()
     {

@@ -43,7 +43,7 @@
             <td class="content-short">
                 {{ $item->source ?? 'N/A' }}
             </td>
-            <td class="content-short">{{ $item->full_name ?? 'N/A' }}</td>
+            <td class="">{{ $item->full_name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->gender ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
             {{--  age calculation date of birth --}}
@@ -59,7 +59,7 @@
             <td class="content-short">{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
-            <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>                    
             <td class="content-short">
                 {{ $item->city ?? 'N/A' }}
             </td>
@@ -73,7 +73,7 @@
             <td class="content-short">
                 {{ $item->religion ?? 'N/A' }}
             </td>
-            <td class="content-short">
+            <td class="">
                 @if ($item->candidateIndianLicence()->count() > 0)
                     @foreach ($item->candidateIndianLicence as $key => $value)
                         <span class="badge bg-primary rounded-pill">
@@ -84,7 +84,7 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td class="content-short">
+            <td class="">
                 @if ($item->candidateGulfLicence()->count() > 0)
                     @foreach ($item->candidateGulfLicence as $key => $value)
                         <span class="badge bg-primary rounded-pill">
