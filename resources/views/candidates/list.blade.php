@@ -264,7 +264,7 @@
                                     <th>
                                         <div>
                                             <select name="source" class="select_width source_status"
-                                                id="source_filter ">
+                                                id="source_filter">
                                                 <option value="">Select Source Type</option>
                                                 <option value="Telecalling">Telecalling
                                                 </option>
@@ -622,6 +622,7 @@
 
 
             $(document).on('change', '#source_filter', function() {
+                
 
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var page = $('#hidden_page').val();
