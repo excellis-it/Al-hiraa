@@ -6,7 +6,9 @@
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
         @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN')) @else data-bs-backdrop="static" @endif aria-labelledby="offcanvasRightLabel">
-        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))   <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a> @endif
+        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))
+            <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
+        @endif
         <div class="offcanvas-body">
             <div class="row g-3">
                 <div class="col-lg-4">
@@ -664,7 +666,7 @@
       <tr>
         <td>Indian Driving License</td>
         <td>
-            <select name="indian_driving_license[]" class="form-select uppercase-text select2" id="" multiple>
+            <select name="indian_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
                 <option value="" disabled>Select Indian Driving License</option>
                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
                     2 WHEELER</option>
@@ -677,7 +679,7 @@
       <tr>
         <td>Gulf Driving License</td>
         <td>
-            <select name="international_driving_license[]" class="form-select uppercase-text select2" id="" multiple>
+            <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
                 <option value="" disabled>Select Gulf Driving License</option>
                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
                     2 WHEELER</option>
@@ -731,7 +733,7 @@
                 <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id="">
+                    <select name="position_applied_for_1" class="form-select uppercase-text new_select2 positionAppliedFor1" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -758,7 +760,7 @@
             <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                <select name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id="">
+                <select name="position_applied_for_1" class="form-select uppercase-text new_select2 positionAppliedFor1" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -792,7 +794,7 @@
                 <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id="">
+                    <select name="position_applied_for_2" class="form-select uppercase-text new_select2 positionAppliedFor2" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -816,7 +818,7 @@
             <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                <select name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id="">
+                <select name="position_applied_for_2" class="form-select uppercase-text new_select2 positionAppliedFor2" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -848,7 +850,7 @@
                     <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                        <select name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id="">
+                        <select name="position_applied_for_3" class="form-select uppercase-text new_select2 positionAppliedFor3" id="">
                             <option value="">Select Position</option>
                             @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
@@ -872,7 +874,7 @@
                 <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id="">
+                    <select name="position_applied_for_3" class="form-select uppercase-text new_select2 positionAppliedFor3" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -937,9 +939,9 @@
         </td>
       </tr></tbody>`)
 
-                $('.select2').each(function() {
+                $('.new_select2').each(function() {
                     $(this).select2({
-                        dropdownParent: $(this).parent()
+                        // dropdownParent: $(this).parent()
                     });
                 })
             });
@@ -1266,19 +1268,19 @@
                                 class="position_applied_for_1">List</a></span></td> <td> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor1->name ?? '' }}"
                                 name="position_applied_for_1" placeholder=""> </td>`);
-                                if ($('.specialisation_1').length) {
-                                    $('.specialisation_1').remove();
-                                }
+                    if ($('.specialisation_1').length) {
+                        $('.specialisation_1').remove();
+                    }
                 } else {
                     $('.position_applied_1').html(
                         `<td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td> <td> <select
-                                name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id=""> <option
+                                name="position_applied_for_1" class="form-select uppercase-text new_select2 positionAppliedFor1" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                        );
+                    );
                 }
             });
 
@@ -1291,20 +1293,20 @@
                                 class="position_applied_for_2">List</a></span></td> <td> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor2->name ?? '' }}"
                                 name="position_applied_for_2" placeholder=""> </td>`);
-                                if ($('.specialisation_2').length) {
-                                    $('.specialisation_2').remove();
+                    if ($('.specialisation_2').length) {
+                        $('.specialisation_2').remove();
 
-                                }
+                    }
                 } else {
                     $('.position_applied_2').html(
                         `<td>Position Applied For(2) <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td> <td> <select
-                                name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id=""> <option
+                                name="position_applied_for_2" class="form-select uppercase-text new_select2 positionAppliedFor2" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                        );
+                    );
                 }
             });
 
@@ -1317,20 +1319,20 @@
                                 class="position_applied_for_3">List</a></span></td> <td> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor3->name ?? '' }}"
                                 name="position_applied_for_3" placeholder=""> </td>`);
-                                if ($('.specialisation_3').length) {
-                                    $('.specialisation_3').remove();
+                    if ($('.specialisation_3').length) {
+                        $('.specialisation_3').remove();
 
-                                }
+                    }
                 } else {
                     $('.position_applied_3').html(
                         `<td>Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">Other</a></span></td> <td> <select
-                                name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id=""> <option
+                                name="position_applied_for_3" class="form-select uppercase-text new_select2 positionAppliedFor3" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                        );
+                    );
                 }
             });
 
@@ -1341,7 +1343,8 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_1" placeholder=""></td></tr>';
+                    var newTR =
+                        '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_1" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_1').length) {
                         $('.position_applied_1').after(newTR);
@@ -1360,7 +1363,8 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_2" placeholder=""></td></tr>';
+                    var newTR =
+                        '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_2" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_2').length) {
                         $('.position_applied_2').after(newTR);
@@ -1379,7 +1383,8 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_3" placeholder=""></td></tr>';
+                    var newTR =
+                        '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_3" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_3').length) {
                         $('.position_applied_3').after(newTR);

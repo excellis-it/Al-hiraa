@@ -6,7 +6,7 @@
             id="candidate-{{ $item['id'] }}">
             {{-- checkbox for bulk select --}}
             @if (Auth::user()->hasRole('ADMIN'))
-            <td>
+            <td class="">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input js-check-selected-row checkd-row"  data-id="{{$item['id']}}">
                 </div>
@@ -14,7 +14,7 @@
             @endif
             {{-- checkbox for bulk select --}}
             @can('View Candidate')
-                <td>
+                <td class="">
                     <a href="javascript:void(0);" class="edit-route"
                         data-route="{{ route('candidates.edit', $item['id']) }}"><i class="fas fa-eye"></i></a>
                 </td>
@@ -59,7 +59,7 @@
             <td class="content-short">{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
-            <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>                    
+            <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>
             <td class="content-short">
                 {{ $item->city ?? 'N/A' }}
             </td>

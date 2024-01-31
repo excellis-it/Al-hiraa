@@ -189,7 +189,7 @@
                     </div>
                 @endif
                 <div class="col-lg-12 col-md-12">
-                    <div class="table-responsive border-bottom" data-toggle="lists">
+                    <div class="table-wrapper table-responsive border-bottom" data-toggle="lists">
                         <table class="table mb-0 table-bordered">
                             <thead class="candy-p">
                                 <tr>
@@ -227,7 +227,7 @@
                                     <th>
                                         <div>
                                             <select name="cnadidate_status_id" id="cnadidate_status_id_filter"
-                                                class="select_width status_select" multiple>
+                                                class="select_width status_select " multiple>
                                                 <option value="">Select A Status</option>
                                                 @foreach ($candidate_statuses as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
@@ -252,7 +252,7 @@
                                     <th>
                                         <div class="single_select">
                                             <select name="mode_of_registration"
-                                                class="select_width mode_registration_select "
+                                                class="select_width mode_registration_select"
                                                 id="mode_of_registration_filter">
                                                 <option value="">Select Type</option>
                                                 <option value="Calling">Calling</option>
@@ -263,8 +263,7 @@
                                     </th>
                                     <th>
                                         <div class="single_select">
-                                            <select name="source" class="select_width source_status "
-                                                id="source_filter ">
+                                            <select name="source" class="select_width source_status" id="source_filter">
                                                 <option value="">Select Source Type</option>
                                                 <option value="Telecalling">Telecalling
                                                 </option>
@@ -470,7 +469,8 @@
                                     <th>
 
                                         <div class="single_select">
-                                            <select name="ecr_type" class="select_width ecr_select " id="ecr_type_filter">
+                                            <select name="ecr_type" class="select_width ecr_select "
+                                                id="ecr_type_filter">
                                                 <option value="">Select ECR</option>
                                                 <option value="ECR">ECR</option>
                                                 <option value="ECNR">ECNR</option>
@@ -622,6 +622,7 @@
 
 
             $(document).on('change', '#source_filter', function() {
+
 
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var page = $('#hidden_page').val();
@@ -1130,20 +1131,42 @@
 
 
     <script>
-        // status multi select
         $('.status_select').select2({
             closeOnSelect: false,
             placeholder: "Status",
-            // allowHtml: true,
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+            if (selectedTags.length > 2) {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
+                    2).join(', ') + ', ...');
+            } else {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
+                    ', '));
+            }
         });
+
+
         // gender multi select
         $(".gender_select").select2({
             closeOnSelect: false,
             placeholder: "Gender",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+            if (selectedTags.length > 2) {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
+                    2).join(', ') + ', ...');
+            } else {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
+                    ', '));
+            }
         });
         //education multi select
         $(".education_select").select2({
@@ -1151,6 +1174,17 @@
             placeholder: "Education",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+            if (selectedTags.length > 2) {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
+                    2).join(', ') + ', ...');
+            } else {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
+                    ', '));
+            }
         });
         //position1 multi select
         $(".position1_select").select2({
@@ -1158,6 +1192,17 @@
             placeholder: "Position Applied For(1)",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+            if (selectedTags.length > 2) {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
+                    2).join(', ') + ', ...');
+            } else {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
+                    ', '));
+            }
         });
         //position2 multi select
         $(".position2_select").select2({
@@ -1172,6 +1217,17 @@
             placeholder: "Position Applied For(3)",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+            if (selectedTags.length > 2) {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
+                    2).join(', ') + ', ...');
+            } else {
+                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
+                    ', '));
+            }
         });
         //Last call status select
         $(".last_call_status").select2({
