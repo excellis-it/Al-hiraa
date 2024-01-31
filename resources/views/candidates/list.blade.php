@@ -1140,14 +1140,18 @@
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
             });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
             if (selectedTags.length > 2) {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
-                    2).join(', ') + ', ...');
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
             } else {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
-                    ', '));
+                $selection.html('Status'); // Set placeholder text manually
             }
         });
+
 
 
         // gender multi select
@@ -1160,12 +1164,15 @@
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
             });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
             if (selectedTags.length > 2) {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
-                    2).join(', ') + ', ...');
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
             } else {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
-                    ', '));
+                $selection.html('Gender'); // Set placeholder text manually
             }
         });
         //education multi select
@@ -1178,12 +1185,15 @@
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
             });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
             if (selectedTags.length > 2) {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
-                    2).join(', ') + ', ...');
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
             } else {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
-                    ', '));
+                $selection.html('Education'); // Set placeholder text manually
             }
         });
         //position1 multi select
@@ -1196,12 +1206,15 @@
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
             });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
             if (selectedTags.length > 2) {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
-                    2).join(', ') + ', ...');
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
             } else {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
-                    ', '));
+                $selection.html('Position Applied For(1)'); // Set placeholder text manually
             }
         });
         //position2 multi select
@@ -1210,6 +1223,20 @@
             placeholder: "Position Applied For(2)",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Position Applied For(2)'); // Set placeholder text manually
+            }
         });
         //position2 multi select
         $(".position3_select").select2({
@@ -1221,20 +1248,22 @@
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
             });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
             if (selectedTags.length > 2) {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.slice(0,
-                    2).join(', ') + ', ...');
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
             } else {
-                $(this).next('.select2-container').find('.select2-selection__rendered').html(selectedTags.join(
-                    ', '));
+                $selection.html('Position Applied For(3)'); // Set placeholder text manually
             }
         });
+
         //Last call status select
         $(".last_call_status").select2({
             placeholder: "Last call Status",
             allowClear: true,
-
-
         });
 
         //mode registration status select
