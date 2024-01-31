@@ -495,27 +495,28 @@ class CandidateController extends Controller
         // return $request->all();
         $candidates = Candidate::query();
         if ($request->search) {
-            $position_id = CandidatePosition::where('name', 'LIKE', '%' . $request->search . '%')->pluck('id')->toArray();
-            $candidates->where('full_name', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('gender', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('age', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('education', 'LIKE', '%' . $request->search . '%')
+             $main_search_text_arr = explode(',', $request->search);
+            $position_id = CandidatePosition::whereIn('name', $main_search_text_arr)->pluck('id')->toArray();
+            $candidates->whereIn('full_name', $main_search_text_arr)
+                ->orWhereIn('gender', $main_search_text_arr)
+                ->orWhereIn('age', $main_search_text_arr)
+                ->orWhereIn('education', $main_search_text_arr)
                 ->orWhereIn('position_applied_for_1',  $position_id)
                 ->orWhereIn('position_applied_for_2',  $position_id)
                 ->orWhereIn('position_applied_for_3',  $position_id)
-                ->orWhere('email', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('city', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('religion', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('ecr_type', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('english_speak', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('arabic_speak', 'LIKE', '%' . $request->search . '%')
+                ->orWhereIn('email', $main_search_text_arr)
+                ->orWhereIn('city', $main_search_text_arr)
+                ->orWhereIn('religion', $main_search_text_arr)
+                ->orWhereIn('ecr_type', $main_search_text_arr)
+                ->orWhereIn('english_speak', $main_search_text_arr)
+                ->orWhereIn('arabic_speak', $main_search_text_arr);
                 // enter by
-                ->orWhereHas('enterBy', function ($query) use ($request) {
-                    $query->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%" . $request->search . "%'");
-                })
+                // ->orWhereHas('enterBy', function ($query) use ($request) {
+                //     $query->whereInRaw("CONCAT(first_name, ' ', last_name)",$main_search_text_arr );
+                // });
                 // date of birth 09.01.2021 format search
-                ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
-                ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
+                // ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
+                // ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
         }
 
         if ($request->has('cnadidate_status_id')) {

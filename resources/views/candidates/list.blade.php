@@ -224,7 +224,8 @@
                                     {{-- <th></th> --}}
                                     {{-- <th>Enter By</th> --}}
 
-                                    <th> <div>
+                                    <th>
+                                        <div>
                                             <select name="cnadidate_status_id" id="cnadidate_status_id_filter"
                                                 class="select_width status_select" multiple>
                                                 <option value="">Select A Status</option>
@@ -234,9 +235,11 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th> <div>
-                                            <select name="call_status" class="select_width last_call_status" id="last_call_status_filter">
-                                                <option value="" >Select Call Status</option>
+                                    <th>
+                                        <div>
+                                            <select name="call_status" class="select_width last_call_status"
+                                                id="last_call_status_filter">
+                                                <option value="">Select Call Status</option>
                                                 @foreach (Position::getCallStatus() as $item)
                                                     <option value="{{ $item }}">
                                                         {{ $item }}</option>
@@ -248,7 +251,8 @@
                                     <th>Last Update By</th>
                                     <th>
                                         <div>
-                                            <select name="mode_of_registration" class="select_width mode_registration_select"
+                                            <select name="mode_of_registration"
+                                                class="select_width mode_registration_select"
                                                 id="mode_of_registration_filter">
                                                 <option value="">Select Type</option>
                                                 <option value="Calling">Calling</option>
@@ -259,7 +263,8 @@
                                     </th>
                                     <th>
                                         <div>
-                                            <select name="source" class="select_width source_status" id="source_filter ">
+                                            <select name="source" class="select_width source_status"
+                                                id="source_filter ">
                                                 <option value="">Select Source Type</option>
                                                 <option value="Telecalling">Telecalling
                                                 </option>
@@ -273,7 +278,8 @@
                                     <th>Full Name</th>
                                     <th>
                                         <div>
-                                            <select name="gender" class="select_width gender_select" id="gender_filter" multiple>
+                                            <select name="gender" class="select_width gender_select" id="gender_filter"
+                                                multiple>
                                                 <option value="">Select Gender</option>
                                                 <option value="Male"> Male </option>
                                                 <option value="Female">Female</option>
@@ -285,7 +291,8 @@
                                     <th>Age</th>
                                     <th>
                                         <div>
-                                            <select name="education" class="select_width education_select" id="education_filter" multiple>
+                                            <select name="education" class="select_width education_select"
+                                                id="education_filter" multiple>
                                                 <option value="">Select Type</option>
                                                 <option value="5th Pass">5th Pass</option>
                                                 <option value="8th Pass">8th Pass</option>
@@ -318,7 +325,8 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th> <div>
+                                    <th>
+                                        <div>
                                             <select name="position_applied_for" class="select_width position2_select"
                                                 id="position_applied_for_filter_2" multiple>
                                                 <option value="">Select Position</option>
@@ -329,7 +337,8 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th><div>
+                                    <th>
+                                        <div>
                                             <select name="position_applied_for" class="select_width position3_select"
                                                 id="position_applied_for_filter_3" multiple>
                                                 <option value="">Select Position</option>
@@ -344,7 +353,7 @@
                                         Passport Number
                                     </th>
                                     <th>
-                                        
+
                                         <div>
                                             <select name="city" class="select_width city_select" id="city_filter">
                                                 <option value="">Select City</option>
@@ -430,9 +439,10 @@
                                         Gulf Driving License
                                     </th>
                                     <th>
-                                       
+
                                         <div>
-                                            <select name="english_speak" class="select_width eng_spk_select" id="english_speak_filter">
+                                            <select name="english_speak" class="select_width eng_spk_select"
+                                                id="english_speak_filter">
                                                 <option value="">Select English Type</option>
                                                 <option value="Basic">Basic</option>
                                                 <option value="Good">Good</option>
@@ -442,9 +452,10 @@
                                         </div>
                                     </th>
                                     <th>
-                                        
+
                                         <div>
-                                            <select name="arabic_speak" class="select_width arbic_select" id="arabic_speak_filter">
+                                            <select name="arabic_speak" class="select_width arbic_select"
+                                                id="arabic_speak_filter">
                                                 <option value="">Select Arbic Type</option>
                                                 <option value="Basic">Basic</option>
                                                 <option value="Good">Good</option>
@@ -457,7 +468,7 @@
                                         Gulf Return
                                     </th>
                                     <th>
-                                       
+
                                         <div>
                                             <select name="ecr_type" class="select_width ecr_select" id="ecr_type_filter">
                                                 <option value="">Select ECR</option>
@@ -466,7 +477,7 @@
                                             </select>
                                         </div>
                                     </th>
-                                    
+
                                     <th>Remarks</th>
                                 </tr>
                             </thead>
@@ -490,15 +501,15 @@
                 window.location.href = '{{ route('candidates.export') }}';
             });
 
-            
+
 
             function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
                 last_call_status, mode_of_registration, education, city,
                 position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
 
-                
-   
+
+
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",
                     data: {
@@ -528,6 +539,7 @@
             $(document).on('submit', '.search-form', function(e) {
                 e.preventDefault();
                 var query = $('#query').val();
+                console.log(query);
                 var page = $('#hidden_page').val();
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var source = $('#source_filter').val();
@@ -539,7 +551,7 @@
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
 
-                
+
                 // var position_applied_for = $('#position_applied_for_filter').val();
                 // var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 // var position_applied_for_3 = $('#position_applied_for_filter_3').val();
@@ -662,7 +674,7 @@
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $(this).val();
 
-               
+
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
@@ -679,7 +691,7 @@
             });
 
             $(document).on('change', '#position_applied_for_filter_2', function() {
-                
+
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var page = $('#hidden_page').val();
                 var query = $('#query').val();
@@ -711,8 +723,8 @@
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_3 = $(this).val();
 
-                
-               
+
+
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
@@ -755,7 +767,7 @@
                 var source = $('#source_filter').val();
                 var gender = $('#gender_filter').val();
                 var position_applied_for = $('#position_applied_for_filter').val();
-                var position_applied_for_2 =$('#position_applied_for_filter_2').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $(this).val();
@@ -1116,57 +1128,57 @@
         });
     </script>
 
-    
+
     <script>
-    // status multi select    
+        // status multi select
         $('.status_select').select2({
-            closeOnSelect : false,
-			placeholder : "Status",
-			// allowHtml: true,
-			allowClear: false,
-			tags: true 
+            closeOnSelect: false,
+            placeholder: "Status",
+            // allowHtml: true,
+            allowClear: false,
+            tags: true
         });
-        // gender multi select    
-		$(".gender_select").select2({
-			closeOnSelect : false,
-			placeholder : "Gender",
-			allowClear: false,
-			tags: true 
-		});
+        // gender multi select
+        $(".gender_select").select2({
+            closeOnSelect: false,
+            placeholder: "Gender",
+            allowClear: false,
+            tags: true
+        });
         //education multi select
         $(".education_select").select2({
-            closeOnSelect : false,
-            placeholder : "Education",
+            closeOnSelect: false,
+            placeholder: "Education",
             allowClear: false,
-            tags: true 
+            tags: true
         });
-         //position1 multi select
-         $(".position1_select").select2({
-            closeOnSelect : false,
-            placeholder : "Position Applied For(1)",
+        //position1 multi select
+        $(".position1_select").select2({
+            closeOnSelect: false,
+            placeholder: "Position Applied For(1)",
             allowClear: false,
-            tags: true 
+            tags: true
         });
         //position2 multi select
         $(".position2_select").select2({
-            closeOnSelect : false,
-            placeholder : "Position Applied For(2)",
+            closeOnSelect: false,
+            placeholder: "Position Applied For(2)",
             allowClear: false,
-            tags: true 
+            tags: true
         });
         //position2 multi select
         $(".position3_select").select2({
-            closeOnSelect : false,
-            placeholder : "Position Applied For(3)",
+            closeOnSelect: false,
+            placeholder: "Position Applied For(3)",
             allowClear: false,
-            tags: true 
+            tags: true
         });
-         //Last call status select
-         $(".last_call_status").select2({
+        //Last call status select
+        $(".last_call_status").select2({
             placeholder: "Last call Status",
             allowClear: true,
-            
-            
+
+
         });
 
         //mode registration status select
@@ -1205,5 +1217,207 @@
             allowClear: true,
         })
     </script>
-
+    <script>
+        $('#query').tagator({
+            autocomplete: [
+                'AC TECHNICIAN SPLIT & WINDOW',
+                'ACCOUNTANT',
+                'ALUMINIUM FABRICATOR',
+                'ANIMAL WARDEN',
+                'ANY HELPER',
+                'ARABIC CHEF',
+                'AREA RESTAURANT MANAGER',
+                'ASST. ELECTRICIAN',
+                'ASST. COOK',
+                'ASST. PLUMBER',
+                'ASST. RESTAURANT MANAGER',
+                'ASST. SUPERVISOR',
+                'ASST. WAITER',
+                'AUTO AC TECHNICIAN',
+                'AUTO ELECTRICIAN',
+                'AUTO MOBILE ENG',
+                'AUTO MOBILE TECHNICIAN',
+                'AUTO CAD',
+                'CDP',
+                'CHEF',
+                'D-CDP',
+                'BAKERY & PASTRY MAN',
+                'SOUS CHEF',
+                'BAKERY MAN',
+                'MANAGER',
+                'BANQUET SUPERVISOR',
+                'BARTENDER',
+                'BARBER FEMALE',
+                'BARBER MALE',
+                'BARISTA',
+                'BELL BOY',
+                'BIKE MECHANIC',
+                'BOILER OPERATOR',
+                'BOUNCER',
+                'BULLDOZER OPERATOR',
+                'BUSSER',
+                'BUTCHER',
+                'BUTCHER & SLAUGHTERER',
+                'BUTCHER MACHINE CUTTER',
+                'CABLE JOINTER',
+                'CAMP BOSS',
+                'CAPTAIN',
+                'CASHIER',
+                'CATERING SUPERVISOR',
+                'CDP',
+                'CHAPATI MAKER',
+                'CHARTERED ACCOUNTANT',
+                'CIVIL ENGG',
+                'CIVIL FOREMAN',
+                'HELPER',
+                'CIVIL SUPERVISOR',
+                'COBBLER',
+                'COLD KITCHEN CHEF',
+                'COMPUTER EMBROIDER',
+                'COMPUTER ENGINEER',
+                'COMPUTER HARDWARE & NETWORKING',
+                'COMPUTER OPERATOR',
+                'COMPUTER TECHNICIAN',
+                'CONTINENTAL CHEF',
+                'CRANE OPERATOR',
+                'DELIVERY BOY',
+                'DENTER',
+                'DIALYSIS MACHINE TECHNICIAN',
+                'DOCTOR',
+                'DOCUMENT CONTROLLER',
+                'DRAFTSMAN CIVIL',
+                'DRAFTSMAN MECHANICAL',
+                'DRAUGHTSMEN',
+                'DUCT ERECTOR',
+                'DUCT FABRICATOR',
+                'DUCT INSULATOR',
+                'DUCTMAN',
+                'ELECTRICAL ENGINEER',
+                'ELECTRICAL SUPERVISOR',
+                'ELECTRICIAN 220',
+                'ELECTRICIAN 220 & 440',
+                'ELECTRICIAN 440',
+                'ELECTRICIAN PANEL BOARD',
+                'ELECTRICAL TECHNICIAN',
+                'EXCAVATOR OPERATOR',
+                'EXECUTIVE CHEF',
+                'F & B SERVICE',
+                'F & B SUPERVISOR',
+                'FEMALE NURSE',
+                'FINISHING CARPENTER',
+                'GARDENER',
+                'WELDER',
+                'COOK',
+                'GENTS TAILOR',
+                'GLASS DESIGNER',
+                'GOLD SMITH',
+                'GRAPHIC DESIGNER',
+                'GYM TRAINER',
+                'HOST',
+                'HOUSEKEEPER',
+                'HOUSEKEEPING SUPERVISOR',
+                'HR',
+                'HR MANAGER',
+                'HV DRIVER',
+                'HVAC CHILLER PLANT',
+                'HVAC FOREMAN',
+                'HVAC TECHNICIAN',
+                'IATA OFFICER',
+                'CHEF',
+                'INSTRUMENT TECHNICIAN',
+                'INTERIOR DESIGNER',
+                'IT ENGINEER',
+                'JCB OPERATOR',
+                'JUICE MAKER',
+                'KITCHEN STEWARD',
+                'LADIES TAILOR',
+                'LAND SURVEYOR',
+                'LAPTOP TECHNICIAN',
+                'LAUNDRY BOY',
+                'LAUNDRY SUPERVISOR',
+                'LIFT TECHNICIAN',
+                'LMV DRIVER',
+                'LOADING & UNLOADING',
+                'LOGISTIC MANAGER',
+                'LOGISTIC OFFICER',
+                'LOGISTIC SUPERVISOR',
+                'MACHINE EMBROIDER',
+                'MALE NURSE',
+                'MECHANICAL ENGINEER',
+                'HELPER',
+                'MECHANICAL SUPERVISOR',
+                'MERCHANDISER',
+                'MOBILE CRANE OPERATOR',
+                'MOBILE HARDWARE TECHNICIAN',
+                'MOBILE SOFTWARE TECHNICIAN',
+                'MOCKTAIL',
+                'OFFICE BOY',
+                'OFFICE MACHINE OPERATOR',
+                'PACKERS',
+                'PARATHA MAKER',
+                'PEST CONTROL',
+                'LMV MECHANIC PETROL',
+                'LMV MECHANIC DIESEL',
+                'HV MECHANIC PETROL',
+                'HV MECHANIC DIESEL',
+                'PHARMACIST',
+                'PHOTOGRAPHER',
+                'PIPE FITTER',
+                'PIZZA MAKER',
+                'PLUMBER',
+                'POCLAIN OPERATOR',
+                'POP',
+                'QURAAN HAFEEZ',
+                'RCC FITTER',
+                'RECEPTIONIST',
+                'REFRIGERATION TECHNICIAN',
+                'RESTAURANT MANAGER',
+                'RESTAURANT SHIFT MANAGER',
+                'RESTAURANT SUPERVISOR',
+                'RIGGER',
+                'ROOM BOY',
+                'RUNNER',
+                'SAFETY ENGINEER',
+                'SAFETY OFFICER',
+                'SALAD MAKER',
+                'SALES MANAGER',
+                'MANAGER',
+                'SCAFFOLDER',
+                'SCREEN PRINTER',
+                'SECURITY GUARD',
+                'SENIOR WAITER',
+                'SERVICE CREW',
+                'SERVICE QUALITY CONTROLLER',
+                'FOOD QUALITY CONTROLLER',
+                'SHUTTERING CARPENTER',
+                'SOFA MAKER',
+                'SOFTWARE DEVELOPER',
+                'SOUS CHEF',
+                'COOK',
+                'SPRAY PAINTER',
+                'STEEL FABRICATOR',
+                'STEEL FIXER',
+                'STEWARD',
+                'POTTER',
+                'STOREKEEPER',
+                'TEACHER',
+                'TELE CALLER',
+                'CHEF',
+                'MASON',
+                'TIMEKEEPER',
+                'TOWER CRANE OPERATOR',
+                'DRIVER',
+                'TYRE TECHNICIAN',
+                'UTILITY OPERATOR',
+                'WAITER',
+                'WALL PAINTER',
+                'WAREHOUSE MANAGER',
+                'WAREHOUSE SUPERVISOR',
+                'WEB DEVELOPER',
+                'WELDER',
+                'XRAY TECHNICIAN',
+            ],
+            useDimmer: true
+        });
+    </script>
 @endpush

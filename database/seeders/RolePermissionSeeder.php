@@ -84,6 +84,12 @@ class RolePermissionSeeder extends Seeder
                 "updated_at" => date('Y-m-d H:i:s'),
             ],
             [
+                "name" => "View Company",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
                 "name" => "Edit Company",
                 "guard_name" => "web",
                 "created_at" => date('Y-m-d H:i:s'),
@@ -232,6 +238,7 @@ class RolePermissionSeeder extends Seeder
             "Edit Job",
             "Manage Company",
             "Create Company",
+            "View Company",
             "Edit Company",
             "Manage Schedule",
             "Create Schedule",
