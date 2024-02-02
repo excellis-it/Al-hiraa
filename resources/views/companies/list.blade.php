@@ -141,9 +141,14 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        // Handle success response
-                        window.location.reload();
-                        // toastr.success('Member details added successfully');
+                        console.log(response);
+                        if (response.status == true) {
+                            window.location.reload();
+                        } else {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            toastr.error(response.error);
+                        }
                     },
                     error: function(xhr) {
                         $('#loading').removeClass('loading');

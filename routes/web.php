@@ -76,6 +76,17 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         'companies' => CompanyController::class,
     ]);
 
+
+    Route::group(['prefix' => 'company-job'], function () {
+        Route::post('/store',[CompanyController::class,'companyJobStore'])->name('company-job.store');
+        Route::get('/edit/{id}',[CompanyController::class,'companyJobEdit'])->name('company-job.edit');
+        Route::put('/update/{id}',[CompanyController::class,'companyJobUpdate'])->name('company-job.update');
+        Route::get('/delete/{id}',[CompanyController::class,'companyJobDelete'])->name('company-job.delete');
+        Route::get('/close-job-filter',[CompanyController::class,'closeJobFilter'])->name('company-job.close-job.filter');
+        Route::get('/open-job-filter',[CompanyController::class,'openJobFilter'])->name('company-job.open-job.filter');
+    });
+
+
     Route::get('/candidates-auto-fill',[CandidateController::class,'userAutoFill'])->name('candidates.auto-fill');
     Route::get('/candidates-filter',[CandidateController::class,'candidateFilter'])->name('candidates.filter');
     Route::get('/candidates-export', [CandidateController::class, 'export'])->name('candidates.export'); // search export

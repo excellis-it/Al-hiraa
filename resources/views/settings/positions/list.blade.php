@@ -41,8 +41,8 @@
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="save-btn-div d-flex align-items-center">
                                                         <button type="submit" class="btn save-btn"><span><i
@@ -115,9 +115,9 @@
                             <option value="0">Inactive</option>
                         </select>
                     </div>
-                   
+
                 </div>
-                
+
 
                 <div class="user-acces-table team-members-table">
                     <div class="container-fluid page__container">
@@ -274,8 +274,8 @@
 
             // Handle the form submission
             $(document).on('submit', '#position-edit-form', function(e) {
-               
-                
+
+
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
@@ -351,5 +351,5 @@
 
         });
     </script>
-   
+
 @endpush

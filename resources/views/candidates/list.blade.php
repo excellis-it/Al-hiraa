@@ -356,72 +356,11 @@
                                         <div class="single_select">
                                             <select name="city" class="select_width city_select " id="city_filter">
                                                 <option value="">Select City</option>
-                                                <option value="Mumbai" {{ old('city') == 'Mumbai' ? 'selected' : '' }}>
-                                                    Mumbai</option>
-                                                <option value="Delhi" {{ old('city') == 'Delhi' ? 'selected' : '' }}>
-                                                    Delhi</option>
-                                                <option value="Kolkata" {{ old('city') == 'Kolkata' ? 'selected' : '' }}>
-                                                    Kolkata</option>
-                                                <option value="Chennai" {{ old('city') == 'Chennai' ? 'selected' : '' }}>
-                                                    Chennai</option>
-                                                <option value="Bangalore"
-                                                    {{ old('city') == 'Bangalore' ? 'selected' : '' }}>Bangalore</option>
-                                                <option value="Hyderabad"
-                                                    {{ old('city') == 'Hyderabad' ? 'selected' : '' }}>Hyderabad</option>
-                                                <option value="Ahmedabad"
-                                                    {{ old('city') == 'Ahmedabad' ? 'selected' : '' }}>Ahmedabad</option>
-                                                <option value="Pune" {{ old('city') == 'Pune' ? 'selected' : '' }}>Pune
-                                                </option>
-                                                <option value="Surat" {{ old('city') == 'Surat' ? 'selected' : '' }}>
-                                                    Surat</option>
-                                                <option value="Jaipur" {{ old('city') == 'Jaipur' ? 'selected' : '' }}>
-                                                    Jaipur</option>
-                                                <option value="Kanpur" {{ old('city') == 'Kanpur' ? 'selected' : '' }}>
-                                                    Kanpur</option>
-                                                <option value="Nagpur" {{ old('city') == 'Nagpur' ? 'selected' : '' }}>
-                                                    Nagpur</option>
-                                                <option value="Lucknow" {{ old('city') == 'Lucknow' ? 'selected' : '' }}>
-                                                    Lucknow</option>
-                                                <option value="Thane" {{ old('city') == 'Thane' ? 'selected' : '' }}>
-                                                    Thane</option>
-                                                <option value="Bhopal" {{ old('city') == 'Bhopal' ? 'selected' : '' }}>
-                                                    Bhopal</option>
-                                                <option value="Visakhapatnam"
-                                                    {{ old('city') == 'Visakhapatnam' ? 'selected' : '' }}>Visakhapatnam
-                                                <option value="Pimpri-Chinchwad"
-                                                    {{ old('city') == 'Pimpri-Chinchwad' ? 'selected' : '' }}>
-                                                    Pimpri-Chinchwad</option>
-                                                <option value="Patna" {{ old('city') == 'Patna' ? 'selected' : '' }}>
-                                                    Patna</option>
-                                                <option value="Vadodara"
-                                                    {{ old('city') == 'Vadodara' ? 'selected' : '' }}>Vadodara</option>
-                                                <option value="Ghaziabad"
-                                                    {{ old('city') == 'Ghaziabad' ? 'selected' : '' }}>Ghaziabad</option>
-                                                <option value="Ludhiana"
-                                                    {{ old('city') == 'Ludhiana' ? 'selected' : '' }}>Ludhiana</option>
-                                                <option value="Agra" {{ old('city') == 'Agra' ? 'selected' : '' }}>Agra
-                                                </option>
-                                                <option value="Nashik" {{ old('city') == 'Nashik' ? 'selected' : '' }}>
-                                                    Nashik</option>
-                                                <option value="Faridabad"
-                                                    {{ old('city') == 'Faridabad' ? 'selected' : '' }}>Faridabad</option>
-                                                <option value="Meerut" {{ old('city') == 'Meerut' ? 'selected' : '' }}>
-                                                    Meerut</option>
-                                                <option value="Rajkot" {{ old('city') == 'Rajkot' ? 'selected' : '' }}>
-                                                    Rajkot</option>
-                                                <option value="Kalyan-Dombivali"
-                                                    {{ old('city') == 'Kalyan-Dombivali' ? 'selected' : '' }}>
-                                                    Kalyan-Dombivali</option>
-                                                <option value="Vasai-Virar"
-                                                    {{ old('city') == 'Vasai-Virar' ? 'selected' : '' }}>Vasai-Virar
-                                                <option value="Varanasi"
-                                                    {{ old('city') == 'Varanasi' ? 'selected' : '' }}>Varanasi</option>
-                                                <option value="Srinagar"
-                                                    {{ old('city') == 'Srinagar' ? 'selected' : '' }}>Srinagar</option>
-                                                <option value="Aurangabad"
-                                                    {{ old('city') == 'Aurangabad' ? 'selected' : '' }}>Aurangabad</option>
-                                                <option value="Dhanbad" {{ old('city') == 'Dhanbad' ? 'selected' : '' }}>
-                                                    Dhanbad</option>
+                                                @foreach (Position::getCity() as $city)
+                                                    <option value="{{ $city }}"
+                                                        {{ old('city') == $city ? 'selected' : '' }}>{{ $city }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </th>
@@ -1286,7 +1225,7 @@
 
         //english speak select
         $(".eng_spk_select").select2({
-            placeholder: " English Speak",
+            placeholder: "English Speak",
             allowClear: true,
         })
 
@@ -1305,202 +1244,9 @@
     <script>
         $('#query').tagator({
             autocomplete: [
-                'AC TECHNICIAN SPLIT & WINDOW',
-                'ACCOUNTANT',
-                'ALUMINIUM FABRICATOR',
-                'ANIMAL WARDEN',
-                'ANY HELPER',
-                'ARABIC CHEF',
-                'AREA RESTAURANT MANAGER',
-                'ASST. ELECTRICIAN',
-                'ASST. COOK',
-                'ASST. PLUMBER',
-                'ASST. RESTAURANT MANAGER',
-                'ASST. SUPERVISOR',
-                'ASST. WAITER',
-                'AUTO AC TECHNICIAN',
-                'AUTO ELECTRICIAN',
-                'AUTO MOBILE ENG',
-                'AUTO MOBILE TECHNICIAN',
-                'AUTO CAD',
-                'CDP',
-                'CHEF',
-                'D-CDP',
-                'BAKERY & PASTRY MAN',
-                'SOUS CHEF',
-                'BAKERY MAN',
-                'MANAGER',
-                'BANQUET SUPERVISOR',
-                'BARTENDER',
-                'BARBER FEMALE',
-                'BARBER MALE',
-                'BARISTA',
-                'BELL BOY',
-                'BIKE MECHANIC',
-                'BOILER OPERATOR',
-                'BOUNCER',
-                'BULLDOZER OPERATOR',
-                'BUSSER',
-                'BUTCHER',
-                'BUTCHER & SLAUGHTERER',
-                'BUTCHER MACHINE CUTTER',
-                'CABLE JOINTER',
-                'CAMP BOSS',
-                'CAPTAIN',
-                'CASHIER',
-                'CATERING SUPERVISOR',
-                'CDP',
-                'CHAPATI MAKER',
-                'CHARTERED ACCOUNTANT',
-                'CIVIL ENGG',
-                'CIVIL FOREMAN',
-                'HELPER',
-                'CIVIL SUPERVISOR',
-                'COBBLER',
-                'COLD KITCHEN CHEF',
-                'COMPUTER EMBROIDER',
-                'COMPUTER ENGINEER',
-                'COMPUTER HARDWARE & NETWORKING',
-                'COMPUTER OPERATOR',
-                'COMPUTER TECHNICIAN',
-                'CONTINENTAL CHEF',
-                'CRANE OPERATOR',
-                'DELIVERY BOY',
-                'DENTER',
-                'DIALYSIS MACHINE TECHNICIAN',
-                'DOCTOR',
-                'DOCUMENT CONTROLLER',
-                'DRAFTSMAN CIVIL',
-                'DRAFTSMAN MECHANICAL',
-                'DRAUGHTSMEN',
-                'DUCT ERECTOR',
-                'DUCT FABRICATOR',
-                'DUCT INSULATOR',
-                'DUCTMAN',
-                'ELECTRICAL ENGINEER',
-                'ELECTRICAL SUPERVISOR',
-                'ELECTRICIAN 220',
-                'ELECTRICIAN 220 & 440',
-                'ELECTRICIAN 440',
-                'ELECTRICIAN PANEL BOARD',
-                'ELECTRICAL TECHNICIAN',
-                'EXCAVATOR OPERATOR',
-                'EXECUTIVE CHEF',
-                'F & B SERVICE',
-                'F & B SUPERVISOR',
-                'FEMALE NURSE',
-                'FINISHING CARPENTER',
-                'GARDENER',
-                'WELDER',
-                'COOK',
-                'GENTS TAILOR',
-                'GLASS DESIGNER',
-                'GOLD SMITH',
-                'GRAPHIC DESIGNER',
-                'GYM TRAINER',
-                'HOST',
-                'HOUSEKEEPER',
-                'HOUSEKEEPING SUPERVISOR',
-                'HR',
-                'HR MANAGER',
-                'HV DRIVER',
-                'HVAC CHILLER PLANT',
-                'HVAC FOREMAN',
-                'HVAC TECHNICIAN',
-                'IATA OFFICER',
-                'CHEF',
-                'INSTRUMENT TECHNICIAN',
-                'INTERIOR DESIGNER',
-                'IT ENGINEER',
-                'JCB OPERATOR',
-                'JUICE MAKER',
-                'KITCHEN STEWARD',
-                'LADIES TAILOR',
-                'LAND SURVEYOR',
-                'LAPTOP TECHNICIAN',
-                'LAUNDRY BOY',
-                'LAUNDRY SUPERVISOR',
-                'LIFT TECHNICIAN',
-                'LMV DRIVER',
-                'LOADING & UNLOADING',
-                'LOGISTIC MANAGER',
-                'LOGISTIC OFFICER',
-                'LOGISTIC SUPERVISOR',
-                'MACHINE EMBROIDER',
-                'MALE NURSE',
-                'MECHANICAL ENGINEER',
-                'HELPER',
-                'MECHANICAL SUPERVISOR',
-                'MERCHANDISER',
-                'MOBILE CRANE OPERATOR',
-                'MOBILE HARDWARE TECHNICIAN',
-                'MOBILE SOFTWARE TECHNICIAN',
-                'MOCKTAIL',
-                'OFFICE BOY',
-                'OFFICE MACHINE OPERATOR',
-                'PACKERS',
-                'PARATHA MAKER',
-                'PEST CONTROL',
-                'LMV MECHANIC PETROL',
-                'LMV MECHANIC DIESEL',
-                'HV MECHANIC PETROL',
-                'HV MECHANIC DIESEL',
-                'PHARMACIST',
-                'PHOTOGRAPHER',
-                'PIPE FITTER',
-                'PIZZA MAKER',
-                'PLUMBER',
-                'POCLAIN OPERATOR',
-                'POP',
-                'QURAAN HAFEEZ',
-                'RCC FITTER',
-                'RECEPTIONIST',
-                'REFRIGERATION TECHNICIAN',
-                'RESTAURANT MANAGER',
-                'RESTAURANT SHIFT MANAGER',
-                'RESTAURANT SUPERVISOR',
-                'RIGGER',
-                'ROOM BOY',
-                'RUNNER',
-                'SAFETY ENGINEER',
-                'SAFETY OFFICER',
-                'SALAD MAKER',
-                'SALES MANAGER',
-                'MANAGER',
-                'SCAFFOLDER',
-                'SCREEN PRINTER',
-                'SECURITY GUARD',
-                'SENIOR WAITER',
-                'SERVICE CREW',
-                'SERVICE QUALITY CONTROLLER',
-                'FOOD QUALITY CONTROLLER',
-                'SHUTTERING CARPENTER',
-                'SOFA MAKER',
-                'SOFTWARE DEVELOPER',
-                'SOUS CHEF',
-                'COOK',
-                'SPRAY PAINTER',
-                'STEEL FABRICATOR',
-                'STEEL FIXER',
-                'STEWARD',
-                'POTTER',
-                'STOREKEEPER',
-                'TEACHER',
-                'TELE CALLER',
-                'CHEF',
-                'MASON',
-                'TIMEKEEPER',
-                'TOWER CRANE OPERATOR',
-                'DRIVER',
-                'TYRE TECHNICIAN',
-                'UTILITY OPERATOR',
-                'WAITER',
-                'WALL PAINTER',
-                'WAREHOUSE MANAGER',
-                'WAREHOUSE SUPERVISOR',
-                'WEB DEVELOPER',
-                'WELDER',
-                'XRAY TECHNICIAN',
+                @foreach (Position::getPosition() as $item)
+                    '{{ $item }}',
+                @endforeach
             ],
             useDimmer: true
         });

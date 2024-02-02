@@ -18,6 +18,7 @@ class Company extends Model
         'company_website',
         'company_industry',
         'company_logo',
+        'company_description',
     ];
 
     public function user()
