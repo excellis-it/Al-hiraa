@@ -32,9 +32,9 @@ class CandidateController extends Controller
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
 
-                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(15);
+                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(50);
             } else {
-                $candidates = Candidate::orderBy('id', 'desc')->paginate(15);
+                $candidates = Candidate::orderBy('id', 'desc')->paginate(50);
             }
             // session()->forget('candidate_id');
             return view('candidates.list')->with(compact('candidates', 'candidate_statuses', 'candidate_positions'));
@@ -68,7 +68,7 @@ class CandidateController extends Controller
         $request->validate([
             'contact_no' => 'required|digits:10',
             'full_name' => 'required',
-            'dob' => 'required',
+            // 'dob' => 'required',
             'cnadidate_status_id' => 'required',
             'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'position_applied_for_1' => 'required',
@@ -281,7 +281,7 @@ class CandidateController extends Controller
     {
         $request->validate([
             'full_name' => 'required',
-            'dob' => 'required',
+            // 'dob' => 'required',
             'cnadidate_status_id' => 'required',
             'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email,' . $id,
             'position_applied_for_1' => 'required',
@@ -598,7 +598,7 @@ class CandidateController extends Controller
             $candidates->where('enter_by', Auth::user()->id);
         }
 
-        $candidates = $candidates->orderBy('id', 'desc')->paginate(15);
+        $candidates = $candidates->orderBy('id', 'desc')->paginate(50);
 
         return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
     }

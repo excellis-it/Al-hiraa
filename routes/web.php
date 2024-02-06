@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,7 +76,11 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::resources([
         'candidates' => CandidateController::class,
         'companies' => CompanyController::class,
+        'jobs' => JobsController::class,
+        'schedule-to-do' => ScheduleController::class,
     ]);
+
+    Route::post('/get-job-list',[ScheduleController::class,'getJobList'])->name('get-job-list');
 
 
     Route::group(['prefix' => 'company-job'], function () {

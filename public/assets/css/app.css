@@ -4974,10 +4974,26 @@ h6+[aria-label=breadcrumb],
     table-layout: auto;
 }
 
-.table-wrapper table th:nth-child(1),
-.table-wrapper table td:nth-child(1),
-.table-wrapper table th:nth-child(2),
-.table-wrapper table td:nth-child(2) {
+.reset-btn {
+    background: #F2F2F2;
+    border: 2px solid #C5C5C5;
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 10px;
+    text-transform: capitalize;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.reset-btn:hover {
+    color: #000;
+    background: #F2F2F2;
+    border: 2px solid #C5C5C5;
+}
+
+.table-wrapper table th.stick,
+.table-wrapper table td.stick-td {
     position: sticky;
     left: 0;
     z-index: 1;

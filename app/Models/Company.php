@@ -26,5 +26,10 @@ class Company extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'company_id')->where('status', 'Ongoing');
+    }
+
 
 }

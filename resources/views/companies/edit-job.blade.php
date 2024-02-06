@@ -52,22 +52,6 @@
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
-                                        <label for="">Form Date</label>
-                                        <input type="date" class="form-control" id=""
-                                            value="{{$job->form_date}}" name="form_date" placeholder="">
-                                        <span class="text-danger" id="form_date_msg_job"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="form-group">
-                                        <label for="">To Date</label>
-                                        <input type="date" class="form-control" id=""
-                                            value="{{$job->to_date}}" name="to_date" placeholder="">
-                                        <span class="text-danger" id="to_date_msg_job"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="form-group">
                                         <label for="">Status <span>*</span></label>
                                         <select name="status" class="form-select" id="">
                                             <option value="">Select a status</option>

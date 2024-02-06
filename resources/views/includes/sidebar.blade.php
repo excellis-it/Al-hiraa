@@ -65,7 +65,7 @@
 
                 @if (Gate::check('Manage Job'))
                     <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="#">
+                        <a class="sidebar-menu-button" href="javascript:void(0);">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/briefcase.svg') }}"></i>
                             <span class="sidebar-menu-text">Jobs</span>
@@ -84,7 +84,7 @@
                 @endif
                 @if (Gate::check('Manage Schedule'))
                     <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="#">
+                        <a class="sidebar-menu-button" href="{{route('schedule-to-do.index')}}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/calendar.svg') }}"></i>
                             <span class="sidebar-menu-text">Schedule & To-Do</span>

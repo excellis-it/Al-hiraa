@@ -141,7 +141,7 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        console.log(response);
+
                         if (response.status == true) {
                             window.location.reload();
                         } else {

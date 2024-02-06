@@ -247,7 +247,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>International Driving License </td>
+                                        <td>Gulf Driving License </td>
                                         <td>
                                             @if ($candidate->candidateGulfLicence()->count() > 0)
                                                 @foreach ($candidate->candidateGulfLicence as $key => $value)
@@ -1049,7 +1049,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>International Driving License </td>
+                                        <td>Gulf Driving License </td>
                                         <td> @if ($candidate->candidateGulfLicence()->count() > 0)
                                                 @foreach ($candidate->candidateGulfLicence as $key => $value)
                                                 <span

@@ -131,8 +131,9 @@
                 </div>
             </div> --}}
             <div class="row">
-                @if (Auth::user()->hasRole('ADMIN'))
-                    <div class="col-lg-12 col-md-12 mb-2">
+
+                    <div class="col-lg-6 col-md-6 mb-2">
+                        @if (Auth::user()->hasRole('ADMIN'))
                         <div class="action_btn">
                             <div class="dropdown">
                                 <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -148,46 +149,50 @@
                                 </ul>
                             </div>
                         </div>
-                        @if (Auth::user()->hasRole('ADMIN'))
-                            <!-- Modal of bulk changing status -->
-                            <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <form action="{{ route('candidates.bulk.status.update') }}" id="change_status">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <div class="">
-                                                    <div class="mb-3">
-                                                        <label for="" class="form-label">Status</label>
-                                                        <select name="change_status" class="form-select"
-                                                            id="change_status_id">
-                                                            <option value="">Select A Status</option>
-                                                            @foreach ($candidate_statuses as $status)
-                                                                <option value="{{ $status->id }}">{{ $status->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                        <!-- Modal of bulk changing status -->
+                        <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ route('candidates.bulk.status.update') }}" id="change_status">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Status</label>
+                                                    <select name="change_status" class="form-select" id="change_status_id">
+                                                        <option value="">Select A Status</option>
+                                                        @foreach ($candidate_statuses as $status)
+                                                            <option value="{{ $status->id }}">{{ $status->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn save-btn">Save changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn save-btn">Save changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <!-- Modal -->
+                        </div>
+                        <!-- Modal -->
                         @endif
-
                     </div>
-                @endif
+
+                <div class="col-lg-6 col-md-6 mb-2" style="display: flex;justify-content: end;">
+                    <div class="action_btn">
+                        <div class="dropdown">
+                            <a class="btn reset-btn" href="{{route('candidates.index')}}" ><i class="fas fa-redo-alt"></i> Reset</a>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-12 col-md-12">
                     <div class="table-wrapper table-responsive border-bottom" data-toggle="lists">
                         <table class="table mb-0 table-bordered">
@@ -204,21 +209,9 @@
                                     @endif
 
                                     @can('View Candidate')
-                                        <th>
+                                        <th class="stick">
                                             View
 
-                                            {{-- <div class="d-flex">
-                                                <div>View</div> <div class="dropdown">
-                                                  <span class="dropdown-toggle ps-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa-solid fa-filter"></i>
-                                                  </span>
-                                                  <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                  </ul>
-                                                </div>
-                                            </div> --}}
                                         </th>
                                     @endcan
                                     {{-- <th></th> --}}

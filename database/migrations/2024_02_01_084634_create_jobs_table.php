@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('duty_hours')->nullable();
             $table->string('contract')->nullable();
             $table->string('benifits')->nullable();
-            $table->string('form_date')->nullable();
-            $table->string('to_date')->nullable();
             $table->longText('job_description')->nullable();
             $table->enum('status',['Ongoing','Closed'])->default('Ongoing');
             $table->timestamps();

@@ -170,14 +170,10 @@ class CompanyController extends Controller
     {
         $request->validate([
             'job_name' => 'required',
-            'form_date' => 'nullable|required_with:to_date|date',
-            // to_date greater than form_date validation and to_date required if form_date is set
-            'to_date' => 'nullable|after:form_date',
             'status' => 'required',
             'contract' => 'nullable|numeric'
         ],[
-            'form_date.required_with' => 'The form date field is required when to date is present.',
-            'to_date.after' => 'The to date must be a date after form date.' ,
+            'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.'
         ]);
 
@@ -187,8 +183,6 @@ class CompanyController extends Controller
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;
         $job->benifits = $request->benifits;
-        $job->form_date = $request->form_date;
-        $job->to_date = $request->to_date;
         $job->job_description = $request->job_description;
         $job->status = $request->status;
         $job->save();
@@ -207,15 +201,11 @@ class CompanyController extends Controller
     {
         $request->validate([
             'job_name' => 'required',
-            'form_date' => 'nullable|required_with:to_date|date',
-            // to_date greater than form_date validation and to_date required if form_date is set
-            'to_date' => 'nullable|after:form_date',
             'status' => 'required',
             // contract was number or float
             'contract' => 'nullable|numeric'
         ],[
-            'form_date.required_with' => 'The form date field is required when to date is present.',
-            'to_date.after' => 'The to date must be a date after form date.' ,
+            'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.'
         ]);
 
@@ -224,8 +214,6 @@ class CompanyController extends Controller
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;
         $job->benifits = $request->benifits;
-        $job->form_date = $request->form_date;
-        $job->to_date = $request->to_date;
         $job->job_description = $request->job_description;
         $job->status = $request->status;
         $job->save();

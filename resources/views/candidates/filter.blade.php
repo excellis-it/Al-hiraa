@@ -13,7 +13,7 @@
             @endif
             {{-- checkbox for bulk select --}}
             @can('View Candidate')
-                <td class="">
+                <td class="stick-td">
                     <a href="javascript:void(0);" class="edit-route"
                         data-route="{{ route('candidates.edit', $item['id']) }}"><i class="fas fa-eye"></i></a>
                 </td>
@@ -35,7 +35,7 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td class="content-short">{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : 'N/A' }}
+            <td class="content-short">{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : date('d.m.Y', strtotime($item->updated_at)) }}
             </td>
             <td class="content-short">{{ $item->candidateUpdate->user->full_name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
@@ -126,10 +126,10 @@
         <td colspan="30" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
-                    (Showing {{ $candidates->firstItem() }} – {{ $candidates->lastItem() }} candidates of
-                    {{ $candidates->total() }} candidates)
+                    {!! $candidates->links() !!}
                 </div>
-                <div>{!! $candidates->links() !!}</div>
+                <div>(Showing {{ $candidates->firstItem() }} – {{ $candidates->lastItem() }} candidates of
+                    {{ $candidates->total() }} candidates)</div>
             </div>
         </td>
     </tr>

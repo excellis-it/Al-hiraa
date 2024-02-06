@@ -84,7 +84,7 @@
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">DOB <span>*</span></label>
+            <label for="">DOB </label>
             <input type="date" class="form-control  uppercase-text" id=""
                 value="{{ date('Y-m-d', strtotime($candidate->date_of_birth)) ?? '' }}" name="dob"
                 max="{{ date('Y-m-d') }}" placeholder="">
@@ -579,7 +579,7 @@
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">DOB <span>*</span></label>
+            <label for="">DOB </label>
             <input type="date" class="form-control  uppercase-text" id="" value="{{ old('dob') }}"
                 name="dob" max="{{ date('Y-m-d') }}" placeholder="">
         </div>
