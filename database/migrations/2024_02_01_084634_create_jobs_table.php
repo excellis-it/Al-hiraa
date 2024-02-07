@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->references('id')->on('companies')->onDelete('cascade');
+            $table->bigInteger('candidate_position_id')->nullable();
             $table->string('job_name')->nullable();
             $table->string('duty_hours')->nullable();
             $table->string('contract')->nullable();

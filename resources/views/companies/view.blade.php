@@ -22,9 +22,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xl-12">
-                                            <div class="add-mem-form">
+                                            <div class="add-mem-form job-creat">
                                                 <div class="row">
-                                                    <div class="col-xl-12">
+                                                    <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Job Name<span>*</span></label>
                                                             <input type="text" class="form-control" id=""
@@ -34,8 +34,20 @@
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
+                                                            <label for="">Position<span>*</span></label>
+                                                            <select name="candidate_position_id" class="form-select select2" id="">
+                                                                <option value="">Select a position</option>
+                                                                @foreach ($positions as $position)
+                                                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
                                                             <label for="">Duty Hours</label>
-                                                            <select name="duty_hours" class="form-select" id="">
+                                                            <select name="duty_hours" class="form-select select2" id="">
                                                                 <option value="">Select a duty hours</option>
                                                                 <?php for ($i = 1; $i <= 24; $i++) : ?>
                                                                     <option value="{{ $i }}">{{ $i }} Hours per day</option>
@@ -317,6 +329,7 @@
                                     <thead>
                                         <tr>
                                             <th>Job Title</th>
+                                            <th>Positions</th>
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benifits</th>
@@ -342,6 +355,7 @@
                                     <thead>
                                         <tr>
                                             <th>Job Title</th>
+                                            <th>Positions</th>
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benifits</th>
@@ -436,6 +450,12 @@
 @endsection
 
 @push('scripts')
+<script>
+    // select2
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>
     <script>
         $(document).ready(function() {
             $(document).on('click', '.close-btn-edit', function() {

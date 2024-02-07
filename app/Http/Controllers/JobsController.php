@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobsController extends Controller
 {
@@ -11,7 +12,7 @@ class JobsController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->can('Manage Jobs')){
+        if (Auth::user()->can('Manage Job')){
             return view('jobs.list');
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));

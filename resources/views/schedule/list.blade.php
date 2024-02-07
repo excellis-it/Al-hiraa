@@ -8,6 +8,12 @@
     <div class="mdk-drawer-layout__content page">
         <div class="container-fluid page__heading-container">
             @can('Create Schedule')
+                {{-- add task  --}}
+                <div id="add-task">
+                    @include('schedule.add-task')
+                </div>
+
+                {{-- end add task --}}
                 {{-- offcanvas start --}}
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
                     aria-hidden="true">
@@ -29,7 +35,8 @@
                                                         <select name="company_id" id="company_id" class="form-select">
                                                             <option value="">Choose Company</option>
                                                             @foreach ($companies as $company)
-                                                                <option value="{{ $company->id }}">{{ $company->company_name }}
+                                                                <option value="{{ $company->id }}">
+                                                                    {{ $company->company_name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
@@ -57,8 +64,9 @@
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label for="">End Date<span>*</span></label>
-                                                        <input type="date" class="form-control" id="" value=""
-                                                            min="{{ date('Y-m-d') }}" name="interview_end_date" placeholder="">
+                                                        <input type="date" class="form-control" id=""
+                                                            value="" min="{{ date('Y-m-d') }}"
+                                                            name="interview_end_date" placeholder="">
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -95,6 +103,11 @@
                 </div>
                 {{-- offcanvas end --}}
             @endcan
+            @can('Edit Schedule')
+                <div id="edit-schedule">
+                    @include('schedule.edit')
+                </div>
+            @endcan
             <section class="todo_sec text_left_td_th">
                 <div class="text-end pt-3 pt-lg-4 mb-3 mb-md-0">
                     @can('Create Schedule')
@@ -109,62 +122,83 @@
                         </a>
                     @endcan
                 </div>
-                @foreach ($interviews as $key => $items)
-                    <div class="mb-3 ps-5 color_h4">
-                        <h4>{{ $key }}</h4>
-                    </div>
-                    <div class="table-responsive" data-toggle="lists">
-                        <table class="table mb-0 table-bordered">
-                            <thead>
-                                <tr>
-                                    {{-- <th style="width: 50px;">
+                @if (count($interviews) > 0)
+                    @foreach ($interviews as $key => $items)
+                        <div class="mb-3 ps-5 color_h4">
+                            <h4>{{ $key }}</h4>
+                        </div>
+                        <div class="table-responsive" data-toggle="lists">
+                            <table class="table mb-0 table-bordered">
+                                <thead>
+                                    <tr>
+                                        {{-- <th style="width: 50px;">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                    </div>
+                                </th> --}}
+                                        <th>Task Name</th>
+                                        <th>Asignee</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list" id="user_tbody">
+                                    @foreach ($items as $interview)
+                                        {{-- @dd($interviewjob) --}}
+                                        <tr>
+                                            {{-- <td>
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input js-check-selected-row">
                                         </div>
-                                    </th> --}}
-                                    <th>Task Name</th>
-                                    <th>Asignee</th>
-                                    <th>Due Date</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody class="list" id="user_tbody">
-                                @foreach ($items as $interview)
-                                {{-- @dd($interviewjob) --}}
-                                    <tr>
-                                        {{-- <td>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                            </div>
-                                        </td> --}}
-                                        <td>{{ $interview['job']['job_name'] ?? 'N/A'}}</td>
-                                        <td><span class="name_textbg">SP</span>{{ $interview['user']['first_name'] ?? '' }} {{ $interview['user']['last_name'] ?? '' }}</td>
-                                        <td>
-                                            {{ isset($interview['interview_start_date']) ? date('d/m/Y', strtotime($interview['interview_start_date'])) : '' }}
-                                            @if (isset($interview['interview_start_date']) && isset($interview['interview_end_date']) && $interview['interview_start_date'] != $interview['interview_end_date'])
-                                                - {{ date('d/m/Y', strtotime($interview['interview_end_date'])) }}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="round_staus {{($interview['interview_status'] == 'Completed') ? 'active' : ''}} {{($interview['interview_status'] == 'Transferred') ? 'inactive' : ''}} {{($interview['interview_status'] == 'Working') ? 'warning' : ''}}">
-                                                {{ $interview['interview_status'] ?? 'N/A'}}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    </td> --}}
+                                            <td>{{ $interview['job']['job_name'] ?? 'N/A' }}</td>
+                                            <td><span
+                                                    class="name_textbg">{{ substr($interview['user']['first_name'], 0, 1) ?? '' }}
+                                                    {{ substr($interview['user']['last_name'], 0, 1) ?? '' }}</span>{{ $interview['user']['first_name'] ?? '' }}
+                                                {{ $interview['user']['last_name'] ?? '' }}</td>
+                                            <td>
+                                                {{ isset($interview['interview_start_date']) ? date('d/m/Y', strtotime($interview['interview_start_date'])) : '' }}
+                                                @if (isset($interview['interview_start_date']) &&
+                                                        isset($interview['interview_end_date']) &&
+                                                        $interview['interview_start_date'] != $interview['interview_end_date']
+                                                )
+                                                    - {{ date('d/m/Y', strtotime($interview['interview_end_date'])) }}
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div
+                                                    class="round_staus {{ $interview['interview_status'] == 'Completed' ? 'active' : '' }} {{ $interview['interview_status'] == 'Transferred' ? 'inactive' : '' }} {{ $interview['interview_status'] == 'Working' ? 'warning' : '' }}">
+                                                    {{ $interview['interview_status'] ?? 'N/A' }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a href="javascript:void(0);" class="edit-route"
+                                                    data-route="{{ route('schedule-to-do.edit', Crypt::encrypt($interview['id'])) }}"><i
+                                                        class="fas fa-edit"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <a href="javascript:void(0);" class="add_task"
+                        data-route="{{ route('schedule-to-do.job-create', Crypt::encrypt($interview['company_id'])) }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13.483" height="13.483"
+                                viewBox="0 0 13.483 13.483">
+                                <path id="plus-small"
+                                    d="M18.359,11.618H13.865V7.124A1.124,1.124,0,0,0,12.741,6h0a1.124,1.124,0,0,0-1.124,1.124v4.494H7.124A1.124,1.124,0,0,0,6,12.741H6a1.124,1.124,0,0,0,1.124,1.124h4.494v4.494a1.124,1.124,0,0,0,1.124,1.124h0a1.124,1.124,0,0,0,1.124-1.124V13.865h4.494a1.124,1.124,0,0,0,1.124-1.124h0A1.124,1.124,0,0,0,18.359,11.618Z"
+                                    transform="translate(-6 -6)" opacity="0.5" />
+                            </svg>
+                            <span>Add task...</span>
+                        </a>
+                    @endforeach
+                @else
+                    <div class="text-center">
+                        <h4>No Interview Found</h4>
                     </div>
-                    <a href="" class="add_task">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="13.483" height="13.483"
-                            viewBox="0 0 13.483 13.483">
-                            <path id="plus-small"
-                                d="M18.359,11.618H13.865V7.124A1.124,1.124,0,0,0,12.741,6h0a1.124,1.124,0,0,0-1.124,1.124v4.494H7.124A1.124,1.124,0,0,0,6,12.741H6a1.124,1.124,0,0,0,1.124,1.124h4.494v4.494a1.124,1.124,0,0,0,1.124,1.124h0a1.124,1.124,0,0,0,1.124-1.124V13.865h4.494a1.124,1.124,0,0,0,1.124-1.124h0A1.124,1.124,0,0,0,18.359,11.618Z"
-                                transform="translate(-6 -6)" opacity="0.5" />
-                        </svg>
-                        <span>Add task...</span>
-                    </a>
-                @endforeach
+                @endif
+
             </section>
 
         </div>
@@ -241,6 +275,131 @@
                         $.each(errors, function(key, value) {
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.close-btn-edit', function() {
+                $('.text-danger').html('');
+                $('#offcanvasEdit').offcanvas('hide');
+            });
+
+            $(document).on('click', '.edit-route', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#edit-schedule').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasEdit').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            // Handle the form submission
+            $(document).on('submit', '#schedule-edit-form', function(e) {
+
+
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // window.location.reload();
+                        // toastr.success('Members details updated successfully');
+                        if (response.status == true) {
+                            window.location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        $('.text-danger').html('');
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg').html(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.close-btn-add-job', function() {
+                $('.text-danger').html('');
+                $('#offcanvasRightJob').offcanvas('hide');
+            });
+
+            $(document).on('click', '.add_task', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#add-task').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasRightJob').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            // Handle the form submission
+            $(document).on('submit', '#company-job-form-create', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == true) {
+                            window.location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg_job').html(value[0]);
                         });
                     }
                 });

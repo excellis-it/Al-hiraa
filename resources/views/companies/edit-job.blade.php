@@ -11,9 +11,9 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-12">
-                        <div class="add-mem-form">
+                        <div class="add-mem-form job-creat">
                             <div class="row">
-                                <div class="col-xl-12">
+                                <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Job Name<span>*</span></label>
                                         <input type="text" class="form-control" id=""
@@ -23,8 +23,20 @@
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
+                                        <label for="">Position<span>*</span></label>
+                                        <select name="candidate_position_id" class="form-select select2" id="">
+                                            <option value="">Select a position</option>
+                                            @foreach ($positions as $position)
+                                                <option value="{{ $position->id }}" {{$job->candidate_position_id == $position->id ? 'selected' : ''}}>{{ $position->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger" id="candidate_position_id_msg_job"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
                                         <label for="">Duty Hours</label>
-                                        <select name="duty_hours" class="form-select" id="">
+                                        <select name="duty_hours" class="form-select select2" id="">
                                             <option value="">Select a duty hours</option>
                                             <?php for ($i = 1; $i <= 24; $i++) : ?>
                                             <option value="{{$i}}"{{$job->duty_hours == $i ? 'selected' : ''}}>{{$i}} Hours per
@@ -86,3 +98,9 @@
         </div>
     </div>
 @endif
+<script>
+    // select2
+    $(document).ready(function() {
+        $('.select2').select2();
+    });
+</script>

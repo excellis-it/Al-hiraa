@@ -81,6 +81,8 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     ]);
 
     Route::post('/get-job-list',[ScheduleController::class,'getJobList'])->name('get-job-list');
+    // schedule-to-do.job-create
+    Route::get('/job-create/{id}',[ScheduleController::class,'jobCreate'])->name('schedule-to-do.job-create');
 
 
     Route::group(['prefix' => 'company-job'], function () {

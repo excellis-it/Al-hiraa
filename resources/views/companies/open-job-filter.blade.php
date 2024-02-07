@@ -2,6 +2,7 @@
     @foreach ($ongoing_jobs as $item)
         <tr>
             <td>{{ $item->job_name ?? 'N/A' }}</td>
+            <td> {{ $item->candidatePosition->name ?? 'N/A' }}</td>
             <td>{{ $item->duty_hours ? $item->duty_hours . ' Hours / Day' : 'N/A' }}</td>
             <td>{{ $item->contract ? $item->contract . ' Years' : 'N/A' }}</td>
             <td>{{ $item->benifits ?? 'N/A' }}</td>

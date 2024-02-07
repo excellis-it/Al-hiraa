@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidate;
+use App\Models\CandidatePosition;
 use App\Models\Company;
 use App\Models\Interview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 
 class ScheduleController extends Controller
@@ -18,7 +21,7 @@ class ScheduleController extends Controller
         if (Auth::user()->can('Manage Schedule')) {
             $companies = Company::orderBy('company_name', 'asc')->get();
             if (Auth::user()->hasRole('ADMIN')) {
-                $interviews = Interview::with(['company', 'job','user'])
+                $interviews = Interview::with(['company', 'job', 'user'])
                     ->orderBy('id', 'DESC')
                     ->get();
 
@@ -99,7 +102,11 @@ class ScheduleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $id = Crypt::decrypt($id);
+        $interview = Interview::find($id);
+        $jobs = Company::find($interview->company_id)->jobs;
+        $edit = true;
+        return response()->json(['view' => view('schedule.edit', compact('interview', 'jobs', 'edit'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -107,7 +114,27 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'job_id' => 'required',
+            'interview_start_date' => 'nullable|date',
+            'interview_end_date' => 'required|date|after:interview_start_date',
+            'interview_status' => 'required',
+        ], [
+            'job_id.required' => 'The job field is required.',
+            'interview_start_date.required' => 'The interview start date field is required.',
+            'interview_end_date.required' => 'The interview end date field is required.',
+            'interview_status.required' => 'The interview status field is required.',
+        ]);
+        $id = Crypt::decrypt($id);
+        $interview = Interview::find($id);
+        $interview->job_id = $request->job_id;
+        $interview->interview_start_date = $request->interview_start_date;
+        $interview->interview_end_date = $request->interview_end_date;
+        $interview->interview_status = $request->interview_status;
+        $interview->save();
+
+        Session::flash('message', 'Interview updated successfully.');
+        return response()->json(['status' => true, 'message' => 'Interview updated successfully.']);
     }
 
     /**
@@ -123,5 +150,14 @@ class ScheduleController extends Controller
         $company_id = $request->company_id;
         $jobs = Company::find($company_id)->jobs;
         return response()->json($jobs);
+    }
+
+    public function jobCreate(string $id)
+    {
+        $id = Crypt::decrypt($id);
+        $company = Company::find($id);
+        $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
+        $add = true;
+        return response()->json(['view' => view('schedule.add-task', compact('company', 'add','positions'))->render(), 'status' => 'success']);
     }
 }

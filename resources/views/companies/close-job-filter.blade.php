@@ -2,6 +2,9 @@
 @foreach ($closed_jobs as $item)
     <tr>
         <td>{{ $item->job_name ?? 'N/A' }}</td>
+        <td>
+            {{ $item->candidatePosition->name ?? 'N/A' }}
+        </td>
         <td>{{ $item->duty_hours ? $item->duty_hours . ' Hours / Day' : 'N/A' }}</td>
         <td>{{ $item->contract ? $item->contract . ' Years' : 'N/A' }}</td>
         <td>{{ $item->benifits ?? 'N/A' }}</td>
@@ -27,6 +30,6 @@
 </tr>
 @else
 <tr>
-    <td colspan="6" class="text-center">No Data Found</td>
+    <td colspan="7" class="text-center">No Data Found</td>
 </tr>
 @endif

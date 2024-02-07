@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Position;
+use App\Models\CandidatePosition;
 use App\Models\Company;
 use App\Models\Job;
 use App\Traits\ImageTrait;
@@ -82,9 +84,10 @@ class CompanyController extends Controller
             $id = Crypt::decrypt($id);
             $company = Company::find($id);
             if ($company) {
-                $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $id])->orderBy('id','desc')->paginate(10);
-                $closed_jobs = Job::where(['status' => 'Closed', 'company_id' => $id])->orderBy('id','desc')->paginate(10);
-                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'closed_jobs'));
+                $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $id])->orderBy('id', 'desc')->paginate(10);
+                $closed_jobs = Job::where(['status' => 'Closed', 'company_id' => $id])->orderBy('id', 'desc')->paginate(10);
+                $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
+                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'closed_jobs', 'positions'));
             } else {
                 return redirect()->back()->with('error', __('Company not found.'));
             }
@@ -169,15 +172,18 @@ class CompanyController extends Controller
     public function companyJobStore(Request $request)
     {
         $request->validate([
+            'candidate_position_id' => 'required',
             'job_name' => 'required',
             'status' => 'required',
             'contract' => 'nullable|numeric'
-        ],[
+        ], [
+            'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.'
         ]);
 
         $job = new Job();
+        $job->candidate_position_id = $request->candidate_position_id;
         $job->company_id = $request->company_id;
         $job->job_name = $request->job_name;
         $job->duty_hours = $request->duty_hours;
@@ -193,23 +199,27 @@ class CompanyController extends Controller
     public function companyJobEdit(string $id)
     {
         $job = Job::findOrFail($id);
+        $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
         $edit = true;
-        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions'))->render(), 'status' => 'success']);
     }
 
     public function companyJobUpdate(Request $request, string $id)
     {
         $request->validate([
+            'candidate_position_id' => 'required', // candidate_position_id was missing in the validation
             'job_name' => 'required',
             'status' => 'required',
             // contract was number or float
             'contract' => 'nullable|numeric'
-        ],[
+        ], [
+            'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.'
         ]);
 
         $job = Job::findOrFail(Crypt::decrypt($id));
+        $job->candidate_position_id = $request->candidate_position_id;
         $job->job_name = $request->job_name;
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;
@@ -224,14 +234,14 @@ class CompanyController extends Controller
     public function closeJobFilter(Request $request)
     {
         // return $request->all();
-        $closed_jobs = Job::where(['status' => 'Closed', 'company_id' => $request->company_id])->orderBy('id','desc')->paginate(10);
+        $closed_jobs = Job::where(['status' => 'Closed', 'company_id' => $request->company_id])->orderBy('id', 'desc')->paginate(10);
         return response()->json(['view' => view('companies.close-job-filter', compact('closed_jobs'))->render()]);
     }
 
     public function openJobFilter(Request $request)
     {
         // return $request;
-         $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $request->company_id])->orderBy('id','desc')->paginate(10);
+        $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $request->company_id])->orderBy('id', 'desc')->paginate(10);
         return response()->json(['view' => view('companies.open-job-filter', compact('ongoing_jobs'))->render()]);
     }
 }
