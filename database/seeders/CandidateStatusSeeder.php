@@ -13,6 +13,8 @@ class CandidateStatusSeeder extends Seeder
      */
     public function run(): void
     {
+        // truncate the table
+        CandidateStatus::truncate();
         $candidateStatuses = [
             [
                 'name' => 'ACTIVE',

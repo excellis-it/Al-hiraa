@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
         Route::get('/delete/{id}',[CompanyController::class,'companyJobDelete'])->name('company-job.delete');
         Route::get('/close-job-filter',[CompanyController::class,'closeJobFilter'])->name('company-job.close-job.filter');
         Route::get('/open-job-filter',[CompanyController::class,'openJobFilter'])->name('company-job.open-job.filter');
+        Route::post('/get-city',[CompanyController::class,'getCity'])->name('company-job.get-city');
     });
 
 

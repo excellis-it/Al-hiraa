@@ -9,7 +9,7 @@ use Twilio\Rest\Client;
 class CandidateOtp extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'otp', 'expire_at'];
+    protected $fillable = ['user_id', 'otp', 'expire_at', 'contact_no'];
 
     public function sendSMS($receiverNumber)
     {
@@ -22,7 +22,7 @@ class CandidateOtp extends Model
             $twilio_number = env("TWILIO_FROM");
 
             $client = new Client($account_sid, $auth_token);
-            $client->messages->create($receiverNumber, [
+            $client->messages->create('+91'.$receiverNumber, [
                 'from' => $twilio_number,
                 'body' => $message]);
 

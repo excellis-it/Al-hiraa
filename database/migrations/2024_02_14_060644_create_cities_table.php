@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('candidate_otps', function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->nullable();
-            $table->string('contact_no')->nullable();
-            $table->string('otp');
-            $table->timestamp('expire_at')->nullable();
+            $table->string('name');
+            $table->integer('state_id');            
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('candidate_otps');
+        Schema::dropIfExists('cities');
     }
 };

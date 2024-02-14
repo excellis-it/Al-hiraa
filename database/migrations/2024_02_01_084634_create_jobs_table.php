@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->nullable()->references('id')->on('companies')->onDelete('cascade');
             $table->bigInteger('candidate_position_id')->nullable();
+            $table->bigInteger('state_id')->nullable();
+            $table->bigInteger('city_id')->nullable();
             $table->string('job_name')->nullable();
             $table->string('duty_hours')->nullable();
             $table->string('contract')->nullable();
             $table->string('benifits')->nullable();
+            $table->text('address')->nullable();
             $table->longText('job_description')->nullable();
             $table->enum('status',['Ongoing','Closed'])->default('Ongoing');
             $table->timestamps();

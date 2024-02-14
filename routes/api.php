@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthenticationController;
+use App\Http\Controllers\Api\JobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,10 +23,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function () {
     Route::post('request-otp', [AuthenticationController::class, 'requestOtp']);
     Route::post('login', [AuthenticationController::class, 'login']);
-
+    Route::post('register', [AuthenticationController::class, 'register']);
+    Route::post('request-otp-register', [AuthenticationController::class, 'requestOtpRegister']);
+    
     Route::middleware('auth:api')->group(function () {
-        Route::get('user', function (Request $request) {
-            return $request->user();
+        Route::prefix('job')->group(function () {
+            Route::post('list', [JobController::class, 'list']);
         });
     });
 });

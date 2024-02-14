@@ -5,31 +5,139 @@ info:
   version: 1.0.0
 servers:
   -
-    url: 'http://localhost'
+    url: 'http://127.0.0.1:8000'
 paths:
-  /api/user:
-    get:
-      summary: ''
-      operationId: getApiUser
-      description: ''
+  /api/v1/request-otp:
+    post:
+      summary: 'Request OTP'
+      operationId: requestOTP
+      description: 'This endpoint will be used to request OTP for login.'
       parameters: []
       responses:
-        401:
+        200:
           description: ''
           content:
             application/json:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  message: 'OTP sent successfully.'
                 properties:
                   message:
                     type: string
-                    example: Unauthenticated.
+                    example: 'OTP sent successfully.'
       tags:
-        - Endpoints
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mobile_number:
+                  type: integer
+                  description: 'Mobile Number of the user.'
+                  example: 9876543210
+              required:
+                - mobile_number
+      security: []
+  /api/v1/login:
+    post:
+      summary: Login
+      operationId: login
+      description: 'This endpoint will be used to verify the OTP for login.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'OTP verified successfully.'
+                properties:
+                  message:
+                    type: string
+                    example: 'OTP verified successfully.'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: integer
+                  description: 'User ID of the user.'
+                  example: 1
+                otp:
+                  type: integer
+                  description: '6 digit OTP.'
+                  example: 123456
+              required:
+                - user_id
+                - otp
+      security: []
+  /api/v1/job/list:
+    post:
+      summary: List
+      operationId: list
+      description: 'This endpoint will be used to list all the jobs.'
+      parameters:
+        -
+          in: query
+          name: limit
+          description: 'Limit of the jobs.'
+          example: 10
+          required: false
+          schema:
+            type: integer
+            description: 'Limit of the jobs.'
+            example: 10
+        -
+          in: query
+          name: offset
+          description: 'Offset of the jobs.'
+          example: 0
+          required: false
+          schema:
+            type: integer
+            description: 'Offset of the jobs.'
+            example: 0
+        -
+          in: query
+          name: search
+          description: 'Search by job name or country and state.'
+          example: 'job name or country and state'
+          required: false
+          schema:
+            type: string
+            description: 'Search by job name or country and state.'
+            example: 'job name or country and state'
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Jobs listed successfully.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Jobs listed successfully.'
+      tags:
+        - Job
       security: []
 tags:
   -
-    name: Endpoints
+    name: Authentication
+    description: ''
+  -
+    name: Job
     description: ''

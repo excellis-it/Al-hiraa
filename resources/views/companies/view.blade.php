@@ -29,32 +29,63 @@
                                                             <label for="">Job Name<span>*</span></label>
                                                             <input type="text" class="form-control" id=""
                                                                 value="" name="job_name" placeholder="">
-                                                            <span class="text-danger"></span>
+                                                            <span class="text-danger" id="job_name_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Position<span>*</span></label>
-                                                            <select name="candidate_position_id" class="form-select select2" id="">
+                                                            <select name="candidate_position_id" class="form-select new_select2"
+                                                                id="">
                                                                 <option value="">Select a position</option>
                                                                 @foreach ($positions as $position)
-                                                                    <option value="{{ $position->id }}">{{ $position->name }}</option>
+                                                                    <option value="{{ $position->id }}">
+                                                                        {{ $position->name }}</option>
                                                                 @endforeach
                                                             </select>
-                                                            <span class="text-danger"></span>
+                                                            <span class="text-danger"
+                                                                id="candidate_position_id_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    {{-- states --}}
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">State<span>*</span></label>
+                                                            <select name="state_id" class="form-select new_select2"
+                                                                id="state_id">
+                                                                <option value="">Select a state</option>
+                                                                @foreach ($states as $state)
+                                                                    <option value="{{ $state->id }}">{{ $state->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                            <span class="text-danger" id="state_id_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    {{-- cities --}}
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">City<span>*</span></label>
+                                                            <select name="city_id" class="form-select new_select2"
+                                                                id="city_id">
+                                                                <option value="">Select a city</option>
+                                                            </select>
+                                                            <span class="text-danger" id="city_id_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Duty Hours</label>
-                                                            <select name="duty_hours" class="form-select select2" id="">
+                                                            <select name="duty_hours" class="form-select new_select2"
+                                                                id="">
                                                                 <option value="">Select a duty hours</option>
                                                                 <?php for ($i = 1; $i <= 24; $i++) : ?>
-                                                                    <option value="{{ $i }}">{{ $i }} Hours per day</option>
+                                                                <option value="{{ $i }}">{{ $i }}
+                                                                    Hours per day</option>
 
                                                                 <?php endfor; ?>
                                                             </select>
-                                                            <span class="text-danger"></span>
+                                                            <span class="text-danger" id="duty_hours_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
@@ -62,7 +93,15 @@
                                                             <label for="">Contract (Year)</label>
                                                             <input type="text" class="form-control" id=""
                                                                 value="" name="contract" placeholder="">
-                                                            <span class="text-danger"></span>
+                                                            <span class="text-danger" id="contract_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="">Location <span>*</span></label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="address" placeholder="">
+                                                            <span class="text-danger" id="address_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
@@ -70,7 +109,7 @@
                                                             <label for="">Benifits</label>
                                                             <input type="text" class="form-control" id=""
                                                                 value="" name="benifits" placeholder="">
-                                                            <span class="text-danger"></span>
+                                                            <span class="text-danger" id="benifits_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
@@ -81,7 +120,7 @@
                                                                 <option value="Ongoing">Ongoing</option>
                                                                 <option value="Closed">Closed</option>
                                                             </select>
-                                                            <span class="text-danger"></span>
+                                                            <span class="text-danger" id="status_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-12">
@@ -89,7 +128,8 @@
                                                             <label for="">Job Description</label>
                                                             <textarea name="job_description" id="" cols="30" class="form-control" style="height: 100%;"
                                                                 rows="10"></textarea>
-                                                            <span class="text-danger"></span>
+                                                            <span class="text-danger"
+                                                                id="job_description_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12 mt-3">
@@ -298,7 +338,8 @@
             <div class="row">
                 <div class="col-md-12 mb-2">
                     <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob"
-                        aria-controls="offcanvasRightJob" class="btn addcandidate_btn" style="float: right"><i class="fas fa-plus"></i>
+                        aria-controls="offcanvasRightJob" class="btn addcandidate_btn" style="float: right"><i
+                            class="fas fa-plus"></i>
                         Add
                         a Job</a>
                 </div>
@@ -333,6 +374,12 @@
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benifits</th>
+                                            <th>
+                                                City
+                                            </th>
+                                            <th>
+                                                State
+                                            </th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
                                         </tr>
@@ -359,6 +406,12 @@
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benifits</th>
+                                            <th>
+                                                City
+                                            </th>
+                                            <th>
+                                                State
+                                            </th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
                                         </tr>
@@ -450,12 +503,16 @@
 @endsection
 
 @push('scripts')
-<script>
-    // select2
-    $(document).ready(function() {
-        $('.select2').select2();
-    });
-</script>
+    <script>
+        // select2
+        $(document).ready(function() {
+            $('.new_select2').each(function() {
+                $(this).select2({
+                    dropdownParent: $(this).parent()
+                });
+            })
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $(document).on('click', '.close-btn-edit', function() {
@@ -613,6 +670,7 @@
                             $('#loading-content').removeClass('loading-content');
                             toastr.error(response.error);
                         }
+
                     },
                     error: function(xhr) {
                         $('#loading').removeClass('loading');
@@ -621,8 +679,8 @@
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
-                            $('[name="' + key + '"]').next('.text-danger').html(value[
-                                0]);
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg_create').html(value[0]);
                         });
                     }
                 });
@@ -676,6 +734,36 @@
                 $('li').removeClass('active');
                 $(this).parent().addClass('active');
                 fetch_open_data(page);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '#state_id', function() {
+                var state_id = $(this).val();
+                if (state_id) {
+                    $.ajax({
+                        url: "{{ route('company-job.get-city') }}",
+                        type: "POST",
+                        data: {
+                            state_id: state_id,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log(response.cities);
+                            $('#city_id').empty();
+                            $('#city_id').append('<option value="">Select a city</option>');
+                            $.each(response.cities, function(key, value) {
+                                $('#city_id').append('<option value="' + value.id +
+                                    '">' + value.name +
+                                    '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#city_id').empty();
+                    $('#city_id').append('<option value="">Select a city</option>');
+                }
             });
         });
     </script>

@@ -1,0 +1,72 @@
+name: Job
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/job/list
+    metadata:
+      groupName: Job
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: List
+      description: 'This endpoint will be used to list all the jobs.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      limit:
+        name: limit
+        description: 'Limit of the jobs.'
+        required: false
+        example: 10
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      offset:
+        name: offset
+        description: 'Offset of the jobs.'
+        required: false
+        example: 0
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      search:
+        name: search
+        description: 'Search by job name or country and state.'
+        required: false
+        example: 'job name or country and state'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanQueryParameters:
+      limit: 10
+      offset: 0
+      search: 'job name or country and state'
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "message": "Jobs listed successfully."
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
