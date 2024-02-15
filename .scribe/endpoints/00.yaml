@@ -109,3 +109,138 @@ endpoints:
     method: null
     route: null
     custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/register
+    metadata:
+      groupName: Authentication
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Register User'
+      description: 'This endpoint will be used to register a new user.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      full_name:
+        name: full_name
+        description: 'Full Name of the user.'
+        required: true
+        example: 'John Doe'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      contact_no:
+        name: contact_no
+        description: 'Contact Number of the user.'
+        required: true
+        example: 9876543210
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      job_interest:
+        name: job_interest
+        description: 'Array of job interests.'
+        required: true
+        example:
+          - 'Job 1'
+          - 'Job 2'
+          - 'Job 3'
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      otp:
+        name: otp
+        description: '6 digit OTP.'
+        required: true
+        example: 123456
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      full_name: 'John Doe'
+      contact_no: 9876543210
+      job_interest:
+        - 'Job 1'
+        - 'Job 2'
+        - 'Job 3'
+      otp: 123456
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+          "message": "User registered successfully."
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 201
+        content: |-
+          {
+          "message": "The contact no has already been taken.",
+          "status": false
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/request-otp-register
+    metadata:
+      groupName: Authentication
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Request OTP for Register'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      mobile_number:
+        name: mobile_number
+        description: 'Must be 10 digits.'
+        required: true
+        example: '0969473364'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      mobile_number: '0969473364'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

@@ -82,6 +82,100 @@ paths:
                 - user_id
                 - otp
       security: []
+  /api/v1/register:
+    post:
+      summary: 'Register User'
+      operationId: registerUser
+      description: 'This endpoint will be used to register a new user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User registered successfully.'
+                properties:
+                  message:
+                    type: string
+                    example: 'User registered successfully.'
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'The contact no has already been taken.'
+                  status: false
+                properties:
+                  message:
+                    type: string
+                    example: 'The contact no has already been taken.'
+                  status:
+                    type: boolean
+                    example: false
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Full Name of the user.'
+                  example: 'John Doe'
+                contact_no:
+                  type: integer
+                  description: 'Contact Number of the user.'
+                  example: 9876543210
+                job_interest:
+                  type: array
+                  description: 'Array of job interests.'
+                  example:
+                    - 'Job 1'
+                    - 'Job 2'
+                    - 'Job 3'
+                  items:
+                    type: string
+                otp:
+                  type: integer
+                  description: '6 digit OTP.'
+                  example: 123456
+              required:
+                - full_name
+                - contact_no
+                - job_interest
+                - otp
+      security: []
+  /api/v1/request-otp-register:
+    post:
+      summary: 'Request OTP for Register'
+      operationId: requestOTPForRegister
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mobile_number:
+                  type: string
+                  description: 'Must be 10 digits.'
+                  example: '0969473364'
+              required:
+                - mobile_number
+      security: []
   /api/v1/job/list:
     post:
       summary: List
@@ -110,14 +204,24 @@ paths:
             example: 0
         -
           in: query
-          name: search
-          description: 'Search by job name or country and state.'
-          example: 'job name or country and state'
+          name: job_search
+          description: 'Search by job name.'
+          example: 'Job Name'
           required: false
           schema:
             type: string
-            description: 'Search by job name or country and state.'
-            example: 'job name or country and state'
+            description: 'Search by job name.'
+            example: 'Job Name'
+        -
+          in: query
+          name: location_search
+          description: 'Search by location.'
+          example: Location
+          required: false
+          schema:
+            type: string
+            description: 'Search by location.'
+            example: Location
       responses:
         200:
           description: ''
@@ -134,10 +238,2595 @@ paths:
       tags:
         - Job
       security: []
+  /api/v1/profile/my:
+    post:
+      summary: Profile
+      operationId: profile
+      description: 'This endpoint will be used to get the profile of the user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Profile fetched successfully.'
+                  status: true
+                  data:
+                    id: 128
+                    full_name: 'SWARNADWIP NATH'
+                    email: SWARNADWIP@EXCELLISIT.NET
+                    phone: '+918653996036'
+                    enter_by: 'Admin Admin'
+                    status: ACTIVE
+                    passport_no: null
+                    mode_of_registration: CALLING
+                    referred_by: 'Dilip Kumar Das'
+                    last_updated_at: 08.02.2024
+                    gender: MALE
+                    dob: 10.08.2000
+                    age: 23
+                    education: GRADUATES
+                    other_education: null
+                    alternate_contact_no: null
+                    whatapp_no: '+918653996036'
+                    city: KOLKATA
+                    religion: HINDU
+                    ecr_type: ECR
+                    english_speak: GOOD
+                    arabic_speak: 'NO'
+                    gulf_return: 1
+                    indian_experience: '1 YEAR EXPERIENCE IN LARAVEL'
+                    gulf_experience: null
+                    poition_applied_for: 'WEB DEVELOPER'
+                    position_applied_for_1: null
+                    position_applied_for_2: null
+                    created_at: '2024-02-08 10:18:18'
+                properties:
+                  message:
+                    type: string
+                    example: 'Profile fetched successfully.'
+                  status:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 128
+                      full_name:
+                        type: string
+                        example: 'SWARNADWIP NATH'
+                      email:
+                        type: string
+                        example: SWARNADWIP@EXCELLISIT.NET
+                      phone:
+                        type: string
+                        example: '+918653996036'
+                      enter_by:
+                        type: string
+                        example: 'Admin Admin'
+                      status:
+                        type: string
+                        example: ACTIVE
+                      passport_no:
+                        type: string
+                        example: null
+                      mode_of_registration:
+                        type: string
+                        example: CALLING
+                      referred_by:
+                        type: string
+                        example: 'Dilip Kumar Das'
+                      last_updated_at:
+                        type: string
+                        example: 08.02.2024
+                      gender:
+                        type: string
+                        example: MALE
+                      dob:
+                        type: string
+                        example: 10.08.2000
+                      age:
+                        type: integer
+                        example: 23
+                      education:
+                        type: string
+                        example: GRADUATES
+                      other_education:
+                        type: string
+                        example: null
+                      alternate_contact_no:
+                        type: string
+                        example: null
+                      whatapp_no:
+                        type: string
+                        example: '+918653996036'
+                      city:
+                        type: string
+                        example: KOLKATA
+                      religion:
+                        type: string
+                        example: HINDU
+                      ecr_type:
+                        type: string
+                        example: ECR
+                      english_speak:
+                        type: string
+                        example: GOOD
+                      arabic_speak:
+                        type: string
+                        example: 'NO'
+                      gulf_return:
+                        type: integer
+                        example: 1
+                      indian_experience:
+                        type: string
+                        example: '1 YEAR EXPERIENCE IN LARAVEL'
+                      gulf_experience:
+                        type: string
+                        example: null
+                      poition_applied_for:
+                        type: string
+                        example: 'WEB DEVELOPER'
+                      position_applied_for_1:
+                        type: string
+                        example: null
+                      position_applied_for_2:
+                        type: string
+                        example: null
+                      created_at:
+                        type: string
+                        example: '2024-02-08 10:18:18'
+      tags:
+        - Profile
+      security: []
+  /api/v1/profile/update:
+    post:
+      summary: 'Update Profile'
+      operationId: updateProfile
+      description: 'This endpoint will be used to update the profile of the user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"Profile updated successfully.\",\n\"status\": true,\n   *     \"id\": 128,\n    \"full_name\": \"SWARNADWIP NATH\",\n    \"email\": \"SWARNADWIP@EXCELLISIT.NET\",\n    \"phone\": \"+918653996036\",\n    \"enter_by\": \"Admin Admin\",\n    \"status\": \"ACTIVE\",\n    \"passport_no\": null,\n    \"mode_of_registration\": \"CALLING\",\n    \"referred_by\": \"Dilip Kumar Das\",\n    \"last_updated_at\": \"08.02.2024\",\n    \"gender\": \"MALE\",\n    \"dob\": \"10.08.2000\",\n    \"age\": 23,\n    \"education\": \"GRADUATES\",\n    \"other_education\": null,\n    \"alternate_contact_no\": null,\n    \"whatapp_no\": \"+918653996036\",\n    \"city\": \"KOLKATA\",\n    \"religion\": \"HINDU\",\n    \"ecr_type\": \"ECR\",\n    \"english_speak\": \"GOOD\",\n    \"arabic_speak\": \"NO\",\n    \"gulf_return\": 1,\n    \"indian_experience\": \"1 YEAR EXPERIENCE IN LARAVEL\",\n    \"gulf_experience\": null,\n    \"poition_applied_for\": \"WEB DEVELOPER\",\n    \"position_applied_for_1\": null,\n    \"position_applied_for_2\": null,\n    \"created_at\": \"2024-02-08 10:18:18\"\n  }\n}"
+      tags:
+        - Profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  description: 'Full Name of the user.'
+                  example: 'John Doe'
+                cnadidate_status_id:
+                  type: integer
+                  description: 'Candidate Status ID.'
+                  example: 1
+                email:
+                  type: string
+                  description: 'Email of the user. Example:'
+                  example: bmitchell@example.net
+                position_applied_for_1:
+                  type: integer
+                  description: 'Position Applied For 1.'
+                  example: 1
+                position_applied_for_2:
+                  type: integer
+                  description: 'Position Applied For 2.'
+                  example: 2
+                position_applied_for_3:
+                  type: integer
+                  description: 'Position Applied For 3.'
+                  example: 3
+                alternate_contact_no:
+                  type: integer
+                  description: 'Alternate Contact Number of the user.'
+                  example: 9876543210
+                whatapp_no:
+                  type: integer
+                  description: 'Whatapp Number of the user.'
+                  example: 9876543210
+                passport_number:
+                  type: string
+                  description: 'Passport Number of the user.'
+                  example: A1234567
+                gender:
+                  type: string
+                  description: 'Gender of the user.'
+                  example: 'MALE, FEMALE, OTHER'
+                date_of_birth:
+                  type: date
+                  description: 'Date of Birth of the user.'
+                  example: '2000-01-01'
+                mode_of_registration:
+                  type: string
+                  description: 'Mode of Registration of the user.'
+                  example: 'CALLING, WALK-IN'
+                source:
+                  type: string
+                  description: 'Source of the user.'
+                  example: 'TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER'
+                education:
+                  type: string
+                  description: 'Education of the user.'
+                  example: '5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS'
+                other_education:
+                  type: string
+                  description: 'Other Education of the user.'
+                  example: 'Other Education'
+                religion:
+                  type: string
+                  description: 'Religion of the user.'
+                  example: 'HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER'
+                ecr_type:
+                  type: string
+                  description: 'ECR Type of the user.'
+                  example: 'ECR, ECNR'
+                english_speak:
+                  type: string
+                  description: 'English Speak of the user.'
+                  example: 'GOOD, BASIC, POOR, NO'
+                arabic_speak:
+                  type: string
+                  description: 'Arabic Speak of the user.'
+                  example: 'GOOD, BASIC, POOR, NO'
+              required:
+                - full_name
+                - cnadidate_status_id
+                - position_applied_for_1
+      security: []
+  /api/v1/profile/edit:
+    post:
+      summary: 'Edit Profile'
+      operationId: editProfile
+      description: 'This endpoint will be used to edit the profile of the user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Profile fetched successfully.'
+                  status: true
+                  data:
+                    status:
+                      '1': ACTIVE
+                      '2': IN-ACTIVE
+                      '3': 'BLACK LIST'
+                      '4': SELECTED
+                      '5': 'BACKED OUT'
+                      '6': 'UNDER MEDICAL'
+                      '7': FIT
+                      '8': UNFIT
+                      '9': 'AWAITING VISA'
+                      '10': 'AWAITING DEPLOYMENT'
+                      '11': DEPLOYED
+                    mode_of_registration:
+                      - CALLING
+                      - WALK-IN
+                    source:
+                      - TELECALLING
+                      - REFERANCE
+                      - FACEBOOK
+                      - INSTAGRAM
+                      - OTHER
+                    gender:
+                      - MALE
+                      - FEMALE
+                      - OTHER
+                    education:
+                      - '5TH PASS'
+                      - '8TH PASS'
+                      - '10TH PASS'
+                      - 'HIGHER SECONDARY'
+                      - GRADUATES
+                      - MASTERS
+                    positions:
+                      '1': 'AC TECHNICIAN SPLIT & WINDOW'
+                      '2': ACCOUNTANT
+                      '3': 'ALUMINIUM FABRICATOR'
+                      '4': 'ANIMAL WARDEN'
+                      '5': 'ANY HELPER'
+                      '6': 'ARABIC CHEF'
+                      '7': 'AREA RESTAURANT MANAGER'
+                      '8': 'ASST. ELECTRICIAN'
+                      '9': 'ASST. COOK'
+                      '10': 'ASST. PLUMBER'
+                      '11': 'ASST. RESTAURANT MANAGER'
+                      '12': 'ASST. SUPERVISOR'
+                      '13': 'ASST. WAITER'
+                      '14': 'AUTO AC TECHNICIAN'
+                      '15': 'AUTO ELECTRICIAN'
+                      '16': 'AUTO MOBILE ENG'
+                      '17': 'AUTO MOBILE TECHNICIAN'
+                      '18': 'AUTO CAD'
+                      '19': CDP
+                      '20': CHEF
+                      '21': D-CDP
+                      '22': 'BAKERY & PASTRY MAN'
+                      '23': 'SOUS CHEF'
+                      '24': 'BAKERY MAN'
+                      '25': MANAGER
+                      '26': 'BANQUET SUPERVISOR'
+                      '27': BARTENDER
+                      '28': 'BARBER FEMALE'
+                      '29': 'BARBER MALE'
+                      '30': BARISTA
+                      '31': 'BELL BOY'
+                      '32': 'BIKE MECHANIC'
+                      '33': 'BOILER OPERATOR'
+                      '34': BOUNCER
+                      '35': 'BULLDOZER OPERATOR'
+                      '36': BUSSER
+                      '37': BUTCHER
+                      '38': 'BUTCHER & SLAUGHTERER'
+                      '39': 'BUTCHER MACHINE CUTTER'
+                      '40': 'CABLE JOINTER'
+                      '41': 'CAMP BOSS'
+                      '42': CAPTAIN
+                      '43': CASHIER
+                      '44': 'CATERING SUPERVISOR'
+                      '45': CDP
+                      '46': 'CHAPATI MAKER'
+                      '47': 'CHARTERED ACCOUNTANT'
+                      '48': 'CIVIL ENGG'
+                      '49': 'CIVIL FOREMAN'
+                      '50': HELPER
+                      '51': 'CIVIL SUPERVISOR'
+                      '52': COBBLER
+                      '53': 'COLD KITCHEN CHEF'
+                      '54': 'COMPUTER EMBROIDER'
+                      '55': 'COMPUTER ENGINEER'
+                      '56': 'COMPUTER HARDWARE & NETWORKING'
+                      '57': 'COMPUTER OPERATOR'
+                      '58': 'COMPUTER TECHNICIAN'
+                      '59': 'CONTINENTAL CHEF'
+                      '60': 'CRANE OPERATOR'
+                      '61': 'DELIVERY BOY'
+                      '62': DENTER
+                      '63': 'DIALYSIS MACHINE TECHNICIAN'
+                      '64': DOCTOR
+                      '65': 'DOCUMENT CONTROLLER'
+                      '66': 'DRAFTSMAN CIVIL'
+                      '67': 'DRAFTSMAN MECHANICAL'
+                      '68': DRAUGHTSMEN
+                      '69': 'DUCT ERECTOR'
+                      '70': 'DUCT FABRICATOR'
+                      '71': 'DUCT INSULATOR'
+                      '72': DUCTMAN
+                      '73': 'ELECTRICAL ENGINEER'
+                      '74': 'ELECTRICAL SUPERVISOR'
+                      '75': 'ELECTRICIAN 220'
+                      '76': 'ELECTRICIAN 220 & 440'
+                      '77': 'ELECTRICIAN 440'
+                      '78': 'ELECTRICIAN PANEL BOARD'
+                      '79': 'ELECTRICAL TECHNICIAN'
+                      '80': 'EXCAVATOR OPERATOR'
+                      '81': 'EXECUTIVE CHEF'
+                      '82': 'F & B SERVICE'
+                      '83': 'F & B SUPERVISOR'
+                      '84': 'FEMALE NURSE'
+                      '85': 'FINISHING CARPENTER'
+                      '86': GARDENER
+                      '87': WELDER
+                      '88': COOK
+                      '89': 'GENTS TAILOR'
+                      '90': 'GLASS DESIGNER'
+                      '91': 'GOLD SMITH'
+                      '92': 'GRAPHIC DESIGNER'
+                      '93': 'GYM TRAINER'
+                      '94': HOST
+                      '95': HOUSEKEEPER
+                      '96': 'HOUSEKEEPING SUPERVISOR'
+                      '97': HR
+                      '98': 'HR MANAGER'
+                      '99': 'HV DRIVER'
+                      '100': 'HVAC CHILLER PLANT'
+                      '101': 'HVAC FOREMAN'
+                      '102': 'HVAC TECHNICIAN'
+                      '103': 'IATA OFFICER'
+                      '104': CHEF
+                      '105': 'INSTRUMENT TECHNICIAN'
+                      '106': 'INTERIOR DESIGNER'
+                      '107': 'IT ENGINEER'
+                      '108': 'JCB OPERATOR'
+                      '109': 'JUICE MAKER'
+                      '110': 'KITCHEN STEWARD'
+                      '111': 'LADIES TAILOR'
+                      '112': 'LAND SURVEYOR'
+                      '113': 'LAPTOP TECHNICIAN'
+                      '114': 'LAUNDRY BOY'
+                      '115': 'LAUNDRY SUPERVISOR'
+                      '116': 'LIFT TECHNICIAN'
+                      '117': 'LMV DRIVER'
+                      '118': 'LOADING & UNLOADING'
+                      '119': 'LOGISTIC MANAGER'
+                      '120': 'LOGISTIC OFFICER'
+                      '121': 'LOGISTIC SUPERVISOR'
+                      '122': 'MACHINE EMBROIDER'
+                      '123': 'MALE NURSE'
+                      '124': 'MECHANICAL ENGINEER'
+                      '125': HELPER
+                      '126': 'MECHANICAL SUPERVISOR'
+                      '127': MERCHANDISER
+                      '128': 'MOBILE CRANE OPERATOR'
+                      '129': 'MOBILE HARDWARE TECHNICIAN'
+                      '130': 'MOBILE SOFTWARE TECHNICIAN'
+                      '131': MOCKTAIL
+                      '132': 'OFFICE BOY'
+                      '133': 'OFFICE MACHINE OPERATOR'
+                      '134': PACKERS
+                      '135': 'PARATHA MAKER'
+                      '136': 'PEST CONTROL'
+                      '137': 'LMV MECHANIC PETROL'
+                      '138': 'LMV MECHANIC DIESEL'
+                      '139': 'HV MECHANIC PETROL'
+                      '140': 'HV MECHANIC DIESEL'
+                      '141': PHARMACIST
+                      '142': PHOTOGRAPHER
+                      '143': 'PIPE FITTER'
+                      '144': 'PIZZA MAKER'
+                      '145': PLUMBER
+                      '146': 'POCLAIN OPERATOR'
+                      '147': POP
+                      '148': 'QURAAN HAFEEZ'
+                      '149': 'RCC FITTER'
+                      '150': RECEPTIONIST
+                      '151': 'REFRIGERATION TECHNICIAN'
+                      '152': 'RESTAURANT MANAGER'
+                      '153': 'RESTAURANT SHIFT MANAGER'
+                      '154': 'RESTAURANT SUPERVISOR'
+                      '155': RIGGER
+                      '156': 'ROOM BOY'
+                      '157': RUNNER
+                      '158': 'SAFETY ENGINEER'
+                      '159': 'SAFETY OFFICER'
+                      '160': 'SALAD MAKER'
+                      '161': 'SALES MANAGER'
+                      '162': MANAGER
+                      '163': SCAFFOLDER
+                      '164': 'SCREEN PRINTER'
+                      '165': 'SECURITY GUARD'
+                      '166': 'SENIOR WAITER'
+                      '167': 'SERVICE CREW'
+                      '168': 'SERVICE QUALITY CONTROLLER'
+                      '169': 'FOOD QUALITY CONTROLLER'
+                      '170': 'SHUTTERING CARPENTER'
+                      '171': 'SOFA MAKER'
+                      '172': 'SOFTWARE DEVELOPER'
+                      '173': 'SOUS CHEF'
+                      '174': COOK
+                      '175': 'SPRAY PAINTER'
+                      '176': 'STEEL FABRICATOR'
+                      '177': 'STEEL FIXER'
+                      '178': STEWARD
+                      '179': POTTER
+                      '180': STOREKEEPER
+                      '181': TEACHER
+                      '182': 'TELE CALLER'
+                      '183': CHEF
+                      '184': MASON
+                      '185': TIMEKEEPER
+                      '186': 'TOWER CRANE OPERATOR'
+                      '187': DRIVER
+                      '188': 'TYRE TECHNICIAN'
+                      '189': 'UTILITY OPERATOR'
+                      '190': WAITER
+                      '191': 'WALL PAINTER'
+                      '192': 'WAREHOUSE MANAGER'
+                      '193': 'WAREHOUSE SUPERVISOR'
+                      '194': 'WEB DEVELOPER'
+                      '195': WELDER
+                      '196': 'XRAY TECHNICIAN'
+                      '197': 'Web Development'
+                      '198': 'Graphics Designer'
+                      '199': 'STORE MANAGER'
+                      '200': UNKNOWN
+                      '201': 'CREW TRAINER'
+                      '202': 'TANDOOR CHEF'
+                      '203': 'TANDOOR COOK'
+                      '204': SALESMAN
+                      '205': 'TROLLY BOY'
+                      '206': 'WATER PUREFIRE TECHNICION'
+                      '207': 'house keeping'
+                      '208': clenear
+                      '209': 'DATA ENTERY'
+                      '210': CARPENTER
+                      '211': 'DATA ANALYSIS'
+                      '212': 'TEAM LEADER'
+                      '213': 'PRODUCTION ENGINER'
+                      '214': 'QUALITY CHECK'
+                      '215': 'BACK OFFICE'
+                    city:
+                      - ADILABAD
+                      - AGRA
+                      - AHMEDABAD
+                      - AHMEDNAGAR
+                      - AIZAWL
+                      - 'AJITGARH (MOHALI)'
+                      - AJMER
+                      - AKOLA
+                      - ALAPPUZHA
+                      - ALIGARH
+                      - ALIRAJPUR
+                      - ALLAHABAD
+                      - ALMORA
+                      - ALWAR
+                      - AMBALA
+                      - 'AMBEDKAR NAGAR'
+                      - AMRAVATI
+                      - 'AMRELI DISTRICT'
+                      - AMRITSAR
+                      - ANAND
+                      - ANANTAPUR
+                      - ANANTNAG
+                      - ANGUL
+                      - ANJAW
+                      - ANUPPUR
+                      - ARARIA
+                      - ARIYALUR
+                      - ARWAL
+                      - 'ASHOK NAGAR'
+                      - AURAIYA
+                      - AURANGABAD
+                      - AURANGABAD
+                      - AZAMGARH
+                      - BADGAM
+                      - BAGALKOT
+                      - BAGESHWAR
+                      - BAGPAT
+                      - BAHRAICH
+                      - BAKSA
+                      - BALAGHAT
+                      - BALANGIR
+                      - BALASORE
+                      - BALLIA
+                      - BALRAMPUR
+                      - BANASKANTHA
+                      - BANDA
+                      - BANDIPORA
+                      - BANGALORE
+                      - BANKA
+                      - BANKURA
+                      - BANSWARA
+                      - BARABANKI
+                      - BARAMULLA
+                      - BARAN
+                      - BARDHAMAN
+                      - BAREILLY
+                      - 'BARGARH (BARAGARH)'
+                      - BARMER
+                      - BARNALA
+                      - BARPETA
+                      - BARWANI
+                      - BASTAR
+                      - BASTI
+                      - BATHINDA
+                      - BEED
+                      - BEGUSARAI
+                      - BELGAUM
+                      - BELLARY
+                      - BETUL
+                      - BHADRAK
+                      - BHAGALPUR
+                      - BHANDARA
+                      - BHARATPUR
+                      - BHARUCH
+                      - BHAVNAGAR
+                      - BHILWARA
+                      - BHIND
+                      - BHIWANI
+                      - BHOJPUR
+                      - BHOPAL
+                      - BIDAR
+                      - BIJAPUR
+                      - BIJAPUR
+                      - BIJNOR
+                      - BIKANER
+                      - BILASPUR
+                      - BILASPUR
+                      - BIRBHUM
+                      - BISHNUPUR
+                      - BOKARO
+                      - BONGAIGAON
+                      - 'BOUDH (BAUDA)'
+                      - BUDAUN
+                      - BULANDSHAHR
+                      - BULDHANA
+                      - BUNDI
+                      - BURHANPUR
+                      - BUXAR
+                      - CACHAR
+                      - 'CENTRAL DELHI'
+                      - CHAMARAJNAGAR
+                      - CHAMBA
+                      - CHAMOLI
+                      - CHAMPAWAT
+                      - CHAMPHAI
+                      - CHANDAULI
+                      - CHANDEL
+                      - CHANDIGARH
+                      - CHANDRAPUR
+                      - CHANGLANG
+                      - CHATRA
+                      - CHENNAI
+                      - CHHATARPUR
+                      - 'CHHATRAPATI SHAHUJI MAHARAJ NAGAR'
+                      - CHHINDWARA
+                      - CHIKKABALLAPUR
+                      - CHIKKAMAGALURU
+                      - CHIRANG
+                      - CHITRADURGA
+                      - CHITRAKOOT
+                      - CHITTOOR
+                      - CHITTORGARH
+                      - CHURACHANDPUR
+                      - CHURU
+                      - COIMBATORE
+                      - 'COOCH BEHAR'
+                      - CUDDALORE
+                      - CUTTACK
+                      - 'DADRA AND NAGAR HAVELI'
+                      - DAHOD
+                      - 'DAKSHIN DINAJPUR'
+                      - 'DAKSHINA KANNADA'
+                      - DAMAN
+                      - DAMOH
+                      - DANTEWADA
+                      - DARBHANGA
+                      - DARJEELING
+                      - DARRANG
+                      - DATIA
+                      - DAUSA
+                      - DAVANAGERE
+                      - 'DEBAGARH (DEOGARH)'
+                      - DEHRADUN
+                      - DEOGHAR
+                      - DEORIA
+                      - DEWAS
+                      - DHALAI
+                      - DHAMTARI
+                      - DHANBAD
+                      - DHAR
+                      - DHARMAPURI
+                      - DHARWAD
+                      - DHEMAJI
+                      - DHENKANAL
+                      - DHOLPUR
+                      - DHUBRI
+                      - DHULE
+                      - 'DIBANG VALLEY'
+                      - DIBRUGARH
+                      - 'DIMA HASAO'
+                      - DIMAPUR
+                      - DINDIGUL
+                      - DINDORI
+                      - DIU
+                      - DODA
+                      - DUMKA
+                      - DUNGAPUR
+                      - DURG
+                      - 'EAST CHAMPARAN'
+                      - 'EAST DELHI'
+                      - 'EAST GARO HILLS'
+                      - 'EAST KHASI HILLS'
+                      - 'EAST SIANG'
+                      - 'EAST SIKKIM'
+                      - 'EAST SINGHBHUM'
+                      - ELURU
+                      - ERNAKULAM
+                      - ERODE
+                      - ETAH
+                      - ETAWAH
+                      - FAIZABAD
+                      - FARIDABAD
+                      - FARIDKOT
+                      - FARRUKHABAD
+                      - FATEHABAD
+                      - 'FATEHGARH SAHIB'
+                      - FATEHPUR
+                      - FAZILKA
+                      - FIROZABAD
+                      - FIROZPUR
+                      - GADAG
+                      - GADCHIROLI
+                      - GAJAPATI
+                      - GANDERBAL
+                      - GANDHINAGAR
+                      - GANGANAGAR
+                      - GANJAM
+                      - GARHWA
+                      - 'GAUTAM BUDDH NAGAR'
+                      - GAYA
+                      - GHAZIABAD
+                      - GHAZIPUR
+                      - GIRIDIH
+                      - GOALPARA
+                      - GODDA
+                      - GOLAGHAT
+                      - GONDA
+                      - GONDIA
+                      - GOPALGANJ
+                      - GORAKHPUR
+                      - GULBARGA
+                      - GUMLA
+                      - GUNA
+                      - GUNTUR
+                      - GURDASPUR
+                      - GURGAON
+                      - GWALIOR
+                      - HAILAKANDI
+                      - HAMIRPUR
+                      - HAMIRPUR
+                      - HANUMANGARH
+                      - HARDA
+                      - HARDOI
+                      - HARIDWAR
+                      - HASSAN
+                      - 'HAVERI DISTRICT'
+                      - HAZARIBAG
+                      - HINGOLI
+                      - HISSAR
+                      - HOOGHLY
+                      - HOSHANGABAD
+                      - HOSHIARPUR
+                      - HOWRAH
+                      - HYDERABAD
+                      - HYDERABAD
+                      - IDUKKI
+                      - 'IMPHAL EAST'
+                      - 'IMPHAL WEST'
+                      - INDORE
+                      - JABALPUR
+                      - JAGATSINGHPUR
+                      - 'JAINTIA HILLS'
+                      - JAIPUR
+                      - JAISALMER
+                      - JAJPUR
+                      - JALANDHAR
+                      - JALAUN
+                      - JALGAON
+                      - JALNA
+                      - JALORE
+                      - JALPAIGURI
+                      - JAMMU
+                      - JAMNAGAR
+                      - JAMTARA
+                      - JAMUI
+                      - JANJGIR-CHAMPA
+                      - JASHPUR
+                      - 'JAUNPUR DISTRICT'
+                      - JEHANABAD
+                      - JHABUA
+                      - JHAJJAR
+                      - JHALAWAR
+                      - JHANSI
+                      - JHARSUGUDA
+                      - JHUNJHUNU
+                      - JIND
+                      - JODHPUR
+                      - JORHAT
+                      - JUNAGADH
+                      - 'JYOTIBA PHULE NAGAR'
+                      - 'KABIRDHAM (FORMERLY KAWARDHA)'
+                      - KADAPA
+                      - KAIMUR
+                      - KAITHAL
+                      - KAKINADA
+                      - KALAHANDI
+                      - KAMRUP
+                      - 'KAMRUP METROPOLITAN'
+                      - KANCHIPURAM
+                      - KANDHAMAL
+                      - KANGRA
+                      - KANKER
+                      - KANNAUJ
+                      - KANNUR
+                      - KANPUR
+                      - 'KANSHI RAM NAGAR'
+                      - KANYAKUMARI
+                      - KAPURTHALA
+                      - KARAIKAL
+                      - KARAULI
+                      - 'KARBI ANGLONG'
+                      - KARGIL
+                      - KARIMGANJ
+                      - KARIMNAGAR
+                      - KARNAL
+                      - KARUR
+                      - KASARAGOD
+                      - KATHUA
+                      - KATIHAR
+                      - KATNI
+                      - KAUSHAMBI
+                      - KENDRAPARA
+                      - 'KENDUJHAR (KEONJHAR)'
+                      - KHAGARIA
+                      - KHAMMAM
+                      - 'KHANDWA (EAST NIMAR)'
+                      - 'KHARGONE (WEST NIMAR)'
+                      - KHEDA
+                      - KHORDHA
+                      - KHOWAI
+                      - KHUNTI
+                      - KINNAUR
+                      - KISHANGANJ
+                      - KISHTWAR
+                      - KODAGU
+                      - KODERMA
+                      - KOHIMA
+                      - KOKRAJHAR
+                      - KOLAR
+                      - KOLASIB
+                      - KOLHAPUR
+                      - KOLKATA
+                      - KOLLAM
+                      - KOPPAL
+                      - KORAPUT
+                      - KORBA
+                      - KORIYA
+                      - KOTA
+                      - KOTTAYAM
+                      - KOZHIKODE
+                      - KRISHNA
+                      - KULGAM
+                      - KULLU
+                      - KUPWARA
+                      - KURNOOL
+                      - KURUKSHETRA
+                      - 'KURUNG KUMEY'
+                      - KUSHINAGAR
+                      - KUTCH
+                      - 'LAHAUL AND SPITI'
+                      - LAKHIMPUR
+                      - 'LAKHIMPUR KHERI'
+                      - LAKHISARAI
+                      - LALITPUR
+                      - LATEHAR
+                      - LATUR
+                      - LAWNGTLAI
+                      - LEH
+                      - LOHARDAGA
+                      - LOHIT
+                      - 'LOWER DIBANG VALLEY'
+                      - 'LOWER SUBANSIRI'
+                      - LUCKNOW
+                      - LUDHIANA
+                      - LUNGLEI
+                      - MADHEPURA
+                      - MADHUBANI
+                      - MADURAI
+                      - 'MAHAMAYA NAGAR'
+                      - MAHARAJGANJ
+                      - MAHASAMUND
+                      - MAHBUBNAGAR
+                      - MAHE
+                      - MAHENDRAGARH
+                      - MAHOBA
+                      - MAINPURI
+                      - MALAPPURAM
+                      - MALDAH
+                      - MALKANGIRI
+                      - MAMIT
+                      - MANDI
+                      - MANDLA
+                      - MANDSAUR
+                      - MANDYA
+                      - MANSA
+                      - MARIGAON
+                      - MATHURA
+                      - MAU
+                      - MAYURBHANJ
+                      - MEDAK
+                      - MEERUT
+                      - MEHSANA
+                      - MEWAT
+                      - MIRZAPUR
+                      - MOGA
+                      - MOKOKCHUNG
+                      - MON
+                      - MORADABAD
+                      - MORENA
+                      - MUMBAI
+                      - MUNGER
+                      - MURSHIDABAD
+                      - MUZAFFARNAGAR
+                      - MUZAFFARPUR
+                      - MYSORE
+                      - NABARANGPUR
+                      - NADIA
+                      - NAGAON
+                      - NAGAPATTINAM
+                      - NAGAUR
+                      - NAGPUR
+                      - NAINITAL
+                      - NALANDA
+                      - NALBARI
+                      - NALGONDA
+                      - NAMAKKAL
+                      - NANDED
+                      - NANDURBAR
+                      - NARAYANPUR
+                      - NARMADA
+                      - NARSINGHPUR
+                      - NASHIK
+                      - NAVSARI
+                      - NAWADA
+                      - NAWANSHAHR
+                      - NAYAGARH
+                      - NEEMUCH
+                      - NELLORE
+                      - 'NEW DELHI'
+                      - NILGIRIS
+                      - NIZAMABAD
+                      - 'NORTH 24 PARGANAS'
+                      - 'NORTH DELHI'
+                      - 'NORTH EAST DELHI'
+                      - 'NORTH GOA'
+                      - 'NORTH SIKKIM'
+                      - 'NORTH TRIPURA'
+                      - 'NORTH WEST DELHI'
+                      - NUAPADA
+                      - ONGOLE
+                      - OSMANABAD
+                      - PAKUR
+                      - PALAKKAD
+                      - PALAMU
+                      - PALI
+                      - PALWAL
+                      - PANCHKULA
+                      - PANCHMAHAL
+                      - 'PANCHSHEEL NAGAR DISTRICT (HAPUR)'
+                      - PANIPAT
+                      - PANNA
+                      - 'PAPUM PARE'
+                      - PARBHANI
+                      - 'PASCHIM MEDINIPUR'
+                      - PATAN
+                      - PATHANAMTHITTA
+                      - PATHANKOT
+                      - PATIALA
+                      - PATNA
+                      - 'PAURI GARHWAL'
+                      - PERAMBALUR
+                      - PHEK
+                      - PILIBHIT
+                      - PITHORAGARH
+                      - PONDICHERRY
+                      - POONCH
+                      - PORBANDAR
+                      - PRATAPGARH
+                      - PRATAPGARH
+                      - PUDUKKOTTAI
+                      - PULWAMA
+                      - PUNE
+                      - 'PURBA MEDINIPUR'
+                      - PURI
+                      - PURNIA
+                      - PURULIA
+                      - RAEBARELI
+                      - RAICHUR
+                      - RAIGAD
+                      - RAIGARH
+                      - RAIPUR
+                      - RAISEN
+                      - RAJAURI
+                      - RAJGARH
+                      - RAJKOT
+                      - RAJNANDGAON
+                      - RAJSAMAND
+                      - 'RAMABAI NAGAR (KANPUR DEHAT)'
+                      - RAMANAGARA
+                      - RAMANATHAPURAM
+                      - RAMBAN
+                      - RAMGARH
+                      - RAMPUR
+                      - RANCHI
+                      - RATLAM
+                      - RATNAGIRI
+                      - RAYAGADA
+                      - REASI
+                      - REWA
+                      - REWARI
+                      - 'RI BHOI'
+                      - ROHTAK
+                      - ROHTAS
+                      - RUDRAPRAYAG
+                      - RUPNAGAR
+                      - SABARKANTHA
+                      - SAGAR
+                      - SAHARANPUR
+                      - SAHARSA
+                      - SAHIBGANJ
+                      - SAIHA
+                      - SALEM
+                      - SAMASTIPUR
+                      - SAMBA
+                      - SAMBALPUR
+                      - SANGLI
+                      - SANGRUR
+                      - 'SANT KABIR NAGAR'
+                      - 'SANT RAVIDAS NAGAR'
+                      - SARAN
+                      - SATARA
+                      - SATNA
+                      - 'SAWAI MADHOPUR'
+                      - SEHORE
+                      - SENAPATI
+                      - SEONI
+                      - 'SERAIKELA KHARSAWAN'
+                      - SERCHHIP
+                      - SHAHDOL
+                      - SHAHJAHANPUR
+                      - SHAJAPUR
+                      - SHAMLI
+                      - SHEIKHPURA
+                      - SHEOHAR
+                      - SHEOPUR
+                      - SHIMLA
+                      - SHIMOGA
+                      - SHIVPURI
+                      - SHOPIAN
+                      - SHRAVASTI
+                      - SIBSAGAR
+                      - SIDDHARTHNAGAR
+                      - SIDHI
+                      - SIKAR
+                      - SIMDEGA
+                      - SINDHUDURG
+                      - SINGRAULI
+                      - SIRMAUR
+                      - SIROHI
+                      - SIRSA
+                      - SITAMARHI
+                      - SITAPUR
+                      - SIVAGANGA
+                      - SIWAN
+                      - SOLAN
+                      - SOLAPUR
+                      - SONBHADRA
+                      - SONIPAT
+                      - SONITPUR
+                      - 'SOUTH 24 PARGANAS'
+                      - 'SOUTH DELHI'
+                      - 'SOUTH GARO HILLS'
+                      - 'SOUTH GOA'
+                      - 'SOUTH SIKKIM'
+                      - 'SOUTH TRIPURA'
+                      - 'SOUTH WEST DELHI'
+                      - 'SRI MUKTSAR SAHIB'
+                      - SRIKAKULAM
+                      - SRINAGAR
+                      - 'SUBARNAPUR (SONEPUR)'
+                      - SULTANPUR
+                      - SUNDERGARH
+                      - SUPAUL
+                      - SURAT
+                      - SURENDRANAGAR
+                      - SURGUJA
+                      - TAMENGLONG
+                      - 'TARN TARAN'
+                      - TAWANG
+                      - 'TEHRI GARHWAL'
+                      - THANE
+                      - THANJAVUR
+                      - 'THE DANGS'
+                      - THENI
+                      - THIRUVANANTHAPURAM
+                      - THOOTHUKUDI
+                      - THOUBAL
+                      - THRISSUR
+                      - TIKAMGARH
+                      - TINSUKIA
+                      - TIRAP
+                      - TIRUCHIRAPPALLI
+                      - TIRUNELVELI
+                      - TIRUPUR
+                      - TIRUVALLUR
+                      - TIRUVANNAMALAI
+                      - TIRUVARUR
+                      - TONK
+                      - TUENSANG
+                      - TUMKUR
+                      - UDAIPUR
+                      - UDALGURI
+                      - 'UDHAM SINGH NAGAR'
+                      - UDHAMPUR
+                      - UDUPI
+                      - UJJAIN
+                      - UKHRUL
+                      - UMARIA
+                      - UNA
+                      - UNNAO
+                      - 'UPPER SIANG'
+                      - 'UPPER SUBANSIRI'
+                      - 'UTTAR DINAJPUR'
+                      - 'UTTARA KANNADA'
+                      - UTTARKASHI
+                      - VADODARA
+                      - VAISHALI
+                      - VALSAD
+                      - VARANASI
+                      - VELLORE
+                      - VIDISHA
+                      - VILUPPURAM
+                      - VIRUDHUNAGAR
+                      - VISAKHAPATNAM
+                      - VIZIANAGARAM
+                      - VYARA
+                      - WARANGAL
+                      - WARDHA
+                      - WASHIM
+                      - WAYANAD
+                      - 'WEST CHAMPARAN'
+                      - 'WEST DELHI'
+                      - 'WEST GARO HILLS'
+                      - 'WEST KAMENG'
+                      - 'WEST KHASI HILLS'
+                      - 'WEST SIANG'
+                      - 'WEST SIKKIM'
+                      - 'WEST SINGHBHUM'
+                      - 'WEST TRIPURA'
+                      - WOKHA
+                      - YADGIR
+                      - 'YAMUNA NAGAR'
+                      - YANAM
+                      - YAVATMAL
+                      - ZUNHEBOTO
+                    religion:
+                      - HINDU
+                      - ISLAM
+                      - CHRISTIAN
+                      - BUDDHIST
+                      - SIKH
+                      - JAIN
+                      - OTHER
+                    ecr_type:
+                      - ECR
+                      - ECNR
+                    english_speak:
+                      - GOOD
+                      - BASIC
+                      - POOR
+                      - 'NO'
+                    arabic_speak:
+                      - GOOD
+                      - BASIC
+                      - POOR
+                      - 'NO'
+                properties:
+                  message:
+                    type: string
+                    example: 'Profile fetched successfully.'
+                  status:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      status:
+                        type: object
+                        properties:
+                          1:
+                            type: string
+                            example: ACTIVE
+                          2:
+                            type: string
+                            example: IN-ACTIVE
+                          3:
+                            type: string
+                            example: 'BLACK LIST'
+                          4:
+                            type: string
+                            example: SELECTED
+                          5:
+                            type: string
+                            example: 'BACKED OUT'
+                          6:
+                            type: string
+                            example: 'UNDER MEDICAL'
+                          7:
+                            type: string
+                            example: FIT
+                          8:
+                            type: string
+                            example: UNFIT
+                          9:
+                            type: string
+                            example: 'AWAITING VISA'
+                          10:
+                            type: string
+                            example: 'AWAITING DEPLOYMENT'
+                          11:
+                            type: string
+                            example: DEPLOYED
+                      mode_of_registration:
+                        type: array
+                        example:
+                          - CALLING
+                          - WALK-IN
+                        items:
+                          type: string
+                      source:
+                        type: array
+                        example:
+                          - TELECALLING
+                          - REFERANCE
+                          - FACEBOOK
+                          - INSTAGRAM
+                          - OTHER
+                        items:
+                          type: string
+                      gender:
+                        type: array
+                        example:
+                          - MALE
+                          - FEMALE
+                          - OTHER
+                        items:
+                          type: string
+                      education:
+                        type: array
+                        example:
+                          - '5TH PASS'
+                          - '8TH PASS'
+                          - '10TH PASS'
+                          - 'HIGHER SECONDARY'
+                          - GRADUATES
+                          - MASTERS
+                        items:
+                          type: string
+                      positions:
+                        type: object
+                        properties:
+                          1:
+                            type: string
+                            example: 'AC TECHNICIAN SPLIT & WINDOW'
+                          2:
+                            type: string
+                            example: ACCOUNTANT
+                          3:
+                            type: string
+                            example: 'ALUMINIUM FABRICATOR'
+                          4:
+                            type: string
+                            example: 'ANIMAL WARDEN'
+                          5:
+                            type: string
+                            example: 'ANY HELPER'
+                          6:
+                            type: string
+                            example: 'ARABIC CHEF'
+                          7:
+                            type: string
+                            example: 'AREA RESTAURANT MANAGER'
+                          8:
+                            type: string
+                            example: 'ASST. ELECTRICIAN'
+                          9:
+                            type: string
+                            example: 'ASST. COOK'
+                          10:
+                            type: string
+                            example: 'ASST. PLUMBER'
+                          11:
+                            type: string
+                            example: 'ASST. RESTAURANT MANAGER'
+                          12:
+                            type: string
+                            example: 'ASST. SUPERVISOR'
+                          13:
+                            type: string
+                            example: 'ASST. WAITER'
+                          14:
+                            type: string
+                            example: 'AUTO AC TECHNICIAN'
+                          15:
+                            type: string
+                            example: 'AUTO ELECTRICIAN'
+                          16:
+                            type: string
+                            example: 'AUTO MOBILE ENG'
+                          17:
+                            type: string
+                            example: 'AUTO MOBILE TECHNICIAN'
+                          18:
+                            type: string
+                            example: 'AUTO CAD'
+                          19:
+                            type: string
+                            example: CDP
+                          20:
+                            type: string
+                            example: CHEF
+                          21:
+                            type: string
+                            example: D-CDP
+                          22:
+                            type: string
+                            example: 'BAKERY & PASTRY MAN'
+                          23:
+                            type: string
+                            example: 'SOUS CHEF'
+                          24:
+                            type: string
+                            example: 'BAKERY MAN'
+                          25:
+                            type: string
+                            example: MANAGER
+                          26:
+                            type: string
+                            example: 'BANQUET SUPERVISOR'
+                          27:
+                            type: string
+                            example: BARTENDER
+                          28:
+                            type: string
+                            example: 'BARBER FEMALE'
+                          29:
+                            type: string
+                            example: 'BARBER MALE'
+                          30:
+                            type: string
+                            example: BARISTA
+                          31:
+                            type: string
+                            example: 'BELL BOY'
+                          32:
+                            type: string
+                            example: 'BIKE MECHANIC'
+                          33:
+                            type: string
+                            example: 'BOILER OPERATOR'
+                          34:
+                            type: string
+                            example: BOUNCER
+                          35:
+                            type: string
+                            example: 'BULLDOZER OPERATOR'
+                          36:
+                            type: string
+                            example: BUSSER
+                          37:
+                            type: string
+                            example: BUTCHER
+                          38:
+                            type: string
+                            example: 'BUTCHER & SLAUGHTERER'
+                          39:
+                            type: string
+                            example: 'BUTCHER MACHINE CUTTER'
+                          40:
+                            type: string
+                            example: 'CABLE JOINTER'
+                          41:
+                            type: string
+                            example: 'CAMP BOSS'
+                          42:
+                            type: string
+                            example: CAPTAIN
+                          43:
+                            type: string
+                            example: CASHIER
+                          44:
+                            type: string
+                            example: 'CATERING SUPERVISOR'
+                          45:
+                            type: string
+                            example: CDP
+                          46:
+                            type: string
+                            example: 'CHAPATI MAKER'
+                          47:
+                            type: string
+                            example: 'CHARTERED ACCOUNTANT'
+                          48:
+                            type: string
+                            example: 'CIVIL ENGG'
+                          49:
+                            type: string
+                            example: 'CIVIL FOREMAN'
+                          50:
+                            type: string
+                            example: HELPER
+                          51:
+                            type: string
+                            example: 'CIVIL SUPERVISOR'
+                          52:
+                            type: string
+                            example: COBBLER
+                          53:
+                            type: string
+                            example: 'COLD KITCHEN CHEF'
+                          54:
+                            type: string
+                            example: 'COMPUTER EMBROIDER'
+                          55:
+                            type: string
+                            example: 'COMPUTER ENGINEER'
+                          56:
+                            type: string
+                            example: 'COMPUTER HARDWARE & NETWORKING'
+                          57:
+                            type: string
+                            example: 'COMPUTER OPERATOR'
+                          58:
+                            type: string
+                            example: 'COMPUTER TECHNICIAN'
+                          59:
+                            type: string
+                            example: 'CONTINENTAL CHEF'
+                          60:
+                            type: string
+                            example: 'CRANE OPERATOR'
+                          61:
+                            type: string
+                            example: 'DELIVERY BOY'
+                          62:
+                            type: string
+                            example: DENTER
+                          63:
+                            type: string
+                            example: 'DIALYSIS MACHINE TECHNICIAN'
+                          64:
+                            type: string
+                            example: DOCTOR
+                          65:
+                            type: string
+                            example: 'DOCUMENT CONTROLLER'
+                          66:
+                            type: string
+                            example: 'DRAFTSMAN CIVIL'
+                          67:
+                            type: string
+                            example: 'DRAFTSMAN MECHANICAL'
+                          68:
+                            type: string
+                            example: DRAUGHTSMEN
+                          69:
+                            type: string
+                            example: 'DUCT ERECTOR'
+                          70:
+                            type: string
+                            example: 'DUCT FABRICATOR'
+                          71:
+                            type: string
+                            example: 'DUCT INSULATOR'
+                          72:
+                            type: string
+                            example: DUCTMAN
+                          73:
+                            type: string
+                            example: 'ELECTRICAL ENGINEER'
+                          74:
+                            type: string
+                            example: 'ELECTRICAL SUPERVISOR'
+                          75:
+                            type: string
+                            example: 'ELECTRICIAN 220'
+                          76:
+                            type: string
+                            example: 'ELECTRICIAN 220 & 440'
+                          77:
+                            type: string
+                            example: 'ELECTRICIAN 440'
+                          78:
+                            type: string
+                            example: 'ELECTRICIAN PANEL BOARD'
+                          79:
+                            type: string
+                            example: 'ELECTRICAL TECHNICIAN'
+                          80:
+                            type: string
+                            example: 'EXCAVATOR OPERATOR'
+                          81:
+                            type: string
+                            example: 'EXECUTIVE CHEF'
+                          82:
+                            type: string
+                            example: 'F & B SERVICE'
+                          83:
+                            type: string
+                            example: 'F & B SUPERVISOR'
+                          84:
+                            type: string
+                            example: 'FEMALE NURSE'
+                          85:
+                            type: string
+                            example: 'FINISHING CARPENTER'
+                          86:
+                            type: string
+                            example: GARDENER
+                          87:
+                            type: string
+                            example: WELDER
+                          88:
+                            type: string
+                            example: COOK
+                          89:
+                            type: string
+                            example: 'GENTS TAILOR'
+                          90:
+                            type: string
+                            example: 'GLASS DESIGNER'
+                          91:
+                            type: string
+                            example: 'GOLD SMITH'
+                          92:
+                            type: string
+                            example: 'GRAPHIC DESIGNER'
+                          93:
+                            type: string
+                            example: 'GYM TRAINER'
+                          94:
+                            type: string
+                            example: HOST
+                          95:
+                            type: string
+                            example: HOUSEKEEPER
+                          96:
+                            type: string
+                            example: 'HOUSEKEEPING SUPERVISOR'
+                          97:
+                            type: string
+                            example: HR
+                          98:
+                            type: string
+                            example: 'HR MANAGER'
+                          99:
+                            type: string
+                            example: 'HV DRIVER'
+                          100:
+                            type: string
+                            example: 'HVAC CHILLER PLANT'
+                          101:
+                            type: string
+                            example: 'HVAC FOREMAN'
+                          102:
+                            type: string
+                            example: 'HVAC TECHNICIAN'
+                          103:
+                            type: string
+                            example: 'IATA OFFICER'
+                          104:
+                            type: string
+                            example: CHEF
+                          105:
+                            type: string
+                            example: 'INSTRUMENT TECHNICIAN'
+                          106:
+                            type: string
+                            example: 'INTERIOR DESIGNER'
+                          107:
+                            type: string
+                            example: 'IT ENGINEER'
+                          108:
+                            type: string
+                            example: 'JCB OPERATOR'
+                          109:
+                            type: string
+                            example: 'JUICE MAKER'
+                          110:
+                            type: string
+                            example: 'KITCHEN STEWARD'
+                          111:
+                            type: string
+                            example: 'LADIES TAILOR'
+                          112:
+                            type: string
+                            example: 'LAND SURVEYOR'
+                          113:
+                            type: string
+                            example: 'LAPTOP TECHNICIAN'
+                          114:
+                            type: string
+                            example: 'LAUNDRY BOY'
+                          115:
+                            type: string
+                            example: 'LAUNDRY SUPERVISOR'
+                          116:
+                            type: string
+                            example: 'LIFT TECHNICIAN'
+                          117:
+                            type: string
+                            example: 'LMV DRIVER'
+                          118:
+                            type: string
+                            example: 'LOADING & UNLOADING'
+                          119:
+                            type: string
+                            example: 'LOGISTIC MANAGER'
+                          120:
+                            type: string
+                            example: 'LOGISTIC OFFICER'
+                          121:
+                            type: string
+                            example: 'LOGISTIC SUPERVISOR'
+                          122:
+                            type: string
+                            example: 'MACHINE EMBROIDER'
+                          123:
+                            type: string
+                            example: 'MALE NURSE'
+                          124:
+                            type: string
+                            example: 'MECHANICAL ENGINEER'
+                          125:
+                            type: string
+                            example: HELPER
+                          126:
+                            type: string
+                            example: 'MECHANICAL SUPERVISOR'
+                          127:
+                            type: string
+                            example: MERCHANDISER
+                          128:
+                            type: string
+                            example: 'MOBILE CRANE OPERATOR'
+                          129:
+                            type: string
+                            example: 'MOBILE HARDWARE TECHNICIAN'
+                          130:
+                            type: string
+                            example: 'MOBILE SOFTWARE TECHNICIAN'
+                          131:
+                            type: string
+                            example: MOCKTAIL
+                          132:
+                            type: string
+                            example: 'OFFICE BOY'
+                          133:
+                            type: string
+                            example: 'OFFICE MACHINE OPERATOR'
+                          134:
+                            type: string
+                            example: PACKERS
+                          135:
+                            type: string
+                            example: 'PARATHA MAKER'
+                          136:
+                            type: string
+                            example: 'PEST CONTROL'
+                          137:
+                            type: string
+                            example: 'LMV MECHANIC PETROL'
+                          138:
+                            type: string
+                            example: 'LMV MECHANIC DIESEL'
+                          139:
+                            type: string
+                            example: 'HV MECHANIC PETROL'
+                          140:
+                            type: string
+                            example: 'HV MECHANIC DIESEL'
+                          141:
+                            type: string
+                            example: PHARMACIST
+                          142:
+                            type: string
+                            example: PHOTOGRAPHER
+                          143:
+                            type: string
+                            example: 'PIPE FITTER'
+                          144:
+                            type: string
+                            example: 'PIZZA MAKER'
+                          145:
+                            type: string
+                            example: PLUMBER
+                          146:
+                            type: string
+                            example: 'POCLAIN OPERATOR'
+                          147:
+                            type: string
+                            example: POP
+                          148:
+                            type: string
+                            example: 'QURAAN HAFEEZ'
+                          149:
+                            type: string
+                            example: 'RCC FITTER'
+                          150:
+                            type: string
+                            example: RECEPTIONIST
+                          151:
+                            type: string
+                            example: 'REFRIGERATION TECHNICIAN'
+                          152:
+                            type: string
+                            example: 'RESTAURANT MANAGER'
+                          153:
+                            type: string
+                            example: 'RESTAURANT SHIFT MANAGER'
+                          154:
+                            type: string
+                            example: 'RESTAURANT SUPERVISOR'
+                          155:
+                            type: string
+                            example: RIGGER
+                          156:
+                            type: string
+                            example: 'ROOM BOY'
+                          157:
+                            type: string
+                            example: RUNNER
+                          158:
+                            type: string
+                            example: 'SAFETY ENGINEER'
+                          159:
+                            type: string
+                            example: 'SAFETY OFFICER'
+                          160:
+                            type: string
+                            example: 'SALAD MAKER'
+                          161:
+                            type: string
+                            example: 'SALES MANAGER'
+                          162:
+                            type: string
+                            example: MANAGER
+                          163:
+                            type: string
+                            example: SCAFFOLDER
+                          164:
+                            type: string
+                            example: 'SCREEN PRINTER'
+                          165:
+                            type: string
+                            example: 'SECURITY GUARD'
+                          166:
+                            type: string
+                            example: 'SENIOR WAITER'
+                          167:
+                            type: string
+                            example: 'SERVICE CREW'
+                          168:
+                            type: string
+                            example: 'SERVICE QUALITY CONTROLLER'
+                          169:
+                            type: string
+                            example: 'FOOD QUALITY CONTROLLER'
+                          170:
+                            type: string
+                            example: 'SHUTTERING CARPENTER'
+                          171:
+                            type: string
+                            example: 'SOFA MAKER'
+                          172:
+                            type: string
+                            example: 'SOFTWARE DEVELOPER'
+                          173:
+                            type: string
+                            example: 'SOUS CHEF'
+                          174:
+                            type: string
+                            example: COOK
+                          175:
+                            type: string
+                            example: 'SPRAY PAINTER'
+                          176:
+                            type: string
+                            example: 'STEEL FABRICATOR'
+                          177:
+                            type: string
+                            example: 'STEEL FIXER'
+                          178:
+                            type: string
+                            example: STEWARD
+                          179:
+                            type: string
+                            example: POTTER
+                          180:
+                            type: string
+                            example: STOREKEEPER
+                          181:
+                            type: string
+                            example: TEACHER
+                          182:
+                            type: string
+                            example: 'TELE CALLER'
+                          183:
+                            type: string
+                            example: CHEF
+                          184:
+                            type: string
+                            example: MASON
+                          185:
+                            type: string
+                            example: TIMEKEEPER
+                          186:
+                            type: string
+                            example: 'TOWER CRANE OPERATOR'
+                          187:
+                            type: string
+                            example: DRIVER
+                          188:
+                            type: string
+                            example: 'TYRE TECHNICIAN'
+                          189:
+                            type: string
+                            example: 'UTILITY OPERATOR'
+                          190:
+                            type: string
+                            example: WAITER
+                          191:
+                            type: string
+                            example: 'WALL PAINTER'
+                          192:
+                            type: string
+                            example: 'WAREHOUSE MANAGER'
+                          193:
+                            type: string
+                            example: 'WAREHOUSE SUPERVISOR'
+                          194:
+                            type: string
+                            example: 'WEB DEVELOPER'
+                          195:
+                            type: string
+                            example: WELDER
+                          196:
+                            type: string
+                            example: 'XRAY TECHNICIAN'
+                          197:
+                            type: string
+                            example: 'Web Development'
+                          198:
+                            type: string
+                            example: 'Graphics Designer'
+                          199:
+                            type: string
+                            example: 'STORE MANAGER'
+                          200:
+                            type: string
+                            example: UNKNOWN
+                          201:
+                            type: string
+                            example: 'CREW TRAINER'
+                          202:
+                            type: string
+                            example: 'TANDOOR CHEF'
+                          203:
+                            type: string
+                            example: 'TANDOOR COOK'
+                          204:
+                            type: string
+                            example: SALESMAN
+                          205:
+                            type: string
+                            example: 'TROLLY BOY'
+                          206:
+                            type: string
+                            example: 'WATER PUREFIRE TECHNICION'
+                          207:
+                            type: string
+                            example: 'house keeping'
+                          208:
+                            type: string
+                            example: clenear
+                          209:
+                            type: string
+                            example: 'DATA ENTERY'
+                          210:
+                            type: string
+                            example: CARPENTER
+                          211:
+                            type: string
+                            example: 'DATA ANALYSIS'
+                          212:
+                            type: string
+                            example: 'TEAM LEADER'
+                          213:
+                            type: string
+                            example: 'PRODUCTION ENGINER'
+                          214:
+                            type: string
+                            example: 'QUALITY CHECK'
+                          215:
+                            type: string
+                            example: 'BACK OFFICE'
+                      city:
+                        type: array
+                        example:
+                          - ADILABAD
+                          - AGRA
+                          - AHMEDABAD
+                          - AHMEDNAGAR
+                          - AIZAWL
+                          - 'AJITGARH (MOHALI)'
+                          - AJMER
+                          - AKOLA
+                          - ALAPPUZHA
+                          - ALIGARH
+                          - ALIRAJPUR
+                          - ALLAHABAD
+                          - ALMORA
+                          - ALWAR
+                          - AMBALA
+                          - 'AMBEDKAR NAGAR'
+                          - AMRAVATI
+                          - 'AMRELI DISTRICT'
+                          - AMRITSAR
+                          - ANAND
+                          - ANANTAPUR
+                          - ANANTNAG
+                          - ANGUL
+                          - ANJAW
+                          - ANUPPUR
+                          - ARARIA
+                          - ARIYALUR
+                          - ARWAL
+                          - 'ASHOK NAGAR'
+                          - AURAIYA
+                          - AURANGABAD
+                          - AURANGABAD
+                          - AZAMGARH
+                          - BADGAM
+                          - BAGALKOT
+                          - BAGESHWAR
+                          - BAGPAT
+                          - BAHRAICH
+                          - BAKSA
+                          - BALAGHAT
+                          - BALANGIR
+                          - BALASORE
+                          - BALLIA
+                          - BALRAMPUR
+                          - BANASKANTHA
+                          - BANDA
+                          - BANDIPORA
+                          - BANGALORE
+                          - BANKA
+                          - BANKURA
+                          - BANSWARA
+                          - BARABANKI
+                          - BARAMULLA
+                          - BARAN
+                          - BARDHAMAN
+                          - BAREILLY
+                          - 'BARGARH (BARAGARH)'
+                          - BARMER
+                          - BARNALA
+                          - BARPETA
+                          - BARWANI
+                          - BASTAR
+                          - BASTI
+                          - BATHINDA
+                          - BEED
+                          - BEGUSARAI
+                          - BELGAUM
+                          - BELLARY
+                          - BETUL
+                          - BHADRAK
+                          - BHAGALPUR
+                          - BHANDARA
+                          - BHARATPUR
+                          - BHARUCH
+                          - BHAVNAGAR
+                          - BHILWARA
+                          - BHIND
+                          - BHIWANI
+                          - BHOJPUR
+                          - BHOPAL
+                          - BIDAR
+                          - BIJAPUR
+                          - BIJAPUR
+                          - BIJNOR
+                          - BIKANER
+                          - BILASPUR
+                          - BILASPUR
+                          - BIRBHUM
+                          - BISHNUPUR
+                          - BOKARO
+                          - BONGAIGAON
+                          - 'BOUDH (BAUDA)'
+                          - BUDAUN
+                          - BULANDSHAHR
+                          - BULDHANA
+                          - BUNDI
+                          - BURHANPUR
+                          - BUXAR
+                          - CACHAR
+                          - 'CENTRAL DELHI'
+                          - CHAMARAJNAGAR
+                          - CHAMBA
+                          - CHAMOLI
+                          - CHAMPAWAT
+                          - CHAMPHAI
+                          - CHANDAULI
+                          - CHANDEL
+                          - CHANDIGARH
+                          - CHANDRAPUR
+                          - CHANGLANG
+                          - CHATRA
+                          - CHENNAI
+                          - CHHATARPUR
+                          - 'CHHATRAPATI SHAHUJI MAHARAJ NAGAR'
+                          - CHHINDWARA
+                          - CHIKKABALLAPUR
+                          - CHIKKAMAGALURU
+                          - CHIRANG
+                          - CHITRADURGA
+                          - CHITRAKOOT
+                          - CHITTOOR
+                          - CHITTORGARH
+                          - CHURACHANDPUR
+                          - CHURU
+                          - COIMBATORE
+                          - 'COOCH BEHAR'
+                          - CUDDALORE
+                          - CUTTACK
+                          - 'DADRA AND NAGAR HAVELI'
+                          - DAHOD
+                          - 'DAKSHIN DINAJPUR'
+                          - 'DAKSHINA KANNADA'
+                          - DAMAN
+                          - DAMOH
+                          - DANTEWADA
+                          - DARBHANGA
+                          - DARJEELING
+                          - DARRANG
+                          - DATIA
+                          - DAUSA
+                          - DAVANAGERE
+                          - 'DEBAGARH (DEOGARH)'
+                          - DEHRADUN
+                          - DEOGHAR
+                          - DEORIA
+                          - DEWAS
+                          - DHALAI
+                          - DHAMTARI
+                          - DHANBAD
+                          - DHAR
+                          - DHARMAPURI
+                          - DHARWAD
+                          - DHEMAJI
+                          - DHENKANAL
+                          - DHOLPUR
+                          - DHUBRI
+                          - DHULE
+                          - 'DIBANG VALLEY'
+                          - DIBRUGARH
+                          - 'DIMA HASAO'
+                          - DIMAPUR
+                          - DINDIGUL
+                          - DINDORI
+                          - DIU
+                          - DODA
+                          - DUMKA
+                          - DUNGAPUR
+                          - DURG
+                          - 'EAST CHAMPARAN'
+                          - 'EAST DELHI'
+                          - 'EAST GARO HILLS'
+                          - 'EAST KHASI HILLS'
+                          - 'EAST SIANG'
+                          - 'EAST SIKKIM'
+                          - 'EAST SINGHBHUM'
+                          - ELURU
+                          - ERNAKULAM
+                          - ERODE
+                          - ETAH
+                          - ETAWAH
+                          - FAIZABAD
+                          - FARIDABAD
+                          - FARIDKOT
+                          - FARRUKHABAD
+                          - FATEHABAD
+                          - 'FATEHGARH SAHIB'
+                          - FATEHPUR
+                          - FAZILKA
+                          - FIROZABAD
+                          - FIROZPUR
+                          - GADAG
+                          - GADCHIROLI
+                          - GAJAPATI
+                          - GANDERBAL
+                          - GANDHINAGAR
+                          - GANGANAGAR
+                          - GANJAM
+                          - GARHWA
+                          - 'GAUTAM BUDDH NAGAR'
+                          - GAYA
+                          - GHAZIABAD
+                          - GHAZIPUR
+                          - GIRIDIH
+                          - GOALPARA
+                          - GODDA
+                          - GOLAGHAT
+                          - GONDA
+                          - GONDIA
+                          - GOPALGANJ
+                          - GORAKHPUR
+                          - GULBARGA
+                          - GUMLA
+                          - GUNA
+                          - GUNTUR
+                          - GURDASPUR
+                          - GURGAON
+                          - GWALIOR
+                          - HAILAKANDI
+                          - HAMIRPUR
+                          - HAMIRPUR
+                          - HANUMANGARH
+                          - HARDA
+                          - HARDOI
+                          - HARIDWAR
+                          - HASSAN
+                          - 'HAVERI DISTRICT'
+                          - HAZARIBAG
+                          - HINGOLI
+                          - HISSAR
+                          - HOOGHLY
+                          - HOSHANGABAD
+                          - HOSHIARPUR
+                          - HOWRAH
+                          - HYDERABAD
+                          - HYDERABAD
+                          - IDUKKI
+                          - 'IMPHAL EAST'
+                          - 'IMPHAL WEST'
+                          - INDORE
+                          - JABALPUR
+                          - JAGATSINGHPUR
+                          - 'JAINTIA HILLS'
+                          - JAIPUR
+                          - JAISALMER
+                          - JAJPUR
+                          - JALANDHAR
+                          - JALAUN
+                          - JALGAON
+                          - JALNA
+                          - JALORE
+                          - JALPAIGURI
+                          - JAMMU
+                          - JAMNAGAR
+                          - JAMTARA
+                          - JAMUI
+                          - JANJGIR-CHAMPA
+                          - JASHPUR
+                          - 'JAUNPUR DISTRICT'
+                          - JEHANABAD
+                          - JHABUA
+                          - JHAJJAR
+                          - JHALAWAR
+                          - JHANSI
+                          - JHARSUGUDA
+                          - JHUNJHUNU
+                          - JIND
+                          - JODHPUR
+                          - JORHAT
+                          - JUNAGADH
+                          - 'JYOTIBA PHULE NAGAR'
+                          - 'KABIRDHAM (FORMERLY KAWARDHA)'
+                          - KADAPA
+                          - KAIMUR
+                          - KAITHAL
+                          - KAKINADA
+                          - KALAHANDI
+                          - KAMRUP
+                          - 'KAMRUP METROPOLITAN'
+                          - KANCHIPURAM
+                          - KANDHAMAL
+                          - KANGRA
+                          - KANKER
+                          - KANNAUJ
+                          - KANNUR
+                          - KANPUR
+                          - 'KANSHI RAM NAGAR'
+                          - KANYAKUMARI
+                          - KAPURTHALA
+                          - KARAIKAL
+                          - KARAULI
+                          - 'KARBI ANGLONG'
+                          - KARGIL
+                          - KARIMGANJ
+                          - KARIMNAGAR
+                          - KARNAL
+                          - KARUR
+                          - KASARAGOD
+                          - KATHUA
+                          - KATIHAR
+                          - KATNI
+                          - KAUSHAMBI
+                          - KENDRAPARA
+                          - 'KENDUJHAR (KEONJHAR)'
+                          - KHAGARIA
+                          - KHAMMAM
+                          - 'KHANDWA (EAST NIMAR)'
+                          - 'KHARGONE (WEST NIMAR)'
+                          - KHEDA
+                          - KHORDHA
+                          - KHOWAI
+                          - KHUNTI
+                          - KINNAUR
+                          - KISHANGANJ
+                          - KISHTWAR
+                          - KODAGU
+                          - KODERMA
+                          - KOHIMA
+                          - KOKRAJHAR
+                          - KOLAR
+                          - KOLASIB
+                          - KOLHAPUR
+                          - KOLKATA
+                          - KOLLAM
+                          - KOPPAL
+                          - KORAPUT
+                          - KORBA
+                          - KORIYA
+                          - KOTA
+                          - KOTTAYAM
+                          - KOZHIKODE
+                          - KRISHNA
+                          - KULGAM
+                          - KULLU
+                          - KUPWARA
+                          - KURNOOL
+                          - KURUKSHETRA
+                          - 'KURUNG KUMEY'
+                          - KUSHINAGAR
+                          - KUTCH
+                          - 'LAHAUL AND SPITI'
+                          - LAKHIMPUR
+                          - 'LAKHIMPUR KHERI'
+                          - LAKHISARAI
+                          - LALITPUR
+                          - LATEHAR
+                          - LATUR
+                          - LAWNGTLAI
+                          - LEH
+                          - LOHARDAGA
+                          - LOHIT
+                          - 'LOWER DIBANG VALLEY'
+                          - 'LOWER SUBANSIRI'
+                          - LUCKNOW
+                          - LUDHIANA
+                          - LUNGLEI
+                          - MADHEPURA
+                          - MADHUBANI
+                          - MADURAI
+                          - 'MAHAMAYA NAGAR'
+                          - MAHARAJGANJ
+                          - MAHASAMUND
+                          - MAHBUBNAGAR
+                          - MAHE
+                          - MAHENDRAGARH
+                          - MAHOBA
+                          - MAINPURI
+                          - MALAPPURAM
+                          - MALDAH
+                          - MALKANGIRI
+                          - MAMIT
+                          - MANDI
+                          - MANDLA
+                          - MANDSAUR
+                          - MANDYA
+                          - MANSA
+                          - MARIGAON
+                          - MATHURA
+                          - MAU
+                          - MAYURBHANJ
+                          - MEDAK
+                          - MEERUT
+                          - MEHSANA
+                          - MEWAT
+                          - MIRZAPUR
+                          - MOGA
+                          - MOKOKCHUNG
+                          - MON
+                          - MORADABAD
+                          - MORENA
+                          - MUMBAI
+                          - MUNGER
+                          - MURSHIDABAD
+                          - MUZAFFARNAGAR
+                          - MUZAFFARPUR
+                          - MYSORE
+                          - NABARANGPUR
+                          - NADIA
+                          - NAGAON
+                          - NAGAPATTINAM
+                          - NAGAUR
+                          - NAGPUR
+                          - NAINITAL
+                          - NALANDA
+                          - NALBARI
+                          - NALGONDA
+                          - NAMAKKAL
+                          - NANDED
+                          - NANDURBAR
+                          - NARAYANPUR
+                          - NARMADA
+                          - NARSINGHPUR
+                          - NASHIK
+                          - NAVSARI
+                          - NAWADA
+                          - NAWANSHAHR
+                          - NAYAGARH
+                          - NEEMUCH
+                          - NELLORE
+                          - 'NEW DELHI'
+                          - NILGIRIS
+                          - NIZAMABAD
+                          - 'NORTH 24 PARGANAS'
+                          - 'NORTH DELHI'
+                          - 'NORTH EAST DELHI'
+                          - 'NORTH GOA'
+                          - 'NORTH SIKKIM'
+                          - 'NORTH TRIPURA'
+                          - 'NORTH WEST DELHI'
+                          - NUAPADA
+                          - ONGOLE
+                          - OSMANABAD
+                          - PAKUR
+                          - PALAKKAD
+                          - PALAMU
+                          - PALI
+                          - PALWAL
+                          - PANCHKULA
+                          - PANCHMAHAL
+                          - 'PANCHSHEEL NAGAR DISTRICT (HAPUR)'
+                          - PANIPAT
+                          - PANNA
+                          - 'PAPUM PARE'
+                          - PARBHANI
+                          - 'PASCHIM MEDINIPUR'
+                          - PATAN
+                          - PATHANAMTHITTA
+                          - PATHANKOT
+                          - PATIALA
+                          - PATNA
+                          - 'PAURI GARHWAL'
+                          - PERAMBALUR
+                          - PHEK
+                          - PILIBHIT
+                          - PITHORAGARH
+                          - PONDICHERRY
+                          - POONCH
+                          - PORBANDAR
+                          - PRATAPGARH
+                          - PRATAPGARH
+                          - PUDUKKOTTAI
+                          - PULWAMA
+                          - PUNE
+                          - 'PURBA MEDINIPUR'
+                          - PURI
+                          - PURNIA
+                          - PURULIA
+                          - RAEBARELI
+                          - RAICHUR
+                          - RAIGAD
+                          - RAIGARH
+                          - RAIPUR
+                          - RAISEN
+                          - RAJAURI
+                          - RAJGARH
+                          - RAJKOT
+                          - RAJNANDGAON
+                          - RAJSAMAND
+                          - 'RAMABAI NAGAR (KANPUR DEHAT)'
+                          - RAMANAGARA
+                          - RAMANATHAPURAM
+                          - RAMBAN
+                          - RAMGARH
+                          - RAMPUR
+                          - RANCHI
+                          - RATLAM
+                          - RATNAGIRI
+                          - RAYAGADA
+                          - REASI
+                          - REWA
+                          - REWARI
+                          - 'RI BHOI'
+                          - ROHTAK
+                          - ROHTAS
+                          - RUDRAPRAYAG
+                          - RUPNAGAR
+                          - SABARKANTHA
+                          - SAGAR
+                          - SAHARANPUR
+                          - SAHARSA
+                          - SAHIBGANJ
+                          - SAIHA
+                          - SALEM
+                          - SAMASTIPUR
+                          - SAMBA
+                          - SAMBALPUR
+                          - SANGLI
+                          - SANGRUR
+                          - 'SANT KABIR NAGAR'
+                          - 'SANT RAVIDAS NAGAR'
+                          - SARAN
+                          - SATARA
+                          - SATNA
+                          - 'SAWAI MADHOPUR'
+                          - SEHORE
+                          - SENAPATI
+                          - SEONI
+                          - 'SERAIKELA KHARSAWAN'
+                          - SERCHHIP
+                          - SHAHDOL
+                          - SHAHJAHANPUR
+                          - SHAJAPUR
+                          - SHAMLI
+                          - SHEIKHPURA
+                          - SHEOHAR
+                          - SHEOPUR
+                          - SHIMLA
+                          - SHIMOGA
+                          - SHIVPURI
+                          - SHOPIAN
+                          - SHRAVASTI
+                          - SIBSAGAR
+                          - SIDDHARTHNAGAR
+                          - SIDHI
+                          - SIKAR
+                          - SIMDEGA
+                          - SINDHUDURG
+                          - SINGRAULI
+                          - SIRMAUR
+                          - SIROHI
+                          - SIRSA
+                          - SITAMARHI
+                          - SITAPUR
+                          - SIVAGANGA
+                          - SIWAN
+                          - SOLAN
+                          - SOLAPUR
+                          - SONBHADRA
+                          - SONIPAT
+                          - SONITPUR
+                          - 'SOUTH 24 PARGANAS'
+                          - 'SOUTH DELHI'
+                          - 'SOUTH GARO HILLS'
+                          - 'SOUTH GOA'
+                          - 'SOUTH SIKKIM'
+                          - 'SOUTH TRIPURA'
+                          - 'SOUTH WEST DELHI'
+                          - 'SRI MUKTSAR SAHIB'
+                          - SRIKAKULAM
+                          - SRINAGAR
+                          - 'SUBARNAPUR (SONEPUR)'
+                          - SULTANPUR
+                          - SUNDERGARH
+                          - SUPAUL
+                          - SURAT
+                          - SURENDRANAGAR
+                          - SURGUJA
+                          - TAMENGLONG
+                          - 'TARN TARAN'
+                          - TAWANG
+                          - 'TEHRI GARHWAL'
+                          - THANE
+                          - THANJAVUR
+                          - 'THE DANGS'
+                          - THENI
+                          - THIRUVANANTHAPURAM
+                          - THOOTHUKUDI
+                          - THOUBAL
+                          - THRISSUR
+                          - TIKAMGARH
+                          - TINSUKIA
+                          - TIRAP
+                          - TIRUCHIRAPPALLI
+                          - TIRUNELVELI
+                          - TIRUPUR
+                          - TIRUVALLUR
+                          - TIRUVANNAMALAI
+                          - TIRUVARUR
+                          - TONK
+                          - TUENSANG
+                          - TUMKUR
+                          - UDAIPUR
+                          - UDALGURI
+                          - 'UDHAM SINGH NAGAR'
+                          - UDHAMPUR
+                          - UDUPI
+                          - UJJAIN
+                          - UKHRUL
+                          - UMARIA
+                          - UNA
+                          - UNNAO
+                          - 'UPPER SIANG'
+                          - 'UPPER SUBANSIRI'
+                          - 'UTTAR DINAJPUR'
+                          - 'UTTARA KANNADA'
+                          - UTTARKASHI
+                          - VADODARA
+                          - VAISHALI
+                          - VALSAD
+                          - VARANASI
+                          - VELLORE
+                          - VIDISHA
+                          - VILUPPURAM
+                          - VIRUDHUNAGAR
+                          - VISAKHAPATNAM
+                          - VIZIANAGARAM
+                          - VYARA
+                          - WARANGAL
+                          - WARDHA
+                          - WASHIM
+                          - WAYANAD
+                          - 'WEST CHAMPARAN'
+                          - 'WEST DELHI'
+                          - 'WEST GARO HILLS'
+                          - 'WEST KAMENG'
+                          - 'WEST KHASI HILLS'
+                          - 'WEST SIANG'
+                          - 'WEST SIKKIM'
+                          - 'WEST SINGHBHUM'
+                          - 'WEST TRIPURA'
+                          - WOKHA
+                          - YADGIR
+                          - 'YAMUNA NAGAR'
+                          - YANAM
+                          - YAVATMAL
+                          - ZUNHEBOTO
+                        items:
+                          type: string
+                      religion:
+                        type: array
+                        example:
+                          - HINDU
+                          - ISLAM
+                          - CHRISTIAN
+                          - BUDDHIST
+                          - SIKH
+                          - JAIN
+                          - OTHER
+                        items:
+                          type: string
+                      ecr_type:
+                        type: array
+                        example:
+                          - ECR
+                          - ECNR
+                        items:
+                          type: string
+                      english_speak:
+                        type: array
+                        example:
+                          - GOOD
+                          - BASIC
+                          - POOR
+                          - 'NO'
+                        items:
+                          type: string
+                      arabic_speak:
+                        type: array
+                        example:
+                          - GOOD
+                          - BASIC
+                          - POOR
+                          - 'NO'
+                        items:
+                          type: string
+      tags:
+        - Profile
+      security: []
 tags:
   -
     name: Authentication
     description: ''
   -
     name: Job
+    description: ''
+  -
+    name: Profile
     description: ''

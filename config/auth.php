@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'candidate' => [ //for candidate
+            'driver' => 'session', //session driver
+            'provider' => 'candidates', //provider for candidate
+        ],
+
         'api' => [               //for candidate
             'driver' => 'passport', //passport driver
             'provider' => 'candidates', //provider for candidate

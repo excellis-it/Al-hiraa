@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\RegistrationMail;
 use App\Models\CandidatePosition;
+use App\Models\ContactUs;
 use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
@@ -36,7 +37,7 @@ class SettingController extends Controller
     public function members()
     {
         if (Auth::user()->can('Manage Team')) {
-            $members = User::where('role_type', '!=', 'ADMIN')->orderBy('id','desc')->paginate(15);
+            $members = User::where('role_type', '!=', 'ADMIN')->orderBy('id', 'desc')->paginate(15);
             $roles = Role::where('name', '!=', 'ADMIN')->get();
             return view('settings.members.list')->with(compact('members', 'roles'));
         } else {
@@ -148,7 +149,7 @@ class SettingController extends Controller
                 ->orWhere('email', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('phone', 'LIKE', '%' . $request->search . '%');
         }
-        $members = $members->orderBy('id','desc')->where('role_type', '!=', 'ADMIN')->paginate(15);
+        $members = $members->orderBy('id', 'desc')->where('role_type', '!=', 'ADMIN')->paginate(15);
         return response()->json(['view' => view('settings.members.filter', compact('members'))->render()]);
     }
 
@@ -183,7 +184,7 @@ class SettingController extends Controller
                 $role->givePermissionTo($p);
             }
         }
-         session()->flash('message', 'User access added successfully');
+        session()->flash('message', 'User access added successfully');
         return response()->json(['message' => 'User access added successfully', 'status' => 'success']);
     }
 
@@ -249,7 +250,7 @@ class SettingController extends Controller
     public function positions()
     {
         if (Auth::user()->can('Manage Position')) {
-            $positions = CandidatePosition::orderBy('id','desc')->paginate(15);
+            $positions = CandidatePosition::orderBy('id', 'desc')->paginate(15);
             return view('settings.positions.list')->with(compact('positions'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -263,7 +264,7 @@ class SettingController extends Controller
         if ($request->search) {
             $positions->where('name', 'LIKE', '%' . $request->search . '%');
         }
-        $positions = $positions->orderBy('id','desc')->paginate(15);
+        $positions = $positions->orderBy('id', 'desc')->paginate(15);
 
 
 
@@ -285,7 +286,6 @@ class SettingController extends Controller
         $position->save();
         session()->flash('message', 'Position added successfully');
         return response()->json(['message' => 'Position added successfully', 'status' => 'success']);
-
     }
 
     public function positionsEdit($id)
@@ -325,4 +325,27 @@ class SettingController extends Controller
         }
     }
 
+    public function contactUs()
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $contactUs = ContactUs::orderBy('id', 'desc')->paginate(15);
+            return view('settings.contact-us.list')->with(compact('contactUs'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function contactUsFilter(Request $request)
+    {
+        if ($request->ajax()) {
+            $contactUs = ContactUs::query();
+            if ($request->search) {
+                $contactUs->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%" . $request->search . "%'")
+                    ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('phone', 'LIKE', '%' . $request->search . '%');
+            }
+            $contactUs = $contactUs->orderBy('id', 'desc')->paginate(15);
+            return response()->json(['view' => view('settings.contact-us.filter', compact('contactUs'))->render()]);
+        }
+    }
 }

@@ -71,6 +71,12 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
             Route::get('/delete/{id}',[SettingController::class,'positionsDelete'])->name('positions.delete');
             Route::get('/filter',[SettingController::class,'positionsFilter'])->name('positions.filter');
         });
+
+        // contact us
+        Route::group(['prefix' => 'contact-us'], function () {
+            Route::get('/',[SettingController::class,'contactUs'])->name('contact-us.index');
+            Route::get('/filter',[SettingController::class,'contactUsFilter'])->name('contact-us.filter');
+        });
     });
 
     Route::resources([

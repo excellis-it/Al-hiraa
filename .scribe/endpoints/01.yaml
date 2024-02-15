@@ -38,11 +38,20 @@ endpoints:
         enumValues: []
         exampleWasSpecified: true
         custom: []
-      search:
-        name: search
-        description: 'Search by job name or country and state.'
+      job_search:
+        name: job_search
+        description: 'Search by job name.'
         required: false
-        example: 'job name or country and state'
+        example: 'Job Name'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      location_search:
+        name: location_search
+        description: 'Search by location.'
+        required: false
+        example: Location
         type: string
         enumValues: []
         exampleWasSpecified: true
@@ -50,7 +59,8 @@ endpoints:
     cleanQueryParameters:
       limit: 10
       offset: 0
-      search: 'job name or country and state'
+      job_search: 'Job Name'
+      location_search: Location
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []

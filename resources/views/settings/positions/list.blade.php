@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <div class="col-xl-2 mb-3 mb-md-0">
-                        <select class="form-control" name="search_status" id="status">
+                        <select class="form-select" name="search_status" id="status">
                             <option value="">Search by Status</option>
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>

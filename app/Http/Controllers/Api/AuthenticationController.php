@@ -117,8 +117,9 @@ class AuthenticationController extends Controller
     }
 
     /**
-     *  Register User
-     *  This endpoint will be used to register a new user.
+     * Register User
+     * 
+     * This endpoint will be used to register a new user.
      * @bodyParam full_name string required Full Name of the user. Example: John Doe
      * @bodyParam contact_no integer required Contact Number of the user. Example: 9876543210
      * @bodyParam job_interest array required Array of job interests. Example: ["Job 1", "Job 2", "Job 3"]

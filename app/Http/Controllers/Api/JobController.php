@@ -33,7 +33,6 @@ class JobController extends Controller
     public function list(Request $request)
     {
         try {
-            $fractal = new Manager();
             $limit = $request->limit ?? 10;
             $offset = $request->offset ?? 0;
 
@@ -52,9 +51,8 @@ class JobController extends Controller
                     });
                 }
                 $jobs = $jobs->where('status', 'Ongoing')->orderBy('id', 'desc')->offset($offset)->limit($limit)->get();
-                $resource = new Collection($jobs, new JobTransformer());
-                $transformedJobs = $fractal->createData($resource)->toArray()['data'];
-                return response()->json(['message' => 'Jobs listed successfully.', 'status' => true, 'data' => $transformedJobs], 200);
+                $jobs = fractal($jobs, new JobTransformer())->toArray()['data'];
+                return response()->json(['message' => 'Jobs listed successfully.', 'status' => true, 'data' => $jobs], 200);
             } else {
                 return response()->json(['message' => 'Failed to list jobs.', 'status' => false], 201);
             }
@@ -62,4 +60,5 @@ class JobController extends Controller
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
     }
+
 }

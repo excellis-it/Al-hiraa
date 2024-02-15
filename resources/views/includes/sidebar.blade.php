@@ -170,6 +170,13 @@
                                     </a>
                                 </li>
                             @endif
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('contact-us.index') }}">
+                                        <span class="sidebar-menu-text">Contact Us</span>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 @endif
