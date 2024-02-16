@@ -118,7 +118,7 @@ class AuthenticationController extends Controller
 
     /**
      * Register User
-     * 
+     *
      * This endpoint will be used to register a new user.
      * @bodyParam full_name string required Full Name of the user. Example: John Doe
      * @bodyParam contact_no integer required Contact Number of the user. Example: 9876543210
@@ -178,7 +178,8 @@ class AuthenticationController extends Controller
      * Request OTP for Register
      */
 
-    public function requestOtpRegister(Request $request){
+    public function requestOtpRegister(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'mobile_number' => 'required|numeric|digits:10|unique:candidates,contact_no'
         ]);
@@ -215,5 +216,4 @@ class AuthenticationController extends Controller
             'expire_at' => $now->addMinutes(10)
         ]);
     }
-
 }

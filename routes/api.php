@@ -27,7 +27,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('login', [AuthenticationController::class, 'login']);
     Route::post('register', [AuthenticationController::class, 'register']);
     Route::post('request-otp-register', [AuthenticationController::class, 'requestOtpRegister']);
-
     Route::middleware('auth:api')->group(function () {
         Route::prefix('job')->group(function () {
             Route::post('list', [JobController::class, 'list']);
@@ -41,6 +40,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::prefix('settings')->group(function () {
             Route::post('contact-us', [SettingController::class, 'contactUs']);
+            Route::post('additional-page', [SettingController::class, 'additionalPage']);
         });
     });
 });

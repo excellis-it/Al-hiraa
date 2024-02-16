@@ -4517,7 +4517,7 @@ h6+[aria-label=breadcrumb],
 .advance_search_btn {
     background: #2DB976;
     border: 2px solid #2DB976;
-    border-right: 2px solid #fff;
+    /* border-right: 2px solid #fff; */
     color: #fff;
     padding: 10px 12px;
     border-radius: 10px;

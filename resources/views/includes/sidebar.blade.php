@@ -84,7 +84,7 @@
                 @endif
                 @if (Gate::check('Manage Schedule'))
                     <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="{{route('schedule-to-do.index')}}">
+                        <a class="sidebar-menu-button" href="{{ route('schedule-to-do.index') }}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/calendar.svg') }}"></i>
                             <span class="sidebar-menu-text">Schedule & To-Do</span>
@@ -174,6 +174,13 @@
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('contact-us.index') }}">
                                         <span class="sidebar-menu-text">Contact Us</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('cms.index') }}">
+                                        <span class="sidebar-menu-text">Pages</span>
                                     </a>
                                 </li>
                             @endif

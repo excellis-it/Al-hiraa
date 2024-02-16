@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\RegistrationMail;
 use App\Models\CandidatePosition;
+use App\Models\Cms;
 use App\Models\ContactUs;
 use App\Models\User;
 use App\Traits\ImageTrait;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Twilio\Rest\Accounts\V1\Credential\UpdateAwsOptions;
 
 class SettingController extends Controller
 {
@@ -142,7 +144,6 @@ class SettingController extends Controller
 
     public function memberFilter(Request $request)
     {
-        // return $request->all();
         $members = User::query();
         if ($request->search) {
             $members->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%" . $request->search . "%'")
@@ -190,7 +191,6 @@ class SettingController extends Controller
 
     public function userAccessEdit($id)
     {
-
         if (Auth::user()->can('Edit User Access')) {
             $role = Role::findOrFail($id);
             $user = Auth::user();
@@ -259,7 +259,6 @@ class SettingController extends Controller
 
     public function positionsFilter(Request $request)
     {
-
         $positions = CandidatePosition::query();
         if ($request->search) {
             $positions->where('name', 'LIKE', '%' . $request->search . '%');
@@ -273,7 +272,6 @@ class SettingController extends Controller
 
     public function positionsStore(Request $requset)
     {
-
         $requset->validate([
             'position_name' => 'required|unique:candidate_positions,name',
             'position_status' => 'required|in:1,0'
@@ -290,7 +288,6 @@ class SettingController extends Controller
 
     public function positionsEdit($id)
     {
-
         $position = CandidatePosition::findOrFail($id);
         $edit = true;
         return response()->json(['view' => view('settings.positions.edit', compact('position', 'edit'))->render(), 'status' => 'success']);
@@ -346,6 +343,88 @@ class SettingController extends Controller
             }
             $contactUs = $contactUs->orderBy('id', 'desc')->paginate(15);
             return response()->json(['view' => view('settings.contact-us.filter', compact('contactUs'))->render()]);
+        }
+    }
+
+    public function cms()
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $cms =  Cms::orderBy('id', 'desc')->paginate(15);
+            return view('settings.cms.list')->with(compact('cms'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function cmsFilter(Request $request)
+    {
+        $cms = Cms::query();
+        if ($request->search) {
+            $cms->where('page_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('title', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('slug', 'LIKE', '%' . $request->search . '%');
+        }
+        $cms = $cms->orderBy('id', 'desc')->paginate(15);
+
+        return response()->json(['view' => view('settings.cms.filter', compact('cms'))->render()]);
+    }
+
+    public function cmsDelete($id)
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            Cms::find($id)->delete();
+            return redirect()->back()->with('error', 'Page has been deleted!');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function cmsStore(Request $request)
+    {
+        $request->validate([
+            'page_name' => 'required|unique:cms',
+            'slug' => 'required|unique:cms',
+            'content' => 'required',
+            'title' => 'required',
+            'is_active' => 'required',
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $cms = new Cms();
+            $cms->create($request->all());
+            session()->flash('message', 'Page added successfully');
+            return response()->json(['message' => 'Page added successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+    public function cmsEdit($id)
+    {
+        $cms = Cms::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('settings.cms.edit', compact('cms', 'edit'))->render(), 'status' => 'success']);
+    }
+
+    public function cmsUpdate(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+        
+        $request->validate([
+            'page_name' => 'required|unique:cms,page_name,' . $id,
+            'slug' => 'required|unique:cms,slug,' . $id,
+            'content' => 'required',
+            'title' => 'required',
+            'is_active' => 'required',
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $cms = Cms::find($id);
+            $cms->update($request->all());
+            session()->flash('message', 'Page updated successfully');
+            return response()->json(['message' => 'Page updated successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
         }
     }
 }

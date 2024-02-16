@@ -77,6 +77,16 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
             Route::get('/',[SettingController::class,'contactUs'])->name('contact-us.index');
             Route::get('/filter',[SettingController::class,'contactUsFilter'])->name('contact-us.filter');
         });
+
+        // cms
+        Route::group(['prefix' => 'cms'], function () {
+            Route::get('/',[SettingController::class,'cms'])->name('cms.index');
+            Route::post('/store',[SettingController::class,'cmsStore'])->name('cms.store');
+            Route::get('/edit/{id}',[SettingController::class,'cmsEdit'])->name('cms.edit');
+            Route::put('/update/{id}',[SettingController::class,'cmsUpdate'])->name('cms.update');
+            Route::get('/delete/{id}',[SettingController::class,'cmsDelete'])->name('cms.delete');
+            Route::get('/filter',[SettingController::class,'cmsFilter'])->name('cms.filter');
+        });
     });
 
     Route::resources([

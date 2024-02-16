@@ -18,8 +18,9 @@ class DatabaseSeeder extends Seeder
             // RolePermissionSeeder::class,
             // CandidateStatusSeeder::class,
             // CandidatePositionSeeder::class,
-            StatesTableSeeder::class,
-            CitiesTableSeeder::class
+            // StatesTableSeeder::class,
+            // CitiesTableSeeder::class,
+            CmsSeeder::class,
         ]);
     }
 }
