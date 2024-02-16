@@ -13,6 +13,7 @@ class CmsSeeder extends Seeder
      */
     public function run(): void
     {
+        Cms::truncate();
         $data = [
             [
                 'page_name' => 'Privacy Policy', 'slug' => 'privacy-policy', 'title' => 'Privacy Policy', 'is_active' => 1, 'content' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod obcaecati rem animi incidunt quo ad dolores repellat. Quidem molestiae, ratione rerum sapiente rem enim officia eligendi nostrum hic, minus veritatis.'
