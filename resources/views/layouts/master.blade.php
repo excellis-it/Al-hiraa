@@ -225,6 +225,17 @@
             } // end of getChatRequestAccepted
         );
     </script>
+    <script>
+        $(document).ready(function() {
+            // Add class 'bg_candidate' when a 'tr' is clicked
+            $('tr').click(function() {
+                // Remove 'bg_candidate' class from all other 'tr' elements
+                $('tr').removeClass('bg_candidate');
+                // Add 'bg_candidate' class to the clicked 'tr'
+                $(this).addClass('bg_candidate');
+            });
+        });
+    </script>
     @stack('scripts')
 </body>
 
