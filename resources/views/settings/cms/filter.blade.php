@@ -18,7 +18,7 @@
             </td>
         </tr>
     @endforeach
-    <tr>
+    <tr class="toxic">
         <td colspan="5" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">

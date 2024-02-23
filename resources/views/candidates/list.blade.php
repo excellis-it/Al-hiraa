@@ -242,31 +242,7 @@
                                     </th>
                                     <th>Last Update Date</th>
                                     <th>Last Update By</th>
-                                    <th>
-                                        <div class="single_select">
-                                            <select name="mode_of_registration"
-                                                class="select_width mode_registration_select"
-                                                id="mode_of_registration_filter">
-                                                <option value="">Select Type</option>
-                                                <option value="Calling">Calling</option>
-                                                <option value="Walk-in">Walk-in</option>
-                                            </select>
-                                        </div>
 
-                                    </th>
-                                    <th>
-                                        <div class="single_select">
-                                            <select name="source" class="select_width source_status" id="source_filter">
-                                                <option value="">Select Source Type</option>
-                                                <option value="Telecalling">Telecalling
-                                                </option>
-                                                <option value="Reference">Reference</option>
-                                                <option value="Facebook">Facebook</option>
-                                                <option value="Instagram">Instagram</option>
-                                                <option value="Others">Others </option>
-                                            </select>
-                                        </div>
-                                    </th>
                                     <th class="can_full">Full Name</th>
                                     <th>
                                         <div>
@@ -359,6 +335,31 @@
                                     </th>
                                     <th>
                                         Referred By
+                                    </th>
+                                    <th>
+                                        <div class="single_select">
+                                            <select name="mode_of_registration"
+                                                class="select_width mode_registration_select"
+                                                id="mode_of_registration_filter">
+                                                <option value="">Select Type</option>
+                                                <option value="Calling">Calling</option>
+                                                <option value="Walk-in">Walk-in</option>
+                                            </select>
+                                        </div>
+
+                                    </th>
+                                    <th>
+                                        <div class="single_select">
+                                            <select name="source" class="select_width source_status" id="source_filter">
+                                                <option value="">Select Source Type</option>
+                                                <option value="Telecalling">Telecalling
+                                                </option>
+                                                <option value="Reference">Reference</option>
+                                                <option value="Facebook">Facebook</option>
+                                                <option value="Instagram">Instagram</option>
+                                                <option value="Others">Others </option>
+                                            </select>
+                                        </div>
                                     </th>
                                     <th>
                                         Religion

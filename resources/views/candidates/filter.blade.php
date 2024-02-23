@@ -38,10 +38,7 @@
             <td class="content-short">{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : date('d.m.Y', strtotime($item->updated_at)) }}
             </td>
             <td class="content-short">{{ $item->candidateUpdate->user->full_name ?? 'N/A' }}</td>
-            <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
-            <td class="content-short">
-                {{ $item->source ?? 'N/A' }}
-            </td>
+
             <td class="">{{ $item->full_name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->gender ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
@@ -59,6 +56,10 @@
             <td class="content-short">{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>
+            <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
+            <td class="content-short">
+                {{ $item->source ?? 'N/A' }}
+            </td>
             <td class="content-short">
                 {{ $item->city ?? 'N/A' }}
             </td>
@@ -122,7 +123,7 @@
         </td>
         </tr>
     @endforeach
-    <tr>
+    <tr class="toxic">
         <td colspan="30" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">

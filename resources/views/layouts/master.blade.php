@@ -228,11 +228,14 @@
     <script>
         $(document).ready(function() {
             // Add class 'bg_candidate' when a 'tr' is clicked
-            $('tr').click(function() {
-                // Remove 'bg_candidate' class from all other 'tr' elements
-                $('tr').removeClass('bg_candidate');
-                // Add 'bg_candidate' class to the clicked 'tr'
-                $(this).addClass('bg_candidate');
+            $(document).on('click', 'tr', function() {
+                // Check if the clicked 'tr' has the 'toxic' class
+                if (!$(this).hasClass('toxic')) {
+                    // Remove 'bg_candidate' class from all other 'tr' elements
+                    $('tr').removeClass('bg_candidate');
+                    // Add 'bg_candidate' class to the clicked 'tr'
+                    $(this).addClass('bg_candidate');
+                }
             });
         });
     </script>
