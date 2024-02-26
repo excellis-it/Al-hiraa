@@ -5314,6 +5314,24 @@ h6+[aria-label=breadcrumb],
     margin-top: 0px !important;
 }
 
+.table-wrapper.table-responsive.border-bottom{
+    height:70vh;
+}
+
+.fixed-tr{
+    position: fixed;
+    bottom: 0;
+    z-index: 99;
+    width: auto;
+}
+
+.candy-p{
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 9999;
+}
+
 /* Responsive */
 @media (max-width: 1600.5px) {}
 
