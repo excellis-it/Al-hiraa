@@ -121,6 +121,7 @@ class SettingController extends Controller
         $user = User::findOrFail($id);
         $user->first_name = $request->first_name;
         $user->last_name  = $request->last_name;
+        $user->email      = $request->email;
         $user->phone      = $request->phone;
         $user->role_type  = $request->role_type;
         if ($request->password) {
@@ -409,7 +410,7 @@ class SettingController extends Controller
     public function cmsUpdate(Request $request, $id)
     {
         $id = Crypt::decrypt($id);
-        
+
         $request->validate([
             'page_name' => 'required|unique:cms,page_name,' . $id,
             'slug' => 'required|unique:cms,slug,' . $id,
