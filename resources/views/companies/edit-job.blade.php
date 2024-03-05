@@ -35,31 +35,7 @@
                                         <span class="text-danger" id="candidate_position_id_msg_job"></span>
                                     </div>
                                 </div>
-                                {{-- states --}}
-                                <div class="col-xl-6">
-                                    <div class="form-group">
-                                        <label for="">State<span>*</span></label>
-                                        <select name="state_id" class="form-select new_select2 state_id" id="edit_state_id">
-                                            <option value="">Select a state</option>
-                                            @foreach ($states as $state)
-                                                <option value="{{ $state->id }}" {{ $job->state_id == $state->id ? 'selected' : '' }}>
-                                                    {{ $state->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger" id="state_id_msg_job"></span>
-                                    </div>
-                                </div>
-                                {{-- cities --}}
-                                <div class="col-xl-6">
-                                    <div class="form-group">
-                                        <label for="">City<span>*</span></label>
-                                        <select name="city_id" class="form-select new_select2 city_id" id="edit_city_id">
-                                            <option value="">Select a city</option>
-                                        </select>
-                                        <span class="text-danger" id="city_id_msg_job"></span>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Duty Hours</label>

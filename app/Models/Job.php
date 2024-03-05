@@ -13,8 +13,6 @@ class Job extends Model
     protected $fillable = [
         'company_id',
         'candidate_position_id',
-        'state_id',
-        'city_id',
         'job_name',
         'duty_hours',
         'contract',
@@ -23,6 +21,19 @@ class Job extends Model
         'job_description',
         'status',
     ];
+
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        if ($value !== null) {
+            $value = strtoupper($value);
+        }
+        parent::setAttribute($key, $value);
+    }
 
     public function company()
     {

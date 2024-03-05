@@ -21,6 +21,19 @@ class Company extends Model
         'company_description',
     ];
 
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        if ($value !== null) {
+            $value = strtoupper($value);
+        }
+        parent::setAttribute($key, $value);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

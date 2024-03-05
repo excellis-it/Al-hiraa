@@ -54,7 +54,7 @@ class CompanyController extends Controller
             'company_address' => 'required',
             'company_website' => 'nullable|url',
             'company_industry' => 'required',
-            'company_logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'company_description' => 'nullable',
         ]);
 
@@ -174,16 +174,12 @@ class CompanyController extends Controller
     public function companyJobStore(Request $request)
     {
         $request->validate([
-            'state_id' => 'required',
-            'city_id' => 'required',
             'candidate_position_id' => 'required',
             'job_name' => 'required',
             'status' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
         ], [
-            'state_id.required' => 'The state field is required.',
-            'city_id.required' => 'The city field is required.',
             'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.',
@@ -194,8 +190,6 @@ class CompanyController extends Controller
         $job = new Job();
         $job->candidate_position_id = $request->candidate_position_id;
         $job->company_id = $request->company_id;
-        $job->state_id = $request->state_id;
-        $job->city_id = $request->city_id;
         $job->job_name = $request->job_name;
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;
@@ -225,23 +219,17 @@ class CompanyController extends Controller
             'status' => 'required',
             // contract was number or float
             'contract' => 'nullable|numeric',
-            'state_id' => 'required',
-            'city_id' => 'required',
             'address' => 'required',
         ], [
             'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.',
             'contract.numeric' => 'The contract field must be a number.',
-            'state_id.required' => 'The state field is required.',
-            'city_id.required' => 'The city field is required.',
             'address.required' => 'The location field is required.',
         ]);
 
         $job = Job::findOrFail(Crypt::decrypt($id));
         $job->candidate_position_id = $request->candidate_position_id;
-        $job->state_id = $request->state_id;
-        $job->city_id = $request->city_id;
         $job->job_name = $request->job_name;
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;

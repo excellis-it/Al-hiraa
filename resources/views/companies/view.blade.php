@@ -47,32 +47,6 @@
                                                                 id="candidate_position_id_msg_create"></span>
                                                         </div>
                                                     </div>
-                                                    {{-- states --}}
-                                                    <div class="col-xl-6">
-                                                        <div class="form-group">
-                                                            <label for="">State<span>*</span></label>
-                                                            <select name="state_id" class="form-select new_select2"
-                                                                id="state_id">
-                                                                <option value="">Select a state</option>
-                                                                @foreach ($states as $state)
-                                                                    <option value="{{ $state->id }}">{{ $state->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select>
-                                                            <span class="text-danger" id="state_id_msg_create"></span>
-                                                        </div>
-                                                    </div>
-                                                    {{-- cities --}}
-                                                    <div class="col-xl-6">
-                                                        <div class="form-group">
-                                                            <label for="">City<span>*</span></label>
-                                                            <select name="city_id" class="form-select new_select2"
-                                                                id="city_id">
-                                                                <option value="">Select a city</option>
-                                                            </select>
-                                                            <span class="text-danger" id="city_id_msg_create"></span>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Duty Hours</label>
@@ -165,7 +139,7 @@
                                     @if ($company->company_logo)
                                         <img src="{{ Storage::url($company->company_logo) }}" alt="">
                                     @else
-                                        <img src="{{ asset('assets/images/Burger.png') }}" alt="">
+                                        <img src="{{ asset('assets/images/company.png') }}" alt="">
                                     @endif
                                 </div>
                             </div>
@@ -374,12 +348,6 @@
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benifits</th>
-                                            <th>
-                                                City
-                                            </th>
-                                            <th>
-                                                State
-                                            </th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
                                         </tr>
@@ -406,12 +374,6 @@
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benifits</th>
-                                            <th>
-                                                City
-                                            </th>
-                                            <th>
-                                                State
-                                            </th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
                                         </tr>
