@@ -19,7 +19,7 @@
                     @include('candidates.edit')
                 </div>
                 {{-- end edit candidates --}}
-                <div class="col-xl-8 col-lg-7 col-md-6 mb-3 mb-md-0">
+                <div class="col-xl-8 col-lg-6 col-md-6 mb-3 mb-md-0">
                     <div class="d-flex w-100">
                         <form class="search-form d-flex w-100" id="search-form">
                             <button class="btn" type="submit" role="button">
@@ -35,7 +35,7 @@
                 </div>
 
 
-                <div class="col-xl-4 col-lg-5 col-md-6">
+                <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="d-flex justify-content-center justify-content-md-start">
                         @can('Create Candidate')
                             <div class="btn-group me-4">
@@ -132,7 +132,7 @@
             </div> --}}
             <div class="row">
 
-                    <div class="col-lg-6 col-md-6 mb-2">
+                    <div class="col-lg-6 col-6 mb-2">
                         @if (Auth::user()->hasRole('ADMIN'))
                         <div class="action_btn">
                             <div class="dropdown">
@@ -186,7 +186,7 @@
                         @endif
                     </div>
 
-                <div class="col-lg-6 col-md-6 mb-2" style="display: flex;justify-content: end;">
+                <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
                     <div class="action_btn">
                         <div class="dropdown">
                             <a class="btn reset-btn" href="{{route('candidates.index')}}" ><i class="fas fa-redo-alt"></i> Reset</a>

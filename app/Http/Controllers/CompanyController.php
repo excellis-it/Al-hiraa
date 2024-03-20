@@ -7,6 +7,7 @@ use App\Models\CandidatePosition;
 use App\Models\Company;
 use App\Models\Job;
 use App\Models\State;
+use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,7 +90,8 @@ class CompanyController extends Controller
                 $closed_jobs = Job::where(['status' => 'Closed', 'company_id' => $id])->orderBy('id', 'desc')->paginate(10);
                 $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
                 $states = State::orderBy('name', 'ASC')->get();
-                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'states', 'closed_jobs', 'positions'));
+                $associates = User::role('ASSOCIATE')->orderBy('first_name', 'ASC')->get();
+                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'states', 'closed_jobs', 'positions','associates'));
             } else {
                 return redirect()->back()->with('error', __('Company not found.'));
             }
@@ -175,11 +177,15 @@ class CompanyController extends Controller
     {
         $request->validate([
             'candidate_position_id' => 'required',
+            'associate_id' => 'required',
+            'service_charge' => 'required|numeric',
             'job_name' => 'required',
             'status' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
         ], [
+            'associate_id.required' => 'The vendor field is required.',
+            'service_charge.required' => 'The service charge field is required.',
             'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.',
@@ -189,6 +195,9 @@ class CompanyController extends Controller
 
         $job = new Job();
         $job->candidate_position_id = $request->candidate_position_id;
+        $job->associate_id = $request->associate_id;
+        $job->service_charge = $request->service_charge;
+        $job->salary = $request->salary;
         $job->company_id = $request->company_id;
         $job->job_name = $request->job_name;
         $job->duty_hours = $request->duty_hours;
@@ -207,20 +216,25 @@ class CompanyController extends Controller
         $job = Job::findOrFail($id);
         $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
         $states = State::orderBy('name', 'ASC')->get();
+        $associates = User::role('ASSOCIATE')->orderBy('first_name', 'ASC')->get();
         $edit = true;
-        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions', 'states'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions', 'states','associates'))->render(), 'status' => 'success']);
     }
 
     public function companyJobUpdate(Request $request, string $id)
     {
         $request->validate([
             'candidate_position_id' => 'required', // candidate_position_id was missing in the validation
+            'associate_id' => 'required',
+            'service_charge' => 'required|numeric',
             'job_name' => 'required',
             'status' => 'required',
             // contract was number or float
             'contract' => 'nullable|numeric',
             'address' => 'required',
         ], [
+            'associate_id.required' => 'The vendor field is required.',
+            'service_charge.required' => 'The service charge field is required.',
             'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
             'status.required' => 'The status field is required.',
@@ -230,6 +244,9 @@ class CompanyController extends Controller
 
         $job = Job::findOrFail(Crypt::decrypt($id));
         $job->candidate_position_id = $request->candidate_position_id;
+        $job->associate_id = $request->associate_id;
+        $job->service_charge = $request->service_charge;
+        $job->salary = $request->salary;
         $job->job_name = $request->job_name;
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;

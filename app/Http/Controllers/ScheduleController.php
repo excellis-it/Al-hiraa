@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use App\Models\CandidatePosition;
 use App\Models\Company;
 use App\Models\Interview;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -158,6 +159,7 @@ class ScheduleController extends Controller
         $company = Company::find($id);
         $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
         $add = true;
-        return response()->json(['view' => view('schedule.add-task', compact('company', 'add','positions'))->render(), 'status' => 'success']);
+        $associates = User::role('ASSOCIATE')->orderBy('first_name', 'ASC')->get();
+        return response()->json(['view' => view('schedule.add-task', compact('company', 'add', 'positions', 'associates'))->render(), 'status' => 'success']);
     }
 }

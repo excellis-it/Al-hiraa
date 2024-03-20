@@ -21,6 +21,21 @@
                                         <span class="text-danger" id="job_name_msg_job"></span>
                                     </div>
                                 </div>
+                                {{-- associates --}}
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label for="">Vendors<span>*</span></label>
+                                        <select name="associate_id" class="form-select new_select2" id="">
+                                            <option value="">Select an vendor</option>
+                                            @foreach ($associates as $associate)
+                                                <option value="{{ $associate->id }}"
+                                                    {{ $job->associate_id == $associate->id ? 'selected' : '' }}>
+                                                    {{ $associate->full_name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger" id="associate_id_msg_job"></span>
+                                    </div>
+                                </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Position<span>*</span></label>
@@ -35,7 +50,7 @@
                                         <span class="text-danger" id="candidate_position_id_msg_job"></span>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Duty Hours</label>
@@ -51,6 +66,15 @@
                                         <span class="text-danger" id="duty_hours_msg_job"></span>
                                     </div>
                                 </div>
+                                {{-- salary --}}
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label for="">Salary</label>
+                                        <input type="text" class="form-control" id=""
+                                            value="{{ $job->salary }}" name="salary" placeholder="">
+                                        <span class="text-danger" id="salary_msg_job"></span>
+                                    </div>
+                                </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Contract (Year)</label>
@@ -59,7 +83,7 @@
                                         <span class="text-danger" id="contract_msg_job"></span>
                                     </div>
                                 </div>
-                                <div class="col-xl-12">
+                                <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Location <span>*</span></label>
                                         <input type="text" class="form-control" id=""
@@ -69,10 +93,19 @@
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
-                                        <label for="">Benifits</label>
+                                        <label for="">Benefits</label>
                                         <input type="text" class="form-control" id=""
                                             value="{{ $job->benifits }}" name="benifits" placeholder="">
                                         <span class="text-danger" id="benifits_msg_job"></span>
+                                    </div>
+                                </div>
+                                 {{-- service_charge --}}
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label for="">Service Charge<span>*</span></label>
+                                        <input type="text" class="form-control" id=""
+                                            value="{{ $job->service_charge }}" name="service_charge" placeholder="">
+                                        <span class="text-danger" id="service_charge_msg_job"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
