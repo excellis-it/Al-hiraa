@@ -27,6 +27,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('login', [AuthenticationController::class, 'login']);
     Route::post('register', [AuthenticationController::class, 'register']);
     Route::post('request-otp-register', [AuthenticationController::class, 'requestOtpRegister']);
+    Route::post('job-interest', [AuthenticationController::class, 'jobInterest']);
+
     Route::middleware('auth:api')->group(function () {
         Route::prefix('job')->group(function () {
             Route::post('list', [JobController::class, 'list']);

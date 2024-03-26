@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Models\CandidateOtp;
+use App\Models\CandidatePosition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -215,5 +216,29 @@ class AuthenticationController extends Controller
             'otp' => $otp,
             'expire_at' => $now->addMinutes(10)
         ]);
+    }
+
+    /**
+     * Job Interest
+     *
+     * This endpoint will be used to update job interest of the user.
+     * @bodyParam job_interest array required Array of job interests. Example: ["Job 1", "Job 2", "Job 3"]
+     * @response {
+     * "message": "Job interest updated successfully."
+     * }
+     */
+
+    public function jobInterest(Request $request)
+    {
+        try {
+            $candidate_position = CandidatePosition::where('is_active', 1)->get();
+            if ($candidate_position) {
+                return response()->json(['message' => 'Job interest updated successfully.', 'status' => true, 'data' => $candidate_position], 200);
+            } else {
+                return response()->json(['message' => 'Failed to update job interest.', 'status' => false], 201);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
+        }
     }
 }
