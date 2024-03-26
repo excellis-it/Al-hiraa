@@ -193,7 +193,7 @@ class AuthenticationController extends Controller
             $userOtp = $this->generateOtpRegister($request->mobile_number);
             if ($userOtp) {
                 $userOtp->sendSMS($request->mobile_number);
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $userOtp->mobile_number], 200);
+                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $request->mobile_number], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
