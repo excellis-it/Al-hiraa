@@ -14,6 +14,7 @@ class JobTransformer extends TransformerAbstract
             'id' => $job->id,
             'company_id' => $job->company_id ?? null,
             'company_name' => $job->company->company_name ?? null,
+            'company_logo' => $job->company->company_logo ?? null,
             'position' => $job->candidatePosition->name ?? null,
             'state' => $job->state->name ?? null,
             'city' => $job->city->name ?? null,
