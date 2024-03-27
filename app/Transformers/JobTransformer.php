@@ -16,8 +16,6 @@ class JobTransformer extends TransformerAbstract
             'company_name' => $job->company->company_name ?? null,
             'company_logo' => $job->company->company_logo ?? null,
             'position' => $job->candidatePosition->name ?? null,
-            'state' => $job->state->name ?? null,
-            'city' => $job->city->name ?? null,
             'job_name' => $job->job_name ?? null,
             'duty_hours' => $job->duty_hours ? $job->duty_hours . ' Hours' : null,
             'contract' => $job->contract ? $job->contract . ' Years' : null,
