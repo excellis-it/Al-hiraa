@@ -24,10 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[AuthenticationController::class,'login'])->name('login');
 Route::post('/login-check',[AuthenticationController::class,'loginCheck'])->name('login.check');
 Route::post('forget-password', [AuthenticationController::class, 'forgetPassword'])->name('forget.password');
-Route::post('change-password', [AuthenticationController::class, 'changePassword'])->name('change.password');
 Route::get('forget-password/show', [AuthenticationController::class, 'forgetPasswordShow'])->name('forget.password.show');
 Route::get('reset-password/{id}/{token}', [AuthenticationController::class, 'resetPassword'])->name('reset.password');
-Route::post('change-password', [AuthenticationController::class, 'changePassword'])->name('change.password');
 
 Route::group(['middleware' => ['auth','preventBackHistory']], function () {
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
@@ -70,6 +68,15 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
             Route::put('/update/{id}',[SettingController::class,'positionsUpdate'])->name('positions.update');
             Route::get('/delete/{id}',[SettingController::class,'positionsDelete'])->name('positions.delete');
             Route::get('/filter',[SettingController::class,'positionsFilter'])->name('positions.filter');
+        });
+
+        Route::group(['prefix' => 'sources'], function () {
+            Route::get('/',[SettingController::class,'sources'])->name('sources.index');
+            Route::post('/store',[SettingController::class,'sourcesStore'])->name('sources.store');
+            Route::get('/edit/{id}',[SettingController::class,'sourcesEdit'])->name('sources.edit');
+            Route::put('/update/{id}',[SettingController::class,'sourcesUpdate'])->name('sources.update');
+            Route::get('/delete/{id}',[SettingController::class,'sourcesDelete'])->name('sources.delete');
+            Route::get('/filter',[SettingController::class,'sourcesFilter'])->name('sources.filter');
         });
 
         // contact us

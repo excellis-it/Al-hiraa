@@ -56,13 +56,7 @@
             <td class="content-short">{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>
-            <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
-            <td class="content-short">
-                {{ $item->source ?? 'N/A' }}
-            </td>
-            <td class="content-short">
-                {{ $item->city ?? 'N/A' }}
-            </td>
+            <td class="content-short">{{ $item->city ?? 'N/A' }}</td>
             <td class="content-short">
                 @if ($item->referred_by_id != null)
                     {{ $item->referredBy->full_name }}
@@ -70,6 +64,11 @@
                     {{ $item->referred_by ?? 'N/A' }}
                 @endif
             </td>
+            <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
+            <td class="content-short">
+                {{ $item->source ?? 'N/A' }}
+            </td>
+
             <td class="content-short">
                 {{ $item->religion ?? 'N/A' }}
             </td>

@@ -163,6 +163,13 @@
                                 <span class="sidebar-menu-text">Email & WhatsApp Integration</span>
                             </a>
                         </li> --}}
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('sources.index') }}">
+                                        <span class="sidebar-menu-text">Manage Source</span>
+                                    </a>
+                                </li>
+                            @endif
                             @if (Gate::check('Manage Support'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('support') }}">

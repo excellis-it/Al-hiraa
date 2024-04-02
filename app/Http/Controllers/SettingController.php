@@ -6,6 +6,7 @@ use App\Mail\RegistrationMail;
 use App\Models\CandidatePosition;
 use App\Models\Cms;
 use App\Models\ContactUs;
+use App\Models\Source;
 use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
@@ -424,6 +425,81 @@ class SettingController extends Controller
             $cms->update($request->all());
             session()->flash('message', 'Page updated successfully');
             return response()->json(['message' => 'Page updated successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+    public function sources()
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $sources =  Source::orderBy('id', 'desc')->paginate(15);
+            return view('settings.sources.list')->with(compact('sources'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function sourcesFilter(Request $request)
+    {
+        $sources = Source::query();
+        if ($request->search) {
+            $sources->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+        $sources = $sources->orderBy('id', 'desc')->paginate(15);
+
+        return response()->json(['view' => view('settings.sources.filter', compact('sources'))->render()]);
+    }
+
+    public function sourcesDelete($id)
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $id = Crypt::decrypt($id);
+            $source = Source::findOrFail($id);
+            $source->delete();
+            return redirect()->back()->with('message', 'Source deleted successfully');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function sourcesStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:sources',
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $source = new Source();
+            $source->create($request->all());
+            session()->flash('message', 'Source added successfully');
+            return response()->json(['message' => 'Source added successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+
+    public function sourcesEdit($id)
+    {
+        $source = Source::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('settings.sources.edit', compact('source', 'edit'))->render(), 'status' => 'success']);
+    }
+
+    public function sourcesUpdate(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+
+        $request->validate([
+            'name' => 'required|unique:sources,name,' . $id,
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $source = Source::find($id);
+            $source->update($request->all());
+            session()->flash('message', 'Source updated successfully');
+            return response()->json(['message' => 'Source updated successfully', 'status' => 'success']);
         } else {
             return response()->json(['error' => 'Permission denied', 'status' => 'error']);
         }

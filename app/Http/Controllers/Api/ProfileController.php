@@ -6,6 +6,7 @@ use App\Constants\Position;
 use App\Http\Controllers\Controller;
 use App\Models\CandidatePosition;
 use App\Models\CandidateStatus;
+use App\Models\Source;
 use App\Transformers\ProfileTransformer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -1103,7 +1104,7 @@ class ProfileController extends Controller
         try {
             $data['status'] = CandidateStatus::get()->pluck('name', 'id');
             $data['mode_of_registration'] = ['CALLING', 'WALK-IN'];
-            $data['source'] = ['TELECALLING', 'REFERANCE', 'FACEBOOK', 'INSTAGRAM', 'OTHER'];
+            $data['source'] = Source::orderBy('name','asc')->pluck('name');
             $data['gender'] = ['MALE', 'FEMALE', 'OTHER'];
             $data['education'] = ['5TH PASS', '8TH PASS', '10TH PASS', 'HIGHER SECONDARY', 'GRADUATES', 'MASTERS'];
             $data['positions'] = CandidatePosition::pluck('name', 'id');

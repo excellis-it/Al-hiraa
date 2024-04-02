@@ -13,6 +13,7 @@ use App\Models\CandidateLicence;
 use App\Models\CandidatePosition;
 use App\Models\CandidateStatus;
 use App\Models\CandidateUpdated;
+use App\Models\Source;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,7 @@ class CandidateController extends Controller
     {
         if (Auth::user()->can('Manage Candidate')) {
             $candidate_statuses = CandidateStatus::all();
+
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
 
@@ -49,10 +51,11 @@ class CandidateController extends Controller
     public function create()
     {
         if (Auth::user()->can('Create Candidate')) {
+            $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
-            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions'));
+            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions', 'sources'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -255,6 +258,7 @@ class CandidateController extends Controller
         $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray();
         $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
+        $sources = Source::orderBy('name', 'asc')->get();
         $edit = true;
         if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
@@ -271,7 +275,7 @@ class CandidateController extends Controller
             }
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('candidate', 'candidate_positions', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('candidate', 'sources', 'candidate_positions', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -290,6 +294,7 @@ class CandidateController extends Controller
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
             // 'remark' => 'required',
             'call_status' => 'required',
+            'dob' => 'nullable|date_format:d-m-Y'
             // indian_exp word limit validation
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
@@ -477,17 +482,19 @@ class CandidateController extends Controller
         $candidate = Candidate::where('contact_no', $request->contact_no)->first();
         if (!$candidate) {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
+            $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'candidate_statuses', 'associates', 'candidate_positions'))->render(), 'status' => 'error']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'candidate_statuses', 'associates', 'candidate_positions'))->render(), 'status' => 'error']);
         } else {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray();
             $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
+            $sources = Source::orderBy('name', 'asc')->get();
             $autofill = true;
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'candidate_positions', 'gulf_driving_license'))->render(), 'status' => 'success']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'candidate_positions', 'gulf_driving_license'))->render(), 'status' => 'success']);
         }
     }
 
@@ -496,7 +503,7 @@ class CandidateController extends Controller
         // return $request->all();
         $candidates = Candidate::query();
         if ($request->search) {
-             $main_search_text_arr = explode(',', $request->search);
+            $main_search_text_arr = explode(',', $request->search);
             $position_id = CandidatePosition::whereIn('name', $main_search_text_arr)->pluck('id')->toArray();
             $candidates->whereIn('full_name', $main_search_text_arr)
                 ->orWhereIn('gender', $main_search_text_arr)
@@ -511,13 +518,13 @@ class CandidateController extends Controller
                 ->orWhereIn('ecr_type', $main_search_text_arr)
                 ->orWhereIn('english_speak', $main_search_text_arr)
                 ->orWhereIn('arabic_speak', $main_search_text_arr);
-                // enter by
-                // ->orWhereHas('enterBy', function ($query) use ($request) {
-                //     $query->whereInRaw("CONCAT(first_name, ' ', last_name)",$main_search_text_arr );
-                // });
-                // date of birth 09.01.2021 format search
-                // ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
-                // ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
+            // enter by
+            // ->orWhereHas('enterBy', function ($query) use ($request) {
+            //     $query->whereInRaw("CONCAT(first_name, ' ', last_name)",$main_search_text_arr );
+            // });
+            // date of birth 09.01.2021 format search
+            // ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
+            // ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
         }
 
         if ($request->has('cnadidate_status_id')) {

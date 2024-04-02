@@ -361,7 +361,10 @@
 
                             @php
                                 if (isset($candidate->candidateUpdate->user->full_name)) {
-                                    $data = Helper::getUpdatedData($candidate->id, $candidate->candidateUpdate->user_id);
+                                    $data = Helper::getUpdatedData(
+                                        $candidate->id,
+                                        $candidate->candidateUpdate->user_id,
+                                    );
                                 } else {
                                     $data = [];
                                 }
@@ -462,8 +465,8 @@
         <td>
             <select name="mode_of_registration" class="form-select uppercase-text" id="">
                     <option value="">Select Type</option>
-                    <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling</option>
-                    <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in</option>
+                    <option value="CALLING" {{ $candidate->mode_of_registration == 'CALLING' ? 'selected' : '' }}>CALLING</option>
+                    <option value="WALK-IN" {{ $candidate->mode_of_registration == 'WALK-IN' ? 'selected' : '' }}>WALK-IN</option>
                 </select>
         </td>
       </tr>
@@ -472,11 +475,11 @@
     <td>
         <select name="source" class="form-select uppercase-text" id="">
                     <option value="">Select Type</option>
-                    <option value="Telecalling" {{ $candidate->source == 'Telecalling' ? 'selected' : '' }}>Telecalling</option>
-                    <option value="Reference" {{ $candidate->source == 'Reference' ? 'selected' : '' }}>Reference</option>
-                    <option value="Facebook" {{ $candidate->source == 'Facebook' ? 'selected' : '' }}>Facebook</option>
-                    <option value="Instagram" {{ $candidate->source == 'Instagram' ? 'selected' : '' }}>Instagram</option>
-                    <option value="Others" {{ $candidate->source == 'Others' ? 'selected' : '' }}>Others </option>
+                    @foreach ($sources as $source)
+                    <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
+                        {{ $source->name }}
+                    </option>
+                @endforeach
                 </select>
     </td>
   </tr>
@@ -510,9 +513,9 @@
         <td>
           <select name="gender" class="form-control uppercase-text" id="">
             <option value="">Select Gender</option>
-            <option value="Male" {{ $candidate->gender == 'Male' ? 'selected' : '' }}> Male </option>
-            <option value="Female" {{ $candidate->gender == 'Female' ? 'selected' : '' }}>Female</option>
-            <option value="Other" {{ $candidate->gender == 'Other' ? 'selected' : '' }}>Other</option>
+            <option value="MALE" {{ $candidate->gender == 'MALE' ? 'selected' : '' }}> MALE </option>
+            <option value="FEMALE" {{ $candidate->gender == 'FEMALE' ? 'selected' : '' }}>FEMALE</option>
+            <option value="OTHER" {{ $candidate->gender == 'OTHER' ? 'selected' : '' }}>OTHER</option>
           </select>
         </td>
       </tr>
@@ -520,7 +523,9 @@
         <td>DOB</td>
         <td>
           <div class="form-group">
-            <input type="date" class="form-control uppercase-text" id="" value="{{ date('Y-m-d', strtotime($candidate->date_of_birth)) ?? '' }}" name="dob" max="{{ date('Y-m-d') }}" placeholder="DOB">
+            <input type="text" class="form-control uppercase-text datepicker" id="dob"
+                   value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}"
+                   name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
             <span class="text-danger" id="date_of_birth_msg"></span>
           </div>
         </td>
@@ -536,15 +541,15 @@
         <td>
             <select name="education" class="form-select uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="5th Pass" {{ $candidate->education == '5th Pass' ? 'selected' : '' }}>5th Pass</option>
-                <option value="8th Pass" {{ $candidate->education == '8th Pass' ? 'selected' : '' }}>8th Pass</option>
-                <option value="10th Pass" {{ $candidate->education == '10th Pass' ? 'selected' : '' }}>10th Pass
+                <option value="5TH PASS" {{ $candidate->education == '5TH PASS' ? 'selected' : '' }}>5TH PASS</option>
+                <option value="8TH PASS" {{ $candidate->education == '8TH PASS' ? 'selected' : '' }}>8TH PASS</option>
+                <option value="10TH PASS" {{ $candidate->education == '10TH PASS' ? 'selected' : '' }}>10TH PASS
                 </option>
-                <option value="Higher Secondary"
-                    {{ $candidate->education == 'Higher Secondary' ? 'selected' : '' }}>Higher Secondary
+                <option value="HIGHER SECONDARY"
+                    {{ $candidate->education == 'HIGHER SECONDARY' ? 'selected' : '' }}>HIGHER SECONDARY
                     </option>
-                <option value="Graduates" {{ $candidate->education == 'Graduates' ? 'selected' : '' }}>Graduates</option>
-                <option value="Masters" {{ $candidate->education == 'Masters' ? 'selected' : '' }}>Masters</option>
+                <option value="GRADUATES" {{ $candidate->education == 'GRADUATES' ? 'selected' : '' }}>GRADUATES</option>
+                <option value="MASTERS" {{ $candidate->education == 'MASTERS' ? 'selected' : '' }}>MASTERS</option>
             </select>
         </td>
       </tr>
@@ -611,14 +616,13 @@
         <td>
             <select name="religion" class="form-select uppercase-text" id="">
                 <option value="">Select Religion</option>
-                <option value="Hindu" {{ $candidate->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                <option value="Islam" {{ $candidate->religion == 'Islam' ? 'selected' : '' }}>Islam</option>
-                <option value="Christian" {{ $candidate->religion == 'Christian' ? 'selected' : '' }}>Christian
-                </option>
-                <option value="Sikh" {{ $candidate->religion == 'Sikh' ? 'selected' : '' }}>Sikh</option>
-                <option value="Buddhist" {{ $candidate->religion == 'Buddhist' ? 'selected' : '' }}>Buddhist</option>
-                <option value="Jain" {{ $candidate->religion == 'Jain' ? 'selected' : '' }}>Jain</option>
-                <option value="Other" {{ $candidate->religion == 'Other' ? 'selected' : '' }}>Other</option>
+                <option value="HINDU" {{ $candidate->religion == 'HINDU' ? 'selected' : '' }}>Hindu</option>
+                <option value="ISLAM" {{ $candidate->religion == 'ISLAM' ? 'selected' : '' }}>Islam</option>
+                <option value="CHRISTIAN" {{ $candidate->religion == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
+                <option value="SIKH" {{ $candidate->religion == 'SIKH' ? 'selected' : '' }}>Sikh</option>
+                <option value="BUDDHIST" {{ $candidate->religion == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
+                <option value="JAIN" {{ $candidate->religion == 'JAIN' ? 'selected' : '' }}>Jain</option>
+                <option value="OTHER" {{ $candidate->religion == 'OTHER' ? 'selected' : '' }}>Other</option>
             </select>
         </td>
       </tr>
@@ -665,10 +669,10 @@
         <td>
           <select name="english_speak" class="form-control uppercase-text" id="">
             <option value="">English Speak</option>
-            <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
-            <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
-            <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-            <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
+            <option value="BASIC" {{ strtoupper($candidate->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ strtoupper($candidate->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ strtoupper($candidate->english_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ strtoupper($candidate->english_speak) == 'NO' ? 'selected' : '' }}>NO</option>
           </select>
         </td>
       </tr>
@@ -677,10 +681,10 @@
         <td>
           <select name="arabic_speak" class="form-control uppercase-text" id="">
             <option value="">Arabic Speak</option>
-            <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
-            <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
-            <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-            <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
+            <option value="BASIC" {{ strtoupper($candidate->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ strtoupper($candidate->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ strtoupper($candidate->arabic_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ strtoupper($candidate->arabic_speak) == 'NO' ? 'selected' : '' }}>NO</option>
           </select>
         </td>
       </tr>
@@ -912,6 +916,11 @@
                         dropdownParent: $(this).parent()
                     });
                 })
+
+                $('.datepicker').datepicker({
+                    dateFormat: 'dd-mm-yy',
+                    maxDate: new Date(),
+                });
             });
             $(document).on("click", '#cross-button', function(e) {
 

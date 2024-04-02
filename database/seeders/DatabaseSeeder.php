@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             // CandidatePositionSeeder::class,
             // StatesTableSeeder::class,
             // CitiesTableSeeder::class,
-            CmsSeeder::class,
+            // CmsSeeder::class,
+            SourceSeeder::class
         ]);
     }
 }
