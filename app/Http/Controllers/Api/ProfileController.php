@@ -1102,12 +1102,12 @@ class ProfileController extends Controller
     public function edit(Request $request)
     {
         try {
-            $data['status'] = CandidateStatus::get()->pluck('name', 'id');
+            $data['status'] = CandidateStatus::select('name', 'id')->get();
             $data['mode_of_registration'] = ['CALLING', 'WALK-IN'];
             $data['source'] = Source::orderBy('name','asc')->pluck('name');
             $data['gender'] = ['MALE', 'FEMALE', 'OTHER'];
             $data['education'] = ['5TH PASS', '8TH PASS', '10TH PASS', 'HIGHER SECONDARY', 'GRADUATES', 'MASTERS'];
-            $data['positions'] = CandidatePosition::pluck('name', 'id');
+            $data['positions'] = CandidatePosition::select('name', 'id')->get();
             $data['city'] = Position::getCity();
             $data['religion'] = ['HINDU', 'ISLAM', 'CHRISTIAN', 'BUDDHIST', 'SIKH', 'JAIN', 'OTHER'];
             $data['ecr_type'] = ['ECR', 'ECNR'];
