@@ -137,7 +137,6 @@ class ProfileController extends Controller
         // return $request->user()->id;
         $validator = Validator::make($request->all(), [
             'full_name' => 'required',
-            'cnadidate_status_id' => 'required|exists:candidate_statuses,id',
             'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email,' . $request->user()->id,
             'position_applied_for_1' => 'required|exists:candidate_positions,id',
             'position_applied_for_2' => 'nullable|exists:candidate_positions,id',
@@ -146,7 +145,7 @@ class ProfileController extends Controller
             'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
             'gender' => 'nullable|in:MALE,FEMALE,OTHER',
-            'date_of_birth' => 'nullable|date_format:Y-m-d',
+            'date_of_birth' => 'nullable|date_format:d-m-Y',
             'mode_of_registration' => 'nullable|in:CALLING,WALK-IN',
             'source' => 'nullable|in:TELECALLING,REFERANCE,FACEBOOK,INSTAGRAM,OTHER',
             'education' => 'nullable|in:5TH PASS,8TH PASS,10TH PASS,HIGHER SECONDARY,GRADUATES,MASTERS',
