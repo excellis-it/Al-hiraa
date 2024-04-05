@@ -45,6 +45,9 @@ class ProfileTransformer extends TransformerAbstract
             'poition_applied_for' => $candidate->positionAppliedFor1->name ?? null,
             'position_applied_for_1' => $candidate->positionAppliedFor2->name ?? null,
             'position_applied_for_2' => $candidate->positionAppliedFor3->name ?? null,
+            'poition_applied_for_id' => $candidate->position_applied_for_1 ?? null,
+            'position_applied_for_1_id' => $candidate->position_applied_for_2 ?? null,
+            'position_applied_for_2_id' => $candidate->position_applied_for_3 ?? null,
             'created_at' => $candidate->created_at->format('Y-m-d H:i:s'),
         ];
     }
