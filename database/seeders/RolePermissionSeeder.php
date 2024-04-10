@@ -308,6 +308,11 @@ class RolePermissionSeeder extends Seeder
 
         $associateRole->givePermissionTo($associatePermissions);
 
+        $vendorRole = Role::where('name', 'VENDOR')->first();
+        $vendorPermissions = [
+            "Manage Support",
+        ];
+
      /*-------------------------------For one permission----------------------------------------------*/
         // $arrPermissions = [
         //     [

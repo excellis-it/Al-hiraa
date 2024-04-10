@@ -35,6 +35,8 @@
                 {{ $member->phone }}</td>
             <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
                 {{ $member->email }}</td>
+                <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
+                    {{ $member->code ?? 'N/A' }}</td>
             <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
                 {{ $member->getRoleNames()->first() }}
             </td>

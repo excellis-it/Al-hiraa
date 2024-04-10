@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\State;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +58,9 @@ class StatesTableSeeder extends Seeder
             array('name' => "Vaishali"),
             array('name' => "West Bengal"),
             );
-            DB::table('states')->insert($states);
+
+        foreach ($states as $state) {
+            State::create($state);
+        }
     }
 }

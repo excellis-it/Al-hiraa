@@ -132,8 +132,8 @@
             </div> --}}
             <div class="row">
 
-                    <div class="col-lg-6 col-6 mb-2">
-                        @if (Auth::user()->hasRole('ADMIN'))
+                <div class="col-lg-6 col-6 mb-2">
+                    @if (Auth::user()->hasRole('ADMIN'))
                         <div class="action_btn">
                             <div class="dropdown">
                                 <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -183,13 +183,14 @@
                             </div>
                         </div>
                         <!-- Modal -->
-                        @endif
-                    </div>
+                    @endif
+                </div>
 
                 <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
                     <div class="action_btn">
                         <div class="dropdown">
-                            <a class="btn reset-btn" href="{{route('candidates.index')}}" ><i class="fas fa-redo-alt"></i> Reset</a>
+                            <a class="btn reset-btn" href="{{ route('candidates.index') }}"><i
+                                    class="fas fa-redo-alt"></i> Reset</a>
                         </div>
                     </div>
                 </div>
@@ -352,12 +353,11 @@
                                         <div class="single_select">
                                             <select name="source" class="select_width source_status" id="source_filter">
                                                 <option value="">Select Source Type</option>
-                                                <option value="Telecalling">Telecalling
-                                                </option>
-                                                <option value="Reference">Reference</option>
-                                                <option value="Facebook">Facebook</option>
-                                                <option value="Instagram">Instagram</option>
-                                                <option value="Others">Others </option>
+                                                @foreach ($sources as $source)
+                                                    <option value="{{ $source->name }}">
+                                                        {{ $source->name }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </th>

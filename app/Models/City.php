@@ -8,4 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class City extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'state_id',
+    ];
+
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        if ($value !== null) {
+            $value = strtoupper($value);
+        }
+        parent::setAttribute($key, $value);
+    }
+
+
 }

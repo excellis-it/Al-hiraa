@@ -21,16 +21,16 @@
                                         <span class="text-danger" id="job_name_msg_job"></span>
                                     </div>
                                 </div>
-                                {{-- associates --}}
+                                {{-- vendors --}}
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Vendors<span>*</span></label>
-                                        <select name="associate_id" class="form-select new_select2" id="">
+                                        <select name="vendor_id" class="form-select new_select2" id="">
                                             <option value="">Select an vendor</option>
-                                            @foreach ($associates as $associate)
-                                                <option value="{{ $associate->id }}"
-                                                    {{ $job->associate_id == $associate->id ? 'selected' : '' }}>
-                                                    {{ $associate->full_name }}</option>
+                                            @foreach ($vendors as $vendor)
+                                                <option value="{{ $vendor->id }}"
+                                                    {{ $job->vendor_id == $vendor->id ? 'selected' : '' }}>
+                                                    {{ $vendor->full_name }}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger" id="associate_id_msg_job"></span>

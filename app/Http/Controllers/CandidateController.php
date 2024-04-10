@@ -30,7 +30,7 @@ class CandidateController extends Controller
     {
         if (Auth::user()->can('Manage Candidate')) {
             $candidate_statuses = CandidateStatus::all();
-
+            $sources = Source::orderBy('name', 'asc')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
 
@@ -39,7 +39,7 @@ class CandidateController extends Controller
                 $candidates = Candidate::orderBy('id', 'desc')->paginate(50);
             }
             // session()->forget('candidate_id');
-            return view('candidates.list')->with(compact('candidates', 'candidate_statuses', 'candidate_positions'));
+            return view('candidates.list')->with(compact('candidates', 'sources', 'candidate_statuses', 'candidate_positions'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

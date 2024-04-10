@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    {{ env('APP_NAME') }} - Socail Media
+    {{ env('APP_NAME') }} - City List
 @endsection
 @push('styles')
 @endpush
@@ -8,114 +8,26 @@
     <div class="mdk-drawer-layout__content page">
         <div class="container-fluid page__heading-container">
             <div class="page__heading row align-items-center">
-                {{-- member create start --}}
-                @can('Create Team')
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
                          aria-hidden="true">
                         <div class="offcanvas-body">
-                            <form action="{{ route('members.store') }}" method="POST" enctype="multipart/form-data"
+                            <form action="{{ route('cities.store') }}" method="POST" enctype="multipart/form-data"
                                 id="member-form-create">
                                 @csrf
-                                <div class="row justify-content-center">
-                                    <div class="col-xl-6">
-                                        <div class="add-mem-1">
-                                            <div class="profile-img-box">
-                                                <div class="profile-img">
-                                                    <img src="{{ asset('assets/images/profile-img.png') }}" alt=""
-                                                        id="blah">
-                                                    <div class="pro-cam-img-1">
-                                                        <label for="file-input">
-                                                            <img src="{{ asset('assets/images/cam-img.png') }}">
-                                                        </label>
-                                                        <input id="file-input" type="file" name="profile_picture"
-                                                            onchange="readURL(this);">
-                                                    </div>
-                                                </div>
-                                                <div class="profile-text">
-                                                    <h4>Profile Image</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-xl-12">
+                                        <div class="frm-head">
+                                            <h2>Add City</h2>
+                                        </div>
                                         <div class="add-mem-form">
                                             <div class="row">
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label for="">First Name<span>*</span></label>
-                                                        <input type="text" class="form-control" id="" value=""
-                                                            name="first_name" placeholder="">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label for="">Last Name<span>*</span></label>
-                                                        <input type="text" class="form-control" id="" value=""
-                                                            name="last_name" placeholder="">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label for="">Email<span>*</span></label>
-                                                        <input type="text" class="form-control" id="" value=""
-                                                            name="email" placeholder="">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="form-group">
-                                                        <label for="">Phone</label>
-                                                        <input type="text" class="form-control" id="" value=""
-                                                            name="phone" placeholder="">
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
                                                 <div class="col-xl-12">
                                                     <div class="form-group">
-                                                        <label for="">Designation <span>*</span></label>
-                                                        <select class="form-select" aria-label="Default select example"
-                                                            name="role_type">
-                                                            <option value="">Select a Designation</option>
-                                                            @foreach ($roles as $role)
-                                                                <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                                            @endforeach
-                                                        </select>
+                                                        <label for="">City Name<span>*</span></label>
+                                                        <input type="text" class="form-control" id="" value=""
+                                                            name="name" placeholder="">
                                                         <span class="text-danger"></span>
                                                     </div>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="ps-div">
-                                                        <div class="form-group">
-                                                            <label for="">Password <span>*</span></label>
-                                                            <input type="password" class="form-control" id="password"
-                                                                value="{{ old('password') }}" name="password" placeholder="">
-                                                            <div class="eye-icon-2" id="rand-pass">
-                                                               <span><i class="fa fa-random"></i></span>
-                                                            </div>
-                                                            <div class="eye-icon-1" id="first-eye">
-                                                               <span><i class="fa-solid fa-eye-slash"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <span class="text-danger"></span>
-                                                </div>
-                                                <div class="col-xl-6">
-                                                    <div class="ps-div">
-                                                        <div class="form-group">
-                                                            <label for="">Confirm Password <span>*</span></label>
-                                                            <input type="password" class="form-control" id="confirm_password"
-                                                                value="{{ old('confirm_password') }}" name="confirm_password"
-                                                                placeholder="">
-                                                            <div class="eye-icon-1" id="second-eye">
-                                                                <span><i class="fa-solid fa-eye-slash"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <span class="text-danger"></span>
                                                 </div>
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="save-btn-div d-flex align-items-center">
@@ -133,16 +45,11 @@
                             </form>
                         </div>
                     </div>
-                @endcan
 
                 {{-- member create end --}}
-
-                {{-- member edit start --}}
-                @can('Edit Team')
-                <div id="edit-members">
-                    @include('settings.members.edit')
+                <div id="edit-city">
+                    @include('settings.cities.edit')
                 </div>
-                @endcan
 
                 {{-- member edit end --}}
 
@@ -161,28 +68,37 @@
                         </form>
                     </div>
                 </div>
-                @can('Create Team')
                 <div class="col-xl-4 col-lg-5 col-md-6">
                     <div class="d-flex justify-content-center justify-content-md-start">
                         <div class="btn-group me-4">
                             <a href="add_candidate.html" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                                 aria-controls="offcanvasRight" class="btn addcandidate_btn"><i class="fas fa-plus"></i>
                                 Add
-                                Memeber</a>
+                                City</a>
                         </div>
                     </div>
                 </div>
-                @endcan
             </div>
             <!-- page-contain-start  -->
             <div class="integrations-div team-members-div">
                 <div class="page__heading row align-items-center mb-0">
-                    <div class="col-xl-12 mb-3 mb-md-0">
+                    <div class="col-lg-6 col-6 mb-2">
                         <div class="integrations-head">
-                            <h2>Team Members</h2>
+                            <h2>Manage City</h2>
                         </div>
                     </div>
+
+                    <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
+                        <div class="action_btn">
+                            <div class="dropdown">
+                                <a class="btn reset-btn" href="{{route('cities.index')}}" ><i class="fas fa-redo-alt"></i> Reset</a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
+
                 <div class="user-acces-table team-members-table">
                     <div class="container-fluid page__container">
                         <div class="row">
@@ -191,13 +107,8 @@
                                     <table class="table mb-0 table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Team Member Name</th>
-                                                <th>Start Date</th>
-                                                <th>Phone Number</th>
-                                                <th>Login ID</th>
-                                                <th>Code</th>
-                                                <th>Designation</th>
-                                                @can('Delete Team')
+                                                <th>#ID</th>
+                                                <th>City Name</th>
                                                 <th><svg xmlns="http://www.w3.org/2000/svg" width="2" height="12"
                                                         viewBox="0 0 2 12">
                                                         <g id="Group_87" data-name="Group 87"
@@ -213,13 +124,13 @@
                                                                 transform="translate(1898 182)" fill="#989898" />
                                                         </g>
                                                     </svg></th>
-                                                @endcan
                                             </tr>
                                         </thead>
                                         <tbody class="list" id="user_tbody">
-                                            @include('settings.members.filter')
+                                            @include('settings.cities.filter')
                                         </tbody>
                                     </table>
+                                    <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                 </div>
                             </div>
                         </div>
@@ -232,29 +143,7 @@
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#first-eye').click(function() {
-                $('#password').attr('type', $('#password').is(':password') ? 'text' : 'password');
-                $(this).find('i').toggleClass('fa-eye-slash fa-eye');
-            });
-            $('#second-eye').click(function() {
-                $('#confirm_password').attr('type', $('#confirm_password').is(':password') ? 'text' :
-                    'password');
-                $(this).find('i').toggleClass('fa-eye-slash fa-eye');
-            });
-            $(document).on('click', '#third-eye', function() {
-                $('#password_edit').attr('type', $('#password_edit').is(':password') ? 'text' : 'password');
-                $(this).find('i').toggleClass('fa-eye-slash fa-eye');
-            });
-            $(document).on('click', '#fourth-eye', function() {
-                $('#confirm_password_edit').attr('type', $('#confirm_password_edit').is(':password') ?
-                    'text' :
-                    'password');
-                $(this).find('i').toggleClass('fa-eye-slash fa-eye');
-            });
-        });
-    </script>
+
     <script>
         $(document).ready(function() {
             $(document).on('click', '.close-btn', function() {
@@ -312,7 +201,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this user.",
+                    text: "To delete this city.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -346,7 +235,7 @@
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                        $('#edit-members').html(response.view);
+                        $('#edit-city').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         $('#offcanvasEdit').offcanvas('show');
@@ -361,7 +250,9 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#member-edit-form', function(e) {
+            $(document).on('submit', '#city-edit-form', function(e) {
+
+
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
@@ -394,10 +285,10 @@
 
             function fetch_data(page, query) {
                 $.ajax({
-                    url: "{{ route('members.filter') }}",
+                    url: "{{ route('cities.filter') }}",
                     data: {
                         page: page,
-                        search: query
+                        search: query,
                     },
                     success: function(data) {
                         console.log(data.view);
@@ -407,6 +298,13 @@
             }
 
             $(document).on('submit', '.search-form', function(e) {
+                e.preventDefault();
+                var query = $('#query').val();
+                var page = $('#hidden_page').val();
+                fetch_data(page, query);
+            });
+
+            $(document).on('change', '#status', function(e) {
                 e.preventDefault();
                 var query = $('#query').val();
                 var page = $('#hidden_page').val();
@@ -426,16 +324,5 @@
 
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '#rand-pass', function() {
-                var randomstring = Math.random().toString(36).slice(-8);
-                $('#password').val(randomstring);
-                $('#confirm_password').val(randomstring);
-                $('#password').attr('type','text');
-                $('#first-eye').find('i').addClass('fa-eye');
 
-            });
-        });
-    </script>
 @endpush

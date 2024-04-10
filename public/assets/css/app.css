@@ -5367,6 +5367,9 @@ li.tagator_option{
 }
 
 
+#tagator_query{
+    z-index: 0 !important;
+}
 
 
 

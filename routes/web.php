@@ -27,7 +27,7 @@ Route::post('forget-password', [AuthenticationController::class, 'forgetPassword
 Route::get('forget-password/show', [AuthenticationController::class, 'forgetPasswordShow'])->name('forget.password.show');
 Route::get('reset-password/{id}/{token}', [AuthenticationController::class, 'resetPassword'])->name('reset.password');
 
-Route::group(['middleware' => ['auth','preventBackHistory']], function () {
+Route::group(['middleware' => ['user','preventBackHistory']], function () {
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
     Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
@@ -77,6 +77,16 @@ Route::group(['middleware' => ['auth','preventBackHistory']], function () {
             Route::put('/update/{id}',[SettingController::class,'sourcesUpdate'])->name('sources.update');
             Route::get('/delete/{id}',[SettingController::class,'sourcesDelete'])->name('sources.delete');
             Route::get('/filter',[SettingController::class,'sourcesFilter'])->name('sources.filter');
+        });
+
+        // cities
+        Route::group(['prefix' => 'cities'], function () {
+            Route::get('/',[SettingController::class,'cities'])->name('cities.index');
+            Route::post('/store',[SettingController::class,'citiesStore'])->name('cities.store');
+            Route::get('/edit/{id}',[SettingController::class,'citiesEdit'])->name('cities.edit');
+            Route::put('/update/{id}',[SettingController::class,'citiesUpdate'])->name('cities.update');
+            Route::get('/delete/{id}',[SettingController::class,'citiesDelete'])->name('cities.delete');
+            Route::get('/filter',[SettingController::class,'citiesFilter'])->name('cities.filter');
         });
 
         // contact us

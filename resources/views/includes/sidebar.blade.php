@@ -154,7 +154,7 @@
                             @if (Gate::check('Manage Position'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('positions.index') }}">
-                                        <span class="sidebar-menu-text">Manage Position</span>
+                                        <span class="sidebar-menu-text"> Position Manage</span>
                                     </a>
                                 </li>
                             @endif
@@ -166,7 +166,14 @@
                             @if (Auth::user()->hasRole('ADMIN'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('sources.index') }}">
-                                        <span class="sidebar-menu-text">Manage Source</span>
+                                        <span class="sidebar-menu-text"> Source Manage</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('cities.index') }}">
+                                        <span class="sidebar-menu-text"> City Manage</span>
                                     </a>
                                 </li>
                             @endif

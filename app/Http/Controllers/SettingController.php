@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\RegistrationMail;
 use App\Models\CandidatePosition;
+use App\Models\City;
 use App\Models\Cms;
 use App\Models\ContactUs;
 use App\Models\Source;
@@ -66,6 +67,37 @@ class SettingController extends Controller
         $user->password   = bcrypt($request->password);
         $user->phone      = $request->phone;
         $user->role_type  = $request->role_type;
+
+        if ($request->role_type == 'VENDOR') {
+            // AL-VN-00001
+            $lastVendor = User::where('role_type', 'VENDOR')->orderBy('id', 'desc')->first();
+            if ($lastVendor) {
+                if ($lastVendor->code == null) {
+                    $lastVendor->code = 'AL-VN-00000';
+                }
+                $lastVendorId = explode('-', $lastVendor->code);
+                $vendorId = $lastVendorId[2] + 1;
+                $vendorId = str_pad($vendorId, 5, '0', STR_PAD_LEFT);
+                $user->code = 'AL-VN-' . $vendorId;
+            } else {
+                $user->code = 'AL-VN-00001';
+            }
+        } elseif($request->role_type == 'ASSOCIATE') {
+            // AL-AS-00001
+            $lastAssociate = User::where('role_type', 'ASSOCIATE')->orderBy('id', 'desc')->first();
+            if ($lastAssociate) {
+                if ($lastAssociate->code == null) {
+                    $lastAssociate->code = 'AL-AS-00000';
+                }
+                $lastAssociateId = explode('-', $lastAssociate->code);
+                $associateId = $lastAssociateId[2] + 1;
+                $associateId = str_pad($associateId, 5, '0', STR_PAD_LEFT);
+                $user->code = 'AL-AS-' . $associateId;
+            } else {
+                $user->code = 'AL-AS-00001';
+            }
+        }
+
         if ($request->hasFile('profile_picture')) {
             $user->profile_picture = $this->imageUpload($request->file('profile_picture'), 'profile');
         }
@@ -88,7 +120,7 @@ class SettingController extends Controller
 
     public function membersDelete($id)
     {
-        if (Auth::user()->can('Delete Members')) {
+        if (Auth::user()->can('Delete Team')) {
             $id = Crypt::decrypt($id);
             $user = User::findOrFail($id);
             $user->delete();
@@ -265,6 +297,10 @@ class SettingController extends Controller
         if ($request->search) {
             $positions->where('name', 'LIKE', '%' . $request->search . '%');
         }
+        if ($request->status != null) {
+            $positions->where('is_active', $request->status);
+        }
+
         $positions = $positions->orderBy('id', 'desc')->paginate(15);
 
 
@@ -502,6 +538,81 @@ class SettingController extends Controller
             return response()->json(['message' => 'Source updated successfully', 'status' => 'success']);
         } else {
             return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+    public function cities()
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $cities =  City::orderBy('id', 'desc')->paginate(20);
+            return view('settings.cities.list')->with(compact('cities'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function citiesFilter(Request $request)
+    {
+        $cities = City::query();
+        if ($request->search) {
+            $cities->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+        $cities = $cities->orderBy('id', 'desc')->paginate(20);
+
+        return response()->json(['view' => view('settings.cities.filter', compact('cities'))->render()]);
+    }
+
+    public function citiesStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:cities',
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $city = new City();
+            $city->create($request->all());
+            session()->flash('message', 'City added successfully');
+            return response()->json(['message' => 'City added successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+    public function citiesEdit($id)
+    {
+        $city = City::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('settings.cities.edit', compact('city', 'edit'))->render(), 'status' => 'success']);
+    }
+
+    public function citiesUpdate(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+
+        $request->validate([
+            'name' => 'required|unique:cities,name,' . $id,
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $city = City::find($id);
+            $city->update($request->all());
+            session()->flash('message', 'City updated successfully');
+            return response()->json(['message' => 'City updated successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+
+    public function citiesDelete($id)
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $id = Crypt::decrypt($id);
+            $city = City::findOrFail($id);
+            $city->delete();
+            return redirect()->back()->with('message', 'City deleted successfully');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 }
