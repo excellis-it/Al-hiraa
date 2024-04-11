@@ -6,6 +6,7 @@ use App\Events\CallCandidateEndEvent;
 use App\Events\CallCandidateEvent;
 use App\Exports\CandidateExport;
 use App\Imports\CandidateImport;
+use App\Models\AssignJob;
 use App\Models\Candidate;
 use App\Models\CandidateActivity;
 use App\Models\CandidateFieldUpdate;
@@ -13,6 +14,9 @@ use App\Models\CandidateLicence;
 use App\Models\CandidatePosition;
 use App\Models\CandidateStatus;
 use App\Models\CandidateUpdated;
+use App\Models\Company;
+use App\Models\Interview;
+use App\Models\Job;
 use App\Models\Source;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -259,6 +263,8 @@ class CandidateController extends Controller
         $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
         $sources = Source::orderBy('name', 'asc')->get();
+        $assign_job = AssignJob::where('candidate_id', $candidate->id)->orderBy('id', 'desc')->first();
+        $companies = Company::orderBy('company_name', 'asc')->get();
         $edit = true;
         if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
@@ -275,7 +281,7 @@ class CandidateController extends Controller
             }
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('candidate', 'sources', 'candidate_positions', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -695,5 +701,52 @@ class CandidateController extends Controller
             Candidate::whereIn('id', $request->candidate_ids)->update(['cnadidate_status_id' => $request->status_id]);
             return response()->json(['status' => true, 'message' => 'Status update successfully.']);
         }
+    }
+
+    public function getJobs(Request $request)
+    {
+        if ($request->ajax()) {
+            $interviews = Interview::where('company_id', $request->company_id)
+                ->where(function ($query) {
+                    $query->where('interview_start_date', '>=', date('Y-m-d'))
+                        ->orWhere('interview_end_date', '>=', date('Y-m-d'));
+                })
+                ->whereHas('job', function ($query) {
+                    $query->where('status', 'Ongoing');
+                })
+                ->get();
+
+            $html = '';
+            $html .= '<option value="">Select Job</option>';
+            foreach ($interviews as $interview) {
+                $html .= '<option value="' . $interview->id . '">' . $interview->job->job_name . '</option>';
+            }
+            return response()->json(['status' => true, 'interviews' => $html]);
+        }
+    }
+
+    public function assignJob(Request $request, $candidate_id)
+    {
+        $request->validate([
+            'company_id' => 'required',
+            'interview_id' => 'required',
+        ]);
+
+        $count = AssignJob::where('candidate_id', $candidate_id)->where('interview_id', $request->interview_id)->count();
+        if ($count > 0) {
+            return response()->json(['status' => false, 'message' => 'Job already assigned to this candidate.']);
+        } else {
+            $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
+            $assign_job = new AssignJob();
+            $assign_job->candidate_id = $candidate_id;
+            $assign_job->job_id = $job_id;
+            $assign_job->company_id = $request->company_id;
+            $assign_job->interview_id = $request->interview_id;
+            $assign_job->user_id = Auth::user()->id;
+            $assign_job->save();
+            session()->flash('message', 'Job assigned successfully');
+            return response()->json(['status' => true, 'message' => 'Job assigned successfully.']);
+        }
+
     }
 }

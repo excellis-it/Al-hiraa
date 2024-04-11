@@ -4715,6 +4715,12 @@ h6+[aria-label=breadcrumb],
     background: rgba(255, 8, 8, 0.281);
 }
 
+.edit-1-btn #cross-button-job button {
+    color: rgb(182, 12, 12);
+    border: 1px solid rgb(175, 17, 17);
+    background: rgba(255, 8, 8, 0.281);
+}
+
 .edit-1-btn {
     display: flex;
 }
@@ -5338,7 +5344,7 @@ h6+[aria-label=breadcrumb],
     z-index: 99999;
 }
 .offcanvas, .modal{
-    z-index: 999999;
+    z-index: 9999999;
 }
 #tagator_dimmer{
     z-index: 99999 !important;
@@ -5367,15 +5373,12 @@ li.tagator_option{
 }
 
 
-#tagator_query{
-    z-index: 0 !important;
+.swal2-container.swal2-shown{
+    z-index: 999999 !important;
 }
-
-
-
-
-
-
+.datepicker::placeholder {
+    color: #000;
+}
 /* Responsive */
 @media (max-width: 1600.5px) {}
 

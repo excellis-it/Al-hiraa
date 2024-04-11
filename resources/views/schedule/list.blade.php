@@ -55,7 +55,7 @@
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label for="">Start Date </label>
-                                                        <input type="date" class="form-control" id=""
+                                                        <input type="text" class="form-control datepicker" id=""
                                                             value="{{ date('Y-m-d') }}" min="{{ date('Y-m-d') }}"
                                                             name="interview_start_date" placeholder="">
                                                         <span class="text-danger"></span>
@@ -64,7 +64,7 @@
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label for="">End Date<span>*</span></label>
-                                                        <input type="date" class="form-control" id=""
+                                                        <input type="text" class="form-control datepicker" id=""
                                                             value="" min="{{ date('Y-m-d') }}"
                                                             name="interview_end_date" placeholder="">
                                                         <span class="text-danger"></span>
@@ -206,6 +206,13 @@
 @endsection
 
 @push('scripts')
+<script>
+     $('.datepicker').datepicker({
+            dateFormat: 'dd-mm-yy',
+            // minDate: 0
+            minDate: new Date()
+        });
+</script>
     <script>
         $(document).ready(function() {
             $('#company_id').change(function() {
@@ -263,7 +270,7 @@
                         } else {
                             $('#loading').removeClass('loading');
                             $('#loading-content').removeClass('loading-content');
-                            toastr.error(response.error);
+                            toastr.error(response.message);
                         }
                     },
                     error: function(xhr) {

@@ -44,7 +44,7 @@
                                                                         {{ $vendor->full_name }}</option>
                                                                 @endforeach
                                                             </select>
-                                                            <span class="text-danger" id="associate_id_msg_create"></span>
+                                                            <span class="text-danger" id="vendor_id_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
@@ -562,6 +562,7 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input
@@ -627,6 +628,7 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input

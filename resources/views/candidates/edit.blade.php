@@ -119,24 +119,24 @@
                                     {{-- @include('candidates.details-form') --}}
                                     <tr>
                                         <td>Enter By</td>
-                                        <td>{{ $candidate->enterBy->full_name ?? '' }}
+                                        <td>{{ $candidate->enterBy->full_name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Status</td>
-                                        <td>{{ $candidate->candidateStatus->name ?? '' }}
+                                        <td>{{ $candidate->candidateStatus->name ?? 'N/A' }}
 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Mode of Registration</td>
-                                        <td>{{ $candidate->mode_of_registration ?? '' }}
+                                        <td>{{ $candidate->mode_of_registration ?? 'N/A' }}
 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Source</td>
-                                        <td>{{ $candidate->source ?? '' }}
+                                        <td>{{ $candidate->source ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -181,7 +181,7 @@
                                     </tr>
                                     <tr>
                                         <td>Education</td>
-                                        <td>{{ $candidate->education }}
+                                        <td>{{ $candidate->education ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -350,12 +350,12 @@
                         <tbody>
                             <tr>
                                 <td>Enter By</td>
-                                <td> {{ $candidate->enterBy->full_name ?? '' }}
+                                <td> {{ $candidate->enterBy->full_name ?? 'N/A' }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>Updated By</td>
-                                <td>{{ $candidate->candidateUpdate->user->full_name ?? '' }}
+                                <td>{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}
                                 </td>
                             </tr>
 
@@ -394,10 +394,66 @@
                         </tbody>
                     </table>
                 </div>
-                {{-- <div class="">
-                    <a href="" class="btn-1">See More<img src="{{ asset('assets/images/arrow.png') }}"></a>
-                </div> --}}
             </div>
+            <form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST"
+                id="candidate-job-create-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="can-div d-flex justify-content-between align-items-center">
+                        <div class="can-head">
+                            <h4>Assign Job Details</h4>
+                        </div>
+                        <div class="edit-1-btn d-flex align-items-center">
+
+                            <div class="edit-2" id="cross-button-job">
+
+                            </div>
+                            <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                            </div>
+                            <div class="edit-1" id="open-job-input">
+                                @can('Edit Candidate')
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate_form candidate_edit_form">
+                        <div class="table-responsive" id="tableContainer">
+                            <table class="table" id="candidate-form-job">
+                                <tbody>
+                                    <tr>
+                                        <td>Assigned By</td>
+                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Company</td>
+                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Title</td>
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Position</td>
+                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Location</td>
+                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -1374,5 +1430,147 @@
             });
         });
     </script>
+    <script>
+        $(document).on("click", '#open-job-input', function(e) {
 
+            $(this).html(``);
+
+            $('#submit-button-job').html(
+                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
+            )
+
+            $('#cross-button-job').html(
+                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
+            )
+
+            $('#candidate-form-job').html(`<tbody class="candidate-form-new">
+                                        <tr>
+                                            <td>Company </td>
+                                            <td>
+                                            <div class="form-group">
+                                                <select name="company_id" class="form-control uppercase-text company_id" id="company_id">
+                                                <option value="">Select Company</option>
+                                                @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}">
+                                                {{ $company->company_name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="text-danger" id="company_id_job_msg"></span>
+                                            </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Job Title</td>
+                                            <td>
+                                            <select name="interview_id" class="form-control uppercase-text job_id" id="interview_id">
+                                                <option value="">Select A Job Title</option>
+                                            </select>
+                                            <span class="text-danger" id="interview_id_job_msg"></span>
+                                            </td>
+                                        </tr>
+                                        </tbody>`);
+        });
+
+        $(document).on("click", '#cross-button-job', function(e) {
+
+            $(this).html(``);
+            $('#submit-button-job').html(``)
+            $('#open-job-input').html(
+                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+            $('#candidate-form-job').html(`<tbody>
+                                    <tr>
+                                        <td>Assigned By</td>
+                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Company</td>
+                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Title</td>
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Position</td>
+                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Location</td>
+                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                </tbody>`);
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '.company_id', function() {
+                var company_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('candidates.getJobs') }}",
+                    type: 'GET',
+                    data: {
+                        company_id: company_id
+                    },
+                    success: function(response) {
+                        $('.job_id').html('');
+                        $('.job_id').html(response.interviews);
+                    }
+                });
+            });
+            $(document).on('submit', '#candidate-job-create-form', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+                var formElement = $(this);
+
+                swal({
+                    title: 'Are you sure?',
+                    text: "You want to assign this job to the candidate!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, submit it!'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: formElement.attr('action'),
+                            type: formElement.attr('method'),
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if (response.status == true) {
+                                    window.location.reload();
+                                } else {
+                                    toastr.error(response.message);
+                                }
+                            },
+                            error: function(xhr) {
+                                // Handle errors (e.g., display validation errors)
+                                var errors = xhr.responseJSON.errors;
+                                $.each(errors, function(key, value) {
+                                    toastr.error(value);
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your data is safe :)',
+                            'error'
+                        )
+                    }
+                });
+            });
+        });
+    </script>
 @endif

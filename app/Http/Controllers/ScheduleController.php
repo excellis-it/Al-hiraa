@@ -76,6 +76,20 @@ class ScheduleController extends Controller
             'interview_end_date.required' => 'The interview end date field is required.',
             'interview_status.required' => 'The interview status field is required.',
         ]);
+        // check if interview already scheduled
+        $checkInterview = Interview::where('company_id', $request->company_id)
+            ->where('job_id', $request->job_id)
+            ->where(function ($query) use ($request) {
+                $query->where(function ($query) use ($request) {
+                    $query->where('interview_start_date', '<=', $request->interview_end_date)
+                        ->where('interview_end_date', '>=', $request->interview_start_date);
+                });
+            })
+            ->first();
+
+        if ($checkInterview) {
+            return response()->json(['status' => false, 'message' => 'Interview already scheduled for this job.']);
+        }
 
         $interview = new Interview();
         $interview->user_id = Auth::user()->id;
@@ -159,7 +173,7 @@ class ScheduleController extends Controller
         $company = Company::find($id);
         $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
         $add = true;
-        $associates = User::role('ASSOCIATE')->orderBy('first_name', 'ASC')->get();
-        return response()->json(['view' => view('schedule.add-task', compact('company', 'add', 'positions', 'associates'))->render(), 'status' => 'success']);
+        $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
+        return response()->json(['view' => view('schedule.add-task', compact('company', 'add', 'positions', 'vendors'))->render(), 'status' => 'success']);
     }
 }

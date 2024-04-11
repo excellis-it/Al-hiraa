@@ -42,8 +42,8 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Start Date </label>
-                                        <input type="date" class="form-control" id=""
-                                            value="{{ $interview->interview_start_date ?? ''}}"
+                                        <input type="text" class="form-control datepicker" id=""
+                                            value="{{ $interview->interview_start_date ? date('d-m-Y', strtotime($interview->interview_start_date)) : '' }}"
                                             name="interview_start_date" placeholder="">
                                         <span class="text-danger" id="interview_start_date_msg"></span>
                                     </div>
@@ -51,7 +51,7 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">End Date<span>*</span></label>
-                                        <input type="date" class="form-control" id="" value="{{ $interview->interview_end_date ?? ''}}"
+                                        <input type="text" class="form-control datepicker" id="" value="{{ $interview->interview_end_date ? date('d-m-Y', strtotime($interview->interview_end_date)) : '' }}"
                                             name="interview_end_date" placeholder="">
                                         <span class="text-danger" id="interview_end_date_msg"></span>
                                     </div>
@@ -74,4 +74,9 @@
             </form>
         </div>
     </div>
+    <script>
+         $('.datepicker').datepicker({
+            dateFormat: 'dd-mm-yy',
+        });
+    </script>
 @endif

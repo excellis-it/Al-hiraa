@@ -130,7 +130,8 @@
                                             <button type="submit" class="btn save-btn"><span><i
                                                         class="fa-solid fa-check"></i></span>
                                                 Submit</button>
-                                            <button type="button" class="btn save-btn save-btn-1 close-btn"><span><i
+                                            <button type="button"
+                                                class="btn save-btn save-btn-1 close-btn-add"><span><i
                                                         class="fa-solid fa-xmark"></i></span>Cancel</button>
                                         </div>
                                     </div>
@@ -147,5 +148,11 @@
     // select2
     $(document).ready(function() {
         $('.select2').select2();
+    });
+
+    // close button
+    $('.close-btn-add').click(function() {
+        $('.text-danger').html('');
+        $('#offcanvasRightJob').offcanvas('hide');
     });
 </script>

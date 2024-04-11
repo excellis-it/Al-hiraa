@@ -33,7 +33,7 @@
                                                     {{ $vendor->full_name }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger" id="associate_id_msg_job"></span>
+                                        <span class="text-danger" id="vendor_id_msg_job"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">

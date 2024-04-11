@@ -19,6 +19,8 @@ class Company extends Model
         'company_industry',
         'company_logo',
         'company_description',
+        'status',
+
     ];
 
     public function getAllFields()
