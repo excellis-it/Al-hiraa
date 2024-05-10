@@ -177,6 +177,13 @@
                                     </a>
                                 </li>
                             @endif
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('ip-restrictions.index') }}">
+                                        <span class="sidebar-menu-text"> IP Manage</span>
+                                    </a>
+                                </li>
+                            @endif
                             @if (Gate::check('Manage Support'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('support') }}">

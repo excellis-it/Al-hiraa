@@ -40,6 +40,15 @@
             <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
                 {{ $member->getRoleNames()->first() }}
             </td>
+            <td>
+                <div class="button-switch">
+                    <input type="checkbox" id="switch-orange" class="switch toggle-class"
+                        data-id="{{ $member['id'] }}"
+                        {{ $member['is_active'] ? 'checked' : '' }} />
+                    <label for="switch-orange" class="lbl-off"></label>
+                    <label for="switch-orange" class="lbl-on"></label>
+                </div>
+            </td>
             @can('Delete Team')
             <td>
                 <a title="Delete User" data-route="{{ route('members.delete', Crypt::encrypt($member->id)) }}"

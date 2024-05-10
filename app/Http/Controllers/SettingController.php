@@ -7,6 +7,7 @@ use App\Models\CandidatePosition;
 use App\Models\City;
 use App\Models\Cms;
 use App\Models\ContactUs;
+use App\Models\IpRestriction;
 use App\Models\Source;
 use App\Models\User;
 use App\Traits\ImageTrait;
@@ -128,6 +129,14 @@ class SettingController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    public function membersStatus(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $user->is_active = $request->status;
+        $user->save();
+        return response()->json(['success' => 'Status change successfully.']);
     }
 
     public function membersEdit($id)
@@ -615,4 +624,84 @@ class SettingController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+    public function ipRestrictions()
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $ipRestrictions =  IpRestriction::orderBy('id', 'desc')->paginate(20);
+            return view('settings.ip-restrictions.list')->with(compact('ipRestrictions'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function ipRestrictionsFilter(Request $request)
+    {
+        $ipRestrictions = IpRestriction::query();
+        if ($request->search) {
+            $ipRestrictions->where('ip_address', 'LIKE', '%' . $request->search . '%');
+        }
+        if ($request->status != null) {
+            $ipRestrictions->where('is_active', $request->status);
+        }
+        $ipRestrictions = $ipRestrictions->orderBy('id', 'desc')->paginate(20);
+
+        return response()->json(['view' => view('settings.ip-restrictions.filter', compact('ipRestrictions'))->render()]);
+    }
+
+    public function ipRestrictionsStore(Request $request)
+    {
+        $request->validate([
+            'ip_address' => 'required|unique:ip_restrictions',
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $ipRestriction = new IpRestriction();
+            $ipRestriction->create($request->all());
+            session()->flash('message', 'IP Restriction added successfully');
+            return response()->json(['message' => 'IP Restriction added successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+    public function ipRestrictionsEdit($id)
+    {
+        $ipRestriction = IpRestriction::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('settings.ip-restrictions.edit', compact('ipRestriction', 'edit'))->render(), 'status' => 'success']);
+    }
+
+    public function ipRestrictionsUpdate(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+
+        $request->validate([
+            'ip_address' => 'required|unique:ip_restrictions,ip_address,' . $id,
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $ipRestriction = IpRestriction::find($id);
+            $ipRestriction->update($request->all());
+            session()->flash('message', 'IP Restriction updated successfully');
+            return response()->json(['message' => 'IP Restriction updated successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+
+    public function ipRestrictionsDelete($id)
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $id = Crypt::decrypt($id);
+            $ipRestriction = IpRestriction::findOrFail($id);
+            $ipRestriction->delete();
+            return redirect()->back()->with('message', 'IP Restriction deleted successfully');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
 }
+

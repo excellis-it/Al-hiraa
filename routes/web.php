@@ -27,7 +27,7 @@ Route::post('forget-password', [AuthenticationController::class, 'forgetPassword
 Route::get('forget-password/show', [AuthenticationController::class, 'forgetPasswordShow'])->name('forget.password.show');
 Route::get('reset-password/{id}/{token}', [AuthenticationController::class, 'resetPassword'])->name('reset.password');
 
-Route::group(['middleware' => ['user','preventBackHistory']], function () {
+Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], function () {
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
     Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 
@@ -50,7 +50,8 @@ Route::group(['middleware' => ['user','preventBackHistory']], function () {
             Route::get('/delete/{id}',[SettingController::class,'membersDelete'])->name('members.delete');
             Route::get('/filter',[SettingController::class,'memberFilter'])->name('members.filter');
         });
-
+        // members.status
+        Route::get('/members-status',[SettingController::class,'membersStatus'])->name('members.status');
         // user-access
         Route::group(['prefix' => 'user-access'], function () {
             Route::get('/',[SettingController::class,'userAccess'])->name('user-access.index');
@@ -68,6 +69,16 @@ Route::group(['middleware' => ['user','preventBackHistory']], function () {
             Route::put('/update/{id}',[SettingController::class,'positionsUpdate'])->name('positions.update');
             Route::get('/delete/{id}',[SettingController::class,'positionsDelete'])->name('positions.delete');
             Route::get('/filter',[SettingController::class,'positionsFilter'])->name('positions.filter');
+        });
+
+        // ip restrictions
+        Route::group(['prefix' => 'ip-restrictions'], function () {
+            Route::get('/',[SettingController::class,'ipRestrictions'])->name('ip-restrictions.index');
+            Route::post('/store',[SettingController::class,'ipRestrictionsStore'])->name('ip-restrictions.store');
+            Route::get('/edit/{id}',[SettingController::class,'ipRestrictionsEdit'])->name('ip-restrictions.edit');
+            Route::put('/update/{id}',[SettingController::class,'ipRestrictionsUpdate'])->name('ip-restrictions.update');
+            Route::get('/delete/{id}',[SettingController::class,'ipRestrictionsDelete'])->name('ip-restrictions.delete');
+            Route::get('/filter',[SettingController::class,'ipRestrictionsFilter'])->name('ip-restrictions.filter');
         });
 
         Route::group(['prefix' => 'sources'], function () {
