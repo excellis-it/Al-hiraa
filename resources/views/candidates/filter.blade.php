@@ -2,11 +2,10 @@
     @foreach ($candidates as $item)
 
         <tr @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) @else
-        class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" @endif
-            id="candidate-{{ $item['id'] }}">
+        class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" id="candidate-{{ $item['id'] }}" @endif>
             {{-- checkbox for bulk select --}}
             @if (Auth::user()->hasRole('ADMIN'))
-            <td>
+            <td class="">
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input js-check-selected-row checkd-row"  data-id="{{$item['id']}}">
                 </div>
@@ -14,7 +13,7 @@
             @endif
             {{-- checkbox for bulk select --}}
             @can('View Candidate')
-                <td>
+                <td class="stick-td">
                     <a href="javascript:void(0);" class="edit-route"
                         data-route="{{ route('candidates.edit', $item['id']) }}"><i class="fas fa-eye"></i></a>
                 </td>
@@ -36,14 +35,11 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td class="content-short">{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : 'N/A' }}
+            <td class="content-short">{{ $item->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($item->candidateUpdate->created_at)) : date('d.m.Y', strtotime($item->updated_at)) }}
             </td>
             <td class="content-short">{{ $item->candidateUpdate->user->full_name ?? 'N/A' }}</td>
-            <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
-            <td class="content-short">
-                {{ $item->source ?? 'N/A' }}
-            </td>
-            <td class="content-short">{{ $item->full_name ?? 'N/A' }}</td>
+
+            <td class="">{{ $item->full_name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->gender ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
             {{--  age calculation date of birth --}}
@@ -60,9 +56,7 @@
             <td class="content-short">{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->passport_number ?? 'N/A' }}</td>
-            <td class="content-short">
-                {{ $item->city ?? 'N/A' }}
-            </td>
+            <td class="content-short">{{ $item->city ?? 'N/A' }}</td>
             <td class="content-short">
                 @if ($item->referred_by_id != null)
                     {{ $item->referredBy->full_name }}
@@ -70,10 +64,15 @@
                     {{ $item->referred_by ?? 'N/A' }}
                 @endif
             </td>
+            <td class="content-short">{{ $item->mode_of_registration ?? 'N/A' }}</td>
+            <td class="content-short">
+                {{ $item->source ?? 'N/A' }}
+            </td>
+
             <td class="content-short">
                 {{ $item->religion ?? 'N/A' }}
             </td>
-            <td class="content-short">
+            <td class="">
                 @if ($item->candidateIndianLicence()->count() > 0)
                     @foreach ($item->candidateIndianLicence as $key => $value)
                         <span class="badge bg-primary rounded-pill">
@@ -84,7 +83,7 @@
                     {{ 'N/A' }}
                 @endif
             </td>
-            <td class="content-short">
+            <td class="">
                 @if ($item->candidateGulfLicence()->count() > 0)
                     @foreach ($item->candidateGulfLicence as $key => $value)
                         <span class="badge bg-primary rounded-pill">
@@ -123,14 +122,14 @@
         </td>
         </tr>
     @endforeach
-    <tr>
+    <tr class="toxic">
         <td colspan="30" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
-                    (Showing {{ $candidates->firstItem() }} – {{ $candidates->lastItem() }} candidates of
-                    {{ $candidates->total() }} candidates)
+                    {!! $candidates->links() !!}
                 </div>
-                <div>{!! $candidates->links() !!}</div>
+                <div>(Showing {{ $candidates->firstItem() }} – {{ $candidates->lastItem() }} candidates of
+                    {{ $candidates->total() }} candidates)</div>
             </div>
         </td>
     </tr>

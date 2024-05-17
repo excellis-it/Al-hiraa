@@ -26,13 +26,13 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://localhost";
+        var tryItOutBaseUrl = "http://127.0.0.1:8000";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
-    <script src="../docs/js/tryitout-4.29.0.js"></script>
+    <script src="../docs/js/tryitout-4.30.0.js"></script>
 
-    <script src="../docs/js/theme-default-4.29.0.js"></script>
+    <script src="../docs/js/theme-default-4.30.0.js"></script>
 
 </head>
 
@@ -66,13 +66,48 @@
                     <a href="#authenticating-requests">Authenticating requests</a>
                 </li>
                             </ul>
-                    <ul id="tocify-header-endpoints" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="endpoints">
-                    <a href="#endpoints">Endpoints</a>
+                    <ul id="tocify-header-authentication" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="authentication">
+                    <a href="#authentication">Authentication</a>
                 </li>
-                                    <ul id="tocify-subheader-endpoints" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="endpoints-GETapi-user">
-                                <a href="#endpoints-GETapi-user">GET api/user</a>
+                                    <ul id="tocify-subheader-authentication" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-request-otp">
+                                <a href="#authentication-POSTapi-v1-request-otp">Request OTP</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-login">
+                                <a href="#authentication-POSTapi-v1-login">Login</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-register">
+                                <a href="#authentication-POSTapi-v1-register">Register User</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-request-otp-register">
+                                <a href="#authentication-POSTapi-v1-request-otp-register">Request OTP for Register</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-job" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="job">
+                    <a href="#job">Job</a>
+                </li>
+                                    <ul id="tocify-subheader-job" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="job-POSTapi-v1-job-list">
+                                <a href="#job-POSTapi-v1-job-list">List</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-profile" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="profile">
+                    <a href="#profile">Profile</a>
+                </li>
+                                    <ul id="tocify-subheader-profile" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-profile-my">
+                                <a href="#profile-POSTapi-v1-profile-my">Profile</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-profile-update">
+                                <a href="#profile-POSTapi-v1-profile-update">Update Profile</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-profile-edit">
+                                <a href="#profile-POSTapi-v1-profile-edit">Edit Profile</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -85,7 +120,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 3, 2024</li>
+        <li>Last updated: February 15, 2024</li>
     </ul>
 </div>
 
@@ -94,7 +129,7 @@
     <div class="content">
         <h1 id="introduction">Introduction</h1>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost</code>
+    <strong>Base URL</strong>: <code>http://127.0.0.1:8000</code>
 </aside>
 <p>This documentation aims to provide all the information you need to work with our API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
@@ -103,31 +138,35 @@ You can switch the language used with the tabs at the top right (or from the nav
         <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>This API is not authenticated.</p>
 
-        <h1 id="endpoints">Endpoints</h1>
+        <h1 id="authentication">Authentication</h1>
 
     
 
-                                <h2 id="endpoints-GETapi-user">GET api/user</h2>
+                                <h2 id="authentication-POSTapi-v1-request-otp">Request OTP</h2>
 
 <p>
 </p>
 
+<p>This endpoint will be used to request OTP for login.</p>
 
-
-<span id="example-requests-GETapi-user">
+<span id="example-requests-POSTapi-v1-request-otp">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/user" \
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/request-otp" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"mobile_number\": 9876543210
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/user"
+    "http://127.0.0.1:8000/api/v1/request-otp"
 );
 
 const headers = {
@@ -135,76 +174,74 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "mobile_number": 9876543210
+};
+
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
 
-<span id="example-responses-GETapi-user">
+<span id="example-responses-POSTapi-v1-request-otp">
             <blockquote>
-            <p>Example response (401):</p>
+            <p>Example response (200):</p>
         </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
+                <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;message&quot;: &quot;OTP sent successfully.&quot;
 }</code>
  </pre>
     </span>
-<span id="execution-results-GETapi-user" hidden>
+<span id="execution-results-POSTapi-v1-request-otp" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-GETapi-user"></span>:
+                id="execution-response-status-POSTapi-v1-request-otp"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-user"
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-request-otp"
       data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
 </span>
-<span id="execution-error-GETapi-user" hidden>
+<span id="execution-error-POSTapi-v1-request-otp" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-user">
+    <pre><code id="execution-error-message-POSTapi-v1-request-otp">
 
 Tip: Check that you&#039;re properly connected to the network.
 If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
 You can check the Dev Tools console for debugging information.</code></pre>
 </span>
-<form id="form-GETapi-user" data-method="GET"
-      data-path="api/user"
+<form id="form-POSTapi-v1-request-otp" data-method="POST"
+      data-path="api/v1/request-otp"
       data-authed="0"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-user', this);">
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-request-otp', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-user"
-                    onclick="tryItOut('GETapi-user');">Try it out ⚡
+                    id="btn-tryout-POSTapi-v1-request-otp"
+                    onclick="tryItOut('POSTapi-v1-request-otp');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-user"
-                    onclick="cancelTryOut('GETapi-user');" hidden>Cancel 🛑
+                    id="btn-canceltryout-POSTapi-v1-request-otp"
+                    onclick="cancelTryOut('POSTapi-v1-request-otp');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-user"
+                    id="btn-executetryout-POSTapi-v1-request-otp"
                     data-initial-text="Send Request 💥"
                     data-loading-text="⏱ Sending..."
                     hidden>Send Request 💥
             </button>
             </h3>
             <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/user</code></b>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/request-otp</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
                                 <div style="padding-left: 28px; clear: unset;">
@@ -212,7 +249,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-user"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-request-otp"
                value="application/json"
                data-component="header">
     <br>
@@ -223,7 +260,2263 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-user"
+                              name="Accept"                data-endpoint="POSTapi-v1-request-otp"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>mobile_number</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="mobile_number"                data-endpoint="POSTapi-v1-request-otp"
+               value="9876543210"
+               data-component="body">
+    <br>
+<p>Mobile Number of the user. Example: <code>9876543210</code></p>
+        </div>
+        </form>
+
+                    <h2 id="authentication-POSTapi-v1-login">Login</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to verify the OTP for login.</p>
+
+<span id="example-requests-POSTapi-v1-login">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/login" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"user_id\": 1,
+    \"otp\": 123456
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://127.0.0.1:8000/api/v1/login"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "user_id": 1,
+    "otp": 123456
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-login">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;OTP verified successfully.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-login" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-login"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-login"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-login" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-login">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-login" data-method="POST"
+      data-path="api/v1/login"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-login', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-login"
+                    onclick="tryItOut('POSTapi-v1-login');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-login"
+                    onclick="cancelTryOut('POSTapi-v1-login');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-login"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/login</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-login"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-login"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>user_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="user_id"                data-endpoint="POSTapi-v1-login"
+               value="1"
+               data-component="body">
+    <br>
+<p>User ID of the user. Example: <code>1</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>otp</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="otp"                data-endpoint="POSTapi-v1-login"
+               value="123456"
+               data-component="body">
+    <br>
+<p>6 digit OTP. Example: <code>123456</code></p>
+        </div>
+        </form>
+
+                    <h2 id="authentication-POSTapi-v1-register">Register User</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to register a new user.</p>
+
+<span id="example-requests-POSTapi-v1-register">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/register" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"full_name\": \"John Doe\",
+    \"contact_no\": 9876543210,
+    \"job_interest\": [
+        \"Job 1\",
+        \"Job 2\",
+        \"Job 3\"
+    ],
+    \"otp\": 123456
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://127.0.0.1:8000/api/v1/register"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "full_name": "John Doe",
+    "contact_no": 9876543210,
+    "job_interest": [
+        "Job 1",
+        "Job 2",
+        "Job 3"
+    ],
+    "otp": 123456
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-register">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;User registered successfully.&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The contact no has already been taken.&quot;,
+    &quot;status&quot;: false
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-register" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-register"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-register"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-register" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-register">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-register" data-method="POST"
+      data-path="api/v1/register"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-register', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-register"
+                    onclick="tryItOut('POSTapi-v1-register');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-register"
+                    onclick="cancelTryOut('POSTapi-v1-register');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-register"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/register</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-register"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-register"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>full_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="full_name"                data-endpoint="POSTapi-v1-register"
+               value="John Doe"
+               data-component="body">
+    <br>
+<p>Full Name of the user. Example: <code>John Doe</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>contact_no</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="contact_no"                data-endpoint="POSTapi-v1-register"
+               value="9876543210"
+               data-component="body">
+    <br>
+<p>Contact Number of the user. Example: <code>9876543210</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>job_interest</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="job_interest[0]"                data-endpoint="POSTapi-v1-register"
+               data-component="body">
+        <input type="text" style="display: none"
+               name="job_interest[1]"                data-endpoint="POSTapi-v1-register"
+               data-component="body">
+    <br>
+<p>Array of job interests.</p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>otp</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="otp"                data-endpoint="POSTapi-v1-register"
+               value="123456"
+               data-component="body">
+    <br>
+<p>6 digit OTP. Example: <code>123456</code></p>
+        </div>
+        </form>
+
+                    <h2 id="authentication-POSTapi-v1-request-otp-register">Request OTP for Register</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-request-otp-register">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/request-otp-register" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"mobile_number\": \"0969473364\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://127.0.0.1:8000/api/v1/request-otp-register"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "mobile_number": "0969473364"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-request-otp-register">
+</span>
+<span id="execution-results-POSTapi-v1-request-otp-register" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-request-otp-register"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-request-otp-register"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-request-otp-register" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-request-otp-register">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-request-otp-register" data-method="POST"
+      data-path="api/v1/request-otp-register"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-request-otp-register', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-request-otp-register"
+                    onclick="tryItOut('POSTapi-v1-request-otp-register');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-request-otp-register"
+                    onclick="cancelTryOut('POSTapi-v1-request-otp-register');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-request-otp-register"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/request-otp-register</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-request-otp-register"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-request-otp-register"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>mobile_number</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="mobile_number"                data-endpoint="POSTapi-v1-request-otp-register"
+               value="0969473364"
+               data-component="body">
+    <br>
+<p>Must be 10 digits. Example: <code>0969473364</code></p>
+        </div>
+        </form>
+
+                <h1 id="job">Job</h1>
+
+    
+
+                                <h2 id="job-POSTapi-v1-job-list">List</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to list all the jobs.</p>
+
+<span id="example-requests-POSTapi-v1-job-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/job/list?limit=10&amp;offset=0&amp;job_search=Job+Name&amp;location_search=Location" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://127.0.0.1:8000/api/v1/job/list"
+);
+
+const params = {
+    "limit": "10",
+    "offset": "0",
+    "job_search": "Job Name",
+    "location_search": "Location",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-job-list">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Jobs listed successfully.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-job-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-job-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-job-list"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-job-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-job-list">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-job-list" data-method="POST"
+      data-path="api/v1/job/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-job-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-job-list"
+                    onclick="tryItOut('POSTapi-v1-job-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-job-list"
+                    onclick="cancelTryOut('POSTapi-v1-job-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-job-list"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/job/list</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-job-list"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-job-list"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>limit</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="limit"                data-endpoint="POSTapi-v1-job-list"
+               value="10"
+               data-component="query">
+    <br>
+<p>Limit of the jobs. Example: <code>10</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>offset</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="offset"                data-endpoint="POSTapi-v1-job-list"
+               value="0"
+               data-component="query">
+    <br>
+<p>Offset of the jobs. Example: <code>0</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>job_search</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="job_search"                data-endpoint="POSTapi-v1-job-list"
+               value="Job Name"
+               data-component="query">
+    <br>
+<p>Search by job name. Example: <code>Job Name</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>location_search</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="location_search"                data-endpoint="POSTapi-v1-job-list"
+               value="Location"
+               data-component="query">
+    <br>
+<p>Search by location. Example: <code>Location</code></p>
+            </div>
+                </form>
+
+                <h1 id="profile">Profile</h1>
+
+    
+
+                                <h2 id="profile-POSTapi-v1-profile-my">Profile</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to get the profile of the user.</p>
+
+<span id="example-requests-POSTapi-v1-profile-my">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/profile/my" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://127.0.0.1:8000/api/v1/profile/my"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-profile-my">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Profile fetched successfully.&quot;,
+    &quot;status&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 128,
+        &quot;full_name&quot;: &quot;SWARNADWIP NATH&quot;,
+        &quot;email&quot;: &quot;SWARNADWIP@EXCELLISIT.NET&quot;,
+        &quot;phone&quot;: &quot;+918653996036&quot;,
+        &quot;enter_by&quot;: &quot;Admin Admin&quot;,
+        &quot;status&quot;: &quot;ACTIVE&quot;,
+        &quot;passport_no&quot;: null,
+        &quot;mode_of_registration&quot;: &quot;CALLING&quot;,
+        &quot;referred_by&quot;: &quot;Dilip Kumar Das&quot;,
+        &quot;last_updated_at&quot;: &quot;08.02.2024&quot;,
+        &quot;gender&quot;: &quot;MALE&quot;,
+        &quot;dob&quot;: &quot;10.08.2000&quot;,
+        &quot;age&quot;: 23,
+        &quot;education&quot;: &quot;GRADUATES&quot;,
+        &quot;other_education&quot;: null,
+        &quot;alternate_contact_no&quot;: null,
+        &quot;whatapp_no&quot;: &quot;+918653996036&quot;,
+        &quot;city&quot;: &quot;KOLKATA&quot;,
+        &quot;religion&quot;: &quot;HINDU&quot;,
+        &quot;ecr_type&quot;: &quot;ECR&quot;,
+        &quot;english_speak&quot;: &quot;GOOD&quot;,
+        &quot;arabic_speak&quot;: &quot;NO&quot;,
+        &quot;gulf_return&quot;: 1,
+        &quot;indian_experience&quot;: &quot;1 YEAR EXPERIENCE IN LARAVEL&quot;,
+        &quot;gulf_experience&quot;: null,
+        &quot;poition_applied_for&quot;: &quot;WEB DEVELOPER&quot;,
+        &quot;position_applied_for_1&quot;: null,
+        &quot;position_applied_for_2&quot;: null,
+        &quot;created_at&quot;: &quot;2024-02-08 10:18:18&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-profile-my" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-profile-my"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-profile-my"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-profile-my" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-profile-my">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-profile-my" data-method="POST"
+      data-path="api/v1/profile/my"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-profile-my', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-profile-my"
+                    onclick="tryItOut('POSTapi-v1-profile-my');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-profile-my"
+                    onclick="cancelTryOut('POSTapi-v1-profile-my');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-profile-my"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/profile/my</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-profile-my"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-profile-my"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="profile-POSTapi-v1-profile-update">Update Profile</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to update the profile of the user.</p>
+
+<span id="example-requests-POSTapi-v1-profile-update">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/profile/update" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"full_name\": \"John Doe\",
+    \"cnadidate_status_id\": 1,
+    \"email\": \"bmitchell@example.net\",
+    \"position_applied_for_1\": 1,
+    \"position_applied_for_2\": 2,
+    \"position_applied_for_3\": 3,
+    \"alternate_contact_no\": 9876543210,
+    \"whatapp_no\": 9876543210,
+    \"passport_number\": \"A1234567\",
+    \"gender\": \"MALE, FEMALE, OTHER\",
+    \"date_of_birth\": \"2000-01-01\",
+    \"mode_of_registration\": \"CALLING, WALK-IN\",
+    \"source\": \"TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER\",
+    \"education\": \"5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS\",
+    \"other_education\": \"Other Education\",
+    \"religion\": \"HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER\",
+    \"ecr_type\": \"ECR, ECNR\",
+    \"english_speak\": \"GOOD, BASIC, POOR, NO\",
+    \"arabic_speak\": \"GOOD, BASIC, POOR, NO\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://127.0.0.1:8000/api/v1/profile/update"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "full_name": "John Doe",
+    "cnadidate_status_id": 1,
+    "email": "bmitchell@example.net",
+    "position_applied_for_1": 1,
+    "position_applied_for_2": 2,
+    "position_applied_for_3": 3,
+    "alternate_contact_no": 9876543210,
+    "whatapp_no": 9876543210,
+    "passport_number": "A1234567",
+    "gender": "MALE, FEMALE, OTHER",
+    "date_of_birth": "2000-01-01",
+    "mode_of_registration": "CALLING, WALK-IN",
+    "source": "TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER",
+    "education": "5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS",
+    "other_education": "Other Education",
+    "religion": "HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER",
+    "ecr_type": "ECR, ECNR",
+    "english_speak": "GOOD, BASIC, POOR, NO",
+    "arabic_speak": "GOOD, BASIC, POOR, NO"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-profile-update">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;Profile updated successfully.&quot;,
+&quot;status&quot;: true,
+   *     &quot;id&quot;: 128,
+    &quot;full_name&quot;: &quot;SWARNADWIP NATH&quot;,
+    &quot;email&quot;: &quot;SWARNADWIP@EXCELLISIT.NET&quot;,
+    &quot;phone&quot;: &quot;+918653996036&quot;,
+    &quot;enter_by&quot;: &quot;Admin Admin&quot;,
+    &quot;status&quot;: &quot;ACTIVE&quot;,
+    &quot;passport_no&quot;: null,
+    &quot;mode_of_registration&quot;: &quot;CALLING&quot;,
+    &quot;referred_by&quot;: &quot;Dilip Kumar Das&quot;,
+    &quot;last_updated_at&quot;: &quot;08.02.2024&quot;,
+    &quot;gender&quot;: &quot;MALE&quot;,
+    &quot;dob&quot;: &quot;10.08.2000&quot;,
+    &quot;age&quot;: 23,
+    &quot;education&quot;: &quot;GRADUATES&quot;,
+    &quot;other_education&quot;: null,
+    &quot;alternate_contact_no&quot;: null,
+    &quot;whatapp_no&quot;: &quot;+918653996036&quot;,
+    &quot;city&quot;: &quot;KOLKATA&quot;,
+    &quot;religion&quot;: &quot;HINDU&quot;,
+    &quot;ecr_type&quot;: &quot;ECR&quot;,
+    &quot;english_speak&quot;: &quot;GOOD&quot;,
+    &quot;arabic_speak&quot;: &quot;NO&quot;,
+    &quot;gulf_return&quot;: 1,
+    &quot;indian_experience&quot;: &quot;1 YEAR EXPERIENCE IN LARAVEL&quot;,
+    &quot;gulf_experience&quot;: null,
+    &quot;poition_applied_for&quot;: &quot;WEB DEVELOPER&quot;,
+    &quot;position_applied_for_1&quot;: null,
+    &quot;position_applied_for_2&quot;: null,
+    &quot;created_at&quot;: &quot;2024-02-08 10:18:18&quot;
+  }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-profile-update" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-profile-update"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-profile-update"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-profile-update" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-profile-update">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-profile-update" data-method="POST"
+      data-path="api/v1/profile/update"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-profile-update', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-profile-update"
+                    onclick="tryItOut('POSTapi-v1-profile-update');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-profile-update"
+                    onclick="cancelTryOut('POSTapi-v1-profile-update');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-profile-update"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/profile/update</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-profile-update"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-profile-update"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>full_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="full_name"                data-endpoint="POSTapi-v1-profile-update"
+               value="John Doe"
+               data-component="body">
+    <br>
+<p>Full Name of the user. Example: <code>John Doe</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>cnadidate_status_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="cnadidate_status_id"                data-endpoint="POSTapi-v1-profile-update"
+               value="1"
+               data-component="body">
+    <br>
+<p>Candidate Status ID. Example: <code>1</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-profile-update"
+               value="bmitchell@example.net"
+               data-component="body">
+    <br>
+<p>Email of the user. Example: Example: <code>bmitchell@example.net</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>position_applied_for_1</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="position_applied_for_1"                data-endpoint="POSTapi-v1-profile-update"
+               value="1"
+               data-component="body">
+    <br>
+<p>Position Applied For 1. Example: <code>1</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>position_applied_for_2</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="position_applied_for_2"                data-endpoint="POSTapi-v1-profile-update"
+               value="2"
+               data-component="body">
+    <br>
+<p>Position Applied For 2. Example: <code>2</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>position_applied_for_3</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="position_applied_for_3"                data-endpoint="POSTapi-v1-profile-update"
+               value="3"
+               data-component="body">
+    <br>
+<p>Position Applied For 3. Example: <code>3</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>alternate_contact_no</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="alternate_contact_no"                data-endpoint="POSTapi-v1-profile-update"
+               value="9876543210"
+               data-component="body">
+    <br>
+<p>Alternate Contact Number of the user. Example: <code>9876543210</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>whatapp_no</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="whatapp_no"                data-endpoint="POSTapi-v1-profile-update"
+               value="9876543210"
+               data-component="body">
+    <br>
+<p>Whatapp Number of the user. Example: <code>9876543210</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>passport_number</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="passport_number"                data-endpoint="POSTapi-v1-profile-update"
+               value="A1234567"
+               data-component="body">
+    <br>
+<p>Passport Number of the user. Example: <code>A1234567</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>gender</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="gender"                data-endpoint="POSTapi-v1-profile-update"
+               value="MALE, FEMALE, OTHER"
+               data-component="body">
+    <br>
+<p>Gender of the user. Example: <code>MALE, FEMALE, OTHER</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>date_of_birth</code></b>&nbsp;&nbsp;
+<small>date</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="date_of_birth"                data-endpoint="POSTapi-v1-profile-update"
+               value="2000-01-01"
+               data-component="body">
+    <br>
+<p>Date of Birth of the user. Example: <code>2000-01-01</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>mode_of_registration</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="mode_of_registration"                data-endpoint="POSTapi-v1-profile-update"
+               value="CALLING, WALK-IN"
+               data-component="body">
+    <br>
+<p>Mode of Registration of the user. Example: <code>CALLING, WALK-IN</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>source</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="source"                data-endpoint="POSTapi-v1-profile-update"
+               value="TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER"
+               data-component="body">
+    <br>
+<p>Source of the user. Example: <code>TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>education</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="education"                data-endpoint="POSTapi-v1-profile-update"
+               value="5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS"
+               data-component="body">
+    <br>
+<p>Education of the user. Example: <code>5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>other_education</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="other_education"                data-endpoint="POSTapi-v1-profile-update"
+               value="Other Education"
+               data-component="body">
+    <br>
+<p>Other Education of the user. Example: <code>Other Education</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>religion</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="religion"                data-endpoint="POSTapi-v1-profile-update"
+               value="HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER"
+               data-component="body">
+    <br>
+<p>Religion of the user. Example: <code>HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>ecr_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="ecr_type"                data-endpoint="POSTapi-v1-profile-update"
+               value="ECR, ECNR"
+               data-component="body">
+    <br>
+<p>ECR Type of the user. Example: <code>ECR, ECNR</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>english_speak</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="english_speak"                data-endpoint="POSTapi-v1-profile-update"
+               value="GOOD, BASIC, POOR, NO"
+               data-component="body">
+    <br>
+<p>English Speak of the user. Example: <code>GOOD, BASIC, POOR, NO</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>arabic_speak</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="arabic_speak"                data-endpoint="POSTapi-v1-profile-update"
+               value="GOOD, BASIC, POOR, NO"
+               data-component="body">
+    <br>
+<p>Arabic Speak of the user. Example: <code>GOOD, BASIC, POOR, NO</code></p>
+        </div>
+        </form>
+
+                    <h2 id="profile-POSTapi-v1-profile-edit">Edit Profile</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to edit the profile of the user.</p>
+
+<span id="example-requests-POSTapi-v1-profile-edit">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://127.0.0.1:8000/api/v1/profile/edit" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://127.0.0.1:8000/api/v1/profile/edit"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-profile-edit">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Profile fetched successfully.&quot;,
+    &quot;status&quot;: true,
+    &quot;data&quot;: {
+        &quot;status&quot;: {
+            &quot;1&quot;: &quot;ACTIVE&quot;,
+            &quot;2&quot;: &quot;IN-ACTIVE&quot;,
+            &quot;3&quot;: &quot;BLACK LIST&quot;,
+            &quot;4&quot;: &quot;SELECTED&quot;,
+            &quot;5&quot;: &quot;BACKED OUT&quot;,
+            &quot;6&quot;: &quot;UNDER MEDICAL&quot;,
+            &quot;7&quot;: &quot;FIT&quot;,
+            &quot;8&quot;: &quot;UNFIT&quot;,
+            &quot;9&quot;: &quot;AWAITING VISA&quot;,
+            &quot;10&quot;: &quot;AWAITING DEPLOYMENT&quot;,
+            &quot;11&quot;: &quot;DEPLOYED&quot;
+        },
+        &quot;mode_of_registration&quot;: [
+            &quot;CALLING&quot;,
+            &quot;WALK-IN&quot;
+        ],
+        &quot;source&quot;: [
+            &quot;TELECALLING&quot;,
+            &quot;REFERANCE&quot;,
+            &quot;FACEBOOK&quot;,
+            &quot;INSTAGRAM&quot;,
+            &quot;OTHER&quot;
+        ],
+        &quot;gender&quot;: [
+            &quot;MALE&quot;,
+            &quot;FEMALE&quot;,
+            &quot;OTHER&quot;
+        ],
+        &quot;education&quot;: [
+            &quot;5TH PASS&quot;,
+            &quot;8TH PASS&quot;,
+            &quot;10TH PASS&quot;,
+            &quot;HIGHER SECONDARY&quot;,
+            &quot;GRADUATES&quot;,
+            &quot;MASTERS&quot;
+        ],
+        &quot;positions&quot;: {
+            &quot;1&quot;: &quot;AC TECHNICIAN SPLIT &amp; WINDOW&quot;,
+            &quot;2&quot;: &quot;ACCOUNTANT&quot;,
+            &quot;3&quot;: &quot;ALUMINIUM FABRICATOR&quot;,
+            &quot;4&quot;: &quot;ANIMAL WARDEN&quot;,
+            &quot;5&quot;: &quot;ANY HELPER&quot;,
+            &quot;6&quot;: &quot;ARABIC CHEF&quot;,
+            &quot;7&quot;: &quot;AREA RESTAURANT MANAGER&quot;,
+            &quot;8&quot;: &quot;ASST. ELECTRICIAN&quot;,
+            &quot;9&quot;: &quot;ASST. COOK&quot;,
+            &quot;10&quot;: &quot;ASST. PLUMBER&quot;,
+            &quot;11&quot;: &quot;ASST. RESTAURANT MANAGER&quot;,
+            &quot;12&quot;: &quot;ASST. SUPERVISOR&quot;,
+            &quot;13&quot;: &quot;ASST. WAITER&quot;,
+            &quot;14&quot;: &quot;AUTO AC TECHNICIAN&quot;,
+            &quot;15&quot;: &quot;AUTO ELECTRICIAN&quot;,
+            &quot;16&quot;: &quot;AUTO MOBILE ENG&quot;,
+            &quot;17&quot;: &quot;AUTO MOBILE TECHNICIAN&quot;,
+            &quot;18&quot;: &quot;AUTO CAD&quot;,
+            &quot;19&quot;: &quot;CDP&quot;,
+            &quot;20&quot;: &quot;CHEF&quot;,
+            &quot;21&quot;: &quot;D-CDP&quot;,
+            &quot;22&quot;: &quot;BAKERY &amp; PASTRY MAN&quot;,
+            &quot;23&quot;: &quot;SOUS CHEF&quot;,
+            &quot;24&quot;: &quot;BAKERY MAN&quot;,
+            &quot;25&quot;: &quot;MANAGER&quot;,
+            &quot;26&quot;: &quot;BANQUET SUPERVISOR&quot;,
+            &quot;27&quot;: &quot;BARTENDER&quot;,
+            &quot;28&quot;: &quot;BARBER FEMALE&quot;,
+            &quot;29&quot;: &quot;BARBER MALE&quot;,
+            &quot;30&quot;: &quot;BARISTA&quot;,
+            &quot;31&quot;: &quot;BELL BOY&quot;,
+            &quot;32&quot;: &quot;BIKE MECHANIC&quot;,
+            &quot;33&quot;: &quot;BOILER OPERATOR&quot;,
+            &quot;34&quot;: &quot;BOUNCER&quot;,
+            &quot;35&quot;: &quot;BULLDOZER OPERATOR&quot;,
+            &quot;36&quot;: &quot;BUSSER&quot;,
+            &quot;37&quot;: &quot;BUTCHER&quot;,
+            &quot;38&quot;: &quot;BUTCHER &amp; SLAUGHTERER&quot;,
+            &quot;39&quot;: &quot;BUTCHER MACHINE CUTTER&quot;,
+            &quot;40&quot;: &quot;CABLE JOINTER&quot;,
+            &quot;41&quot;: &quot;CAMP BOSS&quot;,
+            &quot;42&quot;: &quot;CAPTAIN&quot;,
+            &quot;43&quot;: &quot;CASHIER&quot;,
+            &quot;44&quot;: &quot;CATERING SUPERVISOR&quot;,
+            &quot;45&quot;: &quot;CDP&quot;,
+            &quot;46&quot;: &quot;CHAPATI MAKER&quot;,
+            &quot;47&quot;: &quot;CHARTERED ACCOUNTANT&quot;,
+            &quot;48&quot;: &quot;CIVIL ENGG&quot;,
+            &quot;49&quot;: &quot;CIVIL FOREMAN&quot;,
+            &quot;50&quot;: &quot;HELPER&quot;,
+            &quot;51&quot;: &quot;CIVIL SUPERVISOR&quot;,
+            &quot;52&quot;: &quot;COBBLER&quot;,
+            &quot;53&quot;: &quot;COLD KITCHEN CHEF&quot;,
+            &quot;54&quot;: &quot;COMPUTER EMBROIDER&quot;,
+            &quot;55&quot;: &quot;COMPUTER ENGINEER&quot;,
+            &quot;56&quot;: &quot;COMPUTER HARDWARE &amp; NETWORKING&quot;,
+            &quot;57&quot;: &quot;COMPUTER OPERATOR&quot;,
+            &quot;58&quot;: &quot;COMPUTER TECHNICIAN&quot;,
+            &quot;59&quot;: &quot;CONTINENTAL CHEF&quot;,
+            &quot;60&quot;: &quot;CRANE OPERATOR&quot;,
+            &quot;61&quot;: &quot;DELIVERY BOY&quot;,
+            &quot;62&quot;: &quot;DENTER&quot;,
+            &quot;63&quot;: &quot;DIALYSIS MACHINE TECHNICIAN&quot;,
+            &quot;64&quot;: &quot;DOCTOR&quot;,
+            &quot;65&quot;: &quot;DOCUMENT CONTROLLER&quot;,
+            &quot;66&quot;: &quot;DRAFTSMAN CIVIL&quot;,
+            &quot;67&quot;: &quot;DRAFTSMAN MECHANICAL&quot;,
+            &quot;68&quot;: &quot;DRAUGHTSMEN&quot;,
+            &quot;69&quot;: &quot;DUCT ERECTOR&quot;,
+            &quot;70&quot;: &quot;DUCT FABRICATOR&quot;,
+            &quot;71&quot;: &quot;DUCT INSULATOR&quot;,
+            &quot;72&quot;: &quot;DUCTMAN&quot;,
+            &quot;73&quot;: &quot;ELECTRICAL ENGINEER&quot;,
+            &quot;74&quot;: &quot;ELECTRICAL SUPERVISOR&quot;,
+            &quot;75&quot;: &quot;ELECTRICIAN 220&quot;,
+            &quot;76&quot;: &quot;ELECTRICIAN 220 &amp; 440&quot;,
+            &quot;77&quot;: &quot;ELECTRICIAN 440&quot;,
+            &quot;78&quot;: &quot;ELECTRICIAN PANEL BOARD&quot;,
+            &quot;79&quot;: &quot;ELECTRICAL TECHNICIAN&quot;,
+            &quot;80&quot;: &quot;EXCAVATOR OPERATOR&quot;,
+            &quot;81&quot;: &quot;EXECUTIVE CHEF&quot;,
+            &quot;82&quot;: &quot;F &amp; B SERVICE&quot;,
+            &quot;83&quot;: &quot;F &amp; B SUPERVISOR&quot;,
+            &quot;84&quot;: &quot;FEMALE NURSE&quot;,
+            &quot;85&quot;: &quot;FINISHING CARPENTER&quot;,
+            &quot;86&quot;: &quot;GARDENER&quot;,
+            &quot;87&quot;: &quot;WELDER&quot;,
+            &quot;88&quot;: &quot;COOK&quot;,
+            &quot;89&quot;: &quot;GENTS TAILOR&quot;,
+            &quot;90&quot;: &quot;GLASS DESIGNER&quot;,
+            &quot;91&quot;: &quot;GOLD SMITH&quot;,
+            &quot;92&quot;: &quot;GRAPHIC DESIGNER&quot;,
+            &quot;93&quot;: &quot;GYM TRAINER&quot;,
+            &quot;94&quot;: &quot;HOST&quot;,
+            &quot;95&quot;: &quot;HOUSEKEEPER&quot;,
+            &quot;96&quot;: &quot;HOUSEKEEPING SUPERVISOR&quot;,
+            &quot;97&quot;: &quot;HR&quot;,
+            &quot;98&quot;: &quot;HR MANAGER&quot;,
+            &quot;99&quot;: &quot;HV DRIVER&quot;,
+            &quot;100&quot;: &quot;HVAC CHILLER PLANT&quot;,
+            &quot;101&quot;: &quot;HVAC FOREMAN&quot;,
+            &quot;102&quot;: &quot;HVAC TECHNICIAN&quot;,
+            &quot;103&quot;: &quot;IATA OFFICER&quot;,
+            &quot;104&quot;: &quot;CHEF&quot;,
+            &quot;105&quot;: &quot;INSTRUMENT TECHNICIAN&quot;,
+            &quot;106&quot;: &quot;INTERIOR DESIGNER&quot;,
+            &quot;107&quot;: &quot;IT ENGINEER&quot;,
+            &quot;108&quot;: &quot;JCB OPERATOR&quot;,
+            &quot;109&quot;: &quot;JUICE MAKER&quot;,
+            &quot;110&quot;: &quot;KITCHEN STEWARD&quot;,
+            &quot;111&quot;: &quot;LADIES TAILOR&quot;,
+            &quot;112&quot;: &quot;LAND SURVEYOR&quot;,
+            &quot;113&quot;: &quot;LAPTOP TECHNICIAN&quot;,
+            &quot;114&quot;: &quot;LAUNDRY BOY&quot;,
+            &quot;115&quot;: &quot;LAUNDRY SUPERVISOR&quot;,
+            &quot;116&quot;: &quot;LIFT TECHNICIAN&quot;,
+            &quot;117&quot;: &quot;LMV DRIVER&quot;,
+            &quot;118&quot;: &quot;LOADING &amp; UNLOADING&quot;,
+            &quot;119&quot;: &quot;LOGISTIC MANAGER&quot;,
+            &quot;120&quot;: &quot;LOGISTIC OFFICER&quot;,
+            &quot;121&quot;: &quot;LOGISTIC SUPERVISOR&quot;,
+            &quot;122&quot;: &quot;MACHINE EMBROIDER&quot;,
+            &quot;123&quot;: &quot;MALE NURSE&quot;,
+            &quot;124&quot;: &quot;MECHANICAL ENGINEER&quot;,
+            &quot;125&quot;: &quot;HELPER&quot;,
+            &quot;126&quot;: &quot;MECHANICAL SUPERVISOR&quot;,
+            &quot;127&quot;: &quot;MERCHANDISER&quot;,
+            &quot;128&quot;: &quot;MOBILE CRANE OPERATOR&quot;,
+            &quot;129&quot;: &quot;MOBILE HARDWARE TECHNICIAN&quot;,
+            &quot;130&quot;: &quot;MOBILE SOFTWARE TECHNICIAN&quot;,
+            &quot;131&quot;: &quot;MOCKTAIL&quot;,
+            &quot;132&quot;: &quot;OFFICE BOY&quot;,
+            &quot;133&quot;: &quot;OFFICE MACHINE OPERATOR&quot;,
+            &quot;134&quot;: &quot;PACKERS&quot;,
+            &quot;135&quot;: &quot;PARATHA MAKER&quot;,
+            &quot;136&quot;: &quot;PEST CONTROL&quot;,
+            &quot;137&quot;: &quot;LMV MECHANIC PETROL&quot;,
+            &quot;138&quot;: &quot;LMV MECHANIC DIESEL&quot;,
+            &quot;139&quot;: &quot;HV MECHANIC PETROL&quot;,
+            &quot;140&quot;: &quot;HV MECHANIC DIESEL&quot;,
+            &quot;141&quot;: &quot;PHARMACIST&quot;,
+            &quot;142&quot;: &quot;PHOTOGRAPHER&quot;,
+            &quot;143&quot;: &quot;PIPE FITTER&quot;,
+            &quot;144&quot;: &quot;PIZZA MAKER&quot;,
+            &quot;145&quot;: &quot;PLUMBER&quot;,
+            &quot;146&quot;: &quot;POCLAIN OPERATOR&quot;,
+            &quot;147&quot;: &quot;POP&quot;,
+            &quot;148&quot;: &quot;QURAAN HAFEEZ&quot;,
+            &quot;149&quot;: &quot;RCC FITTER&quot;,
+            &quot;150&quot;: &quot;RECEPTIONIST&quot;,
+            &quot;151&quot;: &quot;REFRIGERATION TECHNICIAN&quot;,
+            &quot;152&quot;: &quot;RESTAURANT MANAGER&quot;,
+            &quot;153&quot;: &quot;RESTAURANT SHIFT MANAGER&quot;,
+            &quot;154&quot;: &quot;RESTAURANT SUPERVISOR&quot;,
+            &quot;155&quot;: &quot;RIGGER&quot;,
+            &quot;156&quot;: &quot;ROOM BOY&quot;,
+            &quot;157&quot;: &quot;RUNNER&quot;,
+            &quot;158&quot;: &quot;SAFETY ENGINEER&quot;,
+            &quot;159&quot;: &quot;SAFETY OFFICER&quot;,
+            &quot;160&quot;: &quot;SALAD MAKER&quot;,
+            &quot;161&quot;: &quot;SALES MANAGER&quot;,
+            &quot;162&quot;: &quot;MANAGER&quot;,
+            &quot;163&quot;: &quot;SCAFFOLDER&quot;,
+            &quot;164&quot;: &quot;SCREEN PRINTER&quot;,
+            &quot;165&quot;: &quot;SECURITY GUARD&quot;,
+            &quot;166&quot;: &quot;SENIOR WAITER&quot;,
+            &quot;167&quot;: &quot;SERVICE CREW&quot;,
+            &quot;168&quot;: &quot;SERVICE QUALITY CONTROLLER&quot;,
+            &quot;169&quot;: &quot;FOOD QUALITY CONTROLLER&quot;,
+            &quot;170&quot;: &quot;SHUTTERING CARPENTER&quot;,
+            &quot;171&quot;: &quot;SOFA MAKER&quot;,
+            &quot;172&quot;: &quot;SOFTWARE DEVELOPER&quot;,
+            &quot;173&quot;: &quot;SOUS CHEF&quot;,
+            &quot;174&quot;: &quot;COOK&quot;,
+            &quot;175&quot;: &quot;SPRAY PAINTER&quot;,
+            &quot;176&quot;: &quot;STEEL FABRICATOR&quot;,
+            &quot;177&quot;: &quot;STEEL FIXER&quot;,
+            &quot;178&quot;: &quot;STEWARD&quot;,
+            &quot;179&quot;: &quot;POTTER&quot;,
+            &quot;180&quot;: &quot;STOREKEEPER&quot;,
+            &quot;181&quot;: &quot;TEACHER&quot;,
+            &quot;182&quot;: &quot;TELE CALLER&quot;,
+            &quot;183&quot;: &quot;CHEF&quot;,
+            &quot;184&quot;: &quot;MASON&quot;,
+            &quot;185&quot;: &quot;TIMEKEEPER&quot;,
+            &quot;186&quot;: &quot;TOWER CRANE OPERATOR&quot;,
+            &quot;187&quot;: &quot;DRIVER&quot;,
+            &quot;188&quot;: &quot;TYRE TECHNICIAN&quot;,
+            &quot;189&quot;: &quot;UTILITY OPERATOR&quot;,
+            &quot;190&quot;: &quot;WAITER&quot;,
+            &quot;191&quot;: &quot;WALL PAINTER&quot;,
+            &quot;192&quot;: &quot;WAREHOUSE MANAGER&quot;,
+            &quot;193&quot;: &quot;WAREHOUSE SUPERVISOR&quot;,
+            &quot;194&quot;: &quot;WEB DEVELOPER&quot;,
+            &quot;195&quot;: &quot;WELDER&quot;,
+            &quot;196&quot;: &quot;XRAY TECHNICIAN&quot;,
+            &quot;197&quot;: &quot;Web Development&quot;,
+            &quot;198&quot;: &quot;Graphics Designer&quot;,
+            &quot;199&quot;: &quot;STORE MANAGER&quot;,
+            &quot;200&quot;: &quot;UNKNOWN&quot;,
+            &quot;201&quot;: &quot;CREW TRAINER&quot;,
+            &quot;202&quot;: &quot;TANDOOR CHEF&quot;,
+            &quot;203&quot;: &quot;TANDOOR COOK&quot;,
+            &quot;204&quot;: &quot;SALESMAN&quot;,
+            &quot;205&quot;: &quot;TROLLY BOY&quot;,
+            &quot;206&quot;: &quot;WATER PUREFIRE TECHNICION&quot;,
+            &quot;207&quot;: &quot;house keeping&quot;,
+            &quot;208&quot;: &quot;clenear&quot;,
+            &quot;209&quot;: &quot;DATA ENTERY&quot;,
+            &quot;210&quot;: &quot;CARPENTER&quot;,
+            &quot;211&quot;: &quot;DATA ANALYSIS&quot;,
+            &quot;212&quot;: &quot;TEAM LEADER&quot;,
+            &quot;213&quot;: &quot;PRODUCTION ENGINER&quot;,
+            &quot;214&quot;: &quot;QUALITY CHECK&quot;,
+            &quot;215&quot;: &quot;BACK OFFICE&quot;
+        },
+        &quot;city&quot;: [
+            &quot;ADILABAD&quot;,
+            &quot;AGRA&quot;,
+            &quot;AHMEDABAD&quot;,
+            &quot;AHMEDNAGAR&quot;,
+            &quot;AIZAWL&quot;,
+            &quot;AJITGARH (MOHALI)&quot;,
+            &quot;AJMER&quot;,
+            &quot;AKOLA&quot;,
+            &quot;ALAPPUZHA&quot;,
+            &quot;ALIGARH&quot;,
+            &quot;ALIRAJPUR&quot;,
+            &quot;ALLAHABAD&quot;,
+            &quot;ALMORA&quot;,
+            &quot;ALWAR&quot;,
+            &quot;AMBALA&quot;,
+            &quot;AMBEDKAR NAGAR&quot;,
+            &quot;AMRAVATI&quot;,
+            &quot;AMRELI DISTRICT&quot;,
+            &quot;AMRITSAR&quot;,
+            &quot;ANAND&quot;,
+            &quot;ANANTAPUR&quot;,
+            &quot;ANANTNAG&quot;,
+            &quot;ANGUL&quot;,
+            &quot;ANJAW&quot;,
+            &quot;ANUPPUR&quot;,
+            &quot;ARARIA&quot;,
+            &quot;ARIYALUR&quot;,
+            &quot;ARWAL&quot;,
+            &quot;ASHOK NAGAR&quot;,
+            &quot;AURAIYA&quot;,
+            &quot;AURANGABAD&quot;,
+            &quot;AURANGABAD&quot;,
+            &quot;AZAMGARH&quot;,
+            &quot;BADGAM&quot;,
+            &quot;BAGALKOT&quot;,
+            &quot;BAGESHWAR&quot;,
+            &quot;BAGPAT&quot;,
+            &quot;BAHRAICH&quot;,
+            &quot;BAKSA&quot;,
+            &quot;BALAGHAT&quot;,
+            &quot;BALANGIR&quot;,
+            &quot;BALASORE&quot;,
+            &quot;BALLIA&quot;,
+            &quot;BALRAMPUR&quot;,
+            &quot;BANASKANTHA&quot;,
+            &quot;BANDA&quot;,
+            &quot;BANDIPORA&quot;,
+            &quot;BANGALORE&quot;,
+            &quot;BANKA&quot;,
+            &quot;BANKURA&quot;,
+            &quot;BANSWARA&quot;,
+            &quot;BARABANKI&quot;,
+            &quot;BARAMULLA&quot;,
+            &quot;BARAN&quot;,
+            &quot;BARDHAMAN&quot;,
+            &quot;BAREILLY&quot;,
+            &quot;BARGARH (BARAGARH)&quot;,
+            &quot;BARMER&quot;,
+            &quot;BARNALA&quot;,
+            &quot;BARPETA&quot;,
+            &quot;BARWANI&quot;,
+            &quot;BASTAR&quot;,
+            &quot;BASTI&quot;,
+            &quot;BATHINDA&quot;,
+            &quot;BEED&quot;,
+            &quot;BEGUSARAI&quot;,
+            &quot;BELGAUM&quot;,
+            &quot;BELLARY&quot;,
+            &quot;BETUL&quot;,
+            &quot;BHADRAK&quot;,
+            &quot;BHAGALPUR&quot;,
+            &quot;BHANDARA&quot;,
+            &quot;BHARATPUR&quot;,
+            &quot;BHARUCH&quot;,
+            &quot;BHAVNAGAR&quot;,
+            &quot;BHILWARA&quot;,
+            &quot;BHIND&quot;,
+            &quot;BHIWANI&quot;,
+            &quot;BHOJPUR&quot;,
+            &quot;BHOPAL&quot;,
+            &quot;BIDAR&quot;,
+            &quot;BIJAPUR&quot;,
+            &quot;BIJAPUR&quot;,
+            &quot;BIJNOR&quot;,
+            &quot;BIKANER&quot;,
+            &quot;BILASPUR&quot;,
+            &quot;BILASPUR&quot;,
+            &quot;BIRBHUM&quot;,
+            &quot;BISHNUPUR&quot;,
+            &quot;BOKARO&quot;,
+            &quot;BONGAIGAON&quot;,
+            &quot;BOUDH (BAUDA)&quot;,
+            &quot;BUDAUN&quot;,
+            &quot;BULANDSHAHR&quot;,
+            &quot;BULDHANA&quot;,
+            &quot;BUNDI&quot;,
+            &quot;BURHANPUR&quot;,
+            &quot;BUXAR&quot;,
+            &quot;CACHAR&quot;,
+            &quot;CENTRAL DELHI&quot;,
+            &quot;CHAMARAJNAGAR&quot;,
+            &quot;CHAMBA&quot;,
+            &quot;CHAMOLI&quot;,
+            &quot;CHAMPAWAT&quot;,
+            &quot;CHAMPHAI&quot;,
+            &quot;CHANDAULI&quot;,
+            &quot;CHANDEL&quot;,
+            &quot;CHANDIGARH&quot;,
+            &quot;CHANDRAPUR&quot;,
+            &quot;CHANGLANG&quot;,
+            &quot;CHATRA&quot;,
+            &quot;CHENNAI&quot;,
+            &quot;CHHATARPUR&quot;,
+            &quot;CHHATRAPATI SHAHUJI MAHARAJ NAGAR&quot;,
+            &quot;CHHINDWARA&quot;,
+            &quot;CHIKKABALLAPUR&quot;,
+            &quot;CHIKKAMAGALURU&quot;,
+            &quot;CHIRANG&quot;,
+            &quot;CHITRADURGA&quot;,
+            &quot;CHITRAKOOT&quot;,
+            &quot;CHITTOOR&quot;,
+            &quot;CHITTORGARH&quot;,
+            &quot;CHURACHANDPUR&quot;,
+            &quot;CHURU&quot;,
+            &quot;COIMBATORE&quot;,
+            &quot;COOCH BEHAR&quot;,
+            &quot;CUDDALORE&quot;,
+            &quot;CUTTACK&quot;,
+            &quot;DADRA AND NAGAR HAVELI&quot;,
+            &quot;DAHOD&quot;,
+            &quot;DAKSHIN DINAJPUR&quot;,
+            &quot;DAKSHINA KANNADA&quot;,
+            &quot;DAMAN&quot;,
+            &quot;DAMOH&quot;,
+            &quot;DANTEWADA&quot;,
+            &quot;DARBHANGA&quot;,
+            &quot;DARJEELING&quot;,
+            &quot;DARRANG&quot;,
+            &quot;DATIA&quot;,
+            &quot;DAUSA&quot;,
+            &quot;DAVANAGERE&quot;,
+            &quot;DEBAGARH (DEOGARH)&quot;,
+            &quot;DEHRADUN&quot;,
+            &quot;DEOGHAR&quot;,
+            &quot;DEORIA&quot;,
+            &quot;DEWAS&quot;,
+            &quot;DHALAI&quot;,
+            &quot;DHAMTARI&quot;,
+            &quot;DHANBAD&quot;,
+            &quot;DHAR&quot;,
+            &quot;DHARMAPURI&quot;,
+            &quot;DHARWAD&quot;,
+            &quot;DHEMAJI&quot;,
+            &quot;DHENKANAL&quot;,
+            &quot;DHOLPUR&quot;,
+            &quot;DHUBRI&quot;,
+            &quot;DHULE&quot;,
+            &quot;DIBANG VALLEY&quot;,
+            &quot;DIBRUGARH&quot;,
+            &quot;DIMA HASAO&quot;,
+            &quot;DIMAPUR&quot;,
+            &quot;DINDIGUL&quot;,
+            &quot;DINDORI&quot;,
+            &quot;DIU&quot;,
+            &quot;DODA&quot;,
+            &quot;DUMKA&quot;,
+            &quot;DUNGAPUR&quot;,
+            &quot;DURG&quot;,
+            &quot;EAST CHAMPARAN&quot;,
+            &quot;EAST DELHI&quot;,
+            &quot;EAST GARO HILLS&quot;,
+            &quot;EAST KHASI HILLS&quot;,
+            &quot;EAST SIANG&quot;,
+            &quot;EAST SIKKIM&quot;,
+            &quot;EAST SINGHBHUM&quot;,
+            &quot;ELURU&quot;,
+            &quot;ERNAKULAM&quot;,
+            &quot;ERODE&quot;,
+            &quot;ETAH&quot;,
+            &quot;ETAWAH&quot;,
+            &quot;FAIZABAD&quot;,
+            &quot;FARIDABAD&quot;,
+            &quot;FARIDKOT&quot;,
+            &quot;FARRUKHABAD&quot;,
+            &quot;FATEHABAD&quot;,
+            &quot;FATEHGARH SAHIB&quot;,
+            &quot;FATEHPUR&quot;,
+            &quot;FAZILKA&quot;,
+            &quot;FIROZABAD&quot;,
+            &quot;FIROZPUR&quot;,
+            &quot;GADAG&quot;,
+            &quot;GADCHIROLI&quot;,
+            &quot;GAJAPATI&quot;,
+            &quot;GANDERBAL&quot;,
+            &quot;GANDHINAGAR&quot;,
+            &quot;GANGANAGAR&quot;,
+            &quot;GANJAM&quot;,
+            &quot;GARHWA&quot;,
+            &quot;GAUTAM BUDDH NAGAR&quot;,
+            &quot;GAYA&quot;,
+            &quot;GHAZIABAD&quot;,
+            &quot;GHAZIPUR&quot;,
+            &quot;GIRIDIH&quot;,
+            &quot;GOALPARA&quot;,
+            &quot;GODDA&quot;,
+            &quot;GOLAGHAT&quot;,
+            &quot;GONDA&quot;,
+            &quot;GONDIA&quot;,
+            &quot;GOPALGANJ&quot;,
+            &quot;GORAKHPUR&quot;,
+            &quot;GULBARGA&quot;,
+            &quot;GUMLA&quot;,
+            &quot;GUNA&quot;,
+            &quot;GUNTUR&quot;,
+            &quot;GURDASPUR&quot;,
+            &quot;GURGAON&quot;,
+            &quot;GWALIOR&quot;,
+            &quot;HAILAKANDI&quot;,
+            &quot;HAMIRPUR&quot;,
+            &quot;HAMIRPUR&quot;,
+            &quot;HANUMANGARH&quot;,
+            &quot;HARDA&quot;,
+            &quot;HARDOI&quot;,
+            &quot;HARIDWAR&quot;,
+            &quot;HASSAN&quot;,
+            &quot;HAVERI DISTRICT&quot;,
+            &quot;HAZARIBAG&quot;,
+            &quot;HINGOLI&quot;,
+            &quot;HISSAR&quot;,
+            &quot;HOOGHLY&quot;,
+            &quot;HOSHANGABAD&quot;,
+            &quot;HOSHIARPUR&quot;,
+            &quot;HOWRAH&quot;,
+            &quot;HYDERABAD&quot;,
+            &quot;HYDERABAD&quot;,
+            &quot;IDUKKI&quot;,
+            &quot;IMPHAL EAST&quot;,
+            &quot;IMPHAL WEST&quot;,
+            &quot;INDORE&quot;,
+            &quot;JABALPUR&quot;,
+            &quot;JAGATSINGHPUR&quot;,
+            &quot;JAINTIA HILLS&quot;,
+            &quot;JAIPUR&quot;,
+            &quot;JAISALMER&quot;,
+            &quot;JAJPUR&quot;,
+            &quot;JALANDHAR&quot;,
+            &quot;JALAUN&quot;,
+            &quot;JALGAON&quot;,
+            &quot;JALNA&quot;,
+            &quot;JALORE&quot;,
+            &quot;JALPAIGURI&quot;,
+            &quot;JAMMU&quot;,
+            &quot;JAMNAGAR&quot;,
+            &quot;JAMTARA&quot;,
+            &quot;JAMUI&quot;,
+            &quot;JANJGIR-CHAMPA&quot;,
+            &quot;JASHPUR&quot;,
+            &quot;JAUNPUR DISTRICT&quot;,
+            &quot;JEHANABAD&quot;,
+            &quot;JHABUA&quot;,
+            &quot;JHAJJAR&quot;,
+            &quot;JHALAWAR&quot;,
+            &quot;JHANSI&quot;,
+            &quot;JHARSUGUDA&quot;,
+            &quot;JHUNJHUNU&quot;,
+            &quot;JIND&quot;,
+            &quot;JODHPUR&quot;,
+            &quot;JORHAT&quot;,
+            &quot;JUNAGADH&quot;,
+            &quot;JYOTIBA PHULE NAGAR&quot;,
+            &quot;KABIRDHAM (FORMERLY KAWARDHA)&quot;,
+            &quot;KADAPA&quot;,
+            &quot;KAIMUR&quot;,
+            &quot;KAITHAL&quot;,
+            &quot;KAKINADA&quot;,
+            &quot;KALAHANDI&quot;,
+            &quot;KAMRUP&quot;,
+            &quot;KAMRUP METROPOLITAN&quot;,
+            &quot;KANCHIPURAM&quot;,
+            &quot;KANDHAMAL&quot;,
+            &quot;KANGRA&quot;,
+            &quot;KANKER&quot;,
+            &quot;KANNAUJ&quot;,
+            &quot;KANNUR&quot;,
+            &quot;KANPUR&quot;,
+            &quot;KANSHI RAM NAGAR&quot;,
+            &quot;KANYAKUMARI&quot;,
+            &quot;KAPURTHALA&quot;,
+            &quot;KARAIKAL&quot;,
+            &quot;KARAULI&quot;,
+            &quot;KARBI ANGLONG&quot;,
+            &quot;KARGIL&quot;,
+            &quot;KARIMGANJ&quot;,
+            &quot;KARIMNAGAR&quot;,
+            &quot;KARNAL&quot;,
+            &quot;KARUR&quot;,
+            &quot;KASARAGOD&quot;,
+            &quot;KATHUA&quot;,
+            &quot;KATIHAR&quot;,
+            &quot;KATNI&quot;,
+            &quot;KAUSHAMBI&quot;,
+            &quot;KENDRAPARA&quot;,
+            &quot;KENDUJHAR (KEONJHAR)&quot;,
+            &quot;KHAGARIA&quot;,
+            &quot;KHAMMAM&quot;,
+            &quot;KHANDWA (EAST NIMAR)&quot;,
+            &quot;KHARGONE (WEST NIMAR)&quot;,
+            &quot;KHEDA&quot;,
+            &quot;KHORDHA&quot;,
+            &quot;KHOWAI&quot;,
+            &quot;KHUNTI&quot;,
+            &quot;KINNAUR&quot;,
+            &quot;KISHANGANJ&quot;,
+            &quot;KISHTWAR&quot;,
+            &quot;KODAGU&quot;,
+            &quot;KODERMA&quot;,
+            &quot;KOHIMA&quot;,
+            &quot;KOKRAJHAR&quot;,
+            &quot;KOLAR&quot;,
+            &quot;KOLASIB&quot;,
+            &quot;KOLHAPUR&quot;,
+            &quot;KOLKATA&quot;,
+            &quot;KOLLAM&quot;,
+            &quot;KOPPAL&quot;,
+            &quot;KORAPUT&quot;,
+            &quot;KORBA&quot;,
+            &quot;KORIYA&quot;,
+            &quot;KOTA&quot;,
+            &quot;KOTTAYAM&quot;,
+            &quot;KOZHIKODE&quot;,
+            &quot;KRISHNA&quot;,
+            &quot;KULGAM&quot;,
+            &quot;KULLU&quot;,
+            &quot;KUPWARA&quot;,
+            &quot;KURNOOL&quot;,
+            &quot;KURUKSHETRA&quot;,
+            &quot;KURUNG KUMEY&quot;,
+            &quot;KUSHINAGAR&quot;,
+            &quot;KUTCH&quot;,
+            &quot;LAHAUL AND SPITI&quot;,
+            &quot;LAKHIMPUR&quot;,
+            &quot;LAKHIMPUR KHERI&quot;,
+            &quot;LAKHISARAI&quot;,
+            &quot;LALITPUR&quot;,
+            &quot;LATEHAR&quot;,
+            &quot;LATUR&quot;,
+            &quot;LAWNGTLAI&quot;,
+            &quot;LEH&quot;,
+            &quot;LOHARDAGA&quot;,
+            &quot;LOHIT&quot;,
+            &quot;LOWER DIBANG VALLEY&quot;,
+            &quot;LOWER SUBANSIRI&quot;,
+            &quot;LUCKNOW&quot;,
+            &quot;LUDHIANA&quot;,
+            &quot;LUNGLEI&quot;,
+            &quot;MADHEPURA&quot;,
+            &quot;MADHUBANI&quot;,
+            &quot;MADURAI&quot;,
+            &quot;MAHAMAYA NAGAR&quot;,
+            &quot;MAHARAJGANJ&quot;,
+            &quot;MAHASAMUND&quot;,
+            &quot;MAHBUBNAGAR&quot;,
+            &quot;MAHE&quot;,
+            &quot;MAHENDRAGARH&quot;,
+            &quot;MAHOBA&quot;,
+            &quot;MAINPURI&quot;,
+            &quot;MALAPPURAM&quot;,
+            &quot;MALDAH&quot;,
+            &quot;MALKANGIRI&quot;,
+            &quot;MAMIT&quot;,
+            &quot;MANDI&quot;,
+            &quot;MANDLA&quot;,
+            &quot;MANDSAUR&quot;,
+            &quot;MANDYA&quot;,
+            &quot;MANSA&quot;,
+            &quot;MARIGAON&quot;,
+            &quot;MATHURA&quot;,
+            &quot;MAU&quot;,
+            &quot;MAYURBHANJ&quot;,
+            &quot;MEDAK&quot;,
+            &quot;MEERUT&quot;,
+            &quot;MEHSANA&quot;,
+            &quot;MEWAT&quot;,
+            &quot;MIRZAPUR&quot;,
+            &quot;MOGA&quot;,
+            &quot;MOKOKCHUNG&quot;,
+            &quot;MON&quot;,
+            &quot;MORADABAD&quot;,
+            &quot;MORENA&quot;,
+            &quot;MUMBAI&quot;,
+            &quot;MUNGER&quot;,
+            &quot;MURSHIDABAD&quot;,
+            &quot;MUZAFFARNAGAR&quot;,
+            &quot;MUZAFFARPUR&quot;,
+            &quot;MYSORE&quot;,
+            &quot;NABARANGPUR&quot;,
+            &quot;NADIA&quot;,
+            &quot;NAGAON&quot;,
+            &quot;NAGAPATTINAM&quot;,
+            &quot;NAGAUR&quot;,
+            &quot;NAGPUR&quot;,
+            &quot;NAINITAL&quot;,
+            &quot;NALANDA&quot;,
+            &quot;NALBARI&quot;,
+            &quot;NALGONDA&quot;,
+            &quot;NAMAKKAL&quot;,
+            &quot;NANDED&quot;,
+            &quot;NANDURBAR&quot;,
+            &quot;NARAYANPUR&quot;,
+            &quot;NARMADA&quot;,
+            &quot;NARSINGHPUR&quot;,
+            &quot;NASHIK&quot;,
+            &quot;NAVSARI&quot;,
+            &quot;NAWADA&quot;,
+            &quot;NAWANSHAHR&quot;,
+            &quot;NAYAGARH&quot;,
+            &quot;NEEMUCH&quot;,
+            &quot;NELLORE&quot;,
+            &quot;NEW DELHI&quot;,
+            &quot;NILGIRIS&quot;,
+            &quot;NIZAMABAD&quot;,
+            &quot;NORTH 24 PARGANAS&quot;,
+            &quot;NORTH DELHI&quot;,
+            &quot;NORTH EAST DELHI&quot;,
+            &quot;NORTH GOA&quot;,
+            &quot;NORTH SIKKIM&quot;,
+            &quot;NORTH TRIPURA&quot;,
+            &quot;NORTH WEST DELHI&quot;,
+            &quot;NUAPADA&quot;,
+            &quot;ONGOLE&quot;,
+            &quot;OSMANABAD&quot;,
+            &quot;PAKUR&quot;,
+            &quot;PALAKKAD&quot;,
+            &quot;PALAMU&quot;,
+            &quot;PALI&quot;,
+            &quot;PALWAL&quot;,
+            &quot;PANCHKULA&quot;,
+            &quot;PANCHMAHAL&quot;,
+            &quot;PANCHSHEEL NAGAR DISTRICT (HAPUR)&quot;,
+            &quot;PANIPAT&quot;,
+            &quot;PANNA&quot;,
+            &quot;PAPUM PARE&quot;,
+            &quot;PARBHANI&quot;,
+            &quot;PASCHIM MEDINIPUR&quot;,
+            &quot;PATAN&quot;,
+            &quot;PATHANAMTHITTA&quot;,
+            &quot;PATHANKOT&quot;,
+            &quot;PATIALA&quot;,
+            &quot;PATNA&quot;,
+            &quot;PAURI GARHWAL&quot;,
+            &quot;PERAMBALUR&quot;,
+            &quot;PHEK&quot;,
+            &quot;PILIBHIT&quot;,
+            &quot;PITHORAGARH&quot;,
+            &quot;PONDICHERRY&quot;,
+            &quot;POONCH&quot;,
+            &quot;PORBANDAR&quot;,
+            &quot;PRATAPGARH&quot;,
+            &quot;PRATAPGARH&quot;,
+            &quot;PUDUKKOTTAI&quot;,
+            &quot;PULWAMA&quot;,
+            &quot;PUNE&quot;,
+            &quot;PURBA MEDINIPUR&quot;,
+            &quot;PURI&quot;,
+            &quot;PURNIA&quot;,
+            &quot;PURULIA&quot;,
+            &quot;RAEBARELI&quot;,
+            &quot;RAICHUR&quot;,
+            &quot;RAIGAD&quot;,
+            &quot;RAIGARH&quot;,
+            &quot;RAIPUR&quot;,
+            &quot;RAISEN&quot;,
+            &quot;RAJAURI&quot;,
+            &quot;RAJGARH&quot;,
+            &quot;RAJKOT&quot;,
+            &quot;RAJNANDGAON&quot;,
+            &quot;RAJSAMAND&quot;,
+            &quot;RAMABAI NAGAR (KANPUR DEHAT)&quot;,
+            &quot;RAMANAGARA&quot;,
+            &quot;RAMANATHAPURAM&quot;,
+            &quot;RAMBAN&quot;,
+            &quot;RAMGARH&quot;,
+            &quot;RAMPUR&quot;,
+            &quot;RANCHI&quot;,
+            &quot;RATLAM&quot;,
+            &quot;RATNAGIRI&quot;,
+            &quot;RAYAGADA&quot;,
+            &quot;REASI&quot;,
+            &quot;REWA&quot;,
+            &quot;REWARI&quot;,
+            &quot;RI BHOI&quot;,
+            &quot;ROHTAK&quot;,
+            &quot;ROHTAS&quot;,
+            &quot;RUDRAPRAYAG&quot;,
+            &quot;RUPNAGAR&quot;,
+            &quot;SABARKANTHA&quot;,
+            &quot;SAGAR&quot;,
+            &quot;SAHARANPUR&quot;,
+            &quot;SAHARSA&quot;,
+            &quot;SAHIBGANJ&quot;,
+            &quot;SAIHA&quot;,
+            &quot;SALEM&quot;,
+            &quot;SAMASTIPUR&quot;,
+            &quot;SAMBA&quot;,
+            &quot;SAMBALPUR&quot;,
+            &quot;SANGLI&quot;,
+            &quot;SANGRUR&quot;,
+            &quot;SANT KABIR NAGAR&quot;,
+            &quot;SANT RAVIDAS NAGAR&quot;,
+            &quot;SARAN&quot;,
+            &quot;SATARA&quot;,
+            &quot;SATNA&quot;,
+            &quot;SAWAI MADHOPUR&quot;,
+            &quot;SEHORE&quot;,
+            &quot;SENAPATI&quot;,
+            &quot;SEONI&quot;,
+            &quot;SERAIKELA KHARSAWAN&quot;,
+            &quot;SERCHHIP&quot;,
+            &quot;SHAHDOL&quot;,
+            &quot;SHAHJAHANPUR&quot;,
+            &quot;SHAJAPUR&quot;,
+            &quot;SHAMLI&quot;,
+            &quot;SHEIKHPURA&quot;,
+            &quot;SHEOHAR&quot;,
+            &quot;SHEOPUR&quot;,
+            &quot;SHIMLA&quot;,
+            &quot;SHIMOGA&quot;,
+            &quot;SHIVPURI&quot;,
+            &quot;SHOPIAN&quot;,
+            &quot;SHRAVASTI&quot;,
+            &quot;SIBSAGAR&quot;,
+            &quot;SIDDHARTHNAGAR&quot;,
+            &quot;SIDHI&quot;,
+            &quot;SIKAR&quot;,
+            &quot;SIMDEGA&quot;,
+            &quot;SINDHUDURG&quot;,
+            &quot;SINGRAULI&quot;,
+            &quot;SIRMAUR&quot;,
+            &quot;SIROHI&quot;,
+            &quot;SIRSA&quot;,
+            &quot;SITAMARHI&quot;,
+            &quot;SITAPUR&quot;,
+            &quot;SIVAGANGA&quot;,
+            &quot;SIWAN&quot;,
+            &quot;SOLAN&quot;,
+            &quot;SOLAPUR&quot;,
+            &quot;SONBHADRA&quot;,
+            &quot;SONIPAT&quot;,
+            &quot;SONITPUR&quot;,
+            &quot;SOUTH 24 PARGANAS&quot;,
+            &quot;SOUTH DELHI&quot;,
+            &quot;SOUTH GARO HILLS&quot;,
+            &quot;SOUTH GOA&quot;,
+            &quot;SOUTH SIKKIM&quot;,
+            &quot;SOUTH TRIPURA&quot;,
+            &quot;SOUTH WEST DELHI&quot;,
+            &quot;SRI MUKTSAR SAHIB&quot;,
+            &quot;SRIKAKULAM&quot;,
+            &quot;SRINAGAR&quot;,
+            &quot;SUBARNAPUR (SONEPUR)&quot;,
+            &quot;SULTANPUR&quot;,
+            &quot;SUNDERGARH&quot;,
+            &quot;SUPAUL&quot;,
+            &quot;SURAT&quot;,
+            &quot;SURENDRANAGAR&quot;,
+            &quot;SURGUJA&quot;,
+            &quot;TAMENGLONG&quot;,
+            &quot;TARN TARAN&quot;,
+            &quot;TAWANG&quot;,
+            &quot;TEHRI GARHWAL&quot;,
+            &quot;THANE&quot;,
+            &quot;THANJAVUR&quot;,
+            &quot;THE DANGS&quot;,
+            &quot;THENI&quot;,
+            &quot;THIRUVANANTHAPURAM&quot;,
+            &quot;THOOTHUKUDI&quot;,
+            &quot;THOUBAL&quot;,
+            &quot;THRISSUR&quot;,
+            &quot;TIKAMGARH&quot;,
+            &quot;TINSUKIA&quot;,
+            &quot;TIRAP&quot;,
+            &quot;TIRUCHIRAPPALLI&quot;,
+            &quot;TIRUNELVELI&quot;,
+            &quot;TIRUPUR&quot;,
+            &quot;TIRUVALLUR&quot;,
+            &quot;TIRUVANNAMALAI&quot;,
+            &quot;TIRUVARUR&quot;,
+            &quot;TONK&quot;,
+            &quot;TUENSANG&quot;,
+            &quot;TUMKUR&quot;,
+            &quot;UDAIPUR&quot;,
+            &quot;UDALGURI&quot;,
+            &quot;UDHAM SINGH NAGAR&quot;,
+            &quot;UDHAMPUR&quot;,
+            &quot;UDUPI&quot;,
+            &quot;UJJAIN&quot;,
+            &quot;UKHRUL&quot;,
+            &quot;UMARIA&quot;,
+            &quot;UNA&quot;,
+            &quot;UNNAO&quot;,
+            &quot;UPPER SIANG&quot;,
+            &quot;UPPER SUBANSIRI&quot;,
+            &quot;UTTAR DINAJPUR&quot;,
+            &quot;UTTARA KANNADA&quot;,
+            &quot;UTTARKASHI&quot;,
+            &quot;VADODARA&quot;,
+            &quot;VAISHALI&quot;,
+            &quot;VALSAD&quot;,
+            &quot;VARANASI&quot;,
+            &quot;VELLORE&quot;,
+            &quot;VIDISHA&quot;,
+            &quot;VILUPPURAM&quot;,
+            &quot;VIRUDHUNAGAR&quot;,
+            &quot;VISAKHAPATNAM&quot;,
+            &quot;VIZIANAGARAM&quot;,
+            &quot;VYARA&quot;,
+            &quot;WARANGAL&quot;,
+            &quot;WARDHA&quot;,
+            &quot;WASHIM&quot;,
+            &quot;WAYANAD&quot;,
+            &quot;WEST CHAMPARAN&quot;,
+            &quot;WEST DELHI&quot;,
+            &quot;WEST GARO HILLS&quot;,
+            &quot;WEST KAMENG&quot;,
+            &quot;WEST KHASI HILLS&quot;,
+            &quot;WEST SIANG&quot;,
+            &quot;WEST SIKKIM&quot;,
+            &quot;WEST SINGHBHUM&quot;,
+            &quot;WEST TRIPURA&quot;,
+            &quot;WOKHA&quot;,
+            &quot;YADGIR&quot;,
+            &quot;YAMUNA NAGAR&quot;,
+            &quot;YANAM&quot;,
+            &quot;YAVATMAL&quot;,
+            &quot;ZUNHEBOTO&quot;
+        ],
+        &quot;religion&quot;: [
+            &quot;HINDU&quot;,
+            &quot;ISLAM&quot;,
+            &quot;CHRISTIAN&quot;,
+            &quot;BUDDHIST&quot;,
+            &quot;SIKH&quot;,
+            &quot;JAIN&quot;,
+            &quot;OTHER&quot;
+        ],
+        &quot;ecr_type&quot;: [
+            &quot;ECR&quot;,
+            &quot;ECNR&quot;
+        ],
+        &quot;english_speak&quot;: [
+            &quot;GOOD&quot;,
+            &quot;BASIC&quot;,
+            &quot;POOR&quot;,
+            &quot;NO&quot;
+        ],
+        &quot;arabic_speak&quot;: [
+            &quot;GOOD&quot;,
+            &quot;BASIC&quot;,
+            &quot;POOR&quot;,
+            &quot;NO&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-profile-edit" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-profile-edit"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-profile-edit"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-profile-edit" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-profile-edit">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-profile-edit" data-method="POST"
+      data-path="api/v1/profile/edit"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-profile-edit', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-profile-edit"
+                    onclick="tryItOut('POSTapi-v1-profile-edit');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-profile-edit"
+                    onclick="cancelTryOut('POSTapi-v1-profile-edit');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-profile-edit"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/profile/edit</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-profile-edit"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-profile-edit"
                value="application/json"
                data-component="header">
     <br>

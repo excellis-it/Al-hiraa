@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\CandidateFieldUpdate;
+use App\Models\IpRestriction;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
@@ -21,6 +22,16 @@ class Helper
             return $candidate_updated;
         } else {
             return [];
+        }
+    }
+
+    public static function ipCheck($ipAddress)
+    {
+        $ipRestriction = IpRestriction::where('ip_address', $ipAddress)->where('is_active', true)->first();
+        if ($ipRestriction) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

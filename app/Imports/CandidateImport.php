@@ -24,7 +24,7 @@ class CandidateImport implements ToCollection, WithHeadingRow
     {
         Validator::make($rows->toArray(), [
             '*.full_name' => 'required',
-            '*.dob' => 'required',
+            // '*.dob' => 'required',
             '*.contact_no' => 'required|numeric|unique:candidates|digits:10',
             '*.email' => 'nullable|email|unique:candidates',
             '*.position_applied_for_1' => 'required',
@@ -61,7 +61,7 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $position_1_count = CandidatePosition::where('id', $row['position_applied_for_1'])->count();
             $position_2_count = CandidatePosition::where('id', $row['position_applied_for_2'])->count();
             $position_3_count = CandidatePosition::where('id', $row['position_applied_for_3'])->count();
-            
+
             if ($row['position_applied_for_1']) {
                 if ($position_1_count > 0) {
                     $candidate->position_applied_for_1 = $row['position_applied_for_1'];

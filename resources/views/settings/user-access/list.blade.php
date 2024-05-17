@@ -238,7 +238,7 @@
                                                         </td>
                                                         <td>
                                                             @can('Delete User Access')
-                                                                @if ($role->name == 'RECRUITER' || $role->name == 'PROCESS MANAGER' || $role->name == 'DATA ENTRY OPERATOR' || $role->name == 'ASSOCIATE')
+                                                                @if ($role->name == 'RECRUITER' || $role->name == 'PROCESS MANAGER' || $role->name == 'DATA ENTRY OPERATOR' || $role->name == 'ASSOCIATE' || $role->name == 'VENDOR')
                                                                 @else
                                                                     <a title="Delete User"
                                                                         data-route="{{ route('user-access.delete', Crypt::encrypt($role->id)) }}"

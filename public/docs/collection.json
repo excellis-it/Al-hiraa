@@ -5,30 +5,212 @@
             "key": "baseUrl",
             "type": "string",
             "name": "string",
-            "value": "http:\/\/localhost"
+            "value": "http:\/\/127.0.0.1:8000"
         }
     ],
     "info": {
         "name": "Al Hiraa",
-        "_postman_id": "d1ae6390-7bb5-431c-ae59-aedf66c715f7",
+        "_postman_id": "db543948-4522-4ff5-9230-ddfca9bb54da",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
         {
-            "name": "Endpoints",
+            "name": "Authentication",
             "description": "",
             "item": [
                 {
-                    "name": "GET api\/user",
+                    "name": "Request OTP",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/user",
+                            "path": "api\/v1\/request-otp",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/user"
+                            "raw": "{{baseUrl}}\/api\/v1\/request-otp"
                         },
-                        "method": "GET",
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"mobile_number\":9876543210}"
+                        },
+                        "description": "This endpoint will be used to request OTP for login.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"OTP sent successfully.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":1,\"otp\":123456}"
+                        },
+                        "description": "This endpoint will be used to verify the OTP for login.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"message\": \"OTP verified successfully.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Register User",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"full_name\":\"John Doe\",\"contact_no\":9876543210,\"job_interest\":[\"Job 1\",\"Job 2\",\"Job 3\"],\"otp\":123456}"
+                        },
+                        "description": "This endpoint will be used to register a new user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"message\": \"User registered successfully.\"\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n\"message\": \"The contact no has already been taken.\",\n\"status\": false\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Request OTP for Register",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/request-otp-register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/request-otp-register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"mobile_number\":\"0969473364\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Job",
+            "description": "",
+            "item": [
+                {
+                    "name": "List",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/job\/list",
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10",
+                                    "description": "Limit of the jobs.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "offset",
+                                    "value": "",
+                                    "description": "Offset of the jobs.",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "job_search",
+                                    "value": "Job+Name",
+                                    "description": "Search by job name.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "location_search",
+                                    "value": "Location",
+                                    "description": "Search by location.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/v1\/job\/list?limit=10&offset=&job_search=Job+Name&location_search=Location"
+                        },
+                        "method": "POST",
                         "header": [
                             {
                                 "key": "Content-Type",
@@ -40,29 +222,130 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
+                        "description": "This endpoint will be used to list all the jobs.",
                         "auth": {
                             "type": "noauth"
                         }
                     },
                     "response": [
                         {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n \"message\": \"Jobs listed successfully.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Profile",
+            "description": "",
+            "item": [
+                {
+                    "name": "Profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/profile\/my",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/profile\/my"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint will be used to get the profile of the user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"message\": \"Profile fetched successfully.\",\n\"status\": true,\n\"data\": {\n    \"id\": 128,\n    \"full_name\": \"SWARNADWIP NATH\",\n    \"email\": \"SWARNADWIP@EXCELLISIT.NET\",\n    \"phone\": \"+918653996036\",\n    \"enter_by\": \"Admin Admin\",\n    \"status\": \"ACTIVE\",\n    \"passport_no\": null,\n    \"mode_of_registration\": \"CALLING\",\n    \"referred_by\": \"Dilip Kumar Das\",\n    \"last_updated_at\": \"08.02.2024\",\n    \"gender\": \"MALE\",\n    \"dob\": \"10.08.2000\",\n    \"age\": 23,\n    \"education\": \"GRADUATES\",\n    \"other_education\": null,\n    \"alternate_contact_no\": null,\n    \"whatapp_no\": \"+918653996036\",\n    \"city\": \"KOLKATA\",\n    \"religion\": \"HINDU\",\n    \"ecr_type\": \"ECR\",\n    \"english_speak\": \"GOOD\",\n    \"arabic_speak\": \"NO\",\n    \"gulf_return\": 1,\n    \"indian_experience\": \"1 YEAR EXPERIENCE IN LARAVEL\",\n    \"gulf_experience\": null,\n    \"poition_applied_for\": \"WEB DEVELOPER\",\n    \"position_applied_for_1\": null,\n    \"position_applied_for_2\": null,\n    \"created_at\": \"2024-02-08 10:18:18\"\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update Profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/profile\/update",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/profile\/update"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"full_name\":\"John Doe\",\"cnadidate_status_id\":1,\"email\":\"bmitchell@example.net\",\"position_applied_for_1\":1,\"position_applied_for_2\":2,\"position_applied_for_3\":3,\"alternate_contact_no\":9876543210,\"whatapp_no\":9876543210,\"passport_number\":\"A1234567\",\"gender\":\"MALE, FEMALE, OTHER\",\"date_of_birth\":\"2000-01-01\",\"mode_of_registration\":\"CALLING, WALK-IN\",\"source\":\"TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER\",\"education\":\"5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS\",\"other_education\":\"Other Education\",\"religion\":\"HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER\",\"ecr_type\":\"ECR, ECNR\",\"english_speak\":\"GOOD, BASIC, POOR, NO\",\"arabic_speak\":\"GOOD, BASIC, POOR, NO\"}"
+                        },
+                        "description": "This endpoint will be used to update the profile of the user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"message\": \"Profile updated successfully.\",\n\"status\": true,\n   *     \"id\": 128,\n    \"full_name\": \"SWARNADWIP NATH\",\n    \"email\": \"SWARNADWIP@EXCELLISIT.NET\",\n    \"phone\": \"+918653996036\",\n    \"enter_by\": \"Admin Admin\",\n    \"status\": \"ACTIVE\",\n    \"passport_no\": null,\n    \"mode_of_registration\": \"CALLING\",\n    \"referred_by\": \"Dilip Kumar Das\",\n    \"last_updated_at\": \"08.02.2024\",\n    \"gender\": \"MALE\",\n    \"dob\": \"10.08.2000\",\n    \"age\": 23,\n    \"education\": \"GRADUATES\",\n    \"other_education\": null,\n    \"alternate_contact_no\": null,\n    \"whatapp_no\": \"+918653996036\",\n    \"city\": \"KOLKATA\",\n    \"religion\": \"HINDU\",\n    \"ecr_type\": \"ECR\",\n    \"english_speak\": \"GOOD\",\n    \"arabic_speak\": \"NO\",\n    \"gulf_return\": 1,\n    \"indian_experience\": \"1 YEAR EXPERIENCE IN LARAVEL\",\n    \"gulf_experience\": null,\n    \"poition_applied_for\": \"WEB DEVELOPER\",\n    \"position_applied_for_1\": null,\n    \"position_applied_for_2\": null,\n    \"created_at\": \"2024-02-08 10:18:18\"\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Edit Profile",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/profile\/edit",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/profile\/edit"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint will be used to edit the profile of the user.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"message\": \"Profile fetched successfully.\",\n\"status\": true,\n\"data\": {\n       \"status\": {\n           \"1\": \"ACTIVE\",\n           \"2\": \"IN-ACTIVE\",\n           \"3\": \"BLACK LIST\",\n           \"4\": \"SELECTED\",\n           \"5\": \"BACKED OUT\",\n           \"6\": \"UNDER MEDICAL\",\n           \"7\": \"FIT\",\n           \"8\": \"UNFIT\",\n           \"9\": \"AWAITING VISA\",\n           \"10\": \"AWAITING DEPLOYMENT\",\n           \"11\": \"DEPLOYED\"\n       },\n       \"mode_of_registration\": [\n           \"CALLING\",\n           \"WALK-IN\"\n       ],\n       \"source\": [\n           \"TELECALLING\",\n           \"REFERANCE\",\n           \"FACEBOOK\",\n           \"INSTAGRAM\",\n           \"OTHER\"\n       ],\n       \"gender\": [\n           \"MALE\",\n           \"FEMALE\",\n           \"OTHER\"\n       ],\n       \"education\": [\n           \"5TH PASS\",\n           \"8TH PASS\",\n           \"10TH PASS\",\n           \"HIGHER SECONDARY\",\n           \"GRADUATES\",\n           \"MASTERS\"\n       ],\n       \"positions\": {\n           \"1\": \"AC TECHNICIAN SPLIT & WINDOW\",\n           \"2\": \"ACCOUNTANT\",\n           \"3\": \"ALUMINIUM FABRICATOR\",\n           \"4\": \"ANIMAL WARDEN\",\n           \"5\": \"ANY HELPER\",\n           \"6\": \"ARABIC CHEF\",\n           \"7\": \"AREA RESTAURANT MANAGER\",\n           \"8\": \"ASST. ELECTRICIAN\",\n           \"9\": \"ASST. COOK\",\n           \"10\": \"ASST. PLUMBER\",\n           \"11\": \"ASST. RESTAURANT MANAGER\",\n           \"12\": \"ASST. SUPERVISOR\",\n           \"13\": \"ASST. WAITER\",\n           \"14\": \"AUTO AC TECHNICIAN\",\n           \"15\": \"AUTO ELECTRICIAN\",\n           \"16\": \"AUTO MOBILE ENG\",\n           \"17\": \"AUTO MOBILE TECHNICIAN\",\n           \"18\": \"AUTO CAD\",\n           \"19\": \"CDP\",\n           \"20\": \"CHEF\",\n           \"21\": \"D-CDP\",\n           \"22\": \"BAKERY & PASTRY MAN\",\n           \"23\": \"SOUS CHEF\",\n           \"24\": \"BAKERY MAN\",\n           \"25\": \"MANAGER\",\n           \"26\": \"BANQUET SUPERVISOR\",\n           \"27\": \"BARTENDER\",\n           \"28\": \"BARBER FEMALE\",\n           \"29\": \"BARBER MALE\",\n           \"30\": \"BARISTA\",\n           \"31\": \"BELL BOY\",\n           \"32\": \"BIKE MECHANIC\",\n           \"33\": \"BOILER OPERATOR\",\n           \"34\": \"BOUNCER\",\n           \"35\": \"BULLDOZER OPERATOR\",\n           \"36\": \"BUSSER\",\n           \"37\": \"BUTCHER\",\n           \"38\": \"BUTCHER & SLAUGHTERER\",\n           \"39\": \"BUTCHER MACHINE CUTTER\",\n           \"40\": \"CABLE JOINTER\",\n           \"41\": \"CAMP BOSS\",\n           \"42\": \"CAPTAIN\",\n           \"43\": \"CASHIER\",\n           \"44\": \"CATERING SUPERVISOR\",\n           \"45\": \"CDP\",\n           \"46\": \"CHAPATI MAKER\",\n           \"47\": \"CHARTERED ACCOUNTANT\",\n           \"48\": \"CIVIL ENGG\",\n           \"49\": \"CIVIL FOREMAN\",\n           \"50\": \"HELPER\",\n           \"51\": \"CIVIL SUPERVISOR\",\n           \"52\": \"COBBLER\",\n           \"53\": \"COLD KITCHEN CHEF\",\n           \"54\": \"COMPUTER EMBROIDER\",\n           \"55\": \"COMPUTER ENGINEER\",\n           \"56\": \"COMPUTER HARDWARE & NETWORKING\",\n           \"57\": \"COMPUTER OPERATOR\",\n           \"58\": \"COMPUTER TECHNICIAN\",\n           \"59\": \"CONTINENTAL CHEF\",\n           \"60\": \"CRANE OPERATOR\",\n           \"61\": \"DELIVERY BOY\",\n           \"62\": \"DENTER\",\n           \"63\": \"DIALYSIS MACHINE TECHNICIAN\",\n           \"64\": \"DOCTOR\",\n           \"65\": \"DOCUMENT CONTROLLER\",\n           \"66\": \"DRAFTSMAN CIVIL\",\n           \"67\": \"DRAFTSMAN MECHANICAL\",\n           \"68\": \"DRAUGHTSMEN\",\n           \"69\": \"DUCT ERECTOR\",\n           \"70\": \"DUCT FABRICATOR\",\n           \"71\": \"DUCT INSULATOR\",\n           \"72\": \"DUCTMAN\",\n           \"73\": \"ELECTRICAL ENGINEER\",\n           \"74\": \"ELECTRICAL SUPERVISOR\",\n           \"75\": \"ELECTRICIAN 220\",\n           \"76\": \"ELECTRICIAN 220 & 440\",\n           \"77\": \"ELECTRICIAN 440\",\n           \"78\": \"ELECTRICIAN PANEL BOARD\",\n           \"79\": \"ELECTRICAL TECHNICIAN\",\n           \"80\": \"EXCAVATOR OPERATOR\",\n           \"81\": \"EXECUTIVE CHEF\",\n           \"82\": \"F & B SERVICE\",\n           \"83\": \"F & B SUPERVISOR\",\n           \"84\": \"FEMALE NURSE\",\n           \"85\": \"FINISHING CARPENTER\",\n           \"86\": \"GARDENER\",\n           \"87\": \"WELDER\",\n           \"88\": \"COOK\",\n           \"89\": \"GENTS TAILOR\",\n           \"90\": \"GLASS DESIGNER\",\n           \"91\": \"GOLD SMITH\",\n           \"92\": \"GRAPHIC DESIGNER\",\n           \"93\": \"GYM TRAINER\",\n           \"94\": \"HOST\",\n           \"95\": \"HOUSEKEEPER\",\n           \"96\": \"HOUSEKEEPING SUPERVISOR\",\n           \"97\": \"HR\",\n           \"98\": \"HR MANAGER\",\n           \"99\": \"HV DRIVER\",\n           \"100\": \"HVAC CHILLER PLANT\",\n           \"101\": \"HVAC FOREMAN\",\n           \"102\": \"HVAC TECHNICIAN\",\n           \"103\": \"IATA OFFICER\",\n           \"104\": \"CHEF\",\n           \"105\": \"INSTRUMENT TECHNICIAN\",\n           \"106\": \"INTERIOR DESIGNER\",\n           \"107\": \"IT ENGINEER\",\n           \"108\": \"JCB OPERATOR\",\n           \"109\": \"JUICE MAKER\",\n           \"110\": \"KITCHEN STEWARD\",\n           \"111\": \"LADIES TAILOR\",\n           \"112\": \"LAND SURVEYOR\",\n           \"113\": \"LAPTOP TECHNICIAN\",\n           \"114\": \"LAUNDRY BOY\",\n           \"115\": \"LAUNDRY SUPERVISOR\",\n           \"116\": \"LIFT TECHNICIAN\",\n           \"117\": \"LMV DRIVER\",\n           \"118\": \"LOADING & UNLOADING\",\n           \"119\": \"LOGISTIC MANAGER\",\n           \"120\": \"LOGISTIC OFFICER\",\n           \"121\": \"LOGISTIC SUPERVISOR\",\n           \"122\": \"MACHINE EMBROIDER\",\n           \"123\": \"MALE NURSE\",\n           \"124\": \"MECHANICAL ENGINEER\",\n           \"125\": \"HELPER\",\n           \"126\": \"MECHANICAL SUPERVISOR\",\n           \"127\": \"MERCHANDISER\",\n           \"128\": \"MOBILE CRANE OPERATOR\",\n           \"129\": \"MOBILE HARDWARE TECHNICIAN\",\n           \"130\": \"MOBILE SOFTWARE TECHNICIAN\",\n           \"131\": \"MOCKTAIL\",\n           \"132\": \"OFFICE BOY\",\n           \"133\": \"OFFICE MACHINE OPERATOR\",\n           \"134\": \"PACKERS\",\n           \"135\": \"PARATHA MAKER\",\n           \"136\": \"PEST CONTROL\",\n           \"137\": \"LMV MECHANIC PETROL\",\n           \"138\": \"LMV MECHANIC DIESEL\",\n           \"139\": \"HV MECHANIC PETROL\",\n           \"140\": \"HV MECHANIC DIESEL\",\n           \"141\": \"PHARMACIST\",\n           \"142\": \"PHOTOGRAPHER\",\n           \"143\": \"PIPE FITTER\",\n           \"144\": \"PIZZA MAKER\",\n           \"145\": \"PLUMBER\",\n           \"146\": \"POCLAIN OPERATOR\",\n           \"147\": \"POP\",\n           \"148\": \"QURAAN HAFEEZ\",\n           \"149\": \"RCC FITTER\",\n           \"150\": \"RECEPTIONIST\",\n           \"151\": \"REFRIGERATION TECHNICIAN\",\n           \"152\": \"RESTAURANT MANAGER\",\n           \"153\": \"RESTAURANT SHIFT MANAGER\",\n           \"154\": \"RESTAURANT SUPERVISOR\",\n           \"155\": \"RIGGER\",\n           \"156\": \"ROOM BOY\",\n           \"157\": \"RUNNER\",\n           \"158\": \"SAFETY ENGINEER\",\n           \"159\": \"SAFETY OFFICER\",\n           \"160\": \"SALAD MAKER\",\n           \"161\": \"SALES MANAGER\",\n           \"162\": \"MANAGER\",\n           \"163\": \"SCAFFOLDER\",\n           \"164\": \"SCREEN PRINTER\",\n           \"165\": \"SECURITY GUARD\",\n           \"166\": \"SENIOR WAITER\",\n           \"167\": \"SERVICE CREW\",\n           \"168\": \"SERVICE QUALITY CONTROLLER\",\n           \"169\": \"FOOD QUALITY CONTROLLER\",\n           \"170\": \"SHUTTERING CARPENTER\",\n           \"171\": \"SOFA MAKER\",\n           \"172\": \"SOFTWARE DEVELOPER\",\n           \"173\": \"SOUS CHEF\",\n           \"174\": \"COOK\",\n           \"175\": \"SPRAY PAINTER\",\n           \"176\": \"STEEL FABRICATOR\",\n           \"177\": \"STEEL FIXER\",\n           \"178\": \"STEWARD\",\n           \"179\": \"POTTER\",\n           \"180\": \"STOREKEEPER\",\n           \"181\": \"TEACHER\",\n           \"182\": \"TELE CALLER\",\n           \"183\": \"CHEF\",\n           \"184\": \"MASON\",\n           \"185\": \"TIMEKEEPER\",\n           \"186\": \"TOWER CRANE OPERATOR\",\n           \"187\": \"DRIVER\",\n           \"188\": \"TYRE TECHNICIAN\",\n           \"189\": \"UTILITY OPERATOR\",\n           \"190\": \"WAITER\",\n           \"191\": \"WALL PAINTER\",\n           \"192\": \"WAREHOUSE MANAGER\",\n           \"193\": \"WAREHOUSE SUPERVISOR\",\n           \"194\": \"WEB DEVELOPER\",\n           \"195\": \"WELDER\",\n           \"196\": \"XRAY TECHNICIAN\",\n           \"197\": \"Web Development\",\n           \"198\": \"Graphics Designer\",\n           \"199\": \"STORE MANAGER\",\n           \"200\": \"UNKNOWN\",\n           \"201\": \"CREW TRAINER\",\n           \"202\": \"TANDOOR CHEF\",\n           \"203\": \"TANDOOR COOK\",\n           \"204\": \"SALESMAN\",\n           \"205\": \"TROLLY BOY\",\n           \"206\": \"WATER PUREFIRE TECHNICION\",\n           \"207\": \"house keeping\",\n           \"208\": \"clenear\",\n           \"209\": \"DATA ENTERY\",\n           \"210\": \"CARPENTER\",\n           \"211\": \"DATA ANALYSIS\",\n           \"212\": \"TEAM LEADER\",\n           \"213\": \"PRODUCTION ENGINER\",\n           \"214\": \"QUALITY CHECK\",\n           \"215\": \"BACK OFFICE\"\n       },\n       \"city\": [\n           \"ADILABAD\",\n           \"AGRA\",\n           \"AHMEDABAD\",\n           \"AHMEDNAGAR\",\n           \"AIZAWL\",\n           \"AJITGARH (MOHALI)\",\n           \"AJMER\",\n           \"AKOLA\",\n           \"ALAPPUZHA\",\n           \"ALIGARH\",\n           \"ALIRAJPUR\",\n           \"ALLAHABAD\",\n           \"ALMORA\",\n           \"ALWAR\",\n           \"AMBALA\",\n           \"AMBEDKAR NAGAR\",\n           \"AMRAVATI\",\n           \"AMRELI DISTRICT\",\n           \"AMRITSAR\",\n           \"ANAND\",\n           \"ANANTAPUR\",\n           \"ANANTNAG\",\n           \"ANGUL\",\n           \"ANJAW\",\n           \"ANUPPUR\",\n           \"ARARIA\",\n           \"ARIYALUR\",\n           \"ARWAL\",\n           \"ASHOK NAGAR\",\n           \"AURAIYA\",\n           \"AURANGABAD\",\n           \"AURANGABAD\",\n           \"AZAMGARH\",\n           \"BADGAM\",\n           \"BAGALKOT\",\n           \"BAGESHWAR\",\n           \"BAGPAT\",\n           \"BAHRAICH\",\n           \"BAKSA\",\n           \"BALAGHAT\",\n           \"BALANGIR\",\n           \"BALASORE\",\n           \"BALLIA\",\n           \"BALRAMPUR\",\n           \"BANASKANTHA\",\n           \"BANDA\",\n           \"BANDIPORA\",\n           \"BANGALORE\",\n           \"BANKA\",\n           \"BANKURA\",\n           \"BANSWARA\",\n           \"BARABANKI\",\n           \"BARAMULLA\",\n           \"BARAN\",\n           \"BARDHAMAN\",\n           \"BAREILLY\",\n           \"BARGARH (BARAGARH)\",\n           \"BARMER\",\n           \"BARNALA\",\n           \"BARPETA\",\n           \"BARWANI\",\n           \"BASTAR\",\n           \"BASTI\",\n           \"BATHINDA\",\n           \"BEED\",\n           \"BEGUSARAI\",\n           \"BELGAUM\",\n           \"BELLARY\",\n           \"BETUL\",\n           \"BHADRAK\",\n           \"BHAGALPUR\",\n           \"BHANDARA\",\n           \"BHARATPUR\",\n           \"BHARUCH\",\n           \"BHAVNAGAR\",\n           \"BHILWARA\",\n           \"BHIND\",\n           \"BHIWANI\",\n           \"BHOJPUR\",\n           \"BHOPAL\",\n           \"BIDAR\",\n           \"BIJAPUR\",\n           \"BIJAPUR\",\n           \"BIJNOR\",\n           \"BIKANER\",\n           \"BILASPUR\",\n           \"BILASPUR\",\n           \"BIRBHUM\",\n           \"BISHNUPUR\",\n           \"BOKARO\",\n           \"BONGAIGAON\",\n           \"BOUDH (BAUDA)\",\n           \"BUDAUN\",\n           \"BULANDSHAHR\",\n           \"BULDHANA\",\n           \"BUNDI\",\n           \"BURHANPUR\",\n           \"BUXAR\",\n           \"CACHAR\",\n           \"CENTRAL DELHI\",\n           \"CHAMARAJNAGAR\",\n           \"CHAMBA\",\n           \"CHAMOLI\",\n           \"CHAMPAWAT\",\n           \"CHAMPHAI\",\n           \"CHANDAULI\",\n           \"CHANDEL\",\n           \"CHANDIGARH\",\n           \"CHANDRAPUR\",\n           \"CHANGLANG\",\n           \"CHATRA\",\n           \"CHENNAI\",\n           \"CHHATARPUR\",\n           \"CHHATRAPATI SHAHUJI MAHARAJ NAGAR\",\n           \"CHHINDWARA\",\n           \"CHIKKABALLAPUR\",\n           \"CHIKKAMAGALURU\",\n           \"CHIRANG\",\n           \"CHITRADURGA\",\n           \"CHITRAKOOT\",\n           \"CHITTOOR\",\n           \"CHITTORGARH\",\n           \"CHURACHANDPUR\",\n           \"CHURU\",\n           \"COIMBATORE\",\n           \"COOCH BEHAR\",\n           \"CUDDALORE\",\n           \"CUTTACK\",\n           \"DADRA AND NAGAR HAVELI\",\n           \"DAHOD\",\n           \"DAKSHIN DINAJPUR\",\n           \"DAKSHINA KANNADA\",\n           \"DAMAN\",\n           \"DAMOH\",\n           \"DANTEWADA\",\n           \"DARBHANGA\",\n           \"DARJEELING\",\n           \"DARRANG\",\n           \"DATIA\",\n           \"DAUSA\",\n           \"DAVANAGERE\",\n           \"DEBAGARH (DEOGARH)\",\n           \"DEHRADUN\",\n           \"DEOGHAR\",\n           \"DEORIA\",\n           \"DEWAS\",\n           \"DHALAI\",\n           \"DHAMTARI\",\n           \"DHANBAD\",\n           \"DHAR\",\n           \"DHARMAPURI\",\n           \"DHARWAD\",\n           \"DHEMAJI\",\n           \"DHENKANAL\",\n           \"DHOLPUR\",\n           \"DHUBRI\",\n           \"DHULE\",\n           \"DIBANG VALLEY\",\n           \"DIBRUGARH\",\n           \"DIMA HASAO\",\n           \"DIMAPUR\",\n           \"DINDIGUL\",\n           \"DINDORI\",\n           \"DIU\",\n           \"DODA\",\n           \"DUMKA\",\n           \"DUNGAPUR\",\n           \"DURG\",\n           \"EAST CHAMPARAN\",\n           \"EAST DELHI\",\n           \"EAST GARO HILLS\",\n           \"EAST KHASI HILLS\",\n           \"EAST SIANG\",\n           \"EAST SIKKIM\",\n           \"EAST SINGHBHUM\",\n           \"ELURU\",\n           \"ERNAKULAM\",\n           \"ERODE\",\n           \"ETAH\",\n           \"ETAWAH\",\n           \"FAIZABAD\",\n           \"FARIDABAD\",\n           \"FARIDKOT\",\n           \"FARRUKHABAD\",\n           \"FATEHABAD\",\n           \"FATEHGARH SAHIB\",\n           \"FATEHPUR\",\n           \"FAZILKA\",\n           \"FIROZABAD\",\n           \"FIROZPUR\",\n           \"GADAG\",\n           \"GADCHIROLI\",\n           \"GAJAPATI\",\n           \"GANDERBAL\",\n           \"GANDHINAGAR\",\n           \"GANGANAGAR\",\n           \"GANJAM\",\n           \"GARHWA\",\n           \"GAUTAM BUDDH NAGAR\",\n           \"GAYA\",\n           \"GHAZIABAD\",\n           \"GHAZIPUR\",\n           \"GIRIDIH\",\n           \"GOALPARA\",\n           \"GODDA\",\n           \"GOLAGHAT\",\n           \"GONDA\",\n           \"GONDIA\",\n           \"GOPALGANJ\",\n           \"GORAKHPUR\",\n           \"GULBARGA\",\n           \"GUMLA\",\n           \"GUNA\",\n           \"GUNTUR\",\n           \"GURDASPUR\",\n           \"GURGAON\",\n           \"GWALIOR\",\n           \"HAILAKANDI\",\n           \"HAMIRPUR\",\n           \"HAMIRPUR\",\n           \"HANUMANGARH\",\n           \"HARDA\",\n           \"HARDOI\",\n           \"HARIDWAR\",\n           \"HASSAN\",\n           \"HAVERI DISTRICT\",\n           \"HAZARIBAG\",\n           \"HINGOLI\",\n           \"HISSAR\",\n           \"HOOGHLY\",\n           \"HOSHANGABAD\",\n           \"HOSHIARPUR\",\n           \"HOWRAH\",\n           \"HYDERABAD\",\n           \"HYDERABAD\",\n           \"IDUKKI\",\n           \"IMPHAL EAST\",\n           \"IMPHAL WEST\",\n           \"INDORE\",\n           \"JABALPUR\",\n           \"JAGATSINGHPUR\",\n           \"JAINTIA HILLS\",\n           \"JAIPUR\",\n           \"JAISALMER\",\n           \"JAJPUR\",\n           \"JALANDHAR\",\n           \"JALAUN\",\n           \"JALGAON\",\n           \"JALNA\",\n           \"JALORE\",\n           \"JALPAIGURI\",\n           \"JAMMU\",\n           \"JAMNAGAR\",\n           \"JAMTARA\",\n           \"JAMUI\",\n           \"JANJGIR-CHAMPA\",\n           \"JASHPUR\",\n           \"JAUNPUR DISTRICT\",\n           \"JEHANABAD\",\n           \"JHABUA\",\n           \"JHAJJAR\",\n           \"JHALAWAR\",\n           \"JHANSI\",\n           \"JHARSUGUDA\",\n           \"JHUNJHUNU\",\n           \"JIND\",\n           \"JODHPUR\",\n           \"JORHAT\",\n           \"JUNAGADH\",\n           \"JYOTIBA PHULE NAGAR\",\n           \"KABIRDHAM (FORMERLY KAWARDHA)\",\n           \"KADAPA\",\n           \"KAIMUR\",\n           \"KAITHAL\",\n           \"KAKINADA\",\n           \"KALAHANDI\",\n           \"KAMRUP\",\n           \"KAMRUP METROPOLITAN\",\n           \"KANCHIPURAM\",\n           \"KANDHAMAL\",\n           \"KANGRA\",\n           \"KANKER\",\n           \"KANNAUJ\",\n           \"KANNUR\",\n           \"KANPUR\",\n           \"KANSHI RAM NAGAR\",\n           \"KANYAKUMARI\",\n           \"KAPURTHALA\",\n           \"KARAIKAL\",\n           \"KARAULI\",\n           \"KARBI ANGLONG\",\n           \"KARGIL\",\n           \"KARIMGANJ\",\n           \"KARIMNAGAR\",\n           \"KARNAL\",\n           \"KARUR\",\n           \"KASARAGOD\",\n           \"KATHUA\",\n           \"KATIHAR\",\n           \"KATNI\",\n           \"KAUSHAMBI\",\n           \"KENDRAPARA\",\n           \"KENDUJHAR (KEONJHAR)\",\n           \"KHAGARIA\",\n           \"KHAMMAM\",\n           \"KHANDWA (EAST NIMAR)\",\n           \"KHARGONE (WEST NIMAR)\",\n           \"KHEDA\",\n           \"KHORDHA\",\n           \"KHOWAI\",\n           \"KHUNTI\",\n           \"KINNAUR\",\n           \"KISHANGANJ\",\n           \"KISHTWAR\",\n           \"KODAGU\",\n           \"KODERMA\",\n           \"KOHIMA\",\n           \"KOKRAJHAR\",\n           \"KOLAR\",\n           \"KOLASIB\",\n           \"KOLHAPUR\",\n           \"KOLKATA\",\n           \"KOLLAM\",\n           \"KOPPAL\",\n           \"KORAPUT\",\n           \"KORBA\",\n           \"KORIYA\",\n           \"KOTA\",\n           \"KOTTAYAM\",\n           \"KOZHIKODE\",\n           \"KRISHNA\",\n           \"KULGAM\",\n           \"KULLU\",\n           \"KUPWARA\",\n           \"KURNOOL\",\n           \"KURUKSHETRA\",\n           \"KURUNG KUMEY\",\n           \"KUSHINAGAR\",\n           \"KUTCH\",\n           \"LAHAUL AND SPITI\",\n           \"LAKHIMPUR\",\n           \"LAKHIMPUR KHERI\",\n           \"LAKHISARAI\",\n           \"LALITPUR\",\n           \"LATEHAR\",\n           \"LATUR\",\n           \"LAWNGTLAI\",\n           \"LEH\",\n           \"LOHARDAGA\",\n           \"LOHIT\",\n           \"LOWER DIBANG VALLEY\",\n           \"LOWER SUBANSIRI\",\n           \"LUCKNOW\",\n           \"LUDHIANA\",\n           \"LUNGLEI\",\n           \"MADHEPURA\",\n           \"MADHUBANI\",\n           \"MADURAI\",\n           \"MAHAMAYA NAGAR\",\n           \"MAHARAJGANJ\",\n           \"MAHASAMUND\",\n           \"MAHBUBNAGAR\",\n           \"MAHE\",\n           \"MAHENDRAGARH\",\n           \"MAHOBA\",\n           \"MAINPURI\",\n           \"MALAPPURAM\",\n           \"MALDAH\",\n           \"MALKANGIRI\",\n           \"MAMIT\",\n           \"MANDI\",\n           \"MANDLA\",\n           \"MANDSAUR\",\n           \"MANDYA\",\n           \"MANSA\",\n           \"MARIGAON\",\n           \"MATHURA\",\n           \"MAU\",\n           \"MAYURBHANJ\",\n           \"MEDAK\",\n           \"MEERUT\",\n           \"MEHSANA\",\n           \"MEWAT\",\n           \"MIRZAPUR\",\n           \"MOGA\",\n           \"MOKOKCHUNG\",\n           \"MON\",\n           \"MORADABAD\",\n           \"MORENA\",\n           \"MUMBAI\",\n           \"MUNGER\",\n           \"MURSHIDABAD\",\n           \"MUZAFFARNAGAR\",\n           \"MUZAFFARPUR\",\n           \"MYSORE\",\n           \"NABARANGPUR\",\n           \"NADIA\",\n           \"NAGAON\",\n           \"NAGAPATTINAM\",\n           \"NAGAUR\",\n           \"NAGPUR\",\n           \"NAINITAL\",\n           \"NALANDA\",\n           \"NALBARI\",\n           \"NALGONDA\",\n           \"NAMAKKAL\",\n           \"NANDED\",\n           \"NANDURBAR\",\n           \"NARAYANPUR\",\n           \"NARMADA\",\n           \"NARSINGHPUR\",\n           \"NASHIK\",\n           \"NAVSARI\",\n           \"NAWADA\",\n           \"NAWANSHAHR\",\n           \"NAYAGARH\",\n           \"NEEMUCH\",\n           \"NELLORE\",\n           \"NEW DELHI\",\n           \"NILGIRIS\",\n           \"NIZAMABAD\",\n           \"NORTH 24 PARGANAS\",\n           \"NORTH DELHI\",\n           \"NORTH EAST DELHI\",\n           \"NORTH GOA\",\n           \"NORTH SIKKIM\",\n           \"NORTH TRIPURA\",\n           \"NORTH WEST DELHI\",\n           \"NUAPADA\",\n           \"ONGOLE\",\n           \"OSMANABAD\",\n           \"PAKUR\",\n           \"PALAKKAD\",\n           \"PALAMU\",\n           \"PALI\",\n           \"PALWAL\",\n           \"PANCHKULA\",\n           \"PANCHMAHAL\",\n           \"PANCHSHEEL NAGAR DISTRICT (HAPUR)\",\n           \"PANIPAT\",\n           \"PANNA\",\n           \"PAPUM PARE\",\n           \"PARBHANI\",\n           \"PASCHIM MEDINIPUR\",\n           \"PATAN\",\n           \"PATHANAMTHITTA\",\n           \"PATHANKOT\",\n           \"PATIALA\",\n           \"PATNA\",\n           \"PAURI GARHWAL\",\n           \"PERAMBALUR\",\n           \"PHEK\",\n           \"PILIBHIT\",\n           \"PITHORAGARH\",\n           \"PONDICHERRY\",\n           \"POONCH\",\n           \"PORBANDAR\",\n           \"PRATAPGARH\",\n           \"PRATAPGARH\",\n           \"PUDUKKOTTAI\",\n           \"PULWAMA\",\n           \"PUNE\",\n           \"PURBA MEDINIPUR\",\n           \"PURI\",\n           \"PURNIA\",\n           \"PURULIA\",\n           \"RAEBARELI\",\n           \"RAICHUR\",\n           \"RAIGAD\",\n           \"RAIGARH\",\n           \"RAIPUR\",\n           \"RAISEN\",\n           \"RAJAURI\",\n           \"RAJGARH\",\n           \"RAJKOT\",\n           \"RAJNANDGAON\",\n           \"RAJSAMAND\",\n           \"RAMABAI NAGAR (KANPUR DEHAT)\",\n           \"RAMANAGARA\",\n           \"RAMANATHAPURAM\",\n           \"RAMBAN\",\n           \"RAMGARH\",\n           \"RAMPUR\",\n           \"RANCHI\",\n           \"RATLAM\",\n           \"RATNAGIRI\",\n           \"RAYAGADA\",\n           \"REASI\",\n           \"REWA\",\n           \"REWARI\",\n           \"RI BHOI\",\n           \"ROHTAK\",\n           \"ROHTAS\",\n           \"RUDRAPRAYAG\",\n           \"RUPNAGAR\",\n           \"SABARKANTHA\",\n           \"SAGAR\",\n           \"SAHARANPUR\",\n           \"SAHARSA\",\n           \"SAHIBGANJ\",\n           \"SAIHA\",\n           \"SALEM\",\n           \"SAMASTIPUR\",\n           \"SAMBA\",\n           \"SAMBALPUR\",\n           \"SANGLI\",\n           \"SANGRUR\",\n           \"SANT KABIR NAGAR\",\n           \"SANT RAVIDAS NAGAR\",\n           \"SARAN\",\n           \"SATARA\",\n           \"SATNA\",\n           \"SAWAI MADHOPUR\",\n           \"SEHORE\",\n           \"SENAPATI\",\n           \"SEONI\",\n           \"SERAIKELA KHARSAWAN\",\n           \"SERCHHIP\",\n           \"SHAHDOL\",\n           \"SHAHJAHANPUR\",\n           \"SHAJAPUR\",\n           \"SHAMLI\",\n           \"SHEIKHPURA\",\n           \"SHEOHAR\",\n           \"SHEOPUR\",\n           \"SHIMLA\",\n           \"SHIMOGA\",\n           \"SHIVPURI\",\n           \"SHOPIAN\",\n           \"SHRAVASTI\",\n           \"SIBSAGAR\",\n           \"SIDDHARTHNAGAR\",\n           \"SIDHI\",\n           \"SIKAR\",\n           \"SIMDEGA\",\n           \"SINDHUDURG\",\n           \"SINGRAULI\",\n           \"SIRMAUR\",\n           \"SIROHI\",\n           \"SIRSA\",\n           \"SITAMARHI\",\n           \"SITAPUR\",\n           \"SIVAGANGA\",\n           \"SIWAN\",\n           \"SOLAN\",\n           \"SOLAPUR\",\n           \"SONBHADRA\",\n           \"SONIPAT\",\n           \"SONITPUR\",\n           \"SOUTH 24 PARGANAS\",\n           \"SOUTH DELHI\",\n           \"SOUTH GARO HILLS\",\n           \"SOUTH GOA\",\n           \"SOUTH SIKKIM\",\n           \"SOUTH TRIPURA\",\n           \"SOUTH WEST DELHI\",\n           \"SRI MUKTSAR SAHIB\",\n           \"SRIKAKULAM\",\n           \"SRINAGAR\",\n           \"SUBARNAPUR (SONEPUR)\",\n           \"SULTANPUR\",\n           \"SUNDERGARH\",\n           \"SUPAUL\",\n           \"SURAT\",\n           \"SURENDRANAGAR\",\n           \"SURGUJA\",\n           \"TAMENGLONG\",\n           \"TARN TARAN\",\n           \"TAWANG\",\n           \"TEHRI GARHWAL\",\n           \"THANE\",\n           \"THANJAVUR\",\n           \"THE DANGS\",\n           \"THENI\",\n           \"THIRUVANANTHAPURAM\",\n           \"THOOTHUKUDI\",\n           \"THOUBAL\",\n           \"THRISSUR\",\n           \"TIKAMGARH\",\n           \"TINSUKIA\",\n           \"TIRAP\",\n           \"TIRUCHIRAPPALLI\",\n           \"TIRUNELVELI\",\n           \"TIRUPUR\",\n           \"TIRUVALLUR\",\n           \"TIRUVANNAMALAI\",\n           \"TIRUVARUR\",\n           \"TONK\",\n           \"TUENSANG\",\n           \"TUMKUR\",\n           \"UDAIPUR\",\n           \"UDALGURI\",\n           \"UDHAM SINGH NAGAR\",\n           \"UDHAMPUR\",\n           \"UDUPI\",\n           \"UJJAIN\",\n           \"UKHRUL\",\n           \"UMARIA\",\n           \"UNA\",\n           \"UNNAO\",\n           \"UPPER SIANG\",\n           \"UPPER SUBANSIRI\",\n           \"UTTAR DINAJPUR\",\n           \"UTTARA KANNADA\",\n           \"UTTARKASHI\",\n           \"VADODARA\",\n           \"VAISHALI\",\n           \"VALSAD\",\n           \"VARANASI\",\n           \"VELLORE\",\n           \"VIDISHA\",\n           \"VILUPPURAM\",\n           \"VIRUDHUNAGAR\",\n           \"VISAKHAPATNAM\",\n           \"VIZIANAGARAM\",\n           \"VYARA\",\n           \"WARANGAL\",\n           \"WARDHA\",\n           \"WASHIM\",\n           \"WAYANAD\",\n           \"WEST CHAMPARAN\",\n           \"WEST DELHI\",\n           \"WEST GARO HILLS\",\n           \"WEST KAMENG\",\n           \"WEST KHASI HILLS\",\n           \"WEST SIANG\",\n           \"WEST SIKKIM\",\n           \"WEST SINGHBHUM\",\n           \"WEST TRIPURA\",\n           \"WOKHA\",\n           \"YADGIR\",\n           \"YAMUNA NAGAR\",\n           \"YANAM\",\n           \"YAVATMAL\",\n           \"ZUNHEBOTO\"\n       ],\n       \"religion\": [\n           \"HINDU\",\n           \"ISLAM\",\n           \"CHRISTIAN\",\n           \"BUDDHIST\",\n           \"SIKH\",\n           \"JAIN\",\n           \"OTHER\"\n       ],\n       \"ecr_type\": [\n           \"ECR\",\n           \"ECNR\"\n       ],\n       \"english_speak\": [\n           \"GOOD\",\n           \"BASIC\",\n           \"POOR\",\n           \"NO\"\n       ],\n       \"arabic_speak\": [\n           \"GOOD\",\n           \"BASIC\",\n           \"POOR\",\n           \"NO\"\n       ]\n   }\n}",
                             "name": ""
                         }
                     ]

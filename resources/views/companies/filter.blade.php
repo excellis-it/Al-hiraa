@@ -7,7 +7,7 @@
                     @if ($company->company_logo)
                         <img src="{{ Storage::url($company->company_logo) }}" alt="">
                     @else
-                        <img src="{{ asset('assets/images/Burger.png') }}" alt="">
+                        <img src="{{ asset('assets/images/company.png') }}" alt="">
                     @endif
 
                 </div>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="food-status">
                     <div class="food-status-1">
-                        <h4>Industry:</h4> 
+                        <h4>Industry:</h4>
                     </div>
                     <div class="food-status-2">
                         <h4>{{ $company->company_industry ?? 'N/A' }}</h4>

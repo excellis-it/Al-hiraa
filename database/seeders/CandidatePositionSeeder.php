@@ -14,6 +14,8 @@ class CandidatePositionSeeder extends Seeder
      */
     public function run(): void
     {
+        // truncate the table
+        CandidatePosition::truncate();
         $position_name = [
             1 => 'AC TECHNICIAN SPLIT & WINDOW',
             2 => 'ACCOUNTANT',

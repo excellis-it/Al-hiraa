@@ -6,6 +6,7 @@ use App\Events\CallCandidateEndEvent;
 use App\Events\CallCandidateEvent;
 use App\Exports\CandidateExport;
 use App\Imports\CandidateImport;
+use App\Models\AssignJob;
 use App\Models\Candidate;
 use App\Models\CandidateActivity;
 use App\Models\CandidateFieldUpdate;
@@ -13,6 +14,10 @@ use App\Models\CandidateLicence;
 use App\Models\CandidatePosition;
 use App\Models\CandidateStatus;
 use App\Models\CandidateUpdated;
+use App\Models\Company;
+use App\Models\Interview;
+use App\Models\Job;
+use App\Models\Source;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,15 +34,16 @@ class CandidateController extends Controller
     {
         if (Auth::user()->can('Manage Candidate')) {
             $candidate_statuses = CandidateStatus::all();
+            $sources = Source::orderBy('name', 'asc')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
 
-                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(20);
+                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(50);
             } else {
-                $candidates = Candidate::orderBy('id', 'desc')->paginate(20);
+                $candidates = Candidate::orderBy('id', 'desc')->paginate(50);
             }
             // session()->forget('candidate_id');
-            return view('candidates.list')->with(compact('candidates', 'candidate_statuses', 'candidate_positions'));
+            return view('candidates.list')->with(compact('candidates', 'sources', 'candidate_statuses', 'candidate_positions'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -49,10 +55,11 @@ class CandidateController extends Controller
     public function create()
     {
         if (Auth::user()->can('Create Candidate')) {
+            $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
-            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions'));
+            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions', 'sources'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -64,10 +71,11 @@ class CandidateController extends Controller
     public function store(Request $request)
     {
         // return $request->all();
+        // return $d = $request->other_education ?? 'n/a';
         $request->validate([
             'contact_no' => 'required|digits:10',
             'full_name' => 'required',
-            'dob' => 'required',
+            // 'dob' => 'required',
             'cnadidate_status_id' => 'required',
             'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'position_applied_for_1' => 'required',
@@ -90,31 +98,31 @@ class CandidateController extends Controller
         }
 
         $candidate->enter_by = Auth::user()->id;
-        $candidate->cnadidate_status_id = $request->cnadidate_status_id;
-        $candidate->mode_of_registration = $request->mode_of_registration;
-        $candidate->source = $request->source;
+        $candidate->cnadidate_status_id = $request->cnadidate_status_id ?? null;
+        $candidate->mode_of_registration = $request->mode_of_registration ?? null;
+        $candidate->source = $request->source ?? null;
         if ($request->referred_by_id) {
-            $candidate->referred_by_id = $request->referred_by_id;
+            $candidate->referred_by_id = $request->referred_by_id ?? null;
         } else {
-            $candidate->referred_by = $request->referred_by;
+            $candidate->referred_by = $request->referred_by ?? null;
         }
-        $candidate->passport_number = $request->passport_number;
-        $candidate->full_name = $request->full_name;
+        $candidate->passport_number = $request->passport_number ?? null;
+        $candidate->full_name = $request->full_name ?? null;
         $candidate->gender = $request->gender;
-        $candidate->date_of_birth = $request->dob;
+        $candidate->date_of_birth = $request->dob ?? null;
         // age calculation from date of birth
         $candidate->age = date_diff(date_create($request->dob), date_create('today'))->y;
-        $candidate->education = $request->education;
-        $candidate->other_education = $request->other_education;
-        $candidate->contact_no = $request->contact_no;
-        $candidate->alternate_contact_no = $request->alternate_contact_no;
-        $candidate->email = $request->email;
-        $candidate->whatapp_no = $request->whatapp_no;
-        $candidate->city = $request->city;
-        $candidate->religion = $request->religion;
-        $candidate->ecr_type = $request->ecr_type;
-        $candidate->english_speak = $request->english_speak;
-        $candidate->arabic_speak = $request->arabic_speak;
+        $candidate->education = $request->education ?? null;
+        $candidate->other_education = $request->other_education ?? null;
+        $candidate->contact_no = $request->contact_no ?? null;
+        $candidate->alternate_contact_no = $request->alternate_contact_no ?? null;
+        $candidate->email = $request->email ?? null;
+        $candidate->whatapp_no = $request->whatapp_no ?? null;
+        $candidate->city = $request->city ?? null;
+        $candidate->religion = $request->religion ?? null;
+        $candidate->ecr_type = $request->ecr_type ?? null;
+        $candidate->english_speak = $request->english_speak ?? null;
+        $candidate->arabic_speak = $request->arabic_speak ?? null;
         $candidate->return = ($request->return != null) ? $request->return : 0;
 
         // check position
@@ -185,8 +193,8 @@ class CandidateController extends Controller
         }
 
 
-        $candidate->indian_exp = $request->indian_exp;
-        $candidate->abroad_exp = $request->abroad_exp;
+        $candidate->indian_exp = $request->indian_exp ?? null;
+        $candidate->abroad_exp = $request->abroad_exp ?? null;
         $candidate->save();
 
         if ($request->remark) {
@@ -254,6 +262,9 @@ class CandidateController extends Controller
         $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray();
         $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
+        $sources = Source::orderBy('name', 'asc')->get();
+        $assign_job = AssignJob::where('candidate_id', $candidate->id)->orderBy('id', 'desc')->first();
+        $companies = Company::orderBy('company_name', 'asc')->get();
         $edit = true;
         if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
@@ -270,7 +281,7 @@ class CandidateController extends Controller
             }
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('candidate', 'candidate_positions', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -280,7 +291,7 @@ class CandidateController extends Controller
     {
         $request->validate([
             'full_name' => 'required',
-            'dob' => 'required',
+            // 'dob' => 'required',
             'cnadidate_status_id' => 'required',
             'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email,' . $id,
             'position_applied_for_1' => 'required',
@@ -289,6 +300,7 @@ class CandidateController extends Controller
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
             // 'remark' => 'required',
             'call_status' => 'required',
+            'dob' => 'nullable|date_format:d-m-Y'
             // indian_exp word limit validation
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
@@ -476,17 +488,19 @@ class CandidateController extends Controller
         $candidate = Candidate::where('contact_no', $request->contact_no)->first();
         if (!$candidate) {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
+            $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'candidate_statuses', 'associates', 'candidate_positions'))->render(), 'status' => 'error']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'candidate_statuses', 'associates', 'candidate_positions'))->render(), 'status' => 'error']);
         } else {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray();
             $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
+            $sources = Source::orderBy('name', 'asc')->get();
             $autofill = true;
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'candidate_positions', 'gulf_driving_license'))->render(), 'status' => 'success']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'candidate_positions', 'gulf_driving_license'))->render(), 'status' => 'success']);
         }
     }
 
@@ -495,7 +509,7 @@ class CandidateController extends Controller
         // return $request->all();
         $candidates = Candidate::query();
         if ($request->search) {
-             $main_search_text_arr = explode(',', $request->search);
+            $main_search_text_arr = explode(',', $request->search);
             $position_id = CandidatePosition::whereIn('name', $main_search_text_arr)->pluck('id')->toArray();
             $candidates->whereIn('full_name', $main_search_text_arr)
                 ->orWhereIn('gender', $main_search_text_arr)
@@ -510,13 +524,13 @@ class CandidateController extends Controller
                 ->orWhereIn('ecr_type', $main_search_text_arr)
                 ->orWhereIn('english_speak', $main_search_text_arr)
                 ->orWhereIn('arabic_speak', $main_search_text_arr);
-                // enter by
-                // ->orWhereHas('enterBy', function ($query) use ($request) {
-                //     $query->whereInRaw("CONCAT(first_name, ' ', last_name)",$main_search_text_arr );
-                // });
-                // date of birth 09.01.2021 format search
-                // ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
-                // ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
+            // enter by
+            // ->orWhereHas('enterBy', function ($query) use ($request) {
+            //     $query->whereInRaw("CONCAT(first_name, ' ', last_name)",$main_search_text_arr );
+            // });
+            // date of birth 09.01.2021 format search
+            // ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
+            // ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
         }
 
         if ($request->has('cnadidate_status_id')) {
@@ -597,7 +611,7 @@ class CandidateController extends Controller
             $candidates->where('enter_by', Auth::user()->id);
         }
 
-        $candidates = $candidates->orderBy('id', 'desc')->paginate(15);
+        $candidates = $candidates->orderBy('id', 'desc')->paginate(50);
 
         return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
     }
@@ -687,5 +701,52 @@ class CandidateController extends Controller
             Candidate::whereIn('id', $request->candidate_ids)->update(['cnadidate_status_id' => $request->status_id]);
             return response()->json(['status' => true, 'message' => 'Status update successfully.']);
         }
+    }
+
+    public function getJobs(Request $request)
+    {
+        if ($request->ajax()) {
+            $interviews = Interview::where('company_id', $request->company_id)
+                ->where(function ($query) {
+                    $query->where('interview_start_date', '>=', date('Y-m-d'))
+                        ->orWhere('interview_end_date', '>=', date('Y-m-d'));
+                })
+                ->whereHas('job', function ($query) {
+                    $query->where('status', 'Ongoing');
+                })
+                ->get();
+
+            $html = '';
+            $html .= '<option value="">Select Job</option>';
+            foreach ($interviews as $interview) {
+                $html .= '<option value="' . $interview->id . '">' . $interview->job->job_name . '</option>';
+            }
+            return response()->json(['status' => true, 'interviews' => $html]);
+        }
+    }
+
+    public function assignJob(Request $request, $candidate_id)
+    {
+        $request->validate([
+            'company_id' => 'required',
+            'interview_id' => 'required',
+        ]);
+
+        $count = AssignJob::where('candidate_id', $candidate_id)->where('interview_id', $request->interview_id)->count();
+        if ($count > 0) {
+            return response()->json(['status' => false, 'message' => 'Job already assigned to this candidate.']);
+        } else {
+            $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
+            $assign_job = new AssignJob();
+            $assign_job->candidate_id = $candidate_id;
+            $assign_job->job_id = $job_id;
+            $assign_job->company_id = $request->company_id;
+            $assign_job->interview_id = $request->interview_id;
+            $assign_job->user_id = Auth::user()->id;
+            $assign_job->save();
+            session()->flash('message', 'Job assigned successfully');
+            return response()->json(['status' => true, 'message' => 'Job assigned successfully.']);
+        }
+
     }
 }

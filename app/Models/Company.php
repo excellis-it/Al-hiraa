@@ -18,11 +18,32 @@ class Company extends Model
         'company_website',
         'company_industry',
         'company_logo',
+        'company_description',
+        'status',
+
     ];
+
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        if ($value !== null) {
+            $value = strtoupper($value);
+        }
+        parent::setAttribute($key, $value);
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'company_id')->where('status', 'Ongoing');
     }
 
 

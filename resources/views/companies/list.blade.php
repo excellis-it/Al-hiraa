@@ -57,7 +57,7 @@
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
-                                                            <label for="">Company Logo <span>*</span></label>
+                                                            <label for="">Company Logo </label>
                                                             <input type="file" class="form-control" id=""
                                                                 value="" name="company_logo" placeholder="">
                                                             <span class="text-danger"></span>
@@ -141,9 +141,14 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        // Handle success response
-                        window.location.reload();
-                        // toastr.success('Member details added successfully');
+
+                        if (response.status == true) {
+                            window.location.reload();
+                        } else {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            toastr.error(response.error);
+                        }
                     },
                     error: function(xhr) {
                         $('#loading').removeClass('loading');

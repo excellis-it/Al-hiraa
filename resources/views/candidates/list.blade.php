@@ -19,7 +19,7 @@
                     @include('candidates.edit')
                 </div>
                 {{-- end edit candidates --}}
-                <div class="col-xl-8 col-lg-7 col-md-6 mb-3 mb-md-0">
+                <div class="col-xl-8 col-lg-6 col-md-6 mb-3 mb-md-0">
                     <div class="d-flex w-100">
                         <form class="search-form d-flex w-100" id="search-form">
                             <button class="btn" type="submit" role="button">
@@ -35,7 +35,7 @@
                 </div>
 
 
-                <div class="col-xl-4 col-lg-5 col-md-6">
+                <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="d-flex justify-content-center justify-content-md-start">
                         @can('Create Candidate')
                             <div class="btn-group me-4">
@@ -131,8 +131,9 @@
                 </div>
             </div> --}}
             <div class="row">
-                @if (Auth::user()->hasRole('ADMIN'))
-                    <div class="col-lg-12 col-md-12 mb-2">
+
+                <div class="col-lg-6 col-6 mb-2">
+                    @if (Auth::user()->hasRole('ADMIN'))
                         <div class="action_btn">
                             <div class="dropdown">
                                 <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -148,50 +149,55 @@
                                 </ul>
                             </div>
                         </div>
-                        @if (Auth::user()->hasRole('ADMIN'))
-                            <!-- Modal of bulk changing status -->
-                            <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <form action="{{ route('candidates.bulk.status.update') }}" id="change_status">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <div class="">
-                                                    <div class="mb-3">
-                                                        <label for="" class="form-label">Status</label>
-                                                        <select name="change_status" class="form-select"
-                                                            id="change_status_id">
-                                                            <option value="">Select A Status</option>
-                                                            @foreach ($candidate_statuses as $status)
-                                                                <option value="{{ $status->id }}">{{ $status->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
+                        <!-- Modal of bulk changing status -->
+                        <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <form action="{{ route('candidates.bulk.status.update') }}" id="change_status">
+                                        @csrf
+                                        <div class="modal-body">
+                                            <div class="">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Status</label>
+                                                    <select name="change_status" class="form-select" id="change_status_id">
+                                                        <option value="">Select A Status</option>
+                                                        @foreach ($candidate_statuses as $status)
+                                                            <option value="{{ $status->id }}">{{ $status->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn save-btn">Save changes</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn save-btn">Save changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <!-- Modal -->
-                        @endif
+                        </div>
+                        <!-- Modal -->
+                    @endif
+                </div>
 
+                <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
+                    <div class="action_btn">
+                        <div class="dropdown">
+                            <a class="btn reset-btn" href="{{ route('candidates.index') }}"><i
+                                    class="fas fa-redo-alt"></i> Reset</a>
+                        </div>
                     </div>
-                @endif
+                </div>
                 <div class="col-lg-12 col-md-12">
-                    <div class="table-responsive border-bottom" data-toggle="lists">
+                    <div class="table-wrapper table-responsive border-bottom" data-toggle="lists">
                         <table class="table mb-0 table-bordered">
-                            <thead>
+                            <thead class="candy-p">
                                 <tr>
                                     @if (Auth::user()->hasRole('ADMIN'))
                                         <th>
@@ -204,21 +210,9 @@
                                     @endif
 
                                     @can('View Candidate')
-                                        <th>
+                                        <th class="stick">
                                             View
 
-                                            {{-- <div class="d-flex">
-                                                <div>View</div> <div class="dropdown">
-                                                  <span class="dropdown-toggle ps-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa-solid fa-filter"></i>
-                                                  </span>
-                                                  <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                                  </ul>
-                                                </div>
-                                            </div> --}}
                                         </th>
                                     @endcan
                                     {{-- <th></th> --}}
@@ -227,7 +221,7 @@
                                     <th>
                                         <div>
                                             <select name="cnadidate_status_id" id="cnadidate_status_id_filter"
-                                                class="select_width status_select" multiple>
+                                                class="select_width status_select " multiple>
                                                 <option value="">Select A Status</option>
                                                 @foreach ($candidate_statuses as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
@@ -236,8 +230,8 @@
                                         </div>
                                     </th>
                                     <th>
-                                        <div>
-                                            <select name="call_status" class="select_width last_call_status"
+                                        <div class="single_select">
+                                            <select name="call_status" class="select_width last_call_status "
                                                 id="last_call_status_filter">
                                                 <option value="">Select Call Status</option>
                                                 @foreach (Position::getCallStatus() as $item)
@@ -249,33 +243,8 @@
                                     </th>
                                     <th>Last Update Date</th>
                                     <th>Last Update By</th>
-                                    <th>
-                                        <div>
-                                            <select name="mode_of_registration"
-                                                class="select_width mode_registration_select"
-                                                id="mode_of_registration_filter">
-                                                <option value="">Select Type</option>
-                                                <option value="Calling">Calling</option>
-                                                <option value="Walk-in">Walk-in</option>
-                                            </select>
-                                        </div>
 
-                                    </th>
-                                    <th>
-                                        <div>
-                                            <select name="source" class="select_width source_status"
-                                                id="source_filter">
-                                                <option value="">Select Source Type</option>
-                                                <option value="Telecalling">Telecalling
-                                                </option>
-                                                <option value="Reference">Reference</option>
-                                                <option value="Facebook">Facebook</option>
-                                                <option value="Instagram">Instagram</option>
-                                                <option value="Others">Others </option>
-                                            </select>
-                                        </div>
-                                    </th>
-                                    <th>Full Name</th>
+                                    <th class="can_full">Full Name</th>
                                     <th>
                                         <div>
                                             <select name="gender" class="select_width gender_select" id="gender_filter"
@@ -354,80 +323,43 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="city" class="select_width city_select" id="city_filter">
+                                        <div class="single_select">
+                                            <select name="city" class="select_width city_select " id="city_filter">
                                                 <option value="">Select City</option>
-                                                <option value="Mumbai" {{ old('city') == 'Mumbai' ? 'selected' : '' }}>
-                                                    Mumbai</option>
-                                                <option value="Delhi" {{ old('city') == 'Delhi' ? 'selected' : '' }}>
-                                                    Delhi</option>
-                                                <option value="Kolkata" {{ old('city') == 'Kolkata' ? 'selected' : '' }}>
-                                                    Kolkata</option>
-                                                <option value="Chennai" {{ old('city') == 'Chennai' ? 'selected' : '' }}>
-                                                    Chennai</option>
-                                                <option value="Bangalore"
-                                                    {{ old('city') == 'Bangalore' ? 'selected' : '' }}>Bangalore</option>
-                                                <option value="Hyderabad"
-                                                    {{ old('city') == 'Hyderabad' ? 'selected' : '' }}>Hyderabad</option>
-                                                <option value="Ahmedabad"
-                                                    {{ old('city') == 'Ahmedabad' ? 'selected' : '' }}>Ahmedabad</option>
-                                                <option value="Pune" {{ old('city') == 'Pune' ? 'selected' : '' }}>Pune
-                                                </option>
-                                                <option value="Surat" {{ old('city') == 'Surat' ? 'selected' : '' }}>
-                                                    Surat</option>
-                                                <option value="Jaipur" {{ old('city') == 'Jaipur' ? 'selected' : '' }}>
-                                                    Jaipur</option>
-                                                <option value="Kanpur" {{ old('city') == 'Kanpur' ? 'selected' : '' }}>
-                                                    Kanpur</option>
-                                                <option value="Nagpur" {{ old('city') == 'Nagpur' ? 'selected' : '' }}>
-                                                    Nagpur</option>
-                                                <option value="Lucknow" {{ old('city') == 'Lucknow' ? 'selected' : '' }}>
-                                                    Lucknow</option>
-                                                <option value="Thane" {{ old('city') == 'Thane' ? 'selected' : '' }}>
-                                                    Thane</option>
-                                                <option value="Bhopal" {{ old('city') == 'Bhopal' ? 'selected' : '' }}>
-                                                    Bhopal</option>
-                                                <option value="Visakhapatnam"
-                                                    {{ old('city') == 'Visakhapatnam' ? 'selected' : '' }}>Visakhapatnam
-                                                <option value="Pimpri-Chinchwad"
-                                                    {{ old('city') == 'Pimpri-Chinchwad' ? 'selected' : '' }}>
-                                                    Pimpri-Chinchwad</option>
-                                                <option value="Patna" {{ old('city') == 'Patna' ? 'selected' : '' }}>
-                                                    Patna</option>
-                                                <option value="Vadodara"
-                                                    {{ old('city') == 'Vadodara' ? 'selected' : '' }}>Vadodara</option>
-                                                <option value="Ghaziabad"
-                                                    {{ old('city') == 'Ghaziabad' ? 'selected' : '' }}>Ghaziabad</option>
-                                                <option value="Ludhiana"
-                                                    {{ old('city') == 'Ludhiana' ? 'selected' : '' }}>Ludhiana</option>
-                                                <option value="Agra" {{ old('city') == 'Agra' ? 'selected' : '' }}>Agra
-                                                </option>
-                                                <option value="Nashik" {{ old('city') == 'Nashik' ? 'selected' : '' }}>
-                                                    Nashik</option>
-                                                <option value="Faridabad"
-                                                    {{ old('city') == 'Faridabad' ? 'selected' : '' }}>Faridabad</option>
-                                                <option value="Meerut" {{ old('city') == 'Meerut' ? 'selected' : '' }}>
-                                                    Meerut</option>
-                                                <option value="Rajkot" {{ old('city') == 'Rajkot' ? 'selected' : '' }}>
-                                                    Rajkot</option>
-                                                <option value="Kalyan-Dombivali"
-                                                    {{ old('city') == 'Kalyan-Dombivali' ? 'selected' : '' }}>
-                                                    Kalyan-Dombivali</option>
-                                                <option value="Vasai-Virar"
-                                                    {{ old('city') == 'Vasai-Virar' ? 'selected' : '' }}>Vasai-Virar
-                                                <option value="Varanasi"
-                                                    {{ old('city') == 'Varanasi' ? 'selected' : '' }}>Varanasi</option>
-                                                <option value="Srinagar"
-                                                    {{ old('city') == 'Srinagar' ? 'selected' : '' }}>Srinagar</option>
-                                                <option value="Aurangabad"
-                                                    {{ old('city') == 'Aurangabad' ? 'selected' : '' }}>Aurangabad</option>
-                                                <option value="Dhanbad" {{ old('city') == 'Dhanbad' ? 'selected' : '' }}>
-                                                    Dhanbad</option>
+                                                @foreach (Position::getCity() as $city)
+                                                    <option value="{{ $city }}"
+                                                        {{ old('city') == $city ? 'selected' : '' }}>{{ $city }}
+                                                    </option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </th>
                                     <th>
                                         Referred By
+                                    </th>
+                                    <th>
+                                        <div class="single_select">
+                                            <select name="mode_of_registration"
+                                                class="select_width mode_registration_select"
+                                                id="mode_of_registration_filter">
+                                                <option value="">Select Type</option>
+                                                <option value="Calling">Calling</option>
+                                                <option value="Walk-in">Walk-in</option>
+                                            </select>
+                                        </div>
+
+                                    </th>
+                                    <th>
+                                        <div class="single_select">
+                                            <select name="source" class="select_width source_status" id="source_filter">
+                                                <option value="">Select Source Type</option>
+                                                @foreach ($sources as $source)
+                                                    <option value="{{ $source->name }}">
+                                                        {{ $source->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </th>
                                     <th>
                                         Religion
@@ -440,8 +372,8 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="english_speak" class="select_width eng_spk_select"
+                                        <div class="single_select">
+                                            <select name="english_speak" class="select_width eng_spk_select "
                                                 id="english_speak_filter">
                                                 <option value="">Select English Type</option>
                                                 <option value="Basic">Basic</option>
@@ -453,8 +385,8 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="arabic_speak" class="select_width arbic_select"
+                                        <div class="single_select">
+                                            <select name="arabic_speak" class="select_width arbic_select "
                                                 id="arabic_speak_filter">
                                                 <option value="">Select Arbic Type</option>
                                                 <option value="Basic">Basic</option>
@@ -469,8 +401,9 @@
                                     </th>
                                     <th>
 
-                                        <div>
-                                            <select name="ecr_type" class="select_width ecr_select" id="ecr_type_filter">
+                                        <div class="single_select">
+                                            <select name="ecr_type" class="select_width ecr_select "
+                                                id="ecr_type_filter">
                                                 <option value="">Select ECR</option>
                                                 <option value="ECR">ECR</option>
                                                 <option value="ECNR">ECNR</option>
@@ -622,7 +555,7 @@
 
 
             $(document).on('change', '#source_filter', function() {
-                
+
 
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var page = $('#hidden_page').val();
@@ -1131,20 +1064,49 @@
 
 
     <script>
-        // status multi select
         $('.status_select').select2({
             closeOnSelect: false,
             placeholder: "Status",
-            // allowHtml: true,
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Status'); // Set placeholder text manually
+            }
         });
+
+
+
         // gender multi select
         $(".gender_select").select2({
             closeOnSelect: false,
             placeholder: "Gender",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Gender'); // Set placeholder text manually
+            }
         });
         //education multi select
         $(".education_select").select2({
@@ -1152,6 +1114,20 @@
             placeholder: "Education",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Education'); // Set placeholder text manually
+            }
         });
         //position1 multi select
         $(".position1_select").select2({
@@ -1159,6 +1135,20 @@
             placeholder: "Position Applied For(1)",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Position Applied For(1)'); // Set placeholder text manually
+            }
         });
         //position2 multi select
         $(".position2_select").select2({
@@ -1166,6 +1156,20 @@
             placeholder: "Position Applied For(2)",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Position Applied For(2)'); // Set placeholder text manually
+            }
         });
         //position2 multi select
         $(".position3_select").select2({
@@ -1173,13 +1177,26 @@
             placeholder: "Position Applied For(3)",
             allowClear: false,
             tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Position Applied For(3)'); // Set placeholder text manually
+            }
         });
+
         //Last call status select
         $(".last_call_status").select2({
             placeholder: "Last call Status",
             allowClear: true,
-
-
         });
 
         //mode registration status select
@@ -1202,7 +1219,7 @@
 
         //english speak select
         $(".eng_spk_select").select2({
-            placeholder: " English Speak",
+            placeholder: "English Speak",
             allowClear: true,
         })
 
@@ -1221,202 +1238,9 @@
     <script>
         $('#query').tagator({
             autocomplete: [
-                'AC TECHNICIAN SPLIT & WINDOW',
-                'ACCOUNTANT',
-                'ALUMINIUM FABRICATOR',
-                'ANIMAL WARDEN',
-                'ANY HELPER',
-                'ARABIC CHEF',
-                'AREA RESTAURANT MANAGER',
-                'ASST. ELECTRICIAN',
-                'ASST. COOK',
-                'ASST. PLUMBER',
-                'ASST. RESTAURANT MANAGER',
-                'ASST. SUPERVISOR',
-                'ASST. WAITER',
-                'AUTO AC TECHNICIAN',
-                'AUTO ELECTRICIAN',
-                'AUTO MOBILE ENG',
-                'AUTO MOBILE TECHNICIAN',
-                'AUTO CAD',
-                'CDP',
-                'CHEF',
-                'D-CDP',
-                'BAKERY & PASTRY MAN',
-                'SOUS CHEF',
-                'BAKERY MAN',
-                'MANAGER',
-                'BANQUET SUPERVISOR',
-                'BARTENDER',
-                'BARBER FEMALE',
-                'BARBER MALE',
-                'BARISTA',
-                'BELL BOY',
-                'BIKE MECHANIC',
-                'BOILER OPERATOR',
-                'BOUNCER',
-                'BULLDOZER OPERATOR',
-                'BUSSER',
-                'BUTCHER',
-                'BUTCHER & SLAUGHTERER',
-                'BUTCHER MACHINE CUTTER',
-                'CABLE JOINTER',
-                'CAMP BOSS',
-                'CAPTAIN',
-                'CASHIER',
-                'CATERING SUPERVISOR',
-                'CDP',
-                'CHAPATI MAKER',
-                'CHARTERED ACCOUNTANT',
-                'CIVIL ENGG',
-                'CIVIL FOREMAN',
-                'HELPER',
-                'CIVIL SUPERVISOR',
-                'COBBLER',
-                'COLD KITCHEN CHEF',
-                'COMPUTER EMBROIDER',
-                'COMPUTER ENGINEER',
-                'COMPUTER HARDWARE & NETWORKING',
-                'COMPUTER OPERATOR',
-                'COMPUTER TECHNICIAN',
-                'CONTINENTAL CHEF',
-                'CRANE OPERATOR',
-                'DELIVERY BOY',
-                'DENTER',
-                'DIALYSIS MACHINE TECHNICIAN',
-                'DOCTOR',
-                'DOCUMENT CONTROLLER',
-                'DRAFTSMAN CIVIL',
-                'DRAFTSMAN MECHANICAL',
-                'DRAUGHTSMEN',
-                'DUCT ERECTOR',
-                'DUCT FABRICATOR',
-                'DUCT INSULATOR',
-                'DUCTMAN',
-                'ELECTRICAL ENGINEER',
-                'ELECTRICAL SUPERVISOR',
-                'ELECTRICIAN 220',
-                'ELECTRICIAN 220 & 440',
-                'ELECTRICIAN 440',
-                'ELECTRICIAN PANEL BOARD',
-                'ELECTRICAL TECHNICIAN',
-                'EXCAVATOR OPERATOR',
-                'EXECUTIVE CHEF',
-                'F & B SERVICE',
-                'F & B SUPERVISOR',
-                'FEMALE NURSE',
-                'FINISHING CARPENTER',
-                'GARDENER',
-                'WELDER',
-                'COOK',
-                'GENTS TAILOR',
-                'GLASS DESIGNER',
-                'GOLD SMITH',
-                'GRAPHIC DESIGNER',
-                'GYM TRAINER',
-                'HOST',
-                'HOUSEKEEPER',
-                'HOUSEKEEPING SUPERVISOR',
-                'HR',
-                'HR MANAGER',
-                'HV DRIVER',
-                'HVAC CHILLER PLANT',
-                'HVAC FOREMAN',
-                'HVAC TECHNICIAN',
-                'IATA OFFICER',
-                'CHEF',
-                'INSTRUMENT TECHNICIAN',
-                'INTERIOR DESIGNER',
-                'IT ENGINEER',
-                'JCB OPERATOR',
-                'JUICE MAKER',
-                'KITCHEN STEWARD',
-                'LADIES TAILOR',
-                'LAND SURVEYOR',
-                'LAPTOP TECHNICIAN',
-                'LAUNDRY BOY',
-                'LAUNDRY SUPERVISOR',
-                'LIFT TECHNICIAN',
-                'LMV DRIVER',
-                'LOADING & UNLOADING',
-                'LOGISTIC MANAGER',
-                'LOGISTIC OFFICER',
-                'LOGISTIC SUPERVISOR',
-                'MACHINE EMBROIDER',
-                'MALE NURSE',
-                'MECHANICAL ENGINEER',
-                'HELPER',
-                'MECHANICAL SUPERVISOR',
-                'MERCHANDISER',
-                'MOBILE CRANE OPERATOR',
-                'MOBILE HARDWARE TECHNICIAN',
-                'MOBILE SOFTWARE TECHNICIAN',
-                'MOCKTAIL',
-                'OFFICE BOY',
-                'OFFICE MACHINE OPERATOR',
-                'PACKERS',
-                'PARATHA MAKER',
-                'PEST CONTROL',
-                'LMV MECHANIC PETROL',
-                'LMV MECHANIC DIESEL',
-                'HV MECHANIC PETROL',
-                'HV MECHANIC DIESEL',
-                'PHARMACIST',
-                'PHOTOGRAPHER',
-                'PIPE FITTER',
-                'PIZZA MAKER',
-                'PLUMBER',
-                'POCLAIN OPERATOR',
-                'POP',
-                'QURAAN HAFEEZ',
-                'RCC FITTER',
-                'RECEPTIONIST',
-                'REFRIGERATION TECHNICIAN',
-                'RESTAURANT MANAGER',
-                'RESTAURANT SHIFT MANAGER',
-                'RESTAURANT SUPERVISOR',
-                'RIGGER',
-                'ROOM BOY',
-                'RUNNER',
-                'SAFETY ENGINEER',
-                'SAFETY OFFICER',
-                'SALAD MAKER',
-                'SALES MANAGER',
-                'MANAGER',
-                'SCAFFOLDER',
-                'SCREEN PRINTER',
-                'SECURITY GUARD',
-                'SENIOR WAITER',
-                'SERVICE CREW',
-                'SERVICE QUALITY CONTROLLER',
-                'FOOD QUALITY CONTROLLER',
-                'SHUTTERING CARPENTER',
-                'SOFA MAKER',
-                'SOFTWARE DEVELOPER',
-                'SOUS CHEF',
-                'COOK',
-                'SPRAY PAINTER',
-                'STEEL FABRICATOR',
-                'STEEL FIXER',
-                'STEWARD',
-                'POTTER',
-                'STOREKEEPER',
-                'TEACHER',
-                'TELE CALLER',
-                'CHEF',
-                'MASON',
-                'TIMEKEEPER',
-                'TOWER CRANE OPERATOR',
-                'DRIVER',
-                'TYRE TECHNICIAN',
-                'UTILITY OPERATOR',
-                'WAITER',
-                'WALL PAINTER',
-                'WAREHOUSE MANAGER',
-                'WAREHOUSE SUPERVISOR',
-                'WEB DEVELOPER',
-                'WELDER',
-                'XRAY TECHNICIAN',
+                @foreach (Position::getPosition() as $item)
+                    '{{ $item }}',
+                @endforeach
             ],
             useDimmer: true
         });

@@ -6,7 +6,9 @@
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
         @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN')) @else data-bs-backdrop="static" @endif aria-labelledby="offcanvasRightLabel">
-        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))   <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a> @endif
+        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))
+            <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
+        @endif
         <div class="offcanvas-body">
             <div class="row g-3">
                 <div class="col-lg-4">
@@ -117,24 +119,24 @@
                                     {{-- @include('candidates.details-form') --}}
                                     <tr>
                                         <td>Enter By</td>
-                                        <td>{{ $candidate->enterBy->full_name ?? '' }}
+                                        <td>{{ $candidate->enterBy->full_name ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Status</td>
-                                        <td>{{ $candidate->candidateStatus->name ?? '' }}
+                                        <td>{{ $candidate->candidateStatus->name ?? 'N/A' }}
 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Mode of Registration</td>
-                                        <td>{{ $candidate->mode_of_registration ?? '' }}
+                                        <td>{{ $candidate->mode_of_registration ?? 'N/A' }}
 
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Source</td>
-                                        <td>{{ $candidate->source ?? '' }}
+                                        <td>{{ $candidate->source ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -179,7 +181,7 @@
                                     </tr>
                                     <tr>
                                         <td>Education</td>
-                                        <td>{{ $candidate->education }}
+                                        <td>{{ $candidate->education ?? 'N/A' }}
 
                                         </td>
                                     </tr>
@@ -245,7 +247,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>International Driving License </td>
+                                        <td>Gulf Driving License </td>
                                         <td>
                                             @if ($candidate->candidateGulfLicence()->count() > 0)
                                                 @foreach ($candidate->candidateGulfLicence as $key => $value)
@@ -348,18 +350,21 @@
                         <tbody>
                             <tr>
                                 <td>Enter By</td>
-                                <td> {{ $candidate->enterBy->full_name ?? '' }}
+                                <td> {{ $candidate->enterBy->full_name ?? 'N/A' }}
                                 </td>
                             </tr>
                             <tr>
                                 <td>Updated By</td>
-                                <td>{{ $candidate->candidateUpdate->user->full_name ?? '' }}
+                                <td>{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}
                                 </td>
                             </tr>
 
                             @php
                                 if (isset($candidate->candidateUpdate->user->full_name)) {
-                                    $data = Helper::getUpdatedData($candidate->id, $candidate->candidateUpdate->user_id);
+                                    $data = Helper::getUpdatedData(
+                                        $candidate->id,
+                                        $candidate->candidateUpdate->user_id,
+                                    );
                                 } else {
                                     $data = [];
                                 }
@@ -389,10 +394,66 @@
                         </tbody>
                     </table>
                 </div>
-                {{-- <div class="">
-                    <a href="" class="btn-1">See More<img src="{{ asset('assets/images/arrow.png') }}"></a>
-                </div> --}}
             </div>
+            <form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST"
+                id="candidate-job-create-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="can-div d-flex justify-content-between align-items-center">
+                        <div class="can-head">
+                            <h4>Assign Job Details</h4>
+                        </div>
+                        <div class="edit-1-btn d-flex align-items-center">
+
+                            <div class="edit-2" id="cross-button-job">
+
+                            </div>
+                            <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                            </div>
+                            <div class="edit-1" id="open-job-input">
+                                @can('Edit Candidate')
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate_form candidate_edit_form">
+                        <div class="table-responsive" id="tableContainer">
+                            <table class="table" id="candidate-form-job">
+                                <tbody>
+                                    <tr>
+                                        <td>Assigned By</td>
+                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Company</td>
+                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Title</td>
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Position</td>
+                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Location</td>
+                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -460,8 +521,8 @@
         <td>
             <select name="mode_of_registration" class="form-select uppercase-text" id="">
                     <option value="">Select Type</option>
-                    <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling</option>
-                    <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in</option>
+                    <option value="CALLING" {{ $candidate->mode_of_registration == 'CALLING' ? 'selected' : '' }}>CALLING</option>
+                    <option value="WALK-IN" {{ $candidate->mode_of_registration == 'WALK-IN' ? 'selected' : '' }}>WALK-IN</option>
                 </select>
         </td>
       </tr>
@@ -470,11 +531,11 @@
     <td>
         <select name="source" class="form-select uppercase-text" id="">
                     <option value="">Select Type</option>
-                    <option value="Telecalling" {{ $candidate->source == 'Telecalling' ? 'selected' : '' }}>Telecalling</option>
-                    <option value="Reference" {{ $candidate->source == 'Reference' ? 'selected' : '' }}>Reference</option>
-                    <option value="Facebook" {{ $candidate->source == 'Facebook' ? 'selected' : '' }}>Facebook</option>
-                    <option value="Instagram" {{ $candidate->source == 'Instagram' ? 'selected' : '' }}>Instagram</option>
-                    <option value="Others" {{ $candidate->source == 'Others' ? 'selected' : '' }}>Others </option>
+                    @foreach ($sources as $source)
+                    <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
+                        {{ $source->name }}
+                    </option>
+                @endforeach
                 </select>
     </td>
   </tr>
@@ -508,9 +569,9 @@
         <td>
           <select name="gender" class="form-control uppercase-text" id="">
             <option value="">Select Gender</option>
-            <option value="Male" {{ $candidate->gender == 'Male' ? 'selected' : '' }}> Male </option>
-            <option value="Female" {{ $candidate->gender == 'Female' ? 'selected' : '' }}>Female</option>
-            <option value="Other" {{ $candidate->gender == 'Other' ? 'selected' : '' }}>Other</option>
+            <option value="MALE" {{ $candidate->gender == 'MALE' ? 'selected' : '' }}> MALE </option>
+            <option value="FEMALE" {{ $candidate->gender == 'FEMALE' ? 'selected' : '' }}>FEMALE</option>
+            <option value="OTHER" {{ $candidate->gender == 'OTHER' ? 'selected' : '' }}>OTHER</option>
           </select>
         </td>
       </tr>
@@ -518,7 +579,9 @@
         <td>DOB</td>
         <td>
           <div class="form-group">
-            <input type="date" class="form-control uppercase-text" id="" value="{{ date('Y-m-d', strtotime($candidate->date_of_birth)) ?? '' }}" name="dob" max="{{ date('Y-m-d') }}" placeholder="DOB">
+            <input type="text" class="form-control uppercase-text datepicker" id="dob"
+                   value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}"
+                   name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
             <span class="text-danger" id="date_of_birth_msg"></span>
           </div>
         </td>
@@ -534,15 +597,15 @@
         <td>
             <select name="education" class="form-select uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="5th Pass" {{ $candidate->education == '5th Pass' ? 'selected' : '' }}>5th Pass</option>
-                <option value="8th Pass" {{ $candidate->education == '8th Pass' ? 'selected' : '' }}>8th Pass</option>
-                <option value="10th Pass" {{ $candidate->education == '10th Pass' ? 'selected' : '' }}>10th Pass
+                <option value="5TH PASS" {{ $candidate->education == '5TH PASS' ? 'selected' : '' }}>5TH PASS</option>
+                <option value="8TH PASS" {{ $candidate->education == '8TH PASS' ? 'selected' : '' }}>8TH PASS</option>
+                <option value="10TH PASS" {{ $candidate->education == '10TH PASS' ? 'selected' : '' }}>10TH PASS
                 </option>
-                <option value="Higher Secondary"
-                    {{ $candidate->education == 'Higher Secondary' ? 'selected' : '' }}>Higher Secondary
+                <option value="HIGHER SECONDARY"
+                    {{ $candidate->education == 'HIGHER SECONDARY' ? 'selected' : '' }}>HIGHER SECONDARY
                     </option>
-                <option value="Graduates" {{ $candidate->education == 'Graduates' ? 'selected' : '' }}>Graduates</option>
-                <option value="Masters" {{ $candidate->education == 'Masters' ? 'selected' : '' }}>Masters</option>
+                <option value="GRADUATES" {{ $candidate->education == 'GRADUATES' ? 'selected' : '' }}>GRADUATES</option>
+                <option value="MASTERS" {{ $candidate->education == 'MASTERS' ? 'selected' : '' }}>MASTERS</option>
             </select>
         </td>
       </tr>
@@ -594,44 +657,13 @@
       <tr>
         <td>City</td>
         <td>
-            <select name="city" class="form-select uppercase-text" id="">
+            <select name="city" class="form-select new_select2 uppercase-text" id="">
                 <option value="">Select City</option>
-                <option value="Mumbai" {{ $candidate->city == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
-                <option value="Delhi" {{ $candidate->city == 'Delhi' ? 'selected' : '' }}>Delhi</option>
-                <option value="Kolkata" {{ $candidate->city == 'Kolkata' ? 'selected' : '' }}>Kolkata</option>
-                <option value="Chennai" {{ $candidate->city == 'Chennai' ? 'selected' : '' }}>Chennai</option>
-                <option value="Bangalore" {{ $candidate->city == 'Bangalore' ? 'selected' : '' }}>Bangalore</option>
-                <option value="Hyderabad" {{ $candidate->city == 'Hyderabad' ? 'selected' : '' }}>Hyderabad</option>
-                <option value="Ahmedabad" {{ $candidate->city == 'Ahmedabad' ? 'selected' : '' }}>Ahmedabad</option>
-                <option value="Pune" {{ $candidate->city == 'Pune' ? 'selected' : '' }}>Pune</option>
-                <option value="Surat" {{ $candidate->city == 'Surat' ? 'selected' : '' }}>Surat</option>
-                <option value="Jaipur" {{ $candidate->city == 'Jaipur' ? 'selected' : '' }}>Jaipur</option>
-                <option value="Kanpur" {{ $candidate->city == 'Kanpur' ? 'selected' : '' }}>Kanpur</option>
-                <option value="Nagpur" {{ $candidate->city == 'Nagpur' ? 'selected' : '' }}>Nagpur</option>
-                <option value="Lucknow" {{ $candidate->city == 'Lucknow' ? 'selected' : '' }}>Lucknow</option>
-                <option value="Thane" {{ $candidate->city == 'Thane' ? 'selected' : '' }}>Thane</option>
-                <option value="Bhopal" {{ $candidate->city == 'Bhopal' ? 'selected' : '' }}>Bhopal</option>
-                <option value="Visakhapatnam" {{ $candidate->city == 'Visakhapatnam' ? 'selected' : '' }}>Visakhapatnam
-                </option>
-                <option value="Pimpri-Chinchwad" {{ $candidate->city == 'Pimpri-Chinchwad' ? 'selected' : '' }}>
-                    Pimpri-Chinchwad</option>
-                <option value="Patna" {{ $candidate->city == 'Patna' ? 'selected' : '' }}>Patna</option>
-                <option value="Vadodara" {{ $candidate->city == 'Vadodara' ? 'selected' : '' }}>Vadodara</option>
-                <option value="Ghaziabad" {{ $candidate->city == 'Ghaziabad' ? 'selected' : '' }}>Ghaziabad</option>
-                <option value="Ludhiana" {{ $candidate->city == 'Ludhiana' ? 'selected' : '' }}>Ludhiana</option>
-                <option value="Agra" {{ $candidate->city == 'Agra' ? 'selected' : '' }}>Agra</option>
-                <option value="Nashik" {{ $candidate->city == 'Nashik' ? 'selected' : '' }}>Nashik</option>
-                <option value="Faridabad" {{ $candidate->city == 'Faridabad' ? 'selected' : '' }}>Faridabad</option>
-                <option value="Meerut" {{ $candidate->city == 'Meerut' ? 'selected' : '' }}>Meerut</option>
-                <option value="Rajkot" {{ $candidate->city == 'Rajkot' ? 'selected' : '' }}>Rajkot</option>
-                <option value="Kalyan-Dombivali" {{ $candidate->city == 'Kalyan-Dombivali' ? 'selected' : '' }}>
-                    Kalyan-Dombivali</option>
-                <option value="Vasai-Virar" {{ $candidate->city == 'Vasai-Virar' ? 'selected' : '' }}>Vasai-Virar
-                </option>
-                <option value="Varanasi" {{ $candidate->city == 'Varanasi' ? 'selected' : '' }}>Varanasi</option>
-                <option value="Srinagar" {{ $candidate->city == 'Srinagar' ? 'selected' : '' }}>Srinagar</option>
-                <option value="Aurangabad" {{ $candidate->city == 'Aurangabad' ? 'selected' : '' }}>Aurangabad</option>
-                <option value="Dhanbad" {{ $candidate->city == 'Dhanbad' ? 'selected' : '' }}>Dhanbad</option>
+                @foreach (Position::getCity() as $city)
+                    <option value="{{ $city }}" {{ $candidate->city == $city ? 'selected' : '' }}>
+                        {{ $city }}
+                    </option>
+                @endforeach
             </select>
         </td>
       </tr>
@@ -640,14 +672,13 @@
         <td>
             <select name="religion" class="form-select uppercase-text" id="">
                 <option value="">Select Religion</option>
-                <option value="Hindu" {{ $candidate->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                <option value="Islam" {{ $candidate->religion == 'Islam' ? 'selected' : '' }}>Islam</option>
-                <option value="Christian" {{ $candidate->religion == 'Christian' ? 'selected' : '' }}>Christian
-                </option>
-                <option value="Sikh" {{ $candidate->religion == 'Sikh' ? 'selected' : '' }}>Sikh</option>
-                <option value="Buddhist" {{ $candidate->religion == 'Buddhist' ? 'selected' : '' }}>Buddhist</option>
-                <option value="Jain" {{ $candidate->religion == 'Jain' ? 'selected' : '' }}>Jain</option>
-                <option value="Other" {{ $candidate->religion == 'Other' ? 'selected' : '' }}>Other</option>
+                <option value="HINDU" {{ $candidate->religion == 'HINDU' ? 'selected' : '' }}>Hindu</option>
+                <option value="ISLAM" {{ $candidate->religion == 'ISLAM' ? 'selected' : '' }}>Islam</option>
+                <option value="CHRISTIAN" {{ $candidate->religion == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
+                <option value="SIKH" {{ $candidate->religion == 'SIKH' ? 'selected' : '' }}>Sikh</option>
+                <option value="BUDDHIST" {{ $candidate->religion == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
+                <option value="JAIN" {{ $candidate->religion == 'JAIN' ? 'selected' : '' }}>Jain</option>
+                <option value="OTHER" {{ $candidate->religion == 'OTHER' ? 'selected' : '' }}>Other</option>
             </select>
         </td>
       </tr>
@@ -664,7 +695,7 @@
       <tr>
         <td>Indian Driving License</td>
         <td>
-            <select name="indian_driving_license[]" class="form-select uppercase-text select2" id="" multiple>
+            <select name="indian_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
                 <option value="" disabled>Select Indian Driving License</option>
                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
                     2 WHEELER</option>
@@ -677,7 +708,7 @@
       <tr>
         <td>Gulf Driving License</td>
         <td>
-            <select name="international_driving_license[]" class="form-select uppercase-text select2" id="" multiple>
+            <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
                 <option value="" disabled>Select Gulf Driving License</option>
                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
                     2 WHEELER</option>
@@ -694,10 +725,10 @@
         <td>
           <select name="english_speak" class="form-control uppercase-text" id="">
             <option value="">English Speak</option>
-            <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
-            <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
-            <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-            <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
+            <option value="BASIC" {{ strtoupper($candidate->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ strtoupper($candidate->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ strtoupper($candidate->english_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ strtoupper($candidate->english_speak) == 'NO' ? 'selected' : '' }}>NO</option>
           </select>
         </td>
       </tr>
@@ -706,10 +737,10 @@
         <td>
           <select name="arabic_speak" class="form-control uppercase-text" id="">
             <option value="">Arabic Speak</option>
-            <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
-            <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
-            <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-            <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
+            <option value="BASIC" {{ strtoupper($candidate->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ strtoupper($candidate->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ strtoupper($candidate->arabic_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ strtoupper($candidate->arabic_speak) == 'NO' ? 'selected' : '' }}>NO</option>
           </select>
         </td>
       </tr>
@@ -731,7 +762,7 @@
                 <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id="">
+                    <select name="position_applied_for_1" class="form-select uppercase-text new_select2 positionAppliedFor1" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -758,7 +789,7 @@
             <td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td>
         <td>
-                <select name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id="">
+                <select name="position_applied_for_1" class="form-select uppercase-text new_select2 positionAppliedFor1" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -792,7 +823,7 @@
                 <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id="">
+                    <select name="position_applied_for_2" class="form-select uppercase-text new_select2 positionAppliedFor2" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -816,7 +847,7 @@
             <td>Position Applied For(2)<span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td>
         <td>
-                <select name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id="">
+                <select name="position_applied_for_2" class="form-select uppercase-text new_select2 positionAppliedFor2" id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -848,7 +879,7 @@
                     <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                        <select name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id="">
+                        <select name="position_applied_for_3" class="form-select uppercase-text new_select2 positionAppliedFor3" id="">
                             <option value="">Select Position</option>
                             @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
@@ -872,7 +903,7 @@
                 <td>Position Applied For(3) <span><a href="javascript:void(0);"
                                     class="position_applied_for_3">Other</a></span></td>
         <td>
-                    <select name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id="">
+                    <select name="position_applied_for_3" class="form-select uppercase-text new_select2 positionAppliedFor3" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -919,8 +950,7 @@
             <select name="call_status" class="form-select uppercase-text" id="">
                 <option value="">Select Call Status</option>
                 @foreach (Position::getCallStatus() as $item)
-                    <option value="{{ $item }}"
-                       @if (isset($candidate->lastCandidateActivity)) {{ $candidate->lastCandidateActivity->call_status == $item ? 'selected' : '' }} @endif>
+                    <option value="{{ $item }}">
                         {{ $item }}</option>
                 @endforeach
             </select>
@@ -937,11 +967,16 @@
         </td>
       </tr></tbody>`)
 
-                $('.select2').each(function() {
+                $('.new_select2').each(function() {
                     $(this).select2({
                         dropdownParent: $(this).parent()
                     });
                 })
+
+                $('.datepicker').datepicker({
+                    dateFormat: 'dd-mm-yy',
+                    maxDate: new Date(),
+                });
             });
             $(document).on("click", '#cross-button', function(e) {
 
@@ -1079,7 +1114,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>International Driving License </td>
+                                        <td>Gulf Driving License </td>
                                         <td> @if ($candidate->candidateGulfLicence()->count() > 0)
                                                 @foreach ($candidate->candidateGulfLicence as $key => $value)
                                                 <span
@@ -1266,19 +1301,19 @@
                                 class="position_applied_for_1">List</a></span></td> <td> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor1->name ?? '' }}"
                                 name="position_applied_for_1" placeholder=""> </td>`);
-                                if ($('.specialisation_1').length) {
-                                    $('.specialisation_1').remove();
-                                }
+                    if ($('.specialisation_1').length) {
+                        $('.specialisation_1').remove();
+                    }
                 } else {
                     $('.position_applied_1').html(
                         `<td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td> <td> <select
-                                name="position_applied_for_1" class="form-select uppercase-text select2 positionAppliedFor1" id=""> <option
+                                name="position_applied_for_1" class="form-select uppercase-text new_select2 positionAppliedFor1" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                        );
+                    );
                 }
             });
 
@@ -1291,20 +1326,20 @@
                                 class="position_applied_for_2">List</a></span></td> <td> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor2->name ?? '' }}"
                                 name="position_applied_for_2" placeholder=""> </td>`);
-                                if ($('.specialisation_2').length) {
-                                    $('.specialisation_2').remove();
+                    if ($('.specialisation_2').length) {
+                        $('.specialisation_2').remove();
 
-                                }
+                    }
                 } else {
                     $('.position_applied_2').html(
                         `<td>Position Applied For(2) <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td> <td> <select
-                                name="position_applied_for_2" class="form-select uppercase-text select2 positionAppliedFor2" id=""> <option
+                                name="position_applied_for_2" class="form-select uppercase-text new_select2 positionAppliedFor2" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                        );
+                    );
                 }
             });
 
@@ -1317,20 +1352,20 @@
                                 class="position_applied_for_3">List</a></span></td> <td> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor3->name ?? '' }}"
                                 name="position_applied_for_3" placeholder=""> </td>`);
-                                if ($('.specialisation_3').length) {
-                                    $('.specialisation_3').remove();
+                    if ($('.specialisation_3').length) {
+                        $('.specialisation_3').remove();
 
-                                }
+                    }
                 } else {
                     $('.position_applied_3').html(
                         `<td>Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">Other</a></span></td> <td> <select
-                                name="position_applied_for_3" class="form-select uppercase-text select2 positionAppliedFor3" id=""> <option
+                                name="position_applied_for_3" class="form-select uppercase-text new_select2 positionAppliedFor3" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                        );
+                    );
                 }
             });
 
@@ -1341,7 +1376,8 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_1" placeholder=""></td></tr>';
+                    var newTR =
+                        '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_1" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_1').length) {
                         $('.position_applied_1').after(newTR);
@@ -1360,7 +1396,8 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_2" placeholder=""></td></tr>';
+                    var newTR =
+                        '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_2" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_2').length) {
                         $('.position_applied_2').after(newTR);
@@ -1379,7 +1416,8 @@
                 // Check if a position is selected
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
-                    var newTR = '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_3" placeholder=""></td></tr>';
+                    var newTR =
+                        '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td><input type="text" class="form-control uppercase-text" name="specialisation_3" placeholder=""></td></tr>';
                     // Append the new div to the container
                     if (!$('.specialisation_3').length) {
                         $('.position_applied_3').after(newTR);
@@ -1392,5 +1430,147 @@
             });
         });
     </script>
+    <script>
+        $(document).on("click", '#open-job-input', function(e) {
 
+            $(this).html(``);
+
+            $('#submit-button-job').html(
+                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
+            )
+
+            $('#cross-button-job').html(
+                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
+            )
+
+            $('#candidate-form-job').html(`<tbody class="candidate-form-new">
+                                        <tr>
+                                            <td>Company </td>
+                                            <td>
+                                            <div class="form-group">
+                                                <select name="company_id" class="form-control uppercase-text company_id" id="company_id">
+                                                <option value="">Select Company</option>
+                                                @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}">
+                                                {{ $company->company_name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="text-danger" id="company_id_job_msg"></span>
+                                            </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Job Title</td>
+                                            <td>
+                                            <select name="interview_id" class="form-control uppercase-text job_id" id="interview_id">
+                                                <option value="">Select A Job Title</option>
+                                            </select>
+                                            <span class="text-danger" id="interview_id_job_msg"></span>
+                                            </td>
+                                        </tr>
+                                        </tbody>`);
+        });
+
+        $(document).on("click", '#cross-button-job', function(e) {
+
+            $(this).html(``);
+            $('#submit-button-job').html(``)
+            $('#open-job-input').html(
+                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+            $('#candidate-form-job').html(`<tbody>
+                                    <tr>
+                                        <td>Assigned By</td>
+                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Company</td>
+                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Title</td>
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Position</td>
+                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Location</td>
+                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                </tbody>`);
+
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '.company_id', function() {
+                var company_id = $(this).val();
+                $.ajax({
+                    url: "{{ route('candidates.getJobs') }}",
+                    type: 'GET',
+                    data: {
+                        company_id: company_id
+                    },
+                    success: function(response) {
+                        $('.job_id').html('');
+                        $('.job_id').html(response.interviews);
+                    }
+                });
+            });
+            $(document).on('submit', '#candidate-job-create-form', function(e) {
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+                var formElement = $(this);
+
+                swal({
+                    title: 'Are you sure?',
+                    text: "You want to assign this job to the candidate!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, submit it!'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: formElement.attr('action'),
+                            type: formElement.attr('method'),
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function(response) {
+                                if (response.status == true) {
+                                    window.location.reload();
+                                } else {
+                                    toastr.error(response.message);
+                                }
+                            },
+                            error: function(xhr) {
+                                // Handle errors (e.g., display validation errors)
+                                var errors = xhr.responseJSON.errors;
+                                $.each(errors, function(key, value) {
+                                    toastr.error(value);
+                                });
+                            }
+                        });
+                    } else if (result.dismiss === 'cancel') {
+                        swal(
+                            'Cancelled',
+                            'Your data is safe :)',
+                            'error'
+                        )
+                    }
+                });
+            });
+        });
+    </script>
 @endif

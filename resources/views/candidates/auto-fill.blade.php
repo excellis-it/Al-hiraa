@@ -6,8 +6,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Full Name <span>*</span></label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ $candidate->full_name ?? '' }}"
-                name="full_name" placeholder="">
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ $candidate->full_name ?? '' }}" name="full_name" placeholder="">
             @if ($errors->has('full_name'))
                 <span class="text-danger">{{ $errors->first('full_name') }}</span>
             @endif
@@ -16,8 +16,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Email</label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ $candidate->email ?? '' }}"
-                name="email" placeholder="">
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ $candidate->email ?? '' }}" name="email" placeholder="">
             @if ($errors->has('email'))
                 <span class="text-danger">{{ $errors->first('email') }}</span>
             @endif
@@ -58,44 +58,13 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">City: </label>
-            <select name="city" class="form-select  uppercase-text" id="">
-                <option value="">Select City</option>
-                <option value="Mumbai" {{ $candidate->city == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
-                <option value="Delhi" {{ $candidate->city == 'Delhi' ? 'selected' : '' }}>Delhi</option>
-                <option value="Kolkata" {{ $candidate->city == 'Kolkata' ? 'selected' : '' }}>Kolkata</option>
-                <option value="Chennai" {{ $candidate->city == 'Chennai' ? 'selected' : '' }}>Chennai</option>
-                <option value="Bangalore" {{ $candidate->city == 'Bangalore' ? 'selected' : '' }}>Bangalore</option>
-                <option value="Hyderabad" {{ $candidate->city == 'Hyderabad' ? 'selected' : '' }}>Hyderabad</option>
-                <option value="Ahmedabad" {{ $candidate->city == 'Ahmedabad' ? 'selected' : '' }}>Ahmedabad</option>
-                <option value="Pune" {{ $candidate->city == 'Pune' ? 'selected' : '' }}>Pune</option>
-                <option value="Surat" {{ $candidate->city == 'Surat' ? 'selected' : '' }}>Surat</option>
-                <option value="Jaipur" {{ $candidate->city == 'Jaipur' ? 'selected' : '' }}>Jaipur</option>
-                <option value="Kanpur" {{ $candidate->city == 'Kanpur' ? 'selected' : '' }}>Kanpur</option>
-                <option value="Nagpur" {{ $candidate->city == 'Nagpur' ? 'selected' : '' }}>Nagpur</option>
-                <option value="Lucknow" {{ $candidate->city == 'Lucknow' ? 'selected' : '' }}>Lucknow</option>
-                <option value="Thane" {{ $candidate->city == 'Thane' ? 'selected' : '' }}>Thane</option>
-                <option value="Bhopal" {{ $candidate->city == 'Bhopal' ? 'selected' : '' }}>Bhopal</option>
-                <option value="Visakhapatnam" {{ $candidate->city == 'Visakhapatnam' ? 'selected' : '' }}>Visakhapatnam
-                </option>
-                <option value="Pimpri-Chinchwad" {{ $candidate->city == 'Pimpri-Chinchwad' ? 'selected' : '' }}>
-                    Pimpri-Chinchwad</option>
-                <option value="Patna" {{ $candidate->city == 'Patna' ? 'selected' : '' }}>Patna</option>
-                <option value="Vadodara" {{ $candidate->city == 'Vadodara' ? 'selected' : '' }}>Vadodara</option>
-                <option value="Ghaziabad" {{ $candidate->city == 'Ghaziabad' ? 'selected' : '' }}>Ghaziabad</option>
-                <option value="Ludhiana" {{ $candidate->city == 'Ludhiana' ? 'selected' : '' }}>Ludhiana</option>
-                <option value="Agra" {{ $candidate->city == 'Agra' ? 'selected' : '' }}>Agra</option>
-                <option value="Nashik" {{ $candidate->city == 'Nashik' ? 'selected' : '' }}>Nashik</option>
-                <option value="Faridabad" {{ $candidate->city == 'Faridabad' ? 'selected' : '' }}>Faridabad</option>
-                <option value="Meerut" {{ $candidate->city == 'Meerut' ? 'selected' : '' }}>Meerut</option>
-                <option value="Rajkot" {{ $candidate->city == 'Rajkot' ? 'selected' : '' }}>Rajkot</option>
-                <option value="Kalyan-Dombivali" {{ $candidate->city == 'Kalyan-Dombivali' ? 'selected' : '' }}>
-                    Kalyan-Dombivali</option>
-                <option value="Vasai-Virar" {{ $candidate->city == 'Vasai-Virar' ? 'selected' : '' }}>Vasai-Virar
-                </option>
-                <option value="Varanasi" {{ $candidate->city == 'Varanasi' ? 'selected' : '' }}>Varanasi</option>
-                <option value="Srinagar" {{ $candidate->city == 'Srinagar' ? 'selected' : '' }}>Srinagar</option>
-                <option value="Aurangabad" {{ $candidate->city == 'Aurangabad' ? 'selected' : '' }}>Aurangabad</option>
-                <option value="Dhanbad" {{ $candidate->city == 'Dhanbad' ? 'selected' : '' }}>Dhanbad</option>
+            <select name="city" class="form-select select2 uppercase-text" id="">
+                <option value="">SELECT CITY</option>
+                @foreach (Position::getCity() as $city)
+                    <option value="{{ $city }}" {{ $candidate->city == $city ? 'selected' : '' }}>
+                        {{ $city }}
+                    </option>
+                @endforeach
             </select>
             {{-- <input type="text" class="form-control  uppercase-text" id="" name="city"
                 value="{{ $candidate->city ?? '' }}" placeholder=""> --}}
@@ -107,18 +76,18 @@
             <label for="">Gender</label>
             <select name="gender" class="form-select  uppercase-text" id="">
                 <option value="">Select Gender</option>
-                <option value="Male" {{ $candidate->gender == 'Male' ? 'selected' : '' }}> Male </option>
-                <option value="Female" {{ $candidate->gender == 'Female' ? 'selected' : '' }}>Female</option>
-                <option value="Other" {{ $candidate->gender == 'Other' ? 'selected' : '' }}>Other</option>
+                <option value="MALE" {{ $candidate->gender == 'MALE' ? 'selected' : '' }}> MALE </option>
+                <option value="FEMALE" {{ $candidate->gender == 'FEMALE' ? 'selected' : '' }}>FEMALE</option>
+                <option value="OTHER" {{ $candidate->gender == 'OTHER' ? 'selected' : '' }}>OTHER</option>
             </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">DOB <span>*</span></label>
-            <input type="date" class="form-control  uppercase-text" id=""
-                value="{{ date('Y-m-d', strtotime($candidate->date_of_birth)) ?? '' }}" name="dob"
-                max="{{ date('Y-m-d') }}" placeholder="">
+            <label for="dob">DOB</label>
+            <input type="text" class="form-control uppercase-text datepicker" id="dob"
+                value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob"
+                max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
             @if ($errors->has('dob'))
                 <span class="text-danger">{{ $errors->first('dob') }}</span>
             @endif
@@ -138,16 +107,16 @@
                 name="education" placeholder=""> --}}
             <select name="education" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="5th Pass" {{ $candidate->education == '5th Pass' ? 'selected' : '' }}>5th Pass</option>
-                <option value="8th Pass" {{ $candidate->education == '8th Pass' ? 'selected' : '' }}>8th Pass</option>
-                <option value="10th Pass" {{ $candidate->education == '10th Pass' ? 'selected' : '' }}>10th Pass
+                <option value="5TH PASS" {{ $candidate->education == '5TH PASS' ? 'selected' : '' }}>5TH PASS</option>
+                <option value="8TH PASS" {{ $candidate->education == '8TH PASS' ? 'selected' : '' }}>8TH PASS</option>
+                <option value="10TH PASS" {{ $candidate->education == '10TH PASS' ? 'selected' : '' }}>10TH PASS
                 </option>
-                <option value="Higher Secondary" {{ $candidate->education == 'Higher Secondary' ? 'selected' : '' }}>
-                    Higher Secondary
+                <option value="HIGHER SECONDARY" {{ $candidate->education == 'HIGHER SECONDARY' ? 'selected' : '' }}>
+                    HIGHER SECONDARY
                 </option>
-                <option value="Graduates" {{ $candidate->education == 'Graduates' ? 'selected' : '' }}>Graduates
+                <option value="GRADUATES" {{ $candidate->education == 'GRADUATES' ? 'selected' : '' }}>GRADUATES
                 </option>
-                <option value="Masters" {{ $candidate->education == 'Masters' ? 'selected' : '' }}>Masters</option>
+                <option value="MASTERS" {{ $candidate->education == 'MASTERS' ? 'selected' : '' }}>MASTERS</option>
             </select>
         </div>
     </div>
@@ -167,9 +136,9 @@
                 value="{{ $candidate->mode_of_registration ?? '' }}" name="mode_of_registration" placeholder=""> --}}
             <select name="mode_of_registration" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Calling" {{ $candidate->mode_of_registration == 'Calling' ? 'selected' : '' }}>Calling
+                <option value="CALLING" {{ $candidate->mode_of_registration == 'CALLING' ? 'selected' : '' }}>CALLING
                 </option>
-                <option value="Walk-in" {{ $candidate->mode_of_registration == 'Walk-in' ? 'selected' : '' }}>Walk-in
+                <option value="WALK-IN" {{ $candidate->mode_of_registration == 'WALK-IN' ? 'selected' : '' }}>WALK-IN
                 </option>
             </select>
         </div>
@@ -183,12 +152,11 @@
                 name="source" placeholder=""> --}}
             <select name="source" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Telecalling" {{ $candidate->source == 'Telecalling' ? 'selected' : '' }}>Telecalling
-                </option>
-                <option value="Reference" {{ $candidate->source == 'Reference' ? 'selected' : '' }}>Reference</option>
-                <option value="Facebook" {{ $candidate->source == 'Facebook' ? 'selected' : '' }}>Facebook</option>
-                <option value="Instagram" {{ $candidate->source == 'Instagram' ? 'selected' : '' }}>Instagram</option>
-                <option value="Others" {{ $candidate->source == 'Others' ? 'selected' : '' }}>Others </option>
+                @foreach ($sources as $source)
+                    <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
+                        {{ $source->name }}
+                    </option>
+                @endforeach
             </select>
         </div>
     </div>
@@ -224,21 +192,23 @@
             <label for="">Religion: </label>
             <select name="religion" class="form-select  uppercase-text" id="">
                 <option value="">Select Religion</option>
-                <option value="Hindu" {{ $candidate->religion == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                <option value="Islam" {{ $candidate->religion == 'Islam' ? 'selected' : '' }}>Islam</option>
-                <option value="Christian" {{ $candidate->religion == 'Christian' ? 'selected' : '' }}>Christian
+                <option value="HINDU" {{ $candidate->religion == 'HINDU' ? 'selected' : '' }}>Hindu</option>
+                <option value="ISLAM" {{ $candidate->religion == 'ISLAM' ? 'selected' : '' }}>Islam</option>
+                <option value="CHRISTIAN" {{ $candidate->religion == 'CHRISTIAN' ? 'selected' : '' }}>Christian
                 </option>
-                <option value="Sikh" {{ $candidate->religion == 'Sikh' ? 'selected' : '' }}>Sikh</option>
-                <option value="Buddhist" {{ $candidate->religion == 'Buddhist' ? 'selected' : '' }}>Buddhist</option>
-                <option value="Jain" {{ $candidate->religion == 'Jain' ? 'selected' : '' }}>Jain</option>
-                <option value="Other" {{ $candidate->religion == 'Other' ? 'selected' : '' }}>Other</option>
+                <option value="SIKH" {{ $candidate->religion == 'SIKH' ? 'selected' : '' }}>Sikh</option>
+                <option value="BUDDHIST" {{ $candidate->religion == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
+                <option value="JAIN" {{ $candidate->religion == 'JAIN' ? 'selected' : '' }}>Jain</option>
+                <option value="OTHER" {{ $candidate->religion == 'OTHER' ? 'selected' : '' }}>Other</option>
+
             </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Indian Driving License: </label>
-            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id="" multiple>
+            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
                 <option value="" disabled>Select Indian Driving License</option>
                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
                     2 WHEELER</option>
@@ -254,7 +224,8 @@
             <label for="">Gulf Driving License: </label>
             {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
                 value="{{ $candidate->international_driving_license ?? '' }}" placeholder=""> --}}
-            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id="" multiple>
+            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
                 <option value="" disabled>Select Gulf Driving License</option>
                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
                     2 WHEELER</option>
@@ -269,10 +240,10 @@
             <label for="">English Speak</label>
             <select name="english_speak" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
-                <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
-                <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-                <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
+                <option value="BASIC" {{ strtoupper($candidate->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ strtoupper($candidate->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ strtoupper($candidate->english_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ strtoupper($candidate->english_speak) == 'NO' ? 'selected' : '' }}>NO</option>
             </select>
         </div>
     </div>
@@ -281,10 +252,10 @@
             <label for="">Arabic Speak</label>
             <select name="arabic_speak" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Basic" {{ $candidate->english_speak == 'Basic' ? 'selected' : '' }}>Basic</option>
-                <option value="Good" {{ $candidate->english_speak == 'Good' ? 'selected' : '' }}>Good</option>
-                <option value="Poor" {{ $candidate->english_speak == 'Poor' ? 'selected' : '' }}>Poor</option>
-                <option value="NO" {{ $candidate->english_speak == 'NO' ? 'selected' : '' }}>NO</option>
+                <option value="BASIC" {{ strtoupper($candidate->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ strtoupper($candidate->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ strtoupper($candidate->arabic_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ strtoupper($candidate->arabic_speak) == 'NO' ? 'selected' : '' }}>NO</option>
             </select>
         </div>
     </div>
@@ -313,8 +284,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Indian Work Experience (If Any?)</label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ $candidate->indian_exp ?? '' }}"
-                name="indian_exp" placeholder="">
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ $candidate->indian_exp ?? '' }}" name="indian_exp" placeholder="">
             @if ($errors->has('indian_exp'))
                 @error('indian_exp')
                     <span class="text-danger">{{ $message }}</span>
@@ -326,8 +297,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Abroad Work Experience (If Any?)</label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ $candidate->abroad_exp ?? '' }}"
-                name="abroad_exp" placeholder="">
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ $candidate->abroad_exp ?? '' }}" name="abroad_exp" placeholder="">
             @if ($errors->has('abroad_exp'))
                 @error('abroad_exp')
                     <span class="text-danger">{{ $message }}</span>
@@ -344,7 +315,8 @@
                 @if ($candidate->positionAppliedFor1()->where('is_active', 1)->count() > 0)
                     <label for="">Position Applied For(1) <span>* </span> <span><a href="javascript:void(0);"
                                 class="position_applied_for_1 ">Other</a></span></label>
-                    <select name="position_applied_for_1" class="form-select  uppercase-text select2 positionAppliedFor1" id="">
+                    <select name="position_applied_for_1"
+                        class="form-select  uppercase-text select2 positionAppliedFor1" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -362,7 +334,8 @@
             @else
                 <label for="">Position Applied For(1) <span>* </span> <span><a href="javascript:void(0);"
                             class="position_applied_for_1">Other</a></span></label>
-                <select name="position_applied_for_1" class="form-select  uppercase-text select2 positionAppliedFor1" id="">
+                <select name="position_applied_for_1" class="form-select  uppercase-text select2 positionAppliedFor1"
+                    id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -398,7 +371,8 @@
                 @if ($candidate->positionAppliedFor2()->where('is_active', 1)->count() > 0)
                     <label for="">Position Applied For(2) <span>* </span> <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></label>
-                    <select name="position_applied_for_2" class="form-select  uppercase-text select2 positionAppliedFor2" id="">
+                    <select name="position_applied_for_2"
+                        class="form-select  uppercase-text select2 positionAppliedFor2" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -416,7 +390,8 @@
             @else
                 <label for="">Position Applied For(2) <span>* </span> <span><a href="javascript:void(0);"
                             class="position_applied_for_2">Other</a></span></label>
-                <select name="position_applied_for_2" class="form-select  uppercase-text select2 positionAppliedFor2" id="">
+                <select name="position_applied_for_2" class="form-select  uppercase-text select2 positionAppliedFor2"
+                    id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -446,7 +421,8 @@
                 @if ($candidate->positionAppliedFor3()->where('is_active', 1)->count() > 0)
                     <label for="">Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">Other</a></span></label>
-                    <select name="position_applied_for_3" class="form-select  uppercase-text select2 positionAppliedFor3" id="">
+                    <select name="position_applied_for_3"
+                        class="form-select  uppercase-text select2 positionAppliedFor3" id="">
                         <option value="">Select Position</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}"
@@ -464,7 +440,8 @@
             @else
                 <label for="">Position Applied For(3) <span><a href="javascript:void(0);"
                             class="position_applied_for_3">Other</a></span></label>
-                <select name="position_applied_for_3" class="form-select  uppercase-text select2 positionAppliedFor3" id="">
+                <select name="position_applied_for_3" class="form-select  uppercase-text select2 positionAppliedFor3"
+                    id="">
                     <option value="">Select Position</option>
                     @foreach ($candidate_positions as $item)
                         <option value="{{ $item['id'] }}"
@@ -523,8 +500,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Full Name <span>*</span></label>
-            <input type="text" class="form-control  uppercase-text " id="" value="{{ old('full_name') }}"
-                name="full_name" placeholder="">
+            <input type="text" class="form-control  uppercase-text " id=""
+                value="{{ old('full_name') }}" name="full_name" placeholder="">
             @if ($errors->has('full_name'))
                 <span class="text-danger">{{ $errors->first('full_name') }}</span>
             @endif
@@ -533,8 +510,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Email </label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('email') }}" name="email"
-                placeholder="">
+            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('email') }}"
+                name="email" placeholder="">
             @if ($errors->has('email'))
                 <span class="text-danger">{{ $errors->first('email') }}</span>
             @endif
@@ -579,44 +556,13 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">City: </label>
-            <select name="city" class="form-select  uppercase-text" id="">
-                <option value="">Select City</option>
-                <option value="Mumbai" {{ old('city') == 'Mumbai' ? 'selected' : '' }}>Mumbai</option>
-                <option value="Delhi" {{ old('city') == 'Delhi' ? 'selected' : '' }}>Delhi</option>
-                <option value="Kolkata" {{ old('city') == 'Kolkata' ? 'selected' : '' }}>Kolkata</option>
-                <option value="Chennai" {{ old('city') == 'Chennai' ? 'selected' : '' }}>Chennai</option>
-                <option value="Bangalore" {{ old('city') == 'Bangalore' ? 'selected' : '' }}>Bangalore</option>
-                <option value="Hyderabad" {{ old('city') == 'Hyderabad' ? 'selected' : '' }}>Hyderabad</option>
-                <option value="Ahmedabad" {{ old('city') == 'Ahmedabad' ? 'selected' : '' }}>Ahmedabad</option>
-                <option value="Pune" {{ old('city') == 'Pune' ? 'selected' : '' }}>Pune</option>
-                <option value="Surat" {{ old('city') == 'Surat' ? 'selected' : '' }}>Surat</option>
-                <option value="Jaipur" {{ old('city') == 'Jaipur' ? 'selected' : '' }}>Jaipur</option>
-                <option value="Kanpur" {{ old('city') == 'Kanpur' ? 'selected' : '' }}>Kanpur</option>
-                <option value="Nagpur" {{ old('city') == 'Nagpur' ? 'selected' : '' }}>Nagpur</option>
-                <option value="Lucknow" {{ old('city') == 'Lucknow' ? 'selected' : '' }}>Lucknow</option>
-                <option value="Thane" {{ old('city') == 'Thane' ? 'selected' : '' }}>Thane</option>
-                <option value="Bhopal" {{ old('city') == 'Bhopal' ? 'selected' : '' }}>Bhopal</option>
-                <option value="Visakhapatnam" {{ old('city') == 'Visakhapatnam' ? 'selected' : '' }}>
-                    Visakhapatnam
-                <option value="Pimpri-Chinchwad" {{ old('city') == 'Pimpri-Chinchwad' ? 'selected' : '' }}>
-                    Pimpri-Chinchwad</option>
-                <option value="Patna" {{ old('city') == 'Patna' ? 'selected' : '' }}>Patna</option>
-                <option value="Vadodara" {{ old('city') == 'Vadodara' ? 'selected' : '' }}>Vadodara</option>
-                <option value="Ghaziabad" {{ old('city') == 'Ghaziabad' ? 'selected' : '' }}>Ghaziabad</option>
-                <option value="Ludhiana" {{ old('city') == 'Ludhiana' ? 'selected' : '' }}>Ludhiana</option>
-                <option value="Agra" {{ old('city') == 'Agra' ? 'selected' : '' }}>Agra</option>
-                <option value="Nashik" {{ old('city') == 'Nashik' ? 'selected' : '' }}>Nashik</option>
-                <option value="Faridabad" {{ old('city') == 'Faridabad' ? 'selected' : '' }}>Faridabad</option>
-                <option value="Meerut" {{ old('city') == 'Meerut' ? 'selected' : '' }}>Meerut</option>
-                <option value="Rajkot" {{ old('city') == 'Rajkot' ? 'selected' : '' }}>Rajkot</option>
-                <option value="Kalyan-Dombivali" {{ old('city') == 'Kalyan-Dombivali' ? 'selected' : '' }}>
-                    Kalyan-Dombivali</option>
-                <option value="Vasai-Virar" {{ old('city') == 'Vasai-Virar' ? 'selected' : '' }}>Vasai-Virar
-                <option value="Varanasi" {{ old('city') == 'Varanasi' ? 'selected' : '' }}>Varanasi</option>
-                <option value="Srinagar" {{ old('city') == 'Srinagar' ? 'selected' : '' }}>Srinagar</option>
-                <option value="Aurangabad" {{ old('city') == 'Aurangabad' ? 'selected' : '' }}>Aurangabad
-                </option>
-                <option value="Dhanbad" {{ old('city') == 'Dhanbad' ? 'selected' : '' }}>Dhanbad</option>
+            <select name="city" class="form-select select2 uppercase-text" id="">
+                <option value="">SELECT CITY</option>
+                @foreach (Position::getCity() as $city)
+                    <option value="{{ $city }}" {{ old('city') == $city ? 'selected' : '' }}>
+                        {{ $city }}
+                    </option>
+                @endforeach
             </select>
         </div>
     </div>
@@ -626,17 +572,17 @@
             <label for="">Gender</label>
             <select name="gender" class="form-select  uppercase-text" id="">
                 <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+                <option value="OTHER">OTHER</option>
             </select>
         </div>
     </div>
     <div class="col-lg-4">
         <div class="form-group">
-            <label for="">DOB <span>*</span></label>
-            <input type="date" class="form-control  uppercase-text" id="" value="{{ old('dob') }}" name="dob"
-                max="{{ date('Y-m-d') }}" placeholder="">
+            <label for="">DOB </label>
+            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
+                name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yy">
         </div>
         @if ($errors->has('dob'))
             <span class="text-danger">{{ $errors->first('dob') }}</span>
@@ -654,13 +600,13 @@
             <label for="">Education</label>
             <select name="education" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="5th Pass" @if (old('education') == '5th Pass') selected @endif>5th Pass</option>
-                <option value="8th Pass" @if (old('education') == '8th Pass') selected @endif>8th Pass</option>
-                <option value="10th Pass" @if (old('education') == '10th Pass') selected @endif>10th Pass </option>
-                <option value="Higher Secondary" @if (old('education') == 'Higher Secondary') selected @endif>Higher
+                <option value="5TH PASS" @if (old('education') == '5TH PASS') selected @endif>5TH PASS</option>
+                <option value="8TH PASS" @if (old('education') == '8TH PASS') selected @endif>8TH PASS</option>
+                <option value="10TH PASS" @if (old('education') == '10TH PASS') selected @endif>10TH PASS </option>
+                <option value="HIGHER SECONDARY" @if (old('education') == 'HIGHER SECONDARY') selected @endif>Higher
                     Secondary</option>
-                <option value="Graduates" @if (old('education') == 'Graduates') selected @endif>Graduates</option>
-                <option value="Masters" @if (old('education') == 'Masters') selected @endif>Masters</option>
+                <option value="GRADUATES" @if (old('education') == 'GRADUATES') selected @endif>GRADUATES</option>
+                <option value="MASTERS" @if (old('education') == 'MASTERS') selected @endif>MASTERS</option>
             </select>
             {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('education') }}"
                 name="education" placeholder=""> --}}
@@ -669,8 +615,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Other Education</label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('other_education') }}"
-                name="other_education" placeholder="">
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ old('other_education') }}" name="other_education" placeholder="">
         </div>
     </div>
 
@@ -682,8 +628,8 @@
                 name="mode_of_registration" placeholder=""> --}}
             <select name="mode_of_registration" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Calling" @if (old('mode_of_registration') == 'Calling') selected @endif>Calling</option>
-                <option value="Walk-in" @if (old('mode_of_registration') == 'Walk-in') selected @endif>Walk-in</option>
+                <option value="CALLING" @if (old('mode_of_registration') == 'CALLING') selected @endif>CALLING</option>
+                <option value="WALK-IN" @if (old('mode_of_registration') == 'WALK-IN') selected @endif>WALK-IN</option>
             </select>
         </div>
     </div>
@@ -694,11 +640,10 @@
             <label for="">Source</label>
             <select name="source" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Telecalling" @if (old('source') == 'Telecalling') selected @endif>Telecalling</option>
-                <option value="Reference" @if (old('source') == 'Reference') selected @endif>Reference</option>
-                <option value="Facebook" @if (old('source') == 'Facebook') selected @endif>Facebook</option>
-                <option value="Instagram" @if (old('source') == 'Instagram') selected @endif>Instagram</option>
-                <option value="Others" @if (old('source') == 'Others') selected @endif>Others </option>
+                @foreach ($sources as $source)
+                    <option value="{{ $source->name }}" @if (old('source') == $source->name) selected @endif>
+                        {{ $source->name }}</option>
+                @endforeach
             </select>
             {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('source') }}" name="source"
                 placeholder=""> --}}
@@ -724,13 +669,13 @@
             <label for="">Religion: </label>
             <select name="religion" class="form-select  uppercase-text" id="">
                 <option value="">Select Religion</option>
-                <option value="Hindu">Hindu</option>
-                <option value="Islam">Islam</option>
-                <option value="Christian">Christian</option>
-                <option value="Sikh">Sikh</option>
-                <option value="Buddhist">Buddhist</option>
-                <option value="Jain">Jain</option>
-                < <option value="Other">Other</option>
+                <option value="HINDU" {{ old('religion') == 'HINDU' ? 'selected' : '' }}>Hindu</option>
+                <option value="ISLAM" {{ old('religion') == 'ISLAM' ? 'selected' : '' }}>Islam</option>
+                <option value="CHRISTIAN" {{ old('religion') == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
+                <option value="SIKH" {{ old('religion') == 'SIKH' ? 'selected' : '' }}>Sikh</option>
+                <option value="BUDDHIST" {{ old('religion') == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
+                <option value="JAIN" {{ old('religion') == 'JAIN' ? 'selected' : '' }}>Jain</option>
+                <option value="OTHER" {{ old('religion') == 'OTHER' ? 'selected' : '' }}>Other</option>
             </select>
             {{-- <input type="text" class="form-control  uppercase-text" id="" name="religion"
                 value="{{ old('religion') }}" placeholder=""> --}}
@@ -739,7 +684,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label>Indian Driving License:</label>
-            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id="" multiple>
+            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
                 <option value="" disabled>Select Indian Driving License</option>
                 <option value="2 WHEELER"
                     {{ in_array('2 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
@@ -757,7 +703,8 @@
             <label for="">Gulf Driving License: </label>
             {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
                 value="{{ old('international_driving_license') }}" placeholder=""> --}}
-            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id="" multiple>
+            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
                 <option value="" disabled>Select Gulf Driving License</option>
                 <option value="2 WHEELER"
                     {{ in_array('2 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
@@ -775,9 +722,9 @@
             <label for="">English Speak</label>
             <select name="english_speak" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Basic" {{ old('english_speak') == 'Basic' ? 'selected' : '' }}>Basic</option>
-                <option value="Good" {{ old('english_speak') == 'Good' ? 'selected' : '' }}>Good</option>
-                <option value="Poor" {{ old('english_speak') == 'Poor' ? 'selected' : '' }}>Poor</option>
+                <option value="BASIC" {{ old('english_speak') == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ old('english_speak') == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ old('english_speak') == 'POOR' ? 'selected' : '' }}>POOR</option>
                 <option value="NO" {{ old('english_speak') == 'NO' ? 'selected' : '' }}>NO</option>
             </select>
         </div>
@@ -787,10 +734,10 @@
             <label for="">Arabic Speak</label>
             <select name="arabic_speak" class="form-select  uppercase-text" id="">
                 <option value="">Select Type</option>
-                <option value="Basic" {{ old('english_speak') == 'Basic' ? 'selected' : '' }}>Basic</option>
-                <option value="Good" {{ old('english_speak') == 'Good' ? 'selected' : '' }}>Good</option>
-                <option value="Poor" {{ old('english_speak') == 'Poor' ? 'selected' : '' }}>Poor</option>
-                <option value="NO" {{ old('english_speak') == 'NO' ? 'selected' : '' }}>NO</option>
+                <option value="BASIC" {{ old('arabic_speak') == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ old('arabic_speak') == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ old('arabic_speak') == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ old('arabic_speak') == 'NO' ? 'selected' : '' }}>NO</option>
             </select>
         </div>
     </div>
@@ -819,8 +766,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Indian Work Experience (If Any?)</label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('indian_exp') }}"
-                name="indian_exp" placeholder="">
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ old('indian_exp') }}" name="indian_exp" placeholder="">
             @if ($errors->has('indian_exp'))
                 @error('indian_exp')
                     <span class="text-danger">{{ $message }}</span>
@@ -831,8 +778,8 @@
     <div class="col-lg-4">
         <div class="form-group">
             <label for="">Abroad Work Experience (If Any?)</label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('abroad_exp') }}"
-                name="abroad_exp" placeholder="">
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ old('abroad_exp') }}" name="abroad_exp" placeholder="">
 
         </div>
     </div>
@@ -842,7 +789,8 @@
                         class="position_applied_for_1">Other</a></span></label>
             {{-- <input type="text" class="form-control  uppercase-text" id=""
                 value="{{ $candidate->position_applied_for_1 ?? '' }}" name="position_applied_for_1" placeholder=""> --}}
-            <select name="position_applied_for_1" class="form-select  uppercase-text select2 positionAppliedFor1" id="">
+            <select name="position_applied_for_1" class="form-select  uppercase-text select2 positionAppliedFor1"
+                id="">
                 <option value="">Select Position</option>
                 @foreach ($candidate_positions as $item)
                     <option value="{{ $item['id'] }}"
@@ -863,7 +811,8 @@
                         class="position_applied_for_2">Other</a></span></label>
             {{-- <input type="text" class="form-control  uppercase-text" id=""
                 value="{{ $candidate->position_applied_for_2 ?? '' }}" name="position_applied_for_2" placeholder=""> --}}
-            <select name="position_applied_for_2" class="form-select  uppercase-text select2 positionAppliedFor2" id="">
+            <select name="position_applied_for_2" class="form-select  uppercase-text select2 positionAppliedFor2"
+                id="">
                 <option value="">Select Position</option>
                 @foreach ($candidate_positions as $item)
                     <option value="{{ $item['id'] }}"
@@ -879,7 +828,8 @@
                         class="position_applied_for_3">Other</a></span></label>
             {{-- <input type="text" class="form-control  uppercase-text" id=""
                 value="{{ $candidate->position_applied_for_3 ?? '' }}" name="position_applied_for_3" placeholder=""> --}}
-            <select name="position_applied_for_3" class="form-select  uppercase-text select2 positionAppliedFor3" id="">
+            <select name="position_applied_for_3" class="form-select  uppercase-text select2 positionAppliedFor3"
+                id="">
                 <option value="">Select Position</option>
                 @foreach ($candidate_positions as $item)
                     <option value="{{ $item['id'] }}"
@@ -933,7 +883,11 @@
                 dropdownParent: $(this).parent()
             });
         })
+        $('.datepicker').datepicker({
+            dateFormat: 'dd-mm-yy',
+            maxDate: new Date(),
 
+        });
 
     });
 </script>

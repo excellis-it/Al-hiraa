@@ -33,7 +33,7 @@
                                                 <div class="col-xl-12">
                                                     <div class="form-group">
                                                         <label for="">Status<span>*</span></label>
-                                                        <select name="position_status"  class="form-control">
+                                                        <select name="position_status"  class="form-select">
                                                             <option value="">Select Status</option>
                                                             <option value="1">Active</option>
                                                             <option value="0">Inactive</option>
@@ -41,8 +41,8 @@
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
-                                                
-                                                
+
+
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="save-btn-div d-flex align-items-center">
                                                         <button type="submit" class="btn save-btn"><span><i
@@ -109,15 +109,15 @@
                         </div>
                     </div>
                     <div class="col-xl-2 mb-3 mb-md-0">
-                        <select class="form-control" name="search_status" id="status">
+                        <select class="form-select" name="search_status" id="status">
                             <option value="">Search by Status</option>
                             <option value="1">Active</option>
                             <option value="0">Inactive</option>
                         </select>
                     </div>
-                   
+
                 </div>
-                
+
 
                 <div class="user-acces-table team-members-table">
                     <div class="container-fluid page__container">
@@ -274,8 +274,8 @@
 
             // Handle the form submission
             $(document).on('submit', '#position-edit-form', function(e) {
-               
-                
+
+
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
@@ -351,5 +351,5 @@
 
         });
     </script>
-   
+
 @endpush

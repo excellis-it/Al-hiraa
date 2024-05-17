@@ -9,14 +9,170 @@
         <div class="container-fluid page__heading-container">
             <section class="companey_details">
                 <div class="row align-items-center">
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRightJob"
+                        aria-labelledby="offcanvasRightLabel" aria-hidden="true">
+                        <div class="offcanvas-body">
+                            <div class="user-acces-table">
+                                <form action="{{ route('company-job.store') }}" method="POST" enctype="multipart/form-data"
+                                    id="company-job-form-create">
+                                    @csrf
+                                    <input type="hidden" name="company_id" value="{{ $company->id }}">
+                                    <div class="frm-head">
+                                        <h2>Create New Job</h2>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="add-mem-form job-creat">
+                                                <div class="row">
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Job Name<span>*</span></label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="job_name" placeholder="">
+                                                            <span class="text-danger" id="job_name_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    {{-- vendors --}}
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Vendor<span>*</span></label>
+                                                            <select name="vendor_id" class="form-select new_select2"
+                                                                id="">
+                                                                <option value="">Select a vendor</option>
+                                                                @foreach ($vendors as $vendor)
+                                                                    <option value="{{ $vendor->id }}">
+                                                                        {{ $vendor->full_name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <span class="text-danger" id="vendor_id_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Position<span>*</span></label>
+                                                            <select name="candidate_position_id" class="form-select new_select2"
+                                                                id="">
+                                                                <option value="">Select a position</option>
+                                                                @foreach ($positions as $position)
+                                                                    <option value="{{ $position->id }}">
+                                                                        {{ $position->name }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <span class="text-danger"
+                                                                id="candidate_position_id_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Duty Hours</label>
+                                                            <select name="duty_hours" class="form-select new_select2"
+                                                                id="">
+                                                                <option value="">Select a duty hours</option>
+                                                                <?php for ($i = 1; $i <= 24; $i++) : ?>
+                                                                <option value="{{ $i }}">{{ $i }}
+                                                                    Hours per day</option>
+
+                                                                <?php endfor; ?>
+                                                            </select>
+                                                            <span class="text-danger" id="duty_hours_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    {{-- salary --}}
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Salary</label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="salary" placeholder="">
+                                                            <span class="text-danger" id="salary_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Contract (Year)</label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="contract" placeholder="">
+                                                            <span class="text-danger" id="contract_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Location <span>*</span></label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="address" placeholder="">
+                                                            <span class="text-danger" id="address_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Benefits</label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="benifits" placeholder="">
+                                                            <span class="text-danger" id="benifits_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    {{-- service_charge --}}
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Service Charge<span>*</span></label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="service_charge" placeholder="">
+                                                            <span class="text-danger" id="service_charge_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Status <span>*</span></label>
+                                                            <select name="status" class="form-select" id="">
+                                                                <option value="">Select a status</option>
+                                                                <option value="Ongoing">Ongoing</option>
+                                                                <option value="Closed">Closed</option>
+                                                            </select>
+                                                            <span class="text-danger" id="status_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-12">
+                                                        <div class="form-group">
+                                                            <label for="">Job Description</label>
+                                                            <textarea name="job_description" id="" cols="30" class="form-control" style="height: 100%;"
+                                                                rows="10"></textarea>
+                                                            <span class="text-danger"
+                                                                id="job_description_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 mt-3">
+                                                        <div class="save-btn-div d-flex align-items-center">
+                                                            <button type="submit" class="btn save-btn"><span><i
+                                                                        class="fa-solid fa-check"></i></span>
+                                                                Submit</button>
+                                                            <button type="button"
+                                                                class="btn save-btn save-btn-1 close-btn"><span><i
+                                                                        class="fa-solid fa-xmark"></i></span>Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @can('Edit Company')
+                        <div id="edit-company">
+                            @include('companies.edit')
+                        </div>
+                    @endcan
+                    <div id="edit-company-job">
+                        @include('companies.edit-job')
+                    </div>
                     <div class="col-md-6">
                         <div class="d-flex align-items-center">
                             <div>
                                 <div class="compan_img">
                                     @if ($company->company_logo)
-                                        <img src="{{Storage::url($company->company_logo)}}" alt="">
+                                        <img src="{{ Storage::url($company->company_logo) }}" alt="">
                                     @else
-                                        <img src="{{ asset('assets/images/Burger.png') }}" alt="">
+                                        <img src="{{ asset('assets/images/company.png') }}" alt="">
                                     @endif
                                 </div>
                             </div>
@@ -36,40 +192,29 @@
                     </div>
                     <div class="col-md-6">
                         <div class="text-end">
-                            <a href="" class="company_details_edt">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 54 54">
-                                    <g id="Group_87" data-name="Group 87" transform="translate(-1762 -102)">
-                                        <g id="Ellipse_44" data-name="Ellipse 44" transform="translate(1762 102)"
-                                            fill="#fff" stroke="#dedede" stroke-width="2">
-                                            <circle cx="27" cy="27" r="27" stroke="none" />
-                                            <circle cx="27" cy="27" r="26" fill="none" />
+                            @can('Edit Company')
+                                <a href="javascript:void(0);" data-route="{{ route('companies.edit', $company['id']) }}"
+                                    class="company_details_edt edit-route">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="54" height="54"
+                                        viewBox="0 0 54 54">
+                                        <g id="Group_87" data-name="Group 87" transform="translate(-1762 -102)">
+                                            <g id="Ellipse_44" data-name="Ellipse 44" transform="translate(1762 102)"
+                                                fill="#fff" stroke="#dedede" stroke-width="2">
+                                                <circle cx="27" cy="27" r="27" stroke="none" />
+                                                <circle cx="27" cy="27" r="26" fill="none" />
+                                            </g>
+                                            <g id="pencil" transform="translate(1778.999 119)">
+                                                <path id="Path_125" data-name="Path 125"
+                                                    d="M12.17,5.687,0,17.857v3.092H3.092l12.17-12.17Z"
+                                                    transform="translate(0 -0.948)" fill="#6a6a6a" />
+                                                <path id="Path_126" data-name="Path 126"
+                                                    d="M22.031.64a2.187,2.187,0,0,0-3.092,0L16.022,3.561l3.091,3.091L22.03,3.735a2.187,2.187,0,0,0,0-3.1Z"
+                                                    transform="translate(-2.67)" fill="#6a6a6a" />
+                                            </g>
                                         </g>
-                                        <g id="pencil" transform="translate(1778.999 119)">
-                                            <path id="Path_125" data-name="Path 125"
-                                                d="M12.17,5.687,0,17.857v3.092H3.092l12.17-12.17Z"
-                                                transform="translate(0 -0.948)" fill="#6a6a6a" />
-                                            <path id="Path_126" data-name="Path 126"
-                                                d="M22.031.64a2.187,2.187,0,0,0-3.092,0L16.022,3.561l3.091,3.091L22.03,3.735a2.187,2.187,0,0,0,0-3.1Z"
-                                                transform="translate(-2.67)" fill="#6a6a6a" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </a>
-                            <a href="" class="company_details_edt">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 54 54">
-                                    <g id="Group_88" data-name="Group 88" transform="translate(-1836 -102)">
-                                        <circle id="Ellipse_45" data-name="Ellipse 45" cx="27" cy="27" r="27"
-                                            transform="translate(1836 102)" fill="#f2f2f2" />
-                                        <path id="Path_127" data-name="Path 127"
-                                            d="M2.171,0A2.171,2.171,0,1,1,0,2.171,2.171,2.171,0,0,1,2.171,0Z"
-                                            transform="translate(1861 120)" fill="#989898" />
-                                        <circle id="Ellipse_51" data-name="Ellipse 51" cx="2" cy="2" r="2"
-                                            transform="translate(1861 128)" fill="#989898" />
-                                        <circle id="Ellipse_52" data-name="Ellipse 52" cx="2" cy="2" r="2"
-                                            transform="translate(1861 135)" fill="#989898" />
-                                    </g>
-                                </svg>
-                            </a>
+                                    </svg>
+                                </a>
+                            @endcan
                         </div>
                     </div>
                 </div>
@@ -159,7 +304,7 @@
                                 <h4>Description:</h4>
                             </div>
                             <div class="col-lg-8 col-md-12">
-                                <h4><span>{{ $company->company_description ?? 'N/A' }}</span></h4>
+                                <h4><span>{!! nl2br($company->company_description) !!}</span></h4>
                             </div>
                         </div>
                     </div>
@@ -198,22 +343,31 @@
         </div>
         <div class="container-fluid page__container">
             <div class="row">
+                <div class="col-md-12 mb-2">
+                    <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob"
+                        aria-controls="offcanvasRightJob" class="btn addcandidate_btn" style="float: right"><i
+                            class="fas fa-plus"></i>
+                        Add
+                        a Job</a>
+                </div>
                 <div class="col-lg-12 col-md-12 text_left_td_th">
                     <ul class="nav nav-tabs open_jobs_tab" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="openjob-tab" data-bs-toggle="tab"
                                 data-bs-target="#openjob" type="button" role="tab" aria-controls="openjob"
-                                aria-selected="true">Open Jobs</button>
+                                aria-selected="true">Open
+                                Jobs</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="closejob-tab" data-bs-toggle="tab" data-bs-target="#closejob"
                                 type="button" role="tab" aria-controls="closejob"
-                                aria-selected="false">Closed/Other Jobs</button>
+                                aria-selected="false">Closed/Other
+                                Jobs</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        {{-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="stats-tab" data-bs-toggle="tab" data-bs-target="#stats"
                                 type="button" role="tab" aria-controls="stats" aria-selected="false">Stats</button>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="openjob" role="tabpanel"
@@ -222,128 +376,55 @@
                                 <table class="table mb-0 table-bordered">
                                     <thead>
                                         <tr>
-                                            <th style="width:5px;">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </th>
-                                            <th>Job</th>
-                                            <th>Date</th>
-                                            <th>Interview</th>
-                                            <th>Selected</th>
+                                            <th>Job Title</th>
+                                            <th>Positions</th>
+                                            <th>Duty Hours</th>
+                                            <th>Contract</th>
+                                            <th>Benefits</th>
+                                            <th>Created Date</th>
+                                            <th>Edit</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list" id="user_tbody">
-                                        <tr>
-                                            <td>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </td>
-                                            <td>Active</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </td>
-                                            <td>Active</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </td>
-                                            <td>Active</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                        </tr>
+                                    <tbody class="list" id="open_job_filter">
+                                        @include('companies.open-job-filter')
+                                        <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="row mt-3">
+                            {{-- <div class="row mt-3">
                                 <div class="col-xxl-2 col-xl-3 col-md-6">
                                     <a href="" class="btn-2">See Pipeline</a>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                         <div class="tab-pane fade" id="closejob" role="tabpanel" aria-labelledby="closejob-tab">
                             <div class="table-responsive border-bottom" data-toggle="lists">
                                 <table class="table mb-0 table-bordered">
                                     <thead>
                                         <tr>
-                                            <th>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </th>
-                                            <th>Job</th>
-                                            <th>Date</th>
-                                            <th>Interview</th>
-                                            <th>Selected</th>
+                                            <th>Job Title</th>
+                                            <th>Positions</th>
+                                            <th>Duty Hours</th>
+                                            <th>Contract</th>
+                                            <th>Benefits</th>
+                                            <th>Created Date</th>
+                                            <th>Edit</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="list" id="user_tbody">
-                                        <tr>
-                                            <td>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </td>
-                                            <td>Active</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </td>
-                                            <td>Active</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox"
-                                                        class="custom-control-input js-check-selected-row">
-                                                </div>
-                                            </td>
-                                            <td>Active</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                            <td>Jhon Doe</td>
-                                        </tr>
+                                    <tbody class="list" id="close_job_filter">
+                                        @include('companies.close-job-filter')
+                                        <input type="hidden" name="hidden_close_page" id="hidden_close_page"
+                                            value="1" />
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="row mt-3">
+                            {{-- <div class="row mt-3">
                                 <div class="col-xxl-2 col-xl-3 col-md-6">
                                     <a href="" class="btn-2">See Pipeline</a>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
-                        <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+                        {{-- <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="stats-tab">
                             <div class="table-responsive border-bottom" data-toggle="lists">
                                 <table class="table mb-0 table-bordered">
                                     <thead>
@@ -405,7 +486,7 @@
                                     <a href="" class="btn-2">See Pipeline</a>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
 
 
@@ -417,4 +498,270 @@
 @endsection
 
 @push('scripts')
+    <script>
+        // select2
+        $(document).ready(function() {
+            $('.new_select2').each(function() {
+                $(this).select2({
+                    dropdownParent: $(this).parent()
+                });
+            })
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.close-btn-edit', function() {
+                $('.text-danger').html('');
+                $('#offcanvasEdit').offcanvas('hide');
+            });
+
+            $(document).on('click', '.edit-route', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#edit-company').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasEdit').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            // Handle the form submission
+            $(document).on('submit', '#company-edit-form', function(e) {
+
+
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        // window.location.reload();
+                        // toastr.success('Members details updated successfully');
+                        if (response.status == true) {
+                            window.location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg').html(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.close-btn-job-edit', function() {
+                $('.text-danger').html('');
+                $('#offcanvasJobEdit').offcanvas('hide');
+            });
+            $(document).on('click', '.edit-job-route', function() {
+                var route = $(this).data('route');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: route,
+                    type: 'GET',
+                    success: function(response) {
+                        $('#edit-company-job').html(response.view);
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        $('#offcanvasJobEdit').offcanvas('show');
+                    },
+                    error: function(xhr) {
+                        // Handle errors
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        console.log(xhr);
+                    }
+                });
+            });
+
+            // Handle the form submission
+            $(document).on('submit', '#company-job-edit-form', function(e) {
+
+
+
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == true) {
+                            // get the active tag
+                            var activeTab = $('.nav-tabs .nav-link.active').attr('id');
+                            // after page reload, the active tab will be the same
+                            window.location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                         $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg_job').html(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.close-btn', function() {
+                $('.text-danger').html('');
+                $('#offcanvasRightJob').offcanvas('hide');
+            });
+
+            $('#company-job-form-create').submit(function(e) {
+                e.preventDefault();
+
+                var formData = new FormData($(this)[0]);
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+
+                        if (response.status == true) {
+                            window.location.reload();
+                        } else {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            toastr.error(response.error);
+                        }
+
+                    },
+                    error: function(xhr) {
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg_create').html(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            function fetch_close_data(page) {
+                $.ajax({
+                    url: "{{ route('company-job.close-job.filter') }}",
+                    data: {
+                        page: page,
+                        company_id: "{{ $company->id }}"
+                    },
+                    success: function(data) {
+                        $('#close_job_filter').html(data.view);
+                    }
+                });
+            }
+
+            function fetch_open_data(page) {
+                $.ajax({
+                    url: "{{ route('company-job.open-job.filter') }}",
+                    data: {
+                        page: page,
+                        company_id: "{{ $company->id }}"
+                    },
+                    success: function(data) {
+                        $('#open_job_filter').html(data.view);
+                    }
+                });
+            }
+
+            $(document).on('click', '.close-pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                $('#hidden_close_page').val(page);
+                // alert(page);
+                $('li').removeClass('active');
+                $(this).parent().addClass('active');
+                fetch_close_data(page);
+            });
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                $('#hidden_page').val(page);
+                // alert(page);
+                $('li').removeClass('active');
+                $(this).parent().addClass('active');
+                fetch_open_data(page);
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '#state_id', function() {
+                var state_id = $(this).val();
+                if (state_id) {
+                    $.ajax({
+                        url: "{{ route('company-job.get-city') }}",
+                        type: "POST",
+                        data: {
+                            state_id: state_id,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log(response.cities);
+                            $('#city_id').empty();
+                            $('#city_id').append('<option value="">Select a city</option>');
+                            $.each(response.cities, function(key, value) {
+                                $('#city_id').append('<option value="' + value.id +
+                                    '">' + value.name +
+                                    '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#city_id').empty();
+                    $('#city_id').append('<option value="">Select a city</option>');
+                }
+            });
+        });
+    </script>
 @endpush

@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Position;
+use App\Models\CandidatePosition;
 use App\Models\Company;
+use App\Models\Job;
+use App\Models\State;
+use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyController extends Controller
 {
@@ -48,13 +55,13 @@ class CompanyController extends Controller
             'company_address' => 'required',
             'company_website' => 'nullable|url',
             'company_industry' => 'required',
-            'company_logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'company_description' => 'nullable',
         ]);
 
         $count = Company::where(['company_name' => $request->company_name, 'company_address' => $request->company_address])->count();
         if ($count > 0) {
-            return redirect()->back()->with('error', __('Company already exists.'));
+            return response()->json(['error' => __('Company already exists.'), 'status' => false]);
         }
 
         $company = new Company();
@@ -66,8 +73,8 @@ class CompanyController extends Controller
         $company->company_description = $request->company_description;
         $company->company_logo = $this->imageUpload($request->file('company_logo'), 'company');
         $company->save();
-
-        return response()->json(['message' => __('Company created successfully.')]);
+        Session::flash('message', 'Company created successfully');
+        return response()->json(['message' => __('Company created successfully.'), 'status' => true]);
     }
 
     /**
@@ -79,7 +86,12 @@ class CompanyController extends Controller
             $id = Crypt::decrypt($id);
             $company = Company::find($id);
             if ($company) {
-                return view('companies.view')->with(compact('company'));
+                $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $id])->orderBy('id', 'desc')->paginate(10);
+                $closed_jobs = Job::where(['status' => 'Closed', 'company_id' => $id])->orderBy('id', 'desc')->paginate(10);
+                $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
+                $states = State::orderBy('name', 'ASC')->get();
+                $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
+                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'states', 'closed_jobs', 'positions','vendors'));
             } else {
                 return redirect()->back()->with('error', __('Company not found.'));
             }
@@ -93,7 +105,9 @@ class CompanyController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $company = Company::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('companies.edit', compact('company', 'edit'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -101,7 +115,36 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // return $request->all();
+        $request->validate([
+            'company_name' => 'required',
+            'company_address' => 'required',
+            'company_website' => 'nullable|url',
+            'company_industry' => 'required',
+            'company_description' => 'nullable',
+        ]);
+
+        $count = Company::where(['company_name' => $request->company_name, 'company_address' => $request->company_address])->where('id', '!=', Crypt::decrypt($id))->count();
+        if ($count > 0) {
+            return response()->json(['error' => __('Company already exists.'), 'status' => false]);
+        }
+
+        $company = Company::findOrFail(Crypt::decrypt($id));
+        $company->company_name = $request->company_name;
+        $company->company_address = $request->company_address;
+        $company->company_website = $request->company_website;
+        $company->company_industry = $request->company_industry;
+        $company->company_description = $request->company_description;
+        if ($request->hasFile('company_logo')) {
+            if ($company->company_logo) {
+                $currentImageFilename = $company->company_logo; // get current image name
+                Storage::delete('app/' . $currentImageFilename);
+            }
+            $company->company_logo = $this->imageUpload($request->file('company_logo'), 'company');
+        }
+        $company->save();
+        Session::flash('message', 'Company updated successfully');
+        return response()->json(['message' => __('Company updated successfully.'), 'status' => true]);
     }
 
     /**
@@ -128,5 +171,111 @@ class CompanyController extends Controller
         $companies = $companies->orderBy('id', 'DESC')->paginate(15);
 
         return response()->json(['view' => view('companies.filter', compact('companies'))->render()]);
+    }
+
+    public function companyJobStore(Request $request)
+    {
+        $request->validate([
+            'candidate_position_id' => 'required',
+            'vendor_id' => 'required',
+            'service_charge' => 'required|numeric',
+            'job_name' => 'required',
+            'status' => 'required',
+            'contract' => 'nullable|numeric',
+            'address' => 'required',
+        ], [
+            'vendor_id.required' => 'The vendor field is required.',
+            'service_charge.required' => 'The service charge field is required.',
+            'candidate_position_id.required' => 'The position field is required.',
+            'to_date.required' => 'The end date field is required.',
+            'status.required' => 'The status field is required.',
+            'contract.numeric' => 'The contract field must be a number.',
+            'address.required' => 'The location field is required.',
+        ]);
+
+        $job = new Job();
+        $job->candidate_position_id = $request->candidate_position_id;
+        $job->vendor_id = $request->vendor_id;
+        $job->service_charge = $request->service_charge;
+        $job->salary = $request->salary;
+        $job->company_id = $request->company_id;
+        $job->job_name = $request->job_name;
+        $job->duty_hours = $request->duty_hours;
+        $job->contract = $request->contract;
+        $job->benifits = $request->benifits;
+        $job->address = $request->address;
+        $job->job_description = $request->job_description;
+        $job->status = $request->status;
+        $job->save();
+        Session::flash('message', 'Job created successfully');
+        return response()->json(['message' => __('Job created successfully.'), 'status' => true]);
+    }
+
+    public function companyJobEdit(string $id)
+    {
+        $job = Job::findOrFail($id);
+        $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
+        $states = State::orderBy('name', 'ASC')->get();
+        $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
+        $edit = true;
+        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions', 'states','vendors'))->render(), 'status' => 'success']);
+    }
+
+    public function companyJobUpdate(Request $request, string $id)
+    {
+        $request->validate([
+            'candidate_position_id' => 'required', // candidate_position_id was missing in the validation
+            'vendor_id' => 'required',
+            'service_charge' => 'required|numeric',
+            'job_name' => 'required',
+            'status' => 'required',
+            // contract was number or float
+            'contract' => 'nullable|numeric',
+            'address' => 'required',
+        ], [
+            'vendor_id.required' => 'The vendor field is required.',
+            'service_charge.required' => 'The service charge field is required.',
+            'candidate_position_id.required' => 'The position field is required.',
+            'to_date.required' => 'The end date field is required.',
+            'status.required' => 'The status field is required.',
+            'contract.numeric' => 'The contract field must be a number.',
+            'address.required' => 'The location field is required.',
+        ]);
+
+        $job = Job::findOrFail(Crypt::decrypt($id));
+        $job->candidate_position_id = $request->candidate_position_id;
+        $job->vendor_id = $request->vendor_id;
+        $job->service_charge = $request->service_charge;
+        $job->salary = $request->salary;
+        $job->job_name = $request->job_name;
+        $job->duty_hours = $request->duty_hours;
+        $job->contract = $request->contract;
+        $job->benifits = $request->benifits;
+        $job->address = $request->address;
+        $job->job_description = $request->job_description;
+        $job->status = $request->status;
+        $job->save();
+        Session::flash('message', 'Job Updated successfully');
+        return response()->json(['message' => __('Job Updated successfully.'), 'status' => true]);
+    }
+
+    public function closeJobFilter(Request $request)
+    {
+        // return $request->all();
+        $closed_jobs = Job::where(['status' => 'Closed', 'company_id' => $request->company_id])->orderBy('id', 'desc')->paginate(10);
+        return response()->json(['view' => view('companies.close-job-filter', compact('closed_jobs'))->render()]);
+    }
+
+    public function openJobFilter(Request $request)
+    {
+        // return $request;
+        $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $request->company_id])->orderBy('id', 'desc')->paginate(10);
+        return response()->json(['view' => view('companies.open-job-filter', compact('ongoing_jobs'))->render()]);
+    }
+
+    public function getCity(Request $request)
+    {
+        $cities = State::find($request->state_id)->cities;
+        return response()->json(['cities' => $cities]);
     }
 }

@@ -35,8 +35,19 @@
                 {{ $member->phone }}</td>
             <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
                 {{ $member->email }}</td>
+                <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
+                    {{ $member->code ?? 'N/A' }}</td>
             <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
                 {{ $member->getRoleNames()->first() }}
+            </td>
+            <td>
+                <div class="button-switch">
+                    <input type="checkbox" id="switch-orange" class="switch toggle-class"
+                        data-id="{{ $member['id'] }}"
+                        {{ $member['is_active'] ? 'checked' : '' }} />
+                    <label for="switch-orange" class="lbl-off"></label>
+                    <label for="switch-orange" class="lbl-on"></label>
+                </div>
             </td>
             @can('Delete Team')
             <td>
@@ -47,7 +58,7 @@
             @endcan
         </tr>
     @endforeach
-    <tr>
+    <tr class="toxic">
         <td colspan="6" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">

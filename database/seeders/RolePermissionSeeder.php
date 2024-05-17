@@ -307,5 +307,31 @@ class RolePermissionSeeder extends Seeder
         ];
 
         $associateRole->givePermissionTo($associatePermissions);
+
+        $vendorRole = Role::where('name', 'VENDOR')->first();
+        $vendorPermissions = [
+            "Manage Support",
+        ];
+
+     /*-------------------------------For one permission----------------------------------------------*/
+        // $arrPermissions = [
+        //     [
+        //         "name" => "View Company",
+        //         "guard_name" => "web",
+        //         "created_at" => now(),
+        //         "updated_at" => now(),
+        //     ],
+        // ];
+
+        // // Insert permission into the database
+        // DB::table('permissions')->insert($arrPermissions);
+
+        // $adminRole = Role::where('name', 'ADMIN')->first();
+
+        // // Retrieve the permission by name
+        // $viewCompanyPermission = Permission::where('name', 'View Company')->first();
+
+        // // Assign the permission to the role
+        // $adminRole->givePermissionTo($viewCompanyPermission);
     }
 }

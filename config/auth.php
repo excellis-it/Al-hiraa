@@ -40,6 +40,16 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'candidate' => [ //for candidate
+            'driver' => 'session', //session driver
+            'provider' => 'candidates', //provider for candidate
+        ],
+
+        'api' => [               //for candidate
+            'driver' => 'passport', //passport driver
+            'provider' => 'candidates', //provider for candidate
+        ],
     ],
 
     /*
@@ -69,6 +79,11 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+
+        'candidates' => [ //for candidate
+            'driver' => 'eloquent', //eloquent driver
+            'model' => App\Models\Candidate::class, //candidate model
+        ],
     ],
 
     /*

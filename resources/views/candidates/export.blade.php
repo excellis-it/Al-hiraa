@@ -23,7 +23,7 @@
             <th>Religion</th>
             <th>ECR Type</th>
             <th>Indidan Driving License </th>
-            <th>International Driving License </th>
+            <th>Gulf Driving License </th>
             <th>English Speak</th>
             <th>Arabic Speak</th>
             <th>Return</th>

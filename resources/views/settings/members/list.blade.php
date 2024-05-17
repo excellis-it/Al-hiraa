@@ -195,7 +195,9 @@
                                                 <th>Start Date</th>
                                                 <th>Phone Number</th>
                                                 <th>Login ID</th>
+                                                <th>Code</th>
                                                 <th>Designation</th>
+                                                <th>Status</th>
                                                 @can('Delete Team')
                                                 <th><svg xmlns="http://www.w3.org/2000/svg" width="2" height="12"
                                                         viewBox="0 0 2 12">
@@ -329,7 +331,25 @@
                 })
         });
     </script>
+     <script>
+        $('.toggle-class').change(function() {
+            var status = $(this).prop('checked') == true ? 1 : 0;
+            var user_id = $(this).data('id');
 
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: '{{ route('members.status') }}',
+                data: {
+                    'status': status,
+                    'user_id': user_id
+                },
+                success: function(resp) {
+                    console.log(resp.success)
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $(document).on('click', '.close-btn-edit', function() {

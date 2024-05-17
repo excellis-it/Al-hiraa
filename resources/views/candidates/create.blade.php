@@ -66,6 +66,7 @@
 @endsection
 
 @push('scripts')
+
     <script>
         $(document).ready(function() {
 
@@ -86,6 +87,12 @@
                 return this.optional(element) || passport_no.match(/^[A-Za-z][0-9]{7}$/);
             }, "Please specify a valid Passport number");
 
+            // Add custom validation method for date format
+            $.validator.addMethod("dateITA", function(value, element) {
+                // DD-MM-YYYY format
+                return value.match(/^\d{2}-\d{2}-\d{4}$/);
+            }, "Please enter a valid date in the format dd-mm-yyyy.");
+
             $("#create-candidate").validate({
                 rules: {
                     contact_no: {
@@ -98,6 +105,7 @@
                     },
                     dob: {
                         required: true,
+                        dateITA: true,
                     },
                     cnadidate_status_id: {
                         required: true,
@@ -116,7 +124,7 @@
                             },
                             dataFilter: function(data) {
                                 var response = JSON.parse(data);
-                                 console.log(response.status);
+                                console.log(response.status);
                                 if (response.status == true) {
                                     return '"' + "Email already exists" + '"';
                                 } else {
@@ -215,6 +223,11 @@
     </script>
     <script>
         $(document).ready(function() {
+            $('.datepicker').datepicker({
+                dateFormat: 'dd-mm-yy',
+                maxDate: new Date(),
+
+            });
             $('#contact_no').on('keyup', function() {
                 var contact_no = $(this).val();
                 // if +91 in this number then remove it
@@ -234,6 +247,7 @@
                         },
                         success: function(response) {
                             if (response.status == 'success') {
+
                                 $('.auto-fill').html(response.view);
                             }
                         }
