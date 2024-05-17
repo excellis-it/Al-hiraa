@@ -1,7 +1,7 @@
 <table class="table mb-0 table-bordered">
     <thead>
         <tr>
-            {{-- <th></th> --}}
+            <th>Date</th>
             <th>Remarks</th>
             <th>Enter By</th>
             <th>Status</th>
@@ -41,6 +41,7 @@
     <tbody class="list" id="candidate_body">
         @foreach ($candidates as $item)
             <tr>
+                <td>{{ date('d.m.Y', strtotime($item->created_at)) ?? 'N/A' }}</td>
                 <td>
                     @if ($item->lastCandidateActivity != null)
                         {{ $item->lastCandidateActivity->remarks ?? 'N/A' }}
