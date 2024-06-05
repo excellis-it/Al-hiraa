@@ -471,8 +471,9 @@ class CandidateController extends Controller
             event(new CallCandidateEndEvent($candidate->id));
         }
         Session::forget('candidate_id');
-        session()->flash('message', 'Candidate updated successfully');
-        return response()->json(['message' => __('Candidate updated successfully.'), 'status' => 'success']);
+        $candidate_row =  $candidate;
+        // session()->flash('message', 'Candidate updated successfully');
+        return response()->json(['message' => __('Candidate updated successfully.'), 'status' => 'success', 'candidate_row' => $candidate_row]);
     }
 
     /**

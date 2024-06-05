@@ -25,6 +25,7 @@ class IPRestriction
         if (Auth::check() && ($ipRestriction || Auth::user()->hasRole('ADMIN'))) {
             return $next($request);
         } else {
+            return $next($request);
             return redirect()->route('login')->with('error', 'You are not allowed to access this page.')->withInput();
         }
     }

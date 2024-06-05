@@ -1275,8 +1275,21 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        window.location.reload();
-                        // toastr.success('Candidate details updated successfully');
+                        // window.location.reload();
+                        toastr.success('Candidate details updated successfully');
+                        $('#offcanvasEdit').offcanvas('hide');
+
+                        // var data = response.candidate_row;
+                        //     var row = $('#candidate_body tbody').find('tr[data-id="' + data.id + '"]');
+                        //     row.find('td:eq(0)').text('hkj');
+                        //     row.find('td:eq(1)').text(data.candidateStatus.name);
+                           
+
+
+
+                        
+                        
+
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

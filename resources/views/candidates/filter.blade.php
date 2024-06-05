@@ -2,7 +2,7 @@
     @foreach ($candidates as $item)
 
         <tr @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) @else
-        class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" id="candidate-{{ $item['id'] }}" @endif>
+        class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" id="candidate-{{ $item['id'] }}" data-id="candidate-{{ $item['id'] }}" @endif>
             {{-- checkbox for bulk select --}}
             @if (Auth::user()->hasRole('ADMIN'))
             <td class="">
