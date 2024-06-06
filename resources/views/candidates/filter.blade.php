@@ -2,7 +2,7 @@
     @foreach ($candidates as $item)
 
         <tr @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) @else
-        class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" id="candidate-{{ $item['id'] }}" data-id="candidate-{{ $item['id'] }}" @endif>
+        class="{{ $item->is_call_id != null ? 'disabled-row' : '' }}" id="candidate-{{ $item['id'] }}"  @endif  data-id="{{ $item['id'] }}">
             {{-- checkbox for bulk select --}}
             @if (Auth::user()->hasRole('ADMIN'))
             <td class="">
@@ -46,9 +46,7 @@
             <td class="content-short">{{ $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
             <td class="content-short">{{ $item->education ?? 'N/A' }}</td>
             <td class="content-short">{{ $item->other_education ?? 'N/A' }}</td>
-            <td class="content-short">
-                {{ $item->indian_exp ?? 'N/A' }}
-            </td>
+            <td class="content-short">{{ $item->indian_exp ?? 'N/A' }}</td>
             <td class="content-short">
                 {{ $item->abroad_exp ?? 'N/A' }}
             </td>

@@ -289,6 +289,7 @@ class CandidateController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $request->validate([
             'full_name' => 'required',
             // 'dob' => 'required',
@@ -471,9 +472,10 @@ class CandidateController extends Controller
             event(new CallCandidateEndEvent($candidate->id));
         }
         Session::forget('candidate_id');
-        $candidate_row =  $candidate;
+
+        $candidates =  Candidate::where('id', $candidate->id)->with('candidateStatus', 'candidateUpdate', 'candidateUpdate.user', 'lastCandidateActivity', 'candidateIndianLicence', 'positionAppliedFor1', 'positionAppliedFor2', 'positionAppliedFor3', 'referredBy','candidateGulfLicence','candidateIndianLicence')->first();
         // session()->flash('message', 'Candidate updated successfully');
-        return response()->json(['message' => __('Candidate updated successfully.'), 'status' => 'success', 'candidate_row' => $candidate_row]);
+        return response()->json(['message' => __('Candidate updated successfully.'), 'status' => 'success', 'candidates' => $candidates]);
     }
 
     /**
@@ -748,6 +750,5 @@ class CandidateController extends Controller
             session()->flash('message', 'Job assigned successfully');
             return response()->json(['status' => true, 'message' => 'Job assigned successfully.']);
         }
-
     }
 }
