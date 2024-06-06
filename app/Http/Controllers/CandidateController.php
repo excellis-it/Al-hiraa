@@ -472,10 +472,7 @@ class CandidateController extends Controller
             event(new CallCandidateEndEvent($candidate->id));
         }
         Session::forget('candidate_id');
-
-        $candidates =  Candidate::where('id', $candidate->id)->with('candidateStatus', 'candidateUpdate', 'candidateUpdate.user', 'lastCandidateActivity', 'candidateIndianLicence', 'positionAppliedFor1', 'positionAppliedFor2', 'positionAppliedFor3', 'referredBy','candidateGulfLicence','candidateIndianLicence')->first();
-        // session()->flash('message', 'Candidate updated successfully');
-        return response()->json(['message' => __('Candidate updated successfully.'), 'status' => 'success', 'candidates' => $candidates]);
+        return response()->json(['view' => view('candidates.update-single-data', compact('candidate'))->render(), 'status' => 'success']);
     }
 
     /**

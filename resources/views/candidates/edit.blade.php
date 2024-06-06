@@ -1277,67 +1277,8 @@
                     success: function(response) {
                         toastr.success('Candidate details updated successfully');
                         $('#offcanvasEdit').offcanvas('hide');
-
-                        var data = response.candidates;
-                        console.log(data);
-
-                        var position_app_1 = data.position_applied_for1 && data.position_applied_for1.name ? data.position_applied_for1.name : 'N/A';
-                        var position_app_2 = data.position_applied_for2 && data.position_applied_for2.name ? data.position_applied_for2.name : 'N/A';
-                        var position_app_3 = data.position_applied_for3 && data.position_applied_for3.name ? data.position_applied_for3.name : 'N/A';
-                        var referred_by = data.referred_by && data.referred_by.first_name ? data.referred_by.first_name : 'N/A';
-                        var ind_licence = data.candidate_indian_licence.map(function(item) {
-                            return item.licence_name;
-                        }).join(', ');
-                        var gulf_licence = data.candidate_gulf_licence.map(function(item) {
-                            return item.licence_name;
-                        }).join(', ');
-
-                       
-
-                        //var row = $('#candidate_body12 tbody').find('tr[data-id="' + data.id + '"]');
-            //console.log("Selected row:", row);
-
-            var newRowHtml = `
-                    <td class="stick-td">
-                        <a href="javascript:void(0);" class="edit-route" data-route=""><i class="fas fa-eye"></i></a>
-                    </td>
-                    <td>
-                        <div class="round_staus active">`+data.candidate_status.name+`</div>
-                    </td>
-                    <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short" data-route="">
-                        `+data.last_candidate_activity.call_status+`
-                    </td>
-                    <td class="content-short">`+data.candidate_update.created_at+`</td>
-                    <td class="content-short">`+data.candidate_update.user.first_name+`</td>
-                    <td class="">`+data.full_name+`</td>
-                    <td class="content-short">`+ data.gender +`</td>
-                    <td class="content-short">`+ data.date_of_birth +`</td>
-                    <td class="content-short">`+ data.age +`</td>
-                    <td class="content-short">`+ data.education +`</td>
-                    <td class="content-short">`+ data.other_education +`</td>
-                    <td class="content-short">`+ data.indian_exp +`</td>
-                    <td class="content-short">`+ data.abroad_exp +`</td>
-                    <td class="content-short">`+ position_app_1 +`</td>
-                    <td class="content-short">`+ position_app_2 +`</td>
-                    <td class="content-short">`+ position_app_3 +`</td>
-                    <td class="content-short">`+ data.passport_number +`</td> 
-                    <td class="content-short">`+ data.city +`</td>
-                    <td class="content-short">`+ referred_by +`</td>
-                    <td class="content-short">`+ data.mode_of_registration +`</td>
-                    <td class="content-short">`+ data.source +`</td>
-                    <td class="content-short">`+ data.religion +`</td>
-                    <td class=""><span class="badge bg-primary rounded-pill">`+ ind_licence +`</span></td>
-                    <td class=""><span class="badge bg-primary rounded-pill">`+ gulf_licence +`</span></td>
-                    <td class="content-short">`+ data.english_speak +`</td>
-                    <td class="content-short">`+ data.arabic_speak +`</td>
-                    <td class="content-short">`+ data.return +`</td>
-                    <td class="content-short">`+ data.ecr_type +`</td>
-                    <td class="content-short">`+ data.last_candidate_activity.remarks +`</td>
-                    `;
-
-                        // Replace the old row with the new row
-                        //row.replaceWith(newRowHtml);
-                        $("#candidate-"+data.id).html(newRowHtml);
+                        var candidate_id = "{{ $candidate->id }}";
+                        $(".candidate-new-"+candidate_id).html(response.view);
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
