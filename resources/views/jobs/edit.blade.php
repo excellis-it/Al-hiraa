@@ -120,191 +120,70 @@
                                     <tr>
                                         <td>Full Name</td>
                                         <td>{{ $candidate_job_detail->full_name ?? 'N/A'}}</td>
+                                        <td>Email</td>
+                                        <td>{{ $candidate_job_detail->email ?? 'N/A'}}</td>
                                         <td>Gender</td>
                                         <td>{{ $candidate_job_detail->gender ?? 'N/A'}}</td>
+                                        
+                                    </tr>
+                                    <tr>
                                         <td>Date of birth</td>
                                         <td>{{ $candidate_job_detail->date_of_birth ?? 'N/A'}}</td>
+                                        <td>whatapp_no</td>
+                                        <td>{{ $candidate_job_detail->whatapp_no ?? 'N/A'}}</td>
+                                        <td>Alternate Contact No</td>
+                                        <td>{{ $candidate_job_detail->alternate_contact_no ?? 'N/A'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Religion</td>
+                                        <td>{{ $candidate_job_detail->religion ?? 'N/A'}}</td>
+                                        <td>City</td>
+                                        <td>{{ $candidate_job_detail->city ?? 'N/A'}}</td>
+                                        <td>Address</td>
+                                        <td>{{ $candidate_job_detail->address ?? 'N/A'}}</td>
                                     </tr>
                                     <tr>
                                         <td>Education</td>
                                         <td>{{ $candidate_job_detail->education ?? 'N/A'}}</td>
                                         <td>Other Education</td>
                                         <td>{{ $candidate_job_detail->other_education ?? 'N/A'}}</td>
-                                        <td>whatapp_no</td>
-                                        <td>{{ $candidate_job_detail->whatapp_no ?? 'N/A'}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Alternate Contact No</td>
-                                        <td>{{ $candidate_job_detail->alternate_contact_no ?? 'N/A'}}</td>
-                                        <td>Religion</td>
-                                        <td>{{ $candidate_job_detail->religion ?? 'N/A'}}</td>
-                                        <td>City</td>
-                                        <td>{{ $candidate_job_detail->city ?? 'N/A'}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Address</td>
-                                        <td>{{ $candidate_job_detail->address ?? 'N/A'}}</td>
-                                        <td>Education</td>
-                                        <td>{{ $candidate_job_detail->address ?? 'N/A'}}</td>
-                                        <td>Other Education</td>
-                                        <td>Pass</td>
-                                    </tr>
-                                    <tr>
                                         <td>Passport Number</td>
-                                        <td>4545662</td>
-                                        <td>english_speak</td>
-                                        <td>Yes</td>
+                                        <td>{{ $candidate_job_detail->passport_number ?? 'N/A'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>English_speak</td>
+                                        <td>{{ $candidate_job_detail->english_speak ?? 'N/A'}}</td>
                                         <td>Arabic Speak</td>
-                                        <td>No</td>
+                                        <td>{{ $candidate_job_detail->arabic_speak ?? 'N/A'}}</td>
+                                        <td>Assign By </td>
+                                        <td>@if ($candidate_job_detail->assign_by_id != null)
+                                                {{ $candidate_job_detail->assignBy->first_name.' '.$candidate_job_detail->assignBy->last_name }}
+                                            @else
+                                                {{ $candidate_job_detail->assignBy ?? 'N/A' }}
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Assign By Id</td>
-                                        <td>#4535135</td>
                                         <td>Job Title</td>
-                                        <td>Cook</td>
+                                        <td>{{ $candidate_job_detail->job_title ?? 'N/A'}}</td>
                                         <td>Job Position</td>
-                                        <td>hhldhf f</td>
-                                    </tr>
-                                    <tr>
+                                        <td>{{ $candidate_job_detail->job_position ?? 'N/A'}}</td>
                                         <td>Job Location</td>
-                                        <td>UAE</td>
-                                        <td>Date of Interview</td>
-                                        <td>11/11/2024</td>
-                                        <td>Date of Selection</td>
-                                        <td>20/11/2024</td>                                       
+                                        <td>{{ $candidate_job_detail->job_location ?? 'N/A'}}</td>
                                     </tr>
-                                    <tr>
-                                        <td>Mode of Selection</td>
-                                        <td>Yes</td>
-                                        <td>Interview Location</td>
-                                        <td>Kolkata</td>
-                                        <td>Client Remarks</td>
-                                        <td>Good</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Other Remarks</td>
-                                        <td>Other</td>
-                                        <td>Sponsor</td>
-                                        <td>Sponsor 1</td>
-                                        <td>Country</td>
-                                        <td>UAE</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Salary</td>
-                                        <td>100000</td>
-                                        <td>Food Allowance</td>
-                                        <td>Yes</td>
-                                        <td>Contract Duration</td>
-                                        <td>2Years</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mofa No</td>
-                                        <td>4654561</td>
-                                        <td>Mofa Date</td>
-                                        <td>01/02/2022</td>
-                                        <td>Family Contact Name</td>
-                                        <td>scccscv vsv</td>
-                                    </tr>
-                                    <tr>                                        
-                                        <td>Family Contact No</td>
-                                        <td>3165465</td>
-                                        <td>Medical Application Date</td>
-                                        <td>01/02/2023</td>
-                                        <td>Medical Completion Date</td>
-                                        <td>01/02/2023</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Medical Status</td>
-                                        <td>good</td>
-                                        <td>Visa Receiving Date</td>
-                                        <td>01/02/2023</td>
-                                        <td>Visa Issue Date</td>
-                                        <td>01/02/2023</td>
-                                    </tr>
-                                    <tr>                                        
-                                        <td>Visa Expiry Date</td>
-                                        <td>01/02/2023</td>
-                                        <td>Ticket Booking Date</td>
-                                        <td>01/02/2023</td>
-                                        <td>Ticket Confirmation Date</td>
-                                        <td>10/02/2024</td>
-                                    </tr>
-                                    <tr>                                        
-                                        <td>Total Amount</td>
-                                        <td>80000</td>
-                                        <td>1st Installment Amount</td>
-                                        <td>30000</td>
-                                        <td>1st Installment Date</td>
-                                        <td>10/02/2024</td>
-                                    </tr>
-                                    <tr>                                        
-                                        <td>2nd Installment Amount</td>
-                                        <td>30000</td>
-                                        <td>2nd Installment Date</td>
-                                        <td>10/02/2024</td>
-                                        <td>3rd Installment Amount</td>
-                                        <td>50000</td>
-                                    </tr>
-                                    <tr>                                        
-                                        <td>3rd Installment Date</td>
-                                        <td>10/02/2024</td>
-                                        <td>4th Installment Amount</td>
-                                        <td>30000</td>
-                                        <td>4th Installment Date</td>
-                                        <td>10/02/2024</td>
-                                    </tr>
-                                    <tr>                                        
-                                        <td>Deployment Date</td>
-                                        <td>10/02/2024</td>
-                                        <td>Indian Driving License</td>
-                                        <td>4684654</td>
-                                        <td>Gulf Driving License</td>
-                                        <td>12135145</td>
-                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <div class="see-more-container">
+                    {{-- <div class="see-more-container">
                         <a href="javascript:void(0);" class="btn-1" id="seeMoreBtn">See More<img
                                 src="{{ asset('assets/images/arrow.png') }}"></a>
-                    </div>
+                    </div> --}}
                 </div>
             </form>
 
-            <div class="candidate_details">
-                <h4>Updated Details</h4>
-                <div class="table-responsive">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td>Enter By</td>
-                                <td> dgdf
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Updated By</td>
-                                <td>dfgd
-                                </td>
-                            </tr>
-
-                         
-                                <tr>
-                                    <td>Status</td>
-                                    <td>
-                                        <div class="permission-2 m-lg-1">
-                                            <p class="m-md-1">hfg</p>
-                                           
-
-                                        </div>
-                                    </td>
-                                </tr>
-                               
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+           
             <form action="" method="POST"
                 id="candidate-job-create-form">
                 @method('PUT')
@@ -312,7 +191,7 @@
                 <div class="candidate_details">
                     <div class="can-div d-flex justify-content-between align-items-center">
                         <div class="can-head">
-                            <h4>Assign Job Details</h4>
+                            <h4>Job Details</h4>
                         </div>
                         <div class="edit-1-btn d-flex align-items-center">
 
@@ -334,29 +213,282 @@
                             <table class="table" id="candidate-form-job">
                                 <tbody>
                                     <tr>
-                                        <td>Assigned By</td>
-                                        <td>dfgdfg
-                                        </td>
+                                        <td>Date of Interview</td>
+                                        <td>{{ $candidate_job_detail->date_of_interview ?? 'N/A'}}</td>
+                                        <td>Date of Selection</td>
+                                        <td>{{ $candidate_job_detail->date_of_selection ?? 'N/A'}}</td>  
+                                        <td>Mode of Selection</td>
+                                        <td>{{ $candidate_job_detail->mode_of_selection ?? 'N/A'}}</td>                                     
                                     </tr>
                                     <tr>
-                                        <td>Company</td>
-                                        <td>dfgdf
-                                        </td>
+                                        <td>Interview Location</td>
+                                        <td>{{ $candidate_job_detail->interview_location ?? 'N/A'}}</td>
+                                        <td>Client Remarks</td>
+                                        <td>{{ $candidate_job_detail->client_remarks ?? 'N/A'}}</td>
+                                        <td>Other Remarks</td>
+                                        <td>{{ $candidate_job_detail->other_remarks ?? 'N/A'}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Job Title</td>
-                                        <td>dfgd
-                                        </td>
+                                       
+                                        <td>Sponsor</td>
+                                        <td>{{ $candidate_job_detail->sponsor ?? 'N/A'}}</td>
+                                        <td>Country</td>
+                                        <td>{{ $candidate_job_detail->country ?? 'N/A'}}</td>
+                                        <td>Salary</td>
+                                        <td>{{ $candidate_job_detail->salary ?? 'N/A'}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Job Position</td>
-                                        <td>dfgdf
-                                        </td>
+                                        
+                                        <td>Food Allowance</td>
+                                        <td>{{ $candidate_job_detail->food_allowance ?? 'N/A'}}</td>
+                                        <td>Contract Duration</td>
+                                        <td>{{ $candidate_job_detail->contract_duration ?? 'N/A'}}</td>
+                                        
                                     </tr>
                                     <tr>
-                                        <td>Job Location</td>
-                                        <td>fgdf
-                                        </td>
+                                        <td>Mofa No</td>
+                                        <td>{{ $candidate_job_detail->mofa_no ?? 'N/A'}}</td>
+                                        <td>Mofa Date</td>
+                                        <td>{{ $candidate_job_detail->mofa_date ?? 'N/A'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form action="" method="POST"
+                id="candidate-job-create-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="can-div d-flex justify-content-between align-items-center">
+                        <div class="can-head">
+                            <h4>Family Details</h4>
+                        </div>
+                        <div class="edit-1-btn d-flex align-items-center">
+
+                            <div class="edit-2" id="cross-button-job">
+
+                            </div>
+                            <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                            </div>
+                            <div class="edit-1" id="open-job-input">
+                                @can('Edit Job')
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate_form candidate_edit_form">
+                        <div class="table-responsive" id="tableContainer">
+                            <table class="table" id="candidate-form-job">
+                                <tbody>
+                                    <tr>
+                                        <td>Family Contact Name</td>
+                                        <td>{{ $candidate_job_detail->family_contact_name ?? 'N/A'}}</td>
+                                        <td>Family Contact No</td>
+                                        <td>{{ $candidate_job_detail->family_contact_no ?? 'N/A'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form action="" method="POST"
+                id="candidate-job-create-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="can-div d-flex justify-content-between align-items-center">
+                        <div class="can-head">
+                            <h4>Medical Details</h4>
+                        </div>
+                        <div class="edit-1-btn d-flex align-items-center">
+
+                            <div class="edit-2" id="cross-button-job">
+
+                            </div>
+                            <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                            </div>
+                            <div class="edit-1" id="open-job-input">
+                                @can('Edit Job')
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate_form candidate_edit_form">
+                        <div class="table-responsive" id="tableContainer">
+                            <table class="table" id="candidate-form-job">
+                                <tbody>
+                                    <tr>                                        
+                                            
+                                        <td>Medical Application Date</td>
+                                        <td>{{ $candidate_job_detail->medical_application_date ?? 'N/A'}}</td>
+                                        <td>Medical Completion Date</td>
+                                        <td>{{ $candidate_job_detail->medical_completion_date ?? 'N/A'}}</td>
+                                        <td>Medical Status</td>
+                                        <td>{{ $candidate_job_detail->medical_status ?? 'N/A'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form action="" method="POST"
+                id="candidate-job-create-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="can-div d-flex justify-content-between align-items-center">
+                        <div class="can-head">
+                            <h4>Visa Details</h4>
+                        </div>
+                        <div class="edit-1-btn d-flex align-items-center">
+
+                            <div class="edit-2" id="cross-button-job">
+
+                            </div>
+                            <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                            </div>
+                            <div class="edit-1" id="open-job-input">
+                                @can('Edit Job')
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate_form candidate_edit_form">
+                        <div class="table-responsive" id="tableContainer">
+                            <table class="table" id="candidate-form-job">
+                                <tbody>
+                                    <tr>
+                                        <td>Visa Receiving Date</td>
+                                        <td>{{ $candidate_job_detail->visa_receiving_date ?? 'N/A'}}</td>
+                                        <td>Visa Issue Date</td>
+                                        <td>{{ $candidate_job_detail->visa_issue_date ?? 'N/A'}}</td>
+                                        <td>Visa Expiry Date</td>
+                                        <td>{{ $candidate_job_detail->visa_expiry_date ?? 'N/A'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form action="" method="POST"
+                id="candidate-job-create-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="can-div d-flex justify-content-between align-items-center">
+                        <div class="can-head">
+                            <h4>Ticket Details</h4>
+                        </div>
+                        <div class="edit-1-btn d-flex align-items-center">
+
+                            <div class="edit-2" id="cross-button-job">
+
+                            </div>
+                            <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                            </div>
+                            <div class="edit-1" id="open-job-input">
+                                @can('Edit Job')
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate_form candidate_edit_form">
+                        <div class="table-responsive" id="tableContainer">
+                            <table class="table" id="candidate-form-job">
+                                <tbody>
+                                    <tr>                                        
+                                        
+                                        <td>Ticket Booking Date</td>
+                                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'N/A'}}</td>
+                                        <td>Ticket Confirmation Date</td>
+                                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'N/A'}}</td>
+                                        <td>Total Amount</td>
+                                        <td>{{ $candidate_job_detail->total_amount ?? 'N/A'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <form action="" method="POST"
+                id="candidate-job-create-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="can-div d-flex justify-content-between align-items-center">
+                        <div class="can-head">
+                            <h4>Payment Details</h4>
+                        </div>
+                        <div class="edit-1-btn d-flex align-items-center">
+
+                            <div class="edit-2" id="cross-button-job">
+
+                            </div>
+                            <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                            </div>
+                            <div class="edit-1" id="open-job-input">
+                                @can('Edit Job')
+                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                                @endcan
+                            </div>
+                        </div>
+                    </div>
+                    <div class="candidate_form candidate_edit_form">
+                        <div class="table-responsive" id="tableContainer">
+                            <table class="table" id="candidate-form-job">
+                                <tbody>
+                                    <tr>                                        
+                                        
+                                        <td>1st Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? 'N/A'}}</td>
+                                        <td>1st Installment Date</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'N/A'}}</td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td>2nd Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A'}}</td>
+                                        <td>2nd Installment Date</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'N/A'}}</td>
+                                        
+                                    </tr>
+                                    <tr>                                        
+                                        <td>3rd Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->third_installment_amount ?? 'N/A'}}</td>
+                                        <td>4th Installment Date</td>
+                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'N/A'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>4th Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? 'N/A'}}</td>
+                                        <td>4th Installment Date</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'N/A'}}</td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td>Deployment Date</td>
+                                        <td>{{ $candidate_job_detail->deployment_date ?? 'N/A'}}</td>
+                                        <td>Job Status</td>
+                                        <td>{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
