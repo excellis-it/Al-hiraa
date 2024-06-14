@@ -5,43 +5,54 @@
 @push('styles')
 @endpush
 @section('content')
-    @php
-        use App\Helpers\Helper;
-        use App\Constants\Position;
-    @endphp
-
     <div class="mdk-drawer-layout__content page">
         <div class="container-fluid page__heading-container">
             <div class="page__heading row align-items-center">
-
-                {{-- edit candidates --}}
-                <div id="job-edit" class="jobs_canvas">
-                    @include('jobs.edit')
-                </div>
-                {{-- end edit candidates --}}
-                <div class="col-xl-8 col-lg-6 col-md-6 mb-3 mb-md-0">
+                <div class="col-xl-5 col-lg-5 col-md-3 mb-3 mb-md-0">
                     <div class="d-flex w-100">
-                        <form class="search-form d-flex w-100" id="search-form">
+                        <form class="search-form d-flex w-100" action="index.html">
                             <button class="btn" type="submit" role="button">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
-                            <input type="text" class="form-control" placeholder="Search.." name="query" id="query">
+                            <input type="text" class="form-control" placeholder="Advance Search..">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-5 col-md-6 mb-3 mb-md-0">
+                    <div class="d-flex w-100">
+                        <form class="search-form d-flex w-100" action="index.html">
+                            <button class="btn" type="submit" role="button">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                            <input type="text" class="form-control" placeholder="Advance Search..">
                             <div class="btn-group">
-                                <button type="submit" class="btn advance_search_btn"
-                                    style="border-right: none;">Search</button>
+                                <button type="button" class="btn advance_search_btn">Advance Search</button>
+                                <button type="button"
+                                    class="btn dropdown-toggle dropdown-toggle-split advance_search_dropdown"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-lg-end">
+                                    <li><a class="dropdown-item" href="#">Advance Search</a></li>
+                                </ul>
                             </div>
                         </form>
                     </div>
                 </div>
-
-
-                <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="col-xl-2 col-lg-2 col-md-3">
                     <div class="d-flex justify-content-center justify-content-md-start">
-                        
-                       
+                        <div class="btn-group">
+                            <button type="button" class="btn export_csv">Export CSV</button>
+                            <button type="button" class="btn dropdown-toggle dropdown-toggle-split export_dropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-lg-end">
+                                <li><a class="dropdown-item" href="#">Export CSV</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-
             </div>
             <section class="food-box-sec">
                 <div class="food_box_slid">
@@ -666,565 +677,629 @@
                     </div>
                 </div>
             </section>
-
+            <div class="all_filter_btn">
+                <ul>
+                    <li>
+                        <a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19.598" height="19.633"
+                                viewBox="0 0 19.598 19.633">
+                                <path id="pen-clip"
+                                    d="M16.557,6.5,5.055,18.088a2.478,2.478,0,0,1-2.822.474L1.4,19.4a.8.8,0,0,1-.581.237A.838.838,0,0,1,.237,19.4a.815.815,0,0,1,0-1.153l.834-.834a2.479,2.479,0,0,1,.474-2.831L11.772,4.3a2.523,2.523,0,0,0-2.683.515L6.61,7.3a.8.8,0,0,1-.581.237A.838.838,0,0,1,5.448,7.3a.815.815,0,0,1,0-1.153L7.927,3.665a4.071,4.071,0,0,1,2.9-1.194,4.03,4.03,0,0,1,2.61.965c.033,0,3.117,3.076,3.117,3.076ZM18.684.532a2.541,2.541,0,0,0-3.379.245L14.218,1.865l3.493,3.493L18.873,4.2A2.473,2.473,0,0,0,18.684.532Z"
+                                    transform="translate(0.003 -0.001)" />
+                            </svg>
+                            Assign Job</a>
+                    </li>
+                    <li>
+                        <a href="" class="active_aa">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20.546" height="20.546"
+                                viewBox="0 0 20.546 20.546">
+                                <path id="id-badge"
+                                    d="M16.265,3.424H12.841V2.568a2.568,2.568,0,1,0-5.136,0v.856H4.28A4.286,4.286,0,0,0,0,7.7v8.561a4.286,4.286,0,0,0,4.28,4.28H16.265a4.286,4.286,0,0,0,4.28-4.28V7.7a4.286,4.286,0,0,0-4.28-4.28Zm-7.7,11.985a.856.856,0,0,1-.856.856H3.424a.856.856,0,0,1-.856-.856V8.561A.856.856,0,0,1,3.424,7.7H7.7a.856.856,0,0,1,.856.856ZM10.273,5.136a.856.856,0,0,1-.856-.856V2.568a.856.856,0,0,1,1.712,0V4.28A.856.856,0,0,1,10.273,5.136Zm5.136,11.129H11.985a.856.856,0,1,1,0-1.712h3.424a.856.856,0,0,1,0,1.712Zm1.712-3.424H11.985a.856.856,0,0,1,0-1.712h5.136a.856.856,0,1,1,0,1.712Zm0-3.424H11.985a.856.856,0,0,1,0-1.712h5.136a.856.856,0,1,1,0,1.712Zm-12.841,0H6.849v5.136H4.28Z" />
+                            </svg>
+                            Assign RC</a>
+                    </li>
+                    <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20.524" height="13.212"
+                                viewBox="0 0 20.524 13.212">
+                                <g id="view" transform="translate(0 -82.176)">
+                                    <g id="Group_81" data-name="Group 81" transform="translate(6.959 85.479)">
+                                        <g id="Group_80" data-name="Group 80" transform="translate(0 0)">
+                                            <path id="Path_357" data-name="Path 357"
+                                                d="M159.719,156.416a3.3,3.3,0,1,0,3.3,3.3A3.305,3.305,0,0,0,159.719,156.416Zm-.251,2.323a.758.758,0,0,0-.752.752h-1.093a1.867,1.867,0,0,1,1.845-1.845Z"
+                                                transform="translate(-156.416 -156.416)" />
+                                        </g>
+                                    </g>
+                                    <g id="Group_83" data-name="Group 83" transform="translate(0 82.176)">
+                                        <g id="Group_82" data-name="Group 82" transform="translate(0 0)">
+                                            <path id="Path_358" data-name="Path 358"
+                                                d="M20.285,88.1c-1.116-1.39-5.1-5.923-10.023-5.923S1.355,86.709.239,88.1a1.1,1.1,0,0,0,0,1.367c1.116,1.39,5.1,5.923,10.023,5.923s8.907-4.533,10.023-5.923A1.1,1.1,0,0,0,20.285,88.1ZM10.262,93.566a4.784,4.784,0,1,1,4.784-4.784A4.783,4.783,0,0,1,10.262,93.566Z"
+                                                transform="translate(0 -82.176)" />
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                            View</a></li>
+                    <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19.139" height="13.397"
+                                viewBox="0 0 19.139 13.397">
+                                <path id="growth-graph"
+                                    d="M13.4,3V4.914h2.488L8.613,12.187,5.742,9.316,0,15.058,1.34,16.4l4.4-4.4,2.871,2.871,8.613-8.613V8.742h1.914V3Z"
+                                    transform="translate(0 -3)" />
+                            </svg>
+                            Status</a>
+                    </li>
+                    <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19.091" height="19.088"
+                                viewBox="0 0 19.091 19.088">
+                                <path id="Path_359" data-name="Path 359"
+                                    d="M15.655,4.157a2.53,2.53,0,1,1,2.53,2.53,2.53,2.53,0,0,1-2.53-2.53Zm4.37,4.735V13.32a4.591,4.591,0,0,1-4.591,4.591H14.045a.92.92,0,0,0-.735.366L11.929,20.11a1.311,1.311,0,0,1-2.208,0l-1.38-1.831a1.023,1.023,0,0,0-.736-.368H6.225a4.6,4.6,0,0,1-4.6-4.6V6.917a4.6,4.6,0,0,1,4.6-4.6h7.226a.917.917,0,0,1,.895,1.1,4.01,4.01,0,0,0,.026,1.617,3.885,3.885,0,0,0,2.934,2.934A4.01,4.01,0,0,0,18.923,8a.917.917,0,0,1,1.1.895ZM8.065,10.6a.92.92,0,1,0-.92.92A.92.92,0,0,0,8.065,10.6Zm3.68,0a.92.92,0,1,0-.92.92A.92.92,0,0,0,11.745,10.6Zm3.68,0a.92.92,0,1,0-.92.92A.92.92,0,0,0,15.425,10.6Z"
+                                    transform="translate(-1.625 -1.627)" />
+                            </svg>
+                            SMS</a></li>
+                    <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19.088" height="19.088"
+                                viewBox="0 0 19.088 19.088">
+                                <path id="_x30_8.Whatsapp"
+                                    d="M19.544,10a9.552,9.552,0,0,0-7.73,15.151L10.5,28.61l3.794-1.1a9.442,9.442,0,0,0,5.249,1.575,9.544,9.544,0,0,0,0-19.088Zm5.082,13.5-1.026,1c-1.074,1.074-3.913-.1-6.418-2.625-2.505-2.505-3.627-5.345-2.625-6.394l1.026-1.026a1.038,1.038,0,0,1,1.432,0l1.5,1.5a.994.994,0,0,1-.382,1.646.966.966,0,0,0-.644,1.169,4.582,4.582,0,0,0,2.792,2.768,1,1,0,0,0,1.169-.644.994.994,0,0,1,1.646-.382l1.5,1.5A1.125,1.125,0,0,1,24.626,23.5Z"
+                                    transform="translate(-10 -10)" />
+                            </svg>
+                            WhatsApp</a></li>
+                    <li><a href="">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20.072" height="20.072"
+                                viewBox="0 0 20.072 20.072">
+                                <path id="envelope-download"
+                                    d="M12.332,5.256a.836.836,0,0,1,1.183.013l1.539,1.573V.836a.836.836,0,1,1,1.673,0V6.842l1.539-1.573a.837.837,0,0,1,1.2,1.171l-2.1,2.149A2.072,2.072,0,0,1,15.9,9.2a.033.033,0,0,1-.016,0,2.054,2.054,0,0,1-1.455-.6L12.319,6.44a.836.836,0,0,1,.013-1.183Zm-2.3,7.642a2.509,2.509,0,0,0,1.775-.733l1.958-1.958a3.758,3.758,0,0,1-.523-.43L11.123,7.611a2.509,2.509,0,0,1,.038-3.548c.4-.388,1.209-1.1,1.735-1.554H4.182A4.17,4.17,0,0,0,.622,4.525l7.639,7.64a2.509,2.509,0,0,0,1.775.733Zm8.518-3.14a3.636,3.636,0,0,1-3.048,1.076l-2.513,2.513a4.188,4.188,0,0,1-5.915,0L.038,6.308C.027,6.44,0,6.559,0,6.691v9.2a4.187,4.187,0,0,0,4.182,4.182H15.89a4.187,4.187,0,0,0,4.182-4.182V8.206Z" />
+                            </svg>
+                            Email</a></li>
+                </ul>
+            </div>
         </div>
-
         <div class="container-fluid page__container">
             <div class="row">
-
-                <div class="col-lg-6 col-6 mb-2">
-                    @if (Auth::user()->hasRole('ADMIN'))
-                        <div class="action_btn">
-                            <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Action
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="javascript:void();" data-bs-toggle="modal"
-                                            data-bs-target="#bulk_status">Changing status</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <!-- Modal of bulk changing status -->
-                        <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <form action="{{ route('jobs.bulk.status.update') }}" id="change_status">
-                                        @csrf
-                                        <div class="modal-body">
-                                            <div class="">
-                                                <div class="mb-3">
-                                                    <label for="" class="form-label">Status</label>
-                                                    <select name="change_status" class="form-select" id="change_status_id">
-                                                        <option value="">Select A Status</option>
-                                                        <option value="">Select A Status</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn save-btn">Save changes</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal -->
-                    @endif
-                </div>
-
-                <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
-                    <div class="action_btn">
-                        <div class="dropdown">
-                            <a class="btn reset-btn" href="{{ route('jobs.index') }}"><i
-                                    class="fas fa-redo-alt"></i> Reset</a>
-                        </div>
-                    </div>
-                </div>
-
-
                 <div class="col-lg-12 col-md-12">
-                    <div class="table-wrapper table-responsive border-bottom" data-toggle="lists">
-                        <table class="table mb-0 table-bordered" id="candidate_body12">
-                            <thead class="candy-p">
+                    <div class="table-responsive border-bottom" data-toggle="lists">
+                        <table class="table mb-0 table-bordered">
+                            <thead>
                                 <tr>
-                                    @if (Auth::user()->hasRole('ADMIN'))
-                                        <th>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox"
-                                                    class="custom-control-input js-check-selected-row checkAll"
-                                                    name="checkAll">
-                                            </div>
-                                        </th>
-                                    @endif
-
-                                    @can('View Job')
-                                        <th class="stick">
-                                            View
-
-                                        </th>
-                                    @endcan
-                                    
-
-                                    <th>
-                                        Interview Status
-                                    </th>
-                                    <th class="can_full">Full Name</th>
-                                    <th>Gender</th>
-                                    <th>DOB</th>
-                                    <th>WhatsApp No.</th>
-                                    <th>Alternate Cont. No.</th>
-                                    <th>Assign by</th>
-                                    <th>Date of Interview</th>
-                                    <th>Date of Selection</th>
-                                    <th>Mofa no</th>
-                                    <th>Med. Application Date</th>
-                                    <th>Med. Completion Date</th>
-                                    <th>Med. Status</th>
-                                    <th>1st Installment</th>
-                                    <th>1st Installment date</th>
-                                    <th>2nd Installment</th>
-                                    <th>2nd Installment date</th>
-                                    
+                                    <th style="width: 50px;"></th>
+                                    <th>Status</th>
+                                    <th>Candidate
+                                        Name</th>
+                                    <th>Assigned
+                                        By</th>
+                                    <th>Assigned
+                                        To</th>
+                                    <th>Payment</th>
+                                    <th>Interview</th>
+                                    <th>Selection</th>
+                                    <th>Medical
+                                        Approval</th>
+                                    <th>Medical
+                                        Completion</th>
+                                    <th>MoFA</th>
+                                    <th>Medical
+                                        Collection</th>
+                                    <th>First Payment
+                                        Collection</th>
+                                    <th>Documents
+                                        Dispatch</th>
+                                    <th>Visa Waiting
+                                        Period</th>
                                 </tr>
                             </thead>
-                            <tbody class="list" id="candidate_job_body">
+                            <tbody class="list" id="user_tbody">
+                                <tr data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    aria-controls="offcanvasRight">
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending"><span></span>Pending</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
+                                        </div>
+                                    </td>
+                                    <td>Active</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td>Jhon Doe</td>
+                                    <td class="pending done"><span></span>Done</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                    <td>01/09/2023</td>
+                                </tr>
 
-                                @include('jobs.filter')
                             </tbody>
                         </table>
                     </div>
                 </div>
-                
             </div>
         </div>
+
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <!-- <div class="offcanvas-header">
+                  <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+                  <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div> -->
+            <div class="offcanvas-body">
+                <div class="row g-3">
+                    <div class="col-lg-4">
+                        <div class="name_box">
+                            <div class="">
+                                <div class="name_box_icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16.706" height="22.275"
+                                        viewBox="0 0 16.706 22.275">
+                                        <g id="user_4_" data-name="user (4)" transform="translate(-64)">
+                                            <circle id="Ellipse_323" data-name="Ellipse 323" cx="5.5"
+                                                cy="5.5" r="5.5" transform="translate(67 0)" fill="#1492e6" />
+                                            <path id="Path_330" data-name="Path 330"
+                                                d="M72.353,298.667A8.363,8.363,0,0,0,64,307.02a.928.928,0,0,0,.928.928h14.85a.928.928,0,0,0,.928-.928A8.362,8.362,0,0,0,72.353,298.667Z"
+                                                transform="translate(0 -285.673)" fill="#1492e6" />
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="name_box_text">
+                                    <p>Name</p>
+                                    <h4>Nicson Sarkar</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="name_box">
+                            <div class="">
+                                <div class="name_box_icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20.761" height="22.275"
+                                        viewBox="0 0 20.761 22.275">
+                                        <g id="phone-receiver-silhouette_2_" data-name="phone-receiver-silhouette (2)"
+                                            transform="translate(-0.872 0)">
+                                            <path id="Path_412" data-name="Path 412"
+                                                d="M19.307,15.5c-1.346-1.151-2.711-1.848-4.04-.7l-.794.695c-.581.5-1.66,2.86-5.835-1.942S6.948,8.015,7.53,7.515l.8-.7c1.322-1.152.823-2.6-.13-4.094l-.575-.9C6.664.332,5.621-.646,4.3.5l-.716.626A6.724,6.724,0,0,0,.958,5.58C.48,8.742,1.988,12.364,5.444,16.337s6.83,5.972,10.031,5.937A6.742,6.742,0,0,0,20.243,20.3l.719-.627c1.322-1.149.5-2.319-.846-3.473Z"
+                                                fill="#1492e6" />
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="name_box_text">
+                                    <p>Contact No:</p>
+                                    <h4>(+91) 01234 - 56789</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="name_box">
+                            <div class="">
+                                <div class="name_box_icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                        viewBox="0 0 22 22">
+                                        <g id="activity" transform="translate(-2.25 -1.5)">
+                                            <path id="Path_409" data-name="Path 409"
+                                                d="M16.1,3.88a.815.815,0,1,0,0-1.63H12.793c-2,0-3.559,0-4.8.134A6.327,6.327,0,0,0,4.825,3.443,6.247,6.247,0,0,0,3.443,4.825,6.327,6.327,0,0,0,2.384,7.993c-.134,1.241-.134,2.8-.134,4.8v.1c0,2,0,3.559.134,4.8A6.327,6.327,0,0,0,3.443,20.86a6.246,6.246,0,0,0,1.382,1.382A6.326,6.326,0,0,0,7.993,23.3c1.241.134,2.8.134,4.8.134h.1c2,0,3.559,0,4.8-.134a6.326,6.326,0,0,0,3.168-1.059,6.246,6.246,0,0,0,1.382-1.382A6.326,6.326,0,0,0,23.3,17.692c.134-1.241.134-2.8.134-4.8V9.583a.815.815,0,1,0-1.63,0v3.259c0,2.055,0,3.531-.125,4.674a4.742,4.742,0,0,1-.757,2.386A4.615,4.615,0,0,1,19.9,20.924a4.742,4.742,0,0,1-2.386.757c-1.143.124-2.619.125-4.674.125s-3.531,0-4.674-.125a4.742,4.742,0,0,1-2.386-.757A4.616,4.616,0,0,1,4.761,19.9,4.742,4.742,0,0,1,4,17.516c-.124-1.143-.125-2.619-.125-4.674s0-3.531.125-4.674a4.742,4.742,0,0,1,.757-2.386A4.617,4.617,0,0,1,5.783,4.761,4.742,4.742,0,0,1,8.169,4c1.143-.124,2.619-.125,4.674-.125Z"
+                                                transform="translate(0 0.065)" fill="#1492e6" />
+                                            <path id="Path_410" data-name="Path 410"
+                                                d="M6.333,15.057a.815.815,0,1,0,1.463.718L9.383,12.54a1.294,1.294,0,0,1,2.36.08,2.924,2.924,0,0,0,5.331.181l1.587-3.234A.815.815,0,0,0,17.2,8.849l-1.586,3.234a1.294,1.294,0,0,1-2.36-.08,2.924,2.924,0,0,0-5.331-.181Z"
+                                                transform="translate(0.346 0.596)" fill="#1492e6" />
+                                            <path id="Path_411" data-name="Path 411"
+                                                d="M17.5,4.216A2.716,2.716,0,1,0,20.216,1.5,2.716,2.716,0,0,0,17.5,4.216Zm1.63,0A1.086,1.086,0,1,0,20.216,3.13,1.086,1.086,0,0,0,19.13,4.216Z"
+                                                transform="translate(1.318 0)" fill="#1492e6" fill-rule="evenodd" />
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="name_box_text">
+                                    <p>Status</p>
+                                    <div class="round_staus active">
+                                        Active
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="candidate_details">
+                    <h4>Candidate Details</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Enter By</td>
+                                    <td>Jhon Doe
+                                        <a href="">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                                viewBox="0 0 19 19">
+                                                <g id="Group_86" data-name="Group 86" transform="translate(-1840 -383)">
+                                                    <g id="Ellipse_374" data-name="Ellipse 374"
+                                                        transform="translate(1840 383)" fill="#fff" stroke="#dedede"
+                                                        stroke-width="0.8">
+                                                        <circle cx="9.5" cy="9.5" r="9.5" stroke="none" />
+                                                        <circle cx="9.5" cy="9.5" r="9.1" fill="none" />
+                                                    </g>
+                                                    <g id="pencil" transform="translate(1846 389)">
+                                                        <path id="Path_125" data-name="Path 125"
+                                                            d="M4.259,5.687,0,9.946v1.082H1.082L5.341,6.769Z"
+                                                            transform="translate(0 -4.028)" />
+                                                        <path id="Path_126" data-name="Path 126"
+                                                            d="M18.125.224a.765.765,0,0,0-1.082,0L16.022,1.246,17.1,2.328l1.021-1.021a.765.765,0,0,0,0-1.083Z"
+                                                            transform="translate(-11.349 0)" />
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Assigned By</td>
+                                    <td>Jhon Doe
+                                        <a href="">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                                viewBox="0 0 19 19">
+                                                <g id="Group_86" data-name="Group 86" transform="translate(-1840 -383)">
+                                                    <g id="Ellipse_374" data-name="Ellipse 374"
+                                                        transform="translate(1840 383)" fill="#fff" stroke="#dedede"
+                                                        stroke-width="0.8">
+                                                        <circle cx="9.5" cy="9.5" r="9.5" stroke="none" />
+                                                        <circle cx="9.5" cy="9.5" r="9.1" fill="none" />
+                                                    </g>
+                                                    <g id="pencil" transform="translate(1846 389)">
+                                                        <path id="Path_125" data-name="Path 125"
+                                                            d="M4.259,5.687,0,9.946v1.082H1.082L5.341,6.769Z"
+                                                            transform="translate(0 -4.028)" />
+                                                        <path id="Path_126" data-name="Path 126"
+                                                            d="M18.125.224a.765.765,0,0,0-1.082,0L16.022,1.246,17.1,2.328l1.021-1.021a.765.765,0,0,0,0-1.083Z"
+                                                            transform="translate(-11.349 0)" />
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mode of Registration</td>
+                                    <td>Done
+                                        <a href="">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                                viewBox="0 0 19 19">
+                                                <g id="Group_86" data-name="Group 86" transform="translate(-1840 -383)">
+                                                    <g id="Ellipse_374" data-name="Ellipse 374"
+                                                        transform="translate(1840 383)" fill="#fff" stroke="#dedede"
+                                                        stroke-width="0.8">
+                                                        <circle cx="9.5" cy="9.5" r="9.5" stroke="none" />
+                                                        <circle cx="9.5" cy="9.5" r="9.1" fill="none" />
+                                                    </g>
+                                                    <g id="pencil" transform="translate(1846 389)">
+                                                        <path id="Path_125" data-name="Path 125"
+                                                            d="M4.259,5.687,0,9.946v1.082H1.082L5.341,6.769Z"
+                                                            transform="translate(0 -4.028)" />
+                                                        <path id="Path_126" data-name="Path 126"
+                                                            d="M18.125.224a.765.765,0,0,0-1.082,0L16.022,1.246,17.1,2.328l1.021-1.021a.765.765,0,0,0,0-1.083Z"
+                                                            transform="translate(-11.349 0)" />
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Source</td>
+                                    <td>01/07/2023
+                                        <a href="">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                                viewBox="0 0 19 19">
+                                                <g id="Group_86" data-name="Group 86" transform="translate(-1840 -383)">
+                                                    <g id="Ellipse_374" data-name="Ellipse 374"
+                                                        transform="translate(1840 383)" fill="#fff" stroke="#dedede"
+                                                        stroke-width="0.8">
+                                                        <circle cx="9.5" cy="9.5" r="9.5" stroke="none" />
+                                                        <circle cx="9.5" cy="9.5" r="9.1" fill="none" />
+                                                    </g>
+                                                    <g id="pencil" transform="translate(1846 389)">
+                                                        <path id="Path_125" data-name="Path 125"
+                                                            d="M4.259,5.687,0,9.946v1.082H1.082L5.341,6.769Z"
+                                                            transform="translate(0 -4.028)" />
+                                                        <path id="Path_126" data-name="Path 126"
+                                                            d="M18.125.224a.765.765,0,0,0-1.082,0L16.022,1.246,17.1,2.328l1.021-1.021a.765.765,0,0,0,0-1.083Z"
+                                                            transform="translate(-11.349 0)" />
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Referred By</td>
+                                    <td>01/07/2023
+                                        <a href="">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19"
+                                                viewBox="0 0 19 19">
+                                                <g id="Group_86" data-name="Group 86" transform="translate(-1840 -383)">
+                                                    <g id="Ellipse_374" data-name="Ellipse 374"
+                                                        transform="translate(1840 383)" fill="#fff" stroke="#dedede"
+                                                        stroke-width="0.8">
+                                                        <circle cx="9.5" cy="9.5" r="9.5" stroke="none" />
+                                                        <circle cx="9.5" cy="9.5" r="9.1" fill="none" />
+                                                    </g>
+                                                    <g id="pencil" transform="translate(1846 389)">
+                                                        <path id="Path_125" data-name="Path 125"
+                                                            d="M4.259,5.687,0,9.946v1.082H1.082L5.341,6.769Z"
+                                                            transform="translate(0 -4.028)" />
+                                                        <path id="Path_126" data-name="Path 126"
+                                                            d="M18.125.224a.765.765,0,0,0-1.082,0L16.022,1.246,17.1,2.328l1.021-1.021a.765.765,0,0,0,0-1.083Z"
+                                                            transform="translate(-11.349 0)" />
+                                                    </g>
+                                                </g>
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="">
+                        <a href="" class="btn-1">See More<img src="assets/images/arrow.png"></a>
+                    </div>
+                </div>
+                <div class="candidate_details">
+                    <h4>Interview Details</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Enter By</td>
+                                    <td>Jhon Doe
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Assigned By</td>
+                                    <td>Jhon Doe
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mode of Registration</td>
+                                    <td>Done
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Source</td>
+                                    <td>01/07/2023
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Referred By</td>
+                                    <td>01/07/2023
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="">
+                        <a href="" class="btn-1">See More<img src="assets/images/arrow.png"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
-            
-
-            function fetch_data(page, query, full_name, gender) {
-
-                var query = $('#query').val();
-                var page = $('#hidden_page').val();
-                var full_name = $('#full_name').val();
-                var gender = $('#gender').val();
-
-                $.ajax({
-                    url: "{{ route('candidates-jobs.filter') }}",
-                    data: {
-                        page: page,
-                        search: query,
-                        full_name: full_name,
-                        gender: gender,
-                    
-                    },
-                    success: function(data) {
-                        // console.log(data.view);
-                        $('#candidate_job_body').html(data.view);
-                    }
-                });
-            }
-
-            $(document).on('submit', '.search-form', function(e) {
-                e.preventDefault();
-                var query = $('#query').val();
-                console.log(query);
-                var page = $('#hidden_page').val();
-                var full_name = $('#full_name').val();
-                var gender = $('#gender').val();
-
-                fetch_data(page, query, full_name, gender);
-            });
-
-            $(document).on('click', '.pagination a', function(event) {
-                event.preventDefault();
-                var page = $(this).attr('href').split('page=')[1];
-                $('#hidden_page').val(page);
-                var query = $('#query').val();
-
-                var full_name = $('#full_name').val();
-                var gender = $('#gender_filter').val();
-                
-                fetch_data(page, query, full_name, gender);
-            });
-
-
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '.edit-route', function() {
-                var route = $(this).data('route');
-                $('#loading').addClass('loading');
-                $('#loading-content').addClass('loading-content');
-                $.ajax({
-                    url: route,
-                    type: 'GET',
-                    success: function(response) {
-                        if (response.status == 'error') {
-                            $('#loading').removeClass('loading');
-                            $('#loading-content').removeClass('loading-content');
-                            toastr.error(response.message);
-                            return false;
-                        } else {
-                            $('#job-edit').html(response.view);
-                            $('#loading').removeClass('loading');
-                            $('#loading-content').removeClass('loading-content');
-                            $('#offcanvasEdit').offcanvas('show');
-                        }
-                    },
-                    error: function(xhr) {
-                        // Handle errors
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        console.log(xhr);
-                    }
-                });
-            });
-            
-          
-        });
-    </script>
-    {{-- <script>
-        $(document).ready(function() {
-            $(document).on('click', '.btn-close', function() {
-                $('.text-danger').html('');
-            });
-
-            $(document).on('submit', '#candidate-form-import', function(e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        //windows load with toastr message
-                        window.location.reload();
-
-                    },
-                    error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // console.log(key);
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="file"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
-            });
-
-            $(document).on('click', '.view-details-btn', function(e) {
-                e.preventDefault();
-                var route = $(this).data('route');
-                // load data from remote url
-                $('#loading').addClass('loading');
-                $('#loading-content').addClass('loading-content');
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: route,
-                    success: function(resp) {
-                        // console.log(resp);
-                        //  open modal
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-
-                        var candidate_activities = resp.candidate_activities;
-                        // console.log(candidate_activities);
-                        if (candidate_activities.length == 0) {
-                            $('#show-details').html(
-                                '<div class="testimonial-box"><div class="box-top"><div class="profile"><div class="name-user"><strong class="date">No Activity Found...</strong></div></div></div></div>'
-                            );
-                            return false;
-                        }
-                        var html = '';
-                        $.each(candidate_activities, function(key, value) {
-                            var date = new Date(value.created_at);
-                            var formattedDate = date.getDate().toString().padStart(2,
-                                '0') + ' ' + date.toLocaleString('default', {
-                                month: 'short'
-                            }) + ', ' + date.getFullYear();
-                            var call_status = value.call_status == null ? 'N/A' : value
-                                .call_status;
-                            html += '<div class="activity_box">';
-                            html += '<div class="activity_box_dd">';
-                            html += '<div class="activity_box_ff">';
-                            html += '<div class="active-user">';
-                            html += value.user.first_name + ' ' + value.user.last_name;
-                            html += '</div>';
-                            html += '<div class="all_ansered">Call Status: <span>' +
-                                call_status +
-                                '</span></div>';
-                            html += '</div>';
-                            html += '<div class="date">' + formattedDate + '</div>';
-                            html += '</div>';
-                            html += '<div class="active-comment">';
-                            html += '<p>' + value.remarks + '</p>';
-                            html += '</div>';
-                            html += '</div>';
-
-                        });
-
-                        $('#show-details').html(html);
-                    }
-                });
-            });
-        });
-    </script> --}}
-    {{-- <script>
-        $(document).ready(function() {
-            // Check-all functionality
-            $(document).on('change', '.checkAll', function() {
-                $(".checkd-row").prop('checked', $(this).prop('checked'));
-            });
-
-            // Individual checkbox change
-            $(document).on('change', '.checkd-row', function() {
-                if (!$(this).prop("checked")) {
-                    $(".checkAll").prop("checked", false);
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $(document).on('submit', '#change_status', function(e) {
-                e.preventDefault();
-                var status_id = $('#change_status_id').val();
-                //  get the candidate id which checkbox is checked
-                var candidate_ids = [];
-                $('.checkd-row:checked').each(function() {
-                    candidate_ids.push($(this).data('id'));
-                });
-                // are you sure you want to change status
-                if (candidate_ids.length == 0) {
-                    toastr.error('Please select atleast one candidate');
-                    return false;
-                }
-                if (status_id == '') {
-                    toastr.error('Please select status');
-                    return false;
-                }
-
-                // are you sure confirm msg show
-                swal({
-                        title: 'Are you sure?',
-                        text: "You want to change status of selected candidates!",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Yes, change it!'
-                    })
-                    .then((result) => {
-                        if (result.value) {
-                            $.ajax({
-                                url: $(this).attr('action'),
-                                type: $(this).attr('method'),
-                                data: {
-                                    status_id: status_id,
-                                    candidate_ids: candidate_ids,
-                                },
-                                success: function(response) {
-                                    //windows load with toastr message
-                                    window.location.reload();
-                                },
-                                error: function(xhr) {
-                                    var errors = xhr.responseJSON.errors;
-                                    $.each(errors, function(key, value) {
-                                        toastr.error(value[0]);
-                                    });
-                                }
-                            });
-                        } else {
-                            toastr.error('You have cancelled!');
-                        }
-                    });
-            });
-        });
-    </script>
-
-
-    <script>
-        $('.status_select').select2({
-            closeOnSelect: false,
-            placeholder: "Status",
-            allowClear: false,
-            tags: true
-        }).on('change', function(e) {
-            var selectedTags = $(this).select2('data').map(function(tag) {
-                return tag.text;
-            });
-
-            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
-
-            if (selectedTags.length > 2) {
-                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
-            } else if (selectedTags.length > 0) {
-                $selection.html(selectedTags.join(', '));
-            } else {
-                $selection.html('Status'); // Set placeholder text manually
-            }
-        });
-
-
-
-        // gender multi select
-        $(".gender_select").select2({
-            closeOnSelect: false,
-            placeholder: "Gender",
-            allowClear: false,
-            tags: true
-        }).on('change', function(e) {
-            var selectedTags = $(this).select2('data').map(function(tag) {
-                return tag.text;
-            });
-
-            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
-
-            if (selectedTags.length > 2) {
-                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
-            } else if (selectedTags.length > 0) {
-                $selection.html(selectedTags.join(', '));
-            } else {
-                $selection.html('Gender'); // Set placeholder text manually
-            }
-        });
-        //education multi select
-        $(".education_select").select2({
-            closeOnSelect: false,
-            placeholder: "Education",
-            allowClear: false,
-            tags: true
-        }).on('change', function(e) {
-            var selectedTags = $(this).select2('data').map(function(tag) {
-                return tag.text;
-            });
-
-            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
-
-            if (selectedTags.length > 2) {
-                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
-            } else if (selectedTags.length > 0) {
-                $selection.html(selectedTags.join(', '));
-            } else {
-                $selection.html('Education'); // Set placeholder text manually
-            }
-        });
-        //position1 multi select
-        $(".position1_select").select2({
-            closeOnSelect: false,
-            placeholder: "Position Applied For(1)",
-            allowClear: false,
-            tags: true
-        }).on('change', function(e) {
-            var selectedTags = $(this).select2('data').map(function(tag) {
-                return tag.text;
-            });
-
-            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
-
-            if (selectedTags.length > 2) {
-                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
-            } else if (selectedTags.length > 0) {
-                $selection.html(selectedTags.join(', '));
-            } else {
-                $selection.html('Position Applied For(1)'); // Set placeholder text manually
-            }
-        });
-        //position2 multi select
-        $(".position2_select").select2({
-            closeOnSelect: false,
-            placeholder: "Position Applied For(2)",
-            allowClear: false,
-            tags: true
-        }).on('change', function(e) {
-            var selectedTags = $(this).select2('data').map(function(tag) {
-                return tag.text;
-            });
-
-            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
-
-            if (selectedTags.length > 2) {
-                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
-            } else if (selectedTags.length > 0) {
-                $selection.html(selectedTags.join(', '));
-            } else {
-                $selection.html('Position Applied For(2)'); // Set placeholder text manually
-            }
-        });
-        //position2 multi select
-        $(".position3_select").select2({
-            closeOnSelect: false,
-            placeholder: "Position Applied For(3)",
-            allowClear: false,
-            tags: true
-        }).on('change', function(e) {
-            var selectedTags = $(this).select2('data').map(function(tag) {
-                return tag.text;
-            });
-
-            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
-
-            if (selectedTags.length > 2) {
-                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
-            } else if (selectedTags.length > 0) {
-                $selection.html(selectedTags.join(', '));
-            } else {
-                $selection.html('Position Applied For(3)'); // Set placeholder text manually
-            }
-        });
-
-        //Last call status select
-        $(".last_call_status").select2({
-            placeholder: "Last call Status",
-            allowClear: true,
-        });
-
-        //mode registration status select
-        $(".mode_registration_select").select2({
-            placeholder: "Mode of Registration",
-            allowClear: true,
-        });
-
-        //source status select
-        $(".source_status").select2({
-            placeholder: "Source",
-            allowClear: true,
-        });
-
-        //city select
-        $(".city_select").select2({
-            placeholder: "City",
-            allowClear: true,
-        });
-
-        //english speak select
-        $(".eng_spk_select").select2({
-            placeholder: "English Speak",
-            allowClear: true,
-        })
-
-        // arbic speak select
-        $(".arbic_select").select2({
-            placeholder: "Arabic Speak",
-            allowClear: true,
-        })
-
-        //ecr type select
-        $(".ecr_select").select2({
-            placeholder: "ECR Type",
-            allowClear: true,
-        })
-    </script>
-    <script>
-        $('#query').tagator({
-            autocomplete: [
-                @foreach (Position::getPosition() as $item)
-                    '{{ $item }}',
-                @endforeach
-            ],
-            useDimmer: true
-        });
-    </script> --}}
 @endpush

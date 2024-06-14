@@ -64,8 +64,8 @@
                 @endif
 
                 @if (Gate::check('Manage Job'))
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" href="javascript:void(0);">
+                    <li class="sidebar-menu-item {{ Request::is('jobs*') ? 'active open' : '' }}">
+                        <a class="sidebar-menu-button" href="{{ route('jobs.index') }}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/briefcase.svg') }}"></i>
                             <span class="sidebar-menu-text">Jobs</span>

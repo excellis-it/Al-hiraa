@@ -153,6 +153,11 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
     Route::get('/get-jobs',[CandidateController::class,'getJobs'])->name('candidates.getJobs');
     // candidates.assign-job
     Route::put('/assign-job/{id}',[CandidateController::class,'assignJob'])->name('candidates.assign-job');
-
     Route::get('/companies-filter',[CompanyController::class,'companiesFilter'])->name('companies.filter');
+
+
+    //candidates job routes
+    Route::get('/jobs-bulk-status-update',[JobsController::class,'bulkStatusUpdate'])->name('jobs.bulk.status.update');
+    Route::get('/jobs-filter',[CandidateController::class,'candidatejobFilter'])->name('candidates-jobs.filter');
+
 });

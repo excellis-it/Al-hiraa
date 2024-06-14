@@ -19,6 +19,7 @@ use App\Models\Interview;
 use App\Models\Job;
 use App\Models\Source;
 use App\Models\User;
+use App\Models\CandidateJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
@@ -730,6 +731,7 @@ class CandidateController extends Controller
         $request->validate([
             'company_id' => 'required',
             'interview_id' => 'required',
+            'interview_status' => 'required'
         ]);
 
         $count = AssignJob::where('candidate_id', $candidate_id)->where('interview_id', $request->interview_id)->count();
@@ -743,7 +745,38 @@ class CandidateController extends Controller
             $assign_job->company_id = $request->company_id;
             $assign_job->interview_id = $request->interview_id;
             $assign_job->user_id = Auth::user()->id;
+            $assign_job->interview_status = $request->interview_status;
             $assign_job->save();
+
+            //candidate job detauils add
+            $candidate_details = Candidate::findOrFail($candidate_id);
+            $job_details = Job::findOrfail($job_id);
+            if($request->interview_status == 'Selected'){
+
+                $candidate_job = new CandidateJob();
+                $candidate_job->candidate_id = $candidate_id;
+                $candidate_job->full_name = $candidate_details->full_name ?? null;
+                $candidate_job->email = $candidate_details->email ?? null;
+                $candidate_job->gender = $candidate_details->gender ?? null;
+                $candidate_job->date_of_birth = $candidate_details->date_of_birth ?? null;
+                $candidate_job->whatapp_no = $candidate_details->whatapp_no ?? null;
+                $candidate_job->alternate_contact_no = $candidate_details->alternate_contact_no ?? null;
+                $candidate_job->religion = $candidate_details->religion ?? null; 
+                $candidate_job->city = $candidate_details->city ?? null;
+                $candidate_job->address = null;
+                $candidate_job->education = $candidate_details->education ?? null;
+                $candidate_job->other_education = $candidate_details->other_education ?? null;
+                $candidate_job->passport_number = $candidate_details->passport_number ?? null;
+                $candidate_job->english_speak = $candidate_details->english_speak ?? null;
+                $candidate_job->arabic_speak = $candidate_details->arabic_speak ?? null;
+                $candidate_job->assign_by_id = Auth::user()->id ?? null;
+                $candidate_job->job_title = $job_details->id ?? null;
+                $candidate_job->job_position = $job_details->candidate_position_id ?? null;
+                $candidate_job->job_location = $job_details->address ?? null;
+                $candidate_job->salary = $job_details->salary ?? null;
+                $candidate_job->save();
+            }
+
             session()->flash('message', 'Job assigned successfully');
             return response()->json(['status' => true, 'message' => 'Job assigned successfully.']);
         }

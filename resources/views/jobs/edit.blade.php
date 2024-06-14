@@ -30,7 +30,7 @@
                         <div class="">
                             <div class="name_box_text">
                                 <p>Name</p>
-                                <h4>{{ $candidate->full_name ?? 'N/A' }}</h4>
+                                <h4>{{ $candidate_job_details->full_name ?? 'N/A' }}</h4>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         <div class="">
                             <div class="name_box_text">
                                 <p>Contact No:</p>
-                                <h4>{{ $candidate->contact_no ?? 'N/A' }}</h4>
+                                <h4>{{ $candidate_job_details->contact_no ?? 'N/A' }}</h4>
                             </div>
                         </div>
                     </div>
@@ -82,14 +82,14 @@
                             <div class="name_box_text">
                                 <p>Status</p>
                                 <div class="round_staus active">
-                                    {{ $candidate->candidateStatus->name ?? 'N/A' }}
+                                    fghgfh
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <form action="{{ route('candidates.update', $candidate->id) }}" method="POST" id="candidate-edit-form">
+            <form action="" method="POST" id="candidate-edit-form">
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
@@ -106,7 +106,7 @@
 
                             </div>
                             <div class="edit-1" id="open-input">
-                                @can('Edit Candidate')
+                                @can('Edit Job')
                                     <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
                                 @endcan
                             </div>
@@ -118,220 +118,149 @@
                                 <tbody>
                                     {{-- @include('candidates.details-form') --}}
                                     <tr>
-                                        <td>Enter By</td>
-                                        <td>{{ $candidate->enterBy->full_name ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status</td>
-                                        <td>{{ $candidate->candidateStatus->name ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mode of Registration</td>
-                                        <td>{{ $candidate->mode_of_registration ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Source</td>
-                                        <td>{{ $candidate->source ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Last Updated Date</td>
-                                        <td>{{ $candidate->updated_at != null ? date('d.m.Y', strtotime($candidate->updated_at)) : 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Referred By</td>
-                                        <td>
-                                            @if ($candidate->referred_by_id != null)
-                                                {{ $candidate->referredBy->full_name }}
-                                            @else
-                                                {{ $candidate->referred_by }}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td>Full Name</td>
-                                        <td>{{ $candidate->full_name ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                        <td>{{ $candidate_job_detail->full_name ?? 'N/A'}}</td>
                                         <td>Gender</td>
-                                        <td>{{ $candidate->gender }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DOB</td>
-                                        <td>{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Age</td>
-                                        <td>{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
-
-                                        </td>
+                                        <td>{{ $candidate_job_detail->gender ?? 'N/A'}}</td>
+                                        <td>Date of birth</td>
+                                        <td>{{ $candidate_job_detail->date_of_birth ?? 'N/A'}}</td>
                                     </tr>
                                     <tr>
                                         <td>Education</td>
-                                        <td>{{ $candidate->education ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                        <td>{{ $candidate_job_detail->education ?? 'N/A'}}</td>
                                         <td>Other Education</td>
-                                        <td>{{ $candidate->other_education ?? 'N/A' }}
-                                        </td>
+                                        <td>{{ $candidate_job_detail->other_education ?? 'N/A'}}</td>
+                                        <td>whatapp_no</td>
+                                        <td>{{ $candidate_job_detail->whatapp_no ?? 'N/A'}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Alternate Contact No.</td>
-                                        <td>{{ $candidate->alternate_contact_no ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Whatsapp No.</td>
-                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Passport Number.</td>
-                                        <td>{{ $candidate->passport_number ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email ID</td>
-                                        <td>{{ $candidate->email ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>City</td>
-                                        <td>{{ $candidate->city ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                        <td>Alternate Contact No</td>
+                                        <td>{{ $candidate_job_detail->alternate_contact_no ?? 'N/A'}}</td>
                                         <td>Religion</td>
-                                        <td>{{ $candidate->religion ?? 'N/A' }}
-
-                                        </td>
+                                        <td>{{ $candidate_job_detail->religion ?? 'N/A'}}</td>
+                                        <td>City</td>
+                                        <td>{{ $candidate_job_detail->city ?? 'N/A'}}</td>
                                     </tr>
                                     <tr>
-                                        <td>ECR Type</td>
-                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}
-
-                                        </td>
+                                        <td>Address</td>
+                                        <td>{{ $candidate_job_detail->address ?? 'N/A'}}</td>
+                                        <td>Education</td>
+                                        <td>{{ $candidate_job_detail->address ?? 'N/A'}}</td>
+                                        <td>Other Education</td>
+                                        <td>Pass</td>
                                     </tr>
                                     <tr>
-                                        <td>Indidan Driving License </td>
-                                        <td>
-                                            @if ($candidate->candidateIndianLicence()->count() > 0)
-                                                @foreach ($candidate->candidateIndianLicence as $key => $value)
-                                                    <span class="badge bg-primary rounded-pill">
-                                                        {{ $value->licence_name ?? 'N/A' }}
-                                                    </span>
-                                                @endforeach
-                                            @else
-                                                {{ 'N/A' }}
-                                            @endif
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Gulf Driving License </td>
-                                        <td>
-                                            @if ($candidate->candidateGulfLicence()->count() > 0)
-                                                @foreach ($candidate->candidateGulfLicence as $key => $value)
-                                                    <span class="badge bg-primary rounded-pill">
-                                                        {{ $value->licence_name ?? 'N/A' }}
-                                                    </span>
-                                                @endforeach
-                                            @else
-                                                {{ 'N/A' }}
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>English Speak</td>
-                                        <td>{{ $candidate->english_speak ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-                                    <tr>
+                                        <td>Passport Number</td>
+                                        <td>4545662</td>
+                                        <td>english_speak</td>
+                                        <td>Yes</td>
                                         <td>Arabic Speak</td>
-                                        <td>{{ $candidate->arabic_speak ?? 'N/A' }}
-
-                                        </td>
+                                        <td>No</td>
                                     </tr>
                                     <tr>
-                                        <td>Return</td>
-                                        <td>{{ $candidate->return == 1 ? 'YES' : 'N0' }}
-
-                                        </td>
+                                        <td>Assign By Id</td>
+                                        <td>#4535135</td>
+                                        <td>Job Title</td>
+                                        <td>Cook</td>
+                                        <td>Job Position</td>
+                                        <td>hhldhf f</td>
                                     </tr>
                                     <tr>
-                                        <td>Position Applied For(1)</td>
-                                        <td>{{ $candidate->positionAppliedFor1->name ?? 'N/A' }}
-                                        </td>
+                                        <td>Job Location</td>
+                                        <td>UAE</td>
+                                        <td>Date of Interview</td>
+                                        <td>11/11/2024</td>
+                                        <td>Date of Selection</td>
+                                        <td>20/11/2024</td>                                       
                                     </tr>
                                     <tr>
-                                        <td>Specialisation for Position (1)</td>
-                                        <td>{{ $candidate->specialisation_1 ?? 'N/A' }}
-                                        </td>
+                                        <td>Mode of Selection</td>
+                                        <td>Yes</td>
+                                        <td>Interview Location</td>
+                                        <td>Kolkata</td>
+                                        <td>Client Remarks</td>
+                                        <td>Good</td>
                                     </tr>
                                     <tr>
-                                        <td>Position Applied For(2)</td>
-                                        <td>{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}
-                                        </td>
+                                        <td>Other Remarks</td>
+                                        <td>Other</td>
+                                        <td>Sponsor</td>
+                                        <td>Sponsor 1</td>
+                                        <td>Country</td>
+                                        <td>UAE</td>
                                     </tr>
                                     <tr>
-                                        <td>Specialisation for Position (2)</td>
-                                        <td>{{ $candidate->specialisation_2 ?? 'N/A' }}
-                                        </td>
+                                        <td>Salary</td>
+                                        <td>100000</td>
+                                        <td>Food Allowance</td>
+                                        <td>Yes</td>
+                                        <td>Contract Duration</td>
+                                        <td>2Years</td>
                                     </tr>
                                     <tr>
-                                        <td>Position Applied For(3)</td>
-                                        <td>{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}
-                                        </td>
+                                        <td>Mofa No</td>
+                                        <td>4654561</td>
+                                        <td>Mofa Date</td>
+                                        <td>01/02/2022</td>
+                                        <td>Family Contact Name</td>
+                                        <td>scccscv vsv</td>
+                                    </tr>
+                                    <tr>                                        
+                                        <td>Family Contact No</td>
+                                        <td>3165465</td>
+                                        <td>Medical Application Date</td>
+                                        <td>01/02/2023</td>
+                                        <td>Medical Completion Date</td>
+                                        <td>01/02/2023</td>
                                     </tr>
                                     <tr>
-                                        <td>Specialisation for Position (3)</td>
-                                        <td>{{ $candidate->specialisation_3 ?? 'N/A' }}
-                                        </td>
+                                        <td>Medical Status</td>
+                                        <td>good</td>
+                                        <td>Visa Receiving Date</td>
+                                        <td>01/02/2023</td>
+                                        <td>Visa Issue Date</td>
+                                        <td>01/02/2023</td>
                                     </tr>
-                                    <tr>
-                                        <td>Indian Experience (If any?)</td>
-                                        <td>{{ $candidate->indian_exp ?? 'N/A' }}
-                                        </td>
+                                    <tr>                                        
+                                        <td>Visa Expiry Date</td>
+                                        <td>01/02/2023</td>
+                                        <td>Ticket Booking Date</td>
+                                        <td>01/02/2023</td>
+                                        <td>Ticket Confirmation Date</td>
+                                        <td>10/02/2024</td>
                                     </tr>
-                                    <tr>
-                                        <td>Abroad Experience (If any?)</td>
-                                        <td>{{ $candidate->abroad_exp ?? 'N/A' }}
-
-                                        </td>
+                                    <tr>                                        
+                                        <td>Total Amount</td>
+                                        <td>80000</td>
+                                        <td>1st Installment Amount</td>
+                                        <td>30000</td>
+                                        <td>1st Installment Date</td>
+                                        <td>10/02/2024</td>
                                     </tr>
-                                    <tr>
-                                        <td>Call Status</td>
-                                        <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
-
-                                        </td>
+                                    <tr>                                        
+                                        <td>2nd Installment Amount</td>
+                                        <td>30000</td>
+                                        <td>2nd Installment Date</td>
+                                        <td>10/02/2024</td>
+                                        <td>3rd Installment Amount</td>
+                                        <td>50000</td>
                                     </tr>
-                                    <tr>
-                                        <td>Remarks</td>
-                                        <td>{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
-
-                                        </td>
+                                    <tr>                                        
+                                        <td>3rd Installment Date</td>
+                                        <td>10/02/2024</td>
+                                        <td>4th Installment Amount</td>
+                                        <td>30000</td>
+                                        <td>4th Installment Date</td>
+                                        <td>10/02/2024</td>
                                     </tr>
-
-
+                                    <tr>                                        
+                                        <td>Deployment Date</td>
+                                        <td>10/02/2024</td>
+                                        <td>Indian Driving License</td>
+                                        <td>4684654</td>
+                                        <td>Gulf Driving License</td>
+                                        <td>12135145</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -350,52 +279,33 @@
                         <tbody>
                             <tr>
                                 <td>Enter By</td>
-                                <td> {{ $candidate->enterBy->full_name ?? 'N/A' }}
+                                <td> dgdf
                                 </td>
                             </tr>
                             <tr>
                                 <td>Updated By</td>
-                                <td>{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}
+                                <td>dfgd
                                 </td>
                             </tr>
 
-                            @php
-                                if (isset($candidate->candidateUpdate->user->full_name)) {
-                                    $data = Helper::getUpdatedData(
-                                        $candidate->id,
-                                        $candidate->candidateUpdate->user_id,
-                                    );
-                                } else {
-                                    $data = [];
-                                }
-                            @endphp
-                            @if ($data != null)
+                         
                                 <tr>
                                     <td>Status</td>
                                     <td>
                                         <div class="permission-2 m-lg-1">
-                                            <p class="m-md-1">{{ $data['candidateStatus']['name'] ?? '' }}</p>
-                                            @if (Auth::user()->hasRole('ADMIN'))
-                                                <a href="javascript:void(0);" class="permission" id="permission"
-                                                    data-route="{{ route('candidates.permission', ['candidate_id' => $candidate->id, 'candidate_field_update_id' => $data['id']]) }}"><span><i
-                                                            class="fa-solid fa-check"></i></span></a>
-                                            @endif
+                                            <p class="m-md-1">hfg</p>
+                                           
 
                                         </div>
                                     </td>
                                 </tr>
-                                {{-- <tr>
-                                    <td>Postion</td>
-                                    <td>{{ $data['position'] ?? '' }}
-                                    </td>
-                                </tr> --}}
-                            @endif
+                               
 
                         </tbody>
                     </table>
                 </div>
             </div>
-            <form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST"
+            <form action="" method="POST"
                 id="candidate-job-create-form">
                 @method('PUT')
                 @csrf
@@ -413,7 +323,7 @@
 
                             </div>
                             <div class="edit-1" id="open-job-input">
-                                @can('Edit Candidate')
+                                @can('Edit Job')
                                     <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
                                 @endcan
                             </div>
@@ -425,33 +335,27 @@
                                 <tbody>
                                     <tr>
                                         <td>Assigned By</td>
-                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        <td>dfgdfg
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Company</td>
-                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        <td>dfgdf
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Job Title</td>
-                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        <td>dfgd
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Job Position</td>
-                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        <td>dfgdf
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Job Location</td>
-                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Interview status</td>
-                                        <td>
-                                            {{ $assign_job->interview_status ?? 'N/A' }}
+                                        <td>fgdf
                                         </td>
                                     </tr>
                                 </tbody>
@@ -513,11 +417,7 @@
         <td>
           <select name="cnadidate_status_id" class="form-control uppercase-text" id="">
             <option value="">Select A Status</option>
-            @foreach ($candidate_statuses as $status)
-            <option value="{{ $status->id }}" {{ $candidate->cnadidate_status_id == $status->id ? 'selected' : '' }}>
-              {{ $status->name }}
-            </option>
-            @endforeach
+            
           </select>
           <span class="text-danger" id="cnadidate_status_id_msg"></span>
         </td>
@@ -537,11 +437,7 @@
     <td>
         <select name="source" class="form-select uppercase-text" id="">
                     <option value="">Select Type</option>
-                    @foreach ($sources as $source)
-                    <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
-                        {{ $source->name }}
-                    </option>
-                @endforeach
+                    
                 </select>
     </td>
   </tr>
@@ -1478,18 +1374,6 @@
                                             <span class="text-danger" id="interview_id_job_msg"></span>
                                             </td>
                                         </tr>
-
-                                         <tr>
-                                            <td>Interview Status</td>
-                                            <td>
-                                            <select name="interview_status" class="form-control uppercase-text" id="interview_status">
-                                                <option value="">Select A Interview Status</option>
-                                                <option value="Selected">Selected</option>
-                                                <option value="Rejected">Rejected</option>
-                                            </select>
-                                            <span class="text-danger" id="interview_status_job_msg"></span>
-                                            </td>
-                                        </tr>  
                                         </tbody>`);
         });
 

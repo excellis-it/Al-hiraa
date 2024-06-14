@@ -3310,11 +3310,6 @@ h6+[aria-label=breadcrumb],
 }
 
 
-
-
-
-
-
 /* food-sec */
 .food-box-sec {
     padding: 50px 0px;
@@ -3554,6 +3549,10 @@ h6+[aria-label=breadcrumb],
     border-left: 1px solid rgba(0, 0, 0, .2);
     height: auto;
     border-radius: 15px;
+}
+
+.jobs_canvas .offcanvas-end {
+    width: 80% !important;
 }
 
 .name_box {
@@ -5376,9 +5375,7 @@ li.tagator_option{
 .swal2-container.swal2-shown{
     z-index: 999999 !important;
 }
-.datepicker::placeholder {
-    color: #000;
-}
+
 /* Responsive */
 @media (max-width: 1600.5px) {}
 

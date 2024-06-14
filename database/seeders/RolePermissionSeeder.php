@@ -72,6 +72,12 @@ class RolePermissionSeeder extends Seeder
                 "updated_at" => date('Y-m-d H:i:s'),
             ],
             [
+                "name" => "View Job",
+                "guard_name" => "web",
+                "created_at" => date('Y-m-d H:i:s'),
+                "updated_at" => date('Y-m-d H:i:s'),
+            ],
+            [
                 "name" => "Manage Company",
                 "guard_name" => "web",
                 "created_at" => date('Y-m-d H:i:s'),
@@ -236,6 +242,7 @@ class RolePermissionSeeder extends Seeder
             "Manage Job",
             "Create Job",
             "Edit Job",
+            "View Job",
             "Manage Company",
             "Create Company",
             "View Company",
@@ -261,6 +268,7 @@ class RolePermissionSeeder extends Seeder
             "Create Position",
             "Edit Position",
             "Delete Position",
+
         ];
 
         $adminRole->givePermissionTo($adminPermissions);
