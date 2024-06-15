@@ -20,6 +20,7 @@ use App\Models\Job;
 use App\Models\Source;
 use App\Models\User;
 use App\Models\CandidateJob;
+use App\Models\CandJobLicence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
@@ -775,6 +776,33 @@ class CandidateController extends Controller
                 $candidate_job->job_location = $job_details->address ?? null;
                 $candidate_job->salary = $job_details->salary ?? null;
                 $candidate_job->save();
+
+                //candidate licence details add
+                $indian_driving_licenses = CandidateLicence::where('candidate_id', $candidate_id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray() ?? null;
+                $gulf_driving_licenses = CandidateLicence::where('candidate_id', $candidate_id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray() ?? null;
+                
+                foreach ($indian_driving_licenses as $key => $value) {
+                    if($value != null){
+                        $candidate_ind_licence = new CandJobLicence();
+                        $candidate_ind_licence->candidate_job_id = $candidate_job->id;
+                        $candidate_ind_licence->candidate_id = $candidate_id;
+                        $candidate_ind_licence->licence_type = 'INDIAN';
+                        $candidate_ind_licence->licence_name = $value;
+                        $candidate_ind_licence->save();
+                    }
+                    
+                }
+                
+                foreach($gulf_driving_licenses as $key => $value){
+                    if($value != null){
+                        $candidate_gulf_licence = new CandJobLicence();
+                        $candidate_gulf_licence->candidate_job_id = $candidate_job->id;
+                        $candidate_gulf_licence->candidate_id = $candidate_id;
+                        $candidate_gulf_licence->licence_type = 'GULF';
+                        $candidate_gulf_licence->licence_name = $value;
+                        $candidate_gulf_licence->save();
+                    }
+                }
             }
 
             session()->flash('message', 'Job assigned successfully');

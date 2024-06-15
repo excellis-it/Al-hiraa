@@ -14,4 +14,11 @@ class CandidateJob extends Model
     {
         return $this->belongsTo(User::class, 'assign_by_id');
     }
+
+    public function jobTitle()
+    {
+        return $this->belongsTo(Job::class, 'job_title');
+    }
+
+   
 }

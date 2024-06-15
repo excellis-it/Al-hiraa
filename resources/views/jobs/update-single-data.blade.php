@@ -1,11 +1,11 @@
-@if (Auth::user()->hasRole('ADMIN'))
+{{-- @if (Auth::user()->hasRole('ADMIN'))
     <td class="">
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input js-check-selected-row checkd-row"
                 data-id="{{ $candidate_job['id'] }}">
         </div>
     </td>
-@endif
+@endif --}}
 {{-- checkbox for bulk select --}}
 @can('View Job')
     <td class="stick-td">

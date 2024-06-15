@@ -3310,6 +3310,11 @@ h6+[aria-label=breadcrumb],
 }
 
 
+
+
+
+
+
 /* food-sec */
 .food-box-sec {
     padding: 50px 0px;
@@ -5375,6 +5380,13 @@ li.tagator_option{
 .swal2-container.swal2-shown{
     z-index: 999999 !important;
 }
+
+
+.jobs_canvas .candidate_details .table tbody td{
+    width:16% !important;
+}
+
+
 
 /* Responsive */
 @media (max-width: 1600.5px) {}

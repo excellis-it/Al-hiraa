@@ -736,7 +736,7 @@
                         <table class="table mb-0 table-bordered" id="candidate_body12">
                             <thead class="candy-p">
                                 <tr>
-                                    @if (Auth::user()->hasRole('ADMIN'))
+                                    {{-- @if (Auth::user()->hasRole('ADMIN'))
                                         <th>
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox"
@@ -744,12 +744,11 @@
                                                     name="checkAll">
                                             </div>
                                         </th>
-                                    @endif
+                                    @endif --}}
 
                                     @can('View Job')
                                         <th class="stick">
                                             View
-
                                         </th>
                                     @endcan
                                     
