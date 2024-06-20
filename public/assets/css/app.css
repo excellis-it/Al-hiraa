@@ -3506,6 +3506,31 @@ h6+[aria-label=breadcrumb],
     fill: #1482F8;
 }
 
+/* .interview-box.active {
+    border: 2px solid #1482F8; 
+    background-color: #f0f0f0; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+    
+} */
+
+.food-box.active{
+    border: 2px solid #1482F8; 
+    background-color: #f0f0f0; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+}
+
+/* interview box*/
+.interview-box.interview-active {
+    border: 2px solid #1482F8; 
+    background-color: #f0f0f0; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: ease-in all 0.3s;
+    fill: #1482F8;
+}
+
+
 /*  */
 .pending {
     color: #E84B4B !important;
@@ -3941,7 +3966,6 @@ h6+[aria-label=breadcrumb],
 /* integrations */
 
 
-.integrations-head {}
 
 .integrations-head h2 {
     font-size: 30px;
@@ -4138,7 +4162,6 @@ h6+[aria-label=breadcrumb],
     text-align: center;
 }
 
-.user-acces-table {}
 
 /* team-members */
 .team-members-table .table thead th {

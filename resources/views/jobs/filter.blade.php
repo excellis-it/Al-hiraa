@@ -1,7 +1,7 @@
 @if (count($candidate_jobs) > 0)
+
     @foreach ($candidate_jobs as $candidate_job)
-        <tr @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) class="candidate-new-{{ $candidate_job['id'] }}" @else
-        class="{{ $candidate_job->is_call_id != null ? 'disabled-row' : '' }} candidate-new-{{ $candidate_job['id'] }}" id="candidate-{{ $candidate_job['id'] }}" @endif
+        <tr @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) class="candidate-new-{{ $candidate_job['id'] }}" @endif
             data-id="{{ $candidate_job['id'] }}">
             @include('jobs.update-single-data', ['candidate_job' => $candidate_job])
         </tr>

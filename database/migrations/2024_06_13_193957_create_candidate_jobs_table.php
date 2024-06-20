@@ -29,9 +29,10 @@ return new class extends Migration
             $table->string('english_speak')->nullable();
             $table->string('arabic_speak')->nullable();
             $table->bigInteger('assign_by_id')->nullable();
-            $table->string('job_title')->nullable();
+            $table->bigInteger('job_id')->nullable();
             $table->string('job_position')->nullable();
             $table->string('job_location')->nullable();
+            $table->bigInteger('company_id')->nullable();
             $table->string('date_of_interview')->nullable();
             $table->string('date_of_selection')->nullable();
             $table->string('mode_of_selection')->nullable();
@@ -66,6 +67,7 @@ return new class extends Migration
             $table->string('fourth_installment_date')->nullable();
             $table->string('deployment_date')->nullable();
             $table->enum('job_status', ['Active', 'Deactive'])->default('Active');
+            $table->enum('job_interview_status', ['Selected', 'Rejected'])->nullable();
             $table->timestamps();
         });
     }

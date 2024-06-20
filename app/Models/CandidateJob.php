@@ -17,7 +17,7 @@ class CandidateJob extends Model
 
     public function jobTitle()
     {
-        return $this->belongsTo(Job::class, 'job_title');
+        return $this->belongsTo(Job::class, 'job_id');
     }
 
    

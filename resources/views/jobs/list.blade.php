@@ -37,454 +37,93 @@
 
                 <div class="col-xl-4 col-lg-6 col-md-6">
                     <div class="d-flex justify-content-center justify-content-md-start">
-                        
-                       
+
                     </div>
                 </div>
 
             </div>
             <section class="food-box-sec">
+                {{-- <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
+                    <div class="action_btn">
+                        <div class="dropdown">
+                            <a class="btn reset-btn" href="{{ route('jobs.index') }}"><i class="fas fa-redo-alt"></i>
+                                Reset</a>
+                        </div>
+                    </div>
+                </div> --}}
                 <div class="food_box_slid">
-                    <div class="food_box_padding">
-                        <div class="food-box">
-                            <div class="food-box-img">
-                                <img src="{{asset('assets/images/Burger.png')}}" alt="">
-                            </div>
-                            <div class="food-box-head">
-                                <h3>Burger King</h3>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Location:</h4>
+                    @foreach ($companies as $company)
+                        <div class="food_box_padding filter-company">
+                            <div class="food-box" data-id="{{ $company->id }}">
+                                <div class="food-box-img">
+                                    <img src="{{ Storage::url($company->company_logo) }}" alt="">
                                 </div>
-                                <div class="food-status-2">
-                                    <h4>Kolkata</h4>
+                                <div class="food-box-head">
+                                    <h3>{{ $company->company_name }}</h3>
                                 </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Status:</h4>
+                                <div class="food-status">
+                                    <div class="food-status-1">
+                                        <h4>Location:</h4>
+                                    </div>
+                                    <div class="food-status-2">
+                                        <h4>{{ Str::limit($company->company_address, 20) }}</h4>
+                                    </div>
                                 </div>
-                                <div class="food-status-2">
-                                    <h4>Ongoing</h4>
+                                
+                                <div class="food-status">
+                                    <div class="food-status-1">
+                                        <h4>Date:</h4>
+                                    </div>
+                                    <div class="food-status-2">
+                                        <h4>{{ $company->created_at->format('d.m.Y') }}</h4>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Job Campaigns:</h4>
+                                <div class="food-status">
+                                    <div class="food-status-1">
+                                        <h4>Position:</h4>
+                                    </div>
+                                    <div class="food-status-2">
+                                        @foreach ($company->jobs as $job)
+                                            @if ($loop->index < 1)
+                                                @php
+                                                    $maxLength = 10;
+                                                    $jobName = $job->job_name;
+                                                    $limitedText =
+                                                        strlen($jobName) > $maxLength
+                                                            ? substr($jobName, 0, $maxLength) . '...'
+                                                            : $jobName;
+                                                @endphp
+                                                <h4>{{ $limitedText }}@if (!$loop->last && $loop->index < 1)
+                                                        ,
+                                                    @endif
+                                                </h4>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- <select name="job_id" id="job_id" class="form-select job_select" multiple
+                                            size="3">
+                                            @foreach ($company->jobs as $job)
+                                                @php
+                                                    $maxLength = 15; 
+                                                    $jobName = $job->job_name;
+                                                    $truncatedJobName =
+                                                        strlen($jobName) > $maxLength
+                                                            ? substr($jobName, 0, $maxLength) . '...'
+                                                            : $jobName;
+                                                @endphp
+                                                <option value="{{ $job->id }}">{{ $truncatedJobName }}</option>
+                                            @endforeach
+                                        </select> --}}
+                                    </div>
                                 </div>
-                                <div class="food-status-2">
-                                    <h4>----</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Date:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>23.04.2023</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Position:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Chef, Floor M
-                                        <span class="info_img">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
-                                                viewBox="0 0 11 11">
-                                                <g id="info" transform="translate(-5 -29)" opacity="0.5">
-                                                    <g id="Group_11" data-name="Group 11" transform="translate(5 29)">
-                                                        <g id="Group_10" data-name="Group 10">
-                                                            <path id="Path_93" data-name="Path 93"
-                                                                d="M199.8,216.819a.535.535,0,0,1-.322-.073.335.335,0,0,1-.092-.275,1.428,1.428,0,0,1,.03-.25,2.754,2.754,0,0,1,.065-.28l.295-1.015a1.537,1.537,0,0,0,.06-.308c0-.112.015-.19.015-.235a.658.658,0,0,0-.232-.523.977.977,0,0,0-.66-.2,1.713,1.713,0,0,0-.5.083q-.265.082-.557.2l-.085.33c.057-.02.128-.042.207-.068a.85.85,0,0,1,.235-.035.48.48,0,0,1,.317.077.363.363,0,0,1,.083.273,1.186,1.186,0,0,1-.028.25q-.026.131-.067.277l-.3,1.02a2.913,2.913,0,0,0-.057.288,1.786,1.786,0,0,0-.018.25.652.652,0,0,0,.25.518,1,1,0,0,0,.67.205,1.542,1.542,0,0,0,.5-.073q.212-.073.568-.208l.08-.315a1.38,1.38,0,0,1-.2.065A.949.949,0,0,1,199.8,216.819Z"
-                                                                transform="translate(-193.568 -209.069)" />
-                                                            <path id="Path_94" data-name="Path 94"
-                                                                d="M249.768,128.177a.76.76,0,0,0-1,0,.6.6,0,0,0,0,.9.75.75,0,0,0,1,0,.6.6,0,0,0,0-.9Z"
-                                                                transform="translate(-243.22 -125.24)" />
-                                                            <path id="Path_95" data-name="Path 95"
-                                                                d="M5.5,0A5.5,5.5,0,1,0,11,5.5,5.5,5.5,0,0,0,5.5,0Zm0,10.5a5,5,0,1,1,5-5A5,5,0,0,1,5.5,10.5Z" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="">
-                                <a href="" class="btn-1">See More<img src="{{asset('assets/images/arrow.png')}}"></a>
                             </div>
                         </div>
-                    </div>
-                    <div class="food_box_padding">
-                        <div class="food-box">
-                            <div class="food-box-img">
-                                <img src="{{asset('assets/images/Burger.png')}}" alt="">
-                            </div>
-                            <div class="food-box-head">
-                                <h3>Burger King</h3>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Location:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Kolkata</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Status:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Ongoing</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Job Campaigns:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>----</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Date:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>23.04.2023</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Position:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Chef, Floor M
-                                        <span class="info_img">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
-                                                viewBox="0 0 11 11">
-                                                <g id="info" transform="translate(-5 -29)" opacity="0.5">
-                                                    <g id="Group_11" data-name="Group 11" transform="translate(5 29)">
-                                                        <g id="Group_10" data-name="Group 10">
-                                                            <path id="Path_93" data-name="Path 93"
-                                                                d="M199.8,216.819a.535.535,0,0,1-.322-.073.335.335,0,0,1-.092-.275,1.428,1.428,0,0,1,.03-.25,2.754,2.754,0,0,1,.065-.28l.295-1.015a1.537,1.537,0,0,0,.06-.308c0-.112.015-.19.015-.235a.658.658,0,0,0-.232-.523.977.977,0,0,0-.66-.2,1.713,1.713,0,0,0-.5.083q-.265.082-.557.2l-.085.33c.057-.02.128-.042.207-.068a.85.85,0,0,1,.235-.035.48.48,0,0,1,.317.077.363.363,0,0,1,.083.273,1.186,1.186,0,0,1-.028.25q-.026.131-.067.277l-.3,1.02a2.913,2.913,0,0,0-.057.288,1.786,1.786,0,0,0-.018.25.652.652,0,0,0,.25.518,1,1,0,0,0,.67.205,1.542,1.542,0,0,0,.5-.073q.212-.073.568-.208l.08-.315a1.38,1.38,0,0,1-.2.065A.949.949,0,0,1,199.8,216.819Z"
-                                                                transform="translate(-193.568 -209.069)" />
-                                                            <path id="Path_94" data-name="Path 94"
-                                                                d="M249.768,128.177a.76.76,0,0,0-1,0,.6.6,0,0,0,0,.9.75.75,0,0,0,1,0,.6.6,0,0,0,0-.9Z"
-                                                                transform="translate(-243.22 -125.24)" />
-                                                            <path id="Path_95" data-name="Path 95"
-                                                                d="M5.5,0A5.5,5.5,0,1,0,11,5.5,5.5,5.5,0,0,0,5.5,0Zm0,10.5a5,5,0,1,1,5-5A5,5,0,0,1,5.5,10.5Z" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="">
-                                <a href="" class="btn-1">See More<img src="{{asset('assets/images/arrow.png')}}"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="food_box_padding">
-                        <div class="food-box">
-                            <div class="food-box-img">
-                                <img src="assets/images/Burger.png" alt="">
-                            </div>
-                            <div class="food-box-head">
-                                <h3>Burger King</h3>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Location:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Kolkata</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Status:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Ongoing</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Job Campaigns:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>----</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Date:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>23.04.2023</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Position:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Chef, Floor M
-                                        <span class="info_img">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
-                                                viewBox="0 0 11 11">
-                                                <g id="info" transform="translate(-5 -29)" opacity="0.5">
-                                                    <g id="Group_11" data-name="Group 11" transform="translate(5 29)">
-                                                        <g id="Group_10" data-name="Group 10">
-                                                            <path id="Path_93" data-name="Path 93"
-                                                                d="M199.8,216.819a.535.535,0,0,1-.322-.073.335.335,0,0,1-.092-.275,1.428,1.428,0,0,1,.03-.25,2.754,2.754,0,0,1,.065-.28l.295-1.015a1.537,1.537,0,0,0,.06-.308c0-.112.015-.19.015-.235a.658.658,0,0,0-.232-.523.977.977,0,0,0-.66-.2,1.713,1.713,0,0,0-.5.083q-.265.082-.557.2l-.085.33c.057-.02.128-.042.207-.068a.85.85,0,0,1,.235-.035.48.48,0,0,1,.317.077.363.363,0,0,1,.083.273,1.186,1.186,0,0,1-.028.25q-.026.131-.067.277l-.3,1.02a2.913,2.913,0,0,0-.057.288,1.786,1.786,0,0,0-.018.25.652.652,0,0,0,.25.518,1,1,0,0,0,.67.205,1.542,1.542,0,0,0,.5-.073q.212-.073.568-.208l.08-.315a1.38,1.38,0,0,1-.2.065A.949.949,0,0,1,199.8,216.819Z"
-                                                                transform="translate(-193.568 -209.069)" />
-                                                            <path id="Path_94" data-name="Path 94"
-                                                                d="M249.768,128.177a.76.76,0,0,0-1,0,.6.6,0,0,0,0,.9.75.75,0,0,0,1,0,.6.6,0,0,0,0-.9Z"
-                                                                transform="translate(-243.22 -125.24)" />
-                                                            <path id="Path_95" data-name="Path 95"
-                                                                d="M5.5,0A5.5,5.5,0,1,0,11,5.5,5.5,5.5,0,0,0,5.5,0Zm0,10.5a5,5,0,1,1,5-5A5,5,0,0,1,5.5,10.5Z" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="">
-                                <a href="" class="btn-1">See More<img src="{{asset('assets/images/arrow.png')}}"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="food_box_padding">
-                        <div class="food-box">
-                            <div class="food-box-img">
-                                <img src="{{asset('assets/images/Burger.png')}}" alt="">
-                            </div>
-                            <div class="food-box-head">
-                                <h3>Burger King</h3>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Location:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Kolkata</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Status:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Ongoing</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Job Campaigns:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>----</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Date:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>23.04.2023</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Position:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Chef, Floor M
-                                        <span class="info_img">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
-                                                viewBox="0 0 11 11">
-                                                <g id="info" transform="translate(-5 -29)" opacity="0.5">
-                                                    <g id="Group_11" data-name="Group 11" transform="translate(5 29)">
-                                                        <g id="Group_10" data-name="Group 10">
-                                                            <path id="Path_93" data-name="Path 93"
-                                                                d="M199.8,216.819a.535.535,0,0,1-.322-.073.335.335,0,0,1-.092-.275,1.428,1.428,0,0,1,.03-.25,2.754,2.754,0,0,1,.065-.28l.295-1.015a1.537,1.537,0,0,0,.06-.308c0-.112.015-.19.015-.235a.658.658,0,0,0-.232-.523.977.977,0,0,0-.66-.2,1.713,1.713,0,0,0-.5.083q-.265.082-.557.2l-.085.33c.057-.02.128-.042.207-.068a.85.85,0,0,1,.235-.035.48.48,0,0,1,.317.077.363.363,0,0,1,.083.273,1.186,1.186,0,0,1-.028.25q-.026.131-.067.277l-.3,1.02a2.913,2.913,0,0,0-.057.288,1.786,1.786,0,0,0-.018.25.652.652,0,0,0,.25.518,1,1,0,0,0,.67.205,1.542,1.542,0,0,0,.5-.073q.212-.073.568-.208l.08-.315a1.38,1.38,0,0,1-.2.065A.949.949,0,0,1,199.8,216.819Z"
-                                                                transform="translate(-193.568 -209.069)" />
-                                                            <path id="Path_94" data-name="Path 94"
-                                                                d="M249.768,128.177a.76.76,0,0,0-1,0,.6.6,0,0,0,0,.9.75.75,0,0,0,1,0,.6.6,0,0,0,0-.9Z"
-                                                                transform="translate(-243.22 -125.24)" />
-                                                            <path id="Path_95" data-name="Path 95"
-                                                                d="M5.5,0A5.5,5.5,0,1,0,11,5.5,5.5,5.5,0,0,0,5.5,0Zm0,10.5a5,5,0,1,1,5-5A5,5,0,0,1,5.5,10.5Z" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="">
-                                <a href="" class="btn-1">See More<img src="{{asset('assets/images/arrow.png')}}"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="food_box_padding">
-                        <div class="food-box">
-                            <div class="food-box-img">
-                                <img src="{{asset('assets/images/Burger.png')}}" alt="">
-                            </div>
-                            <div class="food-box-head">
-                                <h3>Burger King</h3>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Location:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Kolkata</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Status:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Ongoing</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Job Campaigns:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>----</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Date:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>23.04.2023</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Position:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Chef, Floor M
-                                        <span class="info_img">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
-                                                viewBox="0 0 11 11">
-                                                <g id="info" transform="translate(-5 -29)" opacity="0.5">
-                                                    <g id="Group_11" data-name="Group 11" transform="translate(5 29)">
-                                                        <g id="Group_10" data-name="Group 10">
-                                                            <path id="Path_93" data-name="Path 93"
-                                                                d="M199.8,216.819a.535.535,0,0,1-.322-.073.335.335,0,0,1-.092-.275,1.428,1.428,0,0,1,.03-.25,2.754,2.754,0,0,1,.065-.28l.295-1.015a1.537,1.537,0,0,0,.06-.308c0-.112.015-.19.015-.235a.658.658,0,0,0-.232-.523.977.977,0,0,0-.66-.2,1.713,1.713,0,0,0-.5.083q-.265.082-.557.2l-.085.33c.057-.02.128-.042.207-.068a.85.85,0,0,1,.235-.035.48.48,0,0,1,.317.077.363.363,0,0,1,.083.273,1.186,1.186,0,0,1-.028.25q-.026.131-.067.277l-.3,1.02a2.913,2.913,0,0,0-.057.288,1.786,1.786,0,0,0-.018.25.652.652,0,0,0,.25.518,1,1,0,0,0,.67.205,1.542,1.542,0,0,0,.5-.073q.212-.073.568-.208l.08-.315a1.38,1.38,0,0,1-.2.065A.949.949,0,0,1,199.8,216.819Z"
-                                                                transform="translate(-193.568 -209.069)" />
-                                                            <path id="Path_94" data-name="Path 94"
-                                                                d="M249.768,128.177a.76.76,0,0,0-1,0,.6.6,0,0,0,0,.9.75.75,0,0,0,1,0,.6.6,0,0,0,0-.9Z"
-                                                                transform="translate(-243.22 -125.24)" />
-                                                            <path id="Path_95" data-name="Path 95"
-                                                                d="M5.5,0A5.5,5.5,0,1,0,11,5.5,5.5,5.5,0,0,0,5.5,0Zm0,10.5a5,5,0,1,1,5-5A5,5,0,0,1,5.5,10.5Z" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="">
-                                <a href="" class="btn-1">See More<img src="{{asset('assets/images/arrow.png')}}"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="food_box_padding">
-                        <div class="food-box">
-                            <div class="food-box-img">
-                                <img src="assets/images/Burger.png" alt="">
-                            </div>
-                            <div class="food-box-head">
-                                <h3>Burger King</h3>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Location:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Kolkata</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Status:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Ongoing</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Job Campaigns:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>----</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Date:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>23.04.2023</h4>
-                                </div>
-                            </div>
-                            <div class="food-status">
-                                <div class="food-status-1">
-                                    <h4>Position:</h4>
-                                </div>
-                                <div class="food-status-2">
-                                    <h4>Chef, Floor M
-                                        <span class="info_img">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11"
-                                                viewBox="0 0 11 11">
-                                                <g id="info" transform="translate(-5 -29)" opacity="0.5">
-                                                    <g id="Group_11" data-name="Group 11" transform="translate(5 29)">
-                                                        <g id="Group_10" data-name="Group 10">
-                                                            <path id="Path_93" data-name="Path 93"
-                                                                d="M199.8,216.819a.535.535,0,0,1-.322-.073.335.335,0,0,1-.092-.275,1.428,1.428,0,0,1,.03-.25,2.754,2.754,0,0,1,.065-.28l.295-1.015a1.537,1.537,0,0,0,.06-.308c0-.112.015-.19.015-.235a.658.658,0,0,0-.232-.523.977.977,0,0,0-.66-.2,1.713,1.713,0,0,0-.5.083q-.265.082-.557.2l-.085.33c.057-.02.128-.042.207-.068a.85.85,0,0,1,.235-.035.48.48,0,0,1,.317.077.363.363,0,0,1,.083.273,1.186,1.186,0,0,1-.028.25q-.026.131-.067.277l-.3,1.02a2.913,2.913,0,0,0-.057.288,1.786,1.786,0,0,0-.018.25.652.652,0,0,0,.25.518,1,1,0,0,0,.67.205,1.542,1.542,0,0,0,.5-.073q.212-.073.568-.208l.08-.315a1.38,1.38,0,0,1-.2.065A.949.949,0,0,1,199.8,216.819Z"
-                                                                transform="translate(-193.568 -209.069)" />
-                                                            <path id="Path_94" data-name="Path 94"
-                                                                d="M249.768,128.177a.76.76,0,0,0-1,0,.6.6,0,0,0,0,.9.75.75,0,0,0,1,0,.6.6,0,0,0,0-.9Z"
-                                                                transform="translate(-243.22 -125.24)" />
-                                                            <path id="Path_95" data-name="Path 95"
-                                                                d="M5.5,0A5.5,5.5,0,1,0,11,5.5,5.5,5.5,0,0,0,5.5,0Zm0,10.5a5,5,0,1,1,5-5A5,5,0,0,1,5.5,10.5Z" />
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </span>
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="">
-                                <a href="" class="btn-1">See More<img src="{{asset('assets/images/arrow.png')}}"></a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+
                 </div>
             </section>
+
+
             <section class="interview-sec">
                 <div class="interview-head">
                     <h4>Interview Pipeline</h4>
@@ -492,7 +131,7 @@
                 <div class="interview-box-sec">
                     <div class="interview-slide">
                         <div class="interview-slide-wrap">
-                            <div class="interview-box">
+                            <div class="interview-box filter-select" data-val="ALL">
                                 <div class="interview-box-img">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
                                         viewBox="0 0 35 35">
@@ -521,12 +160,13 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Interviews</h4>
-                                    <h3>4.5k</h3>
+                                    <h3 id="all">{{ $count['total_interviews'] }}</h3>
                                 </div>
                             </div>
                         </div>
                         <div class="interview-slide-wrap">
-                            <div class="interview-box">
+                            <div class="interview-box filter-select" data-val="Selection">
+
                                 <div class="interview-box-img">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32.694" height="29.756"
                                         viewBox="0 0 32.694 29.756">
@@ -554,12 +194,12 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Selection</h4>
-                                    <h3>4.2k</h3>
+                                    <h3 id="selection">{{ $count['total_selection'] }}</h3>
                                 </div>
                             </div>
                         </div>
                         <div class="interview-slide-wrap">
-                            <div class="interview-box">
+                            <div class="interview-box filter-select" data-val="Medical">
                                 <div class="interview-box-img">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="36.847" height="36.288"
                                         viewBox="0 0 36.847 36.288">
@@ -584,12 +224,12 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Medical</h4>
-                                    <h3>3.7k</h3>
+                                    <h3 id="medical">{{ $count['total_medical'] }}</h3>
                                 </div>
                             </div>
                         </div>
                         <div class="interview-slide-wrap">
-                            <div class="interview-box">
+                            <div class="interview-box filter-select" data-val="Document">
                                 <div class="interview-box-img">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="23.83" height="31.285"
                                         viewBox="0 0 23.83 31.285">
@@ -605,12 +245,12 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Documentation</h4>
-                                    <h3>3.5k</h3>
+                                    <h3 id="docu">{{ $count['total_doc'] }}</h3>
                                 </div>
                             </div>
                         </div>
                         <div class="interview-slide-wrap">
-                            <div class="interview-box">
+                            <div class="interview-box filter-select" data-val="Collection">
                                 <div class="interview-box-img">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="31.309" height="31.285"
                                         viewBox="0 0 31.309 31.285">
@@ -638,12 +278,12 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Collection</h4>
-                                    <h3>3.3k</h3>
+                                    <h3 id="collect">{{ $count['total_collection'] }}</h3>
                                 </div>
                             </div>
                         </div>
                         <div class="interview-slide-wrap">
-                            <div class="interview-box">
+                            <div class="interview-box filter-select" data-val="Deployment">
                                 <div class="interview-box-img">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22.98" height="28"
                                         viewBox="0 0 22.98 28">
@@ -651,81 +291,80 @@
                                             <path id="Path_111" data-name="Path 111"
                                                 d="M4.554,23.764a1,1,0,0,0,.163.946A14.36,14.36,0,0,0,15.99,30a14.36,14.36,0,0,0,11.273-5.29,1,1,0,0,0,.163-.946A11.955,11.955,0,0,0,15.99,16,11.955,11.955,0,0,0,4.554,23.764Z"
                                                 fill-rule="evenodd" />
-                                            <circle id="Ellipse_42" data-name="Ellipse 42" cx="6" cy="6"
-                                                r="6" transform="translate(9.99 2)" />
+                                            <circle id="Ellipse_42" data-name="Ellipse 42" cx="6"
+                                                cy="6" r="6" transform="translate(9.99 2)" />
                                         </g>
                                     </svg>
                                 </div>
                                 <div class="interview-text">
                                     <h4>Deployment
                                     </h4>
-                                    <h3>3.2k</h3>
+                                    <h3 id="deploy">{{ $count['total_deployment'] }}</h3>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
         </div>
 
         <div class="container-fluid page__container">
             <div class="row">
 
                 <div class="col-lg-6 col-6 mb-2">
-                    @if (Auth::user()->hasRole('ADMIN'))
-                        <div class="action_btn">
-                            <div class="dropdown">
-                                <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Action
-                                </a>
+                    {{-- @if (Auth::user()->hasRole('ADMIN'))
+                    <div class="action_btn">
+                        <div class="dropdown">
+                            <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Action
+                            </a>
 
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="javascript:void();" data-bs-toggle="modal"
-                                            data-bs-target="#bulk_status">Changing status</a></li>
-                                </ul>
-                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:void();" data-bs-toggle="modal"
+                                        data-bs-target="#bulk_status">Changing status</a></li>
+                            </ul>
                         </div>
-                        <!-- Modal of bulk changing status -->
-                        <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
-                            aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <form action="{{ route('jobs.bulk.status.update') }}" id="change_status">
-                                        @csrf
-                                        <div class="modal-body">
-                                            <div class="">
-                                                <div class="mb-3">
-                                                    <label for="" class="form-label">Status</label>
-                                                    <select name="change_status" class="form-select" id="change_status_id">
-                                                        <option value="">Select A Status</option>
-                                                        <option value="">Select A Status</option>
-                                                    </select>
-                                                </div>
+                    </div>
+                
+                    <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form action="{{ route('jobs.bulk.status.update') }}" id="change_status">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Status</label>
+                                                <select name="change_status" class="form-select" id="change_status_id">
+                                                    <option value="">Select A Status</option>
+                                                    <option value="">Select A Status</option>
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn save-btn">Save changes</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn save-btn">Save changes</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <!-- Modal -->
-                    @endif
+                    </div>
+                    <!-- Modal -->
+                @endif --}}
                 </div>
 
                 <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
                     <div class="action_btn">
                         <div class="dropdown">
-                            <a class="btn reset-btn" href="{{ route('jobs.index') }}"><i
-                                    class="fas fa-redo-alt"></i> Reset</a>
+                            <a class="btn reset-btn" href="{{ route('jobs.index') }}"><i class="fas fa-redo-alt"></i>
+                                Reset</a>
                         </div>
                     </div>
                 </div>
@@ -737,21 +376,20 @@
                             <thead class="candy-p">
                                 <tr>
                                     {{-- @if (Auth::user()->hasRole('ADMIN'))
-                                        <th>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox"
-                                                    class="custom-control-input js-check-selected-row checkAll"
-                                                    name="checkAll">
-                                            </div>
-                                        </th>
-                                    @endif --}}
+                                    <th>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox"
+                                                class="custom-control-input js-check-selected-row checkAll"
+                                                name="checkAll">
+                                        </div>
+                                    </th>
+                                @endif --}}
 
                                     @can('View Job')
                                         <th class="stick">
                                             View
                                         </th>
                                     @endcan
-                                    
 
                                     <th>
                                         Interview Status
@@ -772,7 +410,7 @@
                                     <th>1st Installment date</th>
                                     <th>2nd Installment</th>
                                     <th>2nd Installment date</th>
-                                    
+
                                 </tr>
                             </thead>
                             <tbody class="list" id="candidate_job_body">
@@ -782,7 +420,7 @@
                         </table>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -791,40 +429,38 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            
-
-            function fetch_data(page, query, full_name, gender) {
-
-                var query = $('#query').val();
-                var page = $('#hidden_page').val();
-                var full_name = $('#full_name').val();
-                var gender = $('#gender').val();
+            function fetch_data(page, query, company, int_pipeline) {
 
                 $.ajax({
                     url: "{{ route('candidates-jobs.filter') }}",
+                    method: 'GET',
                     data: {
                         page: page,
                         search: query,
-                        full_name: full_name,
-                        gender: gender,
-                    
+                        company: company,
+                        int_pipeline: int_pipeline
                     },
-                    success: function(data) {
-                        // console.log(data.view);
+                    success: function(response) {
+                        var data = JSON.parse(response);
+                        
                         $('#candidate_job_body').html(data.view);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                        console.error('Status:', status);
+                        console.error('Response:', xhr.responseText);
                     }
                 });
             }
 
             $(document).on('submit', '.search-form', function(e) {
                 e.preventDefault();
+                var company = $('.active').data('id');
                 var query = $('#query').val();
-                console.log(query);
-                var page = $('#hidden_page').val();
-                var full_name = $('#full_name').val();
-                var gender = $('#gender').val();
+                var page = $('#hidden_page').val() || 1;
+                var int_pipeline = $('.interview-active').data('val');
 
-                fetch_data(page, query, full_name, gender);
+                fetch_data(page, query, company, int_pipeline);
             });
 
             $(document).on('click', '.pagination a', function(event) {
@@ -832,15 +468,32 @@
                 var page = $(this).attr('href').split('page=')[1];
                 $('#hidden_page').val(page);
                 var query = $('#query').val();
+                var company = $('.active').data('id');
+                var int_pipeline = $('.interview-active').data('val');
 
-                var full_name = $('#full_name').val();
-                var gender = $('#gender_filter').val();
-                
-                fetch_data(page, query, full_name, gender);
+                fetch_data(page, query, company, int_pipeline);
             });
 
+            $(document).on('click', '.filter-company', function() {
+                var company = $('.active').data('id');
+                var page = $('#hidden_page').val() || 1;
+                var query = $('#query').val();
+                var int_pipeline = $('.interview-active').data('val');
+                
 
+                fetch_data(page, query, company, int_pipeline);
+            });
+
+            $(document).on('click', '.filter-select', function() {
+                var company = $('.active').data('id');
+                var page = $('#hidden_page').val() || 1;
+                var query = $('#query').val();
+                var int_pipeline = $('.interview-active').data('val');
+
+                fetch_data(page, query, company, int_pipeline);
+            });
         });
+
     </script>
     <script>
         $(document).ready(function() {
@@ -872,10 +525,11 @@
                     }
                 });
             });
-            
-          
+
+
         });
     </script>
+   
     {{-- <script>
         $(document).ready(function() {
             $(document).on('click', '.btn-close', function() {
@@ -1042,8 +696,6 @@
             });
         });
     </script>
-
-
     <script>
         $('.status_select').select2({
             closeOnSelect: false,
@@ -1226,4 +878,57 @@
             useDimmer: true
         });
     </script> --}}
+
+    <script>
+        $('.job_select').select2({
+            closeOnSelect: false,
+            placeholder: "Status",
+            allowClear: false,
+            tags: true
+        }).on('change', function(e) {
+            var selectedTags = $(this).select2('data').map(function(tag) {
+                return tag.text;
+            });
+
+            var $selection = $(this).next('.select2-container').find('.select2-selection__rendered');
+
+            if (selectedTags.length > 2) {
+                $selection.html(selectedTags.slice(0, 2).join(', ') + ', ...');
+            } else if (selectedTags.length > 0) {
+                $selection.html(selectedTags.join(', '));
+            } else {
+                $selection.html('Status'); // Set placeholder text manually
+            }
+        });
+    </script>
+
+    <script>
+        //food-box active
+        document.addEventListener('DOMContentLoaded', function() {
+            const foodBoxes = document.querySelectorAll('.food-box');
+            foodBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    foodBoxes.forEach(otherBox => {
+                        otherBox.classList.remove('active');
+                    });
+
+                    this.classList.add('active');
+                });
+            });
+        });
+
+        //interview box-active
+        document.addEventListener('DOMContentLoaded', function() {
+            const foodBoxes = document.querySelectorAll('.interview-box');
+            foodBoxes.forEach(box => {
+                box.addEventListener('click', function() {
+                    foodBoxes.forEach(otherBox => {
+                        otherBox.classList.remove('interview-active');
+                    });
+
+                    this.classList.add('interview-active');
+                });
+            });
+        });
+    </script>
 @endpush

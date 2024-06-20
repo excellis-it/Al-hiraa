@@ -18,7 +18,7 @@
 
 <td>
     <div class="round_staus active">
-        {{ $candidate_job->job_status ?? 'N/A' }}
+        {{ $candidate_job->job_interview_status ?? 'N/A' }}
     </div>
 </td>
 

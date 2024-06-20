@@ -158,13 +158,13 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
 
     //candidates job routes
     Route::get('/jobs-bulk-status-update',[JobsController::class,'bulkStatusUpdate'])->name('jobs.bulk.status.update');
-    Route::get('/jobs-filter',[CandidateController::class,'candidatejobFilter'])->name('candidates-jobs.filter');
-    Route::put('/job-candidate-details/{id}',[JobsController::class,'candidateDetailsUpdate'])->name('jobs.candidate-details.update');
-    Route::put('/job-details-update/{id}',[JobsController::class,'candidateJobDetailsUpdate'])->name('jobs.job-details.update');
-    Route::put('/job-family-details/{id}',[JobsController::class,'candidateFamilyDetailsUpdate'])->name('jobs.family-details.update');
-    Route::put('/job-medical-details/{id}',[JobsController::class,'candidateMedicalDetailsUpdate'])->name('jobs.medical-details.update');
-    Route::put('/job-visa-details/{id}',[JobsController::class,'candidateVisaDetailsUpdate'])->name('jobs.visa-details.update');
-    Route::put('/job-ticket-details/{id}',[JobsController::class,'candidateTicketDetailsUpdate'])->name('jobs.ticket-details.update');
-    Route::put('/job-payment-details/{id}',[JobsController::class,'candidatePaymentDetailsUpdate'])->name('jobs.payment-details.update');
+    Route::get('/jobs-filter',[JobsController::class,'candidatejobFilter'])->name('candidates-jobs.filter');
+    Route::put('/jobs-candidate-details/{id}',[JobsController::class,'candidateDetailsUpdate'])->name('jobs.candidate-details.update');
+    Route::put('/jobs-details-update/{id}',[JobsController::class,'candidateJobDetailsUpdate'])->name('jobs.job-details.update');
+    Route::put('/jobs-family-details/{id}',[JobsController::class,'candidateFamilyDetailsUpdate'])->name('jobs.family-details.update');
+    Route::put('/jobs-medical-details/{id}',[JobsController::class,'candidateMedicalDetailsUpdate'])->name('jobs.medical-details.update');
+    Route::put('/jobs-visa-details/{id}',[JobsController::class,'candidateVisaDetailsUpdate'])->name('jobs.visa-details.update');
+    Route::put('/jobs-ticket-details/{id}',[JobsController::class,'candidateTicketDetailsUpdate'])->name('jobs.ticket-details.update');
+    Route::put('/jobs-payment-details/{id}',[JobsController::class,'candidatePaymentDetailsUpdate'])->name('jobs.payment-details.update');
 
 });

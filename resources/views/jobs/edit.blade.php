@@ -591,7 +591,7 @@
                         </td>
                     </tr>
 
-                    <input type="hidden" class="form-control uppercase-text" value="{{ $candidate_job_detail->candidate_id ?? 'N/A' }}" name="candidate_id" >
+                    <input type="hidden" class="form-control uppercase-text" value="{{ $candidate_job_detail->candidate_id ?? '' }}" name="candidate_id" >
                 
                     <tr>
                         <td>DOB</td>
@@ -711,7 +711,7 @@
                         <select name="job_title" class="form-select uppercase-text job_id" id="job_title">
                             <option value="">Select A Job Title</option>
                             @foreach($jobs as $job)
-                                <option value="{{ $job->id }}" {{ $candidate_job_detail->job_title == $job->id ? 'selected' : '' }}>
+                                <option value="{{ $job->id }}" {{ $candidate_job_detail->job_id == $job->id ? 'selected' : '' }}>
                                     {{ $job->job_name }}</option>
                             @endforeach
                         </select>
@@ -781,47 +781,47 @@
                                 <tbody>
                                     <tr>
                                         <td>Full Name</td>
-                                        <td>{{ $candidate_job_detail->full_name ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->full_name ?? ''}}</td>
                                         <td>Email</td>
-                                        <td>{{ $candidate_job_detail->email ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->email ?? ''}}</td>
                                         <td>Gender</td>
-                                        <td>{{ $candidate_job_detail->gender ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->gender ?? ''}}</td>
                                         
                                     </tr>
                                     <tr>
                                         <td>Date of birth</td>
-                                        <td>{{ $candidate_job_detail->date_of_birth ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->date_of_birth ?? ''}}</td>
                                         <td>whatapp_no</td>
-                                        <td>{{ $candidate_job_detail->whatapp_no ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->whatapp_no ?? ''}}</td>
                                         <td>Alternate Contact No</td>
-                                        <td>{{ $candidate_job_detail->alternate_contact_no ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->alternate_contact_no ?? ''}}</td>
                                     </tr>
                                     <tr>
                                         <td>Religion</td>
-                                        <td>{{ $candidate_job_detail->religion ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->religion ?? ''}}</td>
                                         <td>City</td>
-                                        <td>{{ $candidate_job_detail->city ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->city ?? ''}}</td>
                                         <td>Address</td>
-                                        <td>{{ $candidate_job_detail->address ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->address ?? ''}}</td>
                                     </tr>
                                     <tr>
                                         <td>Education</td>
-                                        <td>{{ $candidate_job_detail->education ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->education ?? ''}}</td>
                                         <td>Other Education</td>
-                                        <td>{{ $candidate_job_detail->other_education ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->other_education ?? ''}}</td>
                                         <td>Passport Number</td>
-                                        <td>{{ $candidate_job_detail->passport_number ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->passport_number ?? ''}}</td>
                                     </tr>
                                     <tr>
                                         <td>English_speak</td>
-                                        <td>{{ $candidate_job_detail->english_speak ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->english_speak ?? ''}}</td>
                                         <td>Arabic Speak</td>
-                                        <td>{{ $candidate_job_detail->arabic_speak ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->arabic_speak ?? ''}}</td>
                                         <td>Assign By </td>
                                         <td>@if ($candidate_job_detail->assign_by_id != null)
                                                 {{ $candidate_job_detail->assignBy->first_name.' '.$candidate_job_detail->assignBy->last_name }}
                                             @else
-                                                {{ $candidate_job_detail->assignBy ?? 'N/A' }}
+                                                {{ $candidate_job_detail->assignBy ?? '' }}
                                             @endif
                                         </td>
                                     </tr>
@@ -830,18 +830,18 @@
                                         <td>@if ($candidate_job_detail->jobTitle != null)
                                             {{ $candidate_job_detail->jobTitle->job_name }}
                                             @else
-                                                {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
+                                                {{ $candidate_job_detail->jobTitle ?? '' }}
                                             @endif
                                         </td>
                                         <td>Job Position</td>
                                         <td>@if ($candidate_job_detail->jobTitle->candidatePosition != null)
-                                            {{ $candidate_job_detail->jobTitle->candidatePosition->name ?? 'N/A'}}
+                                            {{ $candidate_job_detail->jobTitle->candidatePosition->name ?? ''}}
                                             @else
-                                                {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
+                                                {{ $candidate_job_detail->jobTitle ?? '' }}
                                             @endif
                                         </td>
                                         <td>Job Location</td>
-                                        <td>{{ $candidate_job_detail->job_location ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->job_location ?? ''}}</td>
                                     </tr>
 
                                     <tr>
@@ -946,8 +946,8 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        toastr.success(response.message);
-                        $('#offcanvasEdit').offcanvas('hide');
+                        toastr.success('Candidate details updated successfully');
+                        // $('#offcanvasEdit').offcanvas('hide');
                         var candidate_id = "{{ $candidate_job_detail->id }}";
                         $(".candidate-new-"+candidate_id).html(response.view);
                     },
@@ -1489,8 +1489,8 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        toastr.success(response.message);
-                        $('#offcanvasEdit').offcanvas('hide');
+                        toastr.success('Candidate job details updated successfully');
+                        // $('#offcanvasEdit').offcanvas('hide');
                         var candidate_id = "{{ $candidate_job_detail->id }}";
                         $(".candidate-new-"+candidate_id).html(response.view);
                     },
@@ -1520,8 +1520,8 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    toastr.success(response.message);
-                    $('#offcanvasEdit').offcanvas('hide');
+                    toastr.success('Candidate family details updated successfully');
+                    // $('#offcanvasEdit').offcanvas('hide');
                     var candidate_id = "{{ $candidate_job_detail->id }}";
                     $(".candidate-new-"+candidate_id).html(response.view);
                 },
@@ -1550,8 +1550,8 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    toastr.success(response.message);
-                    $('#offcanvasEdit').offcanvas('hide');
+                    toastr.success('Candidate medical details updated successfully');
+                    // $('#offcanvasEdit').offcanvas('hide');
                     var candidate_id = "{{ $candidate_job_detail->id }}";
                     $(".candidate-new-"+candidate_id).html(response.view);
                 },
@@ -1581,8 +1581,8 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    toastr.success(response.message);
-                    $('#offcanvasEdit').offcanvas('hide');
+                    toastr.success('Candidate visa details updated successfully');
+                    // $('#offcanvasEdit').offcanvas('hide');
                     var candidate_id = "{{ $candidate_job_detail->id }}";
                     $(".candidate-new-"+candidate_id).html(response.view);
                 },
@@ -1611,8 +1611,8 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    toastr.success(response.message);
-                    $('#offcanvasEdit').offcanvas('hide');
+                    toastr.success('Candidate ticket details updated successfully');
+                    // $('#offcanvasEdit').offcanvas('hide');
                     var candidate_id = "{{ $candidate_job_detail->id }}";
                     $(".candidate-new-"+candidate_id).html(response.view);
                 },
@@ -1642,8 +1642,8 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
-                    toastr.success(response.message);
-                    $('#offcanvasEdit').offcanvas('hide');
+                    toastr.success('Candidate payment details updated successfully');
+                    // $('#offcanvasEdit').offcanvas('hide');
                     var candidate_id = "{{ $candidate_job_detail->id }}";
                     $(".candidate-new-"+candidate_id).html(response.view);
                 },
@@ -1656,6 +1656,6 @@
                 }
             });
         });
-        </script>
+    </script>
 
 @endif
