@@ -160,7 +160,7 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Interviews</h4>
-                                    <h3 id="all">{{ $count['total_interviews'] }}</h3>
+                                    <h3><span id="all">{{ $count['total_interviews'] }}</span></h3>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Selection</h4>
-                                    <h3 id="selection">{{ $count['total_selection'] }}</h3>
+                                    <h3><span id="selection">{{ $count['total_selection'] }}</span></h3>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +224,7 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Medical</h4>
-                                    <h3 id="medical">{{ $count['total_medical'] }}</h3>
+                                    <h3><span id="medical">{{ $count['total_medical'] }}</span></h3>
                                 </div>
                             </div>
                         </div>
@@ -245,7 +245,7 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Documentation</h4>
-                                    <h3 id="docu">{{ $count['total_doc'] }}</h3>
+                                    <h3><span id="docu">{{ $count['total_doc'] }}</span></h3>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +278,7 @@
                                 </div>
                                 <div class="interview-text">
                                     <h4>Collection</h4>
-                                    <h3 id="collect">{{ $count['total_collection'] }}</h3>
+                                    <h3><span id="collect">{{ $count['total_collection'] }}</span></h3>
                                 </div>
                             </div>
                         </div>
@@ -299,7 +299,7 @@
                                 <div class="interview-text">
                                     <h4>Deployment
                                     </h4>
-                                    <h3 id="deploy">{{ $count['total_deployment'] }}</h3>
+                                    <h3><span id="deploy">{{ $count['total_deployment'] }}</span></h3>
                                 </div>
                             </div>
                         </div>
@@ -312,52 +312,7 @@
             <div class="row">
 
                 <div class="col-lg-6 col-6 mb-2">
-                    {{-- @if (Auth::user()->hasRole('ADMIN'))
-                    <div class="action_btn">
-                        <div class="dropdown">
-                            <a class="btn dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Action
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="javascript:void();" data-bs-toggle="modal"
-                                        data-bs-target="#bulk_status">Changing status</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                
-                    <div class="modal fade" id="bulk_status" tabindex="-1" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Change status in bulk</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <form action="{{ route('jobs.bulk.status.update') }}" id="change_status">
-                                    @csrf
-                                    <div class="modal-body">
-                                        <div class="">
-                                            <div class="mb-3">
-                                                <label for="" class="form-label">Status</label>
-                                                <select name="change_status" class="form-select" id="change_status_id">
-                                                    <option value="">Select A Status</option>
-                                                    <option value="">Select A Status</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn save-btn">Save changes</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal -->
-                @endif --}}
+                   
                 </div>
 
                 <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
@@ -441,9 +396,14 @@
                         int_pipeline: int_pipeline
                     },
                     success: function(response) {
-                        var data = JSON.parse(response);
-                        
-                        $('#candidate_job_body').html(data.view);
+                        // var data = JSON.parse(response);
+                        $('#candidate_job_body').html(response.view);
+                        $('#all').html(response.data.all);
+                        $('#selection').html(response.data.selection);
+                        $('#medical').html(response.data.medical);
+                        $('#docu').html(response.data.docu);
+                        $('#collect').html(response.data.collection);
+                        $('#deploy').html(response.data.deployment);
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching data:', error);

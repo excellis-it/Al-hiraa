@@ -205,7 +205,34 @@ class JobsController extends Controller
         }
 
         $candidate_jobs = $query->paginate(15);
-        $interview_pipe['all'] = CandidateJob::where('company_id',$request->company)->count();
+        $interview_pipe = [];
+
+        $conditions = [
+            'all' => null, // No additional conditions for counting all records
+            'selection' => ['job_interview_status', 'Selected'],
+            'medical' => ['medical_status', '!=', null],
+            'docu' => ['visa_receiving_date', '!=', null],
+            'collection' => ['total_amount', '!=', null],
+            'deployment' => ['deployment_date', '!=', null],
+        ];
+
+        foreach ($conditions as $key => $condition) {
+            $query = CandidateJob::query();
+
+            // Apply company filter if provided
+            if (!empty($request->company)) {
+                $query->where('company_id', $request->company);
+            }
+
+            // Apply additional condition if available
+            if ($condition) {
+                [$field, $operator, $value] = array_pad($condition, 3, null);
+                $query->where($field, $operator, $value);
+            }
+
+            // Get the count for the current condition
+            $interview_pipe[$key] = $query->count();
+        }
 
         // Render the results into a view
         $view = view('jobs.filter', compact('candidate_jobs'))->render();
