@@ -39,10 +39,12 @@ class CandidateController extends Controller
             $sources = Source::orderBy('name', 'asc')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-
                 $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(50);
             } else {
                 $candidates = Candidate::orderBy('id', 'desc')->paginate(50);
+            }
+            if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')){
+                session()->forget('candidate_id');
             }
             // session()->forget('candidate_id');
             return view('candidates.list')->with(compact('candidates', 'sources', 'candidate_statuses', 'candidate_positions'));

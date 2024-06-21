@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SettingController;
+use App\http\controllers\Api\CandidateJobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,12 @@ Route::group(['prefix' => 'v1'], function () {
     Route::middleware('auth:api')->group(function () {
         Route::prefix('job')->group(function () {
             Route::post('list', [JobController::class, 'list']);
+        });
+
+        Route::prefix('candidate-job')->group(function () {
+            Route::post('apply', [CandidateJobController::class, 'candidateJobApply']);
+            Route::post('list', [CandidateJobController::class, 'candidateJobList']);
+
         });
 
         Route::prefix('profile')->group(function () {

@@ -51,7 +51,10 @@
                         </div>
                     </div>
                 </div> --}}
-                <div class="food_box_slid">
+              <div class="food-box-slider-box">
+                <div class="row justify-content-center">
+                  <div class="col-md-9">
+                   <div class="food_box_slid">
                     @foreach ($companies as $company)
                         <div class="food_box_padding filter-company">
                             <div class="food-box" data-id="{{ $company->id }}">
@@ -66,7 +69,7 @@
                                         <h4>Location:</h4>
                                     </div>
                                     <div class="food-status-2">
-                                        <h4>{{ Str::limit($company->company_address, 20) }}</h4>
+                                        <h4>{{ Str::limit($company->company_address, 10) }}</h4>
                                     </div>
                                 </div>
                                 
@@ -79,29 +82,32 @@
                                     </div>
                                 </div>
                                 <div class="food-status">
-                                    <div class="food-status-1">
-                                        <h4>Position:</h4>
-                                    </div>
-                                    <div class="food-status-2">
-                                        @foreach ($company->jobs as $job)
-                                            @if ($loop->index < 1)
-                                                @php
-                                                    $maxLength = 10;
-                                                    $jobName = $job->job_name;
-                                                    $limitedText =
-                                                        strlen($jobName) > $maxLength
-                                                            ? substr($jobName, 0, $maxLength) . '...'
-                                                            : $jobName;
-                                                @endphp
-                                                <h4>{{ $limitedText }}@if (!$loop->last && $loop->index < 1)
-                                                        ,
-                                                    @endif
-                                                </h4>
-                                            @endif
-                                        @endforeach
-
-                                        {{-- <select name="job_id" id="job_id" class="form-select job_select" multiple
+                                    <!--<div class="food-status-1">-->
+                                    <!--    <h4>Position:</h4>-->
+                                    <!--</div>-->
+                                    <!--<div class="food-status-2">-->
+                                    <!--    @foreach ($company->jobs as $job)-->
+                                    <!--        @if ($loop->index < 1)-->
+                                    <!--            @php-->
+                                    <!--                $maxLength = 10;-->
+                                    <!--                $jobName = $job->job_name;-->
+                                    <!--                $limitedText =-->
+                                    <!--                    strlen($jobName) > $maxLength-->
+                                    <!--                        ? substr($jobName, 0, $maxLength) . '...'-->
+                                    <!--                        : $jobName;-->
+                                    <!--            @endphp-->
+                                    <!--            <h4>@if (!$loop->last && $loop->index < 1)-->
+                                    <!--                    ,-->
+                                    <!--                @endif-->
+                                    <!--            </h4>-->
+                                    <!--        @endif-->
+                                    <!--    @endforeach-->
+                                    <!--</div>-->
+                                    
+                                    <div class="multi-select-box-1">
+                                        <select name="job_id" id="job_id" class="form-select job_select" multiple
                                             size="3">
+                                            <option value="">Search position</option>
                                             @foreach ($company->jobs as $job)
                                                 @php
                                                     $maxLength = 15; 
@@ -113,7 +119,7 @@
                                                 @endphp
                                                 <option value="{{ $job->id }}">{{ $truncatedJobName }}</option>
                                             @endforeach
-                                        </select> --}}
+                                        </select> 
                                     </div>
                                 </div>
                             </div>
@@ -121,6 +127,9 @@
                     @endforeach
 
                 </div>
+                  </div>  
+                 </div>  
+              </div> 
             </section>
 
 

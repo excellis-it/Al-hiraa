@@ -65,4 +65,9 @@ class Job extends Model
     {
         return $this->hasMany(Interview::class, 'job_id');
     }
+
+    public function presentInterview()
+    {
+        return $this->hasOne(Interview::class, 'job_id')->where('interview_start_date', '>=', date('Y-m-d'))->orWhere('interview_end_date', '>=', date('Y-m-d'));
+    }
 }

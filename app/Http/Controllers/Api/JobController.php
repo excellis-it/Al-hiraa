@@ -44,13 +44,12 @@ class JobController extends Controller
                 }
 
                 if ($request->location_search) {
-                    $jobs = $jobs->whereHas('city', function ($query) use ($request) {
-                        $query->where('name', 'like', '%' . $request->location_search . '%');
-                    })->orWhereHas('state', function ($query) use ($request) {
-                        $query->where('name', 'like', '%' . $request->location_search . '%');
-                    });
+                    $jobs = $jobs->where('address', 'like', '%' . $request->location_search . '%');
                 }
-                $jobs = $jobs->where('status', 'Ongoing')->orderBy('id', 'desc')->offset($offset)->limit($limit)->get();
+                $jobs = $jobs->whereHas('interviews', function ($query) {
+                    $query->where('interview_start_date', '>=', date('Y-m-d'))
+                        ->orWhere('interview_end_date', '>=', date('Y-m-d'));
+                })->where('status', 'Ongoing')->orderBy('id', 'desc')->offset($offset)->limit($limit)->get();
                 $jobs = fractal($jobs, new JobTransformer())->toArray()['data'];
                 return response()->json(['message' => 'Jobs listed successfully.', 'status' => true, 'data' => $jobs], 200);
             } else {
@@ -60,5 +59,4 @@ class JobController extends Controller
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
     }
-
 }

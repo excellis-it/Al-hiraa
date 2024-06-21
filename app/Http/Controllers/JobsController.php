@@ -38,7 +38,7 @@ class JobsController extends Controller
             $companies = Company::orderBy('company_name', 'asc')->with('jobs')->get();
             $count['total_interviews'] = CandidateJob::orderBy('id','desc')->count();
             $count['total_selection'] = CandidateJob::where('job_interview_status','Selected')->count();
-            $count['total_medical'] = CandidateJob::where('medical_application_date','!=',null)->count();
+            $count['total_medical'] = CandidateJob::where('medical_status','!=',null)->count();
             $count['total_doc'] = CandidateJob::where('visa_receiving_date','!=',null)->count();
             $count['total_collection'] = CandidateJob::where('ticket_booking_date','!=',null)->count();
             $count['total_deployment'] =  CandidateJob::where('deployment_date','!=',null)->count();
@@ -378,9 +378,11 @@ class JobsController extends Controller
         $request->validate([
             'medical_application_date' => 'required',
             'medical_completion_date' => 'required',
+            'medical_status' => 'required',
         ], [
             'medical_application_date.required' => 'The medical apllication date is required.',
             'medical_completion_date.required' => 'The medical completion date is required.',
+            'medical_status.required' => 'The medical status is required.',
         ]);
 
         $medical_details_update = CandidateJob::findOrFail($id);
@@ -440,13 +442,11 @@ class JobsController extends Controller
 
     public function candidatePaymentDetailsUpdate(Request $request, string $id)
     {
-        // $request->validate([
-        //     'fst_installment_amount' => 'required',
-        //     'fst_installment_date' => 'required',
-        // ], [
-        //     'fst_installment_amount.required' => 'The first installment amount is required.',
-        //     'fst_installment_date.required' => 'The first installment date is required.',
-        // ]);
+        $request->validate([
+            'deployment_date' => 'required',
+        ], [
+            'deployment_date.required' => 'The deployment date is required.',
+        ]);
 
         $payment_details_update = CandidateJob::findOrFail($id);
         $payment_details_update->fst_installment_amount = $request->fst_installment_amount;

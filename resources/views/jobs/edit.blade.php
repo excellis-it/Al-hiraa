@@ -570,13 +570,13 @@
                     <tr>
                         <td>Full Name</td>
                         <td><div class="form-group">
-                                <input class="form-control uppercase-text" type="text" placeholder="Enter Full Name" aria-label="default input example" value="{{ $candidate_job_detail->full_name ?? 'N/A' }}" name="full_name">
+                                <input class="form-control uppercase-text" type="text" placeholder="Enter Full Name" aria-label="default input example" value="{{ $candidate_job_detail->full_name ?? '' }}" name="full_name">
                             </div>
                         </td>
                         <td>Email ID</td>
                         <td>
                             <div class="form-group">
-                                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->email ?? 'N/A' }}" name="email" placeholder="Email ID" >
+                                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->email ?? '' }}" name="email" placeholder="Email ID" >
                                 <span class="text-danger" id="email_msg"></span>
                             </div>
                         </td>
@@ -984,63 +984,63 @@
                 <tr>
                     <td>Date of Interview</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->date_of_interview ?? 'N/A' }}" name="date_of_interview" placeholder="Enter Date of Interview">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->date_of_interview ?? '' }}" name="date_of_interview" placeholder="Enter Date of Interview">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Date of Selection</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->date_of_selection ?? 'N/A' }}" name="date_of_selection" placeholder="Enter Date of Selection">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->date_of_selection ?? '' }}" name="date_of_selection" placeholder="Enter Date of Selection">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Mode of Selection</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mode_of_selection ?? 'N/A' }}" name="mode_of_selection" placeholder="Enter Mode of Selection">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mode_of_selection ?? '' }}" name="mode_of_selection" placeholder="Enter Mode of Selection">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
                 <tr>
                     <td>Interview Location</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->interview_location ?? 'N/A' }}" name="interview_location" placeholder="Enter Interview Location">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->interview_location ?? '' }}" name="interview_location" placeholder="Enter Interview Location">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Client Remarks</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->client_remarks ?? 'N/A' }}" name="client_remarks" placeholder="Enter Client Remarks">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->client_remarks ?? '' }}" name="client_remarks" placeholder="Enter Client Remarks">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Other Remarks</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->other_remarks ?? 'N/A' }}" name="other_remarks" placeholder="Enter Other Remarks">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->other_remarks ?? '' }}" name="other_remarks" placeholder="Enter Other Remarks">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
                 <tr>
                     <td>Sponsor</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->sponsor ?? 'N/A' }}" name="sponsor" placeholder="Enter Sponsor">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->sponsor ?? '' }}" name="sponsor" placeholder="Enter Sponsor">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Country</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->country ?? 'N/A' }}" name="country" placeholder="Enter Country">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->country ?? '' }}" name="country" placeholder="Enter Country">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Salary</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->salary ?? 'N/A' }}" name="salary" placeholder="Enter Salary">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->salary ?? '' }}" name="salary" placeholder="Enter Salary">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
                 <tr>
                     <td>Food Allowance</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->food_allowance ?? 'N/A' }}" name="food_allowance" placeholder="Enter Food Allowance">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->food_allowance ?? '' }}" name="food_allowance" placeholder="Enter Food Allowance">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Contract Duration</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->contract_duration ?? 'N/A' }}" name="contract_duration" placeholder="Enter Contract Duration">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->contract_duration ?? '' }}" name="contract_duration" placeholder="Enter Contract Duration">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                    
@@ -1048,12 +1048,12 @@
                 <tr>
                     <td>Mofa No</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mofa_no ?? 'N/A' }}" name="mofa_no" placeholder="Enter Mofa No">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mofa_no ?? '' }}" name="mofa_no" placeholder="Enter Mofa No">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Mofa Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mofa_date ?? 'N/A' }}" name="mofa_date" placeholder="Enter Mofa Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mofa_date ?? '' }}" name="mofa_date" placeholder="Enter Mofa Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                    
@@ -1070,42 +1070,42 @@
             $('#candidate-form-job').html(`<tbody>
                                     <tr>
                                         <td>Date of Interview</td>
-                                        <td>{{ $candidate_job_detail->date_of_interview ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->date_of_interview ?? ''}}</td>
                                         <td>Date of Selection</td>
-                                        <td>{{ $candidate_job_detail->date_of_selection ?? 'N/A'}}</td>  
+                                        <td>{{ $candidate_job_detail->date_of_selection ?? ''}}</td>  
                                         <td>Mode of Selection</td>
-                                        <td>{{ $candidate_job_detail->mode_of_selection ?? 'N/A'}}</td>                                     
+                                        <td>{{ $candidate_job_detail->mode_of_selection ?? ''}}</td>                                     
                                     </tr>
                                     <tr>
                                         <td>Interview Location</td>
-                                        <td>{{ $candidate_job_detail->interview_location ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->interview_location ?? ''}}</td>
                                         <td>Client Remarks</td>
-                                        <td>{{ $candidate_job_detail->client_remarks ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->client_remarks ?? ''}}</td>
                                         <td>Other Remarks</td>
-                                        <td>{{ $candidate_job_detail->other_remarks ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->other_remarks ?? ''}}</td>
                                     </tr>
                                     <tr>
                                        
                                         <td>Sponsor</td>
-                                        <td>{{ $candidate_job_detail->sponsor ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->sponsor ?? ''}}</td>
                                         <td>Country</td>
-                                        <td>{{ $candidate_job_detail->country ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->country ?? ''}}</td>
                                         <td>Salary</td>
-                                        <td>{{ $candidate_job_detail->salary ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->salary ?? ''}}</td>
                                     </tr>
                                     <tr>
                                         
                                         <td>Food Allowance</td>
-                                        <td>{{ $candidate_job_detail->food_allowance ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->food_allowance ?? ''}}</td>
                                         <td>Contract Duration</td>
-                                        <td>{{ $candidate_job_detail->contract_duration ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->contract_duration ?? ''}}</td>
                                         
                                     </tr>
                                     <tr>
                                         <td>Mofa No</td>
-                                        <td>{{ $candidate_job_detail->mofa_no ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->mofa_no ?? ''}}</td>
                                         <td>Mofa Date</td>
-                                        <td>{{ $candidate_job_detail->mofa_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->mofa_date ?? ''}}</td>
                                     </tr>
                                 </tbody>`);
 
@@ -1133,12 +1133,12 @@
                 <tr>
                     <td>Family Contact Name</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->family_contact_name ?? 'N/A' }}" name="family_contact_name" placeholder="Enter Family Contact Name">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->family_contact_name ?? '' }}" name="family_contact_name" placeholder="Enter Family Contact Name">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Family Contact No</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->family_contact_no ?? 'N/A' }}" name="family_contact_no" placeholder="Enter Family Contact No">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->family_contact_no ?? '' }}" name="family_contact_no" placeholder="Enter Family Contact No">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
@@ -1155,9 +1155,9 @@
             $('#candidate-form-family').html(`<tbody>
                 <tr>
                     <td>Family Contact Name</td>
-                    <td>{{ $candidate_job_detail->family_contact_name ?? 'N/A'}}</td>
+                    <td>{{ $candidate_job_detail->family_contact_name ?? ''}}</td>
                     <td>Family Contact No</td>
-                    <td>{{ $candidate_job_detail->family_contact_no ?? 'N/A'}}</td>
+                    <td>{{ $candidate_job_detail->family_contact_no ?? ''}}</td>
                 </tr>
             </tbody>`);
         });
@@ -1183,17 +1183,17 @@
                 <tr>
                     <td>Medical Application Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->medical_application_date ?? 'N/A' }}" name="medical_application_date" placeholder="Enter Medical Application Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->medical_application_date ?? '' }}" name="medical_application_date" placeholder="Enter Medical Application Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Medical Completion Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->medical_completion_date ?? 'N/A' }}" name="medical_completion_date" placeholder="Enter Medical Completion Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->medical_completion_date ?? '' }}" name="medical_completion_date" placeholder="Enter Medical Completion Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Medical Status</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->medical_status ?? 'N/A' }}" name="medical_status" placeholder="Enter Medical Status">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->medical_status ?? '' }}" name="medical_status" placeholder="Enter Medical Status">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
@@ -1240,17 +1240,17 @@
                 <tr>
                     <td>Visa Receiving Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->visa_receiving_date ?? 'N/A' }}" name="visa_receiving_date" placeholder="Enter Visa Receiving Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->visa_receiving_date ?? '' }}" name="visa_receiving_date" placeholder="Enter Visa Receiving Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Visa Issue Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->visa_issue_date ?? 'N/A' }}" name="visa_issue_date" placeholder="Enter Visa Issue Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->visa_issue_date ?? '' }}" name="visa_issue_date" placeholder="Enter Visa Issue Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Visa Expiry Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->visa_expiry_date ?? 'N/A' }}" name="visa_expiry_date" placeholder="Enter Visa Expiry Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->visa_expiry_date ?? '' }}" name="visa_expiry_date" placeholder="Enter Visa Expiry Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
@@ -1267,11 +1267,11 @@
             $('#candidate-form-visa').html(`<tbody>
                     <tr>
                         <td>Visa Receiving Date</td>
-                        <td>{{ $candidate_job_detail->visa_receiving_date ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->visa_receiving_date ?? ''}}</td>
                         <td>Visa Issue Date</td>
-                        <td>{{ $candidate_job_detail->visa_issue_date ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->visa_issue_date ?? ''}}</td>
                         <td>Visa Expiry Date</td>
-                        <td>{{ $candidate_job_detail->visa_expiry_date ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->visa_expiry_date ?? ''}}</td>
                     </tr>
                 </tbody>`);
         });
@@ -1296,12 +1296,12 @@
                 <tr>
                     <td>Ticket Booking Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->ticket_booking_date ?? 'N/A' }}" name="ticket_booking_date" placeholder="Enter Ticket Booking Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->ticket_booking_date ?? '' }}" name="ticket_booking_date" placeholder="Enter Ticket Booking Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Ticket Confirmation Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->ticket_confirmation_date ?? 'N/A' }}" name="ticket_confirmation_date" placeholder="Enter Ticket Confirmation Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->ticket_confirmation_date ?? '' }}" name="ticket_confirmation_date" placeholder="Enter Ticket Confirmation Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                    
@@ -1319,11 +1319,11 @@
             $('#candidate-form-ticket').html(`<tbody>
                     <tr>                                                      
                         <td>Ticket Booking Date</td>
-                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->ticket_booking_date ?? ''}}</td>
                         <td>Ticket Confirmation Date</td>
-                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? ''}}</td>
                         <td>Total Amount</td>
-                        <td>{{ $candidate_job_detail->total_amount ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->total_amount ?? ''}}</td>
                     </tr>
                 </tbody>`);
         });
@@ -1348,44 +1348,44 @@
                 <tr>
                     <td>1st Installment Amount</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_amount ?? 'N/A' }}" name="fst_installment_amount" placeholder="Enter 1st Installment Amount">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_amount ?? '' }}" name="fst_installment_amount" placeholder="Enter Amount">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>1st Installment Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_date ?? 'N/A' }}" name="fst_installment_date" placeholder="Enter 1st Installment Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_date ?? '' }}" name="fst_installment_date" placeholder="">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>2nd Installment Amount</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A' }}" name="secnd_installment_amount" placeholder="Enter 2nd Installment Amount">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_amount ?? '' }}" name="secnd_installment_amount" placeholder="Enter Amount">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>2nd Installment Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_date ?? 'N/A' }}" name="secnd_installment_date" placeholder="Enter 2nd Installment Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_date ?? '' }}" name="secnd_installment_date" placeholder="">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
                 <tr>
                     <td>3rd Installment Amount</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_amount ?? 'N/A' }}" name="third_installment_amount" placeholder="Enter 3rd Installment Amount">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_amount ?? '' }}" name="third_installment_amount" placeholder="Enter Amount">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>3rd Installment Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_date ?? 'N/A' }}" name="third_installment_date" placeholder="Enter 3rd Installment Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_date ?? '' }}" name="third_installment_date" placeholder="">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>4th Installment Amount</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_amount ?? 'N/A' }}" name="fourth_installment_amount" placeholder="Enter 4th Installment Amount">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_amount ?? '' }}" name="fourth_installment_amount" placeholder="Enter Amount">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>4th Installment Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_date ?? 'N/A' }}" name="fourth_installment_date" placeholder="Enter 4th Installment Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_date ?? '' }}" name="fourth_installment_date" placeholder="">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
@@ -1393,12 +1393,12 @@
                     
                     <td>Total Amount</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->total_amount ?? 'N/A' }}" name="total_amount" placeholder="Enter Total Amount">
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->total_amount ?? '' }}" name="total_amount" placeholder="Enter Total Amount">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Deployment Date</td>
                     <td>
-                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->deployment_date ?? 'N/A' }}" name="deployment_date" placeholder="Enter Deployment Date">
+                        <input type="date" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->deployment_date ?? '' }}" name="deployment_date" placeholder="Enter Deployment Date">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Job Status</td>
@@ -1426,33 +1426,33 @@
             $('#candidate-form-payment').html(`<tbody>
                                     <tr>                                        
                                         <td>1st Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? ''}}</td>
                                         <td>1st Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_date ?? ''}}</td>
                                         <td>2nd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? ''}}</td>
                                         <td>2nd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? ''}}</td>
                                     </tr>
                                     
                                     <tr>                                        
                                         <td>3rd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->third_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->third_installment_amount ?? ''}}</td>
                                         <td>3rd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->third_installment_date ?? ''}}</td>
                                         <td>4th Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? ''}}</td>
                                         <td>4th Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? ''}}</td>
                                     </tr>
                                     
                                     <tr> 
                                         <td>Total Amount</td>
-                                        <td>{{ $candidate_job_detail->total_amount ?? 'N/A'}}</td>                                       
+                                        <td>{{ $candidate_job_detail->total_amount ?? ''}}</td>                                       
                                         <td>Deployment Date</td>
-                                        <td>{{ $candidate_job_detail->deployment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->deployment_date ?? ''}}</td>
                                         <td>Job Status</td>
-                                        <td>{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->job_status ?? ''}}</td>
                                         
                                     </tr>
                                 </tbody>`);
