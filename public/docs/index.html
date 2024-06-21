@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Al Hiraa Documentation</title>
+    <title>Laravel Documentation</title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
@@ -26,13 +26,13 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://127.0.0.1:8000";
+        var tryItOutBaseUrl = "http://localhost";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
-    <script src="../docs/js/tryitout-4.30.0.js"></script>
+    <script src="../docs/js/tryitout-4.36.0.js"></script>
 
-    <script src="../docs/js/theme-default-4.30.0.js"></script>
+    <script src="../docs/js/theme-default-4.36.0.js"></script>
 
 </head>
 
@@ -83,6 +83,25 @@
                                                                                 <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-request-otp-register">
                                 <a href="#authentication-POSTapi-v1-request-otp-register">Request OTP for Register</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-job-interest">
+                                <a href="#authentication-POSTapi-v1-job-interest">Job Interest</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-candidate-job" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="candidate-job">
+                    <a href="#candidate-job">Candidate Job</a>
+                </li>
+                                    <ul id="tocify-subheader-candidate-job" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="candidate-job-POSTapi-v1-candidate-job-apply">
+                                <a href="#candidate-job-POSTapi-v1-candidate-job-apply">Candidate Job Apply</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="candidate-job-POSTapi-v1-candidate-job-detail">
+                                <a href="#candidate-job-POSTapi-v1-candidate-job-detail">POST api/v1/candidate-job/detail</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="candidate-job-POSTapi-v1-candidate-job-list">
+                                <a href="#candidate-job-POSTapi-v1-candidate-job-list">Candidate Job List</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-job" class="tocify-header">
@@ -111,6 +130,19 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-setting" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="setting">
+                    <a href="#setting">Setting</a>
+                </li>
+                                    <ul id="tocify-subheader-setting" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="setting-POSTapi-v1-settings-contact-us">
+                                <a href="#setting-POSTapi-v1-settings-contact-us">Contact Us</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="setting-POSTapi-v1-settings-additional-page">
+                                <a href="#setting-POSTapi-v1-settings-additional-page">Additional Page</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -120,7 +152,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: February 15, 2024</li>
+        <li>Last updated: June 21, 2024</li>
     </ul>
 </div>
 
@@ -129,7 +161,7 @@
     <div class="content">
         <h1 id="introduction">Introduction</h1>
 <aside>
-    <strong>Base URL</strong>: <code>http://127.0.0.1:8000</code>
+    <strong>Base URL</strong>: <code>http://localhost</code>
 </aside>
 <p>This documentation aims to provide all the information you need to work with our API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
@@ -155,7 +187,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/request-otp" \
+    "http://localhost/api/v1/request-otp" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -166,7 +198,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/request-otp"
+    "http://localhost/api/v1/request-otp"
 );
 
 const headers = {
@@ -293,7 +325,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/login" \
+    "http://localhost/api/v1/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -305,7 +337,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/login"
+    "http://localhost/api/v1/login"
 );
 
 const headers = {
@@ -444,7 +476,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/register" \
+    "http://localhost/api/v1/register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -462,7 +494,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/register"
+    "http://localhost/api/v1/register"
 );
 
 const headers = {
@@ -641,18 +673,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/request-otp-register" \
+    "http://localhost/api/v1/request-otp-register" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"mobile_number\": \"0969473364\"
+    \"mobile_number\": \"3627566887\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/request-otp-register"
+    "http://localhost/api/v1/request-otp-register"
 );
 
 const headers = {
@@ -661,7 +693,7 @@ const headers = {
 };
 
 let body = {
-    "mobile_number": "0969473364"
+    "mobile_number": "3627566887"
 };
 
 fetch(url, {
@@ -750,12 +782,605 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="mobile_number"                data-endpoint="POSTapi-v1-request-otp-register"
-               value="0969473364"
+               value="3627566887"
                data-component="body">
     <br>
-<p>Must be 10 digits. Example: <code>0969473364</code></p>
+<p>Must be 10 digits. Example: <code>3627566887</code></p>
         </div>
         </form>
+
+                    <h2 id="authentication-POSTapi-v1-job-interest">Job Interest</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to update job interest of the user.</p>
+
+<span id="example-requests-POSTapi-v1-job-interest">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/job-interest" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"job_interest\": [
+        \"Job 1\",
+        \"Job 2\",
+        \"Job 3\"
+    ]
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/job-interest"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "job_interest": [
+        "Job 1",
+        "Job 2",
+        "Job 3"
+    ]
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-job-interest">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Job interest updated successfully.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-job-interest" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-job-interest"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-job-interest"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-job-interest" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-job-interest">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-job-interest" data-method="POST"
+      data-path="api/v1/job-interest"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-job-interest', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-job-interest"
+                    onclick="tryItOut('POSTapi-v1-job-interest');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-job-interest"
+                    onclick="cancelTryOut('POSTapi-v1-job-interest');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-job-interest"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/job-interest</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-job-interest"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-job-interest"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>job_interest</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="job_interest[0]"                data-endpoint="POSTapi-v1-job-interest"
+               data-component="body">
+        <input type="text" style="display: none"
+               name="job_interest[1]"                data-endpoint="POSTapi-v1-job-interest"
+               data-component="body">
+    <br>
+<p>Array of job interests.</p>
+        </div>
+        </form>
+
+                <h1 id="candidate-job">Candidate Job</h1>
+
+    
+
+                                <h2 id="candidate-job-POSTapi-v1-candidate-job-apply">Candidate Job Apply</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to apply job for candidate.</p>
+
+<span id="example-requests-POSTapi-v1-candidate-job-apply">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/candidate-job/apply" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"job_id\": \"100\",
+    \"candidate_id\": \"20\",
+    \"interview_id\": \"eveniet\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/candidate-job/apply"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "job_id": "100",
+    "candidate_id": "20",
+    "interview_id": "eveniet"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-candidate-job-apply">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;Job applied successfully.&quot;
+&#039;status&#039;: true
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;The job id field is required.&quot;
+&#039;status&#039;: false
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;The candidate id must be an integer.&quot;
+&#039;status&#039;: false
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;The interview id must be an existing interviews.&quot;
+&#039;status&#039;: false
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-candidate-job-apply" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-candidate-job-apply"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-candidate-job-apply"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-candidate-job-apply" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-candidate-job-apply">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-candidate-job-apply" data-method="POST"
+      data-path="api/v1/candidate-job/apply"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-candidate-job-apply', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-candidate-job-apply"
+                    onclick="tryItOut('POSTapi-v1-candidate-job-apply');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-candidate-job-apply"
+                    onclick="cancelTryOut('POSTapi-v1-candidate-job-apply');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-candidate-job-apply"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/candidate-job/apply</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-candidate-job-apply"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-candidate-job-apply"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>job_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="job_id"                data-endpoint="POSTapi-v1-candidate-job-apply"
+               value="100"
+               data-component="body">
+    <br>
+<p>Job id of the user. Example: <code>100</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>candidate_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="candidate_id"                data-endpoint="POSTapi-v1-candidate-job-apply"
+               value="20"
+               data-component="body">
+    <br>
+<p>candidate id of the user. Example: <code>20</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>interview_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="interview_id"                data-endpoint="POSTapi-v1-candidate-job-apply"
+               value="eveniet"
+               data-component="body">
+    <br>
+<p>interview id of the user. Example: Example: <code>eveniet</code></p>
+        </div>
+        </form>
+
+                    <h2 id="candidate-job-POSTapi-v1-candidate-job-detail">POST api/v1/candidate-job/detail</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-candidate-job-detail">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/candidate-job/detail" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/candidate-job/detail"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-candidate-job-detail">
+</span>
+<span id="execution-results-POSTapi-v1-candidate-job-detail" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-candidate-job-detail"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-candidate-job-detail"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-candidate-job-detail" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-candidate-job-detail">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-candidate-job-detail" data-method="POST"
+      data-path="api/v1/candidate-job/detail"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-candidate-job-detail', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-candidate-job-detail"
+                    onclick="tryItOut('POSTapi-v1-candidate-job-detail');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-candidate-job-detail"
+                    onclick="cancelTryOut('POSTapi-v1-candidate-job-detail');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-candidate-job-detail"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/candidate-job/detail</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-candidate-job-detail"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-candidate-job-detail"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="candidate-job-POSTapi-v1-candidate-job-list">Candidate Job List</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to list all jobs for candidate.</p>
+
+<span id="example-requests-POSTapi-v1-candidate-job-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/candidate-job/list" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/candidate-job/list"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-candidate-job-list">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;Candidate Jobs listed successfully.&quot;
+&#039;status&#039;: true
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;The candidate id must be an integer.&quot;
+&#039;status&#039;: false
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (201):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;The job id must be an integer.&quot;
+&#039;status&#039;: false
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-candidate-job-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-candidate-job-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-candidate-job-list"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-candidate-job-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-candidate-job-list">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-candidate-job-list" data-method="POST"
+      data-path="api/v1/candidate-job/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-candidate-job-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-candidate-job-list"
+                    onclick="tryItOut('POSTapi-v1-candidate-job-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-candidate-job-list"
+                    onclick="cancelTryOut('POSTapi-v1-candidate-job-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-candidate-job-list"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/candidate-job/list</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-candidate-job-list"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-candidate-job-list"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
 
                 <h1 id="job">Job</h1>
 
@@ -774,14 +1399,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/job/list?limit=10&amp;offset=0&amp;job_search=Job+Name&amp;location_search=Location" \
+    "http://localhost/api/v1/job/list?limit=10&amp;offset=0&amp;job_search=Job+Name&amp;location_search=Location" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/job/list"
+    "http://localhost/api/v1/job/list"
 );
 
 const params = {
@@ -949,14 +1574,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/profile/my" \
+    "http://localhost/api/v1/profile/my" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/profile/my"
+    "http://localhost/api/v1/profile/my"
 );
 
 const headers = {
@@ -1098,13 +1723,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/profile/update" \
+    "http://localhost/api/v1/profile/update" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
     \"full_name\": \"John Doe\",
-    \"cnadidate_status_id\": 1,
-    \"email\": \"bmitchell@example.net\",
+    \"email\": \"dsawayn@example.org\",
     \"position_applied_for_1\": 1,
     \"position_applied_for_2\": 2,
     \"position_applied_for_3\": 3,
@@ -1120,14 +1744,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"religion\": \"HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER\",
     \"ecr_type\": \"ECR, ECNR\",
     \"english_speak\": \"GOOD, BASIC, POOR, NO\",
-    \"arabic_speak\": \"GOOD, BASIC, POOR, NO\"
+    \"arabic_speak\": \"GOOD, BASIC, POOR, NO\",
+    \"cnadidate_status_id\": 1
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/profile/update"
+    "http://localhost/api/v1/profile/update"
 );
 
 const headers = {
@@ -1137,8 +1762,7 @@ const headers = {
 
 let body = {
     "full_name": "John Doe",
-    "cnadidate_status_id": 1,
-    "email": "bmitchell@example.net",
+    "email": "dsawayn@example.org",
     "position_applied_for_1": 1,
     "position_applied_for_2": 2,
     "position_applied_for_3": 3,
@@ -1154,7 +1778,8 @@ let body = {
     "religion": "HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER",
     "ecr_type": "ECR, ECNR",
     "english_speak": "GOOD, BASIC, POOR, NO",
-    "arabic_speak": "GOOD, BASIC, POOR, NO"
+    "arabic_speak": "GOOD, BASIC, POOR, NO",
+    "cnadidate_status_id": 1
 };
 
 fetch(url, {
@@ -1174,7 +1799,7 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
 &quot;message&quot;: &quot;Profile updated successfully.&quot;,
 &quot;status&quot;: true,
-   *     &quot;id&quot;: 128,
+    &quot;id&quot;: 128,
     &quot;full_name&quot;: &quot;SWARNADWIP NATH&quot;,
     &quot;email&quot;: &quot;SWARNADWIP@EXCELLISIT.NET&quot;,
     &quot;phone&quot;: &quot;+918653996036&quot;,
@@ -1289,26 +1914,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Full Name of the user. Example: <code>John Doe</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>cnadidate_status_id</code></b>&nbsp;&nbsp;
-<small>integer</small>&nbsp;
- &nbsp;
-                <input type="number" style="display: none"
-               step="any"               name="cnadidate_status_id"                data-endpoint="POSTapi-v1-profile-update"
-               value="1"
-               data-component="body">
-    <br>
-<p>Candidate Status ID. Example: <code>1</code></p>
-        </div>
-                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-profile-update"
-               value="bmitchell@example.net"
+               value="dsawayn@example.org"
                data-component="body">
     <br>
-<p>Email of the user. Example: Example: <code>bmitchell@example.net</code></p>
+<p>Email of the user. Example: Example: <code>dsawayn@example.org</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>position_applied_for_1</code></b>&nbsp;&nbsp;
@@ -1486,6 +2100,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Arabic Speak of the user. Example: <code>GOOD, BASIC, POOR, NO</code></p>
         </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>cnadidate_status_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="cnadidate_status_id"                data-endpoint="POSTapi-v1-profile-update"
+               value="1"
+               data-component="body">
+    <br>
+<p>Candidate Status ID. Example: <code>1</code></p>
+        </div>
         </form>
 
                     <h2 id="profile-POSTapi-v1-profile-edit">Edit Profile</h2>
@@ -1501,14 +2126,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://127.0.0.1:8000/api/v1/profile/edit" \
+    "http://localhost/api/v1/profile/edit" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/v1/profile/edit"
+    "http://localhost/api/v1/profile/edit"
 );
 
 const headers = {
@@ -2517,6 +3142,341 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Accept"                data-endpoint="POSTapi-v1-profile-edit"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                <h1 id="setting">Setting</h1>
+
+    
+
+                                <h2 id="setting-POSTapi-v1-settings-contact-us">Contact Us</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to contact us.</p>
+
+<span id="example-requests-POSTapi-v1-settings-contact-us">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/settings/contact-us" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"first_name\": \"John\",
+    \"last_name\": \"Doe\",
+    \"email\": \"krippin@example.net\",
+    \"phone\": \"9876543210\",
+    \"message\": \"Message\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/settings/contact-us"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "krippin@example.net",
+    "phone": "9876543210",
+    "message": "Message"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-settings-contact-us">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;Contact us successfully.&quot;
+&#039;status&#039;: true
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-settings-contact-us" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-settings-contact-us"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-settings-contact-us"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-settings-contact-us" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-settings-contact-us">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-settings-contact-us" data-method="POST"
+      data-path="api/v1/settings/contact-us"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-settings-contact-us', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-settings-contact-us"
+                    onclick="tryItOut('POSTapi-v1-settings-contact-us');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-settings-contact-us"
+                    onclick="cancelTryOut('POSTapi-v1-settings-contact-us');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-settings-contact-us"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/settings/contact-us</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-settings-contact-us"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-settings-contact-us"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>first_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="first_name"                data-endpoint="POSTapi-v1-settings-contact-us"
+               value="John"
+               data-component="body">
+    <br>
+<p>First Name of the user. Example: <code>John</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>last_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="last_name"                data-endpoint="POSTapi-v1-settings-contact-us"
+               value="Doe"
+               data-component="body">
+    <br>
+<p>Last Name of the user. Example: <code>Doe</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-settings-contact-us"
+               value="krippin@example.net"
+               data-component="body">
+    <br>
+<p>Email of the user. Example: Example: <code>krippin@example.net</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="POSTapi-v1-settings-contact-us"
+               value="9876543210"
+               data-component="body">
+    <br>
+<p>Phone of the user. Example: <code>9876543210</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>message</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="message"                data-endpoint="POSTapi-v1-settings-contact-us"
+               value="Message"
+               data-component="body">
+    <br>
+<p>Message of the user. Example: <code>Message</code></p>
+        </div>
+        </form>
+
+                    <h2 id="setting-POSTapi-v1-settings-additional-page">Additional Page</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-settings-additional-page">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/settings/additional-page" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/settings/additional-page"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-settings-additional-page">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Additional page fetch successfulyy&quot;,
+    &quot;status&quot;: false,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 2,
+            &quot;page_name&quot;: &quot;Terms and Conditions&quot;,
+            &quot;title&quot;: &quot;Terms and Condition&quot;,
+            &quot;slug&quot;: &quot;terms-and-conditions&quot;,
+            &quot;content&quot;: &quot;&lt;h2&gt;What is Lorem Ipsum?&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;Lorem Ipsum&lt;/strong&gt; is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&#039;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;&lt;h2&gt;Why do we use it?&lt;/h2&gt;&lt;p&gt;It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#039;Content here, content here&#039;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#039;lorem ipsum&#039; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).&lt;/p&gt;&lt;p&gt;&lt;br&gt;&amp;nbsp;&lt;/p&gt;&lt;h2&gt;Where does it come from?&lt;/h2&gt;&lt;p&gt;Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \&quot;de Finibus Bonorum et Malorum\&quot; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \&quot;Lorem ipsum dolor sit amet..\&quot;, comes from a line in section 1.10.32.&lt;/p&gt;&lt;p&gt;The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \&quot;de Finibus Bonorum et Malorum\&quot; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.&lt;/p&gt;&lt;h2&gt;Where can I get some?&lt;/h2&gt;&lt;p&gt;There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#039;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#039;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.&lt;/p&gt;&quot;,
+            &quot;is_active&quot;: 1,
+            &quot;created_at&quot;: &quot;2024-02-16T05:44:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2024-02-16T07:45:06.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 1,
+            &quot;page_name&quot;: &quot;Privacy Policy&quot;,
+            &quot;title&quot;: &quot;Privacy Policy&quot;,
+            &quot;slug&quot;: &quot;privacy-policy&quot;,
+            &quot;content&quot;: &quot;&lt;h4&gt;&lt;strong&gt;The standard Lorem Ipsum passage, used since the 1500s&lt;/strong&gt;&lt;/h4&gt;&lt;p&gt;\&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\&quot;&lt;/p&gt;&lt;h4&gt;&lt;strong&gt;Section 1.10.32 of \&quot;de Finibus Bonorum et Malorum\&quot;, written by Cicero in 45 BC&lt;/strong&gt;&lt;/h4&gt;&lt;p&gt;\&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?\&quot;&lt;/p&gt;&lt;h4&gt;&lt;strong&gt;1914 translation by H. Rackham&lt;/strong&gt;&lt;/h4&gt;&lt;p&gt;\&quot;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?\&quot;&lt;/p&gt;&quot;,
+            &quot;is_active&quot;: 1,
+            &quot;created_at&quot;: &quot;2024-02-16T05:44:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2024-02-16T07:45:38.000000Z&quot;
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-settings-additional-page" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-settings-additional-page"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-settings-additional-page"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-settings-additional-page" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-settings-additional-page">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-settings-additional-page" data-method="POST"
+      data-path="api/v1/settings/additional-page"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-settings-additional-page', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-settings-additional-page"
+                    onclick="tryItOut('POSTapi-v1-settings-additional-page');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-settings-additional-page"
+                    onclick="cancelTryOut('POSTapi-v1-settings-additional-page');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-settings-additional-page"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/settings/additional-page</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-settings-additional-page"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-settings-additional-page"
                value="application/json"
                data-component="header">
     <br>

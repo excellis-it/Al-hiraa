@@ -37,6 +37,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::prefix('candidate-job')->group(function () {
             Route::post('apply', [CandidateJobController::class, 'candidateJobApply']);
+            Route::post('detail', [CandidateJobController::class, 'candidateJobDetail']);
             Route::post('list', [CandidateJobController::class, 'candidateJobList']);
 
         });

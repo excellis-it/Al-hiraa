@@ -20,5 +20,15 @@ class CandidateJob extends Model
         return $this->belongsTo(Job::class, 'job_id');
     }
 
+    public function candidate()
+    {
+        return $this->belongsTo(Candidate::class, 'candidate_id');
+    }
+
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
    
 }

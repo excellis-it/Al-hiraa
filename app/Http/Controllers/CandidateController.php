@@ -757,6 +757,8 @@ class CandidateController extends Controller
 
             $candidate_job = new CandidateJob();
             $candidate_job->candidate_id = $candidate_id;
+            $candidate_job->interview_id = $request->interview_id;
+            $candidate_job->assign_job_id = $assign_job->id;
             $candidate_job->full_name = $candidate_details->full_name ?? null;
             $candidate_job->email = $candidate_details->email ?? null;
             $candidate_job->gender = $candidate_details->gender ?? null;

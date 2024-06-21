@@ -157,95 +157,120 @@ class JobsController extends Controller
 
     public function candidatejobFilter(Request $request)
     {
-        
+        // Retrieve request parameters
         $search = $request->search;
-        // $page = $request->page;
-
-        // Build the query
+        $job_id = $request->job_id;
+        $company = $request->company;
+        $int_pipeline = $request->int_pipeline;
+    
+        // Initialize query
         $query = CandidateJob::query();
+    
+        // Apply search terms
         if ($search) {
             $searchTerms = explode(',', $search);
             $query->where(function ($q) use ($searchTerms) {
                 foreach ($searchTerms as $term) {
-                    
-                    $q->orWhere('full_name', 'like', '%' . trim($term) . '%')
-                      ->orWhere('gender', 'like', '%' . trim($term) . '%')
-                      ->orWhere('job_interview_status', 'like', '%' . trim($term) . '%')
-                      ->orWhere('whatapp_no', 'like', '%' . trim($term) . '%')
-                      ->orWhere('alternate_contact_no', 'like', '%' . trim($term) . '%')
-                      ->orWhere('mofa_no', 'like', '%' . trim($term) . '%')
-                      ->orWhere('medical_status', 'like', '%' . trim($term) . '%')
-                      ->orWhere('fst_installment_amount', 'like', '%' . trim($term) . '%')
-                      ->orWhere('secnd_installment_amount', 'like', '%' . trim($term) . '%'); 
+                    $term = trim($term);
+                    $q->orWhere('full_name', 'like', "%{$term}%")
+                      ->orWhere('gender', 'like', "%{$term}%")
+                      ->orWhere('job_interview_status', 'like', "%{$term}%")
+                      ->orWhere('whatapp_no', 'like', "%{$term}%")
+                      ->orWhere('alternate_contact_no', 'like', "%{$term}%")
+                      ->orWhere('mofa_no', 'like', "%{$term}%")
+                      ->orWhere('medical_status', 'like', "%{$term}%")
+                      ->orWhere('fst_installment_amount', 'like', "%{$term}%")
+                      ->orWhere('secnd_installment_amount', 'like', "%{$term}%");
                 }
             });
         }
-
-        if ($request->company) {
-            $query->where('company_id', $request->company);
+    
+        // Filter by job ID
+        if ($job_id) {
+            $query->whereIn('job_id', $job_id);
         }
-
-        if($request->int_pipeline){
-            if($request->int_pipeline == 'ALL'){
-                $query->where('job_status','Active');
-            }else if($request->int_pipeline == 'Selection'){
-                $query->where('job_interview_status','Selected')->where('job_status','Active');
-            }else if($request->int_pipeline == 'Medical'){
-                $query->where('medical_status','!=',null)->where('job_status','Active');
-            }else if($request->int_pipeline == 'Document'){
-                $query->where('visa_receiving_date','!=',null)->where('job_status','Active');
-            }else if($request->int_pipeline == 'Collection'){
-                $query->where('total_amount','!=',null)->where('job_status','Active');
-            }else if($request->int_pipeline == 'Deployment'){
-                $query->where('deployment_date','!=',null)->where('job_status','Active');
-            }else{
-                $query->where('job_status','Deactive');
-            }
-
+    
+        // Filter by company
+        if ($company) {
+            $query->where('company_id', $company);
         }
-
+    
+        // Filter by interview pipeline status
+        if ($int_pipeline) {
+            $this->applyInterviewPipelineFilter($query, $int_pipeline);
+        }
+    
+        // Count statistics
+        $count = $this->getJobStatistics($job_id, $company);
+    
+        // Paginate the results
         $candidate_jobs = $query->paginate(15);
-        $interview_pipe = [];
-
-        $conditions = [
-            'all' => null, // No additional conditions for counting all records
-            'selection' => ['job_interview_status', 'Selected'],
-            'medical' => ['medical_status', '!=', null],
-            'docu' => ['visa_receiving_date', '!=', null],
-            'collection' => ['total_amount', '!=', null],
-            'deployment' => ['deployment_date', '!=', null],
-        ];
-
-        foreach ($conditions as $key => $condition) {
-            $query = CandidateJob::query();
-
-            // Apply company filter if provided
-            if (!empty($request->company)) {
-                $query->where('company_id', $request->company);
-            }
-
-            // Apply additional condition if available
-            if ($condition) {
-                [$field, $operator, $value] = array_pad($condition, 3, null);
-                $query->where($field, $operator, $value);
-            }
-
-            // Get the count for the current condition
-            $interview_pipe[$key] = $query->count();
-        }
-
+    
         // Render the results into a view
-        $view = view('jobs.filter', compact('candidate_jobs'))->render();
-
+        $view = view('jobs.company-filter', compact('candidate_jobs', 'count', 'int_pipeline'))->render();
+    
         // Return a JSON response
         return response()->json([
-            'view' => $view,
-            'data' => $interview_pipe,
-
+            'view' => $view
         ]);
-        
     }
+    
+    // Helper function to apply interview pipeline filters
+    private function applyInterviewPipelineFilter($query, $int_pipeline)
+    {
+        switch ($int_pipeline) {
+            case 'All':
+                $query->where('job_status', 'Active');
+                break;
+            case 'Selection':
+                $query->where('job_interview_status', 'Selected')
+                      ->where('job_status', 'Active');
+                break;
+            case 'Medical':
+                $query->whereNotNull('medical_status')
+                      ->where('job_status', 'Active');
+                break;
+            case 'Document':
+                $query->whereNotNull('visa_receiving_date')
+                      ->where('job_status', 'Active');
+                break;
+            case 'Collection':
+                $query->whereNotNull('total_amount')
+                      ->where('job_status', 'Active');
+                break;
+            case 'Deployment':
+                $query->whereNotNull('deployment_date')
+                      ->where('job_status', 'Active');
+                break;
+            default:
+                $query->where('job_status', 'Deactive');
+                break;
+        }
+    }
+    
+    // Helper function to get job statistics
+    private function getJobStatistics($job_id, $company)
+    {
+        $baseQuery = CandidateJob::query();
+        
+        if ($job_id) {
+            $baseQuery->whereIn('job_id', $job_id);
+        }
 
+        if ($company) {
+            $baseQuery->where('company_id', $company);
+        }
+    
+        return [
+            'total_interviews' => $baseQuery->count(),
+            'total_selection' => $baseQuery->where('job_interview_status', 'Selected')->count(),
+            'total_medical' => $baseQuery->whereNotNull('medical_status')->count(),
+            'total_doc' => $baseQuery->whereNotNull('visa_receiving_date')->count(),
+            'total_collection' => $baseQuery->whereNotNull('ticket_booking_date')->count(),
+            'total_deployment' => $baseQuery->whereNotNull('deployment_date')->count()
+        ];
+    }
+    
     public function candidateDetailsUpdate(Request $request, string $id)
     {
         

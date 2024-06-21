@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  title: 'Al Hiraa'
+  title: Laravel
   description: ''
   version: 1.0.0
 servers:
   -
-    url: 'http://127.0.0.1:8000'
+    url: 'http://localhost'
 paths:
   /api/v1/request-otp:
     post:
@@ -172,9 +172,130 @@ paths:
                 mobile_number:
                   type: string
                   description: 'Must be 10 digits.'
-                  example: '0969473364'
+                  example: '3627566887'
               required:
                 - mobile_number
+      security: []
+  /api/v1/job-interest:
+    post:
+      summary: 'Job Interest'
+      operationId: jobInterest
+      description: 'This endpoint will be used to update job interest of the user.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Job interest updated successfully.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Job interest updated successfully.'
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                job_interest:
+                  type: array
+                  description: 'Array of job interests.'
+                  example:
+                    - 'Job 1'
+                    - 'Job 2'
+                    - 'Job 3'
+                  items:
+                    type: string
+              required:
+                - job_interest
+      security: []
+  /api/v1/candidate-job/apply:
+    post:
+      summary: 'Candidate Job Apply'
+      operationId: candidateJobApply
+      description: 'This endpoint will be used to apply job for candidate.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"Job applied successfully.\"\n'status': true\n}"
+        201:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"The interview id must be an existing interviews.\"\n'status': false\n}"
+      tags:
+        - 'Candidate Job'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                job_id:
+                  type: string
+                  description: 'Job id of the user.'
+                  example: '100'
+                candidate_id:
+                  type: string
+                  description: 'candidate id of the user.'
+                  example: '20'
+                interview_id:
+                  type: string
+                  description: 'interview id of the user. Example:'
+                  example: eveniet
+              required:
+                - job_id
+                - candidate_id
+                - interview_id
+      security: []
+  /api/v1/candidate-job/detail:
+    post:
+      summary: ''
+      operationId: postApiV1CandidateJobDetail
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Candidate Job'
+      security: []
+  /api/v1/candidate-job/list:
+    post:
+      summary: 'Candidate Job List'
+      operationId: candidateJobList
+      description: 'This endpoint will be used to list all jobs for candidate.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"Candidate Jobs listed successfully.\"\n'status': true\n}"
+        201:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"The job id must be an integer.\"\n'status': false\n}"
+      tags:
+        - 'Candidate Job'
       security: []
   /api/v1/job/list:
     post:
@@ -397,7 +518,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: "{\n\"message\": \"Profile updated successfully.\",\n\"status\": true,\n   *     \"id\": 128,\n    \"full_name\": \"SWARNADWIP NATH\",\n    \"email\": \"SWARNADWIP@EXCELLISIT.NET\",\n    \"phone\": \"+918653996036\",\n    \"enter_by\": \"Admin Admin\",\n    \"status\": \"ACTIVE\",\n    \"passport_no\": null,\n    \"mode_of_registration\": \"CALLING\",\n    \"referred_by\": \"Dilip Kumar Das\",\n    \"last_updated_at\": \"08.02.2024\",\n    \"gender\": \"MALE\",\n    \"dob\": \"10.08.2000\",\n    \"age\": 23,\n    \"education\": \"GRADUATES\",\n    \"other_education\": null,\n    \"alternate_contact_no\": null,\n    \"whatapp_no\": \"+918653996036\",\n    \"city\": \"KOLKATA\",\n    \"religion\": \"HINDU\",\n    \"ecr_type\": \"ECR\",\n    \"english_speak\": \"GOOD\",\n    \"arabic_speak\": \"NO\",\n    \"gulf_return\": 1,\n    \"indian_experience\": \"1 YEAR EXPERIENCE IN LARAVEL\",\n    \"gulf_experience\": null,\n    \"poition_applied_for\": \"WEB DEVELOPER\",\n    \"position_applied_for_1\": null,\n    \"position_applied_for_2\": null,\n    \"created_at\": \"2024-02-08 10:18:18\"\n  }\n}"
+                example: "{\n\"message\": \"Profile updated successfully.\",\n\"status\": true,\n    \"id\": 128,\n    \"full_name\": \"SWARNADWIP NATH\",\n    \"email\": \"SWARNADWIP@EXCELLISIT.NET\",\n    \"phone\": \"+918653996036\",\n    \"enter_by\": \"Admin Admin\",\n    \"status\": \"ACTIVE\",\n    \"passport_no\": null,\n    \"mode_of_registration\": \"CALLING\",\n    \"referred_by\": \"Dilip Kumar Das\",\n    \"last_updated_at\": \"08.02.2024\",\n    \"gender\": \"MALE\",\n    \"dob\": \"10.08.2000\",\n    \"age\": 23,\n    \"education\": \"GRADUATES\",\n    \"other_education\": null,\n    \"alternate_contact_no\": null,\n    \"whatapp_no\": \"+918653996036\",\n    \"city\": \"KOLKATA\",\n    \"religion\": \"HINDU\",\n    \"ecr_type\": \"ECR\",\n    \"english_speak\": \"GOOD\",\n    \"arabic_speak\": \"NO\",\n    \"gulf_return\": 1,\n    \"indian_experience\": \"1 YEAR EXPERIENCE IN LARAVEL\",\n    \"gulf_experience\": null,\n    \"poition_applied_for\": \"WEB DEVELOPER\",\n    \"position_applied_for_1\": null,\n    \"position_applied_for_2\": null,\n    \"created_at\": \"2024-02-08 10:18:18\"\n  }\n}"
       tags:
         - Profile
       requestBody:
@@ -411,14 +532,10 @@ paths:
                   type: string
                   description: 'Full Name of the user.'
                   example: 'John Doe'
-                cnadidate_status_id:
-                  type: integer
-                  description: 'Candidate Status ID.'
-                  example: 1
                 email:
                   type: string
                   description: 'Email of the user. Example:'
-                  example: bmitchell@example.net
+                  example: dsawayn@example.org
                 position_applied_for_1:
                   type: integer
                   description: 'Position Applied For 1.'
@@ -483,10 +600,14 @@ paths:
                   type: string
                   description: 'Arabic Speak of the user.'
                   example: 'GOOD, BASIC, POOR, NO'
+                cnadidate_status_id:
+                  type: integer
+                  description: 'Candidate Status ID.'
+                  example: 1
               required:
                 - full_name
-                - cnadidate_status_id
                 - position_applied_for_1
+                - cnadidate_status_id
       security: []
   /api/v1/profile/edit:
     post:
@@ -2820,13 +2941,162 @@ paths:
       tags:
         - Profile
       security: []
+  /api/v1/settings/contact-us:
+    post:
+      summary: 'Contact Us'
+      operationId: contactUs
+      description: 'This endpoint will be used to contact us.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"Contact us successfully.\"\n'status': true\n}"
+      tags:
+        - Setting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: 'First Name of the user.'
+                  example: John
+                last_name:
+                  type: string
+                  description: 'Last Name of the user.'
+                  example: Doe
+                email:
+                  type: string
+                  description: 'Email of the user. Example:'
+                  example: krippin@example.net
+                phone:
+                  type: string
+                  description: 'Phone of the user.'
+                  example: '9876543210'
+                message:
+                  type: string
+                  description: 'Message of the user.'
+                  example: Message
+              required:
+                - first_name
+                - last_name
+                - email
+                - phone
+                - message
+      security: []
+  /api/v1/settings/additional-page:
+    post:
+      summary: 'Additional Page'
+      operationId: additionalPage
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Additional page fetch successfulyy'
+                  status: false
+                  data:
+                    -
+                      id: 2
+                      page_name: 'Terms and Conditions'
+                      title: 'Terms and Condition'
+                      slug: terms-and-conditions
+                      content: "<h2>What is Lorem Ipsum?</h2><p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p><h2>Why do we use it?</h2><p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p><p><br>&nbsp;</p><h2>Where does it come from?</h2><p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.</p><p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p><h2>Where can I get some?</h2><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>"
+                      is_active: 1
+                      created_at: '2024-02-16T05:44:32.000000Z'
+                      updated_at: '2024-02-16T07:45:06.000000Z'
+                    -
+                      id: 1
+                      page_name: 'Privacy Policy'
+                      title: 'Privacy Policy'
+                      slug: privacy-policy
+                      content: '<h4><strong>The standard Lorem Ipsum passage, used since the 1500s</strong></h4><p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p><h4><strong>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</strong></h4><p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p><h4><strong>1914 translation by H. Rackham</strong></h4><p>"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</p>'
+                      is_active: 1
+                      created_at: '2024-02-16T05:44:32.000000Z'
+                      updated_at: '2024-02-16T07:45:38.000000Z'
+                properties:
+                  message:
+                    type: string
+                    example: 'Additional page fetch successfulyy'
+                  status:
+                    type: boolean
+                    example: false
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 2
+                        page_name: 'Terms and Conditions'
+                        title: 'Terms and Condition'
+                        slug: terms-and-conditions
+                        content: "<h2>What is Lorem Ipsum?</h2><p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p><h2>Why do we use it?</h2><p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p><p><br>&nbsp;</p><h2>Where does it come from?</h2><p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.</p><p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p><h2>Where can I get some?</h2><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>"
+                        is_active: 1
+                        created_at: '2024-02-16T05:44:32.000000Z'
+                        updated_at: '2024-02-16T07:45:06.000000Z'
+                      -
+                        id: 1
+                        page_name: 'Privacy Policy'
+                        title: 'Privacy Policy'
+                        slug: privacy-policy
+                        content: '<h4><strong>The standard Lorem Ipsum passage, used since the 1500s</strong></h4><p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p><h4><strong>Section 1.10.32 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC</strong></h4><p>"Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?"</p><h4><strong>1914 translation by H. Rackham</strong></h4><p>"But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?"</p>'
+                        is_active: 1
+                        created_at: '2024-02-16T05:44:32.000000Z'
+                        updated_at: '2024-02-16T07:45:38.000000Z'
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 2
+                        page_name:
+                          type: string
+                          example: 'Terms and Conditions'
+                        title:
+                          type: string
+                          example: 'Terms and Condition'
+                        slug:
+                          type: string
+                          example: terms-and-conditions
+                        content:
+                          type: string
+                          example: "<h2>What is Lorem Ipsum?</h2><p><strong>Lorem Ipsum</strong> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p><h2>Why do we use it?</h2><p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p><p><br>&nbsp;</p><h2>Where does it come from?</h2><p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.</p><p>The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.</p><h2>Where can I get some?</h2><p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>"
+                        is_active:
+                          type: integer
+                          example: 1
+                        created_at:
+                          type: string
+                          example: '2024-02-16T05:44:32.000000Z'
+                        updated_at:
+                          type: string
+                          example: '2024-02-16T07:45:06.000000Z'
+      tags:
+        - Setting
+      security: []
 tags:
   -
     name: Authentication
+    description: ''
+  -
+    name: 'Candidate Job'
     description: ''
   -
     name: Job
     description: ''
   -
     name: Profile
+    description: ''
+  -
+    name: Setting
     description: ''
