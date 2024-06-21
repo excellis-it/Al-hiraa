@@ -37,7 +37,7 @@ class CandidateJobController extends Controller
             if ($count > 0) {
                 return response()->json(['status' => false, 'message' => 'Job already assigned to this candidate.']);
             } else {
-              return  $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
+                $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
                 $assign_job = new AssignJob();
                 $assign_job->candidate_id = $request->candidate_id;
                 $assign_job->job_id = $request->job_id;
@@ -48,11 +48,11 @@ class CandidateJobController extends Controller
                 $assign_job->save();
 
                 //candidate job details add
-                $candidate_details = Candidate::findOrFail($candidate_id);
-                $job_details = Job::findOrfail($job_id) ?? null;
+                $candidate_details = Candidate::findOrFail($request->candidate_id);
+                $job_details = Job::findOrfail($request->job_id) ?? null;
 
                 $candidate_job = new CandidateJob();
-                $candidate_job->candidate_id = $candidate_id;
+                $candidate_job->candidate_id = $request->candidate_id;
                 $candidate_job->full_name = $candidate_details->full_name ?? null;
                 $candidate_job->email = $candidate_details->email ?? null;
                 $candidate_job->gender = $candidate_details->gender ?? null;
