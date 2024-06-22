@@ -231,13 +231,13 @@ endpoints:
         name: mobile_number
         description: 'Must be 10 digits.'
         required: true
-        example: '3627566887'
+        example: '6096713814'
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      mobile_number: '3627566887'
+      mobile_number: '6096713814'
     fileParameters: []
     responses: []
     responseFields: []

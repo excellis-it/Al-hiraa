@@ -169,13 +169,29 @@ class CandidateJobController extends Controller
                 }
             }
 
-            return response()->json(['message' => 'Job applied successfully.', 'status' => true, 'data' => $candidate_job], 200);
+            return response()->json(['message' => 'Job applied successfully.', 'status' => true], 200);
                 
 
         }catch(\Throwable $th){
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
     }
+
+    /**
+     * Candidate Job Detail
+     * /**
+        * Fetches candidate job details.
+        *
+        * @api {post} /endpoint Fetch Candidate Job Details
+        * @apiName GetCandidateJobDetails
+        * @apiGroup CandidateJob
+        * @apiParam {Number} candidate_job_id Candidate Job ID.
+        * @apiSuccess {String} message Success message.
+        * @apiSuccess {Boolean} status True if successful.
+        * @apiSuccess {Object} job_status Statuses: interview, selected, medical, document, collection, deployment.
+        * @apiError {String} message Error message.
+        * @apiError {Boolean} status False if error.
+    */
 
 
     public function candidateJobDetail(Request $request)
@@ -189,8 +205,16 @@ class CandidateJobController extends Controller
                 return response()->json(['message' => $validator->errors()->first(), 'status' => false], 201);
             }
 
-          return  $candidate_job = CandidateJob::where('candidate_id', $request->candidate_id)->where('job_id', $request->job_id)->first();
-            return response()->json(['message' => 'Job details listed successfully.', 'status' => true, 'data' => $candidate_job], 200);
+            $candidate_job_details = CandidateJob::where('id', $request->candidate_job_id)->first();
+
+            $status['interview'] = ($candidate_job_details->job_status == 'Active');
+            $status['selected'] = ($candidate_job_details->job_interview_status == 'Selected');
+            $status['medical'] = ($candidate_job_details->medical_status != null);
+            $status['document'] = ($candidate_job_details->visa_receiving_date != null);
+            $status['collection'] = ($candidate_job_details->total_amount != null);
+            $status['deployment'] = ($candidate_job_details->deployment_date != null);
+
+           return response()->json(['message' => 'Candidates details listed successfully.', 'status' => true, 'job_status'=> $status], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }

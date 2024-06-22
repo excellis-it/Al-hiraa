@@ -172,7 +172,7 @@ paths:
                 mobile_number:
                   type: string
                   description: 'Must be 10 digits.'
-                  example: '3627566887'
+                  example: '6096713814'
               required:
                 - mobile_number
       security: []
@@ -257,7 +257,7 @@ paths:
                 interview_id:
                   type: string
                   description: 'interview id of the user. Example:'
-                  example: eveniet
+                  example: ut
               required:
                 - job_id
                 - candidate_id
@@ -265,8 +265,8 @@ paths:
       security: []
   /api/v1/candidate-job/detail:
     post:
-      summary: ''
-      operationId: postApiV1CandidateJobDetail
+      summary: "Candidate Job Detail\n/**\nFetches candidate job details."
+      operationId: candidateJobDetailFetchesCandidateJobDetails
       description: ''
       parameters: []
       responses: {  }
@@ -535,7 +535,7 @@ paths:
                 email:
                   type: string
                   description: 'Email of the user. Example:'
-                  example: dsawayn@example.org
+                  example: spollich@example.com
                 position_applied_for_1:
                   type: integer
                   description: 'Position Applied For 1.'
@@ -2975,7 +2975,7 @@ paths:
                 email:
                   type: string
                   description: 'Email of the user. Example:'
-                  example: krippin@example.net
+                  example: nickolas.gerlach@example.com
                 phone:
                   type: string
                   description: 'Phone of the user.'

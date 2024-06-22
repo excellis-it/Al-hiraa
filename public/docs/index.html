@@ -97,7 +97,9 @@
                                 <a href="#candidate-job-POSTapi-v1-candidate-job-apply">Candidate Job Apply</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="candidate-job-POSTapi-v1-candidate-job-detail">
-                                <a href="#candidate-job-POSTapi-v1-candidate-job-detail">POST api/v1/candidate-job/detail</a>
+                                <a href="#candidate-job-POSTapi-v1-candidate-job-detail">Candidate Job Detail
+/**
+Fetches candidate job details.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="candidate-job-POSTapi-v1-candidate-job-list">
                                 <a href="#candidate-job-POSTapi-v1-candidate-job-list">Candidate Job List</a>
@@ -152,7 +154,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 21, 2024</li>
+        <li>Last updated: June 22, 2024</li>
     </ul>
 </div>
 
@@ -677,7 +679,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"mobile_number\": \"3627566887\"
+    \"mobile_number\": \"6096713814\"
 }"
 </code></pre></div>
 
@@ -693,7 +695,7 @@ const headers = {
 };
 
 let body = {
-    "mobile_number": "3627566887"
+    "mobile_number": "6096713814"
 };
 
 fetch(url, {
@@ -782,10 +784,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="mobile_number"                data-endpoint="POSTapi-v1-request-otp-register"
-               value="3627566887"
+               value="6096713814"
                data-component="body">
     <br>
-<p>Must be 10 digits. Example: <code>3627566887</code></p>
+<p>Must be 10 digits. Example: <code>6096713814</code></p>
         </div>
         </form>
 
@@ -960,7 +962,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"job_id\": \"100\",
     \"candidate_id\": \"20\",
-    \"interview_id\": \"eveniet\"
+    \"interview_id\": \"ut\"
 }"
 </code></pre></div>
 
@@ -978,7 +980,7 @@ const headers = {
 let body = {
     "job_id": "100",
     "candidate_id": "20",
-    "interview_id": "eveniet"
+    "interview_id": "ut"
 };
 
 fetch(url, {
@@ -1129,14 +1131,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="interview_id"                data-endpoint="POSTapi-v1-candidate-job-apply"
-               value="eveniet"
+               value="ut"
                data-component="body">
     <br>
-<p>interview id of the user. Example: Example: <code>eveniet</code></p>
+<p>interview id of the user. Example: Example: <code>ut</code></p>
         </div>
         </form>
 
-                    <h2 id="candidate-job-POSTapi-v1-candidate-job-detail">POST api/v1/candidate-job/detail</h2>
+                    <h2 id="candidate-job-POSTapi-v1-candidate-job-detail">Candidate Job Detail
+/**
+Fetches candidate job details.</h2>
 
 <p>
 </p>
@@ -1728,7 +1732,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"full_name\": \"John Doe\",
-    \"email\": \"dsawayn@example.org\",
+    \"email\": \"spollich@example.com\",
     \"position_applied_for_1\": 1,
     \"position_applied_for_2\": 2,
     \"position_applied_for_3\": 3,
@@ -1762,7 +1766,7 @@ const headers = {
 
 let body = {
     "full_name": "John Doe",
-    "email": "dsawayn@example.org",
+    "email": "spollich@example.com",
     "position_applied_for_1": 1,
     "position_applied_for_2": 2,
     "position_applied_for_3": 3,
@@ -1919,10 +1923,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-profile-update"
-               value="dsawayn@example.org"
+               value="spollich@example.com"
                data-component="body">
     <br>
-<p>Email of the user. Example: Example: <code>dsawayn@example.org</code></p>
+<p>Email of the user. Example: Example: <code>spollich@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>position_applied_for_1</code></b>&nbsp;&nbsp;
@@ -3172,7 +3176,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"first_name\": \"John\",
     \"last_name\": \"Doe\",
-    \"email\": \"krippin@example.net\",
+    \"email\": \"nickolas.gerlach@example.com\",
     \"phone\": \"9876543210\",
     \"message\": \"Message\"
 }"
@@ -3192,7 +3196,7 @@ const headers = {
 let body = {
     "first_name": "John",
     "last_name": "Doe",
-    "email": "krippin@example.net",
+    "email": "nickolas.gerlach@example.com",
     "phone": "9876543210",
     "message": "Message"
 };
@@ -3315,10 +3319,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-settings-contact-us"
-               value="krippin@example.net"
+               value="nickolas.gerlach@example.com"
                data-component="body">
     <br>
-<p>Email of the user. Example: Example: <code>krippin@example.net</code></p>
+<p>Email of the user. Example: Example: <code>nickolas.gerlach@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;

@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "e0f9a60c-c742-434f-a7e0-3a5f439717d0",
+        "_postman_id": "c5f86892-3196-4a87-a066-da60fd5e3333",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -161,7 +161,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"mobile_number\":\"3627566887\"}"
+                            "raw": "{\"mobile_number\":\"6096713814\"}"
                         },
                         "description": "",
                         "auth": {
@@ -236,7 +236,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"job_id\":\"100\",\"candidate_id\":\"20\",\"interview_id\":\"eveniet\"}"
+                            "raw": "{\"job_id\":\"100\",\"candidate_id\":\"20\",\"interview_id\":\"ut\"}"
                         },
                         "description": "This endpoint will be used to apply job for candidate.",
                         "auth": {
@@ -271,7 +271,7 @@
                     ]
                 },
                 {
-                    "name": "POST api\/v1\/candidate-job\/detail",
+                    "name": "Candidate Job Detail\n\/**\nFetches candidate job details.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -474,7 +474,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"John Doe\",\"email\":\"dsawayn@example.org\",\"position_applied_for_1\":1,\"position_applied_for_2\":2,\"position_applied_for_3\":3,\"alternate_contact_no\":9876543210,\"whatapp_no\":9876543210,\"passport_number\":\"A1234567\",\"gender\":\"MALE, FEMALE, OTHER\",\"date_of_birth\":\"2000-01-01\",\"mode_of_registration\":\"CALLING, WALK-IN\",\"source\":\"TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER\",\"education\":\"5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS\",\"other_education\":\"Other Education\",\"religion\":\"HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER\",\"ecr_type\":\"ECR, ECNR\",\"english_speak\":\"GOOD, BASIC, POOR, NO\",\"arabic_speak\":\"GOOD, BASIC, POOR, NO\",\"cnadidate_status_id\":1}"
+                            "raw": "{\"full_name\":\"John Doe\",\"email\":\"spollich@example.com\",\"position_applied_for_1\":1,\"position_applied_for_2\":2,\"position_applied_for_3\":3,\"alternate_contact_no\":9876543210,\"whatapp_no\":9876543210,\"passport_number\":\"A1234567\",\"gender\":\"MALE, FEMALE, OTHER\",\"date_of_birth\":\"2000-01-01\",\"mode_of_registration\":\"CALLING, WALK-IN\",\"source\":\"TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER\",\"education\":\"5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS\",\"other_education\":\"Other Education\",\"religion\":\"HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER\",\"ecr_type\":\"ECR, ECNR\",\"english_speak\":\"GOOD, BASIC, POOR, NO\",\"arabic_speak\":\"GOOD, BASIC, POOR, NO\",\"cnadidate_status_id\":1}"
                         },
                         "description": "This endpoint will be used to update the profile of the user.",
                         "auth": {
@@ -553,7 +553,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"krippin@example.net\",\"phone\":\"9876543210\",\"message\":\"Message\"}"
+                            "raw": "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"nickolas.gerlach@example.com\",\"phone\":\"9876543210\",\"message\":\"Message\"}"
                         },
                         "description": "This endpoint will be used to contact us.",
                         "auth": {

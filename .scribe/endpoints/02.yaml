@@ -44,7 +44,7 @@ endpoints:
         name: interview_id
         description: 'interview id of the user. Example:'
         required: true
-        example: eveniet
+        example: ut
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -52,7 +52,7 @@ endpoints:
     cleanBodyParameters:
       job_id: '100'
       candidate_id: '20'
-      interview_id: eveniet
+      interview_id: ut
     fileParameters: []
     responses:
       -
@@ -110,7 +110,10 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: |-
+        Candidate Job Detail
+        /**
+        Fetches candidate job details.
       description: ''
       authenticated: false
       custom: []
