@@ -5412,7 +5412,37 @@ li.tagator_option{
 
 
 /* Responsive */
-@media (max-width: 1600.5px) {}
+@media (max-width: 1600.5px) {
+    .sidebar-menu-button {
+        line-height: 33px;
+        padding: 6px 1.25rem;
+        font-size: 14px;
+    }
+    .avatar img {
+        width: 70px;
+        height: 70px;
+    }
+    .conversation {
+        padding: 0 15px;
+    }
+    .sidebar-light .sidebar-account {
+        padding: 5px 16px;
+        margin: 10px 0 !important;
+    }
+    .navbar-brand{
+        padding-top:10px;
+    }
+    .table tbody td {
+        padding: 6px;
+        font-size: 12px;
+    }
+    .candy-p .select2-container .select2-search--inline .select2-search__field {
+        font-size: 12px;
+    }
+    .table thead th {
+        font-size: 12px;
+    }
+}
 
 @media (max-width: 1440.5px) {
     .addcandidate_btn {
