@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\AuthenticationController;
 use App\Http\Controllers\Api\JobController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SettingController;
-use App\http\controllers\Api\CandidateJobController;
+use App\Http\Controllers\Api\CandidateJobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

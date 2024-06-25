@@ -11,6 +11,7 @@ use App\Models\AssignJob;
 use App\Models\Interview;
 use App\Transformers\JobTransformer;
 use App\Models\Job;
+use App\Models\Notification;
 use App\Models\CandidateLicence;
 use App\Models\CandJobLicence;
 use Illuminate\Support\Facades\Auth;
@@ -104,39 +105,6 @@ class CandidateJobController extends Controller
                 $candidate_job->job_position =  null;
                 $candidate_job->job_location = null;
                 $candidate_job->company_id = $interview_details->company_id ?? null;
-                $candidate_job->date_of_interview = null;
-                $candidate_job->date_of_selection =  null;
-                $candidate_job->mode_of_selection =  null;
-                $candidate_job->interview_location = null;
-                $candidate_job->client_remarks =null;
-                $candidate_job->other_remarks = null;
-                $candidate_job->sponsor = null;
-                $candidate_job->country = null;
-                $candidate_job->salary = null;
-                $candidate_job->food_allowance = null;
-                $candidate_job->contract_duration = null;
-                $candidate_job->mofa_no = null;
-                $candidate_job->mofa_date = null;
-                $candidate_job->family_contact_name = null;
-                $candidate_job->family_contact_no = null;
-                $candidate_job->medical_application_date = null;
-                $candidate_job->medical_completion_date = null;
-                $candidate_job->medical_status = null;
-                $candidate_job->visa_receiving_date = null;
-                $candidate_job->visa_issue_date = null;
-                $candidate_job->visa_expiry_date = null;
-                $candidate_job->ticket_booking_date = null;
-                $candidate_job->ticket_confirmation_date = null;
-                $candidate_job->fst_installment_amount = null;
-                $candidate_job->fst_installment_date = null;
-                $candidate_job->secnd_installment_amount = null;
-                $candidate_job->secnd_installment_date = null;
-                $candidate_job->third_installment_amount =null;
-                $candidate_job->third_installment_date = null;
-                $candidate_job->fourth_installment_amount = null;
-                $candidate_job->fourth_installment_date = null;
-                $candidate_job->total_amount = null;
-                $candidate_job->deployment_date = null;
                 $candidate_job->job_status = 'Active';
                 $candidate_job->job_interview_status = 'Selected';
                 $candidate_job->save();
@@ -169,8 +137,13 @@ class CandidateJobController extends Controller
                 }
             }
 
-            return response()->json(['message' => 'Job applied successfully.', 'status' => true], 200);
-                
+            $notification = new Notification;
+            $notification->candidate_id = Auth::user()->id;
+            $notification->type = 'Job Apply';
+            $notification->message = 'Congratulations on Applying for Your New Job!';
+            $notification->save();
+
+            return response()->json(['message' => 'Job applied successfully.', 'status' => true], 200);     
 
         }catch(\Throwable $th){
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);

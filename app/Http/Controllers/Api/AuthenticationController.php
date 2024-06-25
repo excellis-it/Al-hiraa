@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Models\CandidateOtp;
 use App\Models\CandidatePosition;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -166,6 +167,13 @@ class AuthenticationController extends Controller
                 $candidate->position_applied_for_3 = $request->job_interest[2]  ?? null;
                 $candidate->cnadidate_status_id = 1;
                 $candidate->save();
+
+                $notification = new Notification;
+                $notification->candidate_id = $candidate->id;
+                $notification->type = 'Login';
+                $notification->message = 'Congrats! You now have your professional website!';
+                $notification->save();
+
                 $candidateOtp->update(['expire_at' => $now]);
                 $candidate['token'] = $candidate->createToken('accessToken')->accessToken;
                 return response()->json(['message' => 'User registered successfully.', 'status' => true, 'candidate' => $candidate], 200);

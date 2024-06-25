@@ -293,7 +293,7 @@ class CandidateController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
+       
         $request->validate([
             'full_name' => 'required',
             // 'dob' => 'required',
@@ -512,30 +512,36 @@ class CandidateController extends Controller
     {
         // return $request->all();
         $candidates = Candidate::query();
-        if ($request->search) {
-            $main_search_text_arr = explode(',', $request->search);
+        if ($request->has('search')) {
+            // Split the search string into an array by commas and trim spaces
+            $main_search_text_arr = array_map('trim', explode(',', $request->search));
+            
+            // Get the position IDs for the search terms if they match any position names
             $position_id = CandidatePosition::whereIn('name', $main_search_text_arr)->pluck('id')->toArray();
-            $candidates->whereIn('full_name', $main_search_text_arr)
-                ->orWhereIn('gender', $main_search_text_arr)
-                ->orWhereIn('age', $main_search_text_arr)
-                ->orWhereIn('education', $main_search_text_arr)
-                ->orWhereIn('position_applied_for_1',  $position_id)
-                ->orWhereIn('position_applied_for_2',  $position_id)
-                ->orWhereIn('position_applied_for_3',  $position_id)
-                ->orWhereIn('email', $main_search_text_arr)
-                ->orWhereIn('city', $main_search_text_arr)
-                ->orWhereIn('religion', $main_search_text_arr)
-                ->orWhereIn('ecr_type', $main_search_text_arr)
-                ->orWhereIn('english_speak', $main_search_text_arr)
-                ->orWhereIn('arabic_speak', $main_search_text_arr);
-            // enter by
-            // ->orWhereHas('enterBy', function ($query) use ($request) {
-            //     $query->whereInRaw("CONCAT(first_name, ' ', last_name)",$main_search_text_arr );
-            // });
-            // date of birth 09.01.2021 format search
-            // ->orWhereRaw("DATE_FORMAT(date_of_birth, '%d.%m.%Y') LIKE '%" . $request->search . "%'")
-            // ->orWhereRaw("DATE_FORMAT(updated_at, '%d.%m.%Y') LIKE '%" . $request->search . "%'");
+        
+            // Build the query
+            $candidates->where(function ($query) use ($main_search_text_arr, $position_id) {
+                foreach ($main_search_text_arr as $term) {
+                    $query->where('full_name', 'like', "%$term%")
+                        ->orWhere('gender', 'like', "%$term%")
+                        ->orWhere('age', $term)
+                        ->orWhere('education', 'like', "%$term%")
+                        ->orWhere('email', 'like', "%$term%")
+                        ->orWhere('city', 'like', "%$term%")
+                        ->orWhere('religion', 'like', "%$term%")
+                        ->orWhere('ecr_type', 'like', "%$term%")
+                        ->orWhere('english_speak', 'like', "%$term%")
+                        ->orWhere('arabic_speak', 'like', "%$term%");
+                }
+        
+                if (!empty($position_id)) {
+                    $query->orWhereIn('position_applied_for_1', $position_id)
+                        ->orWhereIn('position_applied_for_2', $position_id)
+                        ->orWhereIn('position_applied_for_3', $position_id);
+                }
+            });
         }
+        
 
         if ($request->has('cnadidate_status_id')) {
             if (is_array($request->cnadidate_status_id)) {
@@ -651,6 +657,7 @@ class CandidateController extends Controller
 
     public function candidatePermission($candidate_id, $candidate_field_update_id)
     {
+
         $candidate_field_update = CandidateFieldUpdate::findOrFail($candidate_field_update_id);
         $candidate_field_update->is_granted = 1;
         $candidate_field_update->save();
@@ -659,7 +666,7 @@ class CandidateController extends Controller
         $candidate->cnadidate_status_id = $candidate_field_update->status;
         $candidate->save();
 
-        return redirect()->back()->with('message', 'Permission granted successfully');
+        return response()->json(['view' => view('candidates.update-single-data', compact('candidate'))->render(), 'status' => 'success']);
     }
 
     public function candidatesActivity($id)
@@ -731,6 +738,7 @@ class CandidateController extends Controller
 
     public function assignJob(Request $request, $candidate_id)
     {
+        
         $request->validate([
             'company_id' => 'required',
             'interview_id' => 'required',
@@ -808,10 +816,13 @@ class CandidateController extends Controller
                     $candidate_gulf_licence->save();
                 }
             }
-         
 
-            session()->flash('message', 'Job assigned successfully');
-            return response()->json(['status' => true, 'message' => 'Job assigned successfully.']);
+            $candidate = Candidate::findOrFail($candidate_id);
+            
+            return response()->json(['view' => view('candidates.update-single-data', compact('candidate'))->render(), 'status' => true]);
+
+            // session()->flash('message', 'Job assigned successfully');
+            // return response()->json(['status' => true, 'message' => 'Job assigned successfully.']);
         }
     }
 }

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('candidate_id')->nullable();
             $table->string('type')->nullable();
             $table->string('message')->nullable();
             $table->timestamps();

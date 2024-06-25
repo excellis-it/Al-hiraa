@@ -377,8 +377,9 @@
                                             <p class="m-md-1">{{ $data['candidateStatus']['name'] ?? '' }}</p>
                                             @if (Auth::user()->hasRole('ADMIN'))
                                                 <a href="javascript:void(0);" class="permission" id="permission"
-                                                    data-route="{{ route('candidates.permission', ['candidate_id' => $candidate->id, 'candidate_field_update_id' => $data['id']]) }}"><span><i
-                                                            class="fa-solid fa-check"></i></span></a>
+                                                    data-route="{{ route('candidates.permission', ['candidate_id' => $candidate->id, 'candidate_field_update_id' => $data['id']]) }}">
+                                                    <span><i class="fa-solid fa-check"></i></span>
+                                                </a>
                                             @endif
 
                                         </div>
@@ -464,25 +465,41 @@
     </div>
 
     <script>
-        $(document).on('click', '#permission', function(e) {
-            swal({
+        $(document).ready(function() {
+            $('#permission').click(function() {
+                swal({
                     title: "Are you sure?",
                     text: "To change the status.",
                     type: "warning",
                     confirmButtonText: "YES",
                     showCancelButton: true
-                })
-                .then((result) => {
+                }).then((result) => {
                     if (result.value) {
-                        window.location = $(this).data('route');
+                        // Perform AJAX request to the route
+                        var route = $('#permission').data('route');
+                        $.ajax({
+                            url: route,
+                            type: 'GET', // or 'POST' depending on your route definition
+                            success: function(response) {
+                                toastr.success('Permission granted successfully');
+                                $('#offcanvasEdit').offcanvas('hide');
+                                var candidate_id = "{{ $candidate->id }}";
+                                $(".candidate-new-" + candidate_id).html(response.view);
+                                // Optionally, redirect to a specific location
+                                // window.location = response.redirect_url;
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle error if needed
+                                console.error(error);
+                                swal('Error', 'Unable to process your request',
+                                'error');
+                            }
+                        });
                     } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your stay here :)',
-                            'error'
-                        )
+                        swal('Cancelled', 'Your stay here :)', 'error');
                     }
-                })
+                });
+            });
         });
     </script>
     <script>
@@ -1269,6 +1286,8 @@
                 }
             }
 
+            let toasterMessageShown = false;
+
             $(document).on('submit', '#candidate-edit-form', function(e) {
                 e.preventDefault();
 
@@ -1281,10 +1300,15 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        toastr.success('Candidate details updated successfully');
+                        if (!toasterMessageShown) {
+                            toastr.success('Candidate details updated successfully');
+                            toasterMessageShown = true;
+                        }
+
                         $('#offcanvasEdit').offcanvas('hide');
                         var candidate_id = "{{ $candidate->id }}";
-                        $(".candidate-new-"+candidate_id).html(response.view);
+                        console.log(candidate_id);
+                        $(".candidate-new-" + candidate_id).html(response.view);
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -1570,7 +1594,13 @@
                             processData: false,
                             success: function(response) {
                                 if (response.status == true) {
-                                    window.location.reload();
+
+                                    toastr.success('Job assign successfully');
+                                    $('#offcanvasEdit').offcanvas('hide');
+                                    var candidate_id = "{{ $candidate->id }}";
+                                    console.log(candidate_id);
+                                    $(".candidate-new-" + candidate_id).html(response
+                                        .view);
                                 } else {
                                     toastr.error(response.message);
                                 }
