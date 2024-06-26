@@ -17,9 +17,19 @@
 
 
 <td>
+    @if($candidate_job->job_interview_status == 'Selected')
     <div class="round_staus active">
         {{ $candidate_job->job_interview_status ?? 'N/A' }}
     </div>
+    @elseif($candidate_job->job_interview_status == 'Rejected')
+    <div class="round_staus inactive">
+        {{ $candidate_job->job_interview_status ?? 'N/A' }}
+    </div>
+    @else
+    <div class="round_staus active">
+        {{ $candidate_job->job_interview_status ?? 'N/A' }}
+    </div>
+    @endif
 </td>
 
 

@@ -17,7 +17,23 @@
 
 
 <td>
-    <div class="round_staus active">
+    @php
+    $statusClasses = [
+        'Active' => 'active',
+        'In-Active' => 'inactive',
+        'Black List' => 'black-list',
+        'Selected' => 'select-list',
+        'Backed Out' => 'backed-out',
+        'Under Medical' => 'medical-list',
+        'Fit' => 'fit',
+        'Unfit' => 'unfit',
+        'Awaiting Visa' => 'visa',
+        'Awaiting Deployment' => 'deployment',
+    ];
+    $statusClass = $statusClasses[$candidate->candidateStatus->name] ?? 'active'; 
+    @endphp
+    
+    <div class="round_staus {{ $statusClass }}">
         {{ $candidate->candidateStatus->name ?? 'N/A' }}
     </div>
 </td>

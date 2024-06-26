@@ -60,12 +60,14 @@
                 </div>
             </div>
         </div>
+
+        {{-- chart --}}
         <div class="row">
-            {{-- <div class="col-lg-6">
+            <div class="col-lg-6">
                 <div class="dashboard_graph">
                     <img src="{{asset('assets/images/sidebar-icon/graph.png')}}"/>
                 </div>
-            </div> --}}
+            </div>
             {{-- <div class="col-lg-6">
                 <div class="table_right">
                     <div class="py-3">
@@ -118,7 +120,7 @@
                     </div>
                 </div>
             </div> --}}
-            {{-- <div class="col-lg-6">
+            <div class="col-lg-6">
                 <div class="table_right">
                     <div class="py-3">
                         <h4 class="card-header__title">Current Users</h4>
@@ -249,9 +251,9 @@
                         </table>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
-        {{-- <div class="row">
+        <div class="row">
             <div class="col-lg-4">
                 <div class="dashboard_graph">
                     <img src="{{asset('assets/images/sidebar-icon/calennder_icon.png')}}"/>
@@ -321,7 +323,8 @@
                 </div>
             </div>
 
-        </div> --}}
+        </div>
+        {{-- chart end --}}
 
     </div>
 </div>

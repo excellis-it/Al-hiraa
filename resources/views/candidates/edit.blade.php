@@ -1286,10 +1286,14 @@
                 }
             }
 
-            let toasterMessageShown = false;
-
+            // let toasterMessageShown = false;
+            var ajaxCallAllowed = true;
             $(document).on('submit', '#candidate-edit-form', function(e) {
                 e.preventDefault();
+                
+                if (!ajaxCallAllowed) {
+                    return;
+                }
 
                 var formData = new FormData($(this)[0]);
 
@@ -1300,15 +1304,13 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        if (!toasterMessageShown) {
-                            toastr.success('Candidate details updated successfully');
-                            toasterMessageShown = true;
-                        }
-
+                    
+                        toastr.success('Candidate details updated successfully');
                         $('#offcanvasEdit').offcanvas('hide');
                         var candidate_id = "{{ $candidate->id }}";
                         console.log(candidate_id);
                         $(".candidate-new-" + candidate_id).html(response.view);
+                        ajaxCallAllowed = false;
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)

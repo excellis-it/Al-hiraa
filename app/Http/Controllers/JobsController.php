@@ -40,7 +40,7 @@ class JobsController extends Controller
             $count['total_selection'] = CandidateJob::where('job_interview_status','Selected')->count();
             $count['total_medical'] = CandidateJob::where('medical_status','!=',null)->count();
             $count['total_doc'] = CandidateJob::where('visa_receiving_date','!=',null)->count();
-            $count['total_collection'] = CandidateJob::where('ticket_booking_date','!=',null)->count();
+            $count['total_collection'] = CandidateJob::where('total_amount','!=',null)->count();
             $count['total_deployment'] =  CandidateJob::where('deployment_date','!=',null)->count();
             return view('jobs.list')->with(compact('candidate_jobs','companies','count'));
         } else {
@@ -266,7 +266,7 @@ class JobsController extends Controller
             'total_selection' => $baseQuery->where('job_interview_status', 'Selected')->count(),
             'total_medical' => $baseQuery->whereNotNull('medical_status')->count(),
             'total_doc' => $baseQuery->whereNotNull('visa_receiving_date')->count(),
-            'total_collection' => $baseQuery->whereNotNull('ticket_booking_date')->count(),
+            'total_collection' => $baseQuery->whereNotNull('total_amount')->count(),
             'total_deployment' => $baseQuery->whereNotNull('deployment_date')->count()
         ];
     }
@@ -337,7 +337,7 @@ class JobsController extends Controller
         }
 
         $candidate_job = CandidateJob::findOrFail($id);
-        session()->flash('message', 'Candidate details updated successfully');
+        // session()->flash('message', 'Candidate details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
 
         // session()->flash('message', 'Candidate details updated successfully');
@@ -374,7 +374,7 @@ class JobsController extends Controller
         $job_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        session()->flash('message', 'Candidate job details updated successfully');
+        // session()->flash('message', 'Candidate job details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }
 
@@ -394,7 +394,7 @@ class JobsController extends Controller
         $family_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        session()->flash('message', 'Candidate family details updated successfully');
+        // session()->flash('message', 'Candidate family details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }
 
@@ -417,7 +417,7 @@ class JobsController extends Controller
         $medical_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        session()->flash('message', 'Candidate medical details updated successfully');
+        // session()->flash('message', 'Candidate medical details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
 
     }
@@ -441,7 +441,7 @@ class JobsController extends Controller
         $visa_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        session()->flash('message', 'Candidate visa details updated successfully');
+        // session()->flash('message', 'Candidate visa details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }
 
@@ -461,7 +461,7 @@ class JobsController extends Controller
         $ticket_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        session()->flash('message', 'Candidate ticket details updated successfully');
+        // session()->flash('message', 'Candidate ticket details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }
 
@@ -488,7 +488,7 @@ class JobsController extends Controller
         $payment_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        session()->flash('message', 'Candidate payment details updated successfully');
+        // session()->flash('message', 'Candidate payment details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -21,6 +22,14 @@ class DashboardController extends Controller
             $count['monthly_candidate_entry'] = Candidate::whereMonth('created_at', date('m'))->count();
             $candidates = Candidate::orderBy('id', 'desc')->paginate(5);
         }
+
+
+        //how to find list which enter_by in candidates table has most of the candidates in descending order
+      return  $most_candidates = DB::table('candidates')
+            ->select('enter_by', DB::raw('count(*) as total'))
+            ->groupBy('enter_by')
+            ->orderBy('total', 'desc')
+            ->get();
         return view('dashboard')->with(compact('count', 'candidates'));
     }
 }

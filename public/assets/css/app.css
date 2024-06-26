@@ -3308,11 +3308,75 @@ h6+[aria-label=breadcrumb],
     background: #FCF3E7;
     border: 1px solid #F1AA41;
 }
+.black-list.round_staus:before {
+    background: #654321;
+}
 
+.round_staus.black-list {
+    color: #654321;
+    background: #FCF3E7;
+    border: 1px solid #654321;
+}
 
+.select-list.round_staus:before{
+    background: #2196F3;
+}
+.round_staus.select-list {
+    color: #2196F3;
+    background: #E3F2FD;
+    border: 1px solid #2196F3;
+}
+.backed-out.round_staus:before{
+    background: #FFC107;
+}
+.round_staus.backed-out {
+    color: #FFC107;
+    background: #FFF9C4;
+    border: 1px solid #FFC107;
+}
+.medical-list.round_staus:before{
+    background: #FF9800;
+}
+.round_staus.medical-list {
+    color: #FF9800;
+    background: #FFF9C4;
+    border: 1px solid #FF9800;
+}
+.fit.round_staus:before{
+    background: #4CAF50;
+}
+.round_staus.fit {
+    color: #4CAF50;
+    background: #fff;
+    border: 1px solid #4CAF50;
+}
 
+.unfit.round_staus:before{
+    background: #E53935;
+}
+.round_staus.unfit {
+    color: #E53935;
+    background: #fff;
+    border: 1px solid #E53935;
+}
 
+.visa.round_staus:before{
+    background: #045c85;
+}
+.round_staus.visa {
+    color: #045c85;
+    background: #fff;
+    border: 1px solid #045c85;
+}
 
+.deployment.round_staus:before{
+    background: #00BCD4;
+}
+.round_staus.deployment {
+    color: #00BCD4;
+    background: #fff;
+    border: 1px solid #00BCD4;
+}
 
 
 /* food-sec */
@@ -4742,10 +4806,17 @@ h6+[aria-label=breadcrumb],
     background: rgba(255, 8, 8, 0.281);
 }
 
-.edit-1-btn #cross-button-job button {
+/* .edit-1-btn #cross-button-job button {
     color: rgb(182, 12, 12);
     border: 1px solid rgb(175, 17, 17);
     background: rgba(255, 8, 8, 0.281);
+} */
+
+.edit-2.cross-red button{
+    color: rgb(182, 12, 12);
+    border: 1px solid rgb(175, 17, 17);
+    background: rgba(255, 8, 8, 0.281);
+
 }
 
 .edit-1-btn {
@@ -5330,11 +5401,14 @@ h6+[aria-label=breadcrumb],
 }
 
 
-  .bg_candidate td{
+  /* .bg_candidate td{
     border-top: 1px solid #1492e6 !important;
     border-bottom: 1px solid #1492e6 !important;
     background: #f5f5f5 !important;
-  }
+  } */
+
+
+  
 /* .select2-selection.select2-selection--single .select2-results__option:before {
     margin-right: 5px !important;
     height: 15px;
@@ -5644,6 +5718,9 @@ li.tagator_option{
     border: 1px solid rgb(0 0 0 / 20%);
     box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 20%); 
 }
+
+
+
 
 
 
