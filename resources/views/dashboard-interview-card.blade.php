@@ -57,3 +57,15 @@
 </div>
 
 @endforeach
+
+<tr>
+    <td colspan="4" class="text-left">
+        <div class="d-flex justify-content-between">
+            <div class="">
+                (Showing {{ $interview_list->firstItem() }} – {{ $interview_list->lastItem() }} users of
+                {{ $interview_list->total() }} users)
+            </div>
+            <div>{!! $interview_list->links() !!}</div>
+        </div>
+    </td>
+</tr>

@@ -379,9 +379,9 @@
                     <div class="interview-card">
                         @include('dashboard-interview-card')
                     </div>
-                    <div class="">
+                    {{-- <div class="">
                         <button class="btn btn-info">>> next</button>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-lg-4">
                     <div class="dashboard_graph">

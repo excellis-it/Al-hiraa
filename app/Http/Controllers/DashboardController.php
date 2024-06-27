@@ -44,7 +44,7 @@ class DashboardController extends Controller
             ->orderByRaw('total_schedules DESC, total_appears DESC, total DESC')
             ->paginate(5);
         
-        $interview_list = CandidateJob::whereDate('date_of_interview', date('d-m-Y'))->orderBy('id', 'desc')->paginate(1);
+        $interview_list = CandidateJob::where('date_of_interview', date('d-m-Y'))->orderBy('id', 'desc')->paginate(1);
 
         return view('dashboard')->with(compact('count', 'candidates','most_candidates','interview_list'));
     }

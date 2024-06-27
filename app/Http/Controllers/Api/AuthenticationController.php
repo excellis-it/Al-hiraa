@@ -48,18 +48,14 @@ class AuthenticationController extends Controller
             ], 201);
         }
 
-       
-
         try {
             $userOtp = null;
             if($request->mobile_number){
                 $userOtp = $this->generateOtp($request->mobile_number);
-            }else{
-                
+            }else{ 
                 $userOtp = $this->generateOtp($request->email_id);
             }
 
-            
             //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
                 if($request->mobile_number){
@@ -79,7 +75,6 @@ class AuthenticationController extends Controller
 
     private function generateOtp($value)
     {
-        
         if ($value) {
             $candidate = Candidate::where('contact_no', $value)->orWhere('email', $value)->first();
         } 
