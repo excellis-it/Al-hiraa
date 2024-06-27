@@ -25,13 +25,13 @@ class JobsController extends Controller
      */
     public function index()
     {
-        
+
         if (Auth::user()->can('Manage Job')) {
-           
+
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
                 $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
             } else {
-                
+
                 $candidate_jobs = CandidateJob::orderBy('id', 'desc')->paginate(15);
             }
 
@@ -44,7 +44,7 @@ class JobsController extends Controller
             $count['total_deployment'] =  CandidateJob::where('deployment_date','!=',null)->count();
             return view('jobs.list')->with(compact('candidate_jobs','companies','count'));
         } else {
-            
+
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -114,7 +114,7 @@ class JobsController extends Controller
 
         $request->validate([
             'full_name' => 'required',
-            
+
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
@@ -129,7 +129,7 @@ class JobsController extends Controller
         if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             $candidate->cnadidate_status_id = $request->cnadidate_status_id;
         }
-        
+
         if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             event(new CallCandidateEndEvent($candidate->id));
         }
@@ -152,7 +152,7 @@ class JobsController extends Controller
 
     public function userAutoFill(Request $request)
     {
-        
+
     }
 
     public function candidatejobFilter(Request $request)
@@ -162,10 +162,10 @@ class JobsController extends Controller
         $job_id = $request->job_id;
         $company = $request->company;
         $int_pipeline = $request->int_pipeline;
-    
+
         // Initialize query
         $query = CandidateJob::query();
-    
+
         // Apply search terms
         if ($search) {
             $searchTerms = explode(',', $search);
@@ -184,75 +184,68 @@ class JobsController extends Controller
                 }
             });
         }
-    
+
         // Filter by job ID
         if ($job_id) {
             $query->whereIn('job_id', $job_id);
         }
-    
+
         // Filter by company
         if ($company) {
             $query->where('company_id', $company);
         }
-    
+
         // Filter by interview pipeline status
         if ($int_pipeline) {
             $this->applyInterviewPipelineFilter($query, $int_pipeline);
         }
-    
+
         // Count statistics
         $count = $this->getJobStatistics($job_id, $company);
-    
+
         // Paginate the results
         $candidate_jobs = $query->paginate(15);
-    
+
         // Render the results into a view
         $view = view('jobs.company-filter', compact('candidate_jobs', 'count', 'int_pipeline'))->render();
-    
+
         // Return a JSON response
         return response()->json([
             'view' => $view
         ]);
     }
-    
+
     // Helper function to apply interview pipeline filters
     private function applyInterviewPipelineFilter($query, $int_pipeline)
     {
         switch ($int_pipeline) {
             case 'All':
-                $query->where('job_status', 'Active');
                 break;
             case 'Selection':
-                $query->where('job_interview_status', 'Selected')
-                      ->where('job_status', 'Active');
+                $query->where('job_interview_status', 'Selected');
                 break;
             case 'Medical':
-                $query->whereNotNull('medical_status')
-                      ->where('job_status', 'Active');
+                $query->whereNotNull('medical_status');
                 break;
             case 'Document':
-                $query->whereNotNull('visa_receiving_date')
-                      ->where('job_status', 'Active');
+                $query->whereNotNull('visa_receiving_date');
                 break;
             case 'Collection':
-                $query->whereNotNull('total_amount')
-                      ->where('job_status', 'Active');
+                $query->whereNotNull('total_amount');
                 break;
             case 'Deployment':
-                $query->whereNotNull('deployment_date')
-                      ->where('job_status', 'Active');
+                $query->whereNotNull('deployment_date');
                 break;
             default:
-                $query->where('job_status', 'Deactive');
                 break;
         }
     }
-    
+
     // Helper function to get job statistics
     private function getJobStatistics($job_id, $company)
     {
         $baseQuery = CandidateJob::query();
-        
+
         if ($job_id) {
             $baseQuery->whereIn('job_id', $job_id);
         }
@@ -260,20 +253,22 @@ class JobsController extends Controller
         if ($company) {
             $baseQuery->where('company_id', $company);
         }
-    
+
+        $candidate_jobs = $baseQuery->get();
+        
         return [
-            'total_interviews' => $baseQuery->count(),
-            'total_selection' => $baseQuery->where('job_interview_status', 'Selected')->count(),
-            'total_medical' => $baseQuery->whereNotNull('medical_status')->count(),
-            'total_doc' => $baseQuery->whereNotNull('visa_receiving_date')->count(),
-            'total_collection' => $baseQuery->whereNotNull('total_amount')->count(),
-            'total_deployment' => $baseQuery->whereNotNull('deployment_date')->count()
+            'total_interviews' => $candidate_jobs->count(),
+            'total_selection' => $candidate_jobs->where('job_interview_status', 'Selected')->count(),
+            'total_medical' => $candidate_jobs->where('medical_status', '!=', null)->count(),
+            'total_doc' => $candidate_jobs->where('visa_receiving_date', '!=', null)->count(),
+            'total_collection' => $candidate_jobs->where('total_amount', '!=', null)->count(),
+            'total_deployment' => $candidate_jobs->whereNotNull('deployment_date')->count()
         ];
     }
-    
+
     public function candidateDetailsUpdate(Request $request, string $id)
     {
-        
+
         $request->validate([
             'full_name' => 'required',
             'gender' => 'required',
@@ -288,7 +283,7 @@ class JobsController extends Controller
         $company_id = Job::where('id', $request->job_title)->first()->company_id;
 
         $candidate_job_update = CandidateJob::findOrFail($id);
-        $candidate_job_update->full_name = $request->full_name; 
+        $candidate_job_update->full_name = $request->full_name;
         $candidate_job_update->email = $request->email;
         $candidate_job_update->gender = $request->gender;
         $candidate_job_update->date_of_birth = $request->dob;
@@ -354,7 +349,7 @@ class JobsController extends Controller
         ], [
             'salary.required' => 'The salary field is required.',
             'date_of_interview.required' => 'The date of interview is required.',
-            'date_of_selection.required' => 'The date of selection is required.',   
+            'date_of_selection.required' => 'The date of selection is required.',
         ]);
 
         $job_details_update = CandidateJob::findOrFail($id);
@@ -493,5 +488,5 @@ class JobsController extends Controller
     }
 
 
-  
+
 }
