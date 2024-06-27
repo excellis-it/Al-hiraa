@@ -7,6 +7,8 @@ use App\Models\Candidate;
 use App\Models\CandidateOtp;
 use App\Models\CandidatePosition;
 use App\Models\Notification;
+use App\Mail\SendUserOtp;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,31 +33,59 @@ class AuthenticationController extends Controller
 
     public function requestOtp(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required|digits:10|exists:candidates,contact_no'
+            'mobile_number' => 'required_without:email_id|digits:10|exists:candidates,contact_no',
+            'email_id' => 'required_without:mobile_number|email|exists:candidates,email'
         ]);
 
+        
+
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->first(), 'status' => false], 201);
+            return response()->json([
+                'message' => $validator->errors()->first(),
+                'status' => false
+            ], 201);
         }
 
+       
+
         try {
-            $userOtp = $this->generateOtp($request->mobile_number);
+            $userOtp = null;
+            if($request->mobile_number){
+                $userOtp = $this->generateOtp($request->mobile_number);
+            }else{
+                
+                $userOtp = $this->generateOtp($request->email_id);
+            }
+
+            
+            //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
-                $userOtp->sendSMS($request->mobile_number); // Send OTP to the user
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id], 200);
+                if($request->mobile_number){
+                    // $userOtp->sendSMS($request->mobile_number);
+                }else{
+                    Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
+                }
+                return response()->json(['message' => 'OTP sent successfully.', 'status' => true], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
+
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
     }
 
-    private function generateOtp($mobileNumber)
+    private function generateOtp($value)
     {
-        // return $mobileNumber;
-        $candidate = Candidate::where('contact_no', $mobileNumber)->first();
+        
+        if ($value) {
+            $candidate = Candidate::where('contact_no', $value)->orWhere('email', $value)->first();
+        } 
+
+        
+        // $candidate = Candidate::where('contact_no', $value)->first();
 
         /*User Does not Have any Existing OTP*/
         CandidateOtp::where('user_id', $candidate->id)->delete();
