@@ -289,7 +289,7 @@
                 if (type == 'Other') {
                     $('.position_applied_1').html(
                         ` <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
-                class="position_applied_for_1">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_1" placeholder="">`
+                class="position_applied_for_1">List</a></span></label><input type="text" class="form-control uppercase-text" id="" name="position_applied_for_1" placeholder="">`
                     );
 
                     if ($('.specialisation_1').length) {
@@ -300,7 +300,7 @@
                 } else {
                     $('.position_applied_1').html(
                         ` <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
-                class="position_applied_for_1">Other</a></span></label><select name="position_applied_for_1" class="form-select select2 positionAppliedFor1" id="">
+                class="position_applied_for_1">Other</a></span></label><select name="position_applied_for_1" class="form-select select2 positionAppliedFor1 uppercase-text" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -325,7 +325,7 @@
                 if (type == 'Other') {
                     $('.position_applied_2').html(
                         ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
-                class="position_applied_for_2">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_2" placeholder="">`
+                class="position_applied_for_2">List</a></span></label><input type="text" class="form-control uppercase-text" id="" name="position_applied_for_2" placeholder="">`
                     );
                     if ($('.specialisation_2').length) {
 
@@ -334,7 +334,7 @@
                 } else {
                     $('.position_applied_2').html(
                         ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
-                class="position_applied_for_2">Other</a></span></label><select name="position_applied_for_2" class="form-select select2 positionAppliedFor2" id="">
+                class="position_applied_for_2">Other</a></span></label><select name="position_applied_for_2" class="form-select select2 positionAppliedFor2 uppercase-text" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -358,7 +358,7 @@
                 if (type == 'Other') {
                     $('.position_applied_3').html(
                         ` <label for="">Position Applied For(3) <span><a href="javascript:void(0);"
-                class="position_applied_for_3">List</a></span></label><input type="text" class="form-control" id="" name="position_applied_for_3" placeholder="">`
+                class="position_applied_for_3">List</a></span></label><input type="text" class="form-control uppercase-text" id="" name="position_applied_for_3" placeholder="">`
                     );
                     if ($('.specialisation_3').length) {
 
@@ -367,7 +367,7 @@
                 } else {
                     $('.position_applied_3').html(
                         ` <label for="">Position Applied For(3)  <span><a href="javascript:void(0);"
-                class="position_applied_for_3">Other</a></span></label><select name="position_applied_for_3" class="form-select select2 positionAppliedFor3" id="">
+                class="position_applied_for_3">Other</a></span></label><select name="position_applied_for_3" class="form-select select2 positionAppliedFor3 uppercase-text" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)
                             <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
@@ -407,7 +407,7 @@
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
                     var newDiv = $(
-                        '<div class="col-lg-4 specialisation_1"><div class="form-group "><label>Specialisation for Position (1)</label><input type="text" class="form-control" name="specialisation_1"></div></div>'
+                        '<div class="col-lg-4 specialisation_1"><div class="form-group "><label>Specialisation for Position (1)</label><input type="text" class="form-control uppercase-text" name="specialisation_1"></div></div>'
                     );
 
                     // only append if the new specialisation_1 div doesn't exist
@@ -429,7 +429,7 @@
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
                     var newDiv = $(
-                        '<div class="col-lg-4 specialisation_2"><div class="form-group "><label>Specialisation for Position (2)</label><input type="text" class="form-control" name="specialisation_2"></div></div>'
+                        '<div class="col-lg-4 specialisation_2"><div class="form-group "><label>Specialisation for Position (2)</label><input type="text" class="form-control uppercase-text" name="specialisation_2"></div></div>'
                     );
 
                     // only append if the new specialisation_2 div doesn't exist
@@ -451,7 +451,7 @@
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
                     var newDiv = $(
-                        '<div class="col-lg-4 specialisation_3"><div class="form-group "><label>Specialisation for Position (3)</label><input type="text" class="form-control" name="specialisation_3"></div></div>'
+                        '<div class="col-lg-4 specialisation_3"><div class="form-group "><label>Specialisation for Position (3)</label><input type="text" class="form-control uppercase-text" name="specialisation_3"></div></div>'
                     );
 
                     // only append if the new specialisation_3 div doesn't exist

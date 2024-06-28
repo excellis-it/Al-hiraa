@@ -262,7 +262,7 @@
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
                                         </td>
-                                        <td>Last Call Status</td>
+                                        <td>Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
@@ -530,7 +530,7 @@
                             <td>DOB</td>
                             <td>
                             <div class="form-group">
-                                <input type="text" class="form-control uppercase-text datepicker" id="dob"
+                                <input type="date" class="form-control uppercase-text" id="dob"
                                     value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}"
                                     name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
                                 <span class="text-danger" id="date_of_birth_msg"></span>
@@ -876,10 +876,10 @@
                                     name="abroad_exp" placeholder="">
                                     <span class="text-danger" id="abroad_exp_msg"></span>
                             </td>
-                            <td>Last Call Status</td>
+                            <td>Call Status</td>
                             <td>
                                 <select name="call_status" class="form-select uppercase-text" id="">
-                                    <option value="">Select Last Call Status</option>
+                                    <option value="">Select Call Status</option>
                                     @foreach (Position::getCallStatus() as $item)
                                         <option value="{{ $item }}">
                                             {{ $item }}</option>
@@ -1088,7 +1088,7 @@
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
                                         </td>
-                                        <td>Last Call Status</td>
+                                        <td>Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
