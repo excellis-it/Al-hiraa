@@ -5850,8 +5850,18 @@ li.tagator_option{
 .datepicker button{
 border: none !important;
 }
-
-
+.date-btn button{
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-radius: 0;
+    border-bottom: 1px solid #d0d0d0; 
+}
+.date-btn button:hover{
+    background: transparent;
+    color: #6c757d;
+    border-bottom: 1px solid #d0d0d0; 
+}
 
 
 
