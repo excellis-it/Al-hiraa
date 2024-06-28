@@ -208,7 +208,8 @@
 @push('scripts')
 <script>
      $('.datepicker').datepicker({
-            dateFormat: 'dd-mm-yy',
+        uiLibrary: 'bootstrap5',
+        format: 'dd-mm-yyyy',
             // minDate: 0
             minDate: new Date()
         });

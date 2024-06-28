@@ -224,7 +224,8 @@
     <script>
         $(document).ready(function() {
             $('.datepicker').datepicker({
-                dateFormat: 'dd-mm-yy',
+                uiLibrary: 'bootstrap5',
+                format: 'dd-mm-yyyy',
                 maxDate: new Date(),
 
             });

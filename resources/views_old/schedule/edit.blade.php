@@ -76,7 +76,8 @@
     </div>
     <script>
          $('.datepicker').datepicker({
-            dateFormat: 'dd-mm-yy',
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
         });
     </script>
 @endif

@@ -300,16 +300,16 @@
                                 </td>
 
                                 @php
-                                if (isset($candidate->candidateUpdate->user->full_name)) {
-                                    $data = Helper::getUpdatedData(
-                                        $candidate->id,
-                                        $candidate->candidateUpdate->user_id,
-                                    );
-                                } else {
-                                    $data = [];
-                                }
-                            @endphp
-                            @if ($data != null)
+                                    if (isset($candidate->candidateUpdate->user->full_name)) {
+                                        $data = Helper::getUpdatedData(
+                                            $candidate->id,
+                                            $candidate->candidateUpdate->user_id,
+                                        );
+                                    } else {
+                                        $data = [];
+                                    }
+                                @endphp
+                                @if ($data != null)
 
                                     <td>Status</td>
                                     <td>
@@ -328,133 +328,132 @@
                             </tr>
 
 
-                                {{-- <tr>
+                            {{-- <tr>
                                     <td>Postion</td>
                                     <td>{{ $data['position'] ?? '' }}
                                     </td>
                                 </tr> --}}
-                            @endif
+@endif
 
-                        </tbody>
-                    </table>
+</tbody>
+</table>
+</div>
+</div>
+<form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST" id="candidate-job-create-form">
+    @method('PUT')
+    @csrf
+    <div class="candidate_details">
+        <div class="can-div d-flex justify-content-between align-items-center">
+            <div class="can-head">
+                <h4>Assign Job Details</h4>
+            </div>
+            <div class="edit-1-btn d-flex align-items-center">
+
+                <div class="edit-2 cross-red" id="cross-button-job">
+
+                </div>
+                <div class="edit-2 m-lg-1" id="submit-button-job">
+
+                </div>
+                <div class="edit-1" id="open-job-input">
+                    @can('Edit Candidate')
+                        <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
+                    @endcan
                 </div>
             </div>
-            <form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST"
-                id="candidate-job-create-form">
-                @method('PUT')
-                @csrf
-                <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Assign Job Details</h4>
-                        </div>
-                        <div class="edit-1-btn d-flex align-items-center">
+        </div>
+        <div class="candidate_form candidate_edit_form">
+            <div class="table-responsive" id="tableContainer">
+                <table class="table" id="candidate-form-job">
+                    <tbody>
+                        <tr>
+                            <td>Assigned By</td>
+                            <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                            </td>
+                            <td>Company</td>
+                            <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                            </td>
+                            <td>Job Title</td>
+                            <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                            </td>
+                        </tr>
 
-                            <div class="edit-2 cross-red" id="cross-button-job">
+                        <tr>
+                            <td>Job Position</td>
+                            <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                            </td>
+                            <td>Job Location</td>
+                            <td>{{ $assign_job->job->address ?? 'N/A' }}
+                            </td>
+                            <td>Interview status</td>
+                            <td>
+                                {{ $assign_job->interview_status ?? 'N/A' }}
+                            </td>
+                        </tr>
 
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button-job">
-
-                            </div>
-                            <div class="edit-1" id="open-job-input">
-                                @can('Edit Candidate')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate_form candidate_edit_form">
-                        <div class="table-responsive" id="tableContainer">
-                            <table class="table" id="candidate-form-job">
-                                <tbody>
-                                    <tr>
-                                        <td>Assigned By</td>
-                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
-                                        </td>
-                                        <td>Company</td>
-                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
-                                        </td>
-                                        <td>Job Title</td>
-                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Job Position</td>
-                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
-                                        </td>
-                                        <td>Job Location</td>
-                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
-                                        </td>
-                                        <td>Interview status</td>
-                                        <td>
-                                            {{ $assign_job->interview_status ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </form>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+</form>
+</div>
+</div>
 
-    <script>
-        $(document).ready(function() {
-            $('#permission').click(function() {
-                swal({
-                    title: "Are you sure?",
-                    text: "To change the status.",
-                    type: "warning",
-                    confirmButtonText: "YES",
-                    showCancelButton: true
-                }).then((result) => {
-                    if (result.value) {
-                        // Perform AJAX request to the route
-                        var route = $('#permission').data('route');
-                        $.ajax({
-                            url: route,
-                            type: 'GET', // or 'POST' depending on your route definition
-                            success: function(response) {
-                                toastr.success('Permission granted successfully');
-                                $('#offcanvasEdit').offcanvas('hide');
-                                var candidate_id = "{{ $candidate->id }}";
-                                $(".candidate-new-" + candidate_id).html(response.view);
-                                // Optionally, redirect to a specific location
-                                // window.location = response.redirect_url;
-                            },
-                            error: function(xhr, status, error) {
-                                // Handle error if needed
-                                console.error(error);
-                                swal('Error', 'Unable to process your request',
-                                    'error');
-                            }
-                        });
-                    } else if (result.dismiss === 'cancel') {
-                        swal('Cancelled', 'Your stay here :)', 'error');
-                    }
-                });
+<script>
+    $(document).ready(function() {
+        $('#permission').click(function() {
+            swal({
+                title: "Are you sure?",
+                text: "To change the status.",
+                type: "warning",
+                confirmButtonText: "YES",
+                showCancelButton: true
+            }).then((result) => {
+                if (result.value) {
+                    // Perform AJAX request to the route
+                    var route = $('#permission').data('route');
+                    $.ajax({
+                        url: route,
+                        type: 'GET', // or 'POST' depending on your route definition
+                        success: function(response) {
+                            toastr.success('Permission granted successfully');
+                            $('#offcanvasEdit').offcanvas('hide');
+                            var candidate_id = "{{ $candidate->id }}";
+                            $(".candidate-new-" + candidate_id).html(response.view);
+                            // Optionally, redirect to a specific location
+                            // window.location = response.redirect_url;
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle error if needed
+                            console.error(error);
+                            swal('Error', 'Unable to process your request',
+                                'error');
+                        }
+                    });
+                } else if (result.dismiss === 'cancel') {
+                    swal('Cancelled', 'Your stay here :)', 'error');
+                }
             });
         });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $(document).on("click", '#open-input', function(e) {
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $(document).on("click", '#open-input', function(e) {
 
-                $(this).html(``);
+            $(this).html(``);
 
-                $(".see-more-container").hide();
-                $('#submit-button').html(
-                    `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
-                )
+            $(".see-more-container").hide();
+            $('#submit-button').html(
+                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
+            )
 
-                $('#cross-button').html(
-                    `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
-                )
+            $('#cross-button').html(
+                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
+            )
 
-                $('#candidate-form').html(`   <tbody class="candidate-form-new">
+            $('#candidate-form').html(`   <tbody class="candidate-form-new">
                     <tr>
                     <td>Enter By</td>
                             <td>
@@ -530,7 +529,7 @@
                             <td>DOB</td>
                             <td>
                             <div class="form-group">
-                                <input type="date" class="form-control uppercase-text" id="dob"
+                                <input type="text" class="form-control uppercase-text datepicker" id="dob"
                                     value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}"
                                     name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
                                 <span class="text-danger" id="date_of_birth_msg"></span>
@@ -880,7 +879,7 @@
                             <td>
                                 <select name="call_status" class="form-select uppercase-text" id="">
                                     <option value="">Select Call Status</option>
-                                    @foreach(Position::getCallStatus() as $item)
+                                    @foreach (Position::getCallStatus() as $item)
                                         <option value="{{ $item }}">
                                             {{ $item }}</option>
                                     @endforeach
@@ -899,28 +898,29 @@
                             </td>
                         </tr></tbody>`)
 
-                $('.new_select2').each(function() {
-                    $(this).select2({
-                        dropdownParent: $(this).parent()
-                    });
-                })
-                $( function() {
-                    $('.datepicker').datepicker({
-                        dateFormat: 'dd-mm-yy',
-                        maxDate: new Date(),
-                    });
+            $('.new_select2').each(function() {
+                $(this).select2({
+                    dropdownParent: $(this).parent()
                 });
-
-
+            })
+            $(function() {
+                $('.datepicker').datepicker({
+                    uiLibrary: 'bootstrap5',
+                    format: 'dd-mm-yyyy',
+                    maxDate: new Date()
+                });
             });
-            $(document).on("click", '#cross-button', function(e) {
 
-                $(this).html(``);
-                $(".see-more-container").hide();
-                $('#submit-button').html(``)
-                $('#open-input').html(
-                    ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
-                $('#candidate-form').html(`<tbody > <tr>
+
+        });
+        $(document).on("click", '#cross-button', function(e) {
+
+            $(this).html(``);
+            $(".see-more-container").hide();
+            $('#submit-button').html(``)
+            $('#open-input').html(
+                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+            $('#candidate-form').html(`<tbody > <tr>
                                         <td>Enter By</td>
                                         <td>{{ $candidate->enterBy->full_name ?? '' }}
                                         </td>
@@ -1100,41 +1100,6 @@
 
                                         </td>
                                     </tr></tbody>`);
-                var visibleRows = 5;
-                showRows(visibleRows);
-
-                // Handle the "See More" button click
-                $(document).on("click", '#seeMoreBtn', function(e) {
-                    e.preventDefault();
-                    // Show additional rows (e.g., 5 more)
-                    visibleRows += 28;
-                    showRows(visibleRows);
-                });
-
-                // Function to show the specified number of rows
-                function showRows(rowsToShow) {
-                    var $tableContainer = $("#tableContainer");
-                    var $tableRows = $tableContainer.find("tbody tr");
-
-                    // Hide all rows
-                    $tableRows.hide();
-
-                    // Show the specified number of rows
-                    $tableRows.slice(0, rowsToShow).show();
-
-                    // Toggle the "See More" button visibility based on the total number of rows
-                    if ($tableRows.length > rowsToShow) {
-                        $(".see-more-container").show();
-                    } else {
-                        $(".see-more-container").hide();
-                    }
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            // Show the first 5 rows initially
             var visibleRows = 5;
             showRows(visibleRows);
 
@@ -1164,200 +1129,235 @@
                     $(".see-more-container").hide();
                 }
             }
-
-            // let toasterMessageShown = false;
-            var ajaxCallAllowed = true;
-            $(document).on('submit', '#candidate-edit-form', function(e) {
-                e.preventDefault();
-
-                if (!ajaxCallAllowed) {
-                    return;
-                }
-
-                var formData = new FormData($(this)[0]);
-
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-
-                        toastr.success('Candidate details updated successfully');
-                        $('#offcanvasEdit').offcanvas('hide');
-                        var candidate_id = "{{ $candidate->id }}";
-                        console.log(candidate_id);
-                        $(".candidate-new-" + candidate_id).html(response.view);
-                        ajaxCallAllowed = false;
-                    },
-                    error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            toastr.error(value);
-                        });
-                    }
-                });
-            });
-
         });
-    </script>
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        // Show the first 5 rows initially
+        var visibleRows = 5;
+        showRows(visibleRows);
 
-    <script>
-        $(document).ready(function() {
-            $(document).on('click', '.position_applied_for_1', function() {
+        // Handle the "See More" button click
+        $(document).on("click", '#seeMoreBtn', function(e) {
+            e.preventDefault();
+            // Show additional rows (e.g., 5 more)
+            visibleRows += 28;
+            showRows(visibleRows);
+        });
 
-                var type = $(this).text();
-                // alert(type);
-                if (type == 'Other') {
-                    $('.position_applied_1').html(`<td>Position Applied For(1) <span><a href="javascript:void(0);"
+        // Function to show the specified number of rows
+        function showRows(rowsToShow) {
+            var $tableContainer = $("#tableContainer");
+            var $tableRows = $tableContainer.find("tbody tr");
+
+            // Hide all rows
+            $tableRows.hide();
+
+            // Show the specified number of rows
+            $tableRows.slice(0, rowsToShow).show();
+
+            // Toggle the "See More" button visibility based on the total number of rows
+            if ($tableRows.length > rowsToShow) {
+                $(".see-more-container").show();
+            } else {
+                $(".see-more-container").hide();
+            }
+        }
+
+        // let toasterMessageShown = false;
+        var ajaxCallAllowed = true;
+        $(document).on('submit', '#candidate-edit-form', function(e) {
+            e.preventDefault();
+
+            if (!ajaxCallAllowed) {
+                return;
+            }
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+
+                    toastr.success('Candidate details updated successfully');
+                    $('#offcanvasEdit').offcanvas('hide');
+                    var candidate_id = "{{ $candidate->id }}";
+                    console.log(candidate_id);
+                    $(".candidate-new-" + candidate_id).html(response.view);
+                    ajaxCallAllowed = false;
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        toastr.error(value);
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '.position_applied_for_1', function() {
+
+            var type = $(this).text();
+            // alert(type);
+            if (type == 'Other') {
+                $('.position_applied_1').html(`<td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">List</a></span></td> <td colspan="5"> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor1->name ?? '' }}"
                                 name="position_applied_for_1" placeholder=""> </td>`);
-                    if ($('.specialisation_1').length) {
-                        $('.specialisation_1').remove();
-                    }
-                } else {
-                    $('.position_applied_1').html(
-                        `<td>Position Applied For(1) <span><a href="javascript:void(0);"
+                if ($('.specialisation_1').length) {
+                    $('.specialisation_1').remove();
+                }
+            } else {
+                $('.position_applied_1').html(
+                    `<td>Position Applied For(1) <span><a href="javascript:void(0);"
                                 class="position_applied_for_1">Other</a></span></td> <td colspan="5"> <select
                                 name="position_applied_for_1" class="form-select uppercase-text new_select2 positionAppliedFor1" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_1 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                    );
-                }
-            });
+                );
+            }
+        });
 
-            $(document).on('click', '.position_applied_for_2', function() {
+        $(document).on('click', '.position_applied_for_2', function() {
 
-                var type = $(this).text();
-                // alert(type);
-                if (type == 'Other') {
-                    $('.position_applied_2').html(`<td>Position Applied For(2) <span><a href="javascript:void(0);"
+            var type = $(this).text();
+            // alert(type);
+            if (type == 'Other') {
+                $('.position_applied_2').html(`<td>Position Applied For(2) <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">List</a></span></td> <td colspan="5"> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor2->name ?? '' }}"
                                 name="position_applied_for_2" placeholder=""> </td>`);
-                    if ($('.specialisation_2').length) {
-                        $('.specialisation_2').remove();
+                if ($('.specialisation_2').length) {
+                    $('.specialisation_2').remove();
 
-                    }
-                } else {
-                    $('.position_applied_2').html(
-                        `<td>Position Applied For(2) <span><a href="javascript:void(0);"
+                }
+            } else {
+                $('.position_applied_2').html(
+                    `<td>Position Applied For(2) <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></td> <td colspan="5"> <select
                                 name="position_applied_for_2" class="form-select uppercase-text new_select2 positionAppliedFor2" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_2 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                    );
-                }
-            });
+                );
+            }
+        });
 
-            $(document).on('click', '.position_applied_for_3', function() {
+        $(document).on('click', '.position_applied_for_3', function() {
 
-                var type = $(this).text();
-                // alert(type);
-                if (type == 'Other') {
-                    $('.position_applied_3').html(`<td>Position Applied For(3) <span><a href="javascript:void(0);"
+            var type = $(this).text();
+            // alert(type);
+            if (type == 'Other') {
+                $('.position_applied_3').html(`<td>Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">List</a></span></td> <td colspan="5"> <input type="text"
                                 class="form-control uppercase-text" id="" value="{{ $candidate->positionAppliedFor3->name ?? '' }}"
                                 name="position_applied_for_3" placeholder=""> </td>`);
-                    if ($('.specialisation_3').length) {
-                        $('.specialisation_3').remove();
+                if ($('.specialisation_3').length) {
+                    $('.specialisation_3').remove();
 
-                    }
-                } else {
-                    $('.position_applied_3').html(
-                        `<td>Position Applied For(3) <span><a href="javascript:void(0);"
+                }
+            } else {
+                $('.position_applied_3').html(
+                    `<td>Position Applied For(3) <span><a href="javascript:void(0);"
                                 class="position_applied_for_3">Other</a></span></td> <td colspan="5"> <select
                                 name="position_applied_for_3" class="form-select uppercase-text new_select2 positionAppliedFor3" id=""> <option
                                     value="">Select Position</option> @foreach ($candidate_positions as $item)
                                 <option value="{{ $item['id'] }}"
                                     {{ $candidate->position_applied_for_3 == $item['id'] ? 'selected' : '' }}>
                                     {{ $item['name'] }}</option> @endforeach </select> </td>`
-                    );
-                }
-            });
-
-            $(document).on('change', '.positionAppliedFor1', function() {
-                // Get the selected value
-                var selectedPosition = $(this).val();
-
-                // Check if a position is selected
-                if (selectedPosition !== '') {
-                    // Create a new div with the selected position's name
-                    var newTR =
-                        '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td colspan="5"><input type="text" class="form-control uppercase-text" name="specialisation_1" placeholder=""></td></tr>';
-                    // Append the new div to the container
-                    if (!$('.specialisation_1').length) {
-                        $('.position_applied_1').after(newTR);
-                    }
-                } else {
-                    // Remove the tr if no position is selected
-                    $('.specialisation_1').remove();
-
-                }
-            });
-
-            $(document).on('change', '.positionAppliedFor2', function() {
-                // Get the selected value
-                var selectedPosition = $(this).val();
-
-                // Check if a position is selected
-                if (selectedPosition !== '') {
-                    // Create a new div with the selected position's name
-                    var newTR =
-                        '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td colspan="5"><input type="text" class="form-control uppercase-text" name="specialisation_2" placeholder=""></td></tr>';
-                    // Append the new div to the container
-                    if (!$('.specialisation_2').length) {
-                        $('.position_applied_2').after(newTR);
-                    }
-                } else {
-                    // Remove the tr if no position is selected
-                    $('.specialisation_2').remove();
-
-                }
-            });
-
-            $(document).on('change', '.positionAppliedFor3', function() {
-                // Get the selected value
-                var selectedPosition = $(this).val();
-
-                // Check if a position is selected
-                if (selectedPosition !== '') {
-                    // Create a new div with the selected position's name
-                    var newTR =
-                        '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td colspan="5"><input type="text" class="form-control uppercase-text" name="specialisation_3" placeholder=""></td></tr>';
-                    // Append the new div to the container
-                    if (!$('.specialisation_3').length) {
-                        $('.position_applied_3').after(newTR);
-                    }
-                } else {
-                    // Remove the tr if no position is selected
-                    $('.specialisation_3').remove();
-
-                }
-            });
+                );
+            }
         });
-    </script>
-    <script>
-        $(document).on("click", '#open-job-input', function(e) {
 
-            $(this).html(``);
+        $(document).on('change', '.positionAppliedFor1', function() {
+            // Get the selected value
+            var selectedPosition = $(this).val();
 
-            $('#submit-button-job').html(
-                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
-            )
+            // Check if a position is selected
+            if (selectedPosition !== '') {
+                // Create a new div with the selected position's name
+                var newTR =
+                    '<tr class="specialisation_1"><td>Specialisation for Position (1)</td><td colspan="5"><input type="text" class="form-control uppercase-text" name="specialisation_1" placeholder=""></td></tr>';
+                // Append the new div to the container
+                if (!$('.specialisation_1').length) {
+                    $('.position_applied_1').after(newTR);
+                }
+            } else {
+                // Remove the tr if no position is selected
+                $('.specialisation_1').remove();
 
-            $('#cross-button-job').html(
-                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
-            )
+            }
+        });
 
-            $('#candidate-form-job').html(`<tbody class="candidate-form-new">
+        $(document).on('change', '.positionAppliedFor2', function() {
+            // Get the selected value
+            var selectedPosition = $(this).val();
+
+            // Check if a position is selected
+            if (selectedPosition !== '') {
+                // Create a new div with the selected position's name
+                var newTR =
+                    '<tr class="specialisation_2"><td>Specialisation for Position (2)</td><td colspan="5"><input type="text" class="form-control uppercase-text" name="specialisation_2" placeholder=""></td></tr>';
+                // Append the new div to the container
+                if (!$('.specialisation_2').length) {
+                    $('.position_applied_2').after(newTR);
+                }
+            } else {
+                // Remove the tr if no position is selected
+                $('.specialisation_2').remove();
+
+            }
+        });
+
+        $(document).on('change', '.positionAppliedFor3', function() {
+            // Get the selected value
+            var selectedPosition = $(this).val();
+
+            // Check if a position is selected
+            if (selectedPosition !== '') {
+                // Create a new div with the selected position's name
+                var newTR =
+                    '<tr class="specialisation_3"><td>Specialisation for Position (3)</td><td colspan="5"><input type="text" class="form-control uppercase-text" name="specialisation_3" placeholder=""></td></tr>';
+                // Append the new div to the container
+                if (!$('.specialisation_3').length) {
+                    $('.position_applied_3').after(newTR);
+                }
+            } else {
+                // Remove the tr if no position is selected
+                $('.specialisation_3').remove();
+
+            }
+        });
+    });
+</script>
+<script>
+    $(document).on("click", '#open-job-input', function(e) {
+
+        $(this).html(``);
+
+        $('#submit-button-job').html(
+            `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
+        )
+
+        $('#cross-button-job').html(
+            `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
+        )
+
+        $('#candidate-form-job').html(`<tbody class="candidate-form-new">
                                         <tr>
                                             <td>Company </td>
                                             <td>
@@ -1394,15 +1394,15 @@
                                         </tr>
 
                                         </tbody>`);
-        });
+    });
 
-        $(document).on("click", '#cross-button-job', function(e) {
+    $(document).on("click", '#cross-button-job', function(e) {
 
-            $(this).html(``);
-            $('#submit-button-job').html(``)
-            $('#open-job-input').html(
-                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
-            $('#candidate-form-job').html(`<tbody>
+        $(this).html(``);
+        $('#submit-button-job').html(``)
+        $('#open-job-input').html(
+            ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+        $('#candidate-form-job').html(`<tbody>
                                     <tr>
                                         <td>Assigned By</td>
                                         <td>{{ $assign_job->user->full_name ?? 'N/A' }}
@@ -1427,77 +1427,77 @@
 
                                 </tbody>`);
 
-        });
-    </script>
+    });
+</script>
 
-    <script>
-        $(document).ready(function() {
-            $(document).on('change', '.company_id', function() {
-                var company_id = $(this).val();
-                $.ajax({
-                    url: "{{ route('candidates.getJobs') }}",
-                    type: 'GET',
-                    data: {
-                        company_id: company_id
-                    },
-                    success: function(response) {
-                        $('.job_id').html('');
-                        $('.job_id').html(response.interviews);
-                    }
-                });
+<script>
+    $(document).ready(function() {
+        $(document).on('change', '.company_id', function() {
+            var company_id = $(this).val();
+            $.ajax({
+                url: "{{ route('candidates.getJobs') }}",
+                type: 'GET',
+                data: {
+                    company_id: company_id
+                },
+                success: function(response) {
+                    $('.job_id').html('');
+                    $('.job_id').html(response.interviews);
+                }
             });
-            $(document).on('submit', '#candidate-job-create-form', function(e) {
-                e.preventDefault();
+        });
+        $(document).on('submit', '#candidate-job-create-form', function(e) {
+            e.preventDefault();
 
-                var formData = new FormData($(this)[0]);
-                var formElement = $(this);
+            var formData = new FormData($(this)[0]);
+            var formElement = $(this);
 
-                swal({
-                    title: 'Are you sure?',
-                    text: "You want to assign this job to the candidate!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, submit it!'
-                }).then((result) => {
-                    if (result.value) {
-                        $.ajax({
-                            url: formElement.attr('action'),
-                            type: formElement.attr('method'),
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            success: function(response) {
-                                if (response.status == true) {
+            swal({
+                title: 'Are you sure?',
+                text: "You want to assign this job to the candidate!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, submit it!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: formElement.attr('action'),
+                        type: formElement.attr('method'),
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response.status == true) {
 
-                                    toastr.success('Job assign successfully');
-                                    $('#offcanvasEdit').offcanvas('hide');
-                                    var candidate_id = "{{ $candidate->id }}";
-                                    console.log(candidate_id);
-                                    $(".candidate-new-" + candidate_id).html(response
-                                        .view);
-                                } else {
-                                    toastr.error(response.message);
-                                }
-                            },
-                            error: function(xhr) {
-                                // Handle errors (e.g., display validation errors)
-                                var errors = xhr.responseJSON.errors;
-                                $.each(errors, function(key, value) {
-                                    toastr.error(value);
-                                });
+                                toastr.success('Job assign successfully');
+                                $('#offcanvasEdit').offcanvas('hide');
+                                var candidate_id = "{{ $candidate->id }}";
+                                console.log(candidate_id);
+                                $(".candidate-new-" + candidate_id).html(response
+                                    .view);
+                            } else {
+                                toastr.error(response.message);
                             }
-                        });
-                    } else if (result.dismiss === 'cancel') {
-                        swal(
-                            'Cancelled',
-                            'Your data is safe :)',
-                            'error'
-                        )
-                    }
-                });
+                        },
+                        error: function(xhr) {
+                            // Handle errors (e.g., display validation errors)
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                toastr.error(value);
+                            });
+                        }
+                    });
+                } else if (result.dismiss === 'cancel') {
+                    swal(
+                        'Cancelled',
+                        'Your data is safe :)',
+                        'error'
+                    )
+                }
             });
         });
-    </script>
+    });
+</script>
 @endif

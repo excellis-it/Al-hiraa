@@ -24,7 +24,10 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/fm.tagator.jquery.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css">
+    {{-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css"> --}}
+    <link rel="stylesheet" href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css">
+
+
 
     {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
     @stack('styles')
@@ -139,7 +142,8 @@
     <script src="{{ asset('assets/js/sweetalert2.all.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="{{ asset('assets/js/fm.tagator.jquery.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> --}}
     <!-- Include jQuery UI CSS for datepicker -->
     {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
     <script src="{{ mix('js/app.js') }}"></script>
@@ -156,7 +160,7 @@
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
-            
+
             }
             toastr.error("{{ session('error') }}");
         @endif
@@ -165,7 +169,7 @@
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true,
-            
+
             }
             toastr.info("{{ session('info') }}");
         @endif

@@ -65,8 +65,8 @@
                                                     <div class="form-group">
                                                         <label for="">End Date<span>*</span></label>
                                                         <input type="text" class="form-control datepicker" id=""
-                                                            value="" min="{{ date('Y-m-d') }}"
-                                                            name="interview_end_date" placeholder="">
+                                                            value="" min="{{ date('Y-m-d') }}" name="interview_end_date"
+                                                            placeholder="">
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -183,7 +183,7 @@
                             </table>
                         </div>
                         <a href="javascript:void(0);" class="add_task"
-                        data-route="{{ route('schedule-to-do.job-create', Crypt::encrypt($interview['company_id'])) }}">
+                            data-route="{{ route('schedule-to-do.job-create', Crypt::encrypt($interview['company_id'])) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="13.483" height="13.483"
                                 viewBox="0 0 13.483 13.483">
                                 <path id="plus-small"
@@ -206,13 +206,14 @@
 @endsection
 
 @push('scripts')
-<script>
-     $('.datepicker').datepicker({
-            dateFormat: 'dd-mm-yy',
+    <script>
+        $('.datepicker').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
             // minDate: 0
             minDate: new Date()
         });
-</script>
+    </script>
     <script>
         $(document).ready(function() {
             $('#company_id').change(function() {
