@@ -287,7 +287,9 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        window.location.reload();
+                        $('#positionBody-' + response.id).html(response.view);
+                        $('#offcanvasEdit').offcanvas('hide');
+                        toastr.success('Position details updated successfully');
                         // toastr.success('Members details updated successfully');
                     },
                     error: function(xhr) {
