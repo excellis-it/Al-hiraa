@@ -310,7 +310,7 @@
                                 }
                             @endphp
                             @if ($data != null)
-                                
+
                                     <td>Status</td>
                                     <td>
                                         <div class="permission-2 m-lg-1">
@@ -324,9 +324,9 @@
 
                                         </div>
                                     </td>
-                                
+
                             </tr>
-                            
+
 
                                 {{-- <tr>
                                     <td>Postion</td>
@@ -484,7 +484,7 @@
                                     </select>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td>Source</td>
                             <td>
@@ -509,7 +509,7 @@
                             </select>
                             </td>
                     </tr>
-                        
+
                         <tr>
                             <td>Full Name</td>
                             <td>
@@ -537,7 +537,7 @@
                             </div>
                             </td>
                         </tr>
-                       
+
                         <tr>
                             <td>Age</td>
                             <td>
@@ -564,7 +564,7 @@
                             </select>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td>Alternate Contact No.</td>
                             <td>
@@ -589,7 +589,7 @@
                                 </div>
                             </td>
                         </tr>
-                       
+
                         <tr>
                             <td>Email ID</td>
                             <td>
@@ -623,7 +623,7 @@
                                 </select>
                             </td>
                         </tr>
-                       
+
                         <tr>
                             <td>ECR Type</td>
                             <td>
@@ -656,7 +656,7 @@
                                 </select>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td>English Speak</td>
                             <td>
@@ -688,7 +688,7 @@
                             </td>
                         </tr>
 
-            
+
                         <tr class="position_applied_1">
                                 @if ($candidate->positionAppliedFor1)
                                     @if ($candidate->positionAppliedFor1()->where('is_active', 1)->count() > 0)
@@ -888,7 +888,7 @@
                                 <span class="text-danger" id="call_status_msg"></span>
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td>Remarks</td>
                             <td colspan="5">
@@ -911,7 +911,7 @@
                     });
                 });
 
-                
+
             });
             $(document).on("click", '#cross-button', function(e) {
 
@@ -933,7 +933,7 @@
 
                                         </td>
                                     </tr>
-                                   
+
                                     <tr>
                                         <td>Source</td>
                                         <td>{{ $candidate->source ?? '' }}
@@ -952,7 +952,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Full Name</td>
                                         <td>{{ $candidate->full_name ?? 'N/A' }}
@@ -966,7 +966,7 @@
 
                                         </td>
                                     </tr>
-                                   
+
                                     <tr>
                                         <td>Age</td>
                                         <td>{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
@@ -980,7 +980,7 @@
                                         <td>{{ $candidate->other_education ?? 'N/A' }}
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Alternate Contact No.</td>
                                         <td>{{ $candidate->alternate_contact_no ?? 'N/A' }}
@@ -995,7 +995,7 @@
 
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Email ID</td>
                                         <td>{{ $candidate->email ?? 'N/A' }}
@@ -1009,7 +1009,7 @@
 
                                         </td>
                                     </tr>
-                                   
+
                                     <tr>
                                         <td>ECR Type</td>
                                         <td>{{ $candidate->ecr_type ?? 'N/A' }}
@@ -1041,7 +1041,7 @@
 
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>English Speak</td>
                                         <td>{{ $candidate->english_speak ?? 'N/A' }}
@@ -1055,7 +1055,7 @@
 
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Position Applied For(1)</td>
                                         <td>{{ $candidate->positionAppliedFor1->name ?? 'N/A' }}
@@ -1067,7 +1067,7 @@
                                         <td>{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}
                                         </td>
                                     </tr>
-                                   
+
                                     <tr>
                                         <td>Specialisation for Position (2)</td>
                                         <td>{{ $candidate->specialisation_2 ?? 'N/A' }}
@@ -1079,7 +1079,7 @@
                                         <td>{{ $candidate->specialisation_3 ?? 'N/A' }}
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Indian Experience (If any?)</td>
                                         <td>{{ $candidate->indian_exp ?? 'N/A' }}
@@ -1093,7 +1093,7 @@
 
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Remarks</td>
                                         <td colspan="5">{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
@@ -1392,7 +1392,7 @@
                                             <span class="text-danger" id="interview_status_job_msg"></span>
                                             </td>
                                         </tr>
-                                        
+
                                         </tbody>`);
         });
 
@@ -1424,7 +1424,7 @@
                                         <td>Interview Status</td>
                                         <td>{{ $assign_job->interview_status ?? 'N/A' }}</td>
                                     </tr>
-                                    
+
                                 </tbody>`);
 
         });
@@ -1448,7 +1448,7 @@
             });
             $(document).on('submit', '#candidate-job-create-form', function(e) {
                 e.preventDefault();
-                
+
                 var formData = new FormData($(this)[0]);
                 var formElement = $(this);
 

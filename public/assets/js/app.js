@@ -71,9 +71,9 @@
   
   
   $(".food_box_slid").slick({
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: false,
     dots: false,
     speed: 300,
     centerMode: false,
@@ -88,7 +88,16 @@
       {
         breakpoint: 1441,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: false,
+        },
+      },
+      {
+        breakpoint: 1367,
+        settings: {
+          slidesToShow: 4,
           slidesToScroll: 1,
           infinite: true,
           dots: false,

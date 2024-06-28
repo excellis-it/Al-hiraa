@@ -5,7 +5,7 @@
 @push('styles')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-   
+
 @endpush
 @section('content')
     <div class="mdk-drawer-layout__content page">
@@ -252,7 +252,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                    
+
                         <div class="calendar-container wrapper">
                             <div class="calendar-header header">
                                 <button id="prev" class="icon">&lt;</button>
@@ -278,7 +278,7 @@
                                 </ul>
                             </div>
                         </div>
-                    
+
                 </div>
                 <div class="col-lg-4">
 
