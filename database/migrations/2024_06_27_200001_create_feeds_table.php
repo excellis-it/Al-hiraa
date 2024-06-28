@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('feeds', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('author_id')->nullable();
             $table->string('title')->nullable();
             $table->longText('content')->nullable();
             $table->timestamps();

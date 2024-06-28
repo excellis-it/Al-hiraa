@@ -31,7 +31,16 @@ class FeedController extends Controller
     {
         try{
 
-            $feeds = Feed::orderBy('id','desc')->with('feedFiles')->get();
+            $feeds = Feed::orderBy('id', 'desc')
+            ->with([
+                'feedFiles' => function ($query) {
+                    $query->select('id', 'feed_id', 'file_name');
+                },
+                'author' => function ($query) {
+                    $query->select('id', 'first_name','last_name','profile_picture'); // Assuming 'id' is the primary key of the author table
+                }
+            ])
+            ->get();
             return response()->json(['message' => 'Feed listed successfully.','status' => true, 'data' => $feeds], 200);
 
         }catch(\Exception $e){

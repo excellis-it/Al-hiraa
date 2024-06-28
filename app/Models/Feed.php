@@ -13,4 +13,9 @@ class Feed extends Model
     {
         return $this->hasMany(FeedFile::class, 'feed_id', 'id');
     }
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
 }
