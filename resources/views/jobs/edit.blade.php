@@ -193,7 +193,7 @@
                                             @endif
                                         </td>
                                         <td>Gulf Driving Licence</td>
-                                        <td>@if ($gulf_driving_license != null)
+                                        <td colspan="3">@if ($gulf_driving_license != null)
                                             @foreach($gulf_driving_license as $key => $value)
                                                 {{ $value ?? 'N/A' }},
                                             @endforeach
@@ -267,10 +267,16 @@
                                         <td>Country</td>
                                         <td>{{ $candidate_job_detail->country ?? ''}}</td>
                                         <td>Salary</td>
-                                        <td>{{ $candidate_job_detail->salary ?? '00.00'}}</td>
+                                        @if ($candidate_job_detail->salary != null)
+                                        <td>{{ $candidate_job_detail->salary ?? 'N/A' }}</td>
+                                        @else
+                                        <td>{{ $candidate_job_detail->jobTitle->salary ?? 'N/A'}}</td>
+                                        @endif
+                                        
                                     </tr>
                                     <tr>
-                                        
+                                        <td>Service Charge</td>
+                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}</td>
                                         <td>Food Allowance</td>
                                         <td>{{ $candidate_job_detail->food_allowance ?? '00.00'}}</td>
                                         <td>Contract Duration</td>
@@ -281,7 +287,7 @@
                                         <td>Mofa No</td>
                                         <td>{{ $candidate_job_detail->mofa_no ?? ''}}</td>
                                         <td>Mofa Date</td>
-                                        <td>{{ $candidate_job_detail->mofa_date ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? ''}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -517,7 +523,7 @@
                                         <td>Deployment Date</td>
                                         <td>{{ $candidate_job_detail->deployment_date ?? 'N/A'}}</td>
                                         <td>Job Status</td>
-                                        <td>{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -553,6 +559,8 @@
     <script>
         //candidates details form
         $(document).ready(function() {
+
+         
             $(document).on("click", '#open-input', function(e) {
 
                 $(this).html(``);
@@ -583,7 +591,7 @@
                         </td>
                         <td>Gender</td>
                         <td>
-                            <select name="gender" class="form-control uppercase-text" id="">
+                            <select name="gender" class="form-select uppercase-text" id="">
                                 <option value="">Select Gender</option>
                                 <option value="MALE" {{ $candidate_job_detail->gender == 'MALE' ? 'selected' : '' }}> MALE </option>
                                 <option value="FEMALE" {{ $candidate_job_detail->gender == 'FEMALE' ? 'selected' : '' }}>FEMALE</option>
@@ -682,7 +690,7 @@
                     <tr>
                         <td>English Speak</td>
                         <td>
-                        <select name="english_speak" class="form-control uppercase-text" id="">
+                        <select name="english_speak" class="form-select uppercase-text" id="">
                             <option value="">English Speak</option>
                             <option value="BASIC" {{ strtoupper($candidate_job_detail->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
                                 <option value="GOOD" {{ strtoupper($candidate_job_detail->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
@@ -692,7 +700,7 @@
                         </td>
                         <td>Arabic Speak</td>
                         <td>
-                        <select name="arabic_speak" class="form-control uppercase-text" id="">
+                        <select name="arabic_speak" class="form-select uppercase-text" id="">
                             <option value="">Arabic Speak</option>
                             <option value="BASIC" {{ strtoupper($candidate_job_detail->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
                                 <option value="GOOD" {{ strtoupper($candidate_job_detail->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
@@ -749,7 +757,7 @@
                             </select>
                         </td>
                         <td>Gulf Driving License</td>
-                        <td>
+                        <td colspan="3">
                             <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
                                 <option value="" disabled>Select Gulf Driving License</option>
                                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
@@ -769,10 +777,7 @@
                     });
                 })
 
-                $('.datepicker').datepicker({
-                    dateFormat: 'dd-mm-yy',
-                    maxDate: new Date(),
-                });
+                
             });
             $(document).on("click", '#cross-button', function(e) {
 
@@ -859,7 +864,7 @@
                                             @endif
                                         </td>
                                         <td>Gulf Driving Licence</td>
-                                        <td>@if ($gulf_driving_license != null)
+                                        <td colspan="3">@if ($gulf_driving_license != null)
                                             @foreach($gulf_driving_license as $key => $value)
                                                 {{ $value ?? 'N/A' }},
                                             @endforeach
@@ -1001,7 +1006,13 @@
                     </td>
                     <td>Mode of Selection</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mode_of_selection ?? '' }}" name="mode_of_selection" placeholder="">
+                        <select name="mode_of_selection" class="form-select uppercase-text" id="" >
+                            <option value="">mode of selection</option>
+                            <option value="Full Time" {{$candidate_job_detail->mode_of_selection == 'Full Time' ? 'selected':''}}>Full Time</option>
+                            <option value="Part Time" {{$candidate_job_detail->mode_of_selection == 'Part Time' ? 'selected':''}}>Part Time</option>
+                            <option value="Contract" {{$candidate_job_detail->mode_of_selection == 'Contract' ? 'selected':''}}>Contract</option>
+                        </select>
+                         
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
@@ -1040,13 +1051,17 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>Service Charge</td>
+                    <td><input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}"  placeholder="" readonly>
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
                     <td>Food Allowance</td>
                     <td>
                         <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->food_allowance ?? '' }}" name="food_allowance" placeholder="">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Contract Duration</td>
-                    <td>
+                    <td colspan="3">
                         <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->contract_duration ?? '' }}" name="contract_duration" placeholder="">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
@@ -1059,7 +1074,7 @@
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Mofa Date</td>
-                    <td>
+                    <td colspan="3">
                         <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') ?? '' }}" name="mofa_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
@@ -1105,18 +1120,19 @@
                                         <td>{{ $candidate_job_detail->salary ?? ''}}</td>
                                     </tr>
                                     <tr>
-                                        
+                                        <td>Service Charge</td>
+                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}</td>
                                         <td>Food Allowance</td>
                                         <td>{{ $candidate_job_detail->food_allowance ?? ''}}</td>
                                         <td>Contract Duration</td>
-                                        <td>{{ $candidate_job_detail->contract_duration ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->contract_duration ?? ''}}</td>
                                         
                                     </tr>
                                     <tr>
                                         <td>Mofa No</td>
                                         <td>{{ $candidate_job_detail->mofa_no ?? ''}}</td>
                                         <td>Mofa Date</td>
-                                        <td>{{ $candidate_job_detail->mofa_date ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? ''}}</td>
                                     </tr>
                                 </tbody>`);
 
@@ -1428,23 +1444,24 @@
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Job Status</td>
-                    <td>
-                        <td>
-                            <select name="job_status" class="form-control uppercase-text" id="">
+                    
+                        <td colspan="3">
+                            <select name="job_status" class="form-select uppercase-text" id="">
                                 <option value="">Select Job Status</option>
                                 <option value="Active" {{ $candidate_job_detail->job_status == 'Active' ? 'selected' : '' }}> Active </option>
                                 <option value="Deactive" {{ $candidate_job_detail->job_status == 'Deactive' ? 'selected' : '' }}>Deactive</option>
                             </select>
                         </td>
                         <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
+                    
                 </tr>
                 
                 </tbody>`)
 
                 $('.datepicker').datepicker({
                     dateFormat: 'dd-mm-yy',
-                });
+                })
+               
         });
 
         $(document).on("click", '#cross-button-payment', function(e) {
@@ -1482,7 +1499,7 @@
                                         <td>Deployment Date</td>
                                         <td>{{ $candidate_job_detail->deployment_date ?? 'N/A'}}</td>
                                         <td>Job Status</td>
-                                        <td>{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
                                         
                                     </tr>
                                 </tbody>`);

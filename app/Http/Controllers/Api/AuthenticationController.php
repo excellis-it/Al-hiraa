@@ -62,6 +62,7 @@ class AuthenticationController extends Controller
                     // $userOtp->sendSMS($request->mobile_number);
                 }else{
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
+                    
                 }
                 return response()->json(['message' => 'OTP sent successfully.', 'status' => true], 200);
             } else {

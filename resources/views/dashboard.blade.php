@@ -5,114 +5,7 @@
 @push('styles')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    <style>
-        .calendar-container.wrapper {
-            width: 450px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .calendar-header {
-            display: flex;
-            align-items: center;
-            padding: 25px 30px 10px;
-            justify-content: space-between;
-        }
-
-        .calendar-header .icons {
-            display: flex;
-        }
-
-        .calendar-header .icons span {
-            height: 38px;
-            width: 38px;
-            margin: 0 1px;
-            cursor: pointer;
-            color: #878787;
-            text-align: center;
-            line-height: 38px;
-            font-size: 1.9rem;
-            user-select: none;
-            border-radius: 50%;
-        }
-
-        .calendar-header .icons span:last-child {
-            margin-right: 0;
-            /* Adjust as necessary */
-        }
-
-        .calendar-header .icons span:hover {
-            background: #f2f2f2;
-        }
-
-        .current-date {
-            font-size: 1.45rem;
-            font-weight: 500;
-        }
-
-        .calendar {
-            padding: 20px;
-        }
-
-        .calendar .weekdays {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 20px;
-        }
-
-        .calendar .weekdays div {
-            flex: 1;
-            font-weight: 500;
-            cursor: default;
-        }
-
-        .calendar .days {
-            display: flex;
-            flex-wrap: wrap;
-            list-style: none;
-            text-align: center;
-            margin-top: 20px;
-            /* Adjust spacing as needed */
-        }
-
-        .calendar .days li {
-            color: #333;
-            flex: 1 0 14.2857%;
-            /* Adjust width for each day */
-            font-size: 1.07rem;
-            margin-top: 30px;
-            position: relative;
-        }
-
-        .days li.inactive {
-            color: #aaa;
-        }
-
-        .days li.active {
-            color: #fff;
-        }
-
-        .days li::before {
-            position: absolute;
-            content: "";
-            left: 50%;
-            top: 50%;
-            height: 40px;
-            width: 40px;
-            z-index: -1;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .days li.active::before {
-            background: #9B59B6;
-        }
-
-        .days li:not(.active):hover::before {
-            background: #f2f2f2;
-        }
-    </style>
+   
 @endpush
 @section('content')
     <div class="mdk-drawer-layout__content page">
@@ -359,7 +252,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="dashboard_graph">
+                    
                         <div class="calendar-container wrapper">
                             <div class="calendar-header header">
                                 <button id="prev" class="icon">&lt;</button>
@@ -385,7 +278,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    
                 </div>
                 <div class="col-lg-4">
 
@@ -453,9 +346,9 @@
                 dateElement.addEventListener('click', () => {
                     var selectedDate =
                         `${String(dateElement.dataset.date).padStart(2, '0')}/${String(currMonth + 1).padStart(2, '0')}/${currYear}`;
-
+                        var interviewListUrl = "{{ route('interview.list') }}";
                     $.ajax({
-                        url: '/get-interview-list',
+                        url: interviewListUrl,
                         type: 'POST', // or 'GET', depending on your endpoint's requirements
                         dataType: 'json', // Expecting JSON data in response
                         headers: {

@@ -8,6 +8,7 @@ use App\Http\Controllers\JobsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\CandidateStatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -63,6 +64,16 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
             Route::put('/update/{id}',[SettingController::class,'userAccessUpdate'])->name('user-access.update');
             Route::get('/delete/{id}',[SettingController::class,'userAccessDelete'])->name('user-access.delete');
         });
+
+        //status 
+        Route::group(['prefix' => 'status'], function () {
+            Route::get('/',[CandidateStatusController::class,'index'])->name('status.index');
+            Route::get('/edit/{id}',[CandidateStatusController::class,'statusEdit'])->name('status.edit');
+            Route::put('/update/{id}',[CandidateStatusController::class,'statusUpdate'])->name('status.update');
+            Route::get('/delete/{id}',[CandidateStatusController::class,'statusDelete'])->name('status.delete');
+            Route::get('/filter',[CandidateStatusController::class,'statusFilter'])->name('status.filter');
+        });
+
 
         // positions
         Route::group(['prefix' => 'positions'], function () {
