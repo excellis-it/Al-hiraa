@@ -30,6 +30,8 @@ Route::get('reset-password/{id}/{token}', [AuthenticationController::class, 'res
 
 Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], function () {
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+    Route::post('/interview-chart',[DashboardController::class,'interviewChart'])->name('interview.chart-yearly');
+
     Route::post('/get-interview-list',[DashboardController::class,'getInterviewList'])->name('interview.list');
     Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
 

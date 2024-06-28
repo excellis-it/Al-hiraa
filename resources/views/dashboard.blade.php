@@ -57,9 +57,9 @@
 
                 <div class="col">
                     <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Stats</div>
-                        <div class="text-amount">10,549</div>
-                        <div class="text-stats">Compare to last month</div>
+                        <div class="card-header__title mb-2">Last Month</div>
+                        <div class="text-amount">{{$count['last_month_candidate_entry']}}</div>
+                        <div class="text-stats">Candidate Entry</div>
                     </div>
                 </div>
             </div>
@@ -67,8 +67,21 @@
             {{-- chart --}}
             <div class="row">
                 <div class="col-lg-6">
+                    {{-- @php
+                        $year = 2023;
+                    @endphp
                     <div class="dashboard_graph">
-                        <img src="{{ asset('assets/images/sidebar-icon/graph.png') }}" />
+                        <select id="interview-line-chart-yearly" class="form-select">
+                            @for ($i = $year; $i <= date('Y'); $i++)
+                                <option value="{{ $year }}" @if ($year == date('Y')) selected="" @endif>
+                                    {{ $year }}</option>
+                                @php $year++ @endphp
+                            @endfor
+                        </select>
+                    </div> --}}
+
+                    <div class="dashboard_graph" id="dashboard-interview-chart">
+                        @include('dashboard-interview-chart')
                     </div>
                 </div>
                 {{-- <div class="col-lg-6">
@@ -268,7 +281,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    
+
                     <div class="interview-card">
                         @include('dashboard-interview-card')
                     </div>
@@ -292,86 +305,144 @@
 @push('scripts')
     <script>
         const daysTag = document.querySelector(".days");
-const currentDate = document.querySelector(".current-date");
-const prevNextIcon = document.querySelectorAll('.icon');
+        const currentDate = document.querySelector(".current-date");
+        const prevNextIcon = document.querySelectorAll('.icon');
 
-let date = new Date();
-let currYear = date.getFullYear();
-let currMonth = date.getMonth();
+        let date = new Date();
+        let currYear = date.getFullYear();
+        let currMonth = date.getMonth();
 
-const months = ["January", "February", "March", "April", "May", "June", "July",
-    "August", "September", "October", "November", "December"
-];
+        const months = ["January", "February", "March", "April", "May", "June", "July",
+            "August", "September", "October", "November", "December"
+        ];
 
-const renderCalendar = () => {
-    let firstDayOfMonth = new Date(currYear, currMonth, 1).getDay();
-    let lastDateOfMonth = new Date(currYear, currMonth + 1, 0).getDate();
-    let lastDayOfMonth = new Date(currYear, currMonth, lastDateOfMonth).getDay();
-    let lastDateOfLastMonth = new Date(currYear, currMonth, 0).getDate();
-    let liTag = "";
+        const renderCalendar = () => {
+            let firstDayOfMonth = new Date(currYear, currMonth, 1).getDay();
+            let lastDateOfMonth = new Date(currYear, currMonth + 1, 0).getDate();
+            let lastDayOfMonth = new Date(currYear, currMonth, lastDateOfMonth).getDay();
+            let lastDateOfLastMonth = new Date(currYear, currMonth, 0).getDate();
+            let liTag = "";
 
-    for (let i = firstDayOfMonth; i > 0; i--) {
-        liTag += `<li class="inactive">${lastDateOfLastMonth - i + 1}</li>`;
-    }
+            for (let i = firstDayOfMonth; i > 0; i--) {
+                liTag += `<li class="inactive">${lastDateOfLastMonth - i + 1}</li>`;
+            }
 
-    for (let i = 1; i <= lastDateOfMonth; i++) {
-        let isToday = i === date.getDate() && currMonth === date.getMonth() && currYear === date.getFullYear() ? "active" : "";
-        liTag += `<li class="date ${isToday}" data-date="${i}">${i}</li>`;
-    }
+            for (let i = 1; i <= lastDateOfMonth; i++) {
+                let isToday = i === date.getDate() && currMonth === date.getMonth() && currYear === date.getFullYear() ?
+                    "active" : "";
+                liTag += `<li class="date ${isToday}" data-date="${i}">${i}</li>`;
+            }
 
-    for (let i = lastDayOfMonth; i < 6; i++) {
-        liTag += `<li class="inactive">${i - lastDayOfMonth + 1}</li>`;
-    }
+            for (let i = lastDayOfMonth; i < 6; i++) {
+                liTag += `<li class="inactive">${i - lastDayOfMonth + 1}</li>`;
+            }
 
-    currentDate.innerText = `${months[currMonth]} ${currYear}`;
-    daysTag.innerHTML = liTag;
+            currentDate.innerText = `${months[currMonth]} ${currYear}`;
+            daysTag.innerHTML = liTag;
 
-    // Add event listeners to all date elements
-    const dateElements = document.querySelectorAll('.date');
-    dateElements.forEach(dateElement => {
-        dateElement.addEventListener('click', () => {
-            var selectedDate = `${String(dateElement.dataset.date).padStart(2, '0')}/${String(currMonth + 1).padStart(2, '0')}/${currYear}`;
-            var interviewListUrl = "{{ route('interview.list') }}";
-            $.ajax({
-                url: interviewListUrl,
-                type: 'POST', // or 'GET', depending on your endpoint's requirements
-                dataType: 'json', // Expecting JSON data in response
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: JSON.stringify({ date: selectedDate }), // Send the selected date as JSON
-                contentType: 'application/json', // Setting the content type of the request
-                success: function(response) {
-                    //response view
-                    $('.interview-card').html(response.view);
-                    dateElements.forEach(el => el.classList.remove('active'));
-                    dateElement.classList.add('active');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                }
+            // Add event listeners to all date elements
+            const dateElements = document.querySelectorAll('.date');
+            dateElements.forEach(dateElement => {
+                dateElement.addEventListener('click', () => {
+                    var selectedDate =
+                        `${String(dateElement.dataset.date).padStart(2, '0')}/${String(currMonth + 1).padStart(2, '0')}/${currYear}`;
+                        var interviewListUrl = "{{ route('interview.list') }}";
+                    $.ajax({
+                        url: interviewListUrl,
+                        type: 'POST', // or 'GET', depending on your endpoint's requirements
+                        dataType: 'json', // Expecting JSON data in response
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        data: JSON.stringify({
+                            date: selectedDate
+                        }), // Send the selected date as JSON
+                        contentType: 'application/json', // Setting the content type of the request
+                        success: function(response) {
+                            //response view
+                            $('.interview-card').html(response.view);
+                            dateElements.forEach(el => el.classList.remove('active'));
+                            dateElement.classList.add('active');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                });
             });
-        });
-    });
-}
-
-renderCalendar();
-
-prevNextIcon.forEach(icon => {
-    icon.addEventListener("click", () => {
-        currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
-
-        if (currMonth < 0 || currMonth > 11) {
-            date = new Date(currYear, currMonth, new Date().getDate());
-            currYear = date.getFullYear();
-            currMonth = date.getMonth();
-        } else {
-            date = new Date();
         }
 
         renderCalendar();
-    });
-});
 
+        prevNextIcon.forEach(icon => {
+            icon.addEventListener("click", () => {
+                currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+
+                if (currMonth < 0 || currMonth > 11) {
+                    date = new Date(currYear, currMonth, new Date().getDate());
+                    currYear = date.getFullYear();
+                    currMonth = date.getMonth();
+                } else {
+                    date = new Date();
+                }
+
+                renderCalendar();
+            });
+        });
+    </script>
+
+    <script>
+        // Function to initialize the Chart
+        function initializeChart(chartData) {
+            new Chart(document.getElementById('myChart'), {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        x: {
+                            stacked: true
+                        },
+                        y: {
+                            beginAtZero: true,
+                            stacked: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Ajax request on change
+        $(document).ready(function() {
+            $(document).on('change', '#interview-line-chart-yearly', function() {
+                var year = $(this).val();
+                $.ajax({
+                    url: '{{ route('interview.chart-yearly') }}',
+                    type: 'POST',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: JSON.stringify({
+                        year: year
+                    }),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        // Update the chart container with the new view content
+                        $('#dashboard-interview-chart').html(response.view);
+
+                        // If the chartData is included in the response, reinitialize the chart
+                        if (response.chartData) {
+                            initializeChart(response.chartDataJSON);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+
+            // Initial chart initialization
+            initializeChart(<?php echo $chartDataJSON; ?>);
+        });
     </script>
 @endpush
