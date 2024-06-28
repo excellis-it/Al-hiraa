@@ -63,7 +63,7 @@
                     </div>
                 </div>
             </div>
-
+            @if(Auth::user()->hasRole('ADMIN'))
             {{-- chart --}}
             <div class="row">
                 <div class="col-lg-6">
@@ -84,58 +84,7 @@
                         @include('dashboard-interview-chart')
                     </div>
                 </div>
-                {{-- <div class="col-lg-6">
-                <div class="table_right">
-                    <div class="py-3">
-                        <h4 class="card-header__title">Last 5 Candidate Entry</h4>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered mb-0 thead-border-top-0">
-                            <thead>
-                                <tr>
-                                    <th>Enter By</th>
-                                    <th>Status</th>
-                                    <th>Mode of Registration</th>
-                                    <th>Source</th>
-                                    <th>Last Update Date</th>
-                                    <th>Full Name</th>
-                                    <th>Gender</th>
-                                    <th>DOB</th>
-                                    <th>Age</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (count($candidates) > 0)
-                                @foreach ($candidates as $item)
-                                <tr>
-                                    <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td>
-                                    <td>
-                                        <div class="round_staus active">
-                                            {{ $item->candidateStatus->name ?? 'N/A' }}
-                                        </div>
-                                    </td>
-                                    <td>{{ $item->mode_of_registration ?? 'N/A' }}</td>
-                                    <td>
-                                        {{ $item->source ?? 'N/A' }}
-                                    </td>
-                                    <td>{{ $item->last_update_date != null ? date('d.m.Y', strtotime($item->last_update_date)) : 'N/A' }}</td>
-                                    <td>{{ $item->full_name ?? 'N/A' }}</td>
-                                    <td>{{ $item->gender ?? 'N/A' }}</td>
-                                    <td>{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
-                                    <td>{{  $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
-                                </tr>
-                                @endforeach
-                                @else
-                                <tr>
-                                    <td colspan="9" class="text-center">No Data Found</td>
-                                </tr>
-                                @endif
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div> --}}
+                
                 <div class="col-lg-6">
                     <div class="table_right">
                         <div class="py-3">
@@ -153,96 +102,6 @@
                                 </thead>
                                 <tbody>
                                     @include('dashboard-users-table')
-
-
-                                    {{-- <tr>
-                                    <td>
-                                        <div class="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24">
-                                                <g id="Group_86" data-name="Group 86" transform="translate(-1306 -464)">
-                                                  <g id="Ellipse_124" data-name="Ellipse 124" transform="translate(1306 464)" fill="#fff" stroke="#d9d9d9" stroke-width="1">
-                                                    <ellipse cx="12.5" cy="12" rx="12.5" ry="12" stroke="none"/>
-                                                    <ellipse cx="12.5" cy="12" rx="12" ry="11.5" fill="none"/>
-                                                  </g>
-                                                  <g id="user" transform="translate(1314.853 470.551)">
-                                                    <ellipse id="Ellipse_12" data-name="Ellipse 12" cx="2.588" cy="2.588" rx="2.588" ry="2.588" transform="translate(1.122 0)" fill="#6a6a6a"/>
-                                                    <path id="Path_28" data-name="Path 28" d="M67.882,298.667A3.887,3.887,0,0,0,64,302.549a.431.431,0,0,0,.431.431h6.9a.431.431,0,0,0,.431-.431A3.887,3.887,0,0,0,67.882,298.667Z" transform="translate(-64 -292.628)" fill="#6a6a6a"/>
-                                                  </g>
-                                                </g>
-                                            </svg>
-                                            <span class="">John Doe, <small>Agent, Manager</small></span>
-                                        </div>
-                                    </td>
-                                    <td>650</td>
-                                    <td>500</td>
-                                    <td>463</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24">
-                                                <g id="Group_86" data-name="Group 86" transform="translate(-1306 -464)">
-                                                  <g id="Ellipse_124" data-name="Ellipse 124" transform="translate(1306 464)" fill="#fff" stroke="#d9d9d9" stroke-width="1">
-                                                    <ellipse cx="12.5" cy="12" rx="12.5" ry="12" stroke="none"/>
-                                                    <ellipse cx="12.5" cy="12" rx="12" ry="11.5" fill="none"/>
-                                                  </g>
-                                                  <g id="user" transform="translate(1314.853 470.551)">
-                                                    <ellipse id="Ellipse_12" data-name="Ellipse 12" cx="2.588" cy="2.588" rx="2.588" ry="2.588" transform="translate(1.122 0)" fill="#6a6a6a"/>
-                                                    <path id="Path_28" data-name="Path 28" d="M67.882,298.667A3.887,3.887,0,0,0,64,302.549a.431.431,0,0,0,.431.431h6.9a.431.431,0,0,0,.431-.431A3.887,3.887,0,0,0,67.882,298.667Z" transform="translate(-64 -292.628)" fill="#6a6a6a"/>
-                                                  </g>
-                                                </g>
-                                            </svg>
-                                            <span class="">John Doe, <small>Agent, Manager</small></span>
-                                        </div>
-                                    </td>
-                                    <td>650</td>
-                                    <td>500</td>
-                                    <td>463</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24">
-                                                <g id="Group_86" data-name="Group 86" transform="translate(-1306 -464)">
-                                                  <g id="Ellipse_124" data-name="Ellipse 124" transform="translate(1306 464)" fill="#fff" stroke="#d9d9d9" stroke-width="1">
-                                                    <ellipse cx="12.5" cy="12" rx="12.5" ry="12" stroke="none"/>
-                                                    <ellipse cx="12.5" cy="12" rx="12" ry="11.5" fill="none"/>
-                                                  </g>
-                                                  <g id="user" transform="translate(1314.853 470.551)">
-                                                    <ellipse id="Ellipse_12" data-name="Ellipse 12" cx="2.588" cy="2.588" rx="2.588" ry="2.588" transform="translate(1.122 0)" fill="#6a6a6a"/>
-                                                    <path id="Path_28" data-name="Path 28" d="M67.882,298.667A3.887,3.887,0,0,0,64,302.549a.431.431,0,0,0,.431.431h6.9a.431.431,0,0,0,.431-.431A3.887,3.887,0,0,0,67.882,298.667Z" transform="translate(-64 -292.628)" fill="#6a6a6a"/>
-                                                  </g>
-                                                </g>
-                                            </svg>
-                                            <span class="">John Doe, <small>Agent, Manager</small></span>
-                                        </div>
-                                    </td>
-                                    <td>650</td>
-                                    <td>500</td>
-                                    <td>463</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24">
-                                                <g id="Group_86" data-name="Group 86" transform="translate(-1306 -464)">
-                                                  <g id="Ellipse_124" data-name="Ellipse 124" transform="translate(1306 464)" fill="#fff" stroke="#d9d9d9" stroke-width="1">
-                                                    <ellipse cx="12.5" cy="12" rx="12.5" ry="12" stroke="none"/>
-                                                    <ellipse cx="12.5" cy="12" rx="12" ry="11.5" fill="none"/>
-                                                  </g>
-                                                  <g id="user" transform="translate(1314.853 470.551)">
-                                                    <ellipse id="Ellipse_12" data-name="Ellipse 12" cx="2.588" cy="2.588" rx="2.588" ry="2.588" transform="translate(1.122 0)" fill="#6a6a6a"/>
-                                                    <path id="Path_28" data-name="Path 28" d="M67.882,298.667A3.887,3.887,0,0,0,64,302.549a.431.431,0,0,0,.431.431h6.9a.431.431,0,0,0,.431-.431A3.887,3.887,0,0,0,67.882,298.667Z" transform="translate(-64 -292.628)" fill="#6a6a6a"/>
-                                                  </g>
-                                                </g>
-                                            </svg>
-                                            <span class="">John Doe, <small>Agent, Manager</small></span>
-                                        </div>
-                                    </td>
-                                    <td>650</td>
-                                    <td>500</td>
-                                    <td>463</td>
-                                </tr> --}}
 
                                 </tbody>
                             </table>
@@ -301,8 +160,9 @@
                 </div>
 
             </div>
-            {{-- chart end --}}
 
+            {{-- chart end --}}
+            @endif
         </div>
     </div>
 @endsection

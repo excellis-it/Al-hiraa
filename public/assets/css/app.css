@@ -3571,25 +3571,25 @@ h6+[aria-label=breadcrumb],
 }
 
 /* .interview-box.active {
-    border: 2px solid #1482F8;
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-
+    border: 2px solid #1482F8; 
+    background-color: #f0f0f0; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
+    
 } */
 
 .food-box.active{
-    border: 2px solid #1482F8;
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    border: 2px solid #1482F8; 
+    background-color: #f0f0f0; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    transition: all 0.3s ease; 
 }
 
 /* interview box*/
 .interview-box.interview-active {
-    border: 2px solid #1482F8;
-    background-color: #f0f0f0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 2px solid #1482F8; 
+    background-color: #f0f0f0; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     transition: ease-in all 0.3s;
     fill: #1482F8;
 }
@@ -5360,6 +5360,7 @@ h6+[aria-label=breadcrumb],
         .days li:not(.active):hover::before {
             background: #f2f2f2;
         }
+        
         /* dashboard calendar end */
 
 /* .select2-results__option:before{
@@ -5524,7 +5525,7 @@ h6+[aria-label=breadcrumb],
   } */
 
 
-
+  
 /* .select2-selection.select2-selection--single .select2-results__option:before {
     margin-right: 5px !important;
     height: 15px;
@@ -5632,6 +5633,12 @@ li.tagator_option{
     .table thead th {
         font-size: 12px;
     }
+    .export_csv {
+        font-size: 15px;
+    }
+    .jobs_canvas .offcanvas-end {
+        width: 90% !important;
+    }
 }
 
 @media (max-width: 1440.5px) {
@@ -5677,6 +5684,7 @@ li.tagator_option{
     .float_right {
         font-size: 16px;
     }
+    
 
 }
 
@@ -5794,16 +5802,16 @@ li.tagator_option{
 }
 /*20-06-2024*/
 .multi-select-box-1{
-  margin-top: 15px;
+  margin-top: 15px; 
 }
 .multi-select-box-1 .select2-container--default.select2-container--focus .select2-selection--multiple{
     border: none !important;
 }
 .multi-select-box-1 .select2-container--default .select2-selection--multiple{
-    border: none !important;
+    border: none !important;  
 }
 .multi-select-box-1 .select2-container--default .select2-selection--multiple{
-   background-color: transparent;
+   background-color: transparent; 
 }
 .slick-nav.prev-arrow{
     left: -20px;
@@ -5821,7 +5829,7 @@ li.tagator_option{
    right: -38px;
    top: 50%;
    transform: translateY(-50%);
-   position: absolute;
+   position: absolute; 
 }
 .slick-nav.prev-arrow i, .slick-nav.next-arrow i{
      background: #fff;
@@ -5832,7 +5840,7 @@ li.tagator_option{
     height: 30px;
     border-radius: 50%;
     border: 1px solid rgb(0 0 0 / 20%);
-    box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 20%);
+    box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 20%); 
 }
 
 .gj-picker{
@@ -5842,5 +5850,10 @@ li.tagator_option{
 .datepicker button{
 border: none !important;
 }
+
+
+
+
+
 
 
