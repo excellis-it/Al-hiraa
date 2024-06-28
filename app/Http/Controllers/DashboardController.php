@@ -78,7 +78,6 @@ class DashboardController extends Controller
             $data['Medical'][] = CandidateJob::where('medical_status', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
 
             $data['Deployment'][] = CandidateJob::where('deployment_date', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
-
         }
 
         // Prepare data in a JSON format
@@ -90,7 +89,6 @@ class DashboardController extends Controller
         foreach ($data as $label => $values) {
             if ($label == 'Interview') {
                 $color = 'rgba(75, 192, 192, 0.2)';
-
             } elseif ($label == 'Selection') {
                 $color = '#a8d8ff';
             } elseif ($label == 'Medical') {
@@ -111,7 +109,30 @@ class DashboardController extends Controller
         }
         $chartDataJSON = json_encode($chartData);
 
-        return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON'));
+
+        $today = Carbon::today();
+        $last30Days = Carbon::today()->subDays(30);
+
+        $candidate_jobs = CandidateJob::whereBetween('created_at', [$last30Days, $today])->get();
+
+        $total_installments = 0;
+        $total_service_fee = 0;
+
+        foreach ($candidate_jobs as $candidate_job) {
+            $first_installment = !is_numeric($candidate_job->fst_installment_amount) ? 0 : (float)$candidate_job->fst_installment_amount;
+            $second_installment = !is_numeric($candidate_job->secnd_installment_amount) ? 0 : (float)$candidate_job->secnd_installment_amount;
+            $third_installment = !is_numeric($candidate_job->third_installment_amount) ? 0 : (float)$candidate_job->third_installment_amount;
+            $fourth_installment = !is_numeric($candidate_job->fourth_installment_amount) ? 0 : (float)$candidate_job->fourth_installment_amount;
+
+            $total_installments += $first_installment + $second_installment + $third_installment + $fourth_installment;
+
+            $service_fee = (isset($candidate_job->jobTitle->service_charge) && is_numeric($candidate_job->jobTitle->service_charge)) ? (float)$candidate_job->jobTitle->service_charge : 0;
+            $total_service_fee += $service_fee;
+        }
+
+        $payment_due = $total_installments - $total_service_fee;
+
+        return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due'));
     }
 
     public function getInterviewList(Request $request)
@@ -170,6 +191,36 @@ class DashboardController extends Controller
 
             $chartDataJSON = json_encode($chartData);
             return response()->json(['view' => view('dashboard-interview-chart', compact('chartDataJSON'))->render()]);
+        }
+    }
+
+    public function installmentChart(Request $request)
+    {
+        if ($request->ajax()) {
+            $start_date = Carbon::parse($request->start_date)->format('Y-m-d');
+            $end_date = Carbon::parse($request->end_date)->format('Y-m-d');
+            // return $start_date . ' ' . $end_date;
+            $candidate_jobs = CandidateJob::whereBetween('created_at', [$start_date, $end_date])->get();
+
+            $total_installments = 0;
+            $total_service_fee = 0;
+
+            foreach ($candidate_jobs as $candidate_job) {
+                $first_installment = !is_numeric($candidate_job->fst_installment_amount) ? 0 : (float)$candidate_job->fst_installment_amount;
+                $second_installment = !is_numeric($candidate_job->secnd_installment_amount) ? 0 : (float)$candidate_job->secnd_installment_amount;
+                $third_installment = !is_numeric($candidate_job->third_installment_amount) ? 0 : (float)$candidate_job->third_installment_amount;
+                $fourth_installment = !is_numeric($candidate_job->fourth_installment_amount) ? 0 : (float)$candidate_job->fourth_installment_amount;
+
+                $total_installments += $first_installment + $second_installment + $third_installment + $fourth_installment;
+
+                $service_fee = (isset($candidate_job->jobTitle->service_charge) && is_numeric($candidate_job->jobTitle->service_charge)) ? (float)$candidate_job->jobTitle->service_charge : 0;
+                $total_service_fee += $service_fee;
+            }
+
+            $total_installments . ' ' . $total_service_fee;
+            $payment_due = $total_installments - $total_service_fee;
+
+            return response()->json(['view' => view('installment-pie-chart', compact('total_installments', 'total_service_fee', 'payment_due'))->render()]);
         }
     }
 }

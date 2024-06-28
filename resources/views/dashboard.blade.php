@@ -5,7 +5,7 @@
 @push('styles')
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 @endpush
 @section('content')
     <div class="mdk-drawer-layout__content page">
@@ -58,7 +58,7 @@
                 <div class="col">
                     <div class="border_left_hh">
                         <div class="card-header__title mb-2">Last Month</div>
-                        <div class="text-amount">{{$count['last_month_candidate_entry']}}</div>
+                        <div class="text-amount">{{ $count['last_month_candidate_entry'] }}</div>
                         <div class="text-stats">Candidate Entry</div>
                     </div>
                 </div>
@@ -253,31 +253,31 @@
             <div class="row">
                 <div class="col-lg-4">
 
-                        <div class="calendar-container wrapper">
-                            <div class="calendar-header header">
-                                <button id="prev" class="icon">&lt;</button>
-                                <h2 id="month-year" class="current-date">Month Year</h2>
-                                <button id="next" class="icon">&gt;</button>
-                                {{-- <div class="icons">
+                    <div class="calendar-container wrapper">
+                        <div class="calendar-header header">
+                            <button id="prev" class="icon">&lt;</button>
+                            <h2 id="month-year" class="current-date">Month Year</h2>
+                            <button id="next" class="icon">&gt;</button>
+                            {{-- <div class="icons">
                                     <span class="icon">Icon 1</span>
                                     <span class="icon">Icon 2</span>
                                 </div> --}}
-                            </div>
-                            <div class="calendar-body calendar">
-                                <div class="weekdays">
-                                    <div>Sun</div>
-                                    <div>Mon</div>
-                                    <div>Tue</div>
-                                    <div>Wed</div>
-                                    <div>Thu</div>
-                                    <div>Fri</div>
-                                    <div>Sat</div>
-                                </div>
-                                <ul class="days" id="dates-container">
-
-                                </ul>
-                            </div>
                         </div>
+                        <div class="calendar-body calendar">
+                            <div class="weekdays">
+                                <div>Sun</div>
+                                <div>Mon</div>
+                                <div>Tue</div>
+                                <div>Wed</div>
+                                <div>Thu</div>
+                                <div>Fri</div>
+                                <div>Sat</div>
+                            </div>
+                            <ul class="days" id="dates-container">
+
+                            </ul>
+                        </div>
+                    </div>
 
                 </div>
                 <div class="col-lg-4">
@@ -290,8 +290,13 @@
                     </div> --}}
                 </div>
                 <div class="col-lg-4">
+                    {{--  --}}
                     <div class="dashboard_graph">
-                        <img src="{{ asset('assets/images/sidebar-icon/coll.png') }}" />
+                        <input type="text" class="form-control new_date" id="date-range">
+                    </div>
+                    <div class="dashboard_graph" id="installment-pie-chart">
+                        @include('installment-pie-chart')
+
                     </div>
                 </div>
 
@@ -303,6 +308,43 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $('.new_date').daterangepicker({
+                locale: {
+                    format: 'DD-MM-YYYY'
+                },
+                // select start date and end date today to last 30 days
+                startDate: moment().subtract(30, 'days'),
+                endDate: moment(),
+            },
+            function(start, end, label) {
+                var start_date = start.format('DD-MM-YYYY');
+                var end_date = end.format('DD-MM-YYYY');
+                var installmentPieChartUrl = "{{ route('installment.pie-chart') }}";
+                $.ajax({
+                    url: installmentPieChartUrl,
+                    type: 'POST', // or 'GET', depending on your endpoint's requirements
+                    dataType: 'json', // Expecting JSON data in response
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: JSON.stringify({
+                        start_date: start_date,
+                        end_date: end_date
+                    }), // Send the selected date as JSON
+                    contentType: 'application/json', // Setting the content type of the request
+                    success: function(response) {
+                        // Update the chart container with the new view content
+                        $('#installment-pie-chart').html(response.view);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+    </script>
     <script>
         const daysTag = document.querySelector(".days");
         const currentDate = document.querySelector(".current-date");
@@ -346,7 +388,7 @@
                 dateElement.addEventListener('click', () => {
                     var selectedDate =
                         `${String(dateElement.dataset.date).padStart(2, '0')}/${String(currMonth + 1).padStart(2, '0')}/${currYear}`;
-                        var interviewListUrl = "{{ route('interview.list') }}";
+                    var interviewListUrl = "{{ route('interview.list') }}";
                     $.ajax({
                         url: interviewListUrl,
                         type: 'POST', // or 'GET', depending on your endpoint's requirements

@@ -31,6 +31,7 @@ Route::get('reset-password/{id}/{token}', [AuthenticationController::class, 'res
 Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], function () {
     Route::get('/dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
     Route::post('/interview-chart',[DashboardController::class,'interviewChart'])->name('interview.chart-yearly');
+    Route::post('/installment-chart',[DashboardController::class,'installmentChart'])->name('installment.pie-chart');
 
     Route::post('/get-interview-list',[DashboardController::class,'getInterviewList'])->name('interview.list');
     Route::get('/logout',[AuthenticationController::class,'logout'])->name('logout');
@@ -65,7 +66,7 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
             Route::get('/delete/{id}',[SettingController::class,'userAccessDelete'])->name('user-access.delete');
         });
 
-        //status 
+        //status
         Route::group(['prefix' => 'status'], function () {
             Route::get('/',[CandidateStatusController::class,'index'])->name('status.index');
             Route::get('/edit/{id}',[CandidateStatusController::class,'statusEdit'])->name('status.edit');

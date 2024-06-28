@@ -58,6 +58,7 @@ class SettingController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
+            'phone' => 'required|numeric|digits:10',
             'role_type' => 'required',
         ]);
 
@@ -156,6 +157,7 @@ class SettingController extends Controller
             'role_type' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:8',
+            'phone' => 'required|numeric|digits:10',
             //if password is not null then confirm password is required
             'confirm_password' => $request->password ? 'required|same:password' : 'nullable',
         ]);

@@ -68,7 +68,7 @@
                                         <label for="">Phone</label>
                                         <input type="text" class="form-control" id=""
                                             value="{{ $member->phone }}" name="phone" placeholder="">
-                                        <span class="text-danger"></span>
+                                        <span class="text-danger" id="phone_msg"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-12">
