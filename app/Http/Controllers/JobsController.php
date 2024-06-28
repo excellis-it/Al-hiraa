@@ -36,13 +36,13 @@ class JobsController extends Controller
             }
 
             $companies = Company::orderBy('company_name', 'asc')->with('jobs')->get();
-            $count['total_interviews'] = CandidateJob::orderBy('id','desc')->count();
-            $count['total_selection'] = CandidateJob::where('job_interview_status','Selected')->count();
-            $count['total_medical'] = CandidateJob::where('medical_status','!=',null)->count();
-            $count['total_doc'] = CandidateJob::where('visa_receiving_date','!=',null)->count();
-            $count['total_collection'] = CandidateJob::where('total_amount','!=',null)->count();
-            $count['total_deployment'] =  CandidateJob::where('deployment_date','!=',null)->count();
-            return view('jobs.list')->with(compact('candidate_jobs','companies','count'));
+            $count['total_interviews'] = CandidateJob::orderBy('id', 'desc')->count();
+            $count['total_selection'] = CandidateJob::where('job_interview_status', 'Selected')->count();
+            $count['total_medical'] = CandidateJob::where('medical_status', '!=', null)->count();
+            $count['total_doc'] = CandidateJob::where('visa_receiving_date', '!=', null)->count();
+            $count['total_collection'] = CandidateJob::where('total_amount', '!=', null)->count();
+            $count['total_deployment'] =  CandidateJob::where('deployment_date', '!=', null)->count();
+            return view('jobs.list')->with(compact('candidate_jobs', 'companies', 'count'));
         } else {
 
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -103,7 +103,7 @@ class JobsController extends Controller
         //     }
         // }
 
-        return response()->json(['view' => view('jobs.edit', compact('candidate','jobs','candidate_job_detail','users', 'companies', 'candidate_positions', 'assign_job', 'edit', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('jobs.edit', compact('candidate', 'jobs', 'candidate_job_detail', 'users', 'companies', 'candidate_positions', 'assign_job', 'edit', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -139,7 +139,6 @@ class JobsController extends Controller
 
     public function bulkStatusUpdate()
     {
-
     }
 
     /**
@@ -152,7 +151,6 @@ class JobsController extends Controller
 
     public function userAutoFill(Request $request)
     {
-
     }
 
     public function candidatejobFilter(Request $request)
@@ -173,14 +171,14 @@ class JobsController extends Controller
                 foreach ($searchTerms as $term) {
                     $term = trim($term);
                     $q->orWhere('full_name', 'like', "%{$term}%")
-                      ->orWhere('gender', 'like', "%{$term}%")
-                      ->orWhere('job_interview_status', 'like', "%{$term}%")
-                      ->orWhere('whatapp_no', 'like', "%{$term}%")
-                      ->orWhere('alternate_contact_no', 'like', "%{$term}%")
-                      ->orWhere('mofa_no', 'like', "%{$term}%")
-                      ->orWhere('medical_status', 'like', "%{$term}%")
-                      ->orWhere('fst_installment_amount', 'like', "%{$term}%")
-                      ->orWhere('secnd_installment_amount', 'like', "%{$term}%");
+                        ->orWhere('gender', 'like', "%{$term}%")
+                        ->orWhere('job_interview_status', 'like', "%{$term}%")
+                        ->orWhere('whatapp_no', 'like', "%{$term}%")
+                        ->orWhere('alternate_contact_no', 'like', "%{$term}%")
+                        ->orWhere('mofa_no', 'like', "%{$term}%")
+                        ->orWhere('medical_status', 'like', "%{$term}%")
+                        ->orWhere('fst_installment_amount', 'like', "%{$term}%")
+                        ->orWhere('secnd_installment_amount', 'like', "%{$term}%");
                 }
             });
         }
@@ -255,7 +253,7 @@ class JobsController extends Controller
         }
 
         $candidate_jobs = $baseQuery->get();
-        
+
         return [
             'total_interviews' => $candidate_jobs->count(),
             'total_selection' => $candidate_jobs->where('job_interview_status', 'Selected')->count(),
@@ -342,16 +340,14 @@ class JobsController extends Controller
 
     }
 
-    public function candidateJobDetailsUpdate(Request $request, string $id )
+    public function candidateJobDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
             'date_of_interview' => 'required',
-            'date_of_selection' => 'required',
             'salary' => 'required|numeric',
         ], [
             'salary.required' => 'The salary field is required.',
             'date_of_interview.required' => 'The date of interview is required.',
-            'date_of_selection.required' => 'The date of selection is required.',
         ]);
 
         $job_details_update = CandidateJob::findOrFail($id);
@@ -377,13 +373,6 @@ class JobsController extends Controller
 
     public function candidateFamilyDetailsUpdate(Request $request, string $id)
     {
-        $request->validate([
-            'family_contact_name' => 'required',
-            'family_contact_no' => 'required|numeric|digits:10',
-        ], [
-            'family_contact_name.required' => 'The family contact name is required.',
-            'family_contact_no.required' => 'The family contact no is required.',
-        ]);
 
         $family_details_update = CandidateJob::findOrFail($id);
         $family_details_update->family_contact_name = $request->family_contact_name;
@@ -395,12 +384,12 @@ class JobsController extends Controller
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }
 
-    public function candidateMedicalDetailsUpdate(Request $request , string $id)
+    public function candidateMedicalDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
             'medical_application_date' => 'required',
-            'medical_completion_date' => 'required',
-            'medical_status' => 'required',
+            'medical_completion_date' => 'nullable|required_with:medical_status',
+            'medical_status' => 'nullable|required_with:medical_completion_date',
         ], [
             'medical_application_date.required' => 'The medical apllication date is required.',
             'medical_completion_date.required' => 'The medical completion date is required.',
@@ -416,19 +405,14 @@ class JobsController extends Controller
         $candidate_job = CandidateJob::findOrFail($id);
         // session()->flash('message', 'Candidate medical details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
-
     }
 
-    public function candidateVisaDetailsUpdate(Request $request , string $id)
+    public function candidateVisaDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
             'visa_receiving_date' => 'required',
-            'visa_issue_date' => 'required',
-            'visa_expiry_date' => 'required',
         ], [
             'visa_receiving_date.required' => 'The visa receiving date is required.',
-            'visa_issue_date.required' => 'The visa issue date is required.',
-            'visa_expiry_date.required' => 'The visa expiry date is required.',
         ]);
 
         $visa_details_update = CandidateJob::findOrFail($id);
@@ -446,10 +430,6 @@ class JobsController extends Controller
     {
         $request->validate([
             'ticket_booking_date' => 'required',
-            'ticket_confirmation_date' => 'required',
-        ], [
-            'ticket_booking_date.required' => 'The ticket booking date is required.',
-            'ticket_confirmation_date.required' => 'The ticket confirmation date is required.',
         ]);
 
         $ticket_details_update = CandidateJob::findOrFail($id);
@@ -465,9 +445,20 @@ class JobsController extends Controller
     public function candidatePaymentDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
-            'deployment_date' => 'required',
-        ], [
-            'deployment_date.required' => 'The deployment date is required.',
+            // if fst_installment_amount is not null then fst_installment_date is required
+            'fst_installment_amount' => 'nullable|required_with:fst_installment_date|numeric',
+            'fst_installment_date' => 'nullable|required_with:fst_installment_amount',
+            // if secnd_installment_amount is not null then secnd_installment_date is required
+            'secnd_installment_amount' => 'nullable|required_with:secnd_installment_date|numeric',
+            'secnd_installment_date' => 'nullable|required_with:secnd_installment_amount',
+            // if third_installment_amount is not null then third_installment_date is required
+            'third_installment_amount' => 'nullable|required_with:third_installment_date|numeric',
+            'third_installment_date' => 'nullable|required_with:third_installment_amount',
+            // if fourth_installment_amount is not null then fourth_installment_date is required
+            'fourth_installment_amount' => 'nullable|required_with:fourth_installment_date|numeric',
+            'fourth_installment_date' => 'nullable|required_with:fourth_installment_amount',
+            // if any of the installment amount is not null then total_amount is required
+            'total_amount' => 'nullable|required_with:fst_installment_amount,secnd_installment_amount,third_installment_amount,fourth_installment_amount|numeric',
         ]);
 
         $payment_details_update = CandidateJob::findOrFail($id);
@@ -488,7 +479,4 @@ class JobsController extends Controller
         // session()->flash('message', 'Candidate payment details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }
-
-
-
 }

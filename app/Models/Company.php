@@ -25,16 +25,22 @@ class Company extends Model
 
     public function getAllFields()
     {
-        return array_map('strtoupper', $this->fillable);
+        $fields = $this->fillable;
+        $fields = array_map(function ($field) {
+            return $field === 'company_logo' ? $field : strtoupper($field);
+        }, $fields);
+
+        return $fields;
     }
 
     public function setAttribute($key, $value)
     {
-        if ($value !== null) {
+        if ($key !== 'company_logo' && !is_null($value)) {
             $value = strtoupper($value);
         }
-        parent::setAttribute($key, $value);
+        return parent::setAttribute($key, $value); // Ensure you return the parent call
     }
+
 
     public function user()
     {
