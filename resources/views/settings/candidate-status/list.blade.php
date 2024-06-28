@@ -121,8 +121,8 @@
                                             <tr>
                                                 <th>ID</th>
                                                 <th>Status name</th>
-                                                {{-- <th>Color</th>
-                                                <th>Background Color</th> --}}
+                                                <th>Color</th>
+                                                <th>Background Color</th>
                                                 <th></th>
                                             </tr>
                                         </thead>

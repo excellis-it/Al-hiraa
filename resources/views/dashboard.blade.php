@@ -252,7 +252,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="dashboard_graph">
+                   
                         <div class="calendar-container wrapper">
                             <div class="calendar-header header">
                                 <button id="prev" class="icon">&lt;</button>
@@ -278,7 +278,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    
                 </div>
                 <div class="col-lg-4">
 

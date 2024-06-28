@@ -262,7 +262,7 @@
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
                                         </td>
-                                        <td>Call Status</td>
+                                        <td>Last Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
@@ -876,10 +876,10 @@
                                     name="abroad_exp" placeholder="">
                                     <span class="text-danger" id="abroad_exp_msg"></span>
                             </td>
-                            <td>Call Status</td>
+                            <td>Last Call Status</td>
                             <td>
                                 <select name="call_status" class="form-select uppercase-text" id="">
-                                    <option value="">Select Call Status</option>
+                                    <option value="">Select Last Call Status</option>
                                     @foreach (Position::getCallStatus() as $item)
                                         <option value="{{ $item }}">
                                             {{ $item }}</option>
@@ -1088,7 +1088,7 @@
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
                                         </td>
-                                        <td>Call Status</td>
+                                        <td>Last Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>

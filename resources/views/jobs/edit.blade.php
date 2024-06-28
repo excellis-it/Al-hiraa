@@ -1402,7 +1402,7 @@
                     </td>
                     <td>3rd Installment Date</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text datepicker3" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') ?? '' }}" name="third_installment_date" placeholder="dd-mm-yyyy">
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') ?? '' }}" name="third_installment_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                    
@@ -1415,7 +1415,7 @@
                     </td>
                     <td>4th Installment Date</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text datepicker3" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') ?? '' }}" name="fourth_installment_date" placeholder="dd-mm-yyyy">
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') ?? '' }}" name="fourth_installment_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     
@@ -1428,7 +1428,7 @@
                 <tr>
                     <td>Deployment Date</td>
                     <td>
-                        <input type="text" class="form-control uppercase-text datepicker3" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') ?? '' }}" name="deployment_date" placeholder="dd-mm-yyyy">
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') ?? '' }}" name="deployment_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Job Status</td>
@@ -1446,9 +1446,10 @@
                 
                 </tbody>`)
 
-                $('.datepicker3').datepicker({
+                $('.datepicker').datepicker({
                     dateFormat: 'dd-mm-yy',
-                });
+                })
+               
         });
 
         $(document).on("click", '#cross-button-payment', function(e) {
