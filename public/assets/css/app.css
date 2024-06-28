@@ -5836,11 +5836,11 @@ li.tagator_option{
 }
 
 .gj-picker{
-    z-index: 2147483647 !important;
+    z-index: 99999848 !important;
 }
 
-
-
-
+.datepicker button{
+border: none !important;
+}
 
 

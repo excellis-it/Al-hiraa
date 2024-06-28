@@ -4,8 +4,10 @@
 use App\Helpers\Helper;
 @endphp
 
-@if(count($most_candidates) > 0)   
+@if(count($most_candidates) > 0)  
+ 
 @foreach($most_candidates as $data)
+
 <tr>
     <td>
         <div class="">

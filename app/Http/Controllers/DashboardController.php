@@ -34,19 +34,50 @@ class DashboardController extends Controller
 
 
         //how to find list which enter_by in candidates table has most of the candidates in descending order
-        $most_candidates = DB::table('candidates')
+        // $most_candidates = DB::table('candidates')
+        //     ->join('users', 'candidates.enter_by', '=', 'users.id')
+        //     ->leftJoin(DB::raw('(SELECT assign_by_id, COUNT(*) as total_schedules FROM candidate_jobs WHERE date_of_interview IS NOT NULL GROUP BY assign_by_id) as schedule_counts'), 'users.id', '=', 'schedule_counts.assign_by_id')
+        //     ->leftJoin(DB::raw('(SELECT assign_by_id, COUNT(*) as total_appears FROM candidate_jobs WHERE deployment_date IS NOT NULL GROUP BY assign_by_id) as appear_counts'), 'users.id', '=', 'appear_counts.assign_by_id')
+        //     ->select(
+        //         'users.id as user_id',
+        //         DB::raw("CONCAT(users.first_name, ' ', users.last_name) as enter_by_name"),
+        //         DB::raw('count(candidates.id) as total'),
+        //         DB::raw('COALESCE(total_schedules, 0) as total_schedules'),
+        //         DB::raw('COALESCE(total_appears, 0) as total_appears')
+        //     )
+        //     ->groupBy('users.id', 'users.first_name', 'users.last_name', 'total_schedules', 'total_appears')
+        //     ->orderByRaw('total_schedules DESC, total_appears DESC, total DESC')
+        //     ->paginate(5);
+
+          $most_candidates = DB::table('candidates')
             ->join('users', 'candidates.enter_by', '=', 'users.id')
-            ->leftJoin(DB::raw('(SELECT assign_by_id, COUNT(*) as total_schedules FROM candidate_jobs WHERE date_of_interview IS NOT NULL GROUP BY assign_by_id) as schedule_counts'), 'users.id', '=', 'schedule_counts.assign_by_id')
-            ->leftJoin(DB::raw('(SELECT assign_by_id, COUNT(*) as total_appears FROM candidate_jobs WHERE deployment_date IS NOT NULL GROUP BY assign_by_id) as appear_counts'), 'users.id', '=', 'appear_counts.assign_by_id')
+            ->leftJoin(DB::raw('
+                (SELECT assign_by_id, COUNT(*) as total_schedules 
+                FROM candidate_jobs 
+                WHERE date_of_interview IS NOT NULL 
+                GROUP BY assign_by_id) as schedule_counts
+            '), 'users.id', '=', 'schedule_counts.assign_by_id')
+            ->leftJoin(DB::raw('
+                (SELECT assign_by_id, COUNT(*) as total_appears 
+                FROM candidate_jobs 
+                WHERE deployment_date IS NOT NULL 
+                GROUP BY assign_by_id) as appear_counts
+            '), 'users.id', '=', 'appear_counts.assign_by_id')
             ->select(
                 'users.id as user_id',
                 DB::raw("CONCAT(users.first_name, ' ', users.last_name) as enter_by_name"),
-                DB::raw('count(candidates.id) as total'),
+                DB::raw('COUNT(candidates.id) as total'),
                 DB::raw('COALESCE(total_schedules, 0) as total_schedules'),
-                DB::raw('COALESCE(total_appears, 0) as total_appears')
+                DB::raw('COALESCE(total_appears, 0) as total_appears'),
+                DB::raw('
+                    CASE WHEN COUNT(candidates.id) = 0 THEN 0 
+                    ELSE COALESCE(total_appears, 0) / COUNT(candidates.id) 
+                    END as appear_ratio
+                ')
             )
+            ->where('users.role_type', '!=', 'ADMIN')
             ->groupBy('users.id', 'users.first_name', 'users.last_name', 'total_schedules', 'total_appears')
-            ->orderByRaw('total_schedules DESC, total_appears DESC, total DESC')
+            ->orderByRaw('appear_ratio DESC, total_schedules DESC, total_appears DESC, total DESC')
             ->paginate(5);
 
         $interview_list = CandidateJob::where('date_of_interview', date('d-m-Y'))->orderBy('id', 'desc')->paginate(1);
