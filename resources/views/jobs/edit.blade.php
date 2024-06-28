@@ -246,9 +246,9 @@
                                 <tbody>
                                     <tr>
                                         <td>Date of Interview</td>
-                                        <td>{{ $candidate_job_detail->date_of_interview ?? ''}}</td>
+                                        <td>{{ $candidate_job_detail->date_of_interview ?? 'dd-mm-yyyy'}}</td>
                                         <td>Date of Selection</td>
-                                        <td>{{ $candidate_job_detail->date_of_selection ?? ''}}</td>
+                                        <td>{{ $candidate_job_detail->date_of_selection ?? 'dd-mm-yyyy'}}</td>
                                         <td>Mode of Selection</td>
                                         <td>{{ $candidate_job_detail->mode_of_selection ?? ''}}</td>
                                     </tr>
@@ -276,9 +276,9 @@
                                     </tr>
                                     <tr>
                                         <td>Service Charge</td>
-                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}</td>
+                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? ''}}</td>
                                         <td>Food Allowance</td>
-                                        <td>{{ $candidate_job_detail->food_allowance ?? '00.00'}}</td>
+                                        <td>{{ $candidate_job_detail->food_allowance ?? ''}}</td>
                                         <td>Contract Duration</td>
                                         <td colspan="3">{{ $candidate_job_detail->contract_duration ?? ''}}</td>
 
@@ -287,7 +287,7 @@
                                         <td>Mofa No</td>
                                         <td>{{ $candidate_job_detail->mofa_no ?? ''}}</td>
                                         <td>Mofa Date</td>
-                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -368,11 +368,11 @@
                                     <tr>
 
                                         <td>Medical Application Date</td>
-                                        <td>{{ $candidate_job_detail->medical_application_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->medical_application_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>Medical Completion Date</td>
-                                        <td>{{ $candidate_job_detail->medical_completion_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->medical_completion_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>Medical Status</td>
-                                        <td>{{ $candidate_job_detail->medical_status ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->medical_status ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -411,11 +411,11 @@
                                 <tbody>
                                     <tr>
                                         <td>Visa Receiving Date</td>
-                                        <td>{{ $candidate_job_detail->visa_receiving_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->visa_receiving_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>Visa Issue Date</td>
-                                        <td>{{ $candidate_job_detail->visa_issue_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->visa_issue_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>Visa Expiry Date</td>
-                                        <td>{{ $candidate_job_detail->visa_expiry_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->visa_expiry_date ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -454,9 +454,9 @@
                                 <tbody>
                                     <tr>
                                         <td>Ticket Booking Date</td>
-                                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>Ticket Confirmation Date</td>
-                                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -495,27 +495,27 @@
                                 <tbody>
                                     <tr>
                                         <td>1st Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? ''}}</td>
                                         <td>1st Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>2nd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? ''}}</td>
                                     </tr>
 
                                     <tr>
                                         <td>2nd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>3rd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->third_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->third_installment_amount ?? ''}}</td>
                                         <td>3rd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
 
                                     <tr>
                                         <td>4th Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? ''}}</td>
                                         <td>4th Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>Total Amount</td>
                                         <td>{{ $candidate_job_detail->total_amount ?? 'N/A'}}</td>
                                     </tr>
@@ -1090,19 +1090,19 @@
                 $('#mofa_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
-                    
+                    value: "{{ $candidate_job_detail->mofa_date ? \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') : '' }}"
                 });
 
                 $('#selection_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
-                    
+                    value: "{{ $candidate_job_detail->date_of_selection ? \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') : '' }}"
                 });
 
                 $('#interview_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
-                    
+                    value: "{{ $candidate_job_detail->date_of_interview ? \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') : '' }}"
                 });
         });
 
@@ -1115,9 +1115,9 @@
             $('#candidate-form-job').html(`<tbody>
                                     <tr>
                                         <td>Date of Interview</td>
-                                        <td>{{ $candidate_job_detail->date_of_interview ?? ''}}</td>
+                                        <td>{{ $candidate_job_detail->date_of_interview ?? 'dd-mm-yyyy'}}</td>
                                         <td>Date of Selection</td>
-                                        <td>{{ $candidate_job_detail->date_of_selection ?? ''}}</td>
+                                        <td>{{ $candidate_job_detail->date_of_selection ?? 'dd-mm-yyyy'}}</td>
                                         <td>Mode of Selection</td>
                                         <td>{{ $candidate_job_detail->mode_of_selection ?? ''}}</td>
                                     </tr>
@@ -1140,7 +1140,7 @@
                                     </tr>
                                     <tr>
                                         <td>Service Charge</td>
-                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}</td>
+                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? ''}}</td>
                                         <td>Food Allowance</td>
                                         <td>{{ $candidate_job_detail->food_allowance ?? ''}}</td>
                                         <td>Contract Duration</td>
@@ -1151,7 +1151,7 @@
                                         <td>Mofa No</td>
                                         <td>{{ $candidate_job_detail->mofa_no ?? ''}}</td>
                                         <td>Mofa Date</td>
-                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
                                 </tbody>`);
 
@@ -1249,11 +1249,13 @@
                 $('#med_date1').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->medical_application_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') : '' }}"
                 });
 
                 $('#med_date2').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->medical_completion_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_completion_date)->format('d-m-Y') : '' }}"
                 });
         });
 
@@ -1267,11 +1269,11 @@
                 <tr>
 
                     <td>Medical Application Date</td>
-                    <td>{{ $candidate_job_detail->medical_application_date ?? 'N/A'}}</td>
+                    <td>{{ $candidate_job_detail->medical_application_date ?? 'dd-mm-yyyy'}}</td>
                     <td>Medical Completion Date</td>
-                    <td>{{ $candidate_job_detail->medical_completion_date ?? 'N/A'}}</td>
+                    <td>{{ $candidate_job_detail->medical_completion_date ?? 'dd-mm-yyyy'}}</td>
                     <td>Medical Status</td>
-                    <td>{{ $candidate_job_detail->medical_status ?? 'N/A'}}</td>
+                    <td>{{ $candidate_job_detail->medical_status ?? 'dd-mm-yyyy'}}</td>
                 </tr>
             </tbody>`);
         });
@@ -1317,16 +1319,19 @@
                 $('#visa_rec_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->visa_receiving_date ? \Carbon\Carbon::parse($candidate_job_detail->visa_receiving_date)->format('d-m-Y') : '' }}"
                 });
 
                 $('#visa_issu_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->visa_issue_date ? \Carbon\Carbon::parse($candidate_job_detail->visa_issue_date)->format('d-m-Y') : '' }}"
                 });
 
                 $('#visa_expiry_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->visa_expiry_date ? \Carbon\Carbon::parse($candidate_job_detail->visa_expiry_date)->format('d-m-Y') : '' }}"
                 });
         });
 
@@ -1339,11 +1344,11 @@
             $('#candidate-form-visa').html(`<tbody>
                     <tr>
                         <td>Visa Receiving Date</td>
-                        <td>{{ $candidate_job_detail->visa_receiving_date ?? ''}}</td>
+                        <td>{{ $candidate_job_detail->visa_receiving_date ?? 'dd-mm-yyyy'}}</td>
                         <td>Visa Issue Date</td>
-                        <td>{{ $candidate_job_detail->visa_issue_date ?? ''}}</td>
+                        <td>{{ $candidate_job_detail->visa_issue_date ?? 'dd-mm-yyyy'}}</td>
                         <td>Visa Expiry Date</td>
-                        <td>{{ $candidate_job_detail->visa_expiry_date ?? ''}}</td>
+                        <td>{{ $candidate_job_detail->visa_expiry_date ?? 'dd-mm-yyyy'}}</td>
                     </tr>
                 </tbody>`);
         });
@@ -1384,11 +1389,13 @@
                 $('#ticket_confirm_dt').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->ticket_confirmation_date ? \Carbon\Carbon::parse($candidate_job_detail->ticket_confirmation_date)->format('d-m-Y') : '' }}"
                 });
 
                 $('#tickt_booking_dt').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->ticket_booking_date ? \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') : '' }}"
                 });
         });
 
@@ -1401,9 +1408,9 @@
             $('#candidate-form-ticket').html(`<tbody>
                     <tr>
                         <td>Ticket Booking Date</td>
-                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy'}}</td>
                         <td>Ticket Confirmation Date</td>
-                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'N/A'}}</td>
+                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy'}}</td>
                     </tr>
                 </tbody>`);
         });
@@ -1503,22 +1510,27 @@
                 $('#deploy-date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->deployment_date ? \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') : '' }}"
                 });
                 $('#instl1_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->fst_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->fst_installment_date)->format('d-m-Y') : '' }}"
                 });
                 $('#instl2_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->secnd_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->secnd_installment_date)->format('d-m-Y') : '' }}"
                 });
                 $('#instl3_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->third_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') : '' }}"
                 });
                 $('#instl4_date').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
+                    value: "{{ $candidate_job_detail->fourth_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') : '' }}"
                 });
         });
 
@@ -1531,24 +1543,24 @@
             $('#candidate-form-payment').html(`<tbody>
                                     <tr>
                                         <td>1st Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? ''}}</td>
                                         <td>1st Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>2nd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? ''}}</td>
                                         <td>2nd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
 
                                     <tr>
                                         <td>3rd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->third_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->third_installment_amount ?? ''}}</td>
                                         <td>3rd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'dd-mm-yyyy'}}</td>
                                         <td>4th Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? ''}}</td>
                                         <td>4th Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'N/A'}}</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'dd-mm-yyyy'}}</td>
                                     </tr>
 
                                     <tr>
