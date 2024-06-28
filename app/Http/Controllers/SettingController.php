@@ -355,8 +355,7 @@ class SettingController extends Controller
         $position->name = $request->position_name;
         $position->is_active = $request->position_status;
         $position->update();
-        session()->flash('message', 'Position updated successfully');
-        return response()->json(['message' => 'Position updated successfully']);
+        return response()->json(['view' => view('settings.positions.position-action', compact('position'))->render(), 'status' => 'success', 'id' => $id]);
     }
 
     public function positionsDelete($id)
