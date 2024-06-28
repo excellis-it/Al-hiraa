@@ -25,7 +25,7 @@
                                     <div class="form-group">
                                         <label for="">Company Address <span>*</span></label>
                                         <input type="text" class="form-control" id=""
-                                            value="{{ $company->company_address ?? ''}}" name="company_address"
+                                            value="{{  Str::limit($company->company_address, 10) ?? ''}}" name="company_address"
                                             placeholder="">
                                          <span class="text-danger" id="company_address_msg"></span>
                                     </div>

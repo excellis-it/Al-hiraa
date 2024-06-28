@@ -17,25 +17,11 @@
 
 
 <td>
-    @php
-    $statusClasses = [
-        'Active' => 'active',
-        'In-Active' => 'inactive',
-        'Black List' => 'black-list',
-        'Selected' => 'select-list',
-        'Backed Out' => 'backed-out',
-        'Under Medical' => 'medical-list',
-        'Fit' => 'fit',
-        'Unfit' => 'unfit',
-        'Awaiting Visa' => 'visa',
-        'Awaiting Deployment' => 'deployment',
-    ];
-    $statusClass = $statusClasses[$candidate->candidateStatus->name] ?? 'active'; 
-    @endphp
-    
-    <div class="round_staus {{ $statusClass }}">
+   
+    <div class="round_staus" style="color: {{$candidate->candidateStatus->color}};background: {{$candidate->candidateStatus->background}};border: 1px solid {{$candidate->candidateStatus->color}};">
         {{ $candidate->candidateStatus->name ?? 'N/A' }}
     </div>
+   
 </td>
 <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
     data-route="{{ route('candidates.activity', $candidate['id']) }}" style="cursor: pointer">

@@ -53,7 +53,7 @@
                 </div> --}}
                 <div class="food-box-slider-box">
                     <div class="row justify-content-center">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <div class="food_box_slid">
                                 @foreach ($companies as $company)
                                     <div class="food_box_padding filter-company">
@@ -75,12 +75,22 @@
 
                                             <div class="food-status">
                                                 <div class="food-status-1">
+                                                    <h4>Website:</h4>
+                                                </div>
+                                                <div class="food-status-2">
+                                                    <h4>{{ Str::limit($company->company_website,15) }}</h4>
+                                                </div>
+                                            </div>
+
+                                            <div class="food-status">
+                                                <div class="food-status-1">
                                                     <h4>Date:</h4>
                                                 </div>
                                                 <div class="food-status-2">
                                                     <h4>{{ $company->created_at->format('d.m.Y') }}</h4>
                                                 </div>
                                             </div>
+
                                             <div class="food-status">
 
 
@@ -114,6 +124,8 @@
             </section>
         </div>
         <div id="company-filter">
+
+            
             @include('jobs.company-filter', ['candidate_jobs' => $candidate_jobs, 'count' => $count])
         </div>
 
@@ -246,7 +258,7 @@
     <script>
         $('.job_select').select2({
             closeOnSelect: false,
-            placeholder: "Status",
+            placeholder: "Search Positions",
             allowClear: false,
             tags: true
         }).on('change', function(e) {

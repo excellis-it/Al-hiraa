@@ -193,7 +193,7 @@
                                             @endif
                                         </td>
                                         <td>Gulf Driving Licence</td>
-                                        <td>@if ($gulf_driving_license != null)
+                                        <td colspan="3">@if ($gulf_driving_license != null)
                                             @foreach($gulf_driving_license as $key => $value)
                                                 {{ $value ?? 'N/A' }},
                                             @endforeach
@@ -267,21 +267,26 @@
                                         <td>Country</td>
                                         <td>{{ $candidate_job_detail->country ?? ''}}</td>
                                         <td>Salary</td>
-                                        <td>{{ $candidate_job_detail->salary ?? '00.00'}}</td>
+                                        @if ($candidate_job_detail->salary != null)
+                                        <td>{{ $candidate_job_detail->salary ?? 'N/A' }}</td>
+                                        @else
+                                        <td>{{ $candidate_job_detail->jobTitle->salary ?? 'N/A'}}</td>
+                                        @endif
+                                        
                                     </tr>
                                     <tr>
                                         
                                         <td>Food Allowance</td>
                                         <td>{{ $candidate_job_detail->food_allowance ?? '00.00'}}</td>
                                         <td>Contract Duration</td>
-                                        <td>{{ $candidate_job_detail->contract_duration ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->contract_duration ?? ''}}</td>
                                         
                                     </tr>
                                     <tr>
                                         <td>Mofa No</td>
                                         <td>{{ $candidate_job_detail->mofa_no ?? ''}}</td>
                                         <td>Mofa Date</td>
-                                        <td>{{ $candidate_job_detail->mofa_date ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? ''}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -517,7 +522,7 @@
                                         <td>Deployment Date</td>
                                         <td>{{ $candidate_job_detail->deployment_date ?? 'N/A'}}</td>
                                         <td>Job Status</td>
-                                        <td>{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -749,7 +754,7 @@
                             </select>
                         </td>
                         <td>Gulf Driving License</td>
-                        <td>
+                        <td colspan="3">
                             <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
                                 <option value="" disabled>Select Gulf Driving License</option>
                                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
@@ -859,7 +864,7 @@
                                             @endif
                                         </td>
                                         <td>Gulf Driving Licence</td>
-                                        <td>@if ($gulf_driving_license != null)
+                                        <td colspan="3">@if ($gulf_driving_license != null)
                                             @foreach($gulf_driving_license as $key => $value)
                                                 {{ $value ?? 'N/A' }},
                                             @endforeach
@@ -1046,7 +1051,7 @@
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Contract Duration</td>
-                    <td>
+                    <td colspan="3">
                         <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->contract_duration ?? '' }}" name="contract_duration" placeholder="">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
@@ -1059,7 +1064,7 @@
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Mofa Date</td>
-                    <td>
+                    <td colspan="3">
                         <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') ?? '' }}" name="mofa_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
@@ -1109,14 +1114,14 @@
                                         <td>Food Allowance</td>
                                         <td>{{ $candidate_job_detail->food_allowance ?? ''}}</td>
                                         <td>Contract Duration</td>
-                                        <td>{{ $candidate_job_detail->contract_duration ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->contract_duration ?? ''}}</td>
                                         
                                     </tr>
                                     <tr>
                                         <td>Mofa No</td>
                                         <td>{{ $candidate_job_detail->mofa_no ?? ''}}</td>
                                         <td>Mofa Date</td>
-                                        <td>{{ $candidate_job_detail->mofa_date ?? ''}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->mofa_date ?? ''}}</td>
                                     </tr>
                                 </tbody>`);
 
@@ -1428,8 +1433,8 @@
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Job Status</td>
-                    <td>
-                        <td>
+                    
+                        <td colspan="3">
                             <select name="job_status" class="form-control uppercase-text" id="">
                                 <option value="">Select Job Status</option>
                                 <option value="Active" {{ $candidate_job_detail->job_status == 'Active' ? 'selected' : '' }}> Active </option>
@@ -1437,7 +1442,7 @@
                             </select>
                         </td>
                         <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
+                    
                 </tr>
                 
                 </tbody>`)
@@ -1482,7 +1487,7 @@
                                         <td>Deployment Date</td>
                                         <td>{{ $candidate_job_detail->deployment_date ?? 'N/A'}}</td>
                                         <td>Job Status</td>
-                                        <td>{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
+                                        <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
                                         
                                     </tr>
                                 </tbody>`);

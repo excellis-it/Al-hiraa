@@ -11,5 +11,7 @@ class CandidateStatus extends Model
 
     protected $fillable = [
         'name',
+        'color',
+        'background'
     ];
 }

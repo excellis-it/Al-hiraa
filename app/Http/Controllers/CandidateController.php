@@ -761,7 +761,7 @@ class CandidateController extends Controller
 
             //candidate job details add
             $candidate_details = Candidate::findOrFail($candidate_id);
-            $job_details = Job::findOrfail($job_id) ?? null;
+            $job_details = Job::findOrfail($job_id);
 
             $candidate_job = new CandidateJob();
             $candidate_job->candidate_id = $candidate_id;

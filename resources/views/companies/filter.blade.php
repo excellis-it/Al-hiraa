@@ -19,7 +19,7 @@
                         <h4>Address:</h4>
                     </div>
                     <div class="food-status-2 company_address">
-                        <h4>{{ $company->company_address ?? 'N/A' }}</h4>
+                        <h4>{{ Str::limit($company->company_address,10) ?? 'N/A' }}</h4>
                     </div>
                 </div>
                 <div class="food-status">

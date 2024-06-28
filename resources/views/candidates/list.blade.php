@@ -15,7 +15,7 @@
             <div class="page__heading row align-items-center">
 
                 {{-- edit candidates --}}
-                <div id="candidate-edit">
+                <div id="candidate-edit" class="jobs_canvas">
                     @include('candidates.edit')
                 </div>
                 {{-- end edit candidates --}}

@@ -83,7 +83,7 @@
                     </li>
                 @endif
                 @if (Gate::check('Manage Schedule'))
-                    <li class="sidebar-menu-item">
+                    <li class="sidebar-menu-item {{ Request::is('schedule-to-do*') ? 'active open' : '' }}">
                         <a class="sidebar-menu-button" href="{{ route('schedule-to-do.index') }}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/calendar.svg') }}"></i>
@@ -163,6 +163,13 @@
                                 <span class="sidebar-menu-text">Email & WhatsApp Integration</span>
                             </a>
                         </li> --}}
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('status.index') }}">
+                                        <span class="sidebar-menu-text"> Status Manage</span>
+                                    </a>
+                                </li>
+                            @endif
                             @if (Auth::user()->hasRole('ADMIN'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('sources.index') }}">
