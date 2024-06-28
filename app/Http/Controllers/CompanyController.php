@@ -183,6 +183,7 @@ class CompanyController extends Controller
             'status' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
+            'salary'=>'required|numeric',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
@@ -191,6 +192,7 @@ class CompanyController extends Controller
             'status.required' => 'The status field is required.',
             'contract.numeric' => 'The contract field must be a number.',
             'address.required' => 'The location field is required.',
+            'salary.numeric' => 'Salary field must be a number',
         ]);
 
         $job = new Job();

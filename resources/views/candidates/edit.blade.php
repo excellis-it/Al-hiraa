@@ -262,7 +262,7 @@
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
                                         </td>
-                                        <td>Call Status</td>
+                                        <td>Last Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
@@ -465,7 +465,7 @@
 
                             <td>Status</td>
                             <td>
-                            <select name="cnadidate_status_id" class="form-control uppercase-text" id="">
+                            <select name="cnadidate_status_id" class="form-select uppercase-text" id="">
                                 <option value="">Select A Status</option>
                                 @foreach ($candidate_statuses as $status)
                                 <option value="{{ $status->id }}" {{ $candidate->cnadidate_status_id == $status->id ? 'selected' : '' }}>
@@ -520,7 +520,7 @@
                             </td>
                             <td>Gender</td>
                             <td>
-                            <select name="gender" class="form-control uppercase-text" id="">
+                            <select name="gender" class="form-select uppercase-text" id="">
                                 <option value="">Select Gender</option>
                                 <option value="MALE" {{ $candidate->gender == 'MALE' ? 'selected' : '' }}> MALE </option>
                                 <option value="FEMALE" {{ $candidate->gender == 'FEMALE' ? 'selected' : '' }}>FEMALE</option>
@@ -627,7 +627,7 @@
                         <tr>
                             <td>ECR Type</td>
                             <td>
-                            <select name="ecr_type" class="form-control uppercase-text" id="">
+                            <select name="ecr_type" class="form-select uppercase-text" id="">
                                 <option value="">Select ECR</option>
                                 <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
                                 <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
@@ -660,7 +660,7 @@
                         <tr>
                             <td>English Speak</td>
                             <td>
-                            <select name="english_speak" class="form-control uppercase-text" id="">
+                            <select name="english_speak" class="form-select uppercase-text" id="">
                                 <option value="">English Speak</option>
                                 <option value="BASIC" {{ strtoupper($candidate->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
                                     <option value="GOOD" {{ strtoupper($candidate->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
@@ -670,7 +670,7 @@
                             </td>
                              <td>Arabic Speak</td>
                             <td>
-                            <select name="arabic_speak" class="form-control uppercase-text" id="">
+                            <select name="arabic_speak" class="form-select uppercase-text" id="">
                                 <option value="">Arabic Speak</option>
                                 <option value="BASIC" {{ strtoupper($candidate->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
                                     <option value="GOOD" {{ strtoupper($candidate->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
@@ -680,7 +680,7 @@
                             </td>
                             <td>Return</td>
                             <td>
-                            <select name="return" class="form-control uppercase-text" id="">
+                            <select name="return" class="form-select uppercase-text" id="">
                                 <option value="">Return</option>
                                 <option value="1" {{ $candidate->return == '1' ? 'selected' : '' }}>YES</option>
                                 <option value="0" {{ $candidate->return == '0' ? 'selected' : '' }}>NO</option>
@@ -876,11 +876,11 @@
                                     name="abroad_exp" placeholder="">
                                     <span class="text-danger" id="abroad_exp_msg"></span>
                             </td>
-                            <td>Call Status</td>
+                            <td>Last Call Status</td>
                             <td>
                                 <select name="call_status" class="form-select uppercase-text" id="">
                                     <option value="">Select Call Status</option>
-                                    @foreach (Position::getCallStatus() as $item)
+                                    @foreach(Position::getCallStatus() as $item)
                                         <option value="{{ $item }}">
                                             {{ $item }}</option>
                                     @endforeach
@@ -1088,7 +1088,7 @@
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
                                         </td>
-                                        <td>Call Status</td>
+                                        <td>Last Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
@@ -1362,7 +1362,7 @@
                                             <td>Company </td>
                                             <td>
                                             <div class="form-group">
-                                                <select name="company_id" class="form-control uppercase-text company_id" id="company_id">
+                                                <select name="company_id" class="form-select uppercase-text company_id" id="company_id">
                                                 <option value="">Select Company</option>
                                                 @foreach ($companies as $company)
                                                 <option value="{{ $company->id }}">
@@ -1376,7 +1376,7 @@
 
                                             <td>Job Title</td>
                                             <td>
-                                            <select name="interview_id" class="form-control uppercase-text job_id" id="interview_id">
+                                            <select name="interview_id" class="form-select uppercase-text job_id" id="interview_id">
                                                 <option value="">Select A Job Title</option>
                                             </select>
                                             <span class="text-danger" id="interview_id_job_msg"></span>
@@ -1384,7 +1384,7 @@
 
                                             <td>Interview Status</td>
                                             <td>
-                                            <select name="interview_status" class="form-control uppercase-text" id="interview_status">
+                                            <select name="interview_status" class="form-select uppercase-text" id="interview_status">
                                                 <option value="">Select A Interview Status</option>
                                                 <option value="Selected">Selected</option>
                                                 <option value="Rejected">Rejected</option>

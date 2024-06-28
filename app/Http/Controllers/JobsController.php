@@ -273,6 +273,8 @@ class JobsController extends Controller
             'full_name' => 'required',
             'gender' => 'required',
             'dob' => 'required',
+            'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
+            'alternate_contact_no' => 'nullable|digits:10',
         ], [
             'dob.required' => 'The date of birth field is required.',
             'full_name.required' => 'The full name field is required.',
@@ -345,7 +347,7 @@ class JobsController extends Controller
         $request->validate([
             'date_of_interview' => 'required',
             'date_of_selection' => 'required',
-            'salary' => 'required',
+            'salary' => 'required|numeric',
         ], [
             'salary.required' => 'The salary field is required.',
             'date_of_interview.required' => 'The date of interview is required.',
@@ -377,7 +379,7 @@ class JobsController extends Controller
     {
         $request->validate([
             'family_contact_name' => 'required',
-            'family_contact_no' => 'required',
+            'family_contact_no' => 'required|numeric|digits:10',
         ], [
             'family_contact_name.required' => 'The family contact name is required.',
             'family_contact_no.required' => 'The family contact no is required.',
