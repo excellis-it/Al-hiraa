@@ -528,7 +528,7 @@
                             </td>
                             <td>DOB</td>
                             <td>
-                            <div class="form-group">
+                            <div class="form-group date-btn">
                                 <input type="text" class="form-control uppercase-text datepicker" id="dob"
                                     value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}"
                                     name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">

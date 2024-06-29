@@ -83,7 +83,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="form-group">
+        <div class="form-group date-btn">
             <label for="dob">DOB</label>
             <input type="text" class="form-control uppercase-text datepicker" id="dob"
                 value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob"
@@ -579,7 +579,7 @@
         </div>
     </div>
     <div class="col-lg-4">
-        <div class="form-group">
+        <div class="form-group date-btn">
             <label for="">DOB </label>
             <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
                 name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yy">
