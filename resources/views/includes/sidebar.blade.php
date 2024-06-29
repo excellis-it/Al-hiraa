@@ -91,7 +91,8 @@
                         </a>
                     </li>
                 @endif
-                @if (Gate::check('Manage New Registration') || Gate::check('Manage Revenue') || Gate::check('Manage Team Performance'))
+
+                {{-- @if (Gate::check('Manage New Registration') || Gate::check('Manage Revenue') || Gate::check('Manage Team Performance'))
                     <li class="sidebar-menu-item">
                         <a class="sidebar-menu-button" data-bs-toggle="collapse" href="#collapseReports" role="button"
                             aria-expanded="false" aria-controls="collapseReports">
@@ -123,7 +124,8 @@
                             @endif
                         </ul>
                     </li>
-                @endif
+                @endif --}}
+
                 @if (Gate::check('Manage Team') ||
                         Gate::check('Manage User Access') ||
                         Gate::check('Manage Position') ||
@@ -143,6 +145,8 @@
                                     </a>
                                 </li>
                             @endif
+
+
                             @if (Gate::check('Manage User Access'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('user-access.index') }}">
@@ -155,6 +159,14 @@
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('positions.index') }}">
                                         <span class="sidebar-menu-text"> Position Manage</span>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('feeds.index') }}">
+                                        <span class="sidebar-menu-text"> Feed Manage</span>
                                     </a>
                                 </li>
                             @endif

@@ -192,8 +192,11 @@
                 var query = $('#query').val();
                 var int_pipeline = $('.interview-active').data('val');
                 var job_id = $('select[name="job_id[]"]').val();
-
+                
                 fetch_data(page, query, company, int_pipeline, job_id);
+
+                $('select[name="job_id[]"]').val('null');
+                $('.job_select').next('.select2-container').find('.select2-selection__rendered').html('Search Position');
             });
 
             $(document).on('click', '.filter-select', function() {
@@ -209,7 +212,9 @@
             });
 
             $(document).on('change', 'select[name="job_id[]"]', function() {
+                
                 var job_id = $(this).val();
+                alert(job_id);
                 var company = $('.active').data('id');
                 var int_pipeline = $('.interview-active').data('val');
                 var query = $('#query').val();

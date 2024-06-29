@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CandidateStatusController;
+use App\Http\Controllers\FeedController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -137,6 +138,7 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
         'companies' => CompanyController::class,
         'jobs' => JobsController::class,
         'schedule-to-do' => ScheduleController::class,
+        'feeds' => FeedController::class,
     ]);
 
     Route::post('/get-job-list',[ScheduleController::class,'getJobList'])->name('get-job-list');

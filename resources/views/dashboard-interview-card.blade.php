@@ -11,14 +11,14 @@
         @endif
     </div>
     <div class="food-box-head">
-        <h3>{{$interview->company->company_name}} Interview</h3>
+        <h3>{{$interview->company->company_name ?? 'N/A'}} Interview</h3>
     </div>
     <div class="food-status">
         <div class="food-status-1">
             <h4>Interview Venue:</h4>
         </div>
         <div class="food-status-2">
-            <h4>{{$interview->company->company_address}}</h4>
+            <h4>{{$interview->company->company_address ?? 'N/A'}}</h4>
         </div>
     </div>
     <div class="food-status">
@@ -26,7 +26,7 @@
             <h4>Positions:</h4>
         </div>
         <div class="food-status-2">
-            <h4>{{$interview->jobTitle->candidatePosition->name}}</h4>
+            <h4>{{$interview->jobTitle->candidatePosition->name ?? 'N/A'}}</h4>
         </div>
     </div>
     <div class="food-status">
@@ -34,7 +34,7 @@
             <h4>Interview Assigned:</h4>
         </div>
         <div class="food-status-2">
-            <h4>{{$interview->date_of_interview}}</h4>
+            <h4>{{$interview->date_of_interview ?? 'N/A'}}</h4>
         </div>
     </div>
     <div class="food-status">
@@ -42,7 +42,7 @@
             <h4>Interview Venue:</h4>
         </div>
         <div class="food-status-2">
-            <h4>{{$interview->interview_location}}</h4>
+            <h4>{{$interview->interview_location ?? 'N/A'}}</h4>
         </div>
     </div>
     <div class="food-status">
