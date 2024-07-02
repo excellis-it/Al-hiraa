@@ -39,7 +39,7 @@ class AuthenticationController extends Controller
             'email_id' => 'required_without:mobile_number|email|exists:candidates,email'
         ]);
 
-        
+
 
         if ($validator->fails()) {
             return response()->json([
@@ -52,19 +52,19 @@ class AuthenticationController extends Controller
             $userOtp = null;
             if($request->mobile_number){
                 $userOtp = $this->generateOtp($request->mobile_number);
-            }else{ 
+            }else{
                 $userOtp = $this->generateOtp($request->email_id);
             }
-
+            // return $userOtp;
             //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
                 if($request->mobile_number){
                     // $userOtp->sendSMS($request->mobile_number);
                 }else{
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
-                    
+
                 }
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true], 200);
+                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
@@ -78,9 +78,9 @@ class AuthenticationController extends Controller
     {
         if ($value) {
             $candidate = Candidate::where('contact_no', $value)->orWhere('email', $value)->first();
-        } 
+        }
 
-        
+
         // $candidate = Candidate::where('contact_no', $value)->first();
 
         /*User Does not Have any Existing OTP*/
