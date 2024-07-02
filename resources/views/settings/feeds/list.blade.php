@@ -227,7 +227,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this city.",
+                    text: "To delete this post.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -276,11 +276,8 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#city-edit-form', function(e) {
-
-
+            $(document).on('submit', '#feed-edit-form', function(e) {
                 e.preventDefault();
-
                 var formData = new FormData($(this)[0]);
 
                 $.ajax({
@@ -290,8 +287,9 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
+                        // alert('Feed details updated successfully');
                         window.location.reload();
-                        // toastr.success('Members details updated successfully');
+                        // toastr.success('Feed details updated successfully');
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -299,6 +297,7 @@
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input
                             $('#' + key + '_msg').html(value[0]);
+                            $('#' + key + '_msg').html(value[1]);
                         });
                     }
                 });

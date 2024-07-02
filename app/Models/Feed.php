@@ -24,4 +24,10 @@ class Feed extends Model
     {
         return $this->belongsTo(User::class, 'author_id', 'id');
     }
+
+    public function feedLikes()
+    {
+        return $this->hasMany(FeedLike::class, 'feed_id', 'id');
+    }
+
 }

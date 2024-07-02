@@ -90,7 +90,31 @@ class FeedController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
+        $id = Crypt::decrypt($id);
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        $feed = Feed::find($id);
+        $feed->title = $request->title;
+        $feed->content = $request->description;
+
+        if($request->hasFile('image')){
+            foreach ($request->file('image') as $image) {
+                $imagePath = $this->imageUpload($image, 'feeds');
+                $feedFile = new FeedFile();
+                $feedFile->feed_id = $feed->id;
+                $feedFile->file_name = $imagePath;
+                $feedFile->save();
+            }
+        }
+        $feed->save();
+
+        session()->flash('message', 'Feeds updated successfully');
+        return response()->json(['message' => 'Feeds updated successfully']);
+
     }
 
     /**

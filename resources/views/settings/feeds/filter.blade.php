@@ -4,7 +4,7 @@
             <td>{{ ($feeds->currentPage()-1) * $feeds->perPage() + $loop->index + 1 }}</td>
             <td class="edit-route" data-route="{{ route('feeds.edit', $feed['id']) }}">
                 {{$feed->title }}</td>
-            <td class="edit-route" data-route="{{ route('feeds.edit', $feed['id']) }}">{{ $feed->content }}</td>
+            <td class="edit-route" data-route="{{ route('feeds.edit', $feed['id']) }}">{{ Str::words($feed->content, 50, '...') }}</td>
             <td>
                 <a title="Delete Feed" data-route="{{ route('feeds.delete', Crypt::encrypt($feed->id)) }}"
                     href="javascipt:void(0);" id="delete"> <span class="trash-icon"><i

@@ -55,7 +55,7 @@ class AuthenticationController extends Controller
             }else{
                 $userOtp = $this->generateOtp($request->email_id);
             }
-            // return $userOtp;
+           
             //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
                 if($request->mobile_number){

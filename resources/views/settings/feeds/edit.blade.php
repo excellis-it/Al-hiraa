@@ -46,7 +46,7 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel"
         aria-hidden="true">
         <div class="offcanvas-body">
-            <form action="{{ route('positions.update', Crypt::encrypt($feed->id)) }}" method="POST"
+            <form action="{{ route('feeds.update', Crypt::encrypt($feed->id)) }}" method="POST"
                 enctype="multipart/form-data" id="feed-edit-form">
                 @method('PUT')
                 @csrf
@@ -61,27 +61,28 @@
                                     <div class="form-group">
                                         <label for="">Title<span>*</span></label>
                                         <input type="text" class="form-control" id=""
-                                            value="{{ $feed->title }}" name="feed_title" placeholder="">
+                                            value="{{ $feed->title }}" name="title" placeholder="">
+                                            <span class="text-danger" id="title_msg"></span>
                                     </div>
                                 </div>
 
                                 {{-- image --}}
                                 <div class="col-xl-12">
                                     <div class="form-group">
-                                        <label for="">Image<span>*</span></label>
-                                        <input type="file" class="form-control" id="" name="feed_image"
-                                            placeholder="">
+                                        <label for="">Image</label>
+                                        <input type="file" class="form-control" 
+                                            placeholder="" name="image[]" multiple>
                                         <span class="text-danger"></span>
                                     </div>
                                 </div>
 
                                 {{-- show images --}}
                                 @if (isset($feed->feedFiles) && count($feed->feedFiles) > 0)
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-12">
                                         <div class="form-group">
                                             @foreach ($feed->feedFiles as $image)
                                                 <div class="image-area m-4" id="{{ $image->id }}">
-                                                    <img src="{{ Storage::url($image->file_name) }}" alt="Preview">
+                                                    <img src="{{ Storage::url($image->file_name) }}" alt="Preview" style="height:100px;weight:80px;">
                                                     <a class="remove-image" href="javascript:void(0);"
                                                         data-id="{{ $image->id }}"
                                                         style="display: inline;">&#215;</a>
@@ -93,8 +94,8 @@
                                 <div class="col-xl-12">
                                     <div class="form-group">
                                         <label for="">Description<span>*</span></label>
-                                        <textarea name="feed_content" class="form-control" id="" cols="30" rows="10">{{ $feed->content }}</textarea>
-                                        <span class="text-danger"></span>
+                                        <textarea name="description" class="form-control" id="" cols="30" rows="10">{{ $feed->content }}</textarea>
+                                        <span class="text-danger" id="description_msg"></span>
                                     </div>
                                 </div>
 
