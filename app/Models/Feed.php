@@ -9,6 +9,12 @@ class Feed extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'title',
+        'content',
+        'author_id',
+    ];
+
     public function feedFiles()
     {
         return $this->hasMany(FeedFile::class, 'feed_id', 'id');

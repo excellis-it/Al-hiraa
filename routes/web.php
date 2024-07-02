@@ -141,6 +141,11 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
         'feeds' => FeedController::class,
     ]);
 
+    // feeds filter
+    Route::get('/feeds-filter',[FeedController::class,'feedFilter'])->name('feeds.filter');
+    Route::get('/feeds-delete/{id}',[FeedController::class,'feedDelete'])->name('feeds.delete');
+    Route::get('/feeds-delete-image',[FeedController::class,'deleteImage'])->name('feeds.deleteImage');
+
     Route::post('/get-job-list',[ScheduleController::class,'getJobList'])->name('get-job-list');
     // schedule-to-do.job-create
     Route::get('/job-create/{id}',[ScheduleController::class,'jobCreate'])->name('schedule-to-do.job-create');
