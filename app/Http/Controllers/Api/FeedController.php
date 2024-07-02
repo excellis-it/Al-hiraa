@@ -87,7 +87,7 @@ class FeedController extends Controller
                 $feedLike->save();
             }
 
-            return response()->json(['message' => 'Feed changed successfully.','status' => true], 200);
+            return response()->json(['message' => 'Feed changed successfully.','status' => true, 'is_liked' => $feedLike->is_like ], 200);
 
         }catch(\Exception $e){
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
