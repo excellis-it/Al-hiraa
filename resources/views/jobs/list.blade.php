@@ -56,8 +56,8 @@
                         <div class="col-md-12">
                             <div class="food_box_slid">
                                 @foreach ($companies as $company)
-                                    <div class="food_box_padding filter-company">
-                                        <div class="food-box" data-id="{{ $company->id }}">
+                                    <div class="food_box_padding " data-id="{{ $company->id }}">
+                                        <div class="food-box filter-company" data-id="{{ $company->id }}">
                                             <div class="food-box-img">
                                                 <img src="{{ Storage::url($company->company_logo) }}" alt="">
                                             </div>
@@ -165,7 +165,7 @@
 
             $(document).on('submit', '.search-form', function(e) {
                 e.preventDefault();
-                var company = $('.active').data('id');
+                var company = $('.filter-company.active').data('id');
                 var query = $('#query').val();
                 var page = $('#hidden_page').val() || 1;
                 var int_pipeline = $('.interview-active').data('val');
@@ -179,7 +179,7 @@
                 var page = $(this).attr('href').split('page=')[1];
                 $('#hidden_page').val(page);
                 var query = $('#query').val();
-                var company = $('.active').data('id');
+                var company = $('.filter-company.active').data('id');
                 var int_pipeline = $('.interview-active').data('val');
                 var job_id = $('select[name="job_id[]"]').val();
 
@@ -187,7 +187,7 @@
             });
 
             $(document).on('click', '.filter-company', function() {
-                var company = $('.active').data('id');
+                var company = $(this).data('id');
                 var page = $('#hidden_page').val() || 1;
                 var query = $('#query').val();
                 var int_pipeline = $('.interview-active').data('val');
@@ -200,11 +200,12 @@
             });
 
             $(document).on('click', '.filter-select', function() {
-                var company = $('.active').data('id');
+                var company = $('.filter-company.active').data('id');
                 var page = $('#hidden_page').val() || 1;
                 var query = $('#query').val();
                 var int_pipeline = $(this).data('val');
                 // active this div and remove other active
+               
                 $('.filter-select').removeClass('interview-active');
                 $(this).addClass('interview-active');
                 var job_id = $('select[name="job_id[]"]').val();
@@ -214,8 +215,7 @@
             $(document).on('change', 'select[name="job_id[]"]', function() {
                 
                 var job_id = $(this).val();
-                alert(job_id);
-                var company = $('.active').data('id');
+                var company = $('.filter-company.active').data('id');
                 var int_pipeline = $('.interview-active').data('val');
                 var query = $('#query').val();
                 var page = $('#hidden_page').val() || 1;

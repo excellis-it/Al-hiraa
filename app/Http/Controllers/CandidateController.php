@@ -719,8 +719,8 @@ class CandidateController extends Controller
         if ($request->ajax()) {
             $interviews = Interview::where('company_id', $request->company_id)
                 ->where(function ($query) {
-                    $query->where('interview_start_date', '>=', date('Y-m-d'))
-                        ->orWhere('interview_end_date', '>=', date('Y-m-d'));
+                    $query->where('interview_start_date', '>=', date('d-m-Y'))
+                        ->orWhere('interview_end_date', '>=', date('d-m-Y'));
                 })
                 ->whereHas('job', function ($query) {
                     $query->where('status', 'Ongoing');

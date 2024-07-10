@@ -32,9 +32,12 @@
                                         <label for="">Status <span>*</span></label>
                                         <select name="interview_status" class="form-select" id="">
                                             <option value="">Select a status</option>
-                                            <option value="Working" @if ($interview->interview_status == 'Working') selected @endif>Working</option>
-                                            <option value="Transferred" @if ($interview->interview_status == 'Transferred') selected @endif>Transferred</option>
-                                            <option value="Completed" @if ($interview->interview_status == 'Completed') selected @endif>Completed</option>
+                                            <option value="Working" @if ($interview->interview_status == 'Working') selected @endif>
+                                                Working</option>
+                                            <option value="Transferred"
+                                                @if ($interview->interview_status == 'Transferred') selected @endif>Transferred</option>
+                                            <option value="Completed" @if ($interview->interview_status == 'Completed') selected @endif>
+                                                Completed</option>
                                         </select>
                                         <span class="text-danger" id="interview_status_msg"></span>
                                     </div>
@@ -42,7 +45,7 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Start Date </label>
-                                        <input type="text" class="form-control datepicker" id=""
+                                        <input type="text" class="form-control" id="str_date"
                                             value="{{ $interview->interview_start_date ? date('d-m-Y', strtotime($interview->interview_start_date)) : '' }}"
                                             name="interview_start_date" placeholder="">
                                         <span class="text-danger" id="interview_start_date_msg"></span>
@@ -51,7 +54,8 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">End Date<span>*</span></label>
-                                        <input type="text" class="form-control datepicker" id="" value="{{ $interview->interview_end_date ? date('d-m-Y', strtotime($interview->interview_end_date)) : '' }}"
+                                        <input type="text" class="form-control datepicker" id="end_date"
+                                            value="{{ $interview->interview_end_date ? date('d-m-Y', strtotime($interview->interview_end_date)) : '' }}"
                                             name="interview_end_date" placeholder="">
                                         <span class="text-danger" id="interview_end_date_msg"></span>
                                     </div>
@@ -75,9 +79,14 @@
         </div>
     </div>
     <script>
-         $('.datepicker').datepicker({
+        $('#str_date').datepicker({
             uiLibrary: 'bootstrap5',
-                    format: 'dd-mm-yyyy',
+            format: 'dd-mm-yyyy',
+        });
+
+        $('#end_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
         });
     </script>
 @endif

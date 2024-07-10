@@ -50,25 +50,23 @@ class AuthenticationController extends Controller
 
         try {
             $userOtp = null;
-            if($request->mobile_number){
+            if ($request->mobile_number) {
                 $userOtp = $this->generateOtp($request->mobile_number);
-            }else{
+            } else {
                 $userOtp = $this->generateOtp($request->email_id);
             }
-           
+
             //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
-                if($request->mobile_number){
-                    // $userOtp->sendSMS($request->mobile_number);
-                }else{
+                if ($request->mobile_number) {
+                    $userOtp->sendSMS($request->mobile_number);
+                } else {
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
-
                 }
                 return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
-
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
@@ -216,7 +214,8 @@ class AuthenticationController extends Controller
     public function requestOtpRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required|numeric|digits:10|unique:candidates,contact_no'
+            'mobile_number' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
+            'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email'
         ]);
 
         if ($validator->fails()) {
@@ -224,10 +223,19 @@ class AuthenticationController extends Controller
         }
 
         try {
-            $userOtp = $this->generateOtpRegister($request->mobile_number);
+            if ($request->mobile_number) {
+                $userOtp = $this->generateOtpRegister($request->mobile_number);
+            } else {
+                $userOtp = $this->generateOtpRegister($request->email_id);
+            }
+
             if ($userOtp) {
-                $userOtp->sendSMS($request->mobile_number);
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $request->mobile_number], 200);
+                if ($request->mobile_number) {
+                    $userOtp->sendSMS($request->mobile_number);
+                } else {
+                    Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
+                }
+                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'otp' => $userOtp->otp], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
@@ -236,17 +244,24 @@ class AuthenticationController extends Controller
         }
     }
 
-    private function generateOtpRegister($mobileNumber)
+    private function generateOtpRegister($value)
     {
+        if ($value) {
+            $candidate = Candidate::where('contact_no', $value)->orWhere('email', $value)->first();
+        }
+
+        // $candidate = Candidate::where('contact_no', $value)->first();
+
         /*User Does not Have any Existing OTP*/
-        CandidateOtp::where('contact_no', $mobileNumber)->delete();
+        if ($candidate) {
+            CandidateOtp::where('user_id', $candidate->id)->delete();
+        }
 
         $now = now();
 
         $otp = rand(100000, 999999);
 
         return CandidateOtp::create([
-            'contact_no' => $mobileNumber,
             'otp' => $otp,
             'expire_at' => $now->addMinutes(10)
         ]);

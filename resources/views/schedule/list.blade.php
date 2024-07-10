@@ -55,8 +55,8 @@
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label for="">Start Date </label>
-                                                        <input type="text" class="form-control datepicker" id=""
-                                                            value="{{ date('Y-m-d') }}" min="{{ date('Y-m-d') }}"
+                                                        <input type="text" class="form-control datepicker" id="strt_date"
+                                                            value="{{ date('d-m-Y') }}" 
                                                             name="interview_start_date" placeholder="">
                                                         <span class="text-danger"></span>
                                                     </div>
@@ -64,9 +64,9 @@
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
                                                         <label for="">End Date<span>*</span></label>
-                                                        <input type="text" class="form-control datepicker" id=""
-                                                            value="" min="{{ date('Y-m-d') }}"
-                                                            name="interview_end_date" placeholder="">
+                                                        <input type="text" class="form-control datepicker" id="end1_date"
+                                                            value=""  name="interview_end_date"
+                                                            placeholder="">
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
@@ -183,7 +183,7 @@
                             </table>
                         </div>
                         <a href="javascript:void(0);" class="add_task"
-                        data-route="{{ route('schedule-to-do.job-create', Crypt::encrypt($interview['company_id'])) }}">
+                            data-route="{{ route('schedule-to-do.job-create', Crypt::encrypt($interview['company_id'])) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="13.483" height="13.483"
                                 viewBox="0 0 13.483 13.483">
                                 <path id="plus-small"
@@ -206,14 +206,19 @@
 @endsection
 
 @push('scripts')
-<script>
-     $('.datepicker').datepicker({
-        uiLibrary: 'bootstrap5',
-        format: 'dd-mm-yyyy',
-            // minDate: 0
-            minDate: new Date()
+    <script>
+        $('#strt_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+            // minDate: new Date(),
+
         });
-</script>
+        $('#end1_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+            // minDate: new Date()
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('#company_id').change(function() {

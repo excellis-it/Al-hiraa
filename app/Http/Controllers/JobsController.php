@@ -199,7 +199,7 @@ class JobsController extends Controller
         }
 
         // Count statistics
-        $count = $this->getJobStatistics($job_id, $company);
+        $count = $this->getJobStatistics($job_id, $company, $search);
 
         // Paginate the results
         $candidate_jobs = $query->paginate(15);
@@ -240,9 +240,28 @@ class JobsController extends Controller
     }
 
     // Helper function to get job statistics
-    private function getJobStatistics($job_id, $company)
+    private function getJobStatistics($job_id, $company, $search)
     {
         $baseQuery = CandidateJob::query();
+
+        if ($search) {
+            $searchTerms = explode(',', $search);
+            $baseQuery->where(function ($q) use ($searchTerms) {
+                foreach ($searchTerms as $term) {
+                    $term = trim($term);
+                    $q->orWhere('full_name', 'like', "%{$term}%")
+                        ->orWhere('gender', 'like', "%{$term}%")
+                        ->orWhere('job_interview_status', 'like', "%{$term}%")
+                        ->orWhere('whatapp_no', 'like', "%{$term}%")
+                        ->orWhere('alternate_contact_no', 'like', "%{$term}%")
+                        ->orWhere('mofa_no', 'like', "%{$term}%")
+                        ->orWhere('medical_status', 'like', "%{$term}%")
+                        ->orWhere('fst_installment_amount', 'like', "%{$term}%")
+                        ->orWhere('secnd_installment_amount', 'like', "%{$term}%");
+                }
+            });
+        }
+
 
         if ($job_id) {
             $baseQuery->whereIn('job_id', $job_id);
