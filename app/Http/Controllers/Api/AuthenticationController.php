@@ -36,7 +36,7 @@ class AuthenticationController extends Controller
 
         $validator = Validator::make($request->all(), [
             'mobile_number' => 'required_without:email_id|digits:10|exists:candidates,contact_no',
-            'email_id' => 'required_without:mobile_number|email|exists:candidates,email'
+            'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|exists:candidates,email'
         ]);
 
 
@@ -59,11 +59,12 @@ class AuthenticationController extends Controller
             //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
                 if ($request->mobile_number) {
-                    $userOtp->sendSMS($request->mobile_number);
+                    // $userOtp->sendSMS($request->mobile_number);
                 } else {
+                    
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
                 }
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id], 200);
+                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id, 'otp' => $userOtp->otp], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
@@ -77,8 +78,6 @@ class AuthenticationController extends Controller
         if ($value) {
             $candidate = Candidate::where('contact_no', $value)->orWhere('email', $value)->first();
         }
-
-
         // $candidate = Candidate::where('contact_no', $value)->first();
 
         /*User Does not Have any Existing OTP*/
@@ -166,6 +165,7 @@ class AuthenticationController extends Controller
             'full_name' => 'required',
             'contact_no' => 'required|digits:10|unique:candidates,contact_no',
             'job_interest' => 'required|array|min:1|max:3',
+            'email_id' => 'required|email|unique:candidates,email',
             'otp' => 'required|numeric|digits:6'
         ]);
 
@@ -190,6 +190,7 @@ class AuthenticationController extends Controller
                 $candidate->position_applied_for_2 = $request->job_interest[1]  ?? null;
                 $candidate->position_applied_for_3 = $request->job_interest[2]  ?? null;
                 $candidate->cnadidate_status_id = 1;
+                $candidate->email = $request->email_id;
                 $candidate->save();
 
                 $notification = new Notification;
@@ -217,12 +218,14 @@ class AuthenticationController extends Controller
             'mobile_number' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
             'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email'
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()->first(), 'status' => false], 201);
         }
 
         try {
+            
+            
             if ($request->mobile_number) {
                 $userOtp = $this->generateOtpRegister($request->mobile_number);
             } else {
@@ -231,9 +234,11 @@ class AuthenticationController extends Controller
 
             if ($userOtp) {
                 if ($request->mobile_number) {
-                    $userOtp->sendSMS($request->mobile_number);
+                    // $userOtp->sendSMS($request->mobile_number);
                 } else {
+                    return $userOtp;
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
+                    
                 }
                 return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'otp' => $userOtp->otp], 200);
             } else {

@@ -33,8 +33,18 @@ endpoints:
         enumValues: []
         exampleWasSpecified: true
         custom: []
+      email_id:
+        name: email_id
+        description: 'This field is required when <code>mobile_number</code> is not present.  Must match the regex /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix.'
+        required: false
+        example: hkc.m-@jo.ji.xi.tr.yo$/ix
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
     cleanBodyParameters:
       mobile_number: 9876543210
+      email_id: hkc.m-@jo.ji.xi.tr.yo$/ix
     fileParameters: []
     responses:
       -
@@ -162,6 +172,15 @@ endpoints:
         enumValues: []
         exampleWasSpecified: true
         custom: []
+      email_id:
+        name: email_id
+        description: 'Must be a valid email address.'
+        required: true
+        example: lavinia.cole@example.org
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
       otp:
         name: otp
         description: '6 digit OTP.'
@@ -178,6 +197,7 @@ endpoints:
         - 'Job 1'
         - 'Job 2'
         - 'Job 3'
+      email_id: lavinia.cole@example.org
       otp: 123456
     fileParameters: []
     responses:
@@ -229,15 +249,25 @@ endpoints:
     bodyParameters:
       mobile_number:
         name: mobile_number
-        description: 'Must be 10 digits.'
-        required: true
-        example: '6096713814'
+        description: 'This field is required when <code>email_id</code> is not present.  Must be 10 digits.'
+        required: false
+        example: '2720294153'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      email_id:
+        name: email_id
+        description: 'This field is required when <code>mobile_number</code> is not present.  Must match the regex /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix.'
+        required: false
+        example: k.j@7x1.9sk.ktz.y2t.pdthv$/ix
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      mobile_number: '6096713814'
+      mobile_number: '2720294153'
+      email_id: k.j@7x1.9sk.ktz.y2t.pdthv$/ix
     fileParameters: []
     responses: []
     responseFields: []

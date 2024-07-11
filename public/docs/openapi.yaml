@@ -39,6 +39,10 @@ paths:
                   type: integer
                   description: 'Mobile Number of the user.'
                   example: 9876543210
+                email_id:
+                  type: string
+                  description: 'This field is required when <code>mobile_number</code> is not present.  Must match the regex /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix.'
+                  example: hkc.m-@jo.ji.xi.tr.yo$/ix
               required:
                 - mobile_number
       security: []
@@ -143,6 +147,10 @@ paths:
                     - 'Job 3'
                   items:
                     type: string
+                email_id:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: lavinia.cole@example.org
                 otp:
                   type: integer
                   description: '6 digit OTP.'
@@ -151,6 +159,7 @@ paths:
                 - full_name
                 - contact_no
                 - job_interest
+                - email_id
                 - otp
       security: []
   /api/v1/request-otp-register:
@@ -163,7 +172,7 @@ paths:
       tags:
         - Authentication
       requestBody:
-        required: true
+        required: false
         content:
           application/json:
             schema:
@@ -171,10 +180,12 @@ paths:
               properties:
                 mobile_number:
                   type: string
-                  description: 'Must be 10 digits.'
-                  example: '6096713814'
-              required:
-                - mobile_number
+                  description: 'This field is required when <code>email_id</code> is not present.  Must be 10 digits.'
+                  example: '2720294153'
+                email_id:
+                  type: string
+                  description: 'This field is required when <code>mobile_number</code> is not present.  Must match the regex /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix.'
+                  example: k.j@7x1.9sk.ktz.y2t.pdthv$/ix
       security: []
   /api/v1/job-interest:
     post:
@@ -257,7 +268,7 @@ paths:
                 interview_id:
                   type: string
                   description: 'interview id of the user. Example:'
-                  example: ut
+                  example: reprehenderit
               required:
                 - job_id
                 - candidate_id
@@ -296,6 +307,63 @@ paths:
                 example: "{\n\"message\": \"The job id must be an integer.\"\n'status': false\n}"
       tags:
         - 'Candidate Job'
+      security: []
+  /api/v1/feeds/list:
+    post:
+      summary: 'Feed List'
+      operationId: feedList
+      description: 'This endpoint will be used to list all the feeds.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Feed listed successfully.'
+                properties:
+                  message:
+                    type: string
+                    example: 'Feed listed successfully.'
+      tags:
+        - Feed
+      security: []
+  /api/v1/feeds/like:
+    post:
+      summary: 'Feed Like'
+      operationId: feedLike
+      description: 'This endpoint will be used to like or dislike the feed.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "{\n\"message\": \"Feed changed successfully.\"\n'status': true\n}"
+      tags:
+        - Feed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                feed_id:
+                  type: string
+                  description: 'Feed id of the user.'
+                  example: '100'
+                is_like:
+                  type: boolean
+                  description: 'Like or dislike the feed.'
+                  example: true
+              required:
+                - feed_id
+                - is_like
       security: []
   /api/v1/job/list:
     post:
@@ -535,7 +603,7 @@ paths:
                 email:
                   type: string
                   description: 'Email of the user. Example:'
-                  example: spollich@example.com
+                  example: ceasar55@example.com
                 position_applied_for_1:
                   type: integer
                   description: 'Position Applied For 1.'
@@ -2975,7 +3043,7 @@ paths:
                 email:
                   type: string
                   description: 'Email of the user. Example:'
-                  example: nickolas.gerlach@example.com
+                  example: tspinka@example.com
                 phone:
                   type: string
                   description: 'Phone of the user.'
@@ -3090,6 +3158,9 @@ tags:
     description: ''
   -
     name: 'Candidate Job'
+    description: ''
+  -
+    name: Feed
     description: ''
   -
     name: Job

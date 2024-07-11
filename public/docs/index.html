@@ -106,6 +106,19 @@ Fetches candidate job details.</a>
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-feed" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="feed">
+                    <a href="#feed">Feed</a>
+                </li>
+                                    <ul id="tocify-subheader-feed" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="feed-POSTapi-v1-feeds-list">
+                                <a href="#feed-POSTapi-v1-feeds-list">Feed List</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="feed-POSTapi-v1-feeds-like">
+                                <a href="#feed-POSTapi-v1-feeds-like">Feed Like</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-job" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="job">
                     <a href="#job">Job</a>
@@ -154,7 +167,7 @@ Fetches candidate job details.</a>
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: June 22, 2024</li>
+        <li>Last updated: July 11, 2024</li>
     </ul>
 </div>
 
@@ -193,7 +206,8 @@ You can switch the language used with the tabs at the top right (or from the nav
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"mobile_number\": 9876543210
+    \"mobile_number\": 9876543210,
+    \"email_id\": \"hkc.m-@jo.ji.xi.tr.yo$\\/ix\"
 }"
 </code></pre></div>
 
@@ -209,7 +223,8 @@ const headers = {
 };
 
 let body = {
-    "mobile_number": 9876543210
+    "mobile_number": 9876543210,
+    "email_id": "hkc.m-@jo.ji.xi.tr.yo$\/ix"
 };
 
 fetch(url, {
@@ -311,6 +326,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>Mobile Number of the user. Example: <code>9876543210</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="email_id"                data-endpoint="POSTapi-v1-request-otp"
+               value="hkc.m-@jo.ji.xi.tr.yo$/ix"
+               data-component="body">
+    <br>
+<p>This field is required when <code>mobile<em>number</code> is not present.  Must match the regex /^([a-z0-9+</em>-]+)(.[a-z0-9+_-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix. Example: <code>hkc.m-@jo.ji.xi.tr.yo$/ix</code></p>
         </div>
         </form>
 
@@ -489,6 +515,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
         \"Job 2\",
         \"Job 3\"
     ],
+    \"email_id\": \"lavinia.cole@example.org\",
     \"otp\": 123456
 }"
 </code></pre></div>
@@ -512,6 +539,7 @@ let body = {
         "Job 2",
         "Job 3"
     ],
+    "email_id": "lavinia.cole@example.org",
     "otp": 123456
 };
 
@@ -650,6 +678,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Array of job interests.</p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email_id"                data-endpoint="POSTapi-v1-register"
+               value="lavinia.cole@example.org"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>lavinia.cole@example.org</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>otp</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
  &nbsp;
@@ -679,7 +718,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"mobile_number\": \"6096713814\"
+    \"mobile_number\": \"2720294153\",
+    \"email_id\": \"k.j@7x1.9sk.ktz.y2t.pdthv$\\/ix\"
 }"
 </code></pre></div>
 
@@ -695,7 +735,8 @@ const headers = {
 };
 
 let body = {
-    "mobile_number": "6096713814"
+    "mobile_number": "2720294153",
+    "email_id": "k.j@7x1.9sk.ktz.y2t.pdthv$\/ix"
 };
 
 fetch(url, {
@@ -781,13 +822,24 @@ You can check the Dev Tools console for debugging information.</code></pre>
         <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>mobile_number</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
- &nbsp;
+<i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="mobile_number"                data-endpoint="POSTapi-v1-request-otp-register"
-               value="6096713814"
+               value="2720294153"
                data-component="body">
     <br>
-<p>Must be 10 digits. Example: <code>6096713814</code></p>
+<p>This field is required when <code>email_id</code> is not present.  Must be 10 digits. Example: <code>2720294153</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="email_id"                data-endpoint="POSTapi-v1-request-otp-register"
+               value="k.j@7x1.9sk.ktz.y2t.pdthv$/ix"
+               data-component="body">
+    <br>
+<p>This field is required when <code>mobile<em>number</code> is not present.  Must match the regex /^([a-z0-9+</em>-]+)(.[a-z0-9+_-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix. Example: <code>k.j@7x1.9sk.ktz.y2t.pdthv$/ix</code></p>
         </div>
         </form>
 
@@ -962,7 +1014,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"job_id\": \"100\",
     \"candidate_id\": \"20\",
-    \"interview_id\": \"ut\"
+    \"interview_id\": \"reprehenderit\"
 }"
 </code></pre></div>
 
@@ -980,7 +1032,7 @@ const headers = {
 let body = {
     "job_id": "100",
     "candidate_id": "20",
-    "interview_id": "ut"
+    "interview_id": "reprehenderit"
 };
 
 fetch(url, {
@@ -1131,10 +1183,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="interview_id"                data-endpoint="POSTapi-v1-candidate-job-apply"
-               value="ut"
+               value="reprehenderit"
                data-component="body">
     <br>
-<p>interview id of the user. Example: Example: <code>ut</code></p>
+<p>interview id of the user. Example: Example: <code>reprehenderit</code></p>
         </div>
         </form>
 
@@ -1385,6 +1437,289 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                <h1 id="feed">Feed</h1>
+
+    
+
+                                <h2 id="feed-POSTapi-v1-feeds-list">Feed List</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to list all the feeds.</p>
+
+<span id="example-requests-POSTapi-v1-feeds-list">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/feeds/list" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/feeds/list"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-feeds-list">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Feed listed successfully.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-feeds-list" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-feeds-list"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-feeds-list"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-feeds-list" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-feeds-list">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-feeds-list" data-method="POST"
+      data-path="api/v1/feeds/list"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-feeds-list', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-feeds-list"
+                    onclick="tryItOut('POSTapi-v1-feeds-list');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-feeds-list"
+                    onclick="cancelTryOut('POSTapi-v1-feeds-list');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-feeds-list"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/feeds/list</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-feeds-list"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-feeds-list"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="feed-POSTapi-v1-feeds-like">Feed Like</h2>
+
+<p>
+</p>
+
+<p>This endpoint will be used to like or dislike the feed.</p>
+
+<span id="example-requests-POSTapi-v1-feeds-like">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/feeds/like" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"feed_id\": \"100\",
+    \"is_like\": true
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/feeds/like"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "feed_id": "100",
+    "is_like": true
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-feeds-like">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+&quot;message&quot;: &quot;Feed changed successfully.&quot;
+&#039;status&#039;: true
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-feeds-like" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-feeds-like"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-feeds-like"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-feeds-like" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-feeds-like">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-feeds-like" data-method="POST"
+      data-path="api/v1/feeds/like"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-feeds-like', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-feeds-like"
+                    onclick="tryItOut('POSTapi-v1-feeds-like');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-feeds-like"
+                    onclick="cancelTryOut('POSTapi-v1-feeds-like');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-feeds-like"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/feeds/like</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-feeds-like"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-feeds-like"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>feed_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="feed_id"                data-endpoint="POSTapi-v1-feeds-like"
+               value="100"
+               data-component="body">
+    <br>
+<p>Feed id of the user. Example: <code>100</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_like</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-v1-feeds-like" style="display: none">
+            <input type="radio" name="is_like"
+                   value="true"
+                   data-endpoint="POSTapi-v1-feeds-like"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-v1-feeds-like" style="display: none">
+            <input type="radio" name="is_like"
+                   value="false"
+                   data-endpoint="POSTapi-v1-feeds-like"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Like or dislike the feed. Example: <code>true</code></p>
+        </div>
+        </form>
 
                 <h1 id="job">Job</h1>
 
@@ -1732,7 +2067,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"full_name\": \"John Doe\",
-    \"email\": \"spollich@example.com\",
+    \"email\": \"ceasar55@example.com\",
     \"position_applied_for_1\": 1,
     \"position_applied_for_2\": 2,
     \"position_applied_for_3\": 3,
@@ -1766,7 +2101,7 @@ const headers = {
 
 let body = {
     "full_name": "John Doe",
-    "email": "spollich@example.com",
+    "email": "ceasar55@example.com",
     "position_applied_for_1": 1,
     "position_applied_for_2": 2,
     "position_applied_for_3": 3,
@@ -1923,10 +2258,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-profile-update"
-               value="spollich@example.com"
+               value="ceasar55@example.com"
                data-component="body">
     <br>
-<p>Email of the user. Example: Example: <code>spollich@example.com</code></p>
+<p>Email of the user. Example: Example: <code>ceasar55@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>position_applied_for_1</code></b>&nbsp;&nbsp;
@@ -3176,7 +3511,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"first_name\": \"John\",
     \"last_name\": \"Doe\",
-    \"email\": \"nickolas.gerlach@example.com\",
+    \"email\": \"tspinka@example.com\",
     \"phone\": \"9876543210\",
     \"message\": \"Message\"
 }"
@@ -3196,7 +3531,7 @@ const headers = {
 let body = {
     "first_name": "John",
     "last_name": "Doe",
-    "email": "nickolas.gerlach@example.com",
+    "email": "tspinka@example.com",
     "phone": "9876543210",
     "message": "Message"
 };
@@ -3319,10 +3654,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-settings-contact-us"
-               value="nickolas.gerlach@example.com"
+               value="tspinka@example.com"
                data-component="body">
     <br>
-<p>Email of the user. Example: Example: <code>nickolas.gerlach@example.com</code></p>
+<p>Email of the user. Example: Example: <code>tspinka@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;

@@ -47,7 +47,7 @@ class JobController extends Controller
                     $jobs = $jobs->where('address', 'like', '%' . $request->location_search . '%');
                 }
                 $jobs = $jobs->whereHas('interviews', function ($query) {
-                    $query->where('interview_start_date', '>=', date('Y-m-d'))
+                    $query->where('interview_start_date', '>=', date('d-m-Y'))
                         ->orWhere('interview_end_date', '>=', date('Y-m-d'));
                 })->where('status', 'Ongoing')->orderBy('id', 'desc')->offset($offset)->limit($limit)->get();
                 $jobs = fractal($jobs, new JobTransformer())->toArray()['data'];

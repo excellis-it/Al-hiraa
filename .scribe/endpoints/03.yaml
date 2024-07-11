@@ -106,7 +106,7 @@ endpoints:
         name: email
         description: 'Email of the user. Example:'
         required: false
-        example: spollich@example.com
+        example: ceasar55@example.com
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -266,7 +266,7 @@ endpoints:
         custom: []
     cleanBodyParameters:
       full_name: 'John Doe'
-      email: spollich@example.com
+      email: ceasar55@example.com
       position_applied_for_1: 1
       position_applied_for_2: 2
       position_applied_for_3: 3

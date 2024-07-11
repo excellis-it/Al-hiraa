@@ -27,6 +27,7 @@ class SendUserOtp extends Mailable
      */
     public function build()
     {
+        
         return $this->markdown('emails.senduserOtp')->with('userOtp', $this->userOtp);
 
     }

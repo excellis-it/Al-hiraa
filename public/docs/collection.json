@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Laravel",
-        "_postman_id": "c5f86892-3196-4a87-a066-da60fd5e3333",
+        "_postman_id": "4e75446e-ec67-4506-91d8-152ab6771a2b",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -41,7 +41,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"mobile_number\":9876543210}"
+                            "raw": "{\"mobile_number\":9876543210,\"email_id\":\"hkc.m-@jo.ji.xi.tr.yo$\\\/ix\"}"
                         },
                         "description": "This endpoint will be used to request OTP for login.",
                         "auth": {
@@ -117,7 +117,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"John Doe\",\"contact_no\":9876543210,\"job_interest\":[\"Job 1\",\"Job 2\",\"Job 3\"],\"otp\":123456}"
+                            "raw": "{\"full_name\":\"John Doe\",\"contact_no\":9876543210,\"job_interest\":[\"Job 1\",\"Job 2\",\"Job 3\"],\"email_id\":\"lavinia.cole@example.org\",\"otp\":123456}"
                         },
                         "description": "This endpoint will be used to register a new user.",
                         "auth": {
@@ -161,7 +161,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"mobile_number\":\"6096713814\"}"
+                            "raw": "{\"mobile_number\":\"2720294153\",\"email_id\":\"k.j@7x1.9sk.ktz.y2t.pdthv$\\\/ix\"}"
                         },
                         "description": "",
                         "auth": {
@@ -236,7 +236,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"job_id\":\"100\",\"candidate_id\":\"20\",\"interview_id\":\"ut\"}"
+                            "raw": "{\"job_id\":\"100\",\"candidate_id\":\"20\",\"interview_id\":\"reprehenderit\"}"
                         },
                         "description": "This endpoint will be used to apply job for candidate.",
                         "auth": {
@@ -341,6 +341,85 @@
                             "header": [],
                             "code": 201,
                             "body": "{\n\"message\": \"The job id must be an integer.\"\n'status': false\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Feed",
+            "description": "",
+            "item": [
+                {
+                    "name": "Feed List",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/feeds\/list",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/feeds\/list"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "This endpoint will be used to list all the feeds.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"message\": \"Feed listed successfully.\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Feed Like",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/v1\/feeds\/like",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/v1\/feeds\/like"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"feed_id\":\"100\",\"is_like\":true}"
+                        },
+                        "description": "This endpoint will be used to like or dislike the feed.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n\"message\": \"Feed changed successfully.\"\n'status': true\n}",
                             "name": ""
                         }
                     ]
@@ -474,7 +553,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"full_name\":\"John Doe\",\"email\":\"spollich@example.com\",\"position_applied_for_1\":1,\"position_applied_for_2\":2,\"position_applied_for_3\":3,\"alternate_contact_no\":9876543210,\"whatapp_no\":9876543210,\"passport_number\":\"A1234567\",\"gender\":\"MALE, FEMALE, OTHER\",\"date_of_birth\":\"2000-01-01\",\"mode_of_registration\":\"CALLING, WALK-IN\",\"source\":\"TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER\",\"education\":\"5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS\",\"other_education\":\"Other Education\",\"religion\":\"HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER\",\"ecr_type\":\"ECR, ECNR\",\"english_speak\":\"GOOD, BASIC, POOR, NO\",\"arabic_speak\":\"GOOD, BASIC, POOR, NO\",\"cnadidate_status_id\":1}"
+                            "raw": "{\"full_name\":\"John Doe\",\"email\":\"ceasar55@example.com\",\"position_applied_for_1\":1,\"position_applied_for_2\":2,\"position_applied_for_3\":3,\"alternate_contact_no\":9876543210,\"whatapp_no\":9876543210,\"passport_number\":\"A1234567\",\"gender\":\"MALE, FEMALE, OTHER\",\"date_of_birth\":\"2000-01-01\",\"mode_of_registration\":\"CALLING, WALK-IN\",\"source\":\"TELECALLING, REFERANCE, FACEBOOK, INSTAGRAM, OTHER\",\"education\":\"5TH PASS, 8TH PASS, 10TH PASS, HIGHER SECONDARY, GRADUATES, MASTERS\",\"other_education\":\"Other Education\",\"religion\":\"HINDU, ISLAM, CHRISTIAN, BUDDHIST, SIKH, JAIN, OTHER\",\"ecr_type\":\"ECR, ECNR\",\"english_speak\":\"GOOD, BASIC, POOR, NO\",\"arabic_speak\":\"GOOD, BASIC, POOR, NO\",\"cnadidate_status_id\":1}"
                         },
                         "description": "This endpoint will be used to update the profile of the user.",
                         "auth": {
@@ -553,7 +632,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"nickolas.gerlach@example.com\",\"phone\":\"9876543210\",\"message\":\"Message\"}"
+                            "raw": "{\"first_name\":\"John\",\"last_name\":\"Doe\",\"email\":\"tspinka@example.com\",\"phone\":\"9876543210\",\"message\":\"Message\"}"
                         },
                         "description": "This endpoint will be used to contact us.",
                         "auth": {
