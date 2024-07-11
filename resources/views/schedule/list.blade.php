@@ -136,7 +136,7 @@
                                         <input type="checkbox" class="custom-control-input js-check-selected-row">
                                     </div>
                                 </th> --}}
-                                        <th>Task Name</th>
+                                        <th>Job Name</th>
                                         <th>Asignee</th>
                                         <th>Due Date</th>
                                         <th>Status</th>
@@ -190,7 +190,7 @@
                                     d="M18.359,11.618H13.865V7.124A1.124,1.124,0,0,0,12.741,6h0a1.124,1.124,0,0,0-1.124,1.124v4.494H7.124A1.124,1.124,0,0,0,6,12.741H6a1.124,1.124,0,0,0,1.124,1.124h4.494v4.494a1.124,1.124,0,0,0,1.124,1.124h0a1.124,1.124,0,0,0,1.124-1.124V13.865h4.494a1.124,1.124,0,0,0,1.124-1.124h0A1.124,1.124,0,0,0,18.359,11.618Z"
                                     transform="translate(-6 -6)" opacity="0.5" />
                             </svg>
-                            <span>Add task...</span>
+                            <span>Add job...</span>
                         </a>
                     @endforeach
                 @else

@@ -24,6 +24,17 @@
         </div>
     </div>
     <div class="col-lg-4">
+        <div class="form-group date-btn">
+            <label for="dob">DOB</label>
+            <input type="text" class="form-control uppercase-text datepicker" id="dob"
+                value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob"
+                max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
+            @if ($errors->has('dob'))
+                <span class="text-danger">{{ $errors->first('dob') }}</span>
+            @endif
+        </div>
+    </div>
+    <div class="col-lg-4">
         <div class="form-group">
             <label for="">Alternative Contact NO: </label>
             <input type="text" class="form-control  uppercase-text" id="" name="alternate_contact_no"
@@ -82,17 +93,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
-        <div class="form-group date-btn">
-            <label for="dob">DOB</label>
-            <input type="text" class="form-control uppercase-text datepicker" id="dob"
-                value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob"
-                max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
-            @if ($errors->has('dob'))
-                <span class="text-danger">{{ $errors->first('dob') }}</span>
-            @endif
-        </div>
-    </div>
+    
     {{-- <div class="col-lg-4">
         <div class="form-group">
             <label for="">Age</label>
@@ -163,7 +164,7 @@
 
     {{-- referred_by --}}
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group referred_by_id" id="">
 
             @if ($candidate->referred_by_id != null)
@@ -184,6 +185,14 @@
                     value="{{ $candidate->referred_by ?? '' }}" name="referred_by" placeholder="">
             @endif
 
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="form-group">
+            <label for="">Associate</label>
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="" name="associate" placeholder="">
         </div>
     </div>
 
@@ -235,7 +244,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <div class="form-group">
             <label for="">English Speak</label>
             <select name="english_speak" class="form-select  uppercase-text" id="">
@@ -247,7 +256,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <div class="form-group">
             <label for="">Arabic Speak</label>
             <select name="arabic_speak" class="form-select  uppercase-text" id="">
@@ -259,7 +268,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <div class="form-group">
             <label for="">Gulf Return</label>
             <select name="return" class="form-select  uppercase-text" id="">
@@ -497,7 +506,7 @@
         </div>
     </div>
 @else
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Full Name <span>*</span></label>
             <input type="text" class="form-control  uppercase-text " id=""
@@ -507,7 +516,7 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Email </label>
             <input type="text" class="form-control  uppercase-text" id="" value="{{ old('email') }}"
@@ -517,19 +526,19 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Alternative Contact NO: </label>
-            <input type="text" class="form-control  uppercase-text" id="" name="alternate_contact_no"
-                value="{{ old('alternate_contact_no') }}" placeholder="">
-            @if ($errors->has('alternate_contact_no'))
-                @error('alternate_contact_no')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            @endif
+
+    <div class="col-lg-3">
+        <div class="form-group date-btn">
+            <label for="">DOB </label>
+            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
+                name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yy">
         </div>
+        @if ($errors->has('dob'))
+            <span class="text-danger">{{ $errors->first('dob') }}</span>
+        @endif
     </div>
-    <div class="col-lg-4">
+    
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Whatsapp NO: </label>
             <input type="text" class="form-control  uppercase-text" id="" name="whatapp_no"
@@ -541,229 +550,8 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Passport Number: </label>
-            <input type="text" class="form-control  uppercase-text" id="" name="passport_number"
-                value="{{ old('passport_number') }}" placeholder="">
-            @if ($errors->has('passport_number'))
-                @error('passport_number')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            @endif
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">City: </label>
-            <select name="city" class="form-select select2 uppercase-text" id="">
-                <option value="">SELECT CITY</option>
-                @foreach (Position::getCity() as $city)
-                    <option value="{{ $city }}" {{ old('city') == $city ? 'selected' : '' }}>
-                        {{ $city }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
 
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Gender</label>
-            <select name="gender" class="form-select  uppercase-text" id="">
-                <option value="">Select Gender</option>
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
-                <option value="OTHER">OTHER</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group date-btn">
-            <label for="">DOB </label>
-            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
-                name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yy">
-        </div>
-        @if ($errors->has('dob'))
-            <span class="text-danger">{{ $errors->first('dob') }}</span>
-        @endif
-    </div>
-    {{-- <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Age</label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('age') }}" name="age"
-                placeholder="">
-        </div>
-    </div> --}}
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Education</label>
-            <select name="education" class="form-select  uppercase-text" id="">
-                <option value="">Select Type</option>
-                <option value="5TH PASS" @if (old('education') == '5TH PASS') selected @endif>5TH PASS</option>
-                <option value="8TH PASS" @if (old('education') == '8TH PASS') selected @endif>8TH PASS</option>
-                <option value="10TH PASS" @if (old('education') == '10TH PASS') selected @endif>10TH PASS </option>
-                <option value="HIGHER SECONDARY" @if (old('education') == 'HIGHER SECONDARY') selected @endif>Higher
-                    Secondary</option>
-                <option value="GRADUATES" @if (old('education') == 'GRADUATES') selected @endif>GRADUATES</option>
-                <option value="MASTERS" @if (old('education') == 'MASTERS') selected @endif>MASTERS</option>
-            </select>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('education') }}"
-                name="education" placeholder=""> --}}
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Other Education</label>
-            <input type="text" class="form-control  uppercase-text" id=""
-                value="{{ old('other_education') }}" name="other_education" placeholder="">
-        </div>
-    </div>
-
-    {{-- Mode of Registration --}}
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Mode of Registration</label>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('mode_of_registration') }}"
-                name="mode_of_registration" placeholder=""> --}}
-            <select name="mode_of_registration" class="form-select  uppercase-text" id="">
-                <option value="">Select Type</option>
-                <option value="CALLING" @if (old('mode_of_registration') == 'CALLING') selected @endif>CALLING</option>
-                <option value="WALK-IN" @if (old('mode_of_registration') == 'WALK-IN') selected @endif>WALK-IN</option>
-            </select>
-        </div>
-    </div>
-    {{-- Source --}}
-
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Source</label>
-            <select name="source" class="form-select  uppercase-text" id="">
-                <option value="">Select Type</option>
-                @foreach ($sources as $source)
-                    <option value="{{ $source->name }}" @if (old('source') == $source->name) selected @endif>
-                        {{ $source->name }}</option>
-                @endforeach
-            </select>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('source') }}" name="source"
-                placeholder=""> --}}
-        </div>
-    </div>
-
-    {{-- referred_by --}}
-
-    <div class="col-lg-4">
-        <div class="form-group referred_by_id" id="">
-            <label for="">Referred by <span><a href="javascript:void(0);"
-                        class="referred_type">Other</a></span></label>
-            <select name="referred_by_id" class="form-select  uppercase-text" id="">
-                <option value="">Select Type</option>
-                @foreach ($associates as $item)
-                    <option value="{{ $item['id'] }}">{{ $item['full_name'] }}</option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Religion: </label>
-            <select name="religion" class="form-select  uppercase-text" id="">
-                <option value="">Select Religion</option>
-                <option value="HINDU" {{ old('religion') == 'HINDU' ? 'selected' : '' }}>Hindu</option>
-                <option value="ISLAM" {{ old('religion') == 'ISLAM' ? 'selected' : '' }}>Islam</option>
-                <option value="CHRISTIAN" {{ old('religion') == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
-                <option value="SIKH" {{ old('religion') == 'SIKH' ? 'selected' : '' }}>Sikh</option>
-                <option value="BUDDHIST" {{ old('religion') == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
-                <option value="JAIN" {{ old('religion') == 'JAIN' ? 'selected' : '' }}>Jain</option>
-                <option value="OTHER" {{ old('religion') == 'OTHER' ? 'selected' : '' }}>Other</option>
-            </select>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" name="religion"
-                value="{{ old('religion') }}" placeholder=""> --}}
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label>Indian Driving License:</label>
-            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
-                multiple>
-                <option value="" disabled>Select Indian Driving License</option>
-                <option value="2 WHEELER"
-                    {{ in_array('2 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
-                    2 WHEELER</option>
-                <option value="4 WHEELER"
-                    {{ in_array('4 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
-                    4 WHEELER</option>
-                <option value="HV" {{ in_array('HV', old('indian_driving_license') ?? []) ? 'selected' : '' }}>HV
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Gulf Driving License: </label>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
-                value="{{ old('international_driving_license') }}" placeholder=""> --}}
-            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
-                multiple>
-                <option value="" disabled>Select Gulf Driving License</option>
-                <option value="2 WHEELER"
-                    {{ in_array('2 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
-                    2 WHEELER</option>
-                <option value="4 WHEELER"
-                    {{ in_array('4 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
-                    4 WHEELER</option>
-                <option value="HV"
-                    {{ in_array('HV', old('international_driving_license') ?? []) ? 'selected' : '' }}>HV</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">English Speak</label>
-            <select name="english_speak" class="form-select  uppercase-text" id="">
-                <option value="">Select Type</option>
-                <option value="BASIC" {{ old('english_speak') == 'BASIC' ? 'selected' : '' }}>BASIC</option>
-                <option value="GOOD" {{ old('english_speak') == 'GOOD' ? 'selected' : '' }}>GOOD</option>
-                <option value="POOR" {{ old('english_speak') == 'POOR' ? 'selected' : '' }}>POOR</option>
-                <option value="NO" {{ old('english_speak') == 'NO' ? 'selected' : '' }}>NO</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Arabic Speak</label>
-            <select name="arabic_speak" class="form-select  uppercase-text" id="">
-                <option value="">Select Type</option>
-                <option value="BASIC" {{ old('arabic_speak') == 'BASIC' ? 'selected' : '' }}>BASIC</option>
-                <option value="GOOD" {{ old('arabic_speak') == 'GOOD' ? 'selected' : '' }}>GOOD</option>
-                <option value="POOR" {{ old('arabic_speak') == 'POOR' ? 'selected' : '' }}>POOR</option>
-                <option value="NO" {{ old('arabic_speak') == 'NO' ? 'selected' : '' }}>NO</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">Gulf Return</label>
-            <select name="return" class="form-select  uppercase-text" id="">
-                <option value="">Select Gulf Return Type</option>
-                <option value="1" {{ old('return') == '1' ? 'selected' : '' }}>YES</option>
-                <option value="0" {{ old('return') == '0' ? 'selected' : '' }}>NO</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="col-lg-4">
-        <div class="form-group">
-            <label for="">ECR Type</label>
-            <select name="ecr_type" class="form-select  uppercase-text" id="">
-                <option value="">Select ECR</option>
-                <option value="ECR" {{ old('ecr_type') == 'ECR' ? 'selected' : '' }}>ECR</option>
-                <option value="ECNR" {{ old('ecr_type') == 'ECNR' ? 'selected' : '' }}>ECNR</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Indian Work Experience (If Any?)</label>
             <input type="text" class="form-control  uppercase-text" id=""
@@ -775,7 +563,8 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-4">
+
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Abroad Work Experience (If Any?)</label>
             <input type="text" class="form-control  uppercase-text" id=""
@@ -783,7 +572,8 @@
 
         </div>
     </div>
-    <div class="col-lg-4">
+
+    <div class="col-lg-3">
         <div class="form-group position_applied_1">
             <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
                         class="position_applied_for_1">Other</a></span></label>
@@ -805,7 +595,7 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group position_applied_2">
             <label for="">Position Applied For(2) <span><a href="javascript:void(0);"
                         class="position_applied_for_2">Other</a></span></label>
@@ -822,7 +612,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group position_applied_3">
             <label for="">Position Applied For(3) <span><a href="javascript:void(0);"
                         class="position_applied_for_3">Other</a></span></label>
@@ -839,6 +629,254 @@
             </select>
         </div>
     </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Alternative Contact NO: </label>
+            <input type="text" class="form-control  uppercase-text" id="" name="alternate_contact_no"
+                value="{{ old('alternate_contact_no') }}" placeholder="">
+            @if ($errors->has('alternate_contact_no'))
+                @error('alternate_contact_no')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Passport Number: </label>
+            <input type="text" class="form-control  uppercase-text" id="" name="passport_number"
+                value="{{ old('passport_number') }}" placeholder="">
+            @if ($errors->has('passport_number'))
+                @error('passport_number')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">State: </label>
+            <select name="city" class="form-select select2 uppercase-text" id="">
+                <option value="">SELECT CITY</option>
+                @foreach (Position::getCity() as $city)
+                    <option value="{{ $city }}" {{ old('city') == $city ? 'selected' : '' }}>
+                        {{ $city }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">City: </label>
+            <select name="city" class="form-select select2 uppercase-text" id="">
+                <option value="">SELECT CITY</option>
+                @foreach (Position::getCity() as $city)
+                    <option value="{{ $city }}" {{ old('city') == $city ? 'selected' : '' }}>
+                        {{ $city }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Gender</label>
+            <select name="gender" class="form-select  uppercase-text" id="">
+                <option value="">Select Gender</option>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+                <option value="OTHER">OTHER</option>
+            </select>
+        </div>
+    </div>
+   
+    {{-- <div class="col-lg-4">
+        <div class="form-group">
+            <label for="">Age</label>
+            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('age') }}" name="age"
+                placeholder="">
+        </div>
+    </div> --}}
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Education</label>
+            <select name="education" class="form-select  uppercase-text" id="">
+                <option value="">Select Type</option>
+                <option value="5TH PASS" @if (old('education') == '5TH PASS') selected @endif>5TH PASS</option>
+                <option value="8TH PASS" @if (old('education') == '8TH PASS') selected @endif>8TH PASS</option>
+                <option value="10TH PASS" @if (old('education') == '10TH PASS') selected @endif>10TH PASS </option>
+                <option value="HIGHER SECONDARY" @if (old('education') == 'HIGHER SECONDARY') selected @endif>Higher
+                    Secondary</option>
+                <option value="GRADUATES" @if (old('education') == 'GRADUATES') selected @endif>GRADUATES</option>
+                <option value="MASTERS" @if (old('education') == 'MASTERS') selected @endif>MASTERS</option>
+            </select>
+            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('education') }}"
+                name="education" placeholder=""> --}}
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Other Education</label>
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ old('other_education') }}" name="other_education" placeholder="">
+        </div>
+    </div>
+
+    {{-- Mode of Registration --}}
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Mode of Registration</label>
+            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('mode_of_registration') }}"
+                name="mode_of_registration" placeholder=""> --}}
+            <select name="mode_of_registration" class="form-select  uppercase-text" id="">
+                <option value="">Select Type</option>
+                <option value="CALLING" @if (old('mode_of_registration') == 'CALLING') selected @endif>CALLING</option>
+                <option value="WALK-IN" @if (old('mode_of_registration') == 'WALK-IN') selected @endif>WALK-IN</option>
+            </select>
+        </div>
+    </div>
+    {{-- Source --}}
+
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Source</label>
+            <select name="source" class="form-select  uppercase-text" id="">
+                <option value="">Select Type</option>
+                @foreach ($sources as $source)
+                    <option value="{{ $source->name }}" @if (old('source') == $source->name) selected @endif>
+                        {{ $source->name }}</option>
+                @endforeach
+            </select>
+            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('source') }}" name="source"
+                placeholder=""> --}}
+        </div>
+    </div>
+
+    {{-- referred_by --}}
+
+    <div class="col-lg-3">
+        <div class="form-group referred_by_id" id="">
+            <label for="">Referred by <span><a href="javascript:void(0);"
+                        class="referred_type">Other</a></span></label>
+            <select name="referred_by_id" class="form-select  uppercase-text" id="">
+                <option value="">Select Type</option>
+                @foreach ($associates as $item)
+                    <option value="{{ $item['id'] }}">{{ $item['full_name'] }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Associate</label>
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="" name="associate" placeholder="">
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Religion: </label>
+            <select name="religion" class="form-select  uppercase-text" id="">
+                <option value="">Select Religion</option>
+                <option value="HINDU" {{ old('religion') == 'HINDU' ? 'selected' : '' }}>Hindu</option>
+                <option value="ISLAM" {{ old('religion') == 'ISLAM' ? 'selected' : '' }}>Islam</option>
+                <option value="CHRISTIAN" {{ old('religion') == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
+                <option value="SIKH" {{ old('religion') == 'SIKH' ? 'selected' : '' }}>Sikh</option>
+                <option value="BUDDHIST" {{ old('religion') == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
+                <option value="JAIN" {{ old('religion') == 'JAIN' ? 'selected' : '' }}>Jain</option>
+                <option value="OTHER" {{ old('religion') == 'OTHER' ? 'selected' : '' }}>Other</option>
+            </select>
+            {{-- <input type="text" class="form-control  uppercase-text" id="" name="religion"
+                value="{{ old('religion') }}" placeholder=""> --}}
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label>Indian Driving License:</label>
+            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
+                <option value="" disabled>Select Indian Driving License</option>
+                <option value="2 WHEELER"
+                    {{ in_array('2 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER"
+                    {{ in_array('4 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
+                    4 WHEELER</option>
+                <option value="HV" {{ in_array('HV', old('indian_driving_license') ?? []) ? 'selected' : '' }}>HV
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Gulf Driving License: </label>
+            {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
+                value="{{ old('international_driving_license') }}" placeholder=""> --}}
+            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
+                <option value="" disabled>Select Gulf Driving License</option>
+                <option value="2 WHEELER"
+                    {{ in_array('2 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER"
+                    {{ in_array('4 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
+                    4 WHEELER</option>
+                <option value="HV"
+                    {{ in_array('HV', old('international_driving_license') ?? []) ? 'selected' : '' }}>HV</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">English Speak</label>
+            <select name="english_speak" class="form-select  uppercase-text" id="">
+                <option value="">Select Type</option>
+                <option value="BASIC" {{ old('english_speak') == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ old('english_speak') == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ old('english_speak') == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ old('english_speak') == 'NO' ? 'selected' : '' }}>NO</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Arabic Speak</label>
+            <select name="arabic_speak" class="form-select  uppercase-text" id="">
+                <option value="">Select Type</option>
+                <option value="BASIC" {{ old('arabic_speak') == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                <option value="GOOD" {{ old('arabic_speak') == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                <option value="POOR" {{ old('arabic_speak') == 'POOR' ? 'selected' : '' }}>POOR</option>
+                <option value="NO" {{ old('arabic_speak') == 'NO' ? 'selected' : '' }}>NO</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Gulf Return</label>
+            <select name="return" class="form-select  uppercase-text" id="">
+                <option value="">Select Gulf Return Type</option>
+                <option value="1" {{ old('return') == '1' ? 'selected' : '' }}>YES</option>
+                <option value="0" {{ old('return') == '0' ? 'selected' : '' }}>NO</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">ECR Type</label>
+            <select name="ecr_type" class="form-select  uppercase-text" id="">
+                <option value="">Select ECR</option>
+                <option value="ECR" {{ old('ecr_type') == 'ECR' ? 'selected' : '' }}>ECR</option>
+                <option value="ECNR" {{ old('ecr_type') == 'ECNR' ? 'selected' : '' }}>ECNR</option>
+            </select>
+        </div>
+    </div>
+
+   
+   
+    
     {{-- <div class="col-lg-4">
         <div class="form-group">
             <label for="">Last Update Date</label>
@@ -847,7 +885,7 @@
         </div>
     </div> --}}
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Status<span>*</span></label>
             <select name="cnadidate_status_id" class="form-select  uppercase-text" id="">
@@ -864,10 +902,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
-
-    </div>
-    <div class="col-lg-12">
+    <div class="col-lg-9">
         <div class="form-group">
             <label for="">Remarks</label>
             <textarea class="form-control  uppercase-text" id="" rows="3" name="remark">{{ old('remark') }}</textarea>
