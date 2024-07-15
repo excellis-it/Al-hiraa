@@ -141,6 +141,10 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
         'feeds' => FeedController::class,
     ]);
 
+
+    //get city name
+    Route::post('/get-city-name',[CandidateController::class,'getCityName'])->name('candidates.get-city');
+
     // feeds filter
     Route::get('/feeds-filter',[FeedController::class,'feedFilter'])->name('feeds.filter');
     Route::get('/feeds-delete/{id}',[FeedController::class,'feedDelete'])->name('feeds.delete');

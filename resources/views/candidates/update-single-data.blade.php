@@ -54,7 +54,7 @@
 <td class="content-short">{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}</td>
 <td class="content-short">{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}</td>
 <td class="content-short">{{ $candidate->passport_number ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->city ?? 'N/A' }}</td>
+<td class="content-short">{{ $candidate->cityName->name ?? 'N/A' }}</td>
 <td class="content-short">
     @if ($candidate->referred_by_id != null)
         {{ $candidate->referredBy->full_name }}

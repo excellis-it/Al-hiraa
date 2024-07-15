@@ -18,7 +18,9 @@
             <th>Whatsapp No.</th>
             <th>Email ID</th>
             <th>Referred By</th>
+            <th>Associate By</th>
             <th>Other Education</th>
+            <th>State</th>
             <th>City</th>
             <th>Religion</th>
             <th>ECR Type</th>
@@ -72,16 +74,16 @@
                 </td>
                 <td>{{ $item->whatapp_no ?? 'N/A' }}</td>
                 <td>{{ $item->email ?? 'N/A' }}</td>
+                <td>{{ $item->referred_by ?? 'N/A' }}</td>
                 <td>
-                    @if ($item->referred_by_id != null)
-                        {{ $item->referredBy->full_name }}
+                    @if ($item->associate_id != null)
+                        {{ $item->associatedBy->first_name  ?? 'N/A' }} {{ $item->associatedBy->last_name  ?? 'N/A' }}
                     @else
-                        {{ $item->referred_by }}
+                        {{ 'N/A' }}
                     @endif
-                </td>
                 <td>{{ $item->other_education ?? 'N/A' }}</td>
-                <td>{{ $item->city ?? 'N/A' }}
-                </td>
+                <td>{{ $item->state->name ?? 'N/A'}}</td>
+                <td>{{ $item->cityName->name ?? 'N/A' }}</td>
                 <td>{{ $item->religion ?? 'N/A' }}</td>
                 <td>{{ $item->ecr_type ?? 'N/A' }}</td>
                 <td>

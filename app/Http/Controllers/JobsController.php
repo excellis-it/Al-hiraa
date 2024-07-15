@@ -29,14 +29,14 @@ class JobsController extends Controller
         if (Auth::user()->can('Manage Job')) {
 
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
+                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->where('job_interview_status','!=','Not-Interested')->paginate(15);
             } else {
 
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->paginate(15);
+                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('job_interview_status','!=','Not-Interested')->paginate(15);
             }
 
             $companies = Company::orderBy('company_name', 'asc')->with('jobs')->get();
-            $count['total_interviews'] = CandidateJob::orderBy('id', 'desc')->count();
+            $count['total_interviews'] = CandidateJob::where('job_interview_status', 'Interested')->count();
             $count['total_selection'] = CandidateJob::where('job_interview_status', 'Selected')->count();
             $count['total_medical'] = CandidateJob::where('medical_status', '!=', null)->count();
             $count['total_doc'] = CandidateJob::where('visa_receiving_date', '!=', null)->count();
@@ -185,12 +185,12 @@ class JobsController extends Controller
 
         // Filter by job ID
         if ($job_id) {
-            $query->whereIn('job_id', $job_id);
+            $query->whereIn('job_id', $job_id)->where('job_interview_status','!=','Not-Interested');
         }
 
         // Filter by company
         if ($company) {
-            $query->where('company_id', $company);
+            $query->where('company_id', $company)->where('job_interview_status','!=','Not-Interested');
         }
 
         // Filter by interview pipeline status
@@ -218,6 +218,7 @@ class JobsController extends Controller
     {
         switch ($int_pipeline) {
             case 'All':
+                $query->where('job_interview_status','Interested');
                 break;
             case 'Selection':
                 $query->where('job_interview_status', 'Selected');
@@ -262,19 +263,18 @@ class JobsController extends Controller
             });
         }
 
-
         if ($job_id) {
             $baseQuery->whereIn('job_id', $job_id);
         }
 
         if ($company) {
-            $baseQuery->where('company_id', $company);
+            $baseQuery->where('company_id', $company)->where('job_interview_status','!=','Not-Interested');
         }
 
         $candidate_jobs = $baseQuery->get();
 
         return [
-            'total_interviews' => $candidate_jobs->count(),
+            'total_interviews' => $candidate_jobs->where('job_interview_status','Interested')->count(),
             'total_selection' => $candidate_jobs->where('job_interview_status', 'Selected')->count(),
             'total_medical' => $candidate_jobs->where('medical_status', '!=', null)->count(),
             'total_doc' => $candidate_jobs->where('visa_receiving_date', '!=', null)->count(),
@@ -320,6 +320,7 @@ class JobsController extends Controller
         $candidate_job_update->job_position = $request->job_position;
         $candidate_job_update->job_location = $request->job_location;
         $candidate_job_update->company_id = $company_id;
+        $candidate_job_update->job_interview_status = $request->interview_status;
         $candidate_job_update->update();
 
         if ($request->indian_driving_license) {

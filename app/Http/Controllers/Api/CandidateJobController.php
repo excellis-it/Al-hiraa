@@ -75,7 +75,7 @@ class CandidateJobController extends Controller
                 $assign_job->company_id = $interview_details->company_id ?? null;
                 $assign_job->interview_id = $request->interview_id ?? null;
                 $assign_job->user_id = Auth::user()->id ?? null;
-                $assign_job->interview_status = 'Selected';
+                $assign_job->interview_status = 'Interested';
                 $assign_job->save();
 
                 //candidate job details add
@@ -106,7 +106,7 @@ class CandidateJobController extends Controller
                 $candidate_job->job_location = null;
                 $candidate_job->company_id = $interview_details->company_id ?? null;
                 $candidate_job->job_status = 'Active';
-                $candidate_job->job_interview_status = 'Selected';
+                $candidate_job->job_interview_status = 'Interested';
                 $candidate_job->save();
 
                 //candidate licence details add
@@ -181,7 +181,7 @@ class CandidateJobController extends Controller
             $candidate_job_details = CandidateJob::where('id', $request->candidate_job_id)->first();
 
             $status['interview'] = ($candidate_job_details->job_status == 'Active');
-            $status['selected'] = ($candidate_job_details->job_interview_status == 'Selected');
+            $status['selected'] = ($candidate_job_details->job_interview_status == 'Interested');
             $status['medical'] = ($candidate_job_details->medical_status != null);
             $status['document'] = ($candidate_job_details->visa_receiving_date != null);
             $status['collection'] = ($candidate_job_details->total_amount != null);

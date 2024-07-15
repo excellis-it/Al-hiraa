@@ -122,4 +122,19 @@ class Candidate extends Authenticatable
     {
         return $this->belongsTo(CandidatePosition::class, 'position_applied_for_3');
     }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id');
+    }
+
+    public function cityName()
+    {
+        return $this->belongsTo(City::class, 'city');
+    }
+
+    public function associatedBy()
+    {
+        return $this->belongsTo(User::class, 'associate_id');
+    }
 }

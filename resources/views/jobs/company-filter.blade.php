@@ -33,7 +33,7 @@
 
                     </div>
                     <div class="interview-text">
-                        <h4>Interviews</h4>
+                        <h4>Interested In Interviews</h4>
                         <h3><span id="all">{{ $count['total_interviews'] }}</span></h3>
                     </div>
                 </div>

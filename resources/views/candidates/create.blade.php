@@ -468,4 +468,27 @@
 
         });
     </script>
+
+    <script>
+        // get city name from state id
+        $(document).ready(function() {
+            $(document).on('change', 'select[name="state_id"]', function() {
+                var state_id = $(this).val();
+                    $.ajax({
+                        url: "{{ route('candidates.get-city') }}",
+                        type: "POST",
+                        data: {
+                            state_id: state_id
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            $('select[name="city_id"]').empty().html(response.city);
+                            
+                        }
+                    });
+            });
+        });
+    </script>
 @endpush

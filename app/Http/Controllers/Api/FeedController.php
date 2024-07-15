@@ -31,21 +31,29 @@ class FeedController extends Controller
 
     public function feedList(Request $request)
     {
-        try{
+        try {
             $feeds = Feed::orderBy('id', 'desc')
-                    ->with([
-                        'feedFiles' => function ($query) {
-                            $query->select('id', 'feed_id', 'file_name');
-                        },
-                        'author' => function ($query) {
-                            $query->select('id', 'first_name', 'last_name', 'profile_picture'); 
-                        }
-                    ])
-                    ->withCount('feedLikes') // This will add a `feed_likes_count` attribute to each Feed model instance
-                    ->get();
-            return response()->json(['message' => 'Feed listed successfully.','status' => true, 'data' => $feeds], 200);
-        }catch(\Exception $e){
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+                ->with([
+                    'feedFiles:id,feed_id,file_name',
+                    'author:id,first_name,last_name,profile_picture'
+                ])
+                ->withCount('feedLikes')
+                ->get();
+        
+            $feeds->each(function ($feed) {
+                $feed->is_liked = $feed->feedLikes()->where('is_like', true)->exists();
+            });
+        
+            return response()->json([
+                'message' => 'Feed listed successfully.',
+                'status' => true,
+                'data' => $feeds
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
         }
     }
 

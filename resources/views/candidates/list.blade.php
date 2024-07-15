@@ -326,9 +326,9 @@
                                         <div class="single_select">
                                             <select name="city" class="select_width city_select " id="city_filter">
                                                 <option value="">Select City</option>
-                                                @foreach (Position::getCity() as $city)
-                                                    <option value="{{ $city }}"
-                                                        {{ old('city') == $city ? 'selected' : '' }}>{{ $city }}
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}"
+                                                        {{ old('city') == $city->id ? 'selected' : '' }}>{{ $city->name }}
                                                     </option>
                                                 @endforeach
                                             </select>

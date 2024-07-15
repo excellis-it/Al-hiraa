@@ -84,7 +84,7 @@ class DashboardController extends Controller
 
         // Assuming you have a method to get month-wise counts for each status
         $intv['total_interviews'] = CandidateJob::orderBy('id', 'desc')->count();
-        $intv['total_selection'] = CandidateJob::where('job_interview_status', 'Selected')->count();
+        $intv['total_selection'] = CandidateJob::where('job_interview_status', 'Interested')->count();
         $intv['total_medical'] = CandidateJob::where('medical_status', '!=', null)->count();
         $intv['total_doc'] = CandidateJob::where('visa_receiving_date', '!=', null)->count();
         $intv['total_collection'] = CandidateJob::where('total_amount', '!=', null)->count();
@@ -105,7 +105,7 @@ class DashboardController extends Controller
         for ($i = 1; $i <= $totalMonths; $i++) {
             $month = Carbon::createFromDate($thisYear, $i, 1)->format('m');
             $data['Interview'][] = CandidateJob::whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
-            $data['Selection'][] = CandidateJob::where('job_interview_status', 'Selected')->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
+            $data['Selection'][] = CandidateJob::where('job_interview_status', 'Interested')->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
             $data['Medical'][] = CandidateJob::where('medical_status', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
 
             $data['Deployment'][] = CandidateJob::where('deployment_date', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
@@ -197,7 +197,7 @@ class DashboardController extends Controller
                 $month = Carbon::createFromDate($year, $i, 1)->format('m');
                 $labels[] = Carbon::createFromDate($year, $i, 1)->format('F');
                 $data['Interview'][] = CandidateJob::whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
-                $data['Selection'][] = CandidateJob::where('job_interview_status', 'Selected')->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
+                $data['Selection'][] = CandidateJob::where('job_interview_status', 'Interested')->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
                 $data['Medical'][] = CandidateJob::where('medical_status', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
 
                 $data['Deployment'][] = CandidateJob::where('deployment_date', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('assign_jobs', function (Blueprint $table) {
-            $table->enum('interview_status', ['Selected', 'Rejected'])->nullable()->after('interview_id');
+        Schema::table('candidates', function (Blueprint $table) {
+            $table->bigInteger('state_id')->nullable()->after('whatapp_no');
+            $table->bigInteger('associate_id')->nullable()->after('referred_by');
         });
     }
 
@@ -21,9 +22,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('assign_jobs', function (Blueprint $table) {
+        Schema::table('candidates', function (Blueprint $table) {
             //
-            $table->dropColumn('interview_status');
+            $table->dropColumn('state_id');
+            $table->dropColumn('associate_id');
         });
     }
 };

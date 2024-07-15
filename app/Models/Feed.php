@@ -27,7 +27,7 @@ class Feed extends Model
 
     public function feedLikes()
     {
-        return $this->hasMany(FeedLike::class, 'feed_id', 'id');
+        return $this->hasMany(FeedLike::class, 'feed_id', 'id')->where('is_like', true);
     }
 
 }

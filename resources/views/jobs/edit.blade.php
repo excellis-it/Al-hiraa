@@ -193,13 +193,20 @@
                                             @endif
                                         </td>
                                         <td>Gulf Driving Licence</td>
-                                        <td colspan="3">@if ($gulf_driving_license != null)
+                                        <td >@if ($gulf_driving_license != null)
                                             @foreach($gulf_driving_license as $key => $value)
                                                 {{ $value ?? 'N/A' }},
                                             @endforeach
                                             @else
                                                 {{ 'N/A' }}
                                             @endif
+                                        </td>
+                                        <td>Interview Status</td>
+                                        <td>@if($candidate_job_detail->job_interview_status == 'Selected')
+                                            <span style="color: green;">{{ $candidate_job_detail->job_interview_status }}</span>
+                                        @else
+                                            {{ $candidate_job_detail->job_interview_status ?? 'N/A' }}
+                                        @endif
                                         </td>
 
                                     </tr>
@@ -757,7 +764,7 @@
                             </select>
                         </td>
                         <td>Gulf Driving License</td>
-                        <td colspan="3">
+                        <td>
                             <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
                                 <option value="" disabled>Select Gulf Driving License</option>
                                 <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
@@ -766,6 +773,14 @@
                                     4 WHEELER</option>
                                 <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
                             </select>
+                        </td>
+                        <td>Interview Status</td>
+                        <td>
+                        <select name="interview_status" class="form-select uppercase-text" id="">
+                                <option value="Interested" {{ $candidate_job_detail->job_interview_status == 'Interested' ? 'selected' : '' }}>Interested</option>
+                                <option value="Not-Interested" {{ $candidate_job_detail->job_interview_status == 'Not-Interested' ? 'selected' : '' }}>Not-Interested</option>
+                                <option value="Selected" {{ $candidate_job_detail->job_interview_status == 'Selected' ? 'selected' : '' }}>Selected</option>
+                        </select>
                         </td>
                     </tr>
 
@@ -869,12 +884,19 @@
                                             @endif
                                         </td>
                                         <td>Gulf Driving Licence</td>
-                                        <td colspan="3">@if ($gulf_driving_license != null)
+                                        <td>@if ($gulf_driving_license != null)
                                             @foreach($gulf_driving_license as $key => $value)
                                                 {{ $value ?? 'N/A' }},
                                             @endforeach
                                             @else
                                                 {{ 'N/A' }}
+                                            @endif
+                                        </td>
+                                        <td>Interview Status</td>
+                                        <td>@if($candidate_job_detail->job_interview_status == 'Selected')
+                                                <span style="color: green;">{{ $candidate_job_detail->job_interview_status }}</span>
+                                            @else
+                                                {{ $candidate_job_detail->job_interview_status ?? 'N/A' }}
                                             @endif
                                         </td>
 

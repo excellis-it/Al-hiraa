@@ -67,7 +67,6 @@ return new class extends Migration
             $table->string('fourth_installment_date')->nullable();
             $table->string('deployment_date')->nullable();
             $table->enum('job_status', ['Active', 'Deactive'])->default('Active');
-            $table->enum('job_interview_status', ['Selected', 'Rejected'])->nullable();
             $table->timestamps();
         });
     }

@@ -178,7 +178,7 @@
                                         <td>{{ $candidate->email ?? 'N/A' }}
                                         </td>
                                         <td>City</td>
-                                        <td>{{ $candidate->city ?? 'N/A' }}
+                                        <td>{{ $candidate->cityName->name ?? 'N/A' }}
                                         </td>
                                         <td>Religion</td>
                                         <td>{{ $candidate->religion ?? 'N/A' }}
@@ -601,9 +601,9 @@
                             <td>
                                 <select name="city" class="form-select new_select2 uppercase-text" id="">
                                     <option value="">Select City</option>
-                                    @foreach (Position::getCity() as $city)
-                                        <option value="{{ $city }}" {{ $candidate->city == $city ? 'selected' : '' }}>
-                                            {{ $city }}
+                                    @foreach ($cities as $city)
+                                        <option value="{{ $city->id }}" {{ $candidate->city == $city->id ? 'selected' : '' }}>
+                                            {{ $city->name }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -1386,8 +1386,8 @@
                                             <td>
                                             <select name="interview_status" class="form-select uppercase-text" id="interview_status">
                                                 <option value="">Select A Interview Status</option>
-                                                <option value="Selected">Selected</option>
-                                                <option value="Rejected">Rejected</option>
+                                                <option value="Interested">Interested</option>
+                                                <option value="Not-Interested">Not-Interested</option>
                                             </select>
                                             <span class="text-danger" id="interview_status_job_msg"></span>
                                             </td>

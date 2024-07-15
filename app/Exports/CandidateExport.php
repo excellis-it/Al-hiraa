@@ -14,7 +14,7 @@ class CandidateExport implements FromView
     */
     public function view(): View
     {
-        $candidates = Candidate::all();
+        $candidates = Candidate::orderBy('id','desc')->get();
         // dd($jobs);
         return view('candidates.export', [
             'candidates' => $candidates
