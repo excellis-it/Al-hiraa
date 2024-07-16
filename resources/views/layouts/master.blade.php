@@ -236,18 +236,16 @@
     </script>
     <script>
         $(document).ready(function() {
-            // Add class 'bg_candidate' when a 'tr' is clicked
-            $(document).on('click', 'tr', function() {
-                // Check if the clicked 'tr' has the 'toxic' class
-                if (!$(this).hasClass('toxic')) {
-                    // Remove 'bg_candidate' class from all other 'tr' elements
-                    $('tr').removeClass('bg_candidate');
-                    // Add 'bg_candidate' class to the clicked 'tr'
-                    $(this).addClass('bg_candidate');
-                }
-            });
-        });
-    </script>
+         $(document).on('click', '.checkd-row', function() {
+             var id = $(this).data('id');
+             if ($(this).is(':checked')) {
+                 $('.candidate-new-' + id).addClass('table-row-highlight');
+             } else {
+                 $('.candidate-new-' + id).removeClass('table-row-highlight');
+             }
+         });
+     });
+     </script>
     @stack('scripts')
 </body>
 

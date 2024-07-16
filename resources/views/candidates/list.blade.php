@@ -196,7 +196,7 @@
                 </div>
                 <div class="col-lg-12 col-md-12">
                     <div class="table-wrapper table-responsive border-bottom" data-toggle="lists">
-                        <table class="table mb-0 table-bordered" id="candidate_body12">
+                        <table class="table mb-0 table-bordered table-hover" id="candidate_body12">
                             <thead class="candy-p">
                                 <tr>
                                     @if (Auth::user()->hasRole('ADMIN'))

@@ -804,16 +804,20 @@
 <div class="col-lg-3">
     <div class="form-group referred_by_id" id="">
         <label for="">Referred by </label>
-                    <input type="text" class="form-control  uppercase-text" id=""
-            value="" name="referred_by" placeholder="">
-       
+            <select name="referred_by" class="form-select  uppercase-text" id="">
+                <option value="">Select</option>
+                @foreach ($referrers as $refer)
+                    <option value="{{ $refer['id'] }}">{{ $refer['first_name'] }} {{$refer['last_name'] }}</option>
+                    </option>
+                @endforeach
+            </select>
     </div>
 </div>
 <div class="col-lg-3">
     <div class="form-group">
         <label for="">Associate</label>
         <select name="associate_id" class="form-select  uppercase-text" id="">
-            <option value="">Select Type</option>
+            <option value="">Select</option>
             @foreach ($associates as $item)
                 <option value="{{ $item['id'] }}">{{ $item['full_name'] }}
                 </option>

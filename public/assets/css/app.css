@@ -5863,6 +5863,25 @@ border: none !important;
     border-bottom: 1px solid #d0d0d0; 
 }
 
+.table-row-highlight td{
+    border-top: 1px solid #1492e6 !important;
+    border-bottom: 1px solid #1492e6 !important;
+    background: #f5f5f5 !important;
+}
+
+
+.offcanvas .table tr td:first-child{
+    color: #076826;
+    font-weight: 600;
+}
+.offcanvas .table tr td:nth-child(3){
+    color: #076826;
+    font-weight: 600;
+}
+.offcanvas .table tr td:nth-child(5){
+    color: #076826;
+    font-weight: 600;
+}
 
 
 

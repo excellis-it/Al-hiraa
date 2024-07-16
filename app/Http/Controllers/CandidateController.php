@@ -65,10 +65,14 @@ class CandidateController extends Controller
             $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
+            $referrers = User::where('role_type', '!=', 'ADMIN')
+                    ->where('role_type', '!=', 'ASSOCIATE')
+                    ->orderBy('id', 'desc')
+                    ->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $states = State::orderBy('name', 'asc')->get();
             $cities = City::orderBy('name', 'asc')->get();
-            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions', 'sources','states','cities'));
+            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions', 'sources','states','cities','referrers'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
