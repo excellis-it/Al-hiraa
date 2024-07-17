@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('refer_candidate_id')->nullable();
             $table->bigInteger('referrer_candidate_id')->nullable();
             $table->bigInteger('refer_point_id')->nullable();
+            $table->bigInteger('refer_job_id')->nullable();
             $table->string('amount')->nullable();
             $table->timestamps();
         });

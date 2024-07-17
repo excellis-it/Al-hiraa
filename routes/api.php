@@ -48,6 +48,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('my', [ProfileController::class, 'my']);
             Route::post('update', [ProfileController::class, 'update']);
             Route::post('edit', [ProfileController::class, 'edit']);
+            Route::post('delete', [ProfileController::class, 'delete']);
         });
 
         Route::prefix('feeds')->group(function () {
@@ -61,7 +62,8 @@ Route::group(['prefix' => 'v1'], function () {
         });
 
         Route::prefix('referral')->group(function (){
-            Route::get('total-point', [ReferController::class, 'totalPoint']);
+            Route::post('submit',[ReferController::class, 'submit']);
+            Route::post('total-point', [ReferController::class, 'totalPoint']);
         });
     });
 });

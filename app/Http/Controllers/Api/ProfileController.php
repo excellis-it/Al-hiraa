@@ -6,6 +6,7 @@ use App\Constants\Position;
 use App\Http\Controllers\Controller;
 use App\Models\CandidatePosition;
 use App\Models\CandidateStatus;
+use App\Models\Candidate;
 use App\Models\Source;
 use App\Transformers\ProfileTransformer;
 use Illuminate\Http\Request;
@@ -1113,6 +1114,31 @@ class ProfileController extends Controller
             $data['english_speak'] = ['GOOD', 'BASIC', 'POOR', 'NO'];
             $data['arabic_speak'] = ['GOOD', 'BASIC', 'POOR', 'NO'];
             return response()->json(['message' => 'Profile fetched successfully.', 'status' => true, 'data' => $data], $this->successStatus);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
+        }
+    }
+
+    /**
+     * candidate profile delete
+     * @bodyParam id integer required Candidate ID
+     * @response {
+     *   "message": "Candidate deleted successfully.",
+     *  "status": true
+     * }
+     * @response 401 {
+     *  "message": "The given data was invalid.",
+     * "status": false
+     * }
+     */
+
+    public function delete()
+    {
+        try {
+            $candidate_id = Auth::user()->id;
+            $candidate = Candidate::find($candidate_id);
+            $candidate->delete();
+            return response()->json(['message' => 'Candidate deleted successfully.', 'status' => true], $this->successStatus);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
