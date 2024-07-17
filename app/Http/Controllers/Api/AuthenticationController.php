@@ -163,9 +163,9 @@ class AuthenticationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'full_name' => 'required',
-            'contact_no' => 'required|digits:10|unique:candidates,contact_no',
+            'contact_no' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
+            'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email',
             'job_interest' => 'required|array|min:1|max:3',
-            'email_id' => 'required|email|unique:candidates,email',
             'otp' => 'required|numeric|digits:6'
         ]);
 
