@@ -9,6 +9,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CandidateStatusController;
+use App\Http\Controllers\ReferralPointController;
 use App\Http\Controllers\FeedController;
 use Illuminate\Support\Facades\Route;
 
@@ -139,11 +140,16 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
         'jobs' => JobsController::class,
         'schedule-to-do' => ScheduleController::class,
         'feeds' => FeedController::class,
+        'referral-points' => ReferralPointController::class,
     ]);
 
 
     //get city name
     Route::post('/get-city-name',[CandidateController::class,'getCityName'])->name('candidates.get-city');
+
+    //referral points filter
+    Route::get('/referral-points-filter',[ReferralPointController::class,'referralPointFilter'])->name('referral-points.filter');
+    Route::get('/referral-points-delete/{id}', [ReferralPointController::class, 'referralPointDelete'])->name('referral-points.delete'); // search export
 
     // feeds filter
     Route::get('/feeds-filter',[FeedController::class,'feedFilter'])->name('feeds.filter');

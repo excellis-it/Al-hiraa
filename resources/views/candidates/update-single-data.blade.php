@@ -57,7 +57,7 @@
 <td class="content-short">{{ $candidate->cityName->name ?? 'N/A' }}</td>
 <td class="content-short">
     @if ($candidate->referred_by_id != null)
-        {{ $candidate->referredBy->full_name }}
+        {{ $candidate->referredByCandidate->full_name }}
     @else
         {{ $candidate->referred_by ?? 'N/A' }}
     @endif

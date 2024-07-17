@@ -12,6 +12,8 @@ use App\Models\Job;
 use App\Models\CandidateJob;
 use App\Models\User;
 use App\Models\CandJobLicence;
+use App\Models\ReferralPoint;
+use App\Models\CandidateReferralPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
@@ -495,7 +497,22 @@ class JobsController extends Controller
         $payment_details_update->job_status = $request->job_status;
         $payment_details_update->update();
 
+
         $candidate_job = CandidateJob::findOrFail($id);
+        $candidate_refer = Candidate::where('id',$candidate_job->candidate_id)->first() ?? '';
+        $job_referral_point = Job::where('id',$candidate_job->job_id)->first() ?? '';
+        $referral_amount = ReferralPoint::where('id',$job_referral_point->referral_point_id)->first() ?? '';
+
+        if($request->deployment_date && $candidate_refer->referred_by_id)
+        {
+            $refer_point = new CandidateReferralPoint();
+            $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
+            $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
+            $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
+            $refer_point->amount = $referral_amount->amount ?? null;
+            $refer_point->save();
+        }
+
         // session()->flash('message', 'Candidate payment details updated successfully');
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
     }

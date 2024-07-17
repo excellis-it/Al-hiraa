@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Job;
 use App\Models\State;
 use App\Models\User;
+use App\Models\ReferralPoint;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,10 @@ class CompanyController extends Controller
             } else {
                 $companies = Company::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(15);
             }
-            return view('companies.list')->with(compact('companies'));
+
+            $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
+
+            return view('companies.list')->with(compact('companies','referral_points'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -91,7 +95,8 @@ class CompanyController extends Controller
                 $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
                 $states = State::orderBy('name', 'ASC')->get();
                 $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
-                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'states', 'closed_jobs', 'positions','vendors'));
+                $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
+                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'states', 'closed_jobs', 'positions','vendors','referral_points'));
             } else {
                 return redirect()->back()->with('error', __('Company not found.'));
             }
@@ -208,7 +213,9 @@ class CompanyController extends Controller
         $job->address = $request->address;
         $job->job_description = $request->job_description;
         $job->status = $request->status;
+        $job->referral_point_id = $request->referral_point_id; 
         $job->save();
+        
         Session::flash('message', 'Job created successfully');
         return response()->json(['message' => __('Job created successfully.'), 'status' => true]);
     }
@@ -219,8 +226,9 @@ class CompanyController extends Controller
         $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
         $states = State::orderBy('name', 'ASC')->get();
         $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
+        $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
         $edit = true;
-        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions', 'states','vendors'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions', 'states','vendors','referral_points'))->render(), 'status' => 'success']);
     }
 
     public function companyJobUpdate(Request $request, string $id)
@@ -256,6 +264,7 @@ class CompanyController extends Controller
         $job->address = $request->address;
         $job->job_description = $request->job_description;
         $job->status = $request->status;
+        $job->referral_point_id = $request->referral_point_id; 
         $job->save();
         Session::flash('message', 'Job Updated successfully');
         return response()->json(['message' => __('Job Updated successfully.'), 'status' => true]);

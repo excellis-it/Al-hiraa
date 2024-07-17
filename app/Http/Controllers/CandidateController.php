@@ -65,10 +65,7 @@ class CandidateController extends Controller
             $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
-            $referrers = User::where('role_type', '!=', 'ADMIN')
-                    ->where('role_type', '!=', 'ASSOCIATE')
-                    ->orderBy('id', 'desc')
-                    ->get();
+            $referrers = Candidate::orderBy('id', 'desc')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $states = State::orderBy('name', 'asc')->get();
             $cities = City::orderBy('name', 'asc')->get();
@@ -114,7 +111,7 @@ class CandidateController extends Controller
         $candidate->mode_of_registration = $request->mode_of_registration ?? null;
         $candidate->source = $request->source ?? null;
         // if ($request->referred_by_id) {
-        //     $candidate->referred_by_id = $request->referred_by_id ?? null;
+        $candidate->referred_by_id = $request->referred_by_id ?? null;
         // } else {
         //     $candidate->referred_by = $request->referred_by ?? null;
         // }

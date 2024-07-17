@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\CandidateJobController;
 use App\Http\Controllers\Api\FeedController;
+use App\Http\Controllers\Api\ReferController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,10 @@ Route::group(['prefix' => 'v1'], function () {
         Route::prefix('settings')->group(function () {
             Route::post('contact-us', [SettingController::class, 'contactUs']);
             Route::post('additional-page', [SettingController::class, 'additionalPage']);
+        });
+
+        Route::prefix('referral')->group(function (){
+            Route::get('total-point', [ReferController::class, 'totalPoint']);
         });
     });
 });

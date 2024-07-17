@@ -111,7 +111,7 @@
                                                         </div>
                                                     </div>
                                                     {{-- service_charge --}}
-                                                    <div class="col-xl-6">
+                                                    <div class="col-xl-4">
                                                         <div class="form-group">
                                                             <label for="">Service Charge<span>*</span></label>
                                                             <input type="text" class="form-control" id=""
@@ -119,7 +119,7 @@
                                                             <span class="text-danger" id="service_charge_msg_create"></span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-6">
+                                                    <div class="col-xl-4">
                                                         <div class="form-group">
                                                             <label for="">Status <span>*</span></label>
                                                             <select name="status" class="form-select" id="">
@@ -128,6 +128,19 @@
                                                                 <option value="Closed">Closed</option>
                                                             </select>
                                                             <span class="text-danger" id="status_msg_create"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xl-4">
+                                                        <div class="form-group">
+                                                            <label for="">Referral Point</label>
+                                                            <select name="referral_point_id" class="form-select" id="">
+                                                                <option value="">Select a referral point</option>
+                                                                @foreach ($referral_points as $referral_point)
+                                                                    <option value="{{ $referral_point->id }}">
+                                                                        {{ $referral_point->point }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            <span class="text-danger" id="referral_point_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-12">

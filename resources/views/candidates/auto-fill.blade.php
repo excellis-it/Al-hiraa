@@ -600,7 +600,6 @@
     </div>
 </div>
 
-
 <div class="col-lg-3">
     <div class="form-group position_applied_1">
         <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
@@ -737,13 +736,6 @@
     </div>
 </div>
 
-{{-- <div class="col-lg-4">
-    <div class="form-group">
-        <label for="">Age</label>
-        <input type="text" class="form-control  uppercase-text" id="" value="{{ old('age') }}" name="age"
-            placeholder="">
-    </div>
-</div> --}}
 <div class="col-lg-3">
     <div class="form-group">
         <label for="">Education</label>
@@ -804,10 +796,10 @@
 <div class="col-lg-3">
     <div class="form-group referred_by_id" id="">
         <label for="">Referred by </label>
-            <select name="referred_by" class="form-select  uppercase-text" id="">
+            <select name="referred_by_id" class="form-select  uppercase-text" id="">
                 <option value="">Select</option>
                 @foreach ($referrers as $refer)
-                    <option value="{{ $refer['id'] }}">{{ $refer['first_name'] }} {{$refer['last_name'] }}</option>
+                    <option value="{{ $refer['id'] }}">{{ $refer['full_name'] }}</option>
                     </option>
                 @endforeach
             </select>
@@ -888,9 +880,6 @@
         </select>
     </div>
 </div>
-
-
-
 
 {{-- <div class="col-lg-4">
     <div class="form-group">

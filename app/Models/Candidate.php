@@ -83,6 +83,11 @@ class Candidate extends Authenticatable
         return $this->belongsTo(User::class, 'referred_by_id', 'id');
     }
 
+    public function referredByCandidate()
+    {
+        return $this->belongsTo(Candidate::class, 'referred_by_id', 'id');
+    }
+
     public function candidateUpdate()
     {
         return $this->hasOne(CandidateUpdated::class)->orderBy('id', 'desc');

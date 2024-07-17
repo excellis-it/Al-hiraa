@@ -136,7 +136,7 @@
                                         <td>Referred By</td>
                                         <td>
                                             @if ($candidate->referred_by_id != null)
-                                                {{ $candidate->referredBy->full_name }}
+                                                {{ $candidate->referredByCandidate->full_name }}
                                             @else
                                                 {{ $candidate->referred_by }}
                                             @endif
@@ -504,7 +504,7 @@
                             </td>
                             <td>Referred By</td>
                             <td>
-                            <input type="text" class="form-control uppercase-text" id="" value=" @if ($candidate->referred_by_id != null) {{ $candidate->referredBy->full_name }}@else{{ $candidate->referred_by }} @endif" placeholder="Referred By" readonly>
+                            <input type="text" class="form-control uppercase-text" id="" value=" @if ($candidate->referred_by_id != null) {{ $candidate->referredByCandidate->full_name }}@else{{ $candidate->referred_by }} @endif" placeholder="Referred By" readonly>
                             </select>
                             </td>
                     </tr>
@@ -946,7 +946,7 @@
                                         <td>Referred By</td>
                                         <td>
                                             @if ($candidate->referred_by_id != null)
-                                                {{ $candidate->referredBy->full_name }}
+                                                {{ $candidate->referredByCandidate->full_name }}
                                             @else
                                                 {{ $candidate->referred_by }}
                                             @endif
