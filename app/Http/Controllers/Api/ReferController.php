@@ -15,7 +15,7 @@ class ReferController extends Controller
     {
         try{
             $total_referral_point = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->count('refer_point_id');
-            return response()->json(['message' => 'Profile fetched successfully.', 'status' => true], $this->successStatus);
+            return response()->json(['message' => 'Profile fetched successfully.', 'data'=> $total_referral_point,'status' => true], $this->successStatus);
         } catch (\Exception $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
