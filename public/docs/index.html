@@ -106,6 +106,19 @@ Fetches candidate job details.</a>
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-endpoints" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="endpoints">
+                    <a href="#endpoints">Endpoints</a>
+                </li>
+                                    <ul id="tocify-subheader-endpoints" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-referral-submit">
+                                <a href="#endpoints-POSTapi-v1-referral-submit">Refer a candidate for a job.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="endpoints-POSTapi-v1-referral-total-point">
+                                <a href="#endpoints-POSTapi-v1-referral-total-point">Get total referral points and referral list for the authenticated user.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-feed" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="feed">
                     <a href="#feed">Feed</a>
@@ -143,6 +156,9 @@ Fetches candidate job details.</a>
                                                                                 <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-profile-edit">
                                 <a href="#profile-POSTapi-v1-profile-edit">Edit Profile</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-profile-delete">
+                                <a href="#profile-POSTapi-v1-profile-delete">candidate profile delete</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-setting" class="tocify-header">
@@ -167,7 +183,7 @@ Fetches candidate job details.</a>
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: July 11, 2024</li>
+        <li>Last updated: July 17, 2024</li>
     </ul>
 </div>
 
@@ -207,7 +223,7 @@ You can switch the language used with the tabs at the top right (or from the nav
     --header "Accept: application/json" \
     --data "{
     \"mobile_number\": 9876543210,
-    \"email_id\": \"hkc.m-@jo.ji.xi.tr.yo$\\/ix\"
+    \"email_id\": \"y.d4@x.otx$\\/ix\"
 }"
 </code></pre></div>
 
@@ -224,7 +240,7 @@ const headers = {
 
 let body = {
     "mobile_number": 9876543210,
-    "email_id": "hkc.m-@jo.ji.xi.tr.yo$\/ix"
+    "email_id": "y.d4@x.otx$\/ix"
 };
 
 fetch(url, {
@@ -333,10 +349,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email_id"                data-endpoint="POSTapi-v1-request-otp"
-               value="hkc.m-@jo.ji.xi.tr.yo$/ix"
+               value="y.d4@x.otx$/ix"
                data-component="body">
     <br>
-<p>This field is required when <code>mobile<em>number</code> is not present.  Must match the regex /^([a-z0-9+</em>-]+)(.[a-z0-9+_-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix. Example: <code>hkc.m-@jo.ji.xi.tr.yo$/ix</code></p>
+<p>This field is required when <code>mobile<em>number</code> is not present.  Must match the regex /^([a-z0-9+</em>-]+)(.[a-z0-9+_-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix. Example: <code>y.d4@x.otx$/ix</code></p>
         </div>
         </form>
 
@@ -515,7 +531,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
         \"Job 2\",
         \"Job 3\"
     ],
-    \"email_id\": \"lavinia.cole@example.org\",
+    \"email_id\": \"glenda43@example.com\",
     \"otp\": 123456
 }"
 </code></pre></div>
@@ -539,7 +555,7 @@ let body = {
         "Job 2",
         "Job 3"
     ],
-    "email_id": "lavinia.cole@example.org",
+    "email_id": "glenda43@example.com",
     "otp": 123456
 };
 
@@ -683,10 +699,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email_id"                data-endpoint="POSTapi-v1-register"
-               value="lavinia.cole@example.org"
+               value="glenda43@example.com"
                data-component="body">
     <br>
-<p>Must be a valid email address. Example: <code>lavinia.cole@example.org</code></p>
+<p>Must be a valid email address. Example: <code>glenda43@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>otp</code></b>&nbsp;&nbsp;
@@ -718,8 +734,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"mobile_number\": \"2720294153\",
-    \"email_id\": \"k.j@7x1.9sk.ktz.y2t.pdthv$\\/ix\"
+    \"mobile_number\": \"2879499866\",
+    \"email_id\": \"v0o@puc.1es.zu4.npqx$\\/ix\"
 }"
 </code></pre></div>
 
@@ -735,8 +751,8 @@ const headers = {
 };
 
 let body = {
-    "mobile_number": "2720294153",
-    "email_id": "k.j@7x1.9sk.ktz.y2t.pdthv$\/ix"
+    "mobile_number": "2879499866",
+    "email_id": "v0o@puc.1es.zu4.npqx$\/ix"
 };
 
 fetch(url, {
@@ -825,10 +841,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="mobile_number"                data-endpoint="POSTapi-v1-request-otp-register"
-               value="2720294153"
+               value="2879499866"
                data-component="body">
     <br>
-<p>This field is required when <code>email_id</code> is not present.  Must be 10 digits. Example: <code>2720294153</code></p>
+<p>This field is required when <code>email_id</code> is not present.  Must be 10 digits. Example: <code>2879499866</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email_id</code></b>&nbsp;&nbsp;
@@ -836,10 +852,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email_id"                data-endpoint="POSTapi-v1-request-otp-register"
-               value="k.j@7x1.9sk.ktz.y2t.pdthv$/ix"
+               value="v0o@puc.1es.zu4.npqx$/ix"
                data-component="body">
     <br>
-<p>This field is required when <code>mobile<em>number</code> is not present.  Must match the regex /^([a-z0-9+</em>-]+)(.[a-z0-9+_-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix. Example: <code>k.j@7x1.9sk.ktz.y2t.pdthv$/ix</code></p>
+<p>This field is required when <code>mobile<em>number</code> is not present.  Must match the regex /^([a-z0-9+</em>-]+)(.[a-z0-9+_-]+)*@([a-z0-9-]+.)+[a-z]{2,6}$/ix. Example: <code>v0o@puc.1es.zu4.npqx$/ix</code></p>
         </div>
         </form>
 
@@ -1014,7 +1030,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"job_id\": \"100\",
     \"candidate_id\": \"20\",
-    \"interview_id\": \"reprehenderit\"
+    \"interview_id\": \"eos\"
 }"
 </code></pre></div>
 
@@ -1032,7 +1048,7 @@ const headers = {
 let body = {
     "job_id": "100",
     "candidate_id": "20",
-    "interview_id": "reprehenderit"
+    "interview_id": "eos"
 };
 
 fetch(url, {
@@ -1183,10 +1199,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="interview_id"                data-endpoint="POSTapi-v1-candidate-job-apply"
-               value="reprehenderit"
+               value="eos"
                data-component="body">
     <br>
-<p>interview id of the user. Example: Example: <code>reprehenderit</code></p>
+<p>interview id of the user. Example: Example: <code>eos</code></p>
         </div>
         </form>
 
@@ -1431,6 +1447,232 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Accept"                data-endpoint="POSTapi-v1-candidate-job-list"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                <h1 id="endpoints">Endpoints</h1>
+
+    
+
+                                <h2 id="endpoints-POSTapi-v1-referral-submit">Refer a candidate for a job.</h2>
+
+<p>
+</p>
+
+<p>This method allows the authenticated user to refer a candidate for a job.
+If the candidate already exists in the database, the method checks if the candidate
+has already been referred by the authenticated user. If the candidate has not been
+referred, a new referral point is created. If the candidate does not exist in the database,
+a new candidate is created and then referred.</p>
+
+<span id="example-requests-POSTapi-v1-referral-submit">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/referral/submit" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/referral/submit"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-referral-submit">
+</span>
+<span id="execution-results-POSTapi-v1-referral-submit" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-referral-submit"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-referral-submit"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-referral-submit" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-referral-submit">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-referral-submit" data-method="POST"
+      data-path="api/v1/referral/submit"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-referral-submit', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-referral-submit"
+                    onclick="tryItOut('POSTapi-v1-referral-submit');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-referral-submit"
+                    onclick="cancelTryOut('POSTapi-v1-referral-submit');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-referral-submit"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/referral/submit</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-referral-submit"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-referral-submit"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="endpoints-POSTapi-v1-referral-total-point">Get total referral points and referral list for the authenticated user.</h2>
+
+<p>
+</p>
+
+<p>This method fetches the total number of referral points accumulated by the
+authenticated user and retrieves a list of all referrals they have made,
+including details about the referred candidates and jobs.</p>
+
+<span id="example-requests-POSTapi-v1-referral-total-point">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/referral/total-point" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/referral/total-point"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-referral-total-point">
+</span>
+<span id="execution-results-POSTapi-v1-referral-total-point" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-referral-total-point"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-referral-total-point"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-referral-total-point" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-referral-total-point">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-referral-total-point" data-method="POST"
+      data-path="api/v1/referral/total-point"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-referral-total-point', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-referral-total-point"
+                    onclick="tryItOut('POSTapi-v1-referral-total-point');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-referral-total-point"
+                    onclick="cancelTryOut('POSTapi-v1-referral-total-point');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-referral-total-point"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/referral/total-point</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-referral-total-point"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-referral-total-point"
                value="application/json"
                data-component="header">
     <br>
@@ -2067,7 +2309,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"full_name\": \"John Doe\",
-    \"email\": \"ceasar55@example.com\",
+    \"email\": \"kameron96@example.net\",
     \"position_applied_for_1\": 1,
     \"position_applied_for_2\": 2,
     \"position_applied_for_3\": 3,
@@ -2101,7 +2343,7 @@ const headers = {
 
 let body = {
     "full_name": "John Doe",
-    "email": "ceasar55@example.com",
+    "email": "kameron96@example.net",
     "position_applied_for_1": 1,
     "position_applied_for_2": 2,
     "position_applied_for_3": 3,
@@ -2258,10 +2500,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-profile-update"
-               value="ceasar55@example.com"
+               value="kameron96@example.net"
                data-component="body">
     <br>
-<p>Email of the user. Example: Example: <code>ceasar55@example.com</code></p>
+<p>Email of the user. Example: Example: <code>kameron96@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>position_applied_for_1</code></b>&nbsp;&nbsp;
@@ -3488,6 +3730,155 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
+                    <h2 id="profile-POSTapi-v1-profile-delete">candidate profile delete</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-profile-delete">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/v1/profile/delete" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"id\": 2
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/v1/profile/delete"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id": 2
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-profile-delete">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Candidate deleted successfully.&quot;,
+    &quot;status&quot;: true
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The given data was invalid.&quot;,
+    &quot;status&quot;: false
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-profile-delete" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-profile-delete"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-profile-delete"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-profile-delete" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-profile-delete">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-profile-delete" data-method="POST"
+      data-path="api/v1/profile/delete"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-profile-delete', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-profile-delete"
+                    onclick="tryItOut('POSTapi-v1-profile-delete');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-profile-delete"
+                    onclick="cancelTryOut('POSTapi-v1-profile-delete');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-profile-delete"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/profile/delete</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-profile-delete"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-profile-delete"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="POSTapi-v1-profile-delete"
+               value="2"
+               data-component="body">
+    <br>
+<p>Candidate ID Example: <code>2</code></p>
+        </div>
+        </form>
+
                 <h1 id="setting">Setting</h1>
 
     
@@ -3511,7 +3902,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"first_name\": \"John\",
     \"last_name\": \"Doe\",
-    \"email\": \"tspinka@example.com\",
+    \"email\": \"kurtis79@example.org\",
     \"phone\": \"9876543210\",
     \"message\": \"Message\"
 }"
@@ -3531,7 +3922,7 @@ const headers = {
 let body = {
     "first_name": "John",
     "last_name": "Doe",
-    "email": "tspinka@example.com",
+    "email": "kurtis79@example.org",
     "phone": "9876543210",
     "message": "Message"
 };
@@ -3654,10 +4045,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-v1-settings-contact-us"
-               value="tspinka@example.com"
+               value="kurtis79@example.org"
                data-component="body">
     <br>
-<p>Email of the user. Example: Example: <code>tspinka@example.com</code></p>
+<p>Email of the user. Example: Example: <code>kurtis79@example.org</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;

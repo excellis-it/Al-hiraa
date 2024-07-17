@@ -37,14 +37,14 @@ endpoints:
         name: email_id
         description: 'This field is required when <code>mobile_number</code> is not present.  Must match the regex /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix.'
         required: false
-        example: hkc.m-@jo.ji.xi.tr.yo$/ix
+        example: y.d4@x.otx$/ix
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
       mobile_number: 9876543210
-      email_id: hkc.m-@jo.ji.xi.tr.yo$/ix
+      email_id: y.d4@x.otx$/ix
     fileParameters: []
     responses:
       -
@@ -176,7 +176,7 @@ endpoints:
         name: email_id
         description: 'Must be a valid email address.'
         required: true
-        example: lavinia.cole@example.org
+        example: glenda43@example.com
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -197,7 +197,7 @@ endpoints:
         - 'Job 1'
         - 'Job 2'
         - 'Job 3'
-      email_id: lavinia.cole@example.org
+      email_id: glenda43@example.com
       otp: 123456
     fileParameters: []
     responses:
@@ -251,7 +251,7 @@ endpoints:
         name: mobile_number
         description: 'This field is required when <code>email_id</code> is not present.  Must be 10 digits.'
         required: false
-        example: '2720294153'
+        example: '2879499866'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -260,14 +260,14 @@ endpoints:
         name: email_id
         description: 'This field is required when <code>mobile_number</code> is not present.  Must match the regex /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix.'
         required: false
-        example: k.j@7x1.9sk.ktz.y2t.pdthv$/ix
+        example: v0o@puc.1es.zu4.npqx$/ix
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      mobile_number: '2720294153'
-      email_id: k.j@7x1.9sk.ktz.y2t.pdthv$/ix
+      mobile_number: '2879499866'
+      email_id: v0o@puc.1es.zu4.npqx$/ix
     fileParameters: []
     responses: []
     responseFields: []

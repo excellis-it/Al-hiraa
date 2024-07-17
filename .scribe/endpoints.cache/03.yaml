@@ -108,7 +108,7 @@ endpoints:
         name: email
         description: 'Email of the user. Example:'
         required: false
-        example: ceasar55@example.com
+        example: kameron96@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -268,7 +268,7 @@ endpoints:
         custom: []
     cleanBodyParameters:
       full_name: 'John Doe'
-      email: ceasar55@example.com
+      email: kameron96@example.net
       position_applied_for_1: 1
       position_applied_for_2: 2
       position_applied_for_3: 3
@@ -1282,6 +1282,66 @@ endpoints:
                      "NO"
                  ]
              }
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/profile/delete
+    metadata:
+      groupName: Profile
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'candidate profile delete'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      id:
+        name: id
+        description: 'Candidate ID'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      id: 2
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+            "message": "Candidate deleted successfully.",
+           "status": true
+          }
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 401
+        content: |-
+          {
+           "message": "The given data was invalid.",
+          "status": false
           }
         headers: []
         description: ''

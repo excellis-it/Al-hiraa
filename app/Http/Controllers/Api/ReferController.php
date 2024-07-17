@@ -33,8 +33,8 @@ class ReferController extends Controller
             $candidate = Candidate::where('contact_no', $request->phone)->first();
             if ($candidate) {
                 // Check if the found candidate is already referred by the current user
-                if ($candidate->referred_by_id == Auth::user()->id) {
-                    return response()->json(['message' => 'Candidate is already referred by you.', 'status' => false], 409);
+                if ($candidate->referred_by_id !='') {
+                    return response()->json(['message' => 'Candidate is already referred', 'status' => false], 401);
                 }
             } else {
                 $candidate_add = new Candidate();

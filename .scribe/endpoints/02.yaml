@@ -44,7 +44,7 @@ endpoints:
         name: interview_id
         description: 'interview id of the user. Example:'
         required: true
-        example: reprehenderit
+        example: eos
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -52,7 +52,7 @@ endpoints:
     cleanBodyParameters:
       job_id: '100'
       candidate_id: '20'
-      interview_id: reprehenderit
+      interview_id: eos
     fileParameters: []
     responses:
       -
