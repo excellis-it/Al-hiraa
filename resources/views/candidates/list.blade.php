@@ -221,7 +221,7 @@
                                     <th>
                                         <div>
                                             <select name="cnadidate_status_id" id="cnadidate_status_id_filter"
-                                                class="select_width status_select " multiple>
+                                                class="select_width status_select" multiple data-coreui-search="true">
                                                 <option value="">Select A Status</option>
                                                 @foreach ($candidate_statuses as $status)
                                                     <option value="{{ $status->id }}">{{ $status->name }}</option>
@@ -1067,8 +1067,7 @@
         $('.status_select').select2({
             closeOnSelect: false,
             placeholder: "Status",
-            allowClear: false,
-            tags: true
+            allowClear: true,
         }).on('change', function(e) {
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
@@ -1081,18 +1080,20 @@
             } else if (selectedTags.length > 0) {
                 $selection.html(selectedTags.join(', '));
             } else {
-                $selection.html('Status'); // Set placeholder text manually
+                $selection.html('Status'); 
             }
         });
 
+        
+
+      
 
 
         // gender multi select
         $(".gender_select").select2({
             closeOnSelect: false,
             placeholder: "Gender",
-            allowClear: false,
-            tags: true
+            allowClear: true
         }).on('change', function(e) {
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
@@ -1112,8 +1113,7 @@
         $(".education_select").select2({
             closeOnSelect: false,
             placeholder: "Education",
-            allowClear: false,
-            tags: true
+            allowClear: false
         }).on('change', function(e) {
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
@@ -1133,8 +1133,7 @@
         $(".position1_select").select2({
             closeOnSelect: false,
             placeholder: "Position Applied For(1)",
-            allowClear: false,
-            tags: true
+            allowClear: false
         }).on('change', function(e) {
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
@@ -1154,8 +1153,7 @@
         $(".position2_select").select2({
             closeOnSelect: false,
             placeholder: "Position Applied For(2)",
-            allowClear: false,
-            tags: true
+            allowClear: false
         }).on('change', function(e) {
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;
@@ -1175,8 +1173,7 @@
         $(".position3_select").select2({
             closeOnSelect: false,
             placeholder: "Position Applied For(3)",
-            allowClear: false,
-            tags: true
+            allowClear: false
         }).on('change', function(e) {
             var selectedTags = $(this).select2('data').map(function(tag) {
                 return tag.text;

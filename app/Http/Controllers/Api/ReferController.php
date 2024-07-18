@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidate;
 use App\Models\CandidateReferralPoint;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * @Refer Job
@@ -27,21 +28,34 @@ class ReferController extends Controller
      */
     public function submit(Request $request)
     {
-       
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'phone' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
+            'position_apply' => 'required|array|min:1|max:3',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['message' => $validator->errors()->first(), 'status' => false], 201);
+        }
+
         try{
             
             $candidate = Candidate::where('contact_no', $request->phone)->first();
             if ($candidate) {
                 // Check if the found candidate is already referred by the current user
                 if ($candidate->referred_by_id !='') {
-                    return response()->json(['message' => 'Candidate is already referred', 'status' => false], 401);
+                    return response()->json(['message' => 'Candidate is already referred', 'status' => false], 200);
                 }
             } else {
                 $candidate_add = new Candidate();
+                $candidate_add->cnadidate_status_id = 1;
                 $candidate_add->full_name = $request->name;
                 $candidate_add->contact_no = $request->phone;
                 $candidate_add->referred_by_id = Auth::user()->id;
-                $candidate_add->position_applied_for_1 = $request->position_apply;
+                $candidate_add->position_applied_for_1 = $request->position_apply[0]  ?? null;
+                $candidate_add->position_applied_for_2 = $request->position_apply[1]  ?? null;
+                $candidate_add->position_applied_for_3 = $request->position_apply[2]  ?? null;
                 $candidate_add->save();
                 
                 // Return a success response (assuming success status is defined elsewhere)
@@ -67,7 +81,8 @@ class ReferController extends Controller
     public function totalPoint(Request $request)
     {
         try{
-            $total_referral_point = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->count('refer_point_id');
+            $total_referral = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->count();
+            $total_referral_point = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->sum('refer_point');
             $total_referral_list = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)
                 ->with(['referCandidate' => function($query) {
                     $query->select('id', 'full_name');
@@ -76,7 +91,7 @@ class ReferController extends Controller
                     $query->select('id', 'job_name');
                 }])
                 ->get();
-            return response()->json(['message' => 'Reffer list fetched successfully.', 'count'=> $total_referral_point,'list' => $total_referral_list,'status' => true], $this->successStatus);
+            return response()->json(['message' => 'Reffer list fetched successfully.', 'refer_point_count'=> $total_referral_point, 'total_refer' => $total_referral ,'list' => $total_referral_list,'status' => true], $this->successStatus);
         } catch (\Exception $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }

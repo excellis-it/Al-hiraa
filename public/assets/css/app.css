@@ -5882,7 +5882,7 @@ border: none !important;
     color: #076826;
     font-weight: 600;
 }
-
+.select2-dropdown{z-index:9999 !important;}
 
 
 

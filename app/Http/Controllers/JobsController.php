@@ -510,6 +510,7 @@ class JobsController extends Controller
                 $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
                 $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
                 $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
+                $refer_point->refer_point = $referral_amount->point ?? null;
                 $refer_point->amount = $referral_amount->amount ?? null;
                 $refer_point->refer_job_id = $candidate_job->job_id ?? null;
                 $refer_point->save(); 
