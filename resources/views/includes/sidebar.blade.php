@@ -178,6 +178,14 @@
                                     </a>
                                 </li>
                             @endif
+
+                            @if (Auth::user()->hasRole('ADMIN'))
+                                <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('referral-cms.edit') }}">
+                                        <span class="sidebar-menu-text"> Refer Cms Manage</span>
+                                    </a>
+                                </li>
+                            @endif
                             {{-- <li class="sidebar-menu-item">
                             <a clas s="sidebar-menu-button" href="{{route('social-media')}}">
                                 <span class="sidebar-menu-text">Email & WhatsApp Integration</span>

@@ -10,6 +10,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\CandidateStatusController;
 use App\Http\Controllers\ReferralPointController;
+use App\Http\Controllers\ReferCmsController;
 use App\Http\Controllers\FeedController;
 use Illuminate\Support\Facades\Route;
 
@@ -198,5 +199,8 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
     Route::put('/jobs-visa-details/{id}',[JobsController::class,'candidateVisaDetailsUpdate'])->name('jobs.visa-details.update');
     Route::put('/jobs-ticket-details/{id}',[JobsController::class,'candidateTicketDetailsUpdate'])->name('jobs.ticket-details.update');
     Route::put('/jobs-payment-details/{id}',[JobsController::class,'candidatePaymentDetailsUpdate'])->name('jobs.payment-details.update');
+
+    //referral cms routes
+    Route::get('/referral-cms',[ReferCmsController::class,'referCmsView'])->name('referral-cms.edit');
 
 });

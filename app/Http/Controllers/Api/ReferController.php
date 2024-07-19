@@ -81,52 +81,52 @@ class ReferController extends Controller
      */
     public function totalPoint(Request $request)
     {
-            $limit = $request->limit ?? 10;
-            $offset = $request->offset ?? 0;
-
-            try {
-                $total_referral = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->count();
-                $total_referral_point = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->sum('refer_point');
-                
-                $referrals = CandidateReferralPoint::query();
-                $referrals = $referrals->where('referrer_candidate_id', Auth::user()->id);
-
-                // Apply search filters if present
-                if ($request->candidate_search) {
-                    $referrals = $referrals->whereHas('referCandidate', function ($query) use ($request) {
-                        $query->where('full_name', 'like', '%' . $request->candidate_search . '%');
+        $limit = $request->limit ?? 10;
+        $offset = $request->offset ?? 0;
+        
+        try {
+            $total_referral = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->count();
+            $total_referral_point = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->sum('refer_point');
+            
+            $referrals = CandidateReferralPoint::query();
+            $referrals = $referrals->where('referrer_candidate_id', Auth::user()->id);
+        
+            // Apply single search filter if present
+            if ($request->search) {
+                $search = $request->search;
+                $referrals = $referrals->where(function ($query) use ($search) {
+                    $query->whereHas('referCandidate', function ($query) use ($search) {
+                        $query->where('full_name', 'like', '%' . $search . '%');
+                    })->orWhereHas('referJob', function ($query) use ($search) {
+                        $query->where('job_name', 'like', '%' . $search . '%');
                     });
-                }
-
-                if ($request->job_search) {
-                    $referrals = $referrals->whereHas('referJob', function ($query) use ($request) {
-                        $query->where('job_name', 'like', '%' . $request->job_search . '%');
-                    });
-                }
-
-                // Pagination
-                $referrals = $referrals->with([
-                    'referCandidate' => function($query) {
-                        $query->select('id', 'full_name', 'contact_no');
-                    },
-                    'referJob' => function($query) {
-                        $query->select('id', 'job_name');
-                    }
-                ])->offset($offset)->limit($limit)->get();
-
-                return response()->json([
-                    'message' => 'Referral list fetched successfully.',
-                    'refer_point_count' => $total_referral_point,
-                    'total_refer' => $total_referral,
-                    'list' => $referrals,
-                    'status' => true
-                ], 200);
-            } catch (\Exception $th) {
-                return response()->json([
-                    'message' => $th->getMessage(),
-                    'status' => false
-                ], 401);
+                });
             }
+        
+            // Pagination
+            $referrals = $referrals->with([
+                'referCandidate' => function($query) {
+                    $query->select('id', 'full_name', 'contact_no');
+                },
+                'referJob' => function($query) {
+                    $query->select('id', 'job_name');
+                }
+            ])->offset($offset)->limit($limit)->get();
+        
+            return response()->json([
+                'message' => 'Referral list fetched successfully.',
+                'refer_point_count' => $total_referral_point,
+                'total_refer' => $total_referral,
+                'list' => $referrals,
+                'status' => true
+            ], 200);
+        } catch (\Exception $th) {
+            return response()->json([
+                'message' => $th->getMessage(),
+                'status' => false
+            ], 401);
+        }
+        
 
     }
 
