@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             // StatesTableSeeder::class,
             // CitiesTableSeeder::class,
             // CmsSeeder::class,
+            // ReferSeeder::class,
             // SourceSeeder::class
         ]);
     }

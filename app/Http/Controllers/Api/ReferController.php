@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Candidate;
+use App\Models\ReferCms;
 use App\Models\CandidateReferralPoint;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -80,18 +81,65 @@ class ReferController extends Controller
      */
     public function totalPoint(Request $request)
     {
+            $limit = $request->limit ?? 10;
+            $offset = $request->offset ?? 0;
+
+            try {
+                $total_referral = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->count();
+                $total_referral_point = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->sum('refer_point');
+                
+                $referrals = CandidateReferralPoint::query();
+                $referrals = $referrals->where('referrer_candidate_id', Auth::user()->id);
+
+                // Apply search filters if present
+                if ($request->candidate_search) {
+                    $referrals = $referrals->whereHas('referCandidate', function ($query) use ($request) {
+                        $query->where('full_name', 'like', '%' . $request->candidate_search . '%');
+                    });
+                }
+
+                if ($request->job_search) {
+                    $referrals = $referrals->whereHas('referJob', function ($query) use ($request) {
+                        $query->where('job_name', 'like', '%' . $request->job_search . '%');
+                    });
+                }
+
+                // Pagination
+                $referrals = $referrals->with([
+                    'referCandidate' => function($query) {
+                        $query->select('id', 'full_name', 'contact_no');
+                    },
+                    'referJob' => function($query) {
+                        $query->select('id', 'job_name');
+                    }
+                ])->offset($offset)->limit($limit)->get();
+
+                return response()->json([
+                    'message' => 'Referral list fetched successfully.',
+                    'refer_point_count' => $total_referral_point,
+                    'total_refer' => $total_referral,
+                    'list' => $referrals,
+                    'status' => true
+                ], 200);
+            } catch (\Exception $th) {
+                return response()->json([
+                    'message' => $th->getMessage(),
+                    'status' => false
+                ], 401);
+            }
+
+    }
+
+    /**
+     * View refer cms
+     * 
+     */
+
+    public function view()
+    {
         try{
-            $total_referral = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->count();
-            $total_referral_point = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)->sum('refer_point');
-            $total_referral_list = CandidateReferralPoint::where('referrer_candidate_id', Auth::user()->id)
-                ->with(['referCandidate' => function($query) {
-                    $query->select('id', 'full_name');
-                }])
-                ->with(['referJob' => function($query) {
-                    $query->select('id', 'job_name');
-                }])
-                ->get();
-            return response()->json(['message' => 'Reffer list fetched successfully.', 'refer_point_count'=> $total_referral_point, 'total_refer' => $total_referral ,'list' => $total_referral_list,'status' => true], $this->successStatus);
+            $refer_cms = ReferCms::first();
+            return response()->json(['message' => 'Refer cms fetched successfully.', 'data' => $refer_cms, 'status' => true], $this->successStatus);
         } catch (\Exception $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }

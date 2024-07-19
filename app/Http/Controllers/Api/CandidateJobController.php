@@ -206,20 +206,38 @@ class CandidateJobController extends Controller
      * "message": "The candidate id must be an integer."
      * 'status': false
      * }
-     * @response 201 {
-     * "message": "The job id must be an integer."
-     * 'status': false
-     * }
      */
 
 
-    public function candidateJobList()
+    public function candidateJobList(Request $request)
     {
+        $limit = $request->limit ?? 10;
+        $offset = $request->offset ?? 0;
+        
         try {
-            $candidate_jobs = CandidateJob::where('candidate_id', Auth::user()->id)->with('jobTitle','jobTitle','company')->get();
+            $candidate_jobs = CandidateJob::where('candidate_id', Auth::user()->id);
+        
+            // Apply search filter if present
+            if ($request->search) {
+                $search = $request->search;
+                $candidate_jobs = $candidate_jobs->whereHas('jobTitle', function ($query) use ($search) {
+                    $query->where('job_name', 'like', '%' . $search . '%');
+                })->orWhereHas('company', function ($query) use ($search) {
+                    $query->where('company_name', 'like', '%' . $search . '%');
+                });
+            }
+        
+            // Pagination
+            $candidate_jobs = $candidate_jobs->with('jobTitle', 'company')
+                                             ->offset($offset)
+                                             ->limit($limit)
+                                             ->get();
+        
             return response()->json(['message' => 'Candidate Jobs listed successfully.', 'status' => true, 'data' => $candidate_jobs], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
+        
+
     }
 }
