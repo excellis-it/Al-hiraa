@@ -10,6 +10,7 @@ use App\Models\Notification;
 use App\Mail\SendUserOtp;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -59,12 +60,51 @@ class AuthenticationController extends Controller
             //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
                 if ($request->mobile_number) {
-                    // $userOtp->sendSMS($request->mobile_number);
+                    
+                    $username = env('SMS_USERNAME');
+                    $password = env('SMS_PASSWORD');
+                    $type = 'TEXT';
+                    $sender = env('SMS_SENDER_ID');
+                    $message = "Your OTP is $userOtp->otp";
+                    $entityId = env('SMS_ENTITY_ID');
+                    $templateId = env('SMS_TEMPLATE_ID', '');
+
+                    $url = "https://sms.bluwaves.in/sendsms/bulk.php";
+                    $response = Http::get($url, [
+                        'username' => $username,
+                        'password' => $password,
+                        'type' => $type,
+                        'sender' => $sender,
+                        'mobile' => 8100610101,
+                        'message' => $message,
+                        'entityId' => $entityId,
+                        'templateId' => $templateId,
+                    ]);
+
+                //   return $response->body();
+               
+                  if (strpos($response->body(), 'SUBMIT_SUCCESS') !== false) {
+                        return response()->json([
+                            'message' => 'OTP sent successfully via SMS.',
+                            'status' => true,
+                            'otp' => $userOtp->otp
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'message' => 'Failed to send OTP via SMS.',
+                            'status' => false,
+                            'error' => $response->body()
+                        ], $response->status());
+                    }
+                  
+                
                 } else {
                     
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
+
+                    return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id, 'otp' => $userOtp->otp], 200);
                 }
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id, 'otp' => $userOtp->otp], 200);
+                
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
@@ -234,13 +274,51 @@ class AuthenticationController extends Controller
 
             if ($userOtp) {
                 if ($request->mobile_number) {
-                    // $userOtp->sendSMS($request->mobile_number);
-                } else {
-                    return $userOtp;
-                    Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
                     
+                    $username = env('SMS_USERNAME');
+                    $password = env('SMS_PASSWORD');
+                    $type = 'TEXT';
+                    $sender = env('SMS_SENDER_ID');
+                    $message = "Your OTP is $userOtp->otp";
+                    $entityId = env('SMS_ENTITY_ID');
+                    $templateId = env('SMS_TEMPLATE_ID', '');
+
+                    $url = "https://sms.bluwaves.in/sendsms/bulk.php";
+                    $response = Http::get($url, [
+                        'username' => $username,
+                        'password' => $password,
+                        'type' => $type,
+                        'sender' => $sender,
+                        'mobile' => 8100610101,
+                        'message' => $message,
+                        'entityId' => $entityId,
+                        'templateId' => $templateId,
+                    ]);
+
+                //   return $response->body();
+               
+                  if (strpos($response->body(), 'SUBMIT_SUCCESS') !== false) {
+                        return response()->json([
+                            'message' => 'OTP sent successfully via SMS.',
+                            'status' => true,
+                            'otp' => $userOtp->otp
+                        ], 200);
+                    } else {
+                        return response()->json([
+                            'message' => 'Failed to send OTP via SMS.',
+                            'status' => false,
+                            'error' => $response->body()
+                        ], $response->status());
+                    }
+                  
+                
+                } else {
+                    
+                    Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
+
+                    return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id, 'otp' => $userOtp->otp], 200);
                 }
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'otp' => $userOtp->otp], 200);
+                
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
@@ -249,23 +327,19 @@ class AuthenticationController extends Controller
         }
     }
 
+
     private function generateOtpRegister($value)
     {
         if ($value) {
             $candidate = Candidate::where('contact_no', $value)->orWhere('email', $value)->first();
         }
 
-        // $candidate = Candidate::where('contact_no', $value)->first();
-
-        /*User Does not Have any Existing OTP*/
         if ($candidate) {
             CandidateOtp::where('user_id', $candidate->id)->delete();
         }
 
         $now = now();
-
         $otp = rand(100000, 999999);
-
         return CandidateOtp::create([
             'otp' => $otp,
             'expire_at' => $now->addMinutes(10)
@@ -295,4 +369,7 @@ class AuthenticationController extends Controller
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
     }
+
+
+   
 }
