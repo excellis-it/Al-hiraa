@@ -86,7 +86,8 @@ class AuthenticationController extends Controller
                         return response()->json([
                             'message' => 'OTP sent successfully via SMS.',
                             'status' => true,
-                            'otp' => $userOtp->otp
+                            'otp' => $userOtp->otp,
+                            'user_id' => $userOtp->user_id
                         ], 200);
                     } else {
                         return response()->json([
@@ -300,7 +301,8 @@ class AuthenticationController extends Controller
                         return response()->json([
                             'message' => 'OTP sent successfully via SMS.',
                             'status' => true,
-                            'otp' => $userOtp->otp
+                            'otp' => $userOtp->otp,
+                            'user_id' => $userOtp->user_id
                         ], 200);
                     } else {
                         return response()->json([
