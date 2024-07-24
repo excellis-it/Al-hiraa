@@ -11,6 +11,7 @@ use App\Mail\SendUserOtp;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -36,7 +37,7 @@ class AuthenticationController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required_without:email_id|digits:10|exists:candidates,contact_no',
+            'mobile_number' => 'required_without:email_id|exists:candidates,contact_no',
             'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|exists:candidates,email'
         ]);
 
@@ -75,13 +76,11 @@ class AuthenticationController extends Controller
                         'password' => $password,
                         'type' => $type,
                         'sender' => $sender,
-                        'mobile' => 8100610101,
+                        'mobile' => $request->mobile_number,
                         'message' => $message,
                         'entityId' => $entityId,
                         'templateId' => $templateId,
                     ]);
-
-                //   return $response->body();
                
                   if (strpos($response->body(), 'SUBMIT_SUCCESS') !== false) {
                         return response()->json([
@@ -204,7 +203,7 @@ class AuthenticationController extends Controller
         $validator = Validator::make($request->all(), [
             'full_name' => 'required',
             'contact_no' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
-            'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email',
+            'email_id' => 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email',
             'job_interest' => 'required|array|min:1|max:3',
             'otp' => 'required|numeric|digits:6'
         ]);
@@ -255,7 +254,7 @@ class AuthenticationController extends Controller
     public function requestOtpRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
+            'mobile_number' => 'required_without:email_id|unique:candidates,contact_no',
             'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email'
         ]);
         
@@ -289,7 +288,7 @@ class AuthenticationController extends Controller
                         'password' => $password,
                         'type' => $type,
                         'sender' => $sender,
-                        'mobile' => 8100610101,
+                        'mobile' => $request->mobile_number,
                         'message' => $message,
                         'entityId' => $entityId,
                         'templateId' => $templateId,
