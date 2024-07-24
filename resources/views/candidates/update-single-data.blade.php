@@ -53,19 +53,7 @@
 <td class="content-short">{{ $candidate->positionAppliedFor1->name ?? 'N/A' }}</td>
 <td class="content-short">{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}</td>
 <td class="content-short">{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->passport_number ?? 'N/A' }}</td>
 <td class="content-short">{{ $candidate->cityName->name ?? 'N/A' }}</td>
-<td class="content-short">
-    @if ($candidate->referred_by_id != null)
-        {{ $candidate->referredByCandidate->full_name }}
-    @else
-        {{ $candidate->referred_by ?? 'N/A' }}
-    @endif
-</td>
-<td class="content-short">{{ $candidate->mode_of_registration ?? 'N/A' }}</td>
-<td class="content-short">
-    {{ $candidate->source ?? 'N/A' }}
-</td>
 
 <td class="content-short">
     {{ $candidate->religion ?? 'N/A' }}

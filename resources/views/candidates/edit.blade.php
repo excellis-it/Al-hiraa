@@ -128,105 +128,35 @@
                                     </tr>
 
                                     <tr>
-                                        <td>Source</td>
-                                        <td>{{ $candidate->source ?? 'N/A' }}</td>
                                         <td>Last Updated Date</td>
                                         <td>{{ $candidate->updated_at != null ? date('d.m.Y', strtotime($candidate->updated_at)) : 'N/A' }}
                                         </td>
-                                        <td>Referred By</td>
-                                        <td>
-                                            @if ($candidate->referred_by_id != null)
-                                                {{ $candidate->referredByCandidate->full_name }}
-                                            @else
-                                                {{ $candidate->referred_by }}
-                                            @endif
-                                        </td>
-                                    </tr>
-
-                                    <tr>
                                         <td>Full Name</td>
                                         <td>{{ $candidate->full_name ?? 'N/A' }}
                                         </td>
                                         <td>Gender</td>
                                         <td>{{ $candidate->gender }}</td>
+                                    </tr>
+
+                                    <tr>
                                         <td>DOB</td>
                                         <td>{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}
                                         </td>
-                                    </tr>
-
-                                    <tr>
                                         <td>Age</td>
                                         <td>{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
                                         </td>
-                                        <td>Education</td>
-                                        <td>{{ $candidate->education ?? 'N/A' }}</td>
-                                        <td>Other Education</td>
-                                        <td>{{ $candidate->other_education ?? 'N/A' }}</td>
-                                    </tr>
-
-                                    <tr>
                                         <td>Alternate Contact No.</td>
                                         <td>{{ $candidate->alternate_contact_no ?? 'N/A' }}</td>
-                                        <td>Whatsapp No.</td>
-                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}</td>
-                                        <td>Passport Number.</td>
-                                        <td>{{ $candidate->passport_number ?? 'N/A' }}</td>
                                     </tr>
 
                                     <tr>
+                                        <td>Whatsapp No.</td>
+                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}</td>
                                         <td>Email ID</td>
                                         <td>{{ $candidate->email ?? 'N/A' }}
                                         </td>
                                         <td>City</td>
                                         <td>{{ $candidate->cityName->name ?? 'N/A' }}
-                                        </td>
-                                        <td>Religion</td>
-                                        <td>{{ $candidate->religion ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>ECR Type</td>
-                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}</td>
-                                        <td>Indidan Driving License </td>
-                                        <td>
-                                            @if ($candidate->candidateIndianLicence()->count() > 0)
-                                                @foreach ($candidate->candidateIndianLicence as $key => $value)
-                                                    <span class="badge bg-primary rounded-pill">
-                                                        {{ $value->licence_name ?? 'N/A' }}
-                                                    </span>
-                                                @endforeach
-                                            @else
-                                                {{ 'N/A' }}
-                                            @endif
-
-                                        </td>
-                                        <td>Gulf Driving License </td>
-                                        <td>
-                                            @if ($candidate->candidateGulfLicence()->count() > 0)
-                                                @foreach ($candidate->candidateGulfLicence as $key => $value)
-                                                    <span class="badge bg-primary rounded-pill">
-                                                        {{ $value->licence_name ?? 'N/A' }}
-                                                    </span>
-                                                @endforeach
-                                            @else
-                                                {{ 'N/A' }}
-                                            @endif
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>English Speak</td>
-                                        <td>{{ $candidate->english_speak ?? 'N/A' }}
-                                        </td>
-                                        <td>Arabic Speak</td>
-                                        <td>{{ $candidate->arabic_speak ?? 'N/A' }}
-
-                                        </td>
-                                        <td>Return</td>
-                                        <td>{{ $candidate->return == 1 ? 'YES' : 'N0' }}
-
                                         </td>
                                     </tr>
 
@@ -253,6 +183,76 @@
                                         <td>{{ $candidate->specialisation_3 ?? 'N/A' }}
                                         </td>
                                     </tr>
+
+                                    <tr>
+                                        <td>Religion</td>
+                                        <td>{{ $candidate->religion ?? 'N/A' }}</td>
+                                        <td>ECR Type</td>
+                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}</td>
+                                        <td>Indidan Driving License </td>
+                                        <td>
+                                            @if ($candidate->candidateIndianLicence()->count() > 0)
+                                                @foreach ($candidate->candidateIndianLicence as $key => $value)
+                                                    <span class="badge bg-primary rounded-pill">
+                                                        {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                            @else
+                                                {{ 'N/A' }}
+                                            @endif
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Gulf Driving License </td>
+                                        <td>
+                                            @if ($candidate->candidateGulfLicence()->count() > 0)
+                                                @foreach ($candidate->candidateGulfLicence as $key => $value)
+                                                    <span class="badge bg-primary rounded-pill">
+                                                        {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                            @else
+                                                {{ 'N/A' }}
+                                            @endif
+                                        </td>
+                                        <td>Education</td>
+                                        <td>{{ $candidate->education ?? 'N/A' }}</td>
+                                        <td>Other Education</td>
+                                        <td>{{ $candidate->other_education ?? 'N/A' }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>English Speak</td>
+                                        <td>{{ $candidate->english_speak ?? 'N/A' }}
+                                        </td>
+                                        <td>Arabic Speak</td>
+                                        <td>{{ $candidate->arabic_speak ?? 'N/A' }}
+
+                                        </td>
+                                        <td>Return</td>
+                                        <td>{{ $candidate->return == 1 ? 'YES' : 'N0' }}
+
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>Passport Number.</td>
+                                        <td>{{ $candidate->passport_number ?? 'N/A' }}</td>
+                                        <td>Referred By</td>
+                                        <td>
+                                            @if ($candidate->referred_by_id != null)
+                                                {{ $candidate->referredByCandidate->full_name }}
+                                            @else
+                                                {{ $candidate->referred_by }}
+                                            @endif
+                                        </td>
+                                        <td>Source</td>
+                                        <td>{{ $candidate->source ?? 'N/A' }}</td>
+                                    </tr>
+
+                                    
 
                                     <tr>
                                         <td>Indian Experience (If any?)</td>
@@ -283,6 +283,8 @@
                         <a href="javascript:void(0);" class="btn-1" id="seeMoreBtn">See More<img
                                 src="{{ asset('assets/images/arrow.png') }}"></a>
                     </div>
+
+                    
                 </div>
             </form>
 
@@ -455,240 +457,112 @@
 
             $('#candidate-form').html(`   <tbody class="candidate-form-new">
                     <tr>
-                    <td>Enter By</td>
-                            <td>
-                            <div class="form-group">
-                                <input class="form-control uppercase-text" type="text" placeholder="Enter by" aria-label="default input example" value="{{ $candidate->enterBy->full_name ?? '' }}" readonly>
-                            </div>
-                            </td>
-
-                            <td>Status</td>
-                            <td>
-                            <select name="cnadidate_status_id" class="form-select uppercase-text" id="">
-                                <option value="">Select A Status</option>
-                                @foreach ($candidate_statuses as $status)
-                                <option value="{{ $status->id }}" {{ $candidate->cnadidate_status_id == $status->id ? 'selected' : '' }}>
-                                {{ $status->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                            <span class="text-danger" id="cnadidate_status_id_msg"></span>
-                            </td>
-                            <td>Mode of Registration</td>
-                            <td>
-                                <select name="mode_of_registration" class="form-select uppercase-text" id="">
-                                        <option value="">Select Type</option>
-                                        <option value="CALLING" {{ $candidate->mode_of_registration == 'CALLING' ? 'selected' : '' }}>CALLING</option>
-                                        <option value="WALK-IN" {{ $candidate->mode_of_registration == 'WALK-IN' ? 'selected' : '' }}>WALK-IN</option>
-                                    </select>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Source</td>
-                            <td>
-                                <select name="source" class="form-select uppercase-text" id="">
-                                            <option value="">Select Type</option>
-                                            @foreach ($sources as $source)
-                                            <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
-                                                {{ $source->name }}
-                                            </option>
-                                        @endforeach
-                                        </select>
+                        <td>Enter By</td>
+                        <td>
+                        <div class="form-group">
+                            <input class="form-control uppercase-text" type="text" placeholder="Enter by" aria-label="default input example" value="{{ $candidate->enterBy->full_name ?? '' }}" readonly>
+                        </div>
                         </td>
+
+                        <td>Status</td>
+                        <td>
+                        <select name="cnadidate_status_id" class="form-select uppercase-text" id="">
+                            <option value="">Select A Status</option>
+                            @foreach ($candidate_statuses as $status)
+                            <option value="{{ $status->id }}" {{ $candidate->cnadidate_status_id == $status->id ? 'selected' : '' }}>
+                            {{ $status->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                        <span class="text-danger" id="cnadidate_status_id_msg"></span>
+                        </td>
+                        <td>Mode of Registration</td>
+                        <td>
+                            <select name="mode_of_registration" class="form-select uppercase-text" id="">
+                                <option value="">Select Type</option>
+                                <option value="CALLING" {{ $candidate->mode_of_registration == 'CALLING' ? 'selected' : '' }}>CALLING</option>
+                                <option value="WALK-IN" {{ $candidate->mode_of_registration == 'WALK-IN' ? 'selected' : '' }}>WALK-IN</option>
+                            </select>
+                        </td>
+                    </tr>
+
+
+                    <tr>   
                         <td>Last Updated Date</td>
-                            <td>
+                        <td>
                             <div class="form-group">
                                 <input type="date" class="form-control uppercase-text" id="" value="{{ date('Y-m-d', strtotime($candidate->updated_at)) ?? '' }}" name="last_update_date" placeholder="Last Updated Date" readonly>
                             </div>
-                            </td>
-                            <td>Referred By</td>
-                            <td>
-                            <input type="text" class="form-control uppercase-text" id="" value=" @if ($candidate->referred_by_id != null) {{ $candidate->referredByCandidate->full_name }}@else{{ $candidate->referred_by }} @endif" placeholder="Referred By" readonly>
-                            </select>
-                            </td>
-                    </tr>
-
-                        <tr>
-                            <td>Full Name</td>
-                            <td>
+                        </td>
+                        <td>Full Name</td>
+                        <td>
                             <div class="form-group">
                                 <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->full_name ?? '' }}" name="full_name" placeholder="Full Name">
                                 <span class="text-danger" id="full_name_msg"></span>
                             </div>
-                            </td>
-                            <td>Gender</td>
-                            <td>
+                        </td>
+                        <td>Gender</td>
+                        <td>
                             <select name="gender" class="form-select uppercase-text" id="">
                                 <option value="">Select Gender</option>
                                 <option value="MALE" {{ $candidate->gender == 'MALE' ? 'selected' : '' }}> MALE </option>
                                 <option value="FEMALE" {{ $candidate->gender == 'FEMALE' ? 'selected' : '' }}>FEMALE</option>
                                 <option value="OTHER" {{ $candidate->gender == 'OTHER' ? 'selected' : '' }}>OTHER</option>
                             </select>
-                            </td>
-                            <td>DOB</td>
-                            <td>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>DOB</td>
+                        <td>
                             <div class="form-group date-btn">
                                 <input type="text" class="form-control uppercase-text datepicker" id="dob"
                                     value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}"
                                     name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
                                 <span class="text-danger" id="date_of_birth_msg"></span>
                             </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Age</td>
-                            <td>
-                                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}" name="age" placeholder="Age" readonly>
-                            </td>
-                            <td>Education</td>
-                            <td>
-                                <select name="education" class="form-select uppercase-text" id="">
-                                    <option value="">Select Type</option>
-                                    <option value="5TH PASS" {{ $candidate->education == '5TH PASS' ? 'selected' : '' }}>5TH PASS</option>
-                                    <option value="8TH PASS" {{ $candidate->education == '8TH PASS' ? 'selected' : '' }}>8TH PASS</option>
-                                    <option value="10TH PASS" {{ $candidate->education == '10TH PASS' ? 'selected' : '' }}>10TH PASS
-                                    </option>
-                                    <option value="HIGHER SECONDARY"
-                                        {{ $candidate->education == 'HIGHER SECONDARY' ? 'selected' : '' }}>HIGHER SECONDARY
-                                        </option>
-                                    <option value="GRADUATES" {{ $candidate->education == 'GRADUATES' ? 'selected' : '' }}>GRADUATES</option>
-                                    <option value="MASTERS" {{ $candidate->education == 'MASTERS' ? 'selected' : '' }}>MASTERS</option>
-                                </select>
-                            </td>
-                            <td>Other Education</td>
-                            <td>
-                            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->other_education ?? '' }}" name="other_education" placeholder="Other Education">
-                            </select>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Alternate Contact No.</td>
-                            <td>
-                            <div class="form-group">
-                                <input type="text" class="form-control uppercase-text" id="" name="alternate_contact_no" value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="Alternate Contact No.">
-                                <span class="text-danger" id="alternate_contact_no_msg"></span>
-                                </div>
-                            </td>
-                            <td>Whatsapp No.</td>
-                            <td>
-                            <div class="form-group">
-                                <input type="text" class="form-control uppercase-text" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
-                                <span class="text-danger" id="whatapp_no_msg"></span>
-                                </div>
-                            </td>
-                            <td>Passport Number.</td>
-                            <td>
-                            <div class="form-group">
-                                <input type="text" class="form-control uppercase-text" id="" name="passport_number"
-                                    value="{{ $candidate->passport_number ?? '' }}" placeholder="">
-                                <span class="text-danger" id="passport_number_msg"></span>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Email ID</td>
-                            <td>
+                        </td>
+                        <td>Age</td>
+                        <td>
+                            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}" name="age" placeholder="Age" readonly>
+                        </td>
+                        <td>Alternate Contact No.</td>
+                        <td>
+                        <div class="form-group">
+                            <input type="text" class="form-control uppercase-text" id="" name="alternate_contact_no" value="{{ $candidate->alternate_contact_no ?? '' }}" placeholder="Alternate Contact No.">
+                            <span class="text-danger" id="alternate_contact_no_msg"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Whatsapp No.</td>
+                        <td>
+                        <div class="form-group">
+                            <input type="text" class="form-control uppercase-text" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
+                            <span class="text-danger" id="whatapp_no_msg"></span>
+                            </div>
+                        </td>
+                        <td>Email ID</td>
+                        <td>
                             <div class="form-group">
                                 <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" >
                                 <span class="text-danger" id="email_msg"></span>
-                                </div>
-                            </td>
-                            <td>City</td>
-                            <td>
-                                <select name="city" class="form-select new_select2 uppercase-text" id="">
-                                    <option value="">Select City</option>
-                                    @foreach ($cities as $city)
-                                        <option value="{{ $city->id }}" {{ $candidate->city == $city->id ? 'selected' : '' }}>
-                                            {{ $city->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </td>
-                            <td>Religion</td>
-                            <td>
-                                <select name="religion" class="form-select uppercase-text" id="">
-                                    <option value="">Select Religion</option>
-                                    <option value="HINDU" {{ $candidate->religion == 'HINDU' ? 'selected' : '' }}>Hindu</option>
-                                    <option value="ISLAM" {{ $candidate->religion == 'ISLAM' ? 'selected' : '' }}>Islam</option>
-                                    <option value="CHRISTIAN" {{ $candidate->religion == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
-                                    <option value="SIKH" {{ $candidate->religion == 'SIKH' ? 'selected' : '' }}>Sikh</option>
-                                    <option value="BUDDHIST" {{ $candidate->religion == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
-                                    <option value="JAIN" {{ $candidate->religion == 'JAIN' ? 'selected' : '' }}>Jain</option>
-                                    <option value="OTHER" {{ $candidate->religion == 'OTHER' ? 'selected' : '' }}>Other</option>
-                                </select>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>ECR Type</td>
-                            <td>
-                            <select name="ecr_type" class="form-select uppercase-text" id="">
-                                <option value="">Select ECR</option>
-                                <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
-                                <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
+                            </div>
+                        </td>
+                        <td>City</td>
+                        <td>
+                            <select name="city" class="form-select new_select2 uppercase-text" id="">
+                                <option value="">Select City</option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}" {{ $candidate->city == $city->id ? 'selected' : '' }}>
+                                        {{ $city->name }}
+                                    </option>
+                                @endforeach
                             </select>
-                            </td>
-                            <td>Indian Driving License</td>
-                            <td>
-                                <select name="indian_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
-                                    <option value="" disabled>Select Indian Driving License</option>
-                                    <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
-                                        2 WHEELER</option>
-                                    <option value="4 WHEELER" {{ in_array('4 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
-                                        4 WHEELER</option>
-                                    <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
-                                </select>
-                            </td>
-                            <td>Gulf Driving License</td>
-                            <td>
-                                <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
-                                    <option value="" disabled>Select Gulf Driving License</option>
-                                    <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
-                                        2 WHEELER</option>
-                                    <option value="4 WHEELER" {{ in_array('4 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
-                                        4 WHEELER</option>
-                                    <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
-                                </select>
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td>English Speak</td>
-                            <td>
-                            <select name="english_speak" class="form-select uppercase-text" id="">
-                                <option value="">English Speak</option>
-                                <option value="BASIC" {{ strtoupper($candidate->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
-                                    <option value="GOOD" {{ strtoupper($candidate->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
-                                    <option value="POOR" {{ strtoupper($candidate->english_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
-                                    <option value="NO" {{ strtoupper($candidate->english_speak) == 'NO' ? 'selected' : '' }}>NO</option>
-                            </select>
-                            </td>
-                             <td>Arabic Speak</td>
-                            <td>
-                            <select name="arabic_speak" class="form-select uppercase-text" id="">
-                                <option value="">Arabic Speak</option>
-                                <option value="BASIC" {{ strtoupper($candidate->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
-                                    <option value="GOOD" {{ strtoupper($candidate->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
-                                    <option value="POOR" {{ strtoupper($candidate->arabic_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
-                                    <option value="NO" {{ strtoupper($candidate->arabic_speak) == 'NO' ? 'selected' : '' }}>NO</option>
-                            </select>
-                            </td>
-                            <td>Return</td>
-                            <td>
-                            <select name="return" class="form-select uppercase-text" id="">
-                                <option value="">Return</option>
-                                <option value="1" {{ $candidate->return == '1' ? 'selected' : '' }}>YES</option>
-                                <option value="0" {{ $candidate->return == '0' ? 'selected' : '' }}>NO</option>
-                            </select>
-                            </td>
-                        </tr>
-
-
-                        <tr class="position_applied_1">
+                    <tr class="position_applied_1">
                                 @if ($candidate->positionAppliedFor1)
                                     @if ($candidate->positionAppliedFor1()->where('is_active', 1)->count() > 0)
                                     <td>Position Applied For(1) <span><a href="javascript:void(0);"
@@ -861,6 +735,133 @@
                             @endif
                         @endif
 
+                        
+
+                        <tr>
+                            <td>Religion</td>
+                            <td>
+                                <select name="religion" class="form-select uppercase-text" id="">
+                                    <option value="">Select Religion</option>
+                                    <option value="HINDU" {{ $candidate->religion == 'HINDU' ? 'selected' : '' }}>Hindu</option>
+                                    <option value="ISLAM" {{ $candidate->religion == 'ISLAM' ? 'selected' : '' }}>Islam</option>
+                                    <option value="CHRISTIAN" {{ $candidate->religion == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
+                                    <option value="SIKH" {{ $candidate->religion == 'SIKH' ? 'selected' : '' }}>Sikh</option>
+                                    <option value="BUDDHIST" {{ $candidate->religion == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
+                                    <option value="JAIN" {{ $candidate->religion == 'JAIN' ? 'selected' : '' }}>Jain</option>
+                                    <option value="OTHER" {{ $candidate->religion == 'OTHER' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </td>
+                            <td>ECR Type</td>
+                            <td>
+                                <select name="ecr_type" class="form-select uppercase-text" id="">
+                                    <option value="">Select ECR</option>
+                                    <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
+                                    <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
+                                </select>
+                            </td>
+                            <td>Indian Driving License</td>
+                            <td>
+                                <select name="indian_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
+                                    <option value="" disabled>Select Indian Driving License</option>
+                                    <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                                        2 WHEELER</option>
+                                    <option value="4 WHEELER" {{ in_array('4 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                                        4 WHEELER</option>
+                                    <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Gulf Driving License</td>
+                            <td>
+                                <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
+                                    <option value="" disabled>Select Gulf Driving License</option>
+                                    <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                                        2 WHEELER</option>
+                                    <option value="4 WHEELER" {{ in_array('4 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                                        4 WHEELER</option>
+                                    <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
+                                </select>
+                            </td>
+                            <td>Education</td>
+                            <td>
+                                <select name="education" class="form-select uppercase-text" id="">
+                                    <option value="">Select Type</option>
+                                    <option value="5TH PASS" {{ $candidate->education == '5TH PASS' ? 'selected' : '' }}>5TH PASS</option>
+                                    <option value="8TH PASS" {{ $candidate->education == '8TH PASS' ? 'selected' : '' }}>8TH PASS</option>
+                                    <option value="10TH PASS" {{ $candidate->education == '10TH PASS' ? 'selected' : '' }}>10TH PASS
+                                    </option>
+                                    <option value="HIGHER SECONDARY"
+                                        {{ $candidate->education == 'HIGHER SECONDARY' ? 'selected' : '' }}>HIGHER SECONDARY
+                                        </option>
+                                    <option value="GRADUATES" {{ $candidate->education == 'GRADUATES' ? 'selected' : '' }}>GRADUATES</option>
+                                    <option value="MASTERS" {{ $candidate->education == 'MASTERS' ? 'selected' : '' }}>MASTERS</option>
+                                </select>
+                            </td>
+                            <td>Other Education</td>
+                            <td>
+                            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->other_education ?? '' }}" name="other_education" placeholder="Other Education">
+                            </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>English Speak</td>
+                            <td>
+                            <select name="english_speak" class="form-select uppercase-text" id="">
+                                <option value="">English Speak</option>
+                                <option value="BASIC" {{ strtoupper($candidate->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                                    <option value="GOOD" {{ strtoupper($candidate->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                                    <option value="POOR" {{ strtoupper($candidate->english_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                                    <option value="NO" {{ strtoupper($candidate->english_speak) == 'NO' ? 'selected' : '' }}>NO</option>
+                            </select>
+                            </td>
+                             <td>Arabic Speak</td>
+                            <td>
+                            <select name="arabic_speak" class="form-select uppercase-text" id="">
+                                <option value="">Arabic Speak</option>
+                                <option value="BASIC" {{ strtoupper($candidate->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                                    <option value="GOOD" {{ strtoupper($candidate->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                                    <option value="POOR" {{ strtoupper($candidate->arabic_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                                    <option value="NO" {{ strtoupper($candidate->arabic_speak) == 'NO' ? 'selected' : '' }}>NO</option>
+                            </select>
+                            </td>
+                            <td>Return</td>
+                            <td>
+                            <select name="return" class="form-select uppercase-text" id="">
+                                <option value="">Return</option>
+                                <option value="1" {{ $candidate->return == '1' ? 'selected' : '' }}>YES</option>
+                                <option value="0" {{ $candidate->return == '0' ? 'selected' : '' }}>NO</option>
+                            </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Passport Number.</td>
+                            <td>
+                            <div class="form-group">
+                                <input type="text" class="form-control uppercase-text" id="" name="passport_number"
+                                    value="{{ $candidate->passport_number ?? '' }}" placeholder="">
+                                <span class="text-danger" id="passport_number_msg"></span>
+                                </div>
+                            </td>
+                            <td>Referred By</td>
+                            <td>
+                            <input type="text" class="form-control uppercase-text" id="" value=" @if ($candidate->referred_by_id != null) {{ $candidate->referredByCandidate->full_name }}@else{{ $candidate->referred_by }} @endif" placeholder="Referred By" readonly>
+                            </td>
+                            <td>Source</td>
+                            <td>
+                                <select name="source" class="form-select uppercase-text" id="">
+                                    <option value="">Select Type</option>
+                                    @foreach ($sources as $source)
+                                    <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
+                                        {{ $source->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
 
                         <tr>
                             <td>Indian Experience (If any?)</td>
@@ -929,130 +930,35 @@
 
                                         </td>
                                         <td>Mode of Registration</td>
-                                        <td>{{ $candidate->mode_of_registration ?? '' }}
-
-                                        </td>
+                                        <td>{{ $candidate->mode_of_registration ?? '' }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td>Source</td>
-                                        <td>{{ $candidate->source ?? '' }}
-
-                                        </td>
                                         <td>Last Updated Date</td>
-                                        <td>{{ $candidate->updated_at != null ? date('d.m.Y', strtotime($candidate->updated_at)) : 'N/A' }}
-
-                                        </td>
-                                        <td>Referred By</td>
-                                        <td>
-                                            @if ($candidate->referred_by_id != null)
-                                                {{ $candidate->referredByCandidate->full_name }}
-                                            @else
-                                                {{ $candidate->referred_by }}
-                                            @endif
-                                        </td>
-                                    </tr>
-
-                                    <tr>
+                                        <td>{{ $candidate->updated_at != null ? date('d.m.Y', strtotime($candidate->updated_at)) : 'N/A' }}</td>
                                         <td>Full Name</td>
                                         <td>{{ $candidate->full_name ?? 'N/A' }}
                                         </td>
-                                         <td>Gender</td>
-                                        <td>{{ $candidate->gender }}
-
-                                        </td>
+                                        <td>Gender</td>
+                                        <td>{{ $candidate->gender }}</td>
+                                    </tr>
+                            
+                                    <tr>
                                         <td>DOB</td>
-                                        <td>{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
+                                        <td>{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}</td>
                                         <td>Age</td>
-                                        <td>{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
-
-                                        </td>
-                                        <td>Education</td>
-                                        <td>{{ $candidate->education }}
-
-                                        </td>
-                                        <td>Other Education</td>
-                                        <td>{{ $candidate->other_education ?? 'N/A' }}
-                                        </td>
-                                    </tr>
-
-                                    <tr>
+                                        <td>{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}</td>
                                         <td>Alternate Contact No.</td>
-                                        <td>{{ $candidate->alternate_contact_no ?? 'N/A' }}
-
-                                        </td>
-                                        <td>Whatsapp No.</td>
-                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}
-
-                                        </td>
-                                        <td>Passport Number.</td>
-                                        <td>{{ $candidate->passport_number ?? 'N/A' }}
-
-                                        </td>
+                                        <td>{{ $candidate->alternate_contact_no ?? 'N/A' }}</td>
                                     </tr>
 
                                     <tr>
+                                        <td>Whatsapp No.</td>
+                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}</td>
                                         <td>Email ID</td>
-                                        <td>{{ $candidate->email ?? 'N/A' }}
-
-                                        </td>
+                                        <td>{{ $candidate->email ?? 'N/A' }}</td>
                                         <td>City</td>
                                         <td>{{ $candidate->city ?? 'N/A' }}
-                                        </td>
-                                        <td>Religion</td>
-                                        <td>{{ $candidate->religion ?? 'N/A' }}
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>ECR Type</td>
-                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}
-
-                                        </td>
-                                        <td>Indidan Driving License </td>
-                                        <td> @if ($candidate->candidateIndianLicence()->count() > 0)
-                                                @foreach ($candidate->candidateIndianLicence as $key => $value)
-                                                <span
-                                                                    class="badge bg-primary rounded-pill">
-                                                    {{ $value->licence_name ?? 'N/A' }}
-                                                    </span>
-                                                @endforeach
-                                                @else
-                                             {{ 'N/A' }}
-                                            @endif
-                                        </td>
-                                        <td>Gulf Driving License </td>
-                                        <td> @if ($candidate->candidateGulfLicence()->count() > 0)
-                                                @foreach ($candidate->candidateGulfLicence as $key => $value)
-                                                <span
-                                                                    class="badge bg-primary rounded-pill">
-                                                    {{ $value->licence_name ?? 'N/A' }}
-                                                    </span>
-                                                @endforeach
-                                                @else
-                                                 {{ 'N/A' }}
-                                            @endif
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>English Speak</td>
-                                        <td>{{ $candidate->english_speak ?? 'N/A' }}
-                                        </td>
-                                        <td>Arabic Speak</td>
-                                        <td>{{ $candidate->arabic_speak ?? 'N/A' }}
-
-                                        </td>
-                                        <td>Return</td>
-                                        <td>{{ $candidate->return == 1 ? 'YES' : 'N0' }}
-
                                         </td>
                                     </tr>
 
@@ -1079,6 +985,78 @@
                                         <td>{{ $candidate->specialisation_3 ?? 'N/A' }}
                                         </td>
                                     </tr>
+                                    
+                                    <tr>
+                                        <td>Religion</td>
+                                        <td>{{ $candidate->religion ?? 'N/A' }}</td>
+                                        <td>ECR Type</td>
+                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}</td>
+                                        <td>Indidan Driving License </td>
+                                        <td> @if ($candidate->candidateIndianLicence()->count() > 0)
+                                                @foreach ($candidate->candidateIndianLicence as $key => $value)
+                                                <span
+                                                                    class="badge bg-primary rounded-pill">
+                                                    {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                                @else
+                                             {{ 'N/A' }}
+                                            @endif
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Gulf Driving License </td>
+                                        <td> @if ($candidate->candidateGulfLicence()->count() > 0)
+                                                @foreach ($candidate->candidateGulfLicence as $key => $value)
+                                                <span
+                                                                    class="badge bg-primary rounded-pill">
+                                                    {{ $value->licence_name ?? 'N/A' }}
+                                                    </span>
+                                                @endforeach
+                                                @else
+                                                 {{ 'N/A' }}
+                                            @endif
+
+                                        </td>
+                                        <td>Education</td>
+                                        <td>{{ $candidate->education }}
+
+                                        </td>
+                                        <td>Other Education</td>
+                                        <td>{{ $candidate->other_education ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>English Speak</td>
+                                        <td>{{ $candidate->english_speak ?? 'N/A' }}
+                                        </td>
+                                        <td>Arabic Speak</td>
+                                        <td>{{ $candidate->arabic_speak ?? 'N/A' }}
+
+                                        </td>
+                                        <td>Return</td>
+                                        <td>{{ $candidate->return == 1 ? 'YES' : 'N0' }}
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Passport Number.</td>
+                                        <td>{{ $candidate->passport_number ?? 'N/A' }}</td>
+                                        <td>Referred By</td>
+                                        <td>
+                                            @if ($candidate->referred_by_id != null)
+                                                {{ $candidate->referredByCandidate->full_name }}
+                                            @else
+                                                {{ $candidate->referred_by }}
+                                            @endif
+                                        </td>
+                                        <td>Source</td>
+                                        <td>{{ $candidate->source ?? '' }}</td>
+                                    </tr>
+
 
                                     <tr>
                                         <td>Indian Experience (If any?)</td>
@@ -1363,7 +1341,7 @@
                                             <td>
                                             <div class="form-group">
                                                 <select name="company_id" class="form-select uppercase-text company_id" id="company_id">
-                                                <option value="">Select Company</option>
+                                                <option value=""> Company</option>
                                                 @foreach ($companies as $company)
                                                 <option value="{{ $company->id }}">
                                                 {{ $company->company_name }}
@@ -1377,7 +1355,7 @@
                                             <td>Job Title</td>
                                             <td>
                                             <select name="interview_id" class="form-select uppercase-text job_id" id="interview_id">
-                                                <option value="">Select A Job Title</option>
+                                                <option value=""> Job Title</option>
                                             </select>
                                             <span class="text-danger" id="interview_id_job_msg"></span>
                                             </td>
@@ -1385,7 +1363,7 @@
                                             <td>Interview Status</td>
                                             <td>
                                             <select name="interview_status" class="form-select uppercase-text" id="interview_status">
-                                                <option value="">Select A Interview Status</option>
+                                                <option value="">Interview Status</option>
                                                 <option value="Interested">Interested</option>
                                                 <option value="Not-Interested">Not-Interested</option>
                                             </select>

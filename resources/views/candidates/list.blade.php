@@ -318,9 +318,7 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th>
-                                        Passport Number
-                                    </th>
+                                    
                                     <th>
 
                                         <div class="single_select">
@@ -334,33 +332,8 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th>
-                                        Referred By
-                                    </th>
-                                    <th>
-                                        <div class="single_select">
-                                            <select name="mode_of_registration"
-                                                class="select_width mode_registration_select"
-                                                id="mode_of_registration_filter">
-                                                <option value="">Select Type</option>
-                                                <option value="Calling">Calling</option>
-                                                <option value="Walk-in">Walk-in</option>
-                                            </select>
-                                        </div>
-
-                                    </th>
-                                    <th>
-                                        <div class="single_select">
-                                            <select name="source" class="select_width source_status" id="source_filter">
-                                                <option value="">Select Source Type</option>
-                                                @foreach ($sources as $source)
-                                                    <option value="{{ $source->name }}">
-                                                        {{ $source->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </th>
+                                    
+                                    
                                     <th>
                                         Religion
                                     </th>
@@ -434,14 +407,10 @@
                 window.location.href = '{{ route('candidates.export') }}';
             });
 
-
-
             function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
                 last_call_status, mode_of_registration, education, city,
                 position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
-
-
 
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",
@@ -483,7 +452,6 @@
                 var position_applied_for = $('#position_applied_for_filter').val();
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
-
 
                 // var position_applied_for = $('#position_applied_for_filter').val();
                 // var position_applied_for_2 = $('#position_applied_for_filter_2').val();
@@ -1232,14 +1200,24 @@
             allowClear: true,
         })
     </script>
-    <script>
-        $('#query').tagator({
-            autocomplete: [
-                @foreach (Position::getPosition() as $item)
-                    '{{ $item }}',
-                @endforeach
-            ],
-            useDimmer: true
-        });
-    </script>
+   @php
+   $numbers = [9898565623, 9856329865, 7854127854, 9878565412];
+   @endphp
+   
+   <script>
+       $(document).ready(function() {
+           $('#query').tagator({
+               autocomplete: [
+                   @foreach (Position::getPosition() as $item)
+                       '{{ $item }}',
+                   @endforeach
+                   // Include numbers in the autocomplete options
+                   @foreach (Position::getNumber() as $number)
+                       '{{ $number->contact_no }}',
+                   @endforeach
+               ],
+               useDimmer: true
+           });
+       });
+   </script>
 @endpush

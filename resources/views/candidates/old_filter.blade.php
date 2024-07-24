@@ -22,16 +22,8 @@
             <td>{{ $item->position_applied_for_1 ?? 'N/A' }}</td>
             <td>{{ $item->position_applied_for_2 ?? 'N/A' }}</td>
             <td>{{ $item->position_applied_for_3 ?? 'N/A' }}</td>
-            <td>{{ $item->passport_number ?? 'N/A' }}</td>
             <td>
                 {{ $item->city ?? 'N/A' }}
-            </td>
-            <td>
-                @if ($item->referred_by_id != null)
-                    {{ $item->referredBy->full_name }}
-                @else
-                    {{ $item->referred_by ?? 'N/A' }}
-                @endif
             </td>
             <td>
                 {{ $item->religion ?? 'N/A' }}

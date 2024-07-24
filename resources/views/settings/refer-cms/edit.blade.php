@@ -22,8 +22,10 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="integrations-form profile-form">
-                                <form action="{{ route('candidates.store') }}" method="POST" id="create-candidate">
+                                <form action="{{ route('referral-cms.update') }}" method="POST" id="create-candidate" enctype="multipart/form-data">
                                     @csrf
+
+                                    <input type="hidden" name="id" value="{{ $referCms->id }}">
                                     
                                     <div class="row g-2 justify-content-between auto-fill">
                                         <div class="col-lg-6">
@@ -63,7 +65,7 @@
                                             <div class="form-group">
                                                 <label for="">Image<span>*</span></label>
                                                 <input type="file" class="form-control  uppercase-text" id=""
-                                                    value="{{ $referCms->image ?? '' }}" name="image" placeholder="">
+                                                     name="image" placeholder="">
                                                 @if ($errors->has('image'))
                                                     <span class="text-danger">{{ $errors->first('image') }}</span>
                                                 @endif
@@ -86,7 +88,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="">Content1 Description<span>*</span></label>
-                                                <input type="file" class="form-control  uppercase-text" id=""
+                                                <input type="text" class="form-control uppercase-text" id=""
                                                     value="{{ $referCms->content1_description ?? '' }}" name="content1_description" placeholder="">
                                                 @if ($errors->has('content1_description'))
                                                     <span class="text-danger">{{ $errors->first('content1_description') }}</span>
@@ -98,12 +100,14 @@
                                             <div class="form-group">
                                                 <label for="">Content1 Image<span>*</span></label>
                                                 <input type="file" class="form-control  uppercase-text" id=""
-                                                    value="{{ $referCms->content1_image ?? '' }}" name="content1_image" placeholder="">
+                                                    name="content1_image" placeholder="">
                                                 @if ($errors->has('content1_image'))
                                                     <span class="text-danger">{{ $errors->first('content1_image') }}</span>
                                                 @endif
                                             </div>
-                                            
+                                        </div>
+
+                                        <div class="col-lg-6">
                                             <img src="{{ Storage::url($referCms->content1_image) }}" alt="image" width="100px" height="100px">
                                         </div>
 
@@ -121,34 +125,70 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="">Content2 Description<span>*</span></label>
-                                                <input type="file" class="form-control  uppercase-text" id=""
-                                                    value="{{ $referCms->content2_description ?? '' }}" name="content1_description" placeholder="">
-                                                @if ($errors->has('content1_description'))
-                                                    <span class="text-danger">{{ $errors->first('content1_description') }}</span>
+                                                <input type="text" class="form-control  uppercase-text" id=""
+                                                    value="{{ $referCms->content2_description ?? '' }}" name="content2_description" placeholder="">
+                                                @if ($errors->has('content2_description'))
+                                                    <span class="text-danger">{{ $errors->first('content2_description') }}</span>
                                                 @endif
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <label for="">Content1 Image<span>*</span></label>
+                                                <label for="">Content2 Image<span>*</span></label>
                                                 <input type="file" class="form-control  uppercase-text" id=""
-                                                    value="{{ $referCms->content1_image ?? '' }}" name="content1_image" placeholder="">
-                                                @if ($errors->has('content1_image'))
-                                                    <span class="text-danger">{{ $errors->first('content1_image') }}</span>
+                                                    name="content2_image" placeholder="">
+                                                @if ($errors->has('content2_image'))
+                                                    <span class="text-danger">{{ $errors->first('content2_image') }}</span>
                                                 @endif
                                             </div>
-                                            
-                                            <img src="{{ Storage::url($referCms->content1_image) }}" alt="image" width="100px" height="100px">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <img src="{{ Storage::url($referCms->content2_image) }}" alt="image" width="100px" height="100px">
                                         </div>
 
-                                            
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="">Content3 Title<span>*</span></label>
+                                                <input type="text" class="form-control  uppercase-text" id=""
+                                                    value="{{ $referCms->content3_title ?? '' }}" name="content3_title" placeholder="">
+                                                @if ($errors->has('content3_title'))
+                                                    <span class="text-danger">{{ $errors->first('content3_title') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="">Content3 Description<span>*</span></label>
+                                                <input type="text" class="form-control  uppercase-text" id=""
+                                                    value="{{ $referCms->content3_description ?? '' }}" name="content3_description" placeholder="">
+                                                @if ($errors->has('content3_description'))
+                                                    <span class="text-danger">{{ $errors->first('content3_description') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="">Content3 Image<span>*</span></label>
+                                                <input type="file" class="form-control  uppercase-text" id=""
+                                                    name="content3_image" placeholder="">
+                                                @if ($errors->has('content3_image'))
+                                                    <span class="text-danger">{{ $errors->first('content3_image') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <img src="{{ Storage::url($referCms->content3_image) }}" alt="image" width="100px" height="100px">
+                                        </div>     
                                     </div>
+
                                     <div class="row g-2 justify-content-between ">
                                         <div class="col-lg-12">
                                             <div class="save-btn-div d-flex align-items-center">
-                                                <button type="submit" class="btn save-btn">save</button>
-                                                <a href="{{ route('candidates.index') }}"
+                                                <button type="submit" class="btn save-btn">Update</button>
+                                                <a href=""
                                                     class="btn save-btn save-btn-1">Cancel</a>
                                             </div>
                                         </div>
