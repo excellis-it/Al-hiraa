@@ -255,7 +255,7 @@ class AuthenticationController extends Controller
     public function requestOtpRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required_without:email_id|unique:candidates,contact_no',
+            'mobile_number' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
             'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email'
         ]);
         
@@ -301,8 +301,7 @@ class AuthenticationController extends Controller
                         return response()->json([
                             'message' => 'OTP sent successfully via SMS.',
                             'status' => true,
-                            'otp' => $userOtp->otp,
-                            'user_id' => $userOtp->user_id
+                            'otp' => $userOtp->otp
                         ], 200);
                     } else {
                         return response()->json([
@@ -317,7 +316,7 @@ class AuthenticationController extends Controller
                     
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
 
-                    return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id, 'otp' => $userOtp->otp], 200);
+                    return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'otp' => $userOtp->otp], 200);
                 }
                 
             } else {
