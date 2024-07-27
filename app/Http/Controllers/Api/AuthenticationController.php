@@ -325,6 +325,7 @@ class AuthenticationController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
+        
     }
 
 
