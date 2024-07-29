@@ -199,15 +199,13 @@
                         <table class="table mb-0 table-bordered table-hover" id="candidate_body12">
                             <thead class="candy-p">
                                 <tr>
-                                    @if (Auth::user()->hasRole('ADMIN'))
-                                        <th>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox"
-                                                    class="custom-control-input js-check-selected-row checkAll"
-                                                    name="checkAll">
-                                            </div>
-                                        </th>
-                                    @endif
+                                    <th>
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox"
+                                                class="custom-control-input js-check-selected-row checkAll"
+                                                name="checkAll">
+                                        </div>
+                                    </th>
 
                                     @can('View Candidate')
                                         <th class="stick">
@@ -318,7 +316,7 @@
                                             </select>
                                         </div>
                                     </th>
-                                    
+
                                     <th>
 
                                         <div class="single_select">
@@ -326,14 +324,15 @@
                                                 <option value="">Select City</option>
                                                 @foreach ($cities as $city)
                                                     <option value="{{ $city->id }}"
-                                                        {{ old('city') == $city->id ? 'selected' : '' }}>{{ $city->name }}
+                                                        {{ old('city') == $city->id ? 'selected' : '' }}>
+                                                        {{ $city->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </th>
-                                    
-                                    
+
+
                                     <th>
                                         Religion
                                     </th>
@@ -1048,13 +1047,13 @@
             } else if (selectedTags.length > 0) {
                 $selection.html(selectedTags.join(', '));
             } else {
-                $selection.html('Status'); 
+                $selection.html('Status');
             }
         });
 
-        
 
-      
+
+
 
 
         // gender multi select
@@ -1200,24 +1199,24 @@
             allowClear: true,
         })
     </script>
-   @php
-   $numbers = [9898565623, 9856329865, 7854127854, 9878565412];
-   @endphp
-   
-   <script>
-       $(document).ready(function() {
-           $('#query').tagator({
-               autocomplete: [
-                   @foreach (Position::getPosition() as $item)
-                       '{{ $item }}',
-                   @endforeach
-                   // Include numbers in the autocomplete options
-                   @foreach (Position::getNumber() as $number)
-                       '{{ $number->contact_no }}',
-                   @endforeach
-               ],
-               useDimmer: true
-           });
-       });
-   </script>
+    @php
+        $numbers = [9898565623, 9856329865, 7854127854, 9878565412];
+    @endphp
+
+    <script>
+        $(document).ready(function() {
+            $('#query').tagator({
+                autocomplete: [
+                    @foreach (Position::getPosition() as $item)
+                        '{{ $item }}',
+                    @endforeach
+                    // Include numbers in the autocomplete options
+                    @foreach (Position::getNumber() as $number)
+                        '{{ $number->contact_no }}',
+                    @endforeach
+                ],
+                useDimmer: true
+            });
+        });
+    </script>
 @endpush

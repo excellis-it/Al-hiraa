@@ -1,11 +1,11 @@
-@if (Auth::user()->hasRole('ADMIN'))
+
     <td class="">
         <div class="custom-control custom-checkbox">
             <input type="checkbox" class="custom-control-input js-check-selected-row checkd-row"
                 data-id="{{ $candidate['id'] }}">
         </div>
     </td>
-@endif
+
 {{-- checkbox for bulk select --}}
 @can('View Candidate')
     <td class="stick-td">
@@ -17,11 +17,11 @@
 
 
 <td>
-   
+
     <div class="round_staus" style="color: {{$candidate->candidateStatus->color}};background: {{$candidate->candidateStatus->background}};border: 1px solid {{$candidate->candidateStatus->color}};">
         {{ $candidate->candidateStatus->name ?? 'N/A' }}
     </div>
-   
+
 </td>
 <td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
     data-route="{{ route('candidates.activity', $candidate['id']) }}" style="cursor: pointer">
