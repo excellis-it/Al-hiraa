@@ -97,7 +97,7 @@ class SettingController extends Controller
             $count = Cms::where('is_active', 1)->count();
             if ($count > 0) {
                 $additional_pages = Cms::where('is_active', 1)->orderBy('id', 'desc')->get();
-                return response()->json(['message' => 'Additional page fetch successfully', 'status' => false, 'data' => $additional_pages], $this->successStatus);
+                return response()->json(['message' => 'Additional page fetch successfully', 'status' => true, 'data' => $additional_pages], $this->successStatus);
             } else {
                 return response()->json(['message' => 'No page found.', 'status' => false], 201);
             }

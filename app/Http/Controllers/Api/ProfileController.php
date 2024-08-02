@@ -155,6 +155,8 @@ class ProfileController extends Controller
             'ecr_type' => 'nullable|in:ECR,ECNR',
             'english_speak' => 'nullable|in:GOOD,BASIC,POOR,NO',
             'arabic_speak' => 'nullable|in:GOOD,BASIC,POOR,NO',
+        ],[
+            'whatapp_no.regex' => 'Please enter a valid whatsapp number.',
         ]);
 
         if ($validator->fails()) {
