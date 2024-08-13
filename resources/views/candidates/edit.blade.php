@@ -890,7 +890,7 @@
                             </td>
                             <td>Last Call Status</td>
                             <td>
-                                <select name="call_status" class="form-select uppercase-text" id="">
+                                <select name="c" class="form-select uppercase-text" id="">
                                     <option value="">Select Call Status</option>
                                     @foreach (Position::getCallStatus() as $item)
                                         <option value="{{ $item }}">

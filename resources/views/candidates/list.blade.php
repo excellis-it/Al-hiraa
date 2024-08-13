@@ -249,8 +249,8 @@
                                                 id="last_updated_by_filter">
                                                 <option value="">Select Last Update By</option>
                                                 @foreach ($candidate_last_updates as $val)
-                                                    <option value="{{ $val->user->id }}">
-                                                        {{ $val->user->first_name}} {{ $val->user->last_name}}</option>
+                                                    <option value="{{ $val->user->id ?? '' }}">
+                                                        {{ $val->user->first_name ?? ''}} {{ $val->user->last_name ?? ''}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -416,7 +416,7 @@
         $(document).ready(function() {
 
             $('.export_cnadidate_csv').on('click', function() {
-                window.location.href = '{{ route('candidates.export') }}';
+                window.location.href = "{{ route('candidates.export') }}";
             });
 
            
@@ -424,7 +424,7 @@
             function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
                 last_call_status,last_update_by, mode_of_registration, education, city,
                 position_applied_for_2, position_applied_for_3,
-                english_speak, arabic_speak) {
+                english_speak, arabic_speak) {    
 
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",

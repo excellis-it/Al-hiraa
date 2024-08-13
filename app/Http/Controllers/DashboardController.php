@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidate;
 use App\Models\CandidateJob;
+use App\Models\CandidateActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,19 +17,45 @@ class DashboardController extends Controller
     public function dashboard()
     {
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-            $count['total_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->count();
-            $count['today_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'))->count();
-            $count['monthly_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'))->count();
+            $count['total_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->count() ?? 0;
+            $count['today_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'))->count() ?? 0;
+            $count['monthly_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
-            $count['last_month_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
+            $count['last_month_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
 
             $candidates = Candidate::where('enter_by', Auth::user()->id)->orderBy('id', 'desc')->paginate(5);
-        } else {
-            $count['total_candidate_entry'] = Candidate::count();
-            $count['today_candidate_entry'] = Candidate::whereDate('created_at', date('Y-m-d'))->count();
-            $count['monthly_candidate_entry'] = Candidate::whereMonth('created_at', date('m'))->count();
+        } else if(Auth::user()->hasRole('RECRUITER'))
+        {
+            $count['daily_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at',date('Y-m-d'))->count() ?? 0;
+            $count['call_back'] = CandidateActivity::where('user_id', Auth::user()->id)->count() ?? 0;
+           
             // last month entry
-            $count['last_month_candidate_entry'] = Candidate::whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
+            $candidates = Candidate::where('enter_by', Auth::user()->id)->get();
+            $interviewSchedule = 0;
+            $selection = 0;
+            foreach ($candidates as $candidate) {
+                // Count how many times the candidate has a job_interview_status of 'interested'
+                $interviewSchedule += CandidateJob::where('candidate_id', $candidate->id)
+                                                ->where('job_interview_status', 'Interested')
+                                                ->count() ?? 0;
+
+                $selection += CandidateJob::where('candidate_id', $candidate->id)
+                ->where('job_interview_status', 'Selected')
+                ->count() ?? 0;                            
+            }
+
+            // Store the result in the $count array
+            $count['interview_schedule'] = $interviewSchedule;
+            $count['selection'] = $selection;
+
+
+        }
+        else {
+            $count['total_candidate_entry'] = Candidate::count() ?? 0;
+            $count['today_candidate_entry'] = Candidate::whereDate('created_at', date('Y-m-d'))->count() ?? 0;
+            $count['monthly_candidate_entry'] = Candidate::whereMonth('created_at', date('m'))->count() ?? 0;
+            // last month entry
+            $count['last_month_candidate_entry'] = Candidate::whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
             $candidates = Candidate::orderBy('id', 'desc')->paginate(5);
         }
 

@@ -41,7 +41,7 @@ class CandidateController extends Controller
             $sources = Source::orderBy('name', 'asc')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $cities = City::orderBy('name', 'asc')->get();
-            $candidate_last_updates = CandidateFieldUpdate::orderBy('id', 'desc')->get()->unique('user_id');
+            $candidate_last_updates = CandidateUpdated::orderBy('id', 'desc')->get()->unique('user_id');
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
                 $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(50);
             } else {
@@ -583,11 +583,7 @@ class CandidateController extends Controller
             }
         }
 
-        // last updated by
-        if ($request->last_update_by) {
-            $last_update_by_can = CandidateFieldUpdate::where('user_id', $request->last_update_by)->where('is_granted', 1)->orderBy('id','desc')->first();
-            $candidates->where('id', $last_update_by_can->candidate_id);
-        }
+      
 
 
         if ($request->source) {
@@ -609,8 +605,6 @@ class CandidateController extends Controller
                 $candidates->where('education', $request->education);
             }
         }
-
-
 
         $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
         if ($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3) {
@@ -656,9 +650,34 @@ class CandidateController extends Controller
             });
         }
 
+        
+
+        if ($request->last_update_by) {
+              $last_update_by_can = CandidateUpdated::where('user_id', $request->last_update_by)
+                ->orderBy('id', 'desc')
+                ->get()
+                ->groupBy('candidate_id')
+                ->map(function ($item) {
+                    return $item->first();
+                });
+        
+                  $candidateIds = $last_update_by_can->pluck('candidate_id')->toArray(); // Convert to array
+        
+            // Apply the filter to the candidates query
+            if (!empty($candidateIds)) {
+                $candidates->whereIn('id', $candidateIds);
+            } else {
+                // Handle the case where no candidates are found for the user
+                $candidates->whereIn('id', []); // Empty result set
+            }
+        }
+        
+
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
             $candidates->where('enter_by', Auth::user()->id);
         }
+
+        
 
         $candidates = $candidates->orderBy('id', 'desc')->paginate(50);
 
