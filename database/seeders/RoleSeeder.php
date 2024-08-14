@@ -19,6 +19,7 @@ class RoleSeeder extends Seeder
         $dataEntryOperatorRole = Role::create(['name' => 'DATA ENTRY OPERATOR']);
         $associateRole = Role::create(['name' => 'ASSOCIATE']);
         $associateRole = Role::create(['name' => 'VENDOR']);
+        $referPartnerRole = Role::create(['name' => 'REFERRAL PARTNER']);
         // $adminRole->givePermissionTo('all');
     }
 }

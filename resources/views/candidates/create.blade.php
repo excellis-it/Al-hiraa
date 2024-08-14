@@ -41,7 +41,6 @@
                                     <hr>
                                     <div class="row g-2 justify-content-between auto-fill">
                                         @include('candidates.auto-fill')
-
                                     </div>
                                     <div class="row g-2 justify-content-between ">
                                         <div class="col-lg-12">
@@ -230,6 +229,7 @@
 
             });
             $('#contact_no').on('keyup', function() {
+            
                 var contact_no = $(this).val();
                 // if +91 in this number then remove it
                 if (contact_no.startsWith('+91')) {
@@ -491,4 +491,28 @@
             });
         });
     </script>
+
+    <script>
+        // when source_name = reference there will two input filed open
+        $(document).ready(function() {
+            $(document).on('change', 'select[name="source"]', function() {
+              
+                var source_name = $(this).val();
+                if (source_name == 'REFERENCE') {
+                    $('#refer_name').show();
+                    $('#refer_phone').show();
+                }else{
+                    $('#refer_name').hide();
+                    $('#refer_phone').hide();
+                }
+                // $(document).ready(function() {
+                //     $('.select2').each(function() {
+                //         $(this).select2({
+                //             dropdownParent: $(this).parent()
+                //         });
+                //     })
+                // });
+            });
+        });
+        </script>
 @endpush

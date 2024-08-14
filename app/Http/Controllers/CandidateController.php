@@ -41,6 +41,7 @@ class CandidateController extends Controller
             $sources = Source::orderBy('name', 'asc')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $cities = City::orderBy('name', 'asc')->get();
+            $candidate_last_updates = CandidateFieldUpdate::orderBy('id', 'desc')->get()->unique('user_id');
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
                 $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(50);
             } else {
@@ -50,7 +51,7 @@ class CandidateController extends Controller
                 session()->forget('candidate_id');
             }
             // session()->forget('candidate_id');
-            return view('candidates.list')->with(compact('candidates', 'sources', 'candidate_statuses', 'candidate_positions','cities'));
+            return view('candidates.list')->with(compact('candidates', 'sources', 'candidate_statuses', 'candidate_positions','cities','candidate_last_updates'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -85,7 +86,7 @@ class CandidateController extends Controller
             'full_name' => 'required',
             'dob' => 'required',
             'cnadidate_status_id' => 'required',
-            'email' => 'required|nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
+            'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'position_applied_for_1' => 'required',
             'alternate_contact_no' => 'nullable|digits:10',
             'whatapp_no' => 'required|nullable|regex:/^\+91\d{10}$/',
@@ -116,6 +117,8 @@ class CandidateController extends Controller
         //     $candidate->referred_by = $request->referred_by ?? null;
         // }
         $candidate->referred_by = $request->referred_by ?? null;
+        $candidate->refer_name = $request->refer_name ?? null;
+        $candidate->refer_phone = $request->refer_phone ?? null;
         $candidate->associate_id = $request->associate_id ?? null;
         $candidate->passport_number = $request->passport_number ?? null;
         $candidate->full_name = $request->full_name ?? null;
@@ -337,6 +340,8 @@ class CandidateController extends Controller
         } else {
             $candidate->referred_by = $request->referred_by;
         }
+        $candidate ->refer_name = $request->refer_name;
+        $candidate->refer_phone = $request->refer_phone;
 
         $candidate->full_name = $request->full_name;
         $candidate->gender = $request->gender;
@@ -353,6 +358,7 @@ class CandidateController extends Controller
         $candidate->english_speak = $request->english_speak;
         $candidate->arabic_speak = $request->arabic_speak;
         $candidate->return = $request->return;
+        
         // check position
         $position_1_count = CandidatePosition::where('id', $request->position_applied_for_1)->count();
         $position_2_count = CandidatePosition::where('id', $request->position_applied_for_2)->count();
@@ -498,6 +504,9 @@ class CandidateController extends Controller
 
     public function userAutoFill(Request $request)
     {
+        $referrers = Candidate::orderBy('id', 'desc')->get();
+        $states = State::orderBy('name', 'asc')->get();
+        $cities = City::orderBy('name', 'asc')->get();
         $candidate = Candidate::where('contact_no', $request->contact_no)->first();
         if (!$candidate) {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
@@ -505,7 +514,7 @@ class CandidateController extends Controller
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             $states = State::orderBy('name', 'asc')->get();
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'candidate_statuses', 'associates', 'candidate_positions'))->render(), 'status' => 'error']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'candidate_statuses', 'associates', 'candidate_positions','states','cities','referrers'))->render(), 'status' => 'error']);
         } else {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
@@ -515,7 +524,9 @@ class CandidateController extends Controller
             $sources = Source::orderBy('name', 'asc')->get();
             $states = State::orderBy('name', 'asc')->get();
             $autofill = true;
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'autofill', 'candidate_statuses', 'associates', 'indian_driving_license', 'candidate_positions', 'gulf_driving_license','states'))->render(), 'status' => 'success']);
+
+            
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'autofill', 'candidate_statuses', 'associates', 'states','cities','indian_driving_license', 'candidate_positions', 'gulf_driving_license','states','referrers'))->render(), 'status' => 'success']);
         }
     }
 
@@ -571,6 +582,13 @@ class CandidateController extends Controller
                 $candidates->where('cnadidate_status_id', $request->cnadidate_status_id);
             }
         }
+
+        // last updated by
+        if ($request->last_update_by) {
+            $last_update_by_can = CandidateFieldUpdate::where('user_id', $request->last_update_by)->where('is_granted', 1)->orderBy('id','desc')->first();
+            $candidates->where('id', $last_update_by_can->candidate_id);
+        }
+
 
         if ($request->source) {
             $candidates->where('source', $request->source);

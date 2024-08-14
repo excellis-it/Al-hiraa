@@ -242,7 +242,19 @@
                                         </div>
                                     </th>
                                     <th>Last Update Date</th>
-                                    <th>Last Update By</th>
+                                    {{-- <th>Last Update By</th> --}}
+                                    <th>
+                                        <div class="single_select">
+                                            <select name="last_update_by" class="select_width last_update_by"
+                                                id="last_updated_by_filter">
+                                                <option value="">Select Last Update By</option>
+                                                @foreach ($candidate_last_updates as $val)
+                                                    <option value="{{ $val->user->id }}">
+                                                        {{ $val->user->first_name}} {{ $val->user->last_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
 
                                     <th class="can_full">Full Name</th>
                                     <th>
@@ -407,8 +419,10 @@
                 window.location.href = '{{ route('candidates.export') }}';
             });
 
+           
+
             function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                last_call_status, mode_of_registration, education, city,
+                last_call_status,last_update_by, mode_of_registration, education, city,
                 position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
 
@@ -427,6 +441,7 @@
                         arabic_speak: arabic_speak,
                         ecr_type: ecr_type,
                         last_call_status: last_call_status,
+                        last_update_by: last_update_by,
                         mode_of_registration: mode_of_registration,
                         education: education,
                         city: city,
@@ -463,8 +478,9 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -491,8 +507,9 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -509,6 +526,7 @@
                 var position_applied_for_2 = $('#position_applied_for_filter_2').val();
                 var position_applied_for_3 = $('#position_applied_for_filter_3').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
@@ -516,7 +534,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -537,11 +555,12 @@
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var education = $('#education_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -559,11 +578,12 @@
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var education = $('#education_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -584,10 +604,11 @@
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $('#education_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -606,11 +627,12 @@
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var education = $('#education_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -632,10 +654,11 @@
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $('#education_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -654,10 +677,11 @@
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $('#education_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -676,10 +700,11 @@
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $('#education_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -698,13 +723,14 @@
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $(this).val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $('#education_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -721,13 +747,14 @@
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var mode_of_registration = $(this).val();
                 var education = $('#education_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -744,13 +771,14 @@
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $(this).val();
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -767,13 +795,14 @@
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $('#education_filter').val();
                 var city = $(this).val();
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -791,16 +820,44 @@
                 var english_speak = $('#english_speak_filter').val();
                 var arabic_speak = $('#arabic_speak_filter').val();
                 var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $('#last_updated_by_filter').val();
                 var mode_of_registration = $('#mode_of_registration_filter').val();
                 var education = $('#education_filter').val();
                 var city = $('#city_filter').val();
                 var ecr_type = $(this).val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status, mode_of_registration, education, city,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
+
+            // last updated by filter
+
+            $(document).on('change', '#last_updated_by_filter', function() {
+                var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                var page = $('#hidden_page').val();
+                var query = $('#query').val();
+                var source = $('#source_filter').val();
+                var gender = $('#gender_filter').val();
+                var position_applied_for = $('#position_applied_for_filter').val();
+                var position_applied_for_2 = $('#position_applied_for_filter_2').val();
+                var position_applied_for_3 = $('#position_applied_for_filter_3').val();
+                var last_call_status = $('#last_call_status_filter').val();
+                var last_update_by = $(this).val();
+              
+                var english_speak = $('#english_speak_filter').val();
+                var arabic_speak = $('#arabic_speak_filter').val();
+                var mode_of_registration = $('#mode_of_registration_filter').val();
+                var education = $('#education_filter').val();
+                var city = $('#city_filter').val();
+                var ecr_type = $('#ecr_type_filter').val();
+                fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    position_applied_for_2, position_applied_for_3,
+                    english_speak, arabic_speak);
+            });
+
 
 
         });
@@ -1161,6 +1218,12 @@
         //Last call status select
         $(".last_call_status").select2({
             placeholder: "Last call Status",
+            allowClear: true,
+        });
+
+        //Last call status select
+        $(".last_update_by").select2({
+            placeholder: "Last Updated By",
             allowClear: true,
         });
 
