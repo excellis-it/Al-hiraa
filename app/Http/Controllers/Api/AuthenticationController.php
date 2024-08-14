@@ -327,6 +327,7 @@ class AuthenticationController extends Controller
         }
         
     }
+    
 
 
     private function generateOtpRegister($value)
