@@ -505,14 +505,26 @@
                     $('#refer_name').hide();
                     $('#refer_phone').hide();
                 }
-                // $(document).ready(function() {
-                //     $('.select2').each(function() {
-                //         $(this).select2({
-                //             dropdownParent: $(this).parent()
-                //         });
-                //     })
-                // });
+               
             });
         });
         </script>
+
+        {{-- <script>
+            // auto_source_name id change
+            $(document).ready(function() {
+                $('#auto_source_name').change(function() {
+                    var source_name = $(this).val();
+                    if (source_name == 'REFERENCE') {
+                        $('#auto_refer_name').show();
+                        $('#auto_refer_phone').show();
+                    } else {
+                        $('#auto_refer_name').hide();
+                        $('#auto_refer_phone').hide();
+                    }
+                });
+            });
+
+        </script> --}}
+
 @endpush

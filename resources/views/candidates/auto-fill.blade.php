@@ -379,9 +379,7 @@
     <div class="col-lg-3">
         <div class="form-group">
             <label for="">Source</label>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ $candidate->source ?? '' }}"
-                name="source" placeholder=""> --}}
-            <select name="source" class="form-select  uppercase-text" id="source_name">
+            <select name="source" class="form-select uppercase-text" id="auto_source_name">
                 <option value="">Select Type</option>
                 @foreach ($sources as $source)
                     <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
@@ -391,10 +389,34 @@
             </select>
         </div>
     </div>
+    
+    <div class="col-lg-3" id="auto_refer_name" style="display:none;">
+        <div class="form-group">
+            <label for="">Reffer Name: </label>
+            <input type="text" class="form-control uppercase-text" name="refer_name"
+                   value="{{ $candidate->refer_name ?? '' }}" placeholder="">
+            @if ($errors->has('refer_name'))
+                <span class="text-danger">{{ $errors->first('refer_name') }}</span>
+            @endif
+        </div>
+    </div>
+    
+    <div class="col-lg-3" id="auto_refer_phone" style="display:none;">
+        <div class="form-group">
+            <label for="">Reffer Phone: </label>
+            <input type="text" class="form-control uppercase-text" name="refer_phone"
+                   value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
+            @if ($errors->has('refer_phone'))
+                <span class="text-danger">{{ $errors->first('refer_phone') }}</span>
+            @endif
+        </div>
+    </div>
+
+   
 
     @if($candidate->source == 'REFERENCE')
     
-    <div class="col-lg-3" id="refer_name" >
+    <div class="col-lg-3" id="refer_name">
         <div class="form-group">
             <label for="">Reffer Name: </label>
             <input type="text" class="form-control  uppercase-text" id="" name="refer_name"
@@ -408,7 +430,7 @@
     <div class="col-lg-3" id="refer_phone" >
         <div class="form-group">
             <label for="">Reffer Phone: </label>
-            <input type="text" class="form-control  uppercase-text" id="refer_phone" name="refer_phone"
+            <input type="text" class="form-control  uppercase-text" name="refer_phone"
                 value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
             @if ($errors->has('refer_phone'))
                 <span class="text-danger">{{ $errors->first('refer_phone') }}</span>
@@ -538,6 +560,11 @@
             @endif
         </div>
     </div>
+
+    @if($candidate->source == 'REFERENCE')
+    @else 
+    <div class="col-lg-3"></div>
+    @endif
    
 
     <div class="col-lg-9">
@@ -823,7 +850,7 @@
 <div class="col-lg-3" id="refer_name" style="display: none;">
     <div class="form-group">
         <label for="">Reffer Name: </label>
-        <input type="text" class="form-control  uppercase-text" id="" name="refer_name"
+        <input type="text" class="form-control  uppercase-text"  name="refer_name"
             value="{{ $candidate->refer_name ?? '' }}" placeholder="">
         @if ($errors->has('refer_name'))
             <span class="text-danger">{{ $errors->first('refer_name') }}</span>
@@ -834,7 +861,7 @@
 <div class="col-lg-3" id="refer_phone" style="display: none;">
     <div class="form-group">
         <label for="">Reffer Phone: </label>
-        <input type="text" class="form-control  uppercase-text" id="refer_phone" name="refer_phone"
+        <input type="text" class="form-control  uppercase-text"  name="refer_phone"
             value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
         @if ($errors->has('refer_phone'))
             <span class="text-danger">{{ $errors->first('refer_phone') }}</span>
@@ -980,5 +1007,28 @@
 
         });
 
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        function toggleReferFields() {
+            var source_name = $('#auto_source_name').val();
+            if (source_name === 'REFERENCE') {
+                $('#auto_refer_name').show();
+                $('#auto_refer_phone').show();
+            } else {
+                $('#auto_refer_name').hide();
+                $('#auto_refer_phone').hide();
+            }
+        }
+
+        // Run on page load
+        toggleReferFields();
+
+        // Run when the select value changes
+        $('#auto_source_name').change(function() {
+            toggleReferFields();
+        });
     });
 </script>

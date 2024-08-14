@@ -335,13 +335,17 @@ class CandidateController extends Controller
         }
         $candidate->mode_of_registration = $request->mode_of_registration;
         $candidate->source = $request->source;
+        if($request->source == 'REFERENCE')
+        {
+            $candidate ->refer_name = $request->refer_name;
+            $candidate->refer_phone = $request->refer_phone;
+        }
         if ($request->referred_by_id) {
             $candidate->referred_by_id = $request->referred_by_id;
         } else {
             $candidate->referred_by = $request->referred_by;
         }
-        $candidate ->refer_name = $request->refer_name;
-        $candidate->refer_phone = $request->refer_phone;
+        
 
         $candidate->full_name = $request->full_name;
         $candidate->gender = $request->gender;
