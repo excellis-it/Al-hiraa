@@ -6,6 +6,7 @@
         </div>
     </td>
 @endif
+
 {{-- checkbox for bulk select --}}
 @can('View Candidate')
     <td class="stick-td">

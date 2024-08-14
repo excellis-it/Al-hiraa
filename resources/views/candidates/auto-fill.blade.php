@@ -125,7 +125,7 @@
     </div>
     @if ($candidate->positionAppliedFor1)
         @if ($candidate->positionAppliedFor1()->where('is_active', 1)->count() > 0)
-            <div class="col-lg-4 specialisation_1">
+            <div class="col-lg-3 specialisation_1">
                 <div class="form-group "><label>Specialisation for Position (1)</label><input type="text"
                         value="{{ $candidate->specialisation_1 ?? '' }}" class="form-control  uppercase-text"
                         name="specialisation_1"></div>
@@ -176,7 +176,7 @@
     </div>
     @if ($candidate->positionAppliedFor2)
         @if ($candidate->positionAppliedFor2()->where('is_active', 1)->count() > 0)
-            <div class="col-lg-4 specialisation_2">
+            <div class="col-lg-3 specialisation_2">
                 <div class="form-group "><label>Specialisation for Position (2)</label><input type="text"
                         value="{{ $candidate->specialisation_2 ?? '' }}" class="form-control  uppercase-text"
                         name="specialisation_2"></div>
@@ -225,7 +225,7 @@
     </div>
     @if ($candidate->positionAppliedFor3)
         @if ($candidate->positionAppliedFor3()->where('is_active', 1)->count() > 0)
-            <div class="col-lg-4 specialisation_3">
+            <div class="col-lg-3 specialisation_3">
                 <div class="form-group "><label>Specialisation for Position (3)</label><input type="text"
                         value="{{ $candidate->specialisation_3 ?? '' }}" class="form-control  uppercase-text"
                         name="specialisation_3"></div>
@@ -392,6 +392,30 @@
         </div>
     </div>
 
+    @if($candidate->source == 'REFERENCE')
+    
+    <div class="col-lg-3" id="refer_name" >
+        <div class="form-group">
+            <label for="">Reffer Name: </label>
+            <input type="text" class="form-control  uppercase-text" id="" name="refer_name"
+                value="{{ $candidate->refer_name ?? '' }}" placeholder="">
+            @if ($errors->has('refer_name'))
+                <span class="text-danger">{{ $errors->first('refer_name') }}</span>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-lg-3" id="refer_phone" >
+        <div class="form-group">
+            <label for="">Reffer Phone: </label>
+            <input type="text" class="form-control  uppercase-text" id="refer_phone" name="refer_phone"
+                value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
+            @if ($errors->has('refer_phone'))
+                <span class="text-danger">{{ $errors->first('refer_phone') }}</span>
+            @endif
+        </div>
+    </div>
+    @endif
 
 
     {{-- referred_by --}}
@@ -490,9 +514,6 @@
         </div>
     </div>
 
-    
-    
-
     {{-- <div class="col-lg-4">
         <div class="form-group">
             <label for="">Last Update Date</label>
@@ -517,10 +538,8 @@
             @endif
         </div>
     </div>
+   
 
-    <div class="col-lg-4">
-
-    </div>
     <div class="col-lg-9">
         <div class="form-group">
             <label for="">Remarks</label>

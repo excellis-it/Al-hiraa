@@ -504,10 +504,11 @@ class CandidateController extends Controller
 
     public function userAutoFill(Request $request)
     {
+        
         $referrers = Candidate::orderBy('id', 'desc')->get();
         $states = State::orderBy('name', 'asc')->get();
         $cities = City::orderBy('name', 'asc')->get();
-        $candidate = Candidate::where('contact_no', $request->contact_no)->first();
+        $candidate = Candidate::where('contact_no', 'like', '%' . $request->contact_no . '%')->first();
         if (!$candidate) {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $sources = Source::orderBy('name', 'asc')->get();
@@ -532,7 +533,7 @@ class CandidateController extends Controller
 
     public function candidateFilter(Request $request)
     {
-        // return $request->all();
+        
         $candidates = Candidate::query();
         if ($request->has('search')) {
             // Split the search string into an array by commas and trim spaces
@@ -661,7 +662,7 @@ class CandidateController extends Controller
                     return $item->first();
                 });
         
-                  $candidateIds = $last_update_by_can->pluck('candidate_id')->toArray(); // Convert to array
+            $candidateIds = $last_update_by_can->pluck('candidate_id')->toArray(); // Convert to array
         
             // Apply the filter to the candidates query
             if (!empty($candidateIds)) {

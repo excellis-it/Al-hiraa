@@ -1263,9 +1263,7 @@
             allowClear: true,
         })
     </script>
-   @php
-   $numbers = [9898565623, 9856329865, 7854127854, 9878565412];
-   @endphp
+   
    
    <script>
        $(document).ready(function() {
