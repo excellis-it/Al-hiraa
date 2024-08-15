@@ -224,38 +224,44 @@
         $(document).ready(function() {
             $('.datepicker').datepicker({
                 uiLibrary: 'bootstrap5',
-                    format: 'dd-mm-yyyy',
+                format: 'dd-mm-yyyy',
                 maxDate: new Date(),
-
             });
-            $('#contact_no').on('keyup', function() {
-            
-                var contact_no = $(this).val();
-                // if +91 in this number then remove it
-                if (contact_no.startsWith('+91')) {
-                    new_number = contact_no.replace('+91', '');
-                    $(this).val(new_number);
-                } else {
-                    new_number = contact_no;
-                }
-                console.log(new_number);
-                if (new_number.length >= 10) {
-                    $.ajax({
-                        url: "{{ route('candidates.auto-fill') }}",
-                        type: "GET",
-                        data: {
-                            contact_no: new_number
-                        },
-                        success: function(response) {
-                            if (response.status == 'success') {
 
-                                $('.auto-fill').html(response.view);
-                            }
+    let debounceTimeout;
+    $('#contact_no').on('keyup', function() {
+        clearTimeout(debounceTimeout);  // Clear the previous timeout
+
+        debounceTimeout = setTimeout(function() {
+            var contact_no = $('#contact_no').val();
+
+            // if +91 in this number then remove it
+            if (contact_no.startsWith('+91')) {
+                new_number = contact_no.replace('+91', '');
+                $('#contact_no').val(new_number);
+            } else {
+                new_number = contact_no;
+            }
+            console.log(new_number);
+
+            if (new_number.length >= 10) {
+                $.ajax({
+                    url: "{{ route('candidates.auto-fill') }}",
+                    type: "GET",
+                    data: {
+                        contact_no: new_number
+                    },
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            $('.auto-fill').html(response.view);
                         }
-                    });
-                }
-            });
-        });
+                    }
+                });
+            }
+        }, 300);  // Adjust the timeout value (in milliseconds) as needed
+    });
+});
+
     </script>
     <script>
         $(document).ready(function() {

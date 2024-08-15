@@ -392,7 +392,7 @@
     
     <div class="col-lg-3" id="auto_refer_name" style="display:none;">
         <div class="form-group">
-            <label for="">Reffer Name: </label>
+            <label for="">Referrer Name: </label>
             <input type="text" class="form-control uppercase-text" name="refer_name"
                    value="{{ $candidate->refer_name ?? '' }}" placeholder="">
             @if ($errors->has('refer_name'))
@@ -403,7 +403,7 @@
     
     <div class="col-lg-3" id="auto_refer_phone" style="display:none;">
         <div class="form-group">
-            <label for="">Reffer Phone: </label>
+            <label for="">Referrer Phone: </label>
             <input type="text" class="form-control uppercase-text" name="refer_phone"
                    value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
             @if ($errors->has('refer_phone'))
@@ -567,7 +567,7 @@
     @endif
    
 
-    <div class="col-lg-9">
+    <div class="col-lg-12">
         <div class="form-group">
             <label for="">Remarks</label>
             <textarea class="form-control  uppercase-text" id="" rows="3" name="remark">{{ $candidate->lastCandidateActivity->remarks ?? '' }}</textarea>
