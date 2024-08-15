@@ -418,7 +418,7 @@
     
     <div class="col-lg-3" id="refer_name">
         <div class="form-group">
-            <label for="">Reffer Name: </label>
+            <label for="">Referrer Name: </label>
             <input type="text" class="form-control  uppercase-text" id="" name="refer_name"
                 value="{{ $candidate->refer_name ?? '' }}" placeholder="">
             @if ($errors->has('refer_name'))
@@ -429,7 +429,7 @@
 
     <div class="col-lg-3" id="refer_phone" >
         <div class="form-group">
-            <label for="">Reffer Phone: </label>
+            <label for="">Referrer Phone: </label>
             <input type="text" class="form-control  uppercase-text" name="refer_phone"
                 value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
             @if ($errors->has('refer_phone'))
@@ -849,7 +849,7 @@
 
 <div class="col-lg-3" id="refer_name" style="display: none;">
     <div class="form-group">
-        <label for="">Reffer Name: </label>
+        <label for="">Referrer Name: </label>
         <input type="text" class="form-control  uppercase-text"  name="refer_name"
             value="{{ $candidate->refer_name ?? '' }}" placeholder="">
         @if ($errors->has('refer_name'))
@@ -860,7 +860,7 @@
 
 <div class="col-lg-3" id="refer_phone" style="display: none;">
     <div class="form-group">
-        <label for="">Reffer Phone: </label>
+        <label for="">Referrer Phone: </label>
         <input type="text" class="form-control  uppercase-text"  name="refer_phone"
             value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
         @if ($errors->has('refer_phone'))

@@ -253,9 +253,9 @@
                                     </tr>
 
                                     <tr>
-                                        <td>Referral Name</td>
+                                        <td>Referrer Name</td>
                                         <td>{{ $candidate->refer_name ?? 'N/A' }}</td>
-                                        <td>Referral Phone</td>
+                                        <td>Referrer Phone</td>
                                         <td>{{ $candidate->refer_phone ?? 'N/A'}}</td>
                                         <td>Indian Experience (If any?)</td>
                                         <td>{{ $candidate->indian_exp ?? 'N/A' }}
@@ -866,10 +866,10 @@
                         </tr>
 
                          <tr>
-                            <td>Referral Name</td>
+                            <td>Referrer Name</td>
                             <td> <input type="text" class="form-control uppercase-text" name="refer_name" id="" value="{{ $candidate->refer_name ?? 'N/A' }}" placeholder="Referral Name" ></td>
 
-                            <td>Referral Phone</td>
+                            <td>Referrer Phone</td>
                             <td><input type="text" class="form-control uppercase-text" id=""  name="refer_phone"  value="{{ $candidate->refer_phone ?? 'N/A' }}" placeholder="Referral Phone" ></td>
 
                             <td>Indian Experience (If any?)</td>
