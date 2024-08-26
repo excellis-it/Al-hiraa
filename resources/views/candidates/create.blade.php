@@ -41,7 +41,6 @@
                                     <hr>
                                     <div class="row g-2 justify-content-between auto-fill">
                                         @include('candidates.auto-fill')
-
                                     </div>
                                     <div class="row g-2 justify-content-between ">
                                         <div class="col-lg-12">
@@ -225,37 +224,44 @@
         $(document).ready(function() {
             $('.datepicker').datepicker({
                 uiLibrary: 'bootstrap5',
-                    format: 'dd-mm-yyyy',
+                format: 'dd-mm-yyyy',
                 maxDate: new Date(),
-
             });
-            $('#contact_no').on('keyup', function() {
-                var contact_no = $(this).val();
-                // if +91 in this number then remove it
-                if (contact_no.startsWith('+91')) {
-                    new_number = contact_no.replace('+91', '');
-                    $(this).val(new_number);
-                } else {
-                    new_number = contact_no;
-                }
-                console.log(new_number);
-                if (new_number.length >= 10) {
-                    $.ajax({
-                        url: "{{ route('candidates.auto-fill') }}",
-                        type: "GET",
-                        data: {
-                            contact_no: new_number
-                        },
-                        success: function(response) {
-                            if (response.status == 'success') {
 
-                                $('.auto-fill').html(response.view);
-                            }
+    let debounceTimeout;
+    $('#contact_no').on('keyup', function() {
+        clearTimeout(debounceTimeout);  // Clear the previous timeout
+
+        debounceTimeout = setTimeout(function() {
+            var contact_no = $('#contact_no').val();
+
+            // if +91 in this number then remove it
+            if (contact_no.startsWith('+91')) {
+                new_number = contact_no.replace('+91', '');
+                $('#contact_no').val(new_number);
+            } else {
+                new_number = contact_no;
+            }
+            console.log(new_number);
+
+            if (new_number.length >= 10) {
+                $.ajax({
+                    url: "{{ route('candidates.auto-fill') }}",
+                    type: "GET",
+                    data: {
+                        contact_no: new_number
+                    },
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            $('.auto-fill').html(response.view);
                         }
-                    });
-                }
-            });
-        });
+                    }
+                });
+            }
+        }, 300);  // Adjust the timeout value (in milliseconds) as needed
+    });
+});
+
     </script>
     <script>
         $(document).ready(function() {
@@ -491,4 +497,40 @@
             });
         });
     </script>
+
+    <script>
+        // when source_name = reference there will two input filed open
+        $(document).ready(function() {
+            $(document).on('change', 'select[name="source"]', function() {
+              
+                var source_name = $(this).val();
+                if (source_name == 'REFERENCE') {
+                    $('#refer_name').show();
+                    $('#refer_phone').show();
+                }else{
+                    $('#refer_name').hide();
+                    $('#refer_phone').hide();
+                }
+               
+            });
+        });
+        </script>
+
+        {{-- <script>
+            // auto_source_name id change
+            $(document).ready(function() {
+                $('#auto_source_name').change(function() {
+                    var source_name = $(this).val();
+                    if (source_name == 'REFERENCE') {
+                        $('#auto_refer_name').show();
+                        $('#auto_refer_phone').show();
+                    } else {
+                        $('#auto_refer_name').hide();
+                        $('#auto_refer_phone').hide();
+                    }
+                });
+            });
+
+        </script> --}}
+
 @endpush

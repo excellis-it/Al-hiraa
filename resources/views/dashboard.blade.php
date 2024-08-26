@@ -31,6 +31,7 @@
                     </div>
                 </div>
             </div>
+            @if(Auth::user()->hasRole('ADMIN'))
             <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
                 <div class="col">
                     <div class="border_left_hh">
@@ -63,6 +64,37 @@
                     </div>
                 </div>
             </div>
+            @endif
+            @if(Auth::user()->hasRole('RECRUITER'))
+            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
+                <div class="col">
+                    <div class="border_left_hh">
+                        <div class="card-header__title mb-2">Daily Entry</div>
+                        <div class="text-amount">{{ $count['daily_entry'] }} </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="border_left_hh">
+                        <div class="card-header__title mb-2">Call Back</div>
+                        <div class="text-amount">{{ $count['call_back'] }} </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="border_left_hh">
+                        <div class="card-header__title mb-2">Interview Schedule</div>
+                        <div class="text-amount">{{ $count['interview_schedule'] }} </div>
+                    </div>
+                </div>
+
+
+                <div class="col">
+                    <div class="border_left_hh">
+                        <div class="card-header__title mb-2">Selection</div>
+                        <div class="text-amount">{{ $count['selection'] }}</div>
+                    </div>
+                </div>
+            </div>
+            @endif
             @if(Auth::user()->hasRole('ADMIN'))
             {{-- chart --}}
             <div class="row">

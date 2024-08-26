@@ -45,7 +45,7 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Indian Driving License: </label>
             <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
@@ -60,7 +60,7 @@
 
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Gulf Driving License: </label>
             {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
@@ -77,7 +77,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group position_applied_1">
 
             {{-- <input type="text" class="form-control  uppercase-text" id=""
@@ -125,7 +125,7 @@
     </div>
     @if ($candidate->positionAppliedFor1)
         @if ($candidate->positionAppliedFor1()->where('is_active', 1)->count() > 0)
-            <div class="col-lg-4 specialisation_1">
+            <div class="col-lg-3 specialisation_1">
                 <div class="form-group "><label>Specialisation for Position (1)</label><input type="text"
                         value="{{ $candidate->specialisation_1 ?? '' }}" class="form-control  uppercase-text"
                         name="specialisation_1"></div>
@@ -133,7 +133,7 @@
         @endif
     @endif
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group position_applied_2">
 
             {{-- <input type="text" class="form-control  uppercase-text" id=""
@@ -176,14 +176,14 @@
     </div>
     @if ($candidate->positionAppliedFor2)
         @if ($candidate->positionAppliedFor2()->where('is_active', 1)->count() > 0)
-            <div class="col-lg-4 specialisation_2">
+            <div class="col-lg-3 specialisation_2">
                 <div class="form-group "><label>Specialisation for Position (2)</label><input type="text"
                         value="{{ $candidate->specialisation_2 ?? '' }}" class="form-control  uppercase-text"
                         name="specialisation_2"></div>
             </div>
         @endif
     @endif
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group position_applied_3">
 
             {{-- <input type="text" class="form-control  uppercase-text" id=""
@@ -225,7 +225,7 @@
     </div>
     @if ($candidate->positionAppliedFor3)
         @if ($candidate->positionAppliedFor3()->where('is_active', 1)->count() > 0)
-            <div class="col-lg-4 specialisation_3">
+            <div class="col-lg-3 specialisation_3">
                 <div class="form-group "><label>Specialisation for Position (3)</label><input type="text"
                         value="{{ $candidate->specialisation_3 ?? '' }}" class="form-control  uppercase-text"
                         name="specialisation_3"></div>
@@ -233,7 +233,7 @@
         @endif
     @endif
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Indian Work Experience (If Any?)</label>
             <input type="text" class="form-control  uppercase-text" id=""
@@ -246,7 +246,7 @@
 
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Abroad Work Experience (If Any?)</label>
             <input type="text" class="form-control  uppercase-text" id=""
@@ -259,7 +259,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Alternative Contact NO: </label>
             <input type="text" class="form-control  uppercase-text" id="" name="alternate_contact_no"
@@ -272,7 +272,7 @@
         </div>
     </div>
     
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Passport Number: </label>
             <input type="text" class="form-control  uppercase-text" id="" name="passport_number"
@@ -296,7 +296,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">City: </label>
             <select name="city" class="form-select select2 uppercase-text" id="">
@@ -312,7 +312,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Gender</label>
             <select name="gender" class="form-select  uppercase-text" id="">
@@ -331,7 +331,7 @@
                 name="age" placeholder="">
         </div>
     </div> --}}
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Education</label>
             {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ $candidate->education ?? '' }}"
@@ -351,7 +351,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Other Education</label>
             <input type="text" class="form-control  uppercase-text" id=""
@@ -360,7 +360,7 @@
     </div>
 
     {{-- Mode of Registration --}}
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Mode of Registration</label>
             {{-- <input type="text" class="form-control  uppercase-text" id=""
@@ -376,12 +376,10 @@
     </div>
     {{-- Source --}}
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Source</label>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ $candidate->source ?? '' }}"
-                name="source" placeholder=""> --}}
-            <select name="source" class="form-select  uppercase-text" id="">
+            <select name="source" class="form-select uppercase-text" id="auto_source_name">
                 <option value="">Select Type</option>
                 @foreach ($sources as $source)
                     <option value="{{ $source->name }}" {{ $candidate->source == $source->name ? 'selected' : '' }}>
@@ -391,18 +389,76 @@
             </select>
         </div>
     </div>
+    
+    <div class="col-lg-3" id="auto_refer_name" style="display:none;">
+        <div class="form-group">
+            <label for="">Referrer Name: </label>
+            <input type="text" class="form-control uppercase-text" name="refer_name"
+                   value="{{ $candidate->refer_name ?? '' }}" placeholder="">
+            @if ($errors->has('refer_name'))
+                <span class="text-danger">{{ $errors->first('refer_name') }}</span>
+            @endif
+        </div>
+    </div>
+    
+    <div class="col-lg-3" id="auto_refer_phone" style="display:none;">
+        <div class="form-group">
+            <label for="">Referrer Phone: </label>
+            <input type="text" class="form-control uppercase-text" name="refer_phone"
+                   value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
+            @if ($errors->has('refer_phone'))
+                <span class="text-danger">{{ $errors->first('refer_phone') }}</span>
+            @endif
+        </div>
+    </div>
+
+   
+
+    @if($candidate->source == 'REFERENCE')
+    
+    <div class="col-lg-3" id="refer_name">
+        <div class="form-group">
+            <label for="">Referrer Name: </label>
+            <input type="text" class="form-control  uppercase-text" id="" name="refer_name"
+                value="{{ $candidate->refer_name ?? '' }}" placeholder="">
+            @if ($errors->has('refer_name'))
+                <span class="text-danger">{{ $errors->first('refer_name') }}</span>
+            @endif
+        </div>
+    </div>
+
+    <div class="col-lg-3" id="refer_phone" >
+        <div class="form-group">
+            <label for="">Referrer Phone: </label>
+            <input type="text" class="form-control  uppercase-text" name="refer_phone"
+                value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
+            @if ($errors->has('refer_phone'))
+                <span class="text-danger">{{ $errors->first('refer_phone') }}</span>
+            @endif
+        </div>
+    </div>
+    @endif
+
 
     {{-- referred_by --}}
 
     <div class="col-lg-3">
         <div class="form-group referred_by_id" id="">
             <label for="">Referred by </label>
-            <input type="text" class="form-control  uppercase-text" id=""
-                value="{{ $candidate->referred_by ?? '' }}" name="referred_by" placeholder="">
-            </div>
+            {{-- <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ $candidate->referred_by ?? '' }}" name="referred_by" placeholder=""> --}}
+            <select name="referred_by_id" class="form-select  uppercase-text" id="">
+                <option value="">Select</option>
+                @foreach ($referrers as $refer)
+                    <option value="{{ $refer['id'] }}" {{ $refer['id'] == $candidate->referred_by_id ? 'selected' : ''}}>{{ $refer['full_name'] }}</option>
+                    </option>
+                @endforeach
+            </select>
+        </div>
     </div>
 
-    <div class="col-lg-4">
+
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Associate by</label>
             <select name="associate_id" class="form-select  uppercase-text" id="">
@@ -416,7 +472,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Religion: </label>
             <select name="religion" class="form-select  uppercase-text" id="">
@@ -434,7 +490,7 @@
         </div>
     </div>
     
-    <div class="col-lg-2">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">English Speak</label>
             <select name="english_speak" class="form-select  uppercase-text" id="">
@@ -446,7 +502,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Arabic Speak</label>
             <select name="arabic_speak" class="form-select  uppercase-text" id="">
@@ -458,7 +514,7 @@
             </select>
         </div>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Gulf Return</label>
             <select name="return" class="form-select  uppercase-text" id="">
@@ -469,7 +525,7 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">ECR Type</label>
             <select name="ecr_type" class="form-select  uppercase-text" id="">
@@ -480,9 +536,6 @@
         </div>
     </div>
 
-    
-    
-
     {{-- <div class="col-lg-4">
         <div class="form-group">
             <label for="">Last Update Date</label>
@@ -491,7 +544,7 @@
         </div>
     </div> --}}
 
-    <div class="col-lg-4">
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Status <span>*</span></label>
             <select name="cnadidate_status_id" class="form-select  uppercase-text" id="">
@@ -508,9 +561,12 @@
         </div>
     </div>
 
-    <div class="col-lg-4">
+    @if($candidate->source == 'REFERENCE')
+    @else 
+    <div class="col-lg-3"></div>
+    @endif
+   
 
-    </div>
     <div class="col-lg-12">
         <div class="form-group">
             <label for="">Remarks</label>
@@ -530,7 +586,7 @@
 </div>
 <div class="col-lg-3">
     <div class="form-group">
-        <label for="">Email <span>*</span></label>
+        <label for="">Email </label>
         <input type="text" class="form-control  uppercase-text" id="" value="{{ old('email') }}"
             name="email" placeholder="">
         @if ($errors->has('email'))
@@ -776,7 +832,7 @@
 </div>
 {{-- Source --}}
 
-<div class="col-lg-3">
+<div class="col-lg-3" >
     <div class="form-group">
         <label for="">Source</label>
         <select name="source" class="form-select  uppercase-text" id="">
@@ -788,6 +844,28 @@
         </select>
         {{-- <input type="text" class="form-control  uppercase-text" id="" value="{{ old('source') }}" name="source"
             placeholder=""> --}}
+    </div>
+</div>
+
+<div class="col-lg-3" id="refer_name" style="display: none;">
+    <div class="form-group">
+        <label for="">Referrer Name: </label>
+        <input type="text" class="form-control  uppercase-text"  name="refer_name"
+            value="{{ $candidate->refer_name ?? '' }}" placeholder="">
+        @if ($errors->has('refer_name'))
+            <span class="text-danger">{{ $errors->first('refer_name') }}</span>
+        @endif
+    </div>
+</div>
+
+<div class="col-lg-3" id="refer_phone" style="display: none;">
+    <div class="form-group">
+        <label for="">Referrer Phone: </label>
+        <input type="text" class="form-control  uppercase-text"  name="refer_phone"
+            value="{{ $candidate->refer_phone ?? '' }}" placeholder="">
+        @if ($errors->has('refer_phone'))
+            <span class="text-danger">{{ $errors->first('refer_phone') }}</span>
+        @endif
     </div>
 </div>
 
@@ -906,7 +984,7 @@
     </div>
 </div>
 
-<div class="col-lg-9">
+<div class="col-lg-6">
     <div class="form-group">
         <label for="">Remarks</label>
         <textarea class="form-control  uppercase-text" id="" rows="3" name="remark">{{ old('remark') }}</textarea>
@@ -929,5 +1007,28 @@
 
         });
 
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        function toggleReferFields() {
+            var source_name = $('#auto_source_name').val();
+            if (source_name === 'REFERENCE') {
+                $('#auto_refer_name').show();
+                $('#auto_refer_phone').show();
+            } else {
+                $('#auto_refer_name').hide();
+                $('#auto_refer_phone').hide();
+            }
+        }
+
+        // Run on page load
+        toggleReferFields();
+
+        // Run when the select value changes
+        $('#auto_source_name').change(function() {
+            toggleReferFields();
+        });
     });
 </script>

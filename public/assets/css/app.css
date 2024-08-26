@@ -4068,7 +4068,7 @@ h6+[aria-label=breadcrumb],
 
 .integrations-form .form-group label {
     color: #6A6A6A;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 600;
     margin-bottom: 8px;
 }
@@ -5861,6 +5861,14 @@ border: none !important;
     background: transparent;
     color: #6c757d;
     border-bottom: 1px solid #d0d0d0; 
+}
+
+.integrations-form .date-btn button {
+    border-left: none;
+    border-right: 1px solid #d0d0d0;
+    border-top: 1px solid #d0d0d0;
+    border-radius: 0 6px 6px;
+    border-bottom: 1px solid #d0d0d0;
 }
 
 .table-row-highlight td{

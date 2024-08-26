@@ -68,7 +68,7 @@
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
-                                                        <label for="">Phone</label>
+                                                        <label for="">Phone<span>*</span></label>
                                                         <input type="text" class="form-control" id="" value=""
                                                             name="phone" placeholder="">
                                                         <span class="text-danger"></span>

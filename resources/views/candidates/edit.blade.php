@@ -252,12 +252,17 @@
                                         <td>{{ $candidate->source ?? 'N/A' }}</td>
                                     </tr>
 
-                                    
-
                                     <tr>
+                                        <td>Referrer Name</td>
+                                        <td>{{ $candidate->refer_name ?? 'N/A' }}</td>
+                                        <td>Referrer Phone</td>
+                                        <td>{{ $candidate->refer_phone ?? 'N/A'}}</td>
                                         <td>Indian Experience (If any?)</td>
                                         <td>{{ $candidate->indian_exp ?? 'N/A' }}
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        
                                         <td>Abroad Experience (If any?)</td>
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
@@ -266,15 +271,12 @@
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
-                                    </tr>
-
-                                    <tr>
                                         <td>Remarks</td>
                                         <td colspan="5">{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
                                         </td>
                                     </tr>
 
-
+                                 
                                 </tbody>
                             </table>
                         </div>
@@ -863,13 +865,23 @@
                             </td>
                         </tr>
 
-                        <tr>
+                         <tr>
+                            <td>Referrer Name</td>
+                            <td> <input type="text" class="form-control uppercase-text" name="refer_name" id="" value="{{ $candidate->refer_name ?? 'N/A' }}" placeholder="Referral Name" ></td>
+
+                            <td>Referrer Phone</td>
+                            <td><input type="text" class="form-control uppercase-text" id=""  name="refer_phone"  value="{{ $candidate->refer_phone ?? 'N/A' }}" placeholder="Referral Phone" ></td>
+
                             <td>Indian Experience (If any?)</td>
                             <td>
                                 <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->indian_exp ?? '' }}"
                                     name="indian_exp" placeholder="">
                                     <span class="text-danger" id="indian_exp_msg"></span>
                             </td>
+                        </tr>
+
+                        <tr>
+                           
                             <td>Abroad Experience (If any?)</td>
                             <td>
                                 <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->abroad_exp ?? '' }}"
@@ -887,13 +899,10 @@
                                 </select>
                                 <span class="text-danger" id="call_status_msg"></span>
                             </td>
-                        </tr>
-
-                        <tr>
-                            <td>Remarks</td>
+                             <td>Remarks</td>
                             <td colspan="5">
                             <div class="form-group">
-                                <textarea class="form-control uppercase-text" id="" rows="3" name="remark" placeholder="Remark"></textarea>
+                                <textarea class="form-control uppercase-text" id="" rows="3" name="remark" placeholder="Remark" >{{ $candidate->lastCandidateActivity->remarks ?? '' }}</textarea>
                                 <span class="text-danger" id="remark_msg"></span>
                             </div>
                             </td>
@@ -1057,25 +1066,25 @@
                                         <td>{{ $candidate->source ?? '' }}</td>
                                     </tr>
 
-
                                     <tr>
+                                        <td>Referral Name</td>
+                                        <td>{{ $candidate->refer_name ?? 'N/A' }}</td>
+                                        <td>Referral Phone</td>
+                                        <td>{{ $candidate->refer_phone ?? 'N/A'}}</td>
                                         <td>Indian Experience (If any?)</td>
                                         <td>{{ $candidate->indian_exp ?? 'N/A' }}
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        
                                         <td>Abroad Experience (If any?)</td>
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
-
                                         </td>
                                         <td>Last Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
-
                                         </td>
-                                    </tr>
-
-                                    <tr>
                                         <td>Remarks</td>
                                         <td colspan="5">{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
-
                                         </td>
                                     </tr></tbody>`);
             var visibleRows = 5;

@@ -55,7 +55,7 @@ class SettingController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'email|unique:users,email',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
             'phone' => 'required|numeric|digits:10',
