@@ -5,7 +5,6 @@
                 data-id="{{ $candidate['id'] }}">
         </div>
     </td>
-@endif
 
 {{-- checkbox for bulk select --}}
 @can('View Candidate')
