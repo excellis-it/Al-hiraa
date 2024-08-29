@@ -222,11 +222,11 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('.datepicker').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                maxDate: new Date(),
-            });
+    $('.datepicker').datepicker({
+        uiLibrary: 'bootstrap5',
+        format: 'dd-mm-yyyy',
+        maxDate: new Date(),
+    });
 
     let debounceTimeout;
     $('#contact_no').on('keyup', function() {
@@ -491,7 +491,7 @@
                         },
                         success: function(response) {
                             $('select[name="city_id"]').empty().html(response.city);
-                            
+
                         }
                     });
             });
@@ -502,7 +502,7 @@
         // when source_name = reference there will two input filed open
         $(document).ready(function() {
             $(document).on('change', 'select[name="source"]', function() {
-              
+
                 var source_name = $(this).val();
                 if (source_name == 'REFERENCE') {
                     $('#refer_name').show();
@@ -511,7 +511,7 @@
                     $('#refer_name').hide();
                     $('#refer_phone').hide();
                 }
-               
+
             });
         });
         </script>

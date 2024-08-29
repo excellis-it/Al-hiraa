@@ -244,6 +244,34 @@
                  $('.candidate-new-' + id).removeClass('table-row-highlight');
              }
          });
+
+        //  select-tr
+        $(document).on('click', '.select-tr', function() {
+            var id = $(this).data('id');
+            // alert(id);
+            if ($(this).hasClass('table-row-highlight')) {
+                $(this).removeClass('table-row-highlight');
+                $('.checkd-row[data-id="' + id + '"]').prop('checked', false);
+            } else {
+                $(this).addClass('table-row-highlight');
+                $('.checkd-row[data-id="' + id + '"]').prop('checked', true);
+            }
+        });
+
+        $(document).on('click', '.select-tr', function() {
+            var id = $(this).data('id');
+            // alert(id);
+            if ($(this).hasClass('table-td')) {
+                $(this).removeClass('table-td');
+                $('.candidate-new-' + id).removeClass('table-row-highlight');
+                $('.checkd-row[data-id="' + id + '"]').prop('checked', false);
+            } else {
+                $(this).removeClass('table-td');
+                $(this).addClass('table-td');
+                $('.candidate-new-' + id).addClass('table-row-highlight');
+                $('.checkd-row[data-id="' + id + '"]').prop('checked', true);
+            }
+        });
      });
      </script>
     @stack('scripts')

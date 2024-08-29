@@ -32,33 +32,33 @@
         {{ 'N/A' }}
     @endif
 </td>
-<td class="content-short">
+<td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($candidate->candidateUpdate->created_at)) : date('d.m.Y', strtotime($candidate->updated_at)) }}
 </td>
-<td class="content-short">{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}</td>
 
-<td class="">{{ $candidate->full_name ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->gender ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}
+<td class="select-tr" data-id="{{$candidate->id}}">{{ $candidate->full_name ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->gender ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}
 </td>
 {{--  age calculation date of birth --}}
-<td class="content-short">{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
 </td>
-<td class="content-short">{{ $candidate->education ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->other_education ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->indian_exp ?? 'N/A' }}</td>
-<td class="content-short">
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->education ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->other_education ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->indian_exp ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->abroad_exp ?? 'N/A' }}
 </td>
-<td class="content-short">{{ $candidate->positionAppliedFor1->name ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}</td>
-<td class="content-short">{{ $candidate->cityName->name ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->positionAppliedFor1->name ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->positionAppliedFor2->name ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->cityName->name ?? 'N/A' }}</td>
 
-<td class="content-short">
+<td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->religion ?? 'N/A' }}
 </td>
-<td class="">
+<td class=" select-tr" data-id="{{$candidate->id}}">
     @if ($candidate->candidateIndianLicence()->count() > 0)
         @foreach ($candidate->candidateIndianLicence as $key => $value)
             <span class="badge bg-primary rounded-pill">
@@ -69,7 +69,7 @@
         {{ 'N/A' }}
     @endif
 </td>
-<td class="">
+<td class=" select-tr" data-id="{{$candidate->id}}">
     @if ($candidate->candidateGulfLicence()->count() > 0)
         @foreach ($candidate->candidateGulfLicence as $key => $value)
             <span class="badge bg-primary rounded-pill">
@@ -80,16 +80,16 @@
         {{ 'N/A' }}
     @endif
 </td>
-<td class="content-short">
+<td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->english_speak ?? 'N/A' }}
 </td>
-<td class="content-short">
+<td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->arabic_speak ?? 'N/A' }}
 </td>
-<td class="content-short">
+<td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->return == 1 ? 'YES' : 'NO' }}
 </td>
-<td class="content-short">
+<td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->ecr_type ?? 'N/A' }}
 </td>
 

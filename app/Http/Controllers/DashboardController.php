@@ -27,8 +27,8 @@ class DashboardController extends Controller
         } else if(Auth::user()->hasRole('RECRUITER'))
         {
             $count['daily_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at',date('Y-m-d'))->count() ?? 0;
-            $count['call_back'] = CandidateActivity::where('user_id', Auth::user()->id)->count() ?? 0;
-           
+            $count['call_back'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'Call Back')->count() ?? 0;
+
             // last month entry
             $candidates = Candidate::where('enter_by', Auth::user()->id)->get();
             $interviewSchedule = 0;
@@ -41,7 +41,7 @@ class DashboardController extends Controller
 
                 $selection += CandidateJob::where('candidate_id', $candidate->id)
                 ->where('job_interview_status', 'Selected')
-                ->count() ?? 0;                            
+                ->count() ?? 0;
             }
 
             // Store the result in the $count array
@@ -79,15 +79,15 @@ class DashboardController extends Controller
           $most_candidates = DB::table('candidates')
             ->join('users', 'candidates.enter_by', '=', 'users.id')
             ->leftJoin(DB::raw('
-                (SELECT assign_by_id, COUNT(*) as total_schedules 
-                FROM candidate_jobs 
-                WHERE date_of_interview IS NOT NULL 
+                (SELECT assign_by_id, COUNT(*) as total_schedules
+                FROM candidate_jobs
+                WHERE date_of_interview IS NOT NULL
                 GROUP BY assign_by_id) as schedule_counts
             '), 'users.id', '=', 'schedule_counts.assign_by_id')
             ->leftJoin(DB::raw('
-                (SELECT assign_by_id, COUNT(*) as total_appears 
-                FROM candidate_jobs 
-                WHERE deployment_date IS NOT NULL 
+                (SELECT assign_by_id, COUNT(*) as total_appears
+                FROM candidate_jobs
+                WHERE deployment_date IS NOT NULL
                 GROUP BY assign_by_id) as appear_counts
             '), 'users.id', '=', 'appear_counts.assign_by_id')
             ->select(
@@ -97,15 +97,20 @@ class DashboardController extends Controller
                 DB::raw('COALESCE(total_schedules, 0) as total_schedules'),
                 DB::raw('COALESCE(total_appears, 0) as total_appears'),
                 DB::raw('
-                    CASE WHEN COUNT(candidates.id) = 0 THEN 0 
-                    ELSE COALESCE(total_appears, 0) / COUNT(candidates.id) 
+                    CASE WHEN COUNT(candidates.id) = 0 THEN 0
+                    ELSE COALESCE(total_appears, 0) / COUNT(candidates.id)
                     END as appear_ratio
                 ')
             )
             ->where('users.role_type', '!=', 'ADMIN')
+            // deleted at users not shown
+            ->whereNull('users.deleted_at')
+            ->where('users.is_active', 1)
             ->groupBy('users.id', 'users.first_name', 'users.last_name', 'total_schedules', 'total_appears')
             ->orderByRaw('appear_ratio DESC, total_schedules DESC, total_appears DESC, total DESC')
             ->paginate(5);
+
+            // dd($most_candidates);
 
         $interview_list = CandidateJob::where('date_of_interview', date('d-m-Y'))->orderBy('id', 'desc')->paginate(1);
 

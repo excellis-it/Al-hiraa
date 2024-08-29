@@ -11,14 +11,14 @@ class ProfileTransformer extends TransformerAbstract
     public function transform(Candidate $candidate)
     {
         if ($candidate->referred_by_id != null) {
-            $referred_by = $candidate->referredBy->full_name;
+            $referred_by = $candidate->referredBy->full_name ?? null;
         } else {
-            $referred_by = $candidate->referred_by;
+            $referred_by = $candidate->referred_by ?? null;
         }
 
         return [
             'id' => $candidate->id,
-            'full_name' => $candidate->full_name,
+            'full_name' => $candidate->full_name ?? null,
             'email' => $candidate->email ?? null,
             'phone' => $candidate->contact_no,
             'enter_by' => $candidate->enterBy->full_name ?? null,

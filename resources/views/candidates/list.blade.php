@@ -444,6 +444,7 @@
                         mode_of_registration: mode_of_registration,
                         education: education,
                         city: city,
+                        call_status: '{{request()->call_status}}',
                     },
                     success: function(data) {
                         // console.log(data.view);

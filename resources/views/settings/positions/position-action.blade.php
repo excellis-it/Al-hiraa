@@ -1,5 +1,5 @@
 <td @can('Edit Position')  class="edit-route" data-route="{{ route('positions.edit', $position['id']) }}" @endcan>
-    {{$position->user->full_name }}</td>
+    {{$position->user->full_name ?? '' }}</td>
 <td @can('Edit Position')  class="edit-route" data-route="{{ route('positions.edit', $position['id']) }}" @endcan>
     {{ $position->name }}</td>
 <td @can('Edit Position')  class="edit-route" data-route="{{ route('positions.edit', $position['id']) }}" @endcan>

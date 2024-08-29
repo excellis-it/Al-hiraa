@@ -74,10 +74,12 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Call Back</div>
-                        <div class="text-amount">{{ $count['call_back'] }} </div>
-                    </div>
+                    <a href="{{route('candidates.index', ['call_status' => 'Call Back'])}}">
+                        <div class="border_left_hh">
+                            <div class="card-header__title mb-2">Call Back</div>
+                            <div class="text-amount">{{ $count['call_back'] }} </div>
+                        </div>
+                    </a>
                 </div>
                 <div class="col">
                     <div class="border_left_hh">
@@ -116,7 +118,7 @@
                         @include('dashboard-interview-chart')
                     </div>
                 </div>
-                
+
                 <div class="col-lg-6">
                     <div class="table_right">
                         <div class="py-3">

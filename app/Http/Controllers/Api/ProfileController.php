@@ -66,7 +66,7 @@ class ProfileController extends Controller
     public function my(Request $request)
     {
         try {
-            $user = $request->user();
+            $user = Candidate::find(auth()->user()->id);
             $user = fractal($user, new ProfileTransformer())->toArray()['data'];
             return response()->json(['message' => 'Profile fetched successfully.', 'status' => true, 'data' => $user], $this->successStatus);
         } catch (\Exception $th) {
@@ -164,7 +164,7 @@ class ProfileController extends Controller
         }
 
         try {
-            $user = $request->user();
+            $user = Candidate::find(auth()->user()->id);
             $user->update($request->all());
             $user = fractal($user, new ProfileTransformer())->toArray()['data'];
             return response()->json(['message' => 'Profile updated successfully.', 'status' => true, 'data' => $user], $this->successStatus);

@@ -412,6 +412,8 @@ class JobsController extends Controller
             'medical_application_date' => 'required',
             'medical_completion_date' => 'nullable|required_with:medical_status',
             'medical_status' => 'nullable|required_with:medical_completion_date',
+            // if medical_status is REPEAT then medical_repeat_date is required
+            'medical_repeat_date' => 'nullable|required_if:medical_status,REPEAT',
         ], [
             'medical_application_date.required' => 'The medical apllication date is required.',
             'medical_completion_date.required' => 'The medical completion date is required.',
@@ -422,6 +424,12 @@ class JobsController extends Controller
         $medical_details_update->medical_application_date = $request->medical_application_date;
         $medical_details_update->medical_completion_date = $request->medical_completion_date;
         $medical_details_update->medical_status = $request->medical_status;
+        if ($request->medical_status == 'REPEAT') {
+            $medical_details_update->medical_repeat_date = $request->medical_repeat_date ?? null;
+        } else {
+            $medical_details_update->medical_repeat_date = null;
+        }
+
         $medical_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
@@ -505,7 +513,7 @@ class JobsController extends Controller
 
         if($request->deployment_date && $candidate_refer->referred_by_id)
         {
-                
+
                 $refer_point = new CandidateReferralPoint();
                 $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
                 $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
@@ -513,7 +521,7 @@ class JobsController extends Controller
                 $refer_point->refer_point = $referral_amount->point ?? null;
                 $refer_point->amount = $referral_amount->amount ?? null;
                 $refer_point->refer_job_id = $candidate_job->job_id ?? null;
-                $refer_point->save(); 
+                $refer_point->save();
         }
 
         // session()->flash('message', 'Candidate payment details updated successfully');

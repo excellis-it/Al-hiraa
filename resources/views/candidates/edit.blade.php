@@ -150,10 +150,12 @@
                                     </tr>
 
                                     <tr>
-                                        <td>Whatsapp No.</td>
-                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}</td>
+
                                         <td>Email ID</td>
                                         <td>{{ $candidate->email ?? 'N/A' }}
+                                        </td>
+                                        <td>State</td>
+                                        <td>{{ $candidate->state->name ?? 'N/A' }}
                                         </td>
                                         <td>City</td>
                                         <td>{{ $candidate->cityName->name ?? 'N/A' }}
@@ -185,10 +187,11 @@
                                     </tr>
 
                                     <tr>
+                                        <td>Whatsapp No.</td>
+                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}</td>
                                         <td>Religion</td>
                                         <td>{{ $candidate->religion ?? 'N/A' }}</td>
-                                        <td>ECR Type</td>
-                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}</td>
+
                                         <td>Indidan Driving License </td>
                                         <td>
                                             @if ($candidate->candidateIndianLicence()->count() > 0)
@@ -236,7 +239,7 @@
 
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
                                         <td>Passport Number.</td>
                                         <td>{{ $candidate->passport_number ?? 'N/A' }}</td>
@@ -256,13 +259,14 @@
                                         <td>Referrer Name</td>
                                         <td>{{ $candidate->refer_name ?? 'N/A' }}</td>
                                         <td>Referrer Phone</td>
-                                        <td>{{ $candidate->refer_phone ?? 'N/A'}}</td>
+                                        <td>{{ $candidate->refer_phone ?? 'N/A' }}</td>
                                         <td>Indian Experience (If any?)</td>
                                         <td>{{ $candidate->indian_exp ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        
+                                        <td>ECR Type</td>
+                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}</td>
                                         <td>Abroad Experience (If any?)</td>
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
 
@@ -271,12 +275,14 @@
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
 
                                         </td>
+
+                                    </tr>
+                                    <tr>
                                         <td>Remarks</td>
                                         <td colspan="5">{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
                                         </td>
                                     </tr>
 
-                                 
                                 </tbody>
                             </table>
                         </div>
@@ -286,7 +292,7 @@
                                 src="{{ asset('assets/images/arrow.png') }}"></a>
                     </div>
 
-                    
+
                 </div>
             </form>
 
@@ -444,7 +450,35 @@
 </script>
 <script>
     $(document).ready(function() {
+
+        var city_id = "{{ $candidate->city }}";
+        var state_id = "{{ $candidate->state_id }}";
+        getCity(state_id, city_id);
+        $(document).on('change', 'select[name="state_id"]', function() {
+            var state_id = $(this).val();
+            getCity(state_id);
+
+        });
+
+        function getCity(state_id, city_id = null) {
+            $.ajax({
+                url: "{{ route('candidates.get-city') }}",
+                type: "POST",
+                data: {
+                    state_id: state_id,
+                    city_id: city_id
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $('select[name="city_id"]').empty().html(response.city);
+
+                }
+            });
+        }
         $(document).on("click", '#open-input', function(e) {
+
 
             $(this).html(``);
 
@@ -489,7 +523,7 @@
                     </tr>
 
 
-                    <tr>   
+                    <tr>
                         <td>Last Updated Date</td>
                         <td>
                             <div class="form-group">
@@ -537,13 +571,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Whatsapp No.</td>
-                        <td>
-                        <div class="form-group">
-                            <input type="text" class="form-control uppercase-text" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
-                            <span class="text-danger" id="whatapp_no_msg"></span>
-                            </div>
-                        </td>
+
                         <td>Email ID</td>
                         <td>
                             <div class="form-group">
@@ -551,15 +579,21 @@
                                 <span class="text-danger" id="email_msg"></span>
                             </div>
                         </td>
-                        <td>City</td>
+                        <td>State</td>
                         <td>
-                            <select name="city" class="form-select new_select2 uppercase-text" id="">
-                                <option value="">Select City</option>
-                                @foreach ($cities as $city)
-                                    <option value="{{ $city->id }}" {{ $candidate->city == $city->id ? 'selected' : '' }}>
-                                        {{ $city->name }}
+                             <select name="state_id" class="form-select select2 uppercase-text" id="state_id">
+                                <option value="">SELECT STATE</option>
+                                @foreach ($states as $state)
+                                    <option value="{{ $state->id }}" {{ $candidate->state_id == $state->id ? 'selected' : '' }}>
+                                        {{ $state->name }}
                                     </option>
                                 @endforeach
+                             </select>
+                        </td>
+                        <td>City</td>
+                        <td>
+                            <select name="city_id" class="form-select new_select2 uppercase-text" id="">
+                                <option value="">Select City</option>
                             </select>
                         </td>
                     </tr>
@@ -737,9 +771,16 @@
                             @endif
                         @endif
 
-                        
+
 
                         <tr>
+                             <td>Whatsapp No.</td>
+                        <td>
+                        <div class="form-group">
+                            <input type="text" class="form-control uppercase-text" id="" name="whatapp_no" value="{{ $candidate->whatapp_no ?? '' }}" placeholder="Whats App No.">
+                            <span class="text-danger" id="whatapp_no_msg"></span>
+                            </div>
+                        </td>
                             <td>Religion</td>
                             <td>
                                 <select name="religion" class="form-select uppercase-text" id="">
@@ -753,14 +794,8 @@
                                     <option value="OTHER" {{ $candidate->religion == 'OTHER' ? 'selected' : '' }}>Other</option>
                                 </select>
                             </td>
-                            <td>ECR Type</td>
-                            <td>
-                                <select name="ecr_type" class="form-select uppercase-text" id="">
-                                    <option value="">Select ECR</option>
-                                    <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
-                                    <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
-                                </select>
-                            </td>
+
+
                             <td>Indian Driving License</td>
                             <td>
                                 <select name="indian_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
@@ -881,7 +916,7 @@
                         </tr>
 
                         <tr>
-                           
+
                             <td>Abroad Experience (If any?)</td>
                             <td>
                                 <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->abroad_exp ?? '' }}"
@@ -899,6 +934,18 @@
                                 </select>
                                 <span class="text-danger" id="call_status_msg"></span>
                             </td>
+                             <td>ECR Type</td>
+                            <td>
+                                <select name="ecr_type" class="form-select uppercase-text" id="">
+                                    <option value="">Select ECR</option>
+                                    <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
+                                    <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
+                                </select>
+                            </td>
+
+                        </tr>
+                        <tr>
+
                              <td>Remarks</td>
                             <td colspan="5">
                             <div class="form-group">
@@ -906,7 +953,12 @@
                                 <span class="text-danger" id="remark_msg"></span>
                             </div>
                             </td>
-                        </tr></tbody>`)
+                        </tr>
+                        </tbody>`)
+
+                        var city_id = "{{ $candidate->city }}";
+        var state_id = "{{ $candidate->state_id }}";
+        getCity(state_id, city_id);
 
             $('.new_select2').each(function() {
                 $(this).select2({
@@ -951,7 +1003,7 @@
                                         <td>Gender</td>
                                         <td>{{ $candidate->gender }}</td>
                                     </tr>
-                            
+
                                     <tr>
                                         <td>DOB</td>
                                         <td>{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}</td>
@@ -962,12 +1014,14 @@
                                     </tr>
 
                                     <tr>
-                                        <td>Whatsapp No.</td>
-                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}</td>
+
                                         <td>Email ID</td>
                                         <td>{{ $candidate->email ?? 'N/A' }}</td>
+                                         <td>State</td>
+                                        <td>{{ $candidate->state->name ?? 'N/A' }}
+                                        </td>
                                         <td>City</td>
-                                        <td>{{ $candidate->city ?? 'N/A' }}
+                                        <td>{{ $candidate->cityName->name ?? 'N/A' }}
                                         </td>
                                     </tr>
 
@@ -994,12 +1048,13 @@
                                         <td>{{ $candidate->specialisation_3 ?? 'N/A' }}
                                         </td>
                                     </tr>
-                                    
+
                                     <tr>
+                                         <td>Whatsapp No.</td>
+                                        <td>{{ $candidate->whatapp_no ?? 'N/A' }}</td>
                                         <td>Religion</td>
                                         <td>{{ $candidate->religion ?? 'N/A' }}</td>
-                                        <td>ECR Type</td>
-                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}</td>
+
                                         <td>Indidan Driving License </td>
                                         <td> @if ($candidate->candidateIndianLicence()->count() > 0)
                                                 @foreach ($candidate->candidateIndianLicence as $key => $value)
@@ -1070,23 +1125,27 @@
                                         <td>Referral Name</td>
                                         <td>{{ $candidate->refer_name ?? 'N/A' }}</td>
                                         <td>Referral Phone</td>
-                                        <td>{{ $candidate->refer_phone ?? 'N/A'}}</td>
+                                        <td>{{ $candidate->refer_phone ?? 'N/A' }}</td>
                                         <td>Indian Experience (If any?)</td>
                                         <td>{{ $candidate->indian_exp ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
-                                        
+                                          <td>ECR Type</td>
+                                        <td>{{ $candidate->ecr_type ?? 'N/A' }}</td>
                                         <td>Abroad Experience (If any?)</td>
                                         <td>{{ $candidate->abroad_exp ?? 'N/A' }}
                                         </td>
                                         <td>Last Call Status</td>
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
                                         </td>
+                                    </tr>
+                                    <tr>
                                         <td>Remarks</td>
                                         <td colspan="5">{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
                                         </td>
-                                    </tr></tbody>`);
+                                    </tr>
+                                    </tbody>`);
             var visibleRows = 5;
             showRows(visibleRows);
 
@@ -1457,11 +1516,9 @@
                         processData: false,
                         success: function(response) {
                             if (response.status == true) {
-
                                 toastr.success('Job assign successfully');
                                 $('#offcanvasEdit').offcanvas('hide');
                                 var candidate_id = "{{ $candidate->id }}";
-                                console.log(candidate_id);
                                 $(".candidate-new-" + candidate_id).html(response
                                     .view);
                             } else {
@@ -1472,7 +1529,7 @@
                             // Handle errors (e.g., display validation errors)
                             var errors = xhr.responseJSON.errors;
                             $.each(errors, function(key, value) {
-                                toastr.error(value);
+                                toastr.error(value[0]);
                             });
                         }
                     });
