@@ -22,7 +22,8 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="integrations-form profile-form">
-                                <form action="{{ route('candidates.store') }}" method="POST" id="create-candidate">
+                                <form action="{{ route('candidates.store') }}" method="POST" id="create-candidate"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="row g-2 justify-content-between">
                                         <div class="col-lg-4">
@@ -65,7 +66,6 @@
 @endsection
 
 @push('scripts')
-
     <script>
         $(document).ready(function() {
 
@@ -91,6 +91,11 @@
                 // DD-MM-YYYY format
                 return value.match(/^\d{2}-\d{2}-\d{4}$/);
             }, "Please enter a valid date in the format dd-mm-yyyy.");
+
+            $.validator.addMethod("fileExtension", function(value, element, param) {
+                param = typeof param === "string" ? param.replace(/\s/g, "") : "pdf|doc|docx";
+                return this.optional(element) || value.match(new RegExp("\\.(" + param + ")$", "i"));
+            }, "Please upload a file with a valid extension (pdf, doc, docx).");
 
             $("#create-candidate").validate({
                 rules: {
@@ -142,7 +147,7 @@
                         maxlength: 10,
                     },
                     whatapp_no: {
-                        required: false,
+                        required: true,
                         phoneIN: true,
                     },
                     passport_number: {
@@ -157,6 +162,12 @@
                         required: false,
                         maxlength: 100,
                     },
+                    cv: {
+                        required: false,
+                        fileExtension: "pdf|doc|docx", // Custom validation method
+
+                    },
+
                 },
 
                 messages: {
@@ -206,6 +217,11 @@
                         minlength: "Abroad experience should be 80 to 100 characters",
                         maxlength: "Abroad experience should be 80 to 100 characters",
                     },
+                    cv: {
+                        fileExtension: "Please upload a file in .pdf, .doc, or .docx format.",
+
+                    },
+
                 },
             });
 
@@ -222,46 +238,45 @@
     </script>
     <script>
         $(document).ready(function() {
-    $('.datepicker').datepicker({
-        uiLibrary: 'bootstrap5',
-        format: 'dd-mm-yyyy',
-        maxDate: new Date(),
-    });
+            $('.datepicker').datepicker({
+                uiLibrary: 'bootstrap5',
+                format: 'dd-mm-yyyy',
+                maxDate: new Date(),
+            });
 
-    let debounceTimeout;
-    $('#contact_no').on('keyup', function() {
-        clearTimeout(debounceTimeout);  // Clear the previous timeout
+            let debounceTimeout;
+            $('#contact_no').on('keyup', function() {
+                clearTimeout(debounceTimeout); // Clear the previous timeout
 
-        debounceTimeout = setTimeout(function() {
-            var contact_no = $('#contact_no').val();
+                debounceTimeout = setTimeout(function() {
+                    var contact_no = $('#contact_no').val();
 
-            // if +91 in this number then remove it
-            if (contact_no.startsWith('+91')) {
-                new_number = contact_no.replace('+91', '');
-                $('#contact_no').val(new_number);
-            } else {
-                new_number = contact_no;
-            }
-            console.log(new_number);
-
-            if (new_number.length >= 10) {
-                $.ajax({
-                    url: "{{ route('candidates.auto-fill') }}",
-                    type: "GET",
-                    data: {
-                        contact_no: new_number
-                    },
-                    success: function(response) {
-                        if (response.status == 'success') {
-                            $('.auto-fill').html(response.view);
-                        }
+                    // if +91 in this number then remove it
+                    if (contact_no.startsWith('+91')) {
+                        new_number = contact_no.replace('+91', '');
+                        $('#contact_no').val(new_number);
+                    } else {
+                        new_number = contact_no;
                     }
-                });
-            }
-        }, 300);  // Adjust the timeout value (in milliseconds) as needed
-    });
-});
+                    console.log(new_number);
 
+                    if (new_number.length >= 10) {
+                        $.ajax({
+                            url: "{{ route('candidates.auto-fill') }}",
+                            type: "GET",
+                            data: {
+                                contact_no: new_number
+                            },
+                            success: function(response) {
+                                if (response.status == 'success') {
+                                    $('.auto-fill').html(response.view);
+                                }
+                            }
+                        });
+                    }
+                }, 300); // Adjust the timeout value (in milliseconds) as needed
+            });
+        });
     </script>
     <script>
         $(document).ready(function() {
@@ -331,7 +346,7 @@
                 // alert(type);
                 if (type == 'Other') {
                     $('.position_applied_2').html(
-                        ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
+                        ` <label for="">Position Applied For(2) <span></span> <span><a href="javascript:void(0);"
                 class="position_applied_for_2">List</a></span></label><input type="text" class="form-control uppercase-text" id="" name="position_applied_for_2" placeholder="">`
                     );
                     if ($('.specialisation_2').length) {
@@ -340,7 +355,7 @@
                     }
                 } else {
                     $('.position_applied_2').html(
-                        ` <label for="">Position Applied For(2) <span>*</span> <span><a href="javascript:void(0);"
+                        ` <label for="">Position Applied For(2) <span></span> <span><a href="javascript:void(0);"
                 class="position_applied_for_2">Other</a></span></label><select name="position_applied_for_2" class="form-select select2 positionAppliedFor2 uppercase-text" id="">
                         <option value="">Select Type</option>
                         @foreach ($candidate_positions as $item)
@@ -480,20 +495,20 @@
         $(document).ready(function() {
             $(document).on('change', 'select[name="state_id"]', function() {
                 var state_id = $(this).val();
-                    $.ajax({
-                        url: "{{ route('candidates.get-city') }}",
-                        type: "POST",
-                        data: {
-                            state_id: state_id
-                        },
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(response) {
-                            $('select[name="city_id"]').empty().html(response.city);
+                $.ajax({
+                    url: "{{ route('candidates.get-city') }}",
+                    type: "POST",
+                    data: {
+                        state_id: state_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('select[name="city_id"]').empty().html(response.city);
 
-                        }
-                    });
+                    }
+                });
             });
         });
     </script>
@@ -507,16 +522,16 @@
                 if (source_name == 'REFERENCE') {
                     $('#refer_name').show();
                     $('#refer_phone').show();
-                }else{
+                } else {
                     $('#refer_name').hide();
                     $('#refer_phone').hide();
                 }
 
             });
         });
-        </script>
+    </script>
 
-        {{-- <script>
+    {{-- <script>
             // auto_source_name id change
             $(document).ready(function() {
                 $('#auto_source_name').change(function() {
@@ -532,5 +547,4 @@
             });
 
         </script> --}}
-
 @endpush

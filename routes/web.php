@@ -147,6 +147,8 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
 
     //get city name
     Route::post('/get-city-name',[CandidateController::class,'getCityName'])->name('candidates.get-city');
+    // download-cv
+    Route::get('/download-cv/{id}',[CandidateController::class,'downloadCv'])->name('candidates.download-cv');
 
     //referral points filter
     Route::get('/referral-points-filter',[ReferralPointController::class,'referralPointFilter'])->name('referral-points.filter');

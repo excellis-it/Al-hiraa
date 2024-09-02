@@ -55,10 +55,10 @@ class Candidate extends Authenticatable
 
     public function setAttribute($key, $value)
     {
-        if ($value !== null) {
+        if ($key !== 'cv' && !is_null($value)) {
             $value = strtoupper($value);
         }
-        parent::setAttribute($key, $value);
+        return parent::setAttribute($key, $value); // Ensure you return the parent call
     }
 
 

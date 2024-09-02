@@ -23,14 +23,17 @@ use App\Models\CandidateJob;
 use App\Models\CandJobLicence;
 use App\Models\State;
 use App\Models\City;
+use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class CandidateController extends Controller
 {
+    use ImageTrait;
     /**
      * Display a listing of the resource.
      */
@@ -54,11 +57,11 @@ class CandidateController extends Controller
 
                 $candidates = $candidates->paginate(50);
             }
-            if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')){
+            if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
                 session()->forget('candidate_id');
             }
             // session()->forget('candidate_id');
-            return view('candidates.list')->with(compact('candidates', 'sources', 'candidate_statuses', 'candidate_positions','cities','candidate_last_updates'));
+            return view('candidates.list')->with(compact('candidates', 'sources', 'candidate_statuses', 'candidate_positions', 'cities', 'candidate_last_updates'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -77,7 +80,7 @@ class CandidateController extends Controller
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $states = State::orderBy('name', 'asc')->get();
             $cities = City::orderBy('name', 'asc')->get();
-            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions', 'sources','states','cities','referrers'));
+            return view('candidates.create')->with(compact('candidate_statuses', 'associates', 'candidate_positions', 'sources', 'states', 'cities', 'referrers'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -96,7 +99,7 @@ class CandidateController extends Controller
             'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'position_applied_for_1' => 'required',
             'alternate_contact_no' => 'nullable|digits:10',
-            'whatapp_no' => 'required|nullable|regex:/^\+91\d{10}$/',
+            'whatapp_no' => 'required|regex:/^\+91\d{10}$/',
 
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
         ], [
@@ -146,6 +149,12 @@ class CandidateController extends Controller
         $candidate->english_speak = $request->english_speak ?? null;
         $candidate->arabic_speak = $request->arabic_speak ?? null;
         $candidate->return = ($request->return != null) ? $request->return : 0;
+        if ($request->hasFile('cv')) {
+            $request->validate([
+                'cv' => 'mimes:pdf,doc,docx',
+            ]);
+            $candidate->cv = $this->imageUpload($request->file('cv'), 'cv', 'candidates');
+        }
 
         // check position
         $position_1_count = CandidatePosition::where('id', $request->position_applied_for_1)->count();
@@ -305,7 +314,7 @@ class CandidateController extends Controller
             }
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license','states'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -328,6 +337,11 @@ class CandidateController extends Controller
             'dob' => 'nullable|date_format:d-m-Y',
             // indian_exp word limit validation
             'remarks' => 'nullable|required_if:call_status,REJECTED',
+            'company_id' => 'nullable|required_if:call_status,INTERESTED',
+            'interview_id' => 'nullable|required_with:company_id',
+            // 'interview_status' => 'nullable|required_with:interview_id',
+            // if call status is interested then interview status will be Interested
+
         ], [
             'cnadidate_status_id.required' => 'The status field is required.',
             'position_applied_for_1.required' => 'The position applied for field is required.',
@@ -335,7 +349,11 @@ class CandidateController extends Controller
             'full_name.required' => 'The full name field is required.',
             'alternate_contact_no.digits' => 'The alternate contact no must be 10 digits.',
             'whatapp_no.regex' => 'The whatapp no must be +91xxxxxxxxxx format.',
+            'company_id.required_if' => 'The company field is required.',
+            'interview_id.required_with' => 'The job title field is required.',
+            'interview_status.required_with' => 'The interview status field is required.',
         ]);
+
 
         $candidate = Candidate::findOrFail($id);
 
@@ -344,9 +362,8 @@ class CandidateController extends Controller
         }
         $candidate->mode_of_registration = $request->mode_of_registration;
         $candidate->source = $request->source;
-        if($request->source == 'REFERENCE')
-        {
-            $candidate ->refer_name = $request->refer_name;
+        if ($request->source == 'REFERENCE') {
+            $candidate->refer_name = $request->refer_name;
             $candidate->refer_phone = $request->refer_phone;
         }
         if ($request->referred_by_id) {
@@ -501,11 +518,86 @@ class CandidateController extends Controller
 
             $candidatePosition->save();
         }
-        if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-            // event(new CallCandidateEndEvent($candidate->id));
+        // if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+        //     // event(new CallCandidateEndEvent($candidate->id));
+        // }
+
+        if ($request->interview_id) {
+            $count = AssignJob::where('candidate_id', $id)->where('interview_id', $request->interview_id)->count();
+            if ($count > 0) {
+                return response()->json(['status' => false, 'message' => 'Job already assigned to this candidate.']);
+            } else {
+                $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
+                $assign_job = new AssignJob();
+                $assign_job->candidate_id = $id;
+                $assign_job->job_id = $job_id;
+                $assign_job->company_id = $request->company_id;
+                $assign_job->interview_id = $request->interview_id;
+                $assign_job->user_id = Auth::user()->id;
+                $assign_job->interview_status = $request->interview_status;
+                $assign_job->save();
+
+                $job_details = Job::findOrfail($job_id);
+
+                $candidate_job = new CandidateJob();
+                $candidate_job->candidate_id = $id;
+                $candidate_job->interview_id = $request->interview_id;
+                $candidate_job->assign_job_id = $assign_job->id;
+                $candidate_job->full_name = $candidate->full_name ?? null;
+                $candidate_job->email = $candidate->email ?? null;
+                $candidate_job->gender = $candidate->gender ?? null;
+                $candidate_job->date_of_birth = $candidate->date_of_birth ?? null;
+                $candidate_job->whatapp_no = $candidate->whatapp_no ?? null;
+                $candidate_job->alternate_contact_no = $candidate->alternate_contact_no ?? null;
+                $candidate_job->religion = $candidate->religion ?? null;
+                $candidate_job->city = $candidate->city ?? null;
+                $candidate_job->address = null;
+                $candidate_job->education = $candidate->education ?? null;
+                $candidate_job->other_education = $candidate->other_education ?? null;
+                $candidate_job->passport_number = $candidate->passport_number ?? null;
+                $candidate_job->english_speak = $candidate->english_speak ?? null;
+                $candidate_job->arabic_speak = $candidate->arabic_speak ?? null;
+                $candidate_job->assign_by_id = $candidate->enter_by ?? null;
+                $candidate_job->job_id = $job_details->id ?? null;
+                $candidate_job->job_position = $job_details->candidate_position_id ?? null;
+                $candidate_job->job_location = $job_details->address ?? null;
+                $candidate_job->company_id = $job_details->company_id ?? null;
+                $candidate_job->salary = $job_details->salary ?? null;
+                $candidate_job->job_interview_status = $request->interview_status ?? null;
+                $candidate_job->save();
+
+                //candidate licence details add
+                $indian_driving_licenses = CandidateLicence::where('candidate_id', $id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray() ?? null;
+                $gulf_driving_licenses = CandidateLicence::where('candidate_id', $id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray() ?? null;
+                // dd($indian_driving_licenses);
+                foreach ($indian_driving_licenses as $key => $value) {
+                    if ($value != null) {
+                        $candidate_ind_licence = new CandJobLicence();
+                        $candidate_ind_licence->candidate_job_id = $candidate_job->id;
+                        $candidate_ind_licence->candidate_id = $id;
+                        $candidate_ind_licence->licence_type = 'INDIAN';
+                        $candidate_ind_licence->licence_name = $value;
+                        $candidate_ind_licence->save();
+                    }
+                }
+
+                foreach ($gulf_driving_licenses as $key => $value) {
+                    if ($value != null) {
+                        $candidate_gulf_licence = new CandJobLicence();
+                        $candidate_gulf_licence->candidate_job_id = $candidate_job->id;
+                        $candidate_gulf_licence->candidate_id = $id;
+                        $candidate_gulf_licence->licence_type = 'GULF';
+                        $candidate_gulf_licence->licence_name = $value;
+                        $candidate_gulf_licence->save();
+                    }
+                }
+            }
         }
+
+
+
         Session::forget('candidate_id');
-        return response()->json(['view' => view('candidates.update-single-data', compact('candidate'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.update-single-data', compact('candidate'))->render(), 'status' => true]);
     }
 
     /**
@@ -529,7 +621,7 @@ class CandidateController extends Controller
             $candidate_statuses = CandidateStatus::all();
             $associates = User::role('ASSOCIATE')->get();
             $states = State::orderBy('name', 'asc')->get();
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'candidate_statuses', 'associates', 'candidate_positions','states','cities','referrers'))->render(), 'status' => 'error']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'candidate_statuses', 'associates', 'candidate_positions', 'states', 'cities', 'referrers'))->render(), 'status' => 'error']);
         } else {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
@@ -541,7 +633,7 @@ class CandidateController extends Controller
             $autofill = true;
 
 
-            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'autofill', 'candidate_statuses', 'associates', 'states','cities','indian_driving_license', 'candidate_positions', 'gulf_driving_license','states','referrers'))->render(), 'status' => 'success']);
+            return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'autofill', 'candidate_statuses', 'associates', 'states', 'cities', 'indian_driving_license', 'candidate_positions', 'gulf_driving_license', 'states', 'referrers'))->render(), 'status' => 'success']);
         }
     }
 
@@ -673,7 +765,7 @@ class CandidateController extends Controller
 
 
         if ($request->last_update_by) {
-              $last_update_by_can = CandidateUpdated::where('user_id', $request->last_update_by)
+            $last_update_by_can = CandidateUpdated::where('user_id', $request->last_update_by)
                 ->orderBy('id', 'desc')
                 ->get()
                 ->groupBy('candidate_id')
@@ -873,7 +965,7 @@ class CandidateController extends Controller
             $gulf_driving_licenses = CandidateLicence::where('candidate_id', $candidate_id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray() ?? null;
 
             foreach ($indian_driving_licenses as $key => $value) {
-                if($value != null){
+                if ($value != null) {
                     $candidate_ind_licence = new CandJobLicence();
                     $candidate_ind_licence->candidate_job_id = $candidate_job->id;
                     $candidate_ind_licence->candidate_id = $candidate_id;
@@ -881,11 +973,10 @@ class CandidateController extends Controller
                     $candidate_ind_licence->licence_name = $value;
                     $candidate_ind_licence->save();
                 }
-
             }
 
-            foreach($gulf_driving_licenses as $key => $value){
-                if($value != null){
+            foreach ($gulf_driving_licenses as $key => $value) {
+                if ($value != null) {
                     $candidate_gulf_licence = new CandJobLicence();
                     $candidate_gulf_licence->candidate_job_id = $candidate_job->id;
                     $candidate_gulf_licence->candidate_id = $candidate_id;
@@ -906,21 +997,27 @@ class CandidateController extends Controller
 
     public function getCityName(Request $request)
     {
-            $cities = City::where('state_id', $request->state_id)->get();
-            $html = '';
-            $html .= '<option value="">SELECT CITY</option>';
-            foreach ($cities as $city) {
-                if ($request->city_id) {
-                    if ($request->city_id == $city->id) {
-                        $html .= '<option value="' . $city->id . '" selected>' . $city->name . '</option>';
-                    } else {
-                        $html .= '<option value="' . $city->id . '">' . $city->name . '</option>';
-                    }
+        $cities = City::where('state_id', $request->state_id)->get();
+        $html = '';
+        $html .= '<option value="">SELECT CITY</option>';
+        foreach ($cities as $city) {
+            if ($request->city_id) {
+                if ($request->city_id == $city->id) {
+                    $html .= '<option value="' . $city->id . '" selected>' . $city->name . '</option>';
                 } else {
                     $html .= '<option value="' . $city->id . '">' . $city->name . '</option>';
                 }
+            } else {
+                $html .= '<option value="' . $city->id . '">' . $city->name . '</option>';
             }
-            return response()->json(['status' => true, 'city' => $html]);
+        }
+        return response()->json(['status' => true, 'city' => $html]);
+    }
 
+    public function downloadCv($id)
+    {
+        $candidate = Candidate::findOrFail($id);
+        $pathToFile = Storage::disk('public')->path($candidate->cv);
+        return response()->download($pathToFile);
     }
 }

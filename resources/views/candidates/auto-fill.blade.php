@@ -37,7 +37,7 @@
     </div>
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Whatsapp NO: </label>
+            <label for="">Whatsapp NO: <span>*</span></label>
             <input type="text" class="form-control  uppercase-text" id="" name="whatapp_no"
                 value="{{ $candidate->whatapp_no ?? '' }}" placeholder="">
             @if ($errors->has('whatapp_no'))
@@ -139,7 +139,7 @@
                 value="{{ $candidate->position_applied_for_2 ?? '' }}" name="position_applied_for_2" placeholder=""> --}}
             @if ($candidate->positionAppliedFor2)
                 @if ($candidate->positionAppliedFor2()->where('is_active', 1)->count() > 0)
-                    <label for="">Position Applied For(2) <span>* </span> <span><a href="javascript:void(0);"
+                    <label for="">Position Applied For(2) <span> </span> <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">Other</a></span></label>
                     <select name="position_applied_for_2"
                         class="form-select  uppercase-text select2 positionAppliedFor2" id="">
@@ -151,14 +151,14 @@
                         @endforeach
                     </select>
                 @else
-                    <label for="">Position Applied For(2) <span>* </span> <span><a href="javascript:void(0);"
+                    <label for="">Position Applied For(2) <span> </span> <span><a href="javascript:void(0);"
                                 class="position_applied_for_2">List</a></span></label>
                     <input type="text" class="form-control  uppercase-text" id=""
                         value="{{ $candidate->positionAppliedFor2->name ?? '' }}" name="position_applied_for_2"
                         placeholder="">
                 @endif
             @else
-                <label for="">Position Applied For(2) <span>* </span> <span><a href="javascript:void(0);"
+                <label for="">Position Applied For(2) <span> </span> <span><a href="javascript:void(0);"
                             class="position_applied_for_2">Other</a></span></label>
                 <select name="position_applied_for_2" class="form-select  uppercase-text select2 positionAppliedFor2"
                     id="">
@@ -570,6 +570,19 @@
         <div class="col-lg-3"></div>
     @endif
 
+     {{-- cv --}}
+     <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Upload CV</label>
+            <input type="file" class="form-control  uppercase-text" id="cv" name="cv" placeholder="">
+            @if ($errors->has('cv'))
+                @error('cv')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
+        </div>
+    </div>
+
 
     <div class="col-lg-12">
         <div class="form-group">
@@ -648,7 +661,7 @@
 
     <div class="col-lg-3">
         <div class="form-group">
-            <label>Indian Driving License:<span>*</span></label>
+            <label>Indian Driving License:<span></span></label>
             <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
                 multiple>
                 <option value="" disabled>Select Indian Driving License</option>
@@ -665,7 +678,7 @@
     </div>
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Gulf Driving License: <span>*</span></label>
+            <label for="">Gulf Driving License: <span></span></label>
             {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
             value="{{ old('international_driving_license') }}" placeholder=""> --}}
             <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
@@ -1010,8 +1023,20 @@
             @endif
         </div>
     </div>
+    {{-- cv --}}
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Upload CV</label>
+            <input type="file" class="form-control  uppercase-text" id="cv" name="cv" placeholder="">
+            @if ($errors->has('cv'))
+                @error('cv')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
+        </div>
+    </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-12">
         <div class="form-group">
             <label for="">Remarks</label>
             <textarea class="form-control  uppercase-text" id="" rows="3" name="remark">{{ old('remark') }}</textarea>

@@ -94,9 +94,15 @@
                 @csrf
                 <div class="candidate_details">
                     <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
+
+                        <div class="can-head d-flex">
                             <h4>Candidate Details</h4>
+                            @if ($candidate->cv)
+                                <a href="{{ route('candidates.download-cv', $candidate->id) }}"
+                                    class="download-btn"><span><i class="fas fa-download"></i></span></a>
+                            @endif
                         </div>
+
                         <div class="edit-1-btn d-flex align-items-center">
 
                             <div class="edit-2" id="cross-button">
@@ -278,6 +284,30 @@
 
                                     </tr>
                                     <tr>
+                                        <td>Assigned By</td>
+                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        </td>
+                                        <td>Company</td>
+                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        </td>
+                                        <td>Job Title</td>
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Job Position</td>
+                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        </td>
+                                        <td>Job Location</td>
+                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        </td>
+                                        <td>Interview status</td>
+                                        <td>
+                                            {{ $assign_job->interview_status ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Remarks</td>
                                         <td colspan="5">{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
                                         </td>
@@ -349,7 +379,7 @@
 </table>
 </div>
 </div>
-<form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST" id="candidate-job-create-form">
+{{-- <form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST" id="candidate-job-create-form">
     @method('PUT')
     @csrf
     <div class="candidate_details">
@@ -406,7 +436,7 @@
             </div>
         </div>
     </div>
-</form>
+</form> --}}
 </div>
 </div>
 
@@ -944,6 +974,40 @@
                             </td>
 
                         </tr>
+                          <tr>
+                                            <td>Company </td>
+                                            <td>
+                                            <div class="form-group">
+                                                <select name="company_id" class="form-select uppercase-text company_id" id="company_id">
+                                                <option value=""> Company</option>
+                                                @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}">
+                                                {{ $company->company_name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <span class="text-danger" id="company_id_job_msg"></span>
+                                            </div>
+                                            </td>
+
+                                            <td>Job Title</td>
+                                            <td>
+                                            <select name="interview_id" class="form-select uppercase-text job_id" id="interview_id">
+                                                <option value=""> Job Title</option>
+                                            </select>
+                                            <span class="text-danger" id="interview_id_job_msg"></span>
+                                            </td>
+
+                                            <td>Interview Status</td>
+                                            <td>
+                                            <select name="interview_status" class="form-select uppercase-text" id="interview_status">
+                                                <option value="">Interview Status</option>
+                                                <option value="Interested">Interested</option>
+                                                <option value="Not-Interested">Not-Interested</option>
+                                            </select>
+                                            <span class="text-danger" id="interview_status_job_msg"></span>
+                                            </td>
+                                        </tr>
                         <tr>
 
                              <td>Remarks</td>
@@ -956,9 +1020,9 @@
                         </tr>
                         </tbody>`)
 
-                        var city_id = "{{ $candidate->city }}";
-        var state_id = "{{ $candidate->state_id }}";
-        getCity(state_id, city_id);
+            var city_id = "{{ $candidate->city }}";
+            var state_id = "{{ $candidate->state_id }}";
+            getCity(state_id, city_id);
 
             $('.new_select2').each(function() {
                 $(this).select2({
@@ -1140,6 +1204,30 @@
                                         <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
                                         </td>
                                     </tr>
+                                     <tr>
+                                        <td>Assigned By</td>
+                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        </td>
+                                        <td>Company</td>
+                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        </td>
+                                        <td>Job Title</td>
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Job Position</td>
+                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        </td>
+                                        <td>Job Location</td>
+                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        </td>
+                                        <td>Interview status</td>
+                                        <td>
+                                            {{ $assign_job->interview_status ?? 'N/A' }}
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>Remarks</td>
                                         <td colspan="5">{{ $candidate->lastCandidateActivity->remarks ?? 'N/A' }}
@@ -1229,13 +1317,18 @@
                 contentType: false,
                 processData: false,
                 success: function(response) {
+                    if (response.status == true) {
+                        toastr.success('Candidate details updated successfully');
+                        $('#offcanvasEdit').offcanvas('hide');
+                        var candidate_id = "{{ $candidate->id }}";
+                        console.log(candidate_id);
+                        $(".candidate-new-" + candidate_id).html(response.view);
+                        ajaxCallAllowed = false;
+                    } else {
+                        toastr.error(response.message);
 
-                    toastr.success('Candidate details updated successfully');
-                    $('#offcanvasEdit').offcanvas('hide');
-                    var candidate_id = "{{ $candidate->id }}";
-                    console.log(candidate_id);
-                    $(".candidate-new-" + candidate_id).html(response.view);
-                    ajaxCallAllowed = false;
+                    }
+
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
@@ -1541,6 +1634,22 @@
                     )
                 }
             });
+        });
+    });
+</script>
+<script>
+    // call_status if interested then interview status only select interested
+    $(document).ready(function() {
+        $(document).on('change', 'select[name="call_status"]', function() {
+            var call_status = $(this).val();
+            if (call_status == 'INTERESTED') {
+                $('#interview_status').html(`<option value="">Interview Status</option>
+                                        <option value="Interested" selected>Interested</option>`);
+            } else {
+                $('#interview_status').html(`<option value="">Interview Status</option>
+                                        <option value="Interested">Interested</option>
+                                        <option value="Not-Interested">Not-Interested</option>`);
+            }
         });
     });
 </script>
