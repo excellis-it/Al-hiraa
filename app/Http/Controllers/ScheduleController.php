@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use App\Models\CandidatePosition;
 use App\Models\Company;
 use App\Models\Interview;
+use App\Models\ReferralPoint;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -173,7 +174,8 @@ class ScheduleController extends Controller
         $company = Company::find($id);
         $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
         $add = true;
+        $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
         $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
-        return response()->json(['view' => view('schedule.add-task', compact('company', 'add', 'positions', 'vendors'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('schedule.add-task', compact('company', 'add', 'positions', 'vendors', 'referral_points'))->render(), 'status' => 'success']);
     }
 }

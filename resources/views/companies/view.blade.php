@@ -111,7 +111,7 @@
                                                         </div>
                                                     </div>
                                                     {{-- service_charge --}}
-                                                    <div class="col-xl-4">
+                                                    <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Service Charge<span>*</span></label>
                                                             <input type="text" class="form-control" id=""
@@ -119,7 +119,7 @@
                                                             <span class="text-danger" id="service_charge_msg_create"></span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-xl-4">
+                                                    {{-- <div class="col-xl-4">
                                                         <div class="form-group">
                                                             <label for="">Status <span>*</span></label>
                                                             <select name="status" class="form-select" id="">
@@ -129,8 +129,8 @@
                                                             </select>
                                                             <span class="text-danger" id="status_msg_create"></span>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xl-4">
+                                                    </div> --}}
+                                                    <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Referral Point</label>
                                                             <select name="referral_point_id" class="form-select" id="">
@@ -154,9 +154,12 @@
                                                     </div>
                                                     <div class="col-lg-12 mt-3">
                                                         <div class="save-btn-div d-flex align-items-center">
-                                                            <button type="submit" class="btn save-btn"><span><i
-                                                                        class="fa-solid fa-check"></i></span>
+                                                            <button type="button" class="btn save-btn submit-form"><span></span>
                                                                 Submit</button>
+
+                                                                <button type="button" class="btn add-anoter-btn save-and-add-anoter"><span></span>
+                                                            Save & Add Another</button>
+
                                                             <button type="button"
                                                                 class="btn save-btn save-btn-1 close-btn"><span><i
                                                                         class="fa-solid fa-xmark"></i></span>Cancel</button>
@@ -659,20 +662,54 @@
                 $('#offcanvasRightJob').offcanvas('hide');
             });
 
-            $('#company-job-form-create').submit(function(e) {
-                e.preventDefault();
+            // $('#company-job-form-create').submit(function(e) {
+            //     e.preventDefault();
 
-                var formData = new FormData($(this)[0]);
+            //     var formData = new FormData($(this)[0]);
+            //     $('#loading').addClass('loading');
+            //     $('#loading-content').addClass('loading-content');
+            //     $.ajax({
+            //         url: $(this).attr('action'),
+            //         type: $(this).attr('method'),
+            //         data: formData,
+            //         contentType: false,
+            //         processData: false,
+            //         success: function(response) {
+
+            //             if (response.status == true) {
+            //                 window.location.reload();
+            //             } else {
+            //                 $('#loading').removeClass('loading');
+            //                 $('#loading-content').removeClass('loading-content');
+            //                 toastr.error(response.error);
+            //             }
+
+            //         },
+            //         error: function(xhr) {
+            //             $('#loading').removeClass('loading');
+            //             $('#loading-content').removeClass('loading-content');
+            //             // Handle errors (e.g., display validation errors)
+            //             $('.text-danger').html('');
+            //             var errors = xhr.responseJSON.errors;
+            //             $.each(errors, function(key, value) {
+            //                 // Assuming you have a span with class "text-danger" next to each input
+            //                 $('#' + key + '_msg_create').html(value[0]);
+            //             });
+            //         }
+            //     });
+            // });
+
+            $(document).on('click', '.submit-form', function() {
+                var formData = new FormData($('#company-job-form-create')[0]);
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
                 $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
+                    url: $('#company-job-form-create').attr('action'),
+                    type: $('#company-job-form-create').attr('method'),
                     data: formData,
                     contentType: false,
                     processData: false,
                     success: function(response) {
-
                         if (response.status == true) {
                             window.location.reload();
                         } else {
@@ -680,7 +717,6 @@
                             $('#loading-content').removeClass('loading-content');
                             toastr.error(response.error);
                         }
-
                     },
                     error: function(xhr) {
                         $('#loading').removeClass('loading');
@@ -695,6 +731,48 @@
                     }
                 });
             });
+
+            $(document).on('click', '.save-and-add-anoter', function() {
+                var formData = new FormData($('#company-job-form-create')[0]);
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    url: $('#company-job-form-create').attr('action'),
+                    type: $('#company-job-form-create').attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == true) {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            $('#company-job-form-create')[0].reset();
+                            // reset select2 dropdown
+                            $('.new_select2').val(null).trigger('change');
+                            
+                            // append the new job to the table
+                            $('#open_job_filter').html(response.view);
+                            toastr.success(response.message);
+                        } else {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                            toastr.error(response.error);
+                        }
+                    },
+                    error: function(xhr) {
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        // Handle errors (e.g., display validation errors)
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // Assuming you have a span with class "text-danger" next to each input
+                            $('#' + key + '_msg_create').html(value[0]);
+                        });
+                    }
+                });
+            });
+
         });
     </script>
 

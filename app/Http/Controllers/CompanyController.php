@@ -185,7 +185,6 @@ class CompanyController extends Controller
             'vendor_id' => 'required',
             'service_charge' => 'required|numeric',
             'job_name' => 'required',
-            'status' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
             'salary'=>'required|numeric',
@@ -194,7 +193,6 @@ class CompanyController extends Controller
             'service_charge.required' => 'The service charge field is required.',
             'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
-            'status.required' => 'The status field is required.',
             'contract.numeric' => 'The contract field must be a number.',
             'address.required' => 'The location field is required.',
             'salary.numeric' => 'Salary field must be a number',
@@ -212,12 +210,12 @@ class CompanyController extends Controller
         $job->benifits = $request->benifits;
         $job->address = $request->address;
         $job->job_description = $request->job_description;
-        $job->status = $request->status;
-        $job->referral_point_id = $request->referral_point_id; 
+        $job->status = "Ongoing";
+        $job->referral_point_id = $request->referral_point_id;
         $job->save();
-        
+        $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $request->company_id])->orderBy('id', 'desc')->paginate(10);
         Session::flash('message', 'Job created successfully');
-        return response()->json(['message' => __('Job created successfully.'), 'status' => true]);
+        return response()->json(['view' => view('companies.open-job-filter', compact('ongoing_jobs'))->render() , 'message' => __('Job created successfully.'), 'status' => true]);
     }
 
     public function companyJobEdit(string $id)
@@ -264,7 +262,7 @@ class CompanyController extends Controller
         $job->address = $request->address;
         $job->job_description = $request->job_description;
         $job->status = $request->status;
-        $job->referral_point_id = $request->referral_point_id; 
+        $job->referral_point_id = $request->referral_point_id;
         $job->save();
         Session::flash('message', 'Job Updated successfully');
         return response()->json(['message' => __('Job Updated successfully.'), 'status' => true]);

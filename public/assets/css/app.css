@@ -4157,6 +4157,27 @@ h6+[aria-label=breadcrumb],
     background: #6A6A6A;
 }
 
+.add-anoter-btn {
+    background: #000;
+    color: #fff;
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 16px;
+    font-weight: 600;
+    margin-right: 15px;
+    border: 1px solid #000;
+    box-shadow: none;
+    padding: 5px 20px;
+}
+
+.add-anoter-btn:hover {
+    color: #fff;
+    background: #000;
+    border: 1px solid #6A6A6A;
+
+}
+
+
 /* user-acces-div */
 .user-acces-div {
     padding: 50px 0px;
