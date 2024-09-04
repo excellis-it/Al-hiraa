@@ -31,77 +31,128 @@
                     </div>
                 </div>
             </div>
-            @if(Auth::user()->hasRole('ADMIN'))
-            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
-                <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">All Time Stats</div>
-                        <div class="text-amount">{{ $count['total_candidate_entry'] }} </div>
-                        <div class="text-stats">Candidate Entry</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Monthly Stats</div>
-                        <div class="text-amount">{{ $count['monthly_candidate_entry'] }} </div>
-                        <div class="text-stats">Candidate Entry</div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Today Stats</div>
-                        <div class="text-amount">{{ $count['today_candidate_entry'] }} </div>
-                        <div class="text-stats">Candidate Entry</div>
-                    </div>
-                </div>
-
-
-                <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Last Month</div>
-                        <div class="text-amount">{{ $count['last_month_candidate_entry'] }}</div>
-                        <div class="text-stats">Candidate Entry</div>
-                    </div>
-                </div>
-            </div>
-            @endif
-            @if(Auth::user()->hasRole('RECRUITER'))
-            <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
-                <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Daily Entry</div>
-                        <div class="text-amount">{{ $count['daily_entry'] }} </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <a href="{{route('candidates.index', ['call_status' => 'Call Back'])}}">
+            @if (Auth::user()->hasRole('ADMIN'))
+                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
+                    <div class="col">
                         <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Call Back</div>
-                            <div class="text-amount">{{ $count['call_back'] }} </div>
+                            <div class="card-header__title mb-2">All Time Stats</div>
+                            <div class="text-amount">{{ $count['total_candidate_entry'] }} </div>
+                            <div class="text-stats">Candidate Entry</div>
                         </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Interview Schedule</div>
-                        <div class="text-amount">{{ $count['interview_schedule'] }} </div>
                     </div>
-                </div>
+                    <div class="col">
+                        <div class="border_left_hh">
+                            <div class="card-header__title mb-2">Monthly Stats</div>
+                            <div class="text-amount">{{ $count['monthly_candidate_entry'] }} </div>
+                            <div class="text-stats">Candidate Entry</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="border_left_hh">
+                            <div class="card-header__title mb-2">Today Stats</div>
+                            <div class="text-amount">{{ $count['today_candidate_entry'] }} </div>
+                            <div class="text-stats">Candidate Entry</div>
+                        </div>
+                    </div>
 
 
-                <div class="col">
-                    <div class="border_left_hh">
-                        <div class="card-header__title mb-2">Selection</div>
-                        <div class="text-amount">{{ $count['selection'] }}</div>
+                    <div class="col">
+                        <div class="border_left_hh">
+                            <div class="card-header__title mb-2">Last Month</div>
+                            <div class="text-amount">{{ $count['last_month_candidate_entry'] }}</div>
+                            <div class="text-stats">Candidate Entry</div>
+                        </div>
                     </div>
                 </div>
-            </div>
             @endif
-            @if(Auth::user()->hasRole('ADMIN'))
-            {{-- chart --}}
-            <div class="row">
-                <div class="col-lg-6">
-                    {{-- @php
+            @if (Auth::user()->hasRole('RECRUITER'))
+                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
+                    <div class="col">
+                        <div class="border_left_hh">
+                            <div class="card-header__title mb-2">Daily Entry</div>
+                            <div class="text-amount">{{ $count['daily_entry'] }} </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <a href="{{ route('candidates.index', ['call_status' => 'Call Back']) }}">
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">Call Back</div>
+                                <div class="text-amount">{{ $count['call_back'] }} </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <div class="border_left_hh">
+                            <div class="card-header__title mb-2">Interview Schedule</div>
+                            <div class="text-amount">{{ $count['interview_schedule'] }} </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col">
+                        <div class="border_left_hh">
+                            <div class="card-header__title mb-2">Selection</div>
+                            <div class="text-amount">{{ $count['selection'] }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="table_right">
+                            <div class="py-3">
+                                <h4 class="card-header__title">New Job Opening</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0 thead-border-top-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Company Name</th>
+                                            <th>Job Title</th>
+                                            <th>Job Postion</th>
+                                            <th>Job Location </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (count($new_jobs_openings) > 0)
+                                            @foreach ($new_jobs_openings as $new_jobs_opening)
+                                                <tr>
+                                                    <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}</td>
+                                                    <td>{{  $new_jobs_opening->job->candidatePosition ? $new_jobs_opening->job->candidatePosition->name : '' }} </td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}</td>
+                                                </tr>
+                                            @endforeach
+
+                                            <tr>
+                                                <td colspan="4" class="text-left">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="">
+                                                            (Showing {{ $new_jobs_openings->firstItem() }} –
+                                                            {{ $new_jobs_openings->lastItem() }} users of
+                                                            {{ $new_jobs_openings->total() }} users)
+                                                        </div>
+                                                        <div>{!! $new_jobs_openings->links() !!}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td colspan="4" class="text-center">No data found</td>
+                                            </tr>
+                                        @endif
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if (Auth::user()->hasRole('ADMIN'))
+                {{-- chart --}}
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{-- @php
                         $year = 2023;
                     @endphp
                     <div class="dashboard_graph">
@@ -114,88 +165,88 @@
                         </select>
                     </div> --}}
 
-                    <div class="dashboard_graph" id="dashboard-interview-chart">
-                        @include('dashboard-interview-chart')
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <div class="table_right">
-                        <div class="py-3">
-                            <h4 class="card-header__title">Current Users</h4>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered mb-0 thead-border-top-0">
-                                <thead>
-                                    <tr>
-                                        <th>Team Member</th>
-                                        <th>Candidate Added</th>
-                                        <th>Interview Schedule</th>
-                                        <th>Appear</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @include('dashboard-users-table')
-
-                                </tbody>
-                            </table>
+                        <div class="dashboard_graph" id="dashboard-interview-chart">
+                            @include('dashboard-interview-chart')
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
 
-                    <div class="calendar-container wrapper">
-                        <div class="calendar-header header">
-                            <button id="prev" class="icon">&lt;</button>
-                            <h2 id="month-year" class="current-date">Month Year</h2>
-                            <button id="next" class="icon">&gt;</button>
-                            {{-- <div class="icons">
+                    <div class="col-lg-6">
+                        <div class="table_right">
+                            <div class="py-3">
+                                <h4 class="card-header__title">Current Users</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0 thead-border-top-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Team Member</th>
+                                            <th>Candidate Added</th>
+                                            <th>Interview Schedule</th>
+                                            <th>Appear</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @include('dashboard-users-table')
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+
+                        <div class="calendar-container wrapper">
+                            <div class="calendar-header header">
+                                <button id="prev" class="icon">&lt;</button>
+                                <h2 id="month-year" class="current-date">Month Year</h2>
+                                <button id="next" class="icon">&gt;</button>
+                                {{-- <div class="icons">
                                     <span class="icon">Icon 1</span>
                                     <span class="icon">Icon 2</span>
                                 </div> --}}
-                        </div>
-                        <div class="calendar-body calendar">
-                            <div class="weekdays">
-                                <div>Sun</div>
-                                <div>Mon</div>
-                                <div>Tue</div>
-                                <div>Wed</div>
-                                <div>Thu</div>
-                                <div>Fri</div>
-                                <div>Sat</div>
                             </div>
-                            <ul class="days" id="dates-container">
+                            <div class="calendar-body calendar">
+                                <div class="weekdays">
+                                    <div>Sun</div>
+                                    <div>Mon</div>
+                                    <div>Tue</div>
+                                    <div>Wed</div>
+                                    <div>Thu</div>
+                                    <div>Fri</div>
+                                    <div>Sat</div>
+                                </div>
+                                <ul class="days" id="dates-container">
 
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                </div>
-                <div class="col-lg-4">
-
-                    <div class="interview-card">
-                        @include('dashboard-interview-card')
                     </div>
-                    {{-- <div class="">
+                    <div class="col-lg-4">
+
+                        <div class="interview-card">
+                            @include('dashboard-interview-card')
+                        </div>
+                        {{-- <div class="">
                         <button class="btn btn-info">>> next</button>
                     </div> --}}
-                </div>
-                <div class="col-lg-4">
-                    {{--  --}}
-                    <div class="dashboard_graph">
-                        <input type="text" class="form-control new_date" id="date-range">
                     </div>
-                    <div class="dashboard_graph" id="installment-pie-chart">
-                        @include('installment-pie-chart')
+                    <div class="col-lg-4">
+                        {{--  --}}
+                        <div class="dashboard_graph">
+                            <input type="text" class="form-control new_date" id="date-range">
+                        </div>
+                        <div class="dashboard_graph" id="installment-pie-chart">
+                            @include('installment-pie-chart')
 
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
-
-            {{-- chart end --}}
+                {{-- chart end --}}
             @endif
         </div>
     </div>

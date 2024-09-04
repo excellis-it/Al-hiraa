@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Candidate;
 use App\Models\CandidateJob;
 use App\Models\CandidateActivity;
+use App\Models\Interview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,6 +48,7 @@ class DashboardController extends Controller
             // Store the result in the $count array
             $count['interview_schedule'] = $interviewSchedule;
             $count['selection'] = $selection;
+
 
 
         }
@@ -194,8 +196,9 @@ class DashboardController extends Controller
         }
 
         $payment_due = $total_installments - $total_service_fee;
+        $new_jobs_openings = Interview::whereBetween('interview_start_date', [date('d-m-Y'), date('d-m-Y', strtotime('+1 week'))])->paginate(5);
 
-        return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due'));
+        return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings'));
     }
 
     public function getInterviewList(Request $request)
