@@ -27,7 +27,12 @@
 
 <body class="layout-login-centered-boxed">
     <div class="layout-login-centered-boxed__form">
-        <h1>Hello;</h1>
+       <div class=" mb-3 ">
+        <a href="javascript:void(0);" class="navbar-brand main_logo">
+            <img class="navbar-brand-icon img-fluid" src="{{ asset('assets/images/logo.png') }}" width=""
+                alt="">
+        </a>
+       </div>
         <div class="card p-5">
             <form method="POST" action="{{ route('login.check') }}">
                 @csrf

@@ -504,8 +504,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="candidate_form candidate_edit_form">
-                        <div class="table-responsive" id="tableContainer">
+                    <div class="candidate_form candidate_edit_form" id="job-payment-table">
+                            @include('jobs.payment-details')
+                        {{-- <div class="table-responsive" id="tableContainer">
                             <table class="table" id="candidate-form-payment">
                                 <tbody>
                                     <tr>
@@ -542,7 +543,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </form>
@@ -1495,165 +1496,7 @@
         });
     </script>
 
-    <script>
-        // payment deatils
-        $(document).on("click", '#open-payment-input', function(e) {
 
-            $(this).html(``);
-
-            $('#submit-button-payment').html(
-                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
-            )
-
-            $('#cross-button-payment').html(
-                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
-            )
-
-            $('#candidate-form-payment').html(`<tbody class="candidate-form-new">
-
-                <tr>
-                    <td>1st Installment Amount</td>
-                    <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_amount ?? '' }}" name="fst_installment_amount" placeholder="">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                    <td>1st Installment Date</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="instl1_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fst_installment_date)->format('d-m-Y') ?? '' }}" name="fst_installment_date" placeholder="dd-mm-yyyy">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                    <td>2nd Installment Amount</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_amount ?? '' }}" name="secnd_installment_amount" placeholder="">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>2nd Installment Date</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="instl2_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->secnd_installment_date)->format('d-m-Y') ?? '' }}" name="secnd_installment_date" placeholder="dd-mm-yyyy">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                    <td>3rd Installment Amount</td>
-                    <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_amount ?? '' }}" name="third_installment_amount" placeholder="">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                    <td>3rd Installment Date</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="instl3_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') ?? '' }}" name="third_installment_date" placeholder="dd-mm-yyyy">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>4th Installment Amount</td>
-                    <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_amount ?? '' }}" name="fourth_installment_amount" placeholder="">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                    <td>4th Installment Date</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="instl4_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') ?? '' }}" name="fourth_installment_date" placeholder="dd-mm-yyyy">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-
-                    <td>Total Amount</td>
-                    <td>
-                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->total_amount ?? '' }}" name="total_amount" placeholder="">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Deployment Date</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="deploy-date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') ?? '' }}" name="deployment_date" placeholder="dd-mm-yyyy">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                    <td>Job Status</td>
-
-                        <td colspan="3">
-                            <select name="job_status" class="form-select uppercase-text" id="">
-                                <option value="">Select Job Status</option>
-                                <option value="Active" {{ $candidate_job_detail->job_status == 'Active' ? 'selected' : '' }}> Active </option>
-                                <option value="Deactive" {{ $candidate_job_detail->job_status == 'Deactive' ? 'selected' : '' }}>Deactive</option>
-                            </select>
-                        </td>
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-
-                </tr>
-
-                </tbody>`)
-
-            $('#deploy-date').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->deployment_date ? \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') : '' }}"
-            });
-            $('#instl1_date').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->fst_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->fst_installment_date)->format('d-m-Y') : '' }}"
-            });
-            $('#instl2_date').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->secnd_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->secnd_installment_date)->format('d-m-Y') : '' }}"
-            });
-            $('#instl3_date').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->third_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') : '' }}"
-            });
-            $('#instl4_date').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->fourth_installment_date ? \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') : '' }}"
-            });
-        });
-
-        $(document).on("click", '#cross-button-payment', function(e) {
-
-            $(this).html(``);
-            $('#submit-button-payment').html(``)
-            $('#open-payment-input').html(
-                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
-            $('#candidate-form-payment').html(`<tbody>
-                                    <tr>
-                                        <td>1st Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? '' }}</td>
-                                        <td>1st Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                        <td>2nd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? '' }}</td>
-                                        <td>2nd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>3rd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->third_installment_amount ?? '' }}</td>
-                                        <td>3rd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                        <td>4th Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? '' }}</td>
-                                        <td>4th Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Total Amount</td>
-                                        <td>{{ $candidate_job_detail->total_amount ?? 'N/A' }}</td>
-                                        <td>Deployment Date</td>
-                                        <td>{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td>
-                                        <td>Job Status</td>
-                                        <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A' }}</td>
-
-                                    </tr>
-                                </tbody>`);
-        });
-    </script>
 
     <script>
         $(document).ready(function() {
@@ -1841,7 +1684,13 @@
                     toastr.success('Candidate payment details updated successfully');
                     var candidate_id = "{{ $candidate_job_detail->id }}";
                     $(".candidate-new-" + candidate_id).html(response.view);
+                    $('#job-payment-table').html(response.view1);
                     $('#submit-button-payment').html(``);
+                    $('#cross-button-payment').html(``);
+                    // show the edit button
+                    $('#open-payment-input').html(
+                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
@@ -1853,5 +1702,20 @@
             });
         });
     </script>
+   <script>
+    // Function to calculate total amount
+    function calculateTotal() {
+        var fst_installment_amount = parseFloat($('input[name="fst_installment_amount"]').val()) || 0;
+        var secnd_installment_amount = parseFloat($('input[name="secnd_installment_amount"]').val()) || 0;
+        var third_installment_amount = parseFloat($('input[name="third_installment_amount"]').val()) || 0;
+        var fourth_installment_amount = parseFloat($('input[name="fourth_installment_amount"]').val()) || 0;
+
+        var total_amount = fst_installment_amount + secnd_installment_amount + third_installment_amount + fourth_installment_amount;
+        $('input[name="total_amount"]').val(total_amount);
+    }
+
+    // Listen for keyup event on all installment input fields
+    $(document).on('keyup', 'input[name="fst_installment_amount"], input[name="secnd_installment_amount"], input[name="third_installment_amount"], input[name="fourth_installment_amount"]', calculateTotal);
+</script>
 
 @endif

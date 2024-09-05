@@ -31,10 +31,10 @@ class JobsController extends Controller
         if (Auth::user()->can('Manage Job')) {
 
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->where('job_interview_status','!=','Not-Interested')->paginate(15);
+                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->where('job_interview_status', '!=', 'Not-Interested')->paginate(15);
             } else {
 
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('job_interview_status','!=','Not-Interested')->paginate(15);
+                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('job_interview_status', '!=', 'Not-Interested')->paginate(15);
             }
 
             $companies = Company::orderBy('company_name', 'asc')->with('jobs')->get();
@@ -62,9 +62,7 @@ class JobsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
@@ -139,9 +137,7 @@ class JobsController extends Controller
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate'))->render(), 'status' => 'success']);
     }
 
-    public function bulkStatusUpdate()
-    {
-    }
+    public function bulkStatusUpdate() {}
 
     /**
      * Remove the specified resource from storage.
@@ -151,9 +147,7 @@ class JobsController extends Controller
         //
     }
 
-    public function userAutoFill(Request $request)
-    {
-    }
+    public function userAutoFill(Request $request) {}
 
     public function candidatejobFilter(Request $request)
     {
@@ -187,12 +181,12 @@ class JobsController extends Controller
 
         // Filter by job ID
         if ($job_id) {
-            $query->whereIn('job_id', $job_id)->where('job_interview_status','!=','Not-Interested');
+            $query->whereIn('job_id', $job_id)->where('job_interview_status', '!=', 'Not-Interested');
         }
 
         // Filter by company
         if ($company) {
-            $query->where('company_id', $company)->where('job_interview_status','!=','Not-Interested');
+            $query->where('company_id', $company)->where('job_interview_status', '!=', 'Not-Interested');
         }
 
         // Filter by interview pipeline status
@@ -220,7 +214,7 @@ class JobsController extends Controller
     {
         switch ($int_pipeline) {
             case 'All':
-                $query->where('job_interview_status','Interested');
+                $query->where('job_interview_status', 'Interested');
                 break;
             case 'Selection':
                 $query->where('job_interview_status', 'Selected');
@@ -270,13 +264,13 @@ class JobsController extends Controller
         }
 
         if ($company) {
-            $baseQuery->where('company_id', $company)->where('job_interview_status','!=','Not-Interested');
+            $baseQuery->where('company_id', $company)->where('job_interview_status', '!=', 'Not-Interested');
         }
 
         $candidate_jobs = $baseQuery->get();
 
         return [
-            'total_interviews' => $candidate_jobs->where('job_interview_status','Interested')->count(),
+            'total_interviews' => $candidate_jobs->where('job_interview_status', 'Interested')->count(),
             'total_selection' => $candidate_jobs->where('job_interview_status', 'Selected')->count(),
             'total_medical' => $candidate_jobs->where('medical_status', '!=', null)->count(),
             'total_doc' => $candidate_jobs->where('visa_receiving_date', '!=', null)->count(),
@@ -479,13 +473,13 @@ class JobsController extends Controller
             'fst_installment_amount' => 'nullable|required_with:fst_installment_date|numeric',
             'fst_installment_date' => 'nullable|required_with:fst_installment_amount',
             // if secnd_installment_amount is not null then secnd_installment_date is required
-            'secnd_installment_amount' => 'nullable|required_with:secnd_installment_date|numeric',
+            'secnd_installment_amount' => 'nullable|numeric',
             'secnd_installment_date' => 'nullable|required_with:secnd_installment_amount',
             // if third_installment_amount is not null then third_installment_date is required
-            'third_installment_amount' => 'nullable|required_with:third_installment_date|numeric',
+            'third_installment_amount' => 'nullable|numeric',
             'third_installment_date' => 'nullable|required_with:third_installment_amount',
             // if fourth_installment_amount is not null then fourth_installment_date is required
-            'fourth_installment_amount' => 'nullable|required_with:fourth_installment_date|numeric',
+            'fourth_installment_amount' => 'nullable|numeric',
             'fourth_installment_date' => 'nullable|required_with:fourth_installment_amount',
             // if any of the installment amount is not null then total_amount is required
             'total_amount' => 'nullable|required_with:fst_installment_amount,secnd_installment_amount,third_installment_amount,fourth_installment_amount|numeric',
@@ -507,24 +501,26 @@ class JobsController extends Controller
 
 
         $candidate_job = CandidateJob::findOrFail($id);
-        $candidate_refer = Candidate::where('id',$candidate_job->candidate_id)->first() ?? '';
-        $job_referral_point = Job::where('id',$candidate_job->job_id)->first() ?? '';
-        $referral_amount = ReferralPoint::where('id',$job_referral_point->referral_point_id)->first() ?? '';
+        $candidate_refer = Candidate::where('id', $candidate_job->candidate_id)->first() ?? '';
+        $job_referral_point = Job::where('id', $candidate_job->job_id)->first() ?? '';
+        $referral_amount = ReferralPoint::where('id', $job_referral_point->referral_point_id)->first() ?? '';
 
-        if($request->deployment_date && $candidate_refer->referred_by_id)
-        {
+        if ($request->deployment_date && $candidate_refer->referred_by_id) {
 
-                $refer_point = new CandidateReferralPoint();
-                $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
-                $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
-                $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
-                $refer_point->refer_point = $referral_amount->point ?? null;
-                $refer_point->amount = $referral_amount->amount ?? null;
-                $refer_point->refer_job_id = $candidate_job->job_id ?? null;
-                $refer_point->save();
+            $refer_point = new CandidateReferralPoint();
+            $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
+            $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
+            $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
+            $refer_point->refer_point = $referral_amount->point ?? null;
+            $refer_point->amount = $referral_amount->amount ?? null;
+            $refer_point->refer_job_id = $candidate_job->job_id ?? null;
+            $refer_point->save();
         }
 
+        $candidate_job_detail = CandidateJob::findOrFail($id);
+
         // session()->flash('message', 'Candidate payment details updated successfully');
-        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
+        // return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'view1' => view('jobs.payment-details', compact('candidate_job_detail'))->render(), 'status' => 'success']);
     }
 }

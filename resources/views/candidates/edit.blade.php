@@ -89,7 +89,8 @@
                     </div>
                 </div>
             </div>
-            <form action="{{ route('candidates.update', $candidate->id) }}" method="POST" id="candidate-edit-form">
+            <form action="{{ route('candidates.update', $candidate->id) }}" method="POST"
+                id="candidate-edit-form-submit">
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
@@ -1300,45 +1301,41 @@
         }
 
         // let toasterMessageShown = false;
-        var ajaxCallAllowed = true;
-        $(document).on('submit', '#candidate-edit-form', function(e) {
-            e.preventDefault();
+        // var ajaxCallAllowed = true;
+        $(document).off('submit', '#candidate-edit-form-submit').on('submit', '#candidate-edit-form-submit',
+            function(e) {
+                e.preventDefault();
 
-            if (!ajaxCallAllowed) {
-                return;
-            }
+                var formData = new FormData($(this)[0]);
 
-            var formData = new FormData($(this)[0]);
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response.status == true) {
-                        toastr.success('Candidate details updated successfully');
-                        $('#offcanvasEdit').offcanvas('hide');
-                        var candidate_id = "{{ $candidate->id }}";
-                        console.log(candidate_id);
-                        $(".candidate-new-" + candidate_id).html(response.view);
-                        ajaxCallAllowed = false;
-                    } else {
-                        toastr.error(response.message);
-
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if (response.status == true) {
+                            toastr.success('Candidate details updated successfully');
+                            $('#offcanvasEdit').offcanvas('hide');
+                            var candidate_id = "{{ $candidate->id }}";
+                            console.log(candidate_id);
+                            $(".candidate-new-" + candidate_id).html(response.view);
+                            // ajaxCallAllowed = false;
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value);
+                        });
                     }
-
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                }
+                });
             });
-        });
+
 
     });
 </script>
