@@ -50,10 +50,10 @@
             <h4>Assign By:</h4>
         </div>
         <div class="food-status-2">
-            <h4>{{$interview->assignBy->first_name}} {{$interview->assignBy->last_name}}</h4>
+            <h4>{{$interview->assignBy ? $interview->assignBy->name : 'N/A'}}  {{$interview->assignBy ? $interview->assignBy->last_name : ''}}</h4>
         </div>
     </div>
-    
+
 </div>
 
 @endforeach

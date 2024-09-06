@@ -93,6 +93,16 @@ section {
     display: block;
 }
 
+::-webkit-scrollbar{
+    width: 6px;
+    height: 8px;
+}
+::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb{
+    background: #666;
+}
 
 hr {
     box-sizing: content-box;
@@ -1263,50 +1273,35 @@ select.form-control:focus::-ms-value {
     min-height: 100%;
 }
 
-
-@media (max-width: 992px) {
-    .mdk-drawer__content {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        width: 300px;
-        transition: -webkit-transform 0.2s ease;
-        transition: transform 0.2s ease;
-        transition: transform 0.2s ease, -webkit-transform 0.2s ease;
-        background-color: #fff;
-        /*!rtl:begin:ignore*/
-        left: 0;
-        -webkit-transform: translate3d(-100%, 0, 0);
-        transform: translate3d(-100%, 0, 0);
-        /*!rtl:end:ignore*/
-    }
-
-    .nav_open .mdk-drawer__content {
-        -webkit-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
-    }
-
-    .nav_open .mdk-drawer {
-        visibility: visible;
-    }
-
-    .mdk-drawer-layout .mdk-drawer {
-        z-index: 999;
-    }
-
-    .mdk-drawer-layout {
-        display: block;
-        padding-top: 66px;
-    }
-
-    .sidebar-light.sidebar-left {
-        padding-top: 66px;
-    }
-
-    .navbar-brand.main_logo {
-        display: none;
+/*  */
+.fixed-head{
+    position: sticky;
+    width: 100%;
+    top: -20px;
+    background: #fff;
+    z-index: 10;
+}
+.fixed-candid{
+    position: sticky;
+    width: 100%;
+    top: 75px;
+    background: #fff;
+    z-index: 10;
+}
+.offcanvas .table tr td:nth-child(5),
+.offcanvas .table tr td:nth-child(3),
+.offcanvas .table tr td:first-child{
+   text-transform: uppercase;
+}
+@media only screen and (max-width: 1400px) {
+    .candidate_form .form-select,
+    .candidate_details .table tbody td,
+    .candidate_edit_form .form-control{
+        font-size: 14px !important;
     }
 }
+
+
 
 
 
@@ -5007,6 +5002,7 @@ h6+[aria-label=breadcrumb],
     top: -9px;
     font-size: 22px;
     display: none;
+    z-index: 11;
 }
 
 .content-short {
@@ -5731,6 +5727,8 @@ li.tagator_option{
     .mdk-header-layout>.mdk-header {
         z-index: 2;
     }
+
+
 }
 
 @media (max-width: 768.5px) {
@@ -5928,3 +5926,75 @@ border: none !important;
     font-size: 17px;
     margin-left: 6px;
  }
+ @media only screen and (max-width: 1400px){
+    .table#candidate-form{
+        width: 1200px;
+        overflow-x: scroll;
+    }
+ }
+
+ @media (max-width: 992px) {
+    .mdk-drawer__content {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 300px;
+        transition: -webkit-transform 0.2s ease;
+        transition: transform 0.2s ease;
+        transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+        background-color: #fff;
+        /*!rtl:begin:ignore*/
+        left: 0;
+        -webkit-transform: translate3d(-100%, 0, 0);
+        transform: translate3d(-100%, 0, 0);
+        /*!rtl:end:ignore*/
+    }
+
+    .nav_open .mdk-drawer__content {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+
+    .nav_open .mdk-drawer {
+        visibility: visible;
+    }
+
+    .mdk-drawer-layout .mdk-drawer {
+        z-index: 999;
+    }
+
+    .mdk-drawer-layout {
+        display: block;
+        padding-top: 66px;
+    }
+
+    .sidebar-light.sidebar-left {
+        padding-top: 66px;
+    }
+
+    .navbar-brand.main_logo {
+        display: none;
+    }
+
+    .fixed-candid {
+        top: 250px;
+    }
+    .candidate_form .form-select,
+    .candidate_details .table tbody td,
+    .candidate_edit_form .form-control{
+        font-size: 12px !important;
+    }
+    .candy-p{
+        z-index: 3;
+    }
+    .tagator_element{
+        z-index: 3 !important;
+    }
+}
+@media only screen and (max-width:767px){
+    .jobs_canvas .offcanvas-end {
+        width: 97% !important;
+        height: 95% !important;
+    }
+
+}
