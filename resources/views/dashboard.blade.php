@@ -118,7 +118,7 @@
                                                 <tr>
                                                     <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}</td>
-                                                    <td>{{  $new_jobs_opening->job->candidatePosition ? $new_jobs_opening->job->candidatePosition->name : '' }} </td>
+                                                    <td>{{  isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }} </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}</td>
                                                 </tr>
                                             @endforeach

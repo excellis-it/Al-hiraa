@@ -18,7 +18,7 @@
 
 <td>
 
-    <div class="round_staus" style="color: {{$candidate->candidateStatus->color}};background: {{$candidate->candidateStatus->background}};border: 1px solid {{$candidate->candidateStatus->color}};">
+    <div class="round_staus" style="color: {{$candidate->candidateStatus->color ?? ''}};background: {{$candidate->candidateStatus->background ?? ''}};border: 1px solid {{$candidate->candidateStatus->color ?? ''}};">
         {{ $candidate->candidateStatus->name ?? 'N/A' }}
     </div>
 

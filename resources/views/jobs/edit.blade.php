@@ -159,7 +159,7 @@
                                         <td>Assign By </td>
                                         <td>
                                             @if ($candidate_job_detail->assign_by_id != null)
-                                                {{ $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name }}
+                                                {{ isset($candidate_job_detail->assignBy) && $candidate_job_detail->assignBy ? $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name : 'N/A' }}
                                             @else
                                                 {{ $candidate_job_detail->assignBy ?? 'N/A' }}
                                             @endif
@@ -505,7 +505,7 @@
                         </div>
                     </div>
                     <div class="candidate_form candidate_edit_form" id="job-payment-table">
-                            @include('jobs.payment-details')
+                        @include('jobs.payment-details')
                         {{-- <div class="table-responsive" id="tableContainer">
                             <table class="table" id="candidate-form-payment">
                                 <tbody>
@@ -857,7 +857,7 @@
                                         <td>{{ $candidate_job_detail->arabic_speak ?? '' }}</td>
                                         <td>Assign By </td>
                                         <td>@if ($candidate_job_detail->assign_by_id != null)
-                                                {{ $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name }}
+                                                {{ isset($candidate_job_detail->assignBy) ? $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name : '' }}
                                             @else
                                                 {{ $candidate_job_detail->assignBy ?? '' }}
                                             @endif
@@ -1243,21 +1243,21 @@
     <script>
         // medical deatils
         $(document).ready(function() {
-        $(document).on("click", '#open-medical-input', function(e) {
-            // Initial check on page load
+            $(document).on("click", '#open-medical-input', function(e) {
+                // Initial check on page load
 
-            $(this).html(``);
+                $(this).html(``);
 
-            $('#submit-button-medical').html(
-                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
-            )
+                $('#submit-button-medical').html(
+                    `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
+                )
 
-            $('#cross-button-medical').html(
-                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
-            )
+                $('#cross-button-medical').html(
+                    `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
+                )
 
 
-            $('#candidate-form-medical').html(`<tbody class="candidate-form-new">
+                $('#candidate-form-medical').html(`<tbody class="candidate-form-new">
 
                 <tr>
                     <td>Medical Application Date</td>
@@ -1295,56 +1295,56 @@
                 </tr>
 
                 </tbody>`);
-            $('#med_date1').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->medical_application_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') : '' }}"
-            });
-            @if ($candidate_job_detail->medical_status == 'REPEAT')
-                $('#med_date3').datepicker({
+                $('#med_date1').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
-                    value: "{{ $candidate_job_detail->medical_repeat_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_repeat_date)->format('d-m-Y') : '' }}"
+                    value: "{{ $candidate_job_detail->medical_application_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') : '' }}"
                 });
-            @else
-                $('#med_date3').datepicker({
+                @if ($candidate_job_detail->medical_status == 'REPEAT')
+                    $('#med_date3').datepicker({
+                        uiLibrary: 'bootstrap5',
+                        format: 'dd-mm-yyyy',
+                        value: "{{ $candidate_job_detail->medical_repeat_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_repeat_date)->format('d-m-Y') : '' }}"
+                    });
+                @else
+                    $('#med_date3').datepicker({
+                        uiLibrary: 'bootstrap5',
+                        format: 'dd-mm-yyyy',
+                        value: ""
+                    });
+                @endif
+                $('#med_date2').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
-                    value: ""
+                    value: "{{ $candidate_job_detail->medical_completion_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_completion_date)->format('d-m-Y') : '' }}"
                 });
-            @endif
-            $('#med_date2').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->medical_completion_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_completion_date)->format('d-m-Y') : '' }}"
             });
-        });
 
-        function toggleRepeatDateField() {
-            var selectedStatus = $('#medical_status').val();
+            function toggleRepeatDateField() {
+                var selectedStatus = $('#medical_status').val();
 
-            if (selectedStatus === 'REPEAT') {
-                $('.repeat-date-row').show();
-            } else {
-                $('.repeat-date-row').hide();
+                if (selectedStatus === 'REPEAT') {
+                    $('.repeat-date-row').show();
+                } else {
+                    $('.repeat-date-row').hide();
+                }
             }
-        }
 
 
 
-        // Toggle field on dropdown change
-        $(document).on('change','#medical_status',  function() {
-            // alert('selectedStatus');
-            toggleRepeatDateField();
-        });
+            // Toggle field on dropdown change
+            $(document).on('change', '#medical_status', function() {
+                // alert('selectedStatus');
+                toggleRepeatDateField();
+            });
 
-        $(document).on("click", '#cross-button-medical', function(e) {
+            $(document).on("click", '#cross-button-medical', function(e) {
 
-            $(this).html(``);
-            $('#submit-button-medical').html(``);
-            $('#open-medical-input').html(
-                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
-            $('#candidate-form-medical').html(`<tbody>
+                $(this).html(``);
+                $('#submit-button-medical').html(``);
+                $('#open-medical-input').html(
+                    ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+                $('#candidate-form-medical').html(`<tbody>
                 <tr>
 
                     <td>Medical Application Date</td>
@@ -1355,8 +1355,8 @@
                     <td>{{ $candidate_job_detail->medical_status ?? '' }}</td>
                 </tr>
             </tbody>`);
+            });
         });
-    });
     </script>
 
     <script>
@@ -1689,7 +1689,8 @@
                     $('#cross-button-payment').html(``);
                     // show the edit button
                     $('#open-payment-input').html(
-                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        )
 
                 },
                 error: function(xhr) {
@@ -1702,20 +1703,23 @@
             });
         });
     </script>
-   <script>
-    // Function to calculate total amount
-    function calculateTotal() {
-        var fst_installment_amount = parseFloat($('input[name="fst_installment_amount"]').val()) || 0;
-        var secnd_installment_amount = parseFloat($('input[name="secnd_installment_amount"]').val()) || 0;
-        var third_installment_amount = parseFloat($('input[name="third_installment_amount"]').val()) || 0;
-        var fourth_installment_amount = parseFloat($('input[name="fourth_installment_amount"]').val()) || 0;
+    <script>
+        // Function to calculate total amount
+        function calculateTotal() {
+            var fst_installment_amount = parseFloat($('input[name="fst_installment_amount"]').val()) || 0;
+            var secnd_installment_amount = parseFloat($('input[name="secnd_installment_amount"]').val()) || 0;
+            var third_installment_amount = parseFloat($('input[name="third_installment_amount"]').val()) || 0;
+            var fourth_installment_amount = parseFloat($('input[name="fourth_installment_amount"]').val()) || 0;
 
-        var total_amount = fst_installment_amount + secnd_installment_amount + third_installment_amount + fourth_installment_amount;
-        $('input[name="total_amount"]').val(total_amount);
-    }
+            var total_amount = fst_installment_amount + secnd_installment_amount + third_installment_amount +
+                fourth_installment_amount;
+            $('input[name="total_amount"]').val(total_amount);
+        }
 
-    // Listen for keyup event on all installment input fields
-    $(document).on('keyup', 'input[name="fst_installment_amount"], input[name="secnd_installment_amount"], input[name="third_installment_amount"], input[name="fourth_installment_amount"]', calculateTotal);
-</script>
+        // Listen for keyup event on all installment input fields
+        $(document).on('keyup',
+            'input[name="fst_installment_amount"], input[name="secnd_installment_amount"], input[name="third_installment_amount"], input[name="fourth_installment_amount"]',
+            calculateTotal);
+    </script>
 
 @endif

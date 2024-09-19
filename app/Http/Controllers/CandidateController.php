@@ -336,7 +336,7 @@ class CandidateController extends Controller
             'call_status' => 'required',
             'dob' => 'nullable|date_format:d-m-Y',
             // indian_exp word limit validation
-            'remarks' => 'nullable|required_if:call_status,REJECTED',
+            'remark' => 'nullable|required_if:call_status,REJECTED',
             'company_id' => 'nullable|required_if:call_status,INTERESTED',
             'interview_id' => 'nullable|required_with:company_id',
             // 'interview_status' => 'nullable|required_with:interview_id',
