@@ -4073,8 +4073,12 @@ h6+[aria-label=breadcrumb],
     padding: 10px;
     height: auto;
     border-radius: 8px;
-}
 
+}
+#dob-error{
+    position: absolute !important;
+    bottom: -32px !important;
+}
 .integrations-form .form-group .form-select {
     border: 1px solid #DFDFDF;
     padding: 10px;
@@ -5656,6 +5660,10 @@ li.tagator_option{
     .jobs_canvas .offcanvas-end {
         width: 90% !important;
     }
+    #dob-error {
+        font-size: 12px !important;
+        line-height: 12px !important;
+    }
 }
 
 @media (max-width: 1440.5px) {
@@ -5709,6 +5717,7 @@ li.tagator_option{
     .offcanvas-end {
         height: 80%;
     }
+
 }
 
 @media (max-width: 1280.5px) {}
@@ -5794,6 +5803,7 @@ li.tagator_option{
     .cross_x {
         display: block;
     }
+
 
 }
 
@@ -5995,6 +6005,9 @@ border: none !important;
     .jobs_canvas .offcanvas-end {
         width: 97% !important;
         height: 95% !important;
+    }
+    #dob-error {
+        font-size: 12px !important;
     }
 
 }

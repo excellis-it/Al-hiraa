@@ -285,7 +285,7 @@ class JobsController extends Controller
         $request->validate([
             'full_name' => 'required',
             'gender' => 'required',
-            'dob' => 'required',
+            'dob' => 'required|date',
             'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
             'alternate_contact_no' => 'nullable|digits:10',
         ], [
@@ -359,7 +359,8 @@ class JobsController extends Controller
     public function candidateJobDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
-            'date_of_interview' => 'required',
+            'date_of_interview' => 'required|date',
+            'date_of_selection' => 'nullable|date',
             'salary' => 'required|numeric',
         ], [
             'salary.required' => 'The salary field is required.',
@@ -403,11 +404,11 @@ class JobsController extends Controller
     public function candidateMedicalDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
-            'medical_application_date' => 'required',
-            'medical_completion_date' => 'nullable|required_with:medical_status',
+            'medical_application_date' => 'required|date',
+            'medical_completion_date' => 'nullable|required_with:medical_status|date',
             'medical_status' => 'nullable|required_with:medical_completion_date',
             // if medical_status is REPEAT then medical_repeat_date is required
-            'medical_repeat_date' => 'nullable|required_if:medical_status,REPEAT',
+            'medical_repeat_date' => 'nullable|required_if:medical_status,REPEAT|date',
         ], [
             'medical_application_date.required' => 'The medical apllication date is required.',
             'medical_completion_date.required' => 'The medical completion date is required.',
@@ -434,7 +435,7 @@ class JobsController extends Controller
     public function candidateVisaDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
-            'visa_receiving_date' => 'required',
+            'visa_receiving_date' => 'required|date',
         ], [
             'visa_receiving_date.required' => 'The visa receiving date is required.',
         ]);
@@ -453,7 +454,8 @@ class JobsController extends Controller
     public function candidateTicketDetailsUpdate(request $request, string $id)
     {
         $request->validate([
-            'ticket_booking_date' => 'required',
+            'ticket_booking_date' => 'required|date',
+            'ticket_confirmation_date' => 'nullable|date',
         ]);
 
         $ticket_details_update = CandidateJob::findOrFail($id);
@@ -470,17 +472,17 @@ class JobsController extends Controller
     {
         $request->validate([
             // if fst_installment_amount is not null then fst_installment_date is required
-            'fst_installment_amount' => 'nullable|required_with:fst_installment_date|numeric',
+            'fst_installment_amount' => 'nullable|required_with:fst_installment_date|numeric|date',
             'fst_installment_date' => 'nullable|required_with:fst_installment_amount',
             // if secnd_installment_amount is not null then secnd_installment_date is required
             'secnd_installment_amount' => 'nullable|numeric',
-            'secnd_installment_date' => 'nullable|required_with:secnd_installment_amount',
+            'secnd_installment_date' => 'nullable|required_with:secnd_installment_amount|date',
             // if third_installment_amount is not null then third_installment_date is required
             'third_installment_amount' => 'nullable|numeric',
-            'third_installment_date' => 'nullable|required_with:third_installment_amount',
+            'third_installment_date' => 'nullable|required_with:third_installment_amount|date',
             // if fourth_installment_amount is not null then fourth_installment_date is required
             'fourth_installment_amount' => 'nullable|numeric',
-            'fourth_installment_date' => 'nullable|required_with:fourth_installment_amount',
+            'fourth_installment_date' => 'nullable|required_with:fourth_installment_amount|date',
             // if any of the installment amount is not null then total_amount is required
             'total_amount' => 'nullable|required_with:fst_installment_amount,secnd_installment_amount,third_installment_amount,fourth_installment_amount|numeric',
         ]);

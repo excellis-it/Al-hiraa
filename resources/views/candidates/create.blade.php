@@ -87,10 +87,25 @@
             }, "Please specify a valid Passport number");
 
             // Add custom validation method for date format
-            $.validator.addMethod("dateITA", function(value, element) {
-                // DD-MM-YYYY format
-                return value.match(/^\d{2}-\d{2}-\d{4}$/);
-            }, "Please enter a valid date in the format dd-mm-yyyy.");
+          $.validator.addMethod("dateITA", function(value, element) {
+    // Check if the value matches DD-MM-YYYY format
+    if (!value.match(/^\d{2}-\d{2}-\d{4}$/)) {
+        return false;
+    }
+
+    // Split the value into day, month, year
+    var parts = value.split("-");
+    var day = parseInt(parts[0], 10);
+    var month = parseInt(parts[1], 10) - 1; // JavaScript months are 0-11
+    var year = parseInt(parts[2], 10);
+
+    // Create a date object from the parsed day, month, year
+    var date = new Date(year, month, day);
+
+    // Check if the date is valid and matches the input date
+    return date && (date.getMonth() === month) && (date.getDate() === day) && (date.getFullYear() === year);
+}, "Please enter a valid date in the format dd-mm-yyyy.");
+
 
             $.validator.addMethod("fileExtension", function(value, element, param) {
                 param = typeof param === "string" ? param.replace(/\s/g, "") : "pdf|doc|docx";
