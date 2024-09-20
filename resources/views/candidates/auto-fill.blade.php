@@ -27,8 +27,8 @@
         <div class="form-group date-btn">
             <label for="dob">DOB</label>
             <input type="text" class="form-control uppercase-text datepicker" id="dob"
-                value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob"
-                max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
+                value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob" autocomplete="false"
+                max="{{ date('d-m-Y') }}" placeholder="dd-mm-yyyy" onkeydown="return false">
 
         </div>
         @if ($errors->has('dob'))
@@ -638,8 +638,8 @@
     <div class="col-lg-3">
         <div class="form-group date-btn">
             <label for="">DOB <span>*</span></label>
-            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
-                name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yy">
+            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}" autocomplete="false"
+                name="dob" max="{{ date('d-m-Y') }}" placeholder="dd-mm-yy" onkeydown="return false">
         </div>
         @if ($errors->has('dob'))
             <span class="text-danger">{{ $errors->first('dob') }}</span>

@@ -561,7 +561,7 @@
                         <td>Last Updated Date</td>
                         <td>
                             <div class="form-group">
-                                <input type="date" class="form-control uppercase-text" id="" value="{{ date('Y-m-d', strtotime($candidate->updated_at)) ?? '' }}" name="last_update_date" placeholder="Last Updated Date" readonly>
+                                <input type="date" class="form-control uppercase-text" id="" value="{{ date('d-m-Y', strtotime($candidate->updated_at)) ?? '' }}" name="last_update_date" placeholder="Last Updated Date" readonly>
                             </div>
                         </td>
                         <td>Full Name</td>
@@ -586,9 +586,9 @@
                         <td>DOB</td>
                         <td>
                             <div class="form-group date-btn">
-                                <input type="text" class="form-control uppercase-text datepicker" id="dob"
+                                <input type="text" class="form-control uppercase-text datepicker" id="dob" onkeydown="return false" autocomplete="off"
                                     value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}"
-                                    name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
+                                    name="dob" max="{{ date('d-m-Y') }}" placeholder="dd-mm-yyyy">
                                 <span class="text-danger" id="date_of_birth_msg"></span>
                             </div>
                         </td>
