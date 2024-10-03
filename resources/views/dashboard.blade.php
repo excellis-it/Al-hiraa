@@ -194,9 +194,16 @@
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
                 <div class="row">
                     <div class="col-lg-4">
 
+=======
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    
+>>>>>>> shreeja
                         <div class="calendar-container wrapper">
                             <div class="calendar-header header">
                                 <button id="prev" class="icon">&lt;</button>

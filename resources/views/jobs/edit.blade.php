@@ -291,12 +291,21 @@
                                     </tr>
                                     <tr>
                                         <td>Service Charge</td>
+<<<<<<< HEAD
                                         <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '' }}</td>
+=======
+                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}</td>
+>>>>>>> shreeja
                                         <td>Food Allowance</td>
                                         <td>{{ $candidate_job_detail->food_allowance ?? '' }}</td>
                                         <td>Contract Duration</td>
+<<<<<<< HEAD
                                         <td colspan="3">{{ $candidate_job_detail->contract_duration ?? '' }}</td>
 
+=======
+                                        <td>{{ $candidate_job_detail->contract_duration ?? ''}}</td>
+                                        
+>>>>>>> shreeja
                                     </tr>
                                     <tr>
                                         <td>Mofa No</td>
@@ -621,7 +630,11 @@
                     <tr>
                         <td>DOB</td>
                         <td>
+<<<<<<< HEAD
                         <div class="form-group date-btn">
+=======
+                        <div class="form-group">
+>>>>>>> shreeja
                             <input type="text" class="form-control uppercase-text datepicker" id="dob"
                                 value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_birth)->format('d-m-Y') ?? '' }}"
                                 name="dob" max="{{ date('Y-m-d') }}" placeholder="dd-mm-yyyy">
@@ -1029,14 +1042,24 @@
 
                 <tr>
                     <td>Date of Interview</td>
+<<<<<<< HEAD
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="interview_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') ?? '' }}" name="date_of_interview" placeholder="dd-mm-yyyy">
+=======
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') ?? '' }}" name="date_of_interview" placeholder="dd-mm-yyyy">
+>>>>>>> shreeja
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
 
                     <td>Date of Selection</td>
+<<<<<<< HEAD
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="selection_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') ?? '' }}" name="date_of_selection" placeholder="dd-mm-yyyy">
+=======
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') ?? '' }}" name="date_of_selection" placeholder="dd-mm-yyyy">
+>>>>>>> shreeja
 
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
@@ -1044,11 +1067,19 @@
                     <td>
                         <select name="mode_of_selection" class="form-select uppercase-text" id="" >
                             <option value="">mode of selection</option>
+<<<<<<< HEAD
                             <option value="Full Time" {{ $candidate_job_detail->mode_of_selection == 'Full Time' ? 'selected' : '' }}>Full Time</option>
                             <option value="Part Time" {{ $candidate_job_detail->mode_of_selection == 'Part Time' ? 'selected' : '' }}>Part Time</option>
                             <option value="Contract" {{ $candidate_job_detail->mode_of_selection == 'Contract' ? 'selected' : '' }}>Contract</option>
                         </select>
 
+=======
+                            <option value="Full Time" {{$candidate_job_detail->mode_of_selection == 'Full Time' ? 'selected':''}}>Full Time</option>
+                            <option value="Part Time" {{$candidate_job_detail->mode_of_selection == 'Part Time' ? 'selected':''}}>Part Time</option>
+                            <option value="Contract" {{$candidate_job_detail->mode_of_selection == 'Contract' ? 'selected':''}}>Contract</option>
+                        </select>
+                         
+>>>>>>> shreeja
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
@@ -1088,7 +1119,11 @@
                 </tr>
                 <tr>
                     <td>Service Charge</td>
+<<<<<<< HEAD
                     <td><input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00' }}"  placeholder="" readonly>
+=======
+                    <td><input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}"  placeholder="" readonly>
+>>>>>>> shreeja
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Food Allowance</td>
@@ -1110,8 +1145,13 @@
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Mofa Date</td>
+<<<<<<< HEAD
                     <td colspan="3" class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="mofa_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') ?? '' }}" name="mofa_date" placeholder="dd-mm-yyyy">
+=======
+                    <td colspan="3">
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') ?? '' }}" name="mofa_date" placeholder="dd-mm-yyyy">
+>>>>>>> shreeja
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
 
@@ -1171,7 +1211,11 @@
                                     </tr>
                                     <tr>
                                         <td>Service Charge</td>
+<<<<<<< HEAD
                                         <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '' }}</td>
+=======
+                                        <td>{{ $candidate_job_detail->jobTitle->service_charge ?? '00.00'}}</td>
+>>>>>>> shreeja
                                         <td>Food Allowance</td>
                                         <td>{{ $candidate_job_detail->food_allowance ?? '' }}</td>
                                         <td>Contract Duration</td>
@@ -1261,6 +1305,7 @@
 
                 <tr>
                     <td>Medical Application Date</td>
+<<<<<<< HEAD
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="med_date1" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') ?? '' }}" name="medical_application_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
@@ -1268,6 +1313,15 @@
                     <td>Medical Completion Date</td>
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="med_date2" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_completion_date)->format('d-m-Y') ?? '' }}" name="medical_completion_date" placeholder="dd-mm-yyyy">
+=======
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') ?? '' }}" name="medical_application_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>Medical Completion Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_completion_date)->format('d-m-Y') ?? '' }}" name="medical_completion_date" placeholder="dd-mm-yyyy">
+>>>>>>> shreeja
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     </tr>
@@ -1377,12 +1431,18 @@
 
                 <tr>
                     <td>Visa Receiving Date</td>
+<<<<<<< HEAD
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="visa_rec_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->visa_receiving_date)->format('d-m-Y') ?? '' }}" name="visa_receiving_date" placeholder="dd-mm-yyyy">
+=======
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->visa_receiving_date)->format('d-m-Y') ?? '' }}" name="visa_receiving_date" placeholder="dd-mm-yyyy">
+>>>>>>> shreeja
 
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                     <td>Visa Issue Date</td>
+<<<<<<< HEAD
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="visa_issu_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->visa_issue_date)->format('d-m-Y') ?? '' }}" name="visa_issue_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
@@ -1390,6 +1450,15 @@
                     <td>Visa Expiry Date</td>
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="visa_expiry_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->visa_expiry_date)->format('d-m-Y') ?? '' }}" name="visa_expiry_date" placeholder="dd-mm-yyyy">
+=======
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->visa_issue_date)->format('d-m-Y') ?? '' }}" name="visa_issue_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>Visa Expiry Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->visa_expiry_date)->format('d-m-Y') ?? '' }}" name="visa_expiry_date" placeholder="dd-mm-yyyy">
+>>>>>>> shreeja
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
                 </tr>
@@ -1452,6 +1521,7 @@
 
                 <tr>
                     <td>Ticket Booking Date</td>
+<<<<<<< HEAD
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="tickt_booking_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') ?? '' }}" name="ticket_booking_date" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="interview_id_job_msg"></span>
@@ -1459,6 +1529,15 @@
                     <td>Ticket Confirmation Date</td>
                     <td class="date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="ticket_confirm_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_confirmation_date)->format('d-m-Y') ?? '' }}" name="ticket_confirmation_date" placeholder="dd-mm-yyyy">
+=======
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') ?? '' }}" name="ticket_booking_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>Ticket Confirmation Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_confirmation_date)->format('d-m-Y') ?? '' }}" name="ticket_confirmation_date" placeholder="dd-mm-yyyy">
+>>>>>>> shreeja
                         <span class="text-danger" id="interview_id_job_msg"></span>
                     </td>
 
@@ -1497,6 +1576,143 @@
     </script>
 
 
+<<<<<<< HEAD
+=======
+            $(this).html(``);
+
+            $('#submit-button-payment').html(
+                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
+            )
+
+            $('#cross-button-payment').html(
+                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
+            )
+
+            $('#candidate-form-payment').html(`<tbody class="candidate-form-new">
+                                        
+                <tr>
+                    <td>1st Installment Amount</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_amount ?? '' }}" name="fst_installment_amount" placeholder="">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>1st Installment Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fst_installment_date)->format('d-m-Y') ?? '' }}" name="fst_installment_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>2nd Installment Amount</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_amount ?? '' }}" name="secnd_installment_amount" placeholder="">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td>2nd Installment Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->secnd_installment_date)->format('d-m-Y') ?? '' }}" name="secnd_installment_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>3rd Installment Amount</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_amount ?? '' }}" name="third_installment_amount" placeholder="">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>3rd Installment Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') ?? '' }}" name="third_installment_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                   
+                </tr>
+                <tr>
+                    <td>4th Installment Amount</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_amount ?? '' }}" name="fourth_installment_amount" placeholder="">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>4th Installment Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') ?? '' }}" name="fourth_installment_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    
+                    <td>Total Amount</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->total_amount ?? '' }}" name="total_amount" placeholder="">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Deployment Date</td>
+                    <td>
+                        <input type="text" class="form-control uppercase-text datepicker" id="" value="{{ \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') ?? '' }}" name="deployment_date" placeholder="dd-mm-yyyy">
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    </td>
+                    <td>Job Status</td>
+                    
+                        <td colspan="3">
+                            <select name="job_status" class="form-select uppercase-text" id="">
+                                <option value="">Select Job Status</option>
+                                <option value="Active" {{ $candidate_job_detail->job_status == 'Active' ? 'selected' : '' }}> Active </option>
+                                <option value="Deactive" {{ $candidate_job_detail->job_status == 'Deactive' ? 'selected' : '' }}>Deactive</option>
+                            </select>
+                        </td>
+                        <span class="text-danger" id="interview_id_job_msg"></span>
+                    
+                </tr>
+                
+                </tbody>`)
+
+                $('.datepicker').datepicker({
+                    dateFormat: 'dd-mm-yy',
+                })
+               
+        });
+
+        $(document).on("click", '#cross-button-payment', function(e) {
+
+            $(this).html(``);
+            $('#submit-button-payment').html(``)
+            $('#open-payment-input').html(
+                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+            $('#candidate-form-payment').html(`<tbody>
+                                    <tr>                                        
+                                        <td>1st Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? 'N/A'}}</td>
+                                        <td>1st Installment Date</td>
+                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'N/A'}}</td>
+                                        <td>2nd Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A'}}</td>
+                                        <td>2nd Installment Date</td>
+                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'N/A'}}</td>
+                                    </tr>
+                                    
+                                    <tr>                                        
+                                        <td>3rd Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->third_installment_amount ?? 'N/A'}}</td>
+                                        <td>3rd Installment Date</td>
+                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'N/A'}}</td>
+                                        <td>4th Installment Amount</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? 'N/A'}}</td>
+                                        <td>4th Installment Date</td>
+                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'N/A'}}</td>
+                                    </tr>
+                                    
+                                    <tr> 
+                                        <td>Total Amount</td>
+                                        <td>{{ $candidate_job_detail->total_amount ?? 'N/A'}}</td>                                       
+                                        <td>Deployment Date</td>
+                                        <td>{{ $candidate_job_detail->deployment_date ?? 'N/A'}}</td>
+                                        <td>Job Status</td>
+                                        <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A'}}</td>
+                                        
+                                    </tr>
+                                </tbody>`);
+        });
+    </script>
+>>>>>>> shreeja
 
     <script>
         $(document).ready(function() {

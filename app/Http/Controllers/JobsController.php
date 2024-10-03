@@ -285,7 +285,11 @@ class JobsController extends Controller
         $request->validate([
             'full_name' => 'required',
             'gender' => 'required',
+<<<<<<< HEAD
             'dob' => 'required|date',
+=======
+            'dob' => 'required',
+>>>>>>> shreeja
             'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
             'alternate_contact_no' => 'nullable|digits:10',
         ], [
@@ -359,8 +363,13 @@ class JobsController extends Controller
     public function candidateJobDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
+<<<<<<< HEAD
             'date_of_interview' => 'required|date',
             'date_of_selection' => 'nullable|date',
+=======
+            'date_of_interview' => 'required',
+            'date_of_selection' => 'required',
+>>>>>>> shreeja
             'salary' => 'required|numeric',
         ], [
             'salary.required' => 'The salary field is required.',
@@ -390,6 +399,16 @@ class JobsController extends Controller
 
     public function candidateFamilyDetailsUpdate(Request $request, string $id)
     {
+<<<<<<< HEAD
+=======
+        $request->validate([
+            'family_contact_name' => 'required',
+            'family_contact_no' => 'required|numeric|digits:10',
+        ], [
+            'family_contact_name.required' => 'The family contact name is required.',
+            'family_contact_no.required' => 'The family contact no is required.',
+        ]);
+>>>>>>> shreeja
 
         $family_details_update = CandidateJob::findOrFail($id);
         $family_details_update->family_contact_name = $request->family_contact_name;

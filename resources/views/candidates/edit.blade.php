@@ -202,6 +202,7 @@
                                         <td>Religion</td>
                                         <td>{{ $candidate->religion ?? 'N/A' }}</td>
 
+<<<<<<< HEAD
                                         <td>Indidan Driving License </td>
                                         <td>
                                             @if ($candidate->candidateIndianLicence()->count() > 0)
@@ -213,6 +214,11 @@
                                             @else
                                                 {{ 'N/A' }}
                                             @endif
+=======
+                                        </td>
+                                        <td>Last Call Status</td>
+                                        <td>{{ $candidate->lastCandidateActivity->call_status ?? 'N/A' }}
+>>>>>>> shreeja
 
                                         </td>
                                     </tr>
@@ -414,8 +420,23 @@
                             <td>Assigned By</td>
                             <td>{{ $assign_job->user->full_name ?? 'N/A' }}
                             </td>
+<<<<<<< HEAD
                             <td>Company</td>
                             <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+=======
+
+                            <td>Status</td>
+                            <td>
+                            <select name="cnadidate_status_id" class="form-select uppercase-text" id="">
+                                <option value="">Select A Status</option>
+                                @foreach ($candidate_statuses as $status)
+                                <option value="{{ $status->id }}" {{ $candidate->cnadidate_status_id == $status->id ? 'selected' : '' }}>
+                                {{ $status->name }}
+                                </option>
+                                @endforeach
+                            </select>
+                            <span class="text-danger" id="cnadidate_status_id_msg"></span>
+>>>>>>> shreeja
                             </td>
                             <td>Job Title</td>
                             <td>{{ $assign_job->job->job_name ?? 'N/A' }}
@@ -570,9 +591,15 @@
                                 <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->full_name ?? '' }}" name="full_name" placeholder="Full Name">
                                 <span class="text-danger" id="full_name_msg"></span>
                             </div>
+<<<<<<< HEAD
                         </td>
                         <td>Gender</td>
                         <td>
+=======
+                            </td>
+                            <td>Gender</td>
+                            <td>
+>>>>>>> shreeja
                             <select name="gender" class="form-select uppercase-text" id="">
                                 <option value="">Select Gender</option>
                                 <option value="MALE" {{ $candidate->gender == 'MALE' ? 'selected' : '' }}> MALE </option>
@@ -611,6 +638,7 @@
                             <div class="form-group">
                                 <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate->email ?? '' }}" name="email" placeholder="Email ID" >
                                 <span class="text-danger" id="email_msg"></span>
+<<<<<<< HEAD
                             </div>
                         </td>
                         <td>State</td>
@@ -631,6 +659,99 @@
                             </select>
                         </td>
                     </tr>
+=======
+                                </div>
+                            </td>
+                            <td>City</td>
+                            <td>
+                                <select name="city" class="form-select new_select2 uppercase-text" id="">
+                                    <option value="">Select City</option>
+                                    @foreach (Position::getCity() as $city)
+                                        <option value="{{ $city }}" {{ $candidate->city == $city ? 'selected' : '' }}>
+                                            {{ $city }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td>Religion</td>
+                            <td>
+                                <select name="religion" class="form-select uppercase-text" id="">
+                                    <option value="">Select Religion</option>
+                                    <option value="HINDU" {{ $candidate->religion == 'HINDU' ? 'selected' : '' }}>Hindu</option>
+                                    <option value="ISLAM" {{ $candidate->religion == 'ISLAM' ? 'selected' : '' }}>Islam</option>
+                                    <option value="CHRISTIAN" {{ $candidate->religion == 'CHRISTIAN' ? 'selected' : '' }}>Christian</option>
+                                    <option value="SIKH" {{ $candidate->religion == 'SIKH' ? 'selected' : '' }}>Sikh</option>
+                                    <option value="BUDDHIST" {{ $candidate->religion == 'BUDDHIST' ? 'selected' : '' }}>Buddhist</option>
+                                    <option value="JAIN" {{ $candidate->religion == 'JAIN' ? 'selected' : '' }}>Jain</option>
+                                    <option value="OTHER" {{ $candidate->religion == 'OTHER' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </td>
+                        </tr>
+                       
+                        <tr>
+                            <td>ECR Type</td>
+                            <td>
+                            <select name="ecr_type" class="form-select uppercase-text" id="">
+                                <option value="">Select ECR</option>
+                                <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
+                                <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
+                            </select>
+                            </td>
+                            <td>Indian Driving License</td>
+                            <td>
+                                <select name="indian_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
+                                    <option value="" disabled>Select Indian Driving License</option>
+                                    <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                                        2 WHEELER</option>
+                                    <option value="4 WHEELER" {{ in_array('4 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                                        4 WHEELER</option>
+                                    <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
+                                </select>
+                            </td>
+                            <td>Gulf Driving License</td>
+                            <td>
+                                <select name="international_driving_license[]" class="form-select uppercase-text new_select2" id="" multiple>
+                                    <option value="" disabled>Select Gulf Driving License</option>
+                                    <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                                        2 WHEELER</option>
+                                    <option value="4 WHEELER" {{ in_array('4 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                                        4 WHEELER</option>
+                                    <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>English Speak</td>
+                            <td>
+                            <select name="english_speak" class="form-select uppercase-text" id="">
+                                <option value="">English Speak</option>
+                                <option value="BASIC" {{ strtoupper($candidate->english_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                                    <option value="GOOD" {{ strtoupper($candidate->english_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                                    <option value="POOR" {{ strtoupper($candidate->english_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                                    <option value="NO" {{ strtoupper($candidate->english_speak) == 'NO' ? 'selected' : '' }}>NO</option>
+                            </select>
+                            </td>
+                             <td>Arabic Speak</td>
+                            <td>
+                            <select name="arabic_speak" class="form-select uppercase-text" id="">
+                                <option value="">Arabic Speak</option>
+                                <option value="BASIC" {{ strtoupper($candidate->arabic_speak) == 'BASIC' ? 'selected' : '' }}>BASIC</option>
+                                    <option value="GOOD" {{ strtoupper($candidate->arabic_speak) == 'GOOD' ? 'selected' : '' }}>GOOD</option>
+                                    <option value="POOR" {{ strtoupper($candidate->arabic_speak) == 'POOR' ? 'selected' : '' }}>POOR</option>
+                                    <option value="NO" {{ strtoupper($candidate->arabic_speak) == 'NO' ? 'selected' : '' }}>NO</option>
+                            </select>
+                            </td>
+                            <td>Return</td>
+                            <td>
+                            <select name="return" class="form-select uppercase-text" id="">
+                                <option value="">Return</option>
+                                <option value="1" {{ $candidate->return == '1' ? 'selected' : '' }}>YES</option>
+                                <option value="0" {{ $candidate->return == '0' ? 'selected' : '' }}>NO</option>
+                            </select>
+                            </td>
+                        </tr>
+>>>>>>> shreeja
 
                     <tr class="position_applied_1">
                                 @if ($candidate->positionAppliedFor1)
@@ -961,7 +1082,7 @@
                             <td>
                                 <select name="call_status" class="form-select uppercase-text" id="">
                                     <option value="">Select Call Status</option>
-                                    @foreach (Position::getCallStatus() as $item)
+                                    @foreach(Position::getCallStatus() as $item)
                                         <option value="{{ $item }}">
                                             {{ $item }}</option>
                                     @endforeach
@@ -1502,7 +1623,11 @@
                                             <td>
                                             <div class="form-group">
                                                 <select name="company_id" class="form-select uppercase-text company_id" id="company_id">
+<<<<<<< HEAD
                                                 <option value=""> Company</option>
+=======
+                                                <option value="">Select Company</option>
+>>>>>>> shreeja
                                                 @foreach ($companies as $company)
                                                 <option value="{{ $company->id }}">
                                                 {{ $company->company_name }}
@@ -1516,7 +1641,11 @@
                                             <td>Job Title</td>
                                             <td>
                                             <select name="interview_id" class="form-select uppercase-text job_id" id="interview_id">
+<<<<<<< HEAD
                                                 <option value=""> Job Title</option>
+=======
+                                                <option value="">Select A Job Title</option>
+>>>>>>> shreeja
                                             </select>
                                             <span class="text-danger" id="interview_id_job_msg"></span>
                                             </td>
@@ -1524,9 +1653,15 @@
                                             <td>Interview Status</td>
                                             <td>
                                             <select name="interview_status" class="form-select uppercase-text" id="interview_status">
+<<<<<<< HEAD
                                                 <option value="">Interview Status</option>
                                                 <option value="Interested">Interested</option>
                                                 <option value="Not-Interested">Not-Interested</option>
+=======
+                                                <option value="">Select A Interview Status</option>
+                                                <option value="Selected">Selected</option>
+                                                <option value="Rejected">Rejected</option>
+>>>>>>> shreeja
                                             </select>
                                             <span class="text-danger" id="interview_status_job_msg"></span>
                                             </td>
