@@ -145,6 +145,9 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
     ]);
 
 
+    // check position
+    Route::get('/check-position',[CandidateController::class,'checkPositionExist'])->name('candidates.check-position');
+
     //get city name
     Route::post('/get-city-name',[CandidateController::class,'getCityName'])->name('candidates.get-city');
     // download-cv

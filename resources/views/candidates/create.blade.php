@@ -1,73 +1,73 @@
 @extends('layouts.master')
 @section('title')
-    {{ env('APP_NAME') }} - Candidates Create
+{{ env('APP_NAME') }} - Candidates Create
 @endsection
 @push('styles')
 @endpush
 @section('content')
-    <div class="mdk-drawer-layout__content page">
-        <div class="container-fluid page__heading-container">
-            <!-- page-contain-start  -->
-            <div class="integrations-div setting-profile-div">
+<div class="mdk-drawer-layout__content page">
+    <div class="container-fluid page__heading-container">
+        <!-- page-contain-start  -->
+        <div class="integrations-div setting-profile-div">
 
-                <div class="page__heading row align-items-center mb-0">
-                    <div class="col-xl-12 mb-3 mb-md-0">
-                        <div class="integrations-head">
-                            <h2>Add Candidate</h2>
-                        </div>
+            <div class="page__heading row align-items-center mb-0">
+                <div class="col-xl-12 mb-3 mb-md-0">
+                    <div class="integrations-head">
+                        <h2>Add Candidate</h2>
                     </div>
                 </div>
+            </div>
 
-                <div class="profile-div">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="integrations-form profile-form">
-                                <form action="{{ route('candidates.store') }}" method="POST" id="create-candidate"
-                                    enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="row g-2 justify-content-between">
-                                        <div class="col-lg-4">
-                                            <div class="form-group">
-                                                <label for="contact_no">Contact No: <span>*</span></label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" id="contact_no"
-                                                        value="{{ old('contact_no') }}" name="contact_no" placeholder="">
-                                                </div>
-                                                @if ($errors->has('contact_no'))
-                                                    <span class="text-danger">{{ $errors->first('contact_no') }}</span>
-                                                @endif
+            <div class="profile-div">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="integrations-form profile-form">
+                            <form action="{{ route('candidates.store') }}" method="POST" id="create-candidate"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <div class="row g-2 justify-content-between">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label for="contact_no">Contact No: <span>*</span></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="contact_no"
+                                                    value="{{ old('contact_no') }}" name="contact_no" placeholder="">
                                             </div>
+                                            @if ($errors->has('contact_no'))
+                                            <span class="text-danger">{{ $errors->first('contact_no') }}</span>
+                                            @endif
                                         </div>
                                     </div>
-                                    <hr>
-                                    <div class="row g-2 justify-content-between auto-fill">
-                                        @include('candidates.auto-fill')
-                                    </div>
-                                    <div class="row g-2 justify-content-between ">
-                                        <div class="col-lg-12">
-                                            <div class="save-btn-div d-flex align-items-center">
-                                                <button type="submit" class="btn save-btn">save</button>
-                                                <a href="{{ route('candidates.index') }}"
-                                                    class="btn save-btn save-btn-1">Cancel</a>
-                                            </div>
+                                </div>
+                                <hr>
+                                <div class="row g-2 justify-content-between auto-fill">
+                                    @include('candidates.auto-fill')
+                                </div>
+                                <div class="row g-2 justify-content-between ">
+                                    <div class="col-lg-12">
+                                        <div class="save-btn-div d-flex align-items-center">
+                                            <button type="submit" class="btn save-btn">save</button>
+                                            <a href="{{ route('candidates.index') }}"
+                                                class="btn save-btn save-btn-1">Cancel</a>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- page-contain-end  -->
         </div>
-
-
+        <!-- page-contain-end  -->
     </div>
+
+
+</div>
 @endsection
 
 @push('scripts')
-    <script>
-        $(document).ready(function() {
+<script>
+    $(document).ready(function() {
 
             jQuery.validator.addMethod("phoneUS", function(phone_number, element) {
                 phone_number = phone_number.replace(/\s+/g, "");
@@ -153,6 +153,31 @@
 
                         },
                     },
+
+                    position_applied_for_other: {
+                        required: false,
+                        remote: {
+                            url: "{{ route('candidates.check-position') }}",
+                            type: "GET",
+                            data: {
+                                position: function() {
+                                    return $("#position_applied_for_other").val();
+                                },
+                                _token: "{{ csrf_token() }}",
+                            },
+                            dataFilter: function(data) {
+                                var response = JSON.parse(data);
+                                console.log(response.status);
+                                if (response.status == true) {
+                                    return '"' + "Position already exists" + '"';
+                                } else {
+                                    return 'true';
+                                }
+                            }
+
+                        },
+                    },
+
                     position_applied_for_1: {
                         required: true,
                     },
@@ -209,6 +234,10 @@
                     position_applied_for_1: {
                         required: "Please select position applied for",
                     },
+
+                    position_applied_for_other: {
+
+                    }
                     alternate_contact_no: {
                         required: "Please enter alternate contact number",
                         minlength: "Alternate contact number should be 10 digits",
@@ -241,18 +270,18 @@
             });
 
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $('.select2').each(function() {
                 $(this).select2({
                     dropdownParent: $(this).parent()
                 });
             })
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $('.datepicker').datepicker({
                 uiLibrary: 'bootstrap5',
                 format: 'dd-mm-yyyy',
@@ -292,9 +321,9 @@
                 }, 300); // Adjust the timeout value (in milliseconds) as needed
             });
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $(document).on('click', '.referred_type', function() {
                 var type = $(this).text();
                 // alert(type);
@@ -316,17 +345,20 @@
                 }
             });
         });
-    </script>
-    <script>
-        $(document).ready(function() {
+</script>
+<script>
+    $(document).ready(function() {
             $(document).on('click', '.position_applied_for_1', function() {
 
+            
                 var type = $(this).text();
                 // alert(type);
                 if (type == 'Other') {
                     $('.position_applied_1').html(
                         ` <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
-                class="position_applied_for_1">List</a></span></label><input type="text" class="form-control uppercase-text" id="" name="position_applied_for_1" placeholder="">`
+                class="position_applied_for_1">List</a></span></label>
+                <input type="text" class="form-control uppercase-text position_applied_for_other" id="" name="position_applied_for_1" placeholder="">
+                <span class="text-danger" id="position_applied_for1_other_error"></span>`
                     );
 
                     if ($('.specialisation_1').length) {
@@ -362,7 +394,7 @@
                 if (type == 'Other') {
                     $('.position_applied_2').html(
                         ` <label for="">Position Applied For(2) <span></span> <span><a href="javascript:void(0);"
-                class="position_applied_for_2">List</a></span></label><input type="text" class="form-control uppercase-text" id="" name="position_applied_for_2" placeholder="">`
+                class="position_applied_for_2">List</a></span></label><input type="text" class="form-control uppercase-text position_applied_for_other" id="" name="position_applied_for_2" placeholder="">`
                     );
                     if ($('.specialisation_2').length) {
 
@@ -395,7 +427,7 @@
                 if (type == 'Other') {
                     $('.position_applied_3').html(
                         ` <label for="">Position Applied For(3) <span><a href="javascript:void(0);"
-                class="position_applied_for_3">List</a></span></label><input type="text" class="form-control uppercase-text" id="" name="position_applied_for_3" placeholder="">`
+                class="position_applied_for_3">List</a></span></label><input type="text" class="form-control uppercase-text position_applied_for_other" id="" name="position_applied_for_3" placeholder="">`
                     );
                     if ($('.specialisation_3').length) {
 
@@ -423,9 +455,9 @@
 
 
         });
-    </script>
-    <script>
-        // whatsapp number start with +91
+</script>
+<script>
+    // whatsapp number start with +91
         $(document).ready(function() {
             $(document).on('keyup', 'input[name="whatapp_no"]', function() {
                 var whatapp_no = $(this).val();
@@ -437,6 +469,8 @@
 
             });
             $(document).on('change', '.positionAppliedFor1', function() {
+
+                
                 // Get the selected value
                 var selectedPosition = $(this).val();
 
@@ -457,6 +491,9 @@
                     $(this).closest('.col-lg-4').next('.col-lg-4').remove();
                 }
             });
+
+           
+           
 
             $(document).on('change', '.positionAppliedFor2', function() {
                 // Get the selected value
@@ -503,10 +540,10 @@
             });
 
         });
-    </script>
+</script>
 
-    <script>
-        // get city name from state id
+<script>
+    // get city name from state id
         $(document).ready(function() {
             $(document).on('change', 'select[name="state_id"]', function() {
                 var state_id = $(this).val();
@@ -526,10 +563,10 @@
                 });
             });
         });
-    </script>
+</script>
 
-    <script>
-        // when source_name = reference there will two input filed open
+<script>
+    // when source_name = reference there will two input filed open
         $(document).ready(function() {
             $(document).on('change', 'select[name="source"]', function() {
 
@@ -544,10 +581,10 @@
 
             });
         });
-    </script>
+</script>
 
-    {{-- <script>
-            // auto_source_name id change
+{{-- <script>
+    // auto_source_name id change
             $(document).ready(function() {
                 $('#auto_source_name').change(function() {
                     var source_name = $(this).val();
@@ -561,5 +598,5 @@
                 });
             });
 
-        </script> --}}
+</script> --}}
 @endpush

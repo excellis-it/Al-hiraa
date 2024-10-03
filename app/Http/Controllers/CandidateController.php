@@ -1020,4 +1020,14 @@ class CandidateController extends Controller
         $pathToFile = Storage::disk('public')->path($candidate->cv);
         return response()->download($pathToFile);
     }
+
+    public function checkPositionExist(Request $request)
+    {
+        $position = CandidatePosition::whereRaw('LOWER(TRIM(name)) LIKE ?', ['%' . strtolower(trim($request->position)) . '%'])->count();
+        if ($position > 0) {
+            return response()->json(['status' => true]);
+        } else {
+            return response()->json(['status' => false]);
+        }
+    }
 }
