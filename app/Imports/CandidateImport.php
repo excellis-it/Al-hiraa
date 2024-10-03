@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use App\Models\CandidateActivity;
 use App\Models\CandidateFieldUpdate;
 use App\Models\CandidateLicence;
+use App\Models\City;
 use App\Models\CandidatePosition;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,8 @@ class CandidateImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $rows)
     {
+       
+        // dd(count($rows));
         Validator::make($rows->toArray(), [
             '*.full_name' => 'required',
             // '*.dob' => 'required',
@@ -30,8 +33,14 @@ class CandidateImport implements ToCollection, WithHeadingRow
             '*.position_applied_for_1' => 'required',
 
         ])->validate();
-        // dd($rows[0]['last_update_date']);
+       
+    
         foreach ($rows as $row) {
+            // get state from city
+            $city = City::whereRaw('LOWER(TRIM(name)) = ?', [strtolower(trim($row['city']))])->first();
+            $state_id = $city ? $city->state_id : null;
+            $city_id = $city ? $city->id : null;
+
             $candidate = new Candidate();
             $candidate->enter_by = Auth::user()->id;
             $candidate->cnadidate_status_id = 1;
@@ -49,7 +58,8 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->alternate_contact_no = $row['alternate_contact_no'] ?? '';
             $candidate->email = $row['email'] ?? '';
             $candidate->whatapp_no = $row['whatapp_no'] ?? '';
-            $candidate->city = $row['city'] ?? '';
+            $candidate->state_id = $state_id ?? null;
+            $candidate->city = $city_id ?? null;
             $candidate->religion = $row['religion'] ?? '';
             $candidate->ecr_type = $row['ecr_type'] ?? '';
             $candidate->english_speak = $row['english_speak'] ?? '';
