@@ -154,29 +154,29 @@
                         },
                     },
 
-                    position_applied_for_other: {
-                        required: false,
-                        remote: {
-                            url: "{{ route('candidates.check-position') }}",
-                            type: "GET",
-                            data: {
-                                position: function() {
-                                    return $("#position_applied_for_other").val();
-                                },
-                                _token: "{{ csrf_token() }}",
-                            },
-                            dataFilter: function(data) {
-                                var response = JSON.parse(data);
-                                console.log(response.status);
-                                if (response.status == true) {
-                                    return '"' + "Position already exists" + '"';
-                                } else {
-                                    return 'true';
-                                }
-                            }
+                    // position_applied_for_other: {
+                    //     required: false,
+                    //     remote: {
+                    //         url: "{{ route('candidates.check-position') }}",
+                    //         type: "GET",
+                    //         data: {
+                    //             position: function() {
+                    //                 return $("#position_applied_for_other").val();
+                    //             },
+                    //             _token: "{{ csrf_token() }}",
+                    //         },
+                    //         dataFilter: function(data) {
+                    //             var response = JSON.parse(data);
+                    //             console.log(response.status);
+                    //             if (response.status == true) {
+                    //                 return '"' + "Position already exists" + '"';
+                    //             } else {
+                    //                 return 'true';
+                    //             }
+                    //         }
 
-                        },
-                    },
+                    //     },
+                    // },
 
                     position_applied_for_1: {
                         required: true,
