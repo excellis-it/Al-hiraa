@@ -133,7 +133,7 @@
             $('#candidate-form').html(`
             <tbody class="candidate-form-new">
                 <tr>
-                    <td>Full Name</td>
+                    <td>Full Name*</td>
                     <td><div class="form-group">
                             <input class="form-control uppercase-text" type="text" placeholder="" aria-label="default input example" value="{{ $candidate_job_detail->full_name ?? '' }}" name="full_name">
                         </div>
@@ -145,7 +145,7 @@
                             <span class="text-danger" id="email_msg"></span>
                         </div>
                     </td>
-                    <td>Gender</td>
+                    <td>Gender*</td>
                     <td>
                         <select name="gender" class="form-select uppercase-text" id="">
                             <option value="">Select Gender</option>
@@ -159,7 +159,7 @@
                 <input type="hidden" class="form-control uppercase-text" value="{{ $candidate_job_detail->candidate_id ?? '' }}" name="candidate_id" >
 
                 <tr>
-                    <td>DOB</td>
+                    <td>DOB*</td>
                     <td>
                     <div class="form-group date-btn">
                         <input type="text" class="form-control uppercase-text datepicker" id="dob"

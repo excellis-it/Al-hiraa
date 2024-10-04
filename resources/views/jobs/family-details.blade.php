@@ -29,12 +29,12 @@
         $('#candidate-form-family').html(`<tbody class="candidate-form-new">
 
             <tr>
-                <td>Family Contact Name</td>
+                <td>Family Contact Name*</td>
                 <td>
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->family_contact_name ?? '' }}" name="family_contact_name" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                <td>Family Contact No</td>
+                <td>Family Contact No*</td>
                 <td>
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->family_contact_no ?? '' }}" name="family_contact_no" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>

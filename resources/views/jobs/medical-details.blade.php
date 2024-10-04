@@ -43,7 +43,7 @@
             $('#candidate-form-medical').html(`<tbody class="candidate-form-new">
 
             <tr>
-                <td>Medical Application Date</td>
+                <td>Medical Application Date*</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="med_date1" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') ?? '' }}" name="medical_application_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>

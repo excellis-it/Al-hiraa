@@ -30,7 +30,7 @@
         $('#candidate-form-visa').html(`<tbody class="candidate-form-new">
 
             <tr>
-                <td>Visa Receiving Date</td>
+                <td>Visa Receiving Date*</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="visa_rec_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->visa_receiving_date)->format('d-m-Y') ?? '' }}" name="visa_receiving_date" placeholder="dd-mm-yyyy">
 

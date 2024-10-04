@@ -198,7 +198,7 @@ class JobsController extends Controller
         $count = $this->getJobStatistics($job_id, $company, $search);
 
         // Paginate the results
-        $candidate_jobs = $query->paginate(15);
+        $candidate_jobs = $query->orderBy('id', 'desc')->paginate(15);
 
         // Render the results into a view
         $view = view('jobs.company-filter', compact('candidate_jobs', 'count', 'int_pipeline'))->render();
@@ -267,7 +267,7 @@ class JobsController extends Controller
             $baseQuery->where('company_id', $company)->where('job_interview_status', '!=', 'Not-Interested');
         }
 
-        $candidate_jobs = $baseQuery->get();
+        $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
 
         return [
             'total_interviews' => $candidate_jobs->where('job_interview_status', 'Interested')->count(),
@@ -447,6 +447,8 @@ class JobsController extends Controller
     {
         $request->validate([
             'visa_receiving_date' => 'required|date',
+            'visa_issue_date' => 'nullable|date',
+            'visa_expiry_date' => 'nullable|date',
         ], [
             'visa_receiving_date.required' => 'The visa receiving date is required.',
         ]);
@@ -487,7 +489,7 @@ class JobsController extends Controller
     {
         $request->validate([
             // if fst_installment_amount is not null then fst_installment_date is required
-            'fst_installment_amount' => 'nullable|required_with:fst_installment_date|numeric',
+            'fst_installment_amount' => 'required|required_with:fst_installment_date|numeric',
             'fst_installment_date' => 'nullable|required_with:fst_installment_amount|date',
             // if secnd_installment_amount is not null then secnd_installment_date is required
             'secnd_installment_amount' => 'nullable|numeric',
@@ -500,6 +502,28 @@ class JobsController extends Controller
             'fourth_installment_date' => 'nullable|required_with:fourth_installment_amount|date',
             // if any of the installment amount is not null then total_amount is required
             'total_amount' => 'nullable|required_with:fst_installment_amount,secnd_installment_amount,third_installment_amount,fourth_installment_amount|numeric',
+        ],[
+            'fst_installment_amount.required' => 'The first installment amount is required.',
+            'fst_installment_date.required' => 'The first installment date is required.',
+            'total_amount.required' => 'The total amount is required.',
+            'fst_installment_amount.numeric' => 'The first installment amount must be a number.',
+            'secnd_installment_amount.numeric' => 'The second installment amount must be a number.',
+            'third_installment_amount.numeric' => 'The third installment amount must be a number.',
+            'fourth_installment_amount.numeric' => 'The fourth installment amount must be a number.',
+            'total_amount.numeric' => 'The total amount must be a number.',
+            'fst_installment_date.date' => 'The first installment date must be a date.',
+            'secnd_installment_date.date' => 'The second installment date must be a date.',
+            'third_installment_date.date' => 'The third installment date must be a date.',
+            'fourth_installment_date.date' => 'The fourth installment date must be a date.',
+            'fst_installment_amount.required_with' => 'The first installment amount is required.',
+            'fst_installment_date.required_with' => 'The first installment date is required.',
+            'secnd_installment_amount.required_with' => 'The second installment amount is required.',
+            'secnd_installment_date.required_with' => 'The second installment date is required.',
+            'third_installment_amount.required_with' => 'The third installment amount is required.',
+            'third_installment_date.required_with' => 'The third installment date is required.',
+            'fourth_installment_amount.required_with' => 'The fourth installment amount is required.',
+            'fourth_installment_date.required_with' => 'The fourth installment date is required.',
+            'total_amount.required_with' => 'The total amount is required.',
         ]);
 
         $payment_details_update = CandidateJob::findOrFail($id);

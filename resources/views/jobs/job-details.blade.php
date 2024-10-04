@@ -69,7 +69,7 @@
         $('#candidate-form-job').html(`<tbody class="candidate-form-new">
 
             <tr>
-                <td>Date of Interview</td>
+                <td>Date of Interview*</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="interview_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') ?? '' }}" name="date_of_interview" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
@@ -121,7 +121,7 @@
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->country ?? '' }}" name="country" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                <td>Salary</td>
+                <td>Salary*</td>
                 <td>
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->salary ?? '' }}" name="salary" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>

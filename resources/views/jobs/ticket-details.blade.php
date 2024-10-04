@@ -29,7 +29,7 @@
         $('#candidate-form-ticket').html(`<tbody class="candidate-form-new">
 
             <tr>
-                <td>Ticket Booking Date</td>
+                <td>Ticket Booking Date*</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="tickt_booking_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') ?? '' }}" name="ticket_booking_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
