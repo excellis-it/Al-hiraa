@@ -5664,6 +5664,9 @@ li.tagator_option{
         font-size: 12px !important;
         line-height: 12px !important;
     }
+    .interview-text h4 {
+        min-height: 37px;
+    }
 }
 
 @media (max-width: 1440.5px) {
