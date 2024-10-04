@@ -4,14 +4,13 @@
             position: relative;
             width: 15%;
             /* background: #333; */
-            display: inline;
+            display: inline-block;
         }
 
         .image-area img {
             max-width: 100%;
             height: auto;
         }
-
         .remove-image {
             display: none;
             position: absolute;
@@ -70,7 +69,7 @@
                                 <div class="col-xl-12">
                                     <div class="form-group">
                                         <label for="">Image</label>
-                                        <input type="file" class="form-control" 
+                                        <input type="file" class="form-control"
                                             placeholder="" name="image[]" multiple>
                                         <span class="text-danger"></span>
                                     </div>

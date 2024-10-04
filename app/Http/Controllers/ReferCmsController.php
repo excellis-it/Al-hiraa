@@ -60,7 +60,7 @@ class ReferCmsController extends Controller
                 $currentImageFilename1 = $referCmsUpdate->content1_image; // get current image name
                 Storage::delete('app/'.$currentImageFilename1);
             }
-            $referCmsUpdate->content1_image = $this->imageUpload($request->file('content1_image'), 'refers');   
+            $referCmsUpdate->content1_image = $this->imageUpload($request->file('content1_image'), 'refers');
         }
 
         if ($request->hasFile('content2_image')) {
@@ -68,15 +68,15 @@ class ReferCmsController extends Controller
                 $currentImageFilename2 = $referCmsUpdate->content2_image; // get current image name
                 Storage::delete('app/'.$currentImageFilename2);
             }
-            $referCmsUpdate->content2_image = $this->imageUpload($request->file('content2_image'), 'refers');   
+            $referCmsUpdate->content2_image = $this->imageUpload($request->file('content2_image'), 'refers');
         }
 
         if ($request->hasFile('content3_image')) {
-           
-            $referCmsUpdate->content3_image = $this->imageUpload($request->file('content3_image'), 'refers');   
+
+            $referCmsUpdate->content3_image = $this->imageUpload($request->file('content3_image'), 'refers');
         }
         $referCmsUpdate->update();
-        
-        return redirect()->back()->with('success', 'Refer CMS updated successfully');
+
+        return redirect()->back()->with('message', 'Refer CMS updated successfully');
     }
 }
