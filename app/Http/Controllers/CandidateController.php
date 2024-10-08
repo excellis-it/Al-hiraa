@@ -160,6 +160,7 @@ class CandidateController extends Controller
         $position_1_count = CandidatePosition::where('id', $request->position_applied_for_1)->count();
         $position_2_count = CandidatePosition::where('id', $request->position_applied_for_2)->count();
         $position_3_count = CandidatePosition::where('id', $request->position_applied_for_3)->count();
+
         if ($request->position_applied_for_1) {
             if ($position_1_count > 0) {
                 $candidate->position_applied_for_1 = $request->position_applied_for_1;
@@ -395,9 +396,7 @@ class CandidateController extends Controller
         $position_2_count = CandidatePosition::where('id', $request->position_applied_for_2)->count();
         $position_3_count = CandidatePosition::where('id', $request->position_applied_for_3)->count();
 
-        $position_1_count = CandidatePosition::where('id', $request->position_applied_for_1)->count();
-        $position_2_count = CandidatePosition::where('id', $request->position_applied_for_2)->count();
-        $position_3_count = CandidatePosition::where('id', $request->position_applied_for_3)->count();
+
         if ($request->position_applied_for_1) {
             if ($position_1_count > 0) {
                 $candidate->position_applied_for_1 = $request->position_applied_for_1;
@@ -871,6 +870,17 @@ class CandidateController extends Controller
             } else {
                 return response()->json(['status' => true]);
             }
+        } else {
+            return response()->json(['status' => false]);
+        }
+    }
+
+    public function checkPosition(Request $request)
+    {
+        $position = $request->input('position_applied_for_1')  ?? $request->input('position_applied_for_2') ?? $request->input('position_applied_for_3');
+        $exists = CandidatePosition::where('name', $position)->where('is_active', 1)->get()->count();
+        if ($exists > 0) {
+            return response()->json(['status' => true]);
         } else {
             return response()->json(['status' => false]);
         }

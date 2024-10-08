@@ -155,7 +155,73 @@
                     },
                     position_applied_for_1: {
                         required: true,
+                        remote: {
+                            url: "{{ route('candidates.check-position') }}",
+                            type: "GET",
+                            data: {
+                                phone: function() {
+                                    return $("#contact_no").val();
+                                },
+                                _token: "{{ csrf_token() }}",
+                            },
+                            dataFilter: function(data) {
+                                var response = JSON.parse(data);
+                                if (response.status == true) {
+                                    return '"' + "Position already exists please select from list." + '"';
+                                } else {
+                                    return 'true';
+                                }
+                            }
+
+                        },
                     },
+
+                    position_applied_for_2: {
+                        required: false,
+                        remote: {
+                            url: "{{ route('candidates.check-position') }}",
+                            type: "GET",
+                            data: {
+                                phone: function() {
+                                    return $("#contact_no").val();
+                                },
+                                _token: "{{ csrf_token() }}",
+                            },
+                            dataFilter: function(data) {
+                                var response = JSON.parse(data);
+                                if (response.status == true) {
+                                    return '"' + "Position already exists please select from list." + '"';
+                                } else {
+                                    return 'true';
+                                }
+                            }
+
+                        },
+                    },
+
+                    position_applied_for_3: {
+                        required: false,
+                        remote: {
+                            url: "{{ route('candidates.check-position') }}",
+                            type: "GET",
+                            data: {
+                                phone: function() {
+                                    return $("#contact_no").val();
+                                },
+                                _token: "{{ csrf_token() }}",
+                            },
+                            dataFilter: function(data) {
+                                var response = JSON.parse(data);
+                                if (response.status == true) {
+                                    return '"' + "Position already exists please select from list." + '"';
+                                } else {
+                                    return 'true';
+                                }
+                            }
+
+                        },
+                    },
+
                     alternate_contact_no: {
                         required: false,
                         minlength: 10,
@@ -444,17 +510,17 @@
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
                     var newDiv = $(
-                        '<div class="col-lg-4 specialisation_1"><div class="form-group "><label>Specialisation for Position (1)</label><input type="text" class="form-control uppercase-text" name="specialisation_1"></div></div>'
+                        '<div class="col-lg-3 specialisation_1"><div class="form-group "><label>Specialisation for Position (1)</label><input type="text" class="form-control uppercase-text" name="specialisation_1"></div></div>'
                     );
 
                     // only append if the new specialisation_1 div doesn't exist
                     if (!$('.specialisation_1').length) {
-                        $(this).closest('.col-lg-4').after(newDiv);
+                        $(this).closest('.col-lg-3').after(newDiv);
                     }
 
                 } else {
                     // Remove the new div if position is not selected
-                    $(this).closest('.col-lg-4').next('.col-lg-4').remove();
+                    $(this).closest('.col-lg-3').next('.col-lg-3').remove();
                 }
             });
 
@@ -466,17 +532,17 @@
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
                     var newDiv = $(
-                        '<div class="col-lg-4 specialisation_2"><div class="form-group "><label>Specialisation for Position (2)</label><input type="text" class="form-control uppercase-text" name="specialisation_2"></div></div>'
+                        '<div class="col-lg-3 specialisation_2"><div class="form-group "><label>Specialisation for Position (2)</label><input type="text" class="form-control uppercase-text" name="specialisation_2"></div></div>'
                     );
 
                     // only append if the new specialisation_2 div doesn't exist
                     if (!$('.specialisation_2').length) {
-                        $(this).closest('.col-lg-4').after(newDiv);
+                        $(this).closest('.col-lg-3').after(newDiv);
                     }
 
                 } else {
                     // Remove the new div if position is not selected
-                    $(this).closest('.col-lg-4').next('.col-lg-4').remove();
+                    $(this).closest('.col-lg-3').next('.col-lg-3').remove();
                 }
             });
 
@@ -488,17 +554,17 @@
                 if (selectedPosition !== '') {
                     // Create a new div with the selected position's name
                     var newDiv = $(
-                        '<div class="col-lg-4 specialisation_3"><div class="form-group "><label>Specialisation for Position (3)</label><input type="text" class="form-control uppercase-text" name="specialisation_3"></div></div>'
+                        '<div class="col-lg-3 specialisation_3"><div class="form-group "><label>Specialisation for Position (3)</label><input type="text" class="form-control uppercase-text" name="specialisation_3"></div></div>'
                     );
 
                     // only append if the new specialisation_3 div doesn't exist
                     if (!$('.specialisation_3').length) {
-                        $(this).closest('.col-lg-4').after(newDiv);
+                        $(this).closest('.col-lg-3').after(newDiv);
                     }
 
                 } else {
                     // Remove the new div if position is not selected
-                    $(this).closest('.col-lg-4').next('.col-lg-4').remove();
+                    $(this).closest('.col-lg-3').next('.col-lg-3').remove();
                 }
             });
 

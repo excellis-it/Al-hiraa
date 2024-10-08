@@ -70,7 +70,7 @@ class Candidate extends Authenticatable
 
     public function candidateStatus()
     {
-        return $this->belongsTo(CandidateStatus::class, 'cnadidate_status_id');
+        return $this->belongsTo(CandidateStatus::class, 'cnadidate_status_id')->orderBy('id', 'desc');
     }
 
     public function enterBy()

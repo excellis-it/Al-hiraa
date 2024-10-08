@@ -19,7 +19,7 @@ class Helper
 
     public static function getUpdatedData($candidate_id, $user_id)
     {
-        $candidate_updated = CandidateFieldUpdate::where('candidate_id', $candidate_id)->where('user_id', $user_id)->first();
+        $candidate_updated = CandidateFieldUpdate::where('candidate_id', $candidate_id)->where('user_id', $user_id)->orderBy('id', 'desc')->first();
         if ($candidate_updated) {
             return $candidate_updated;
         } else {
@@ -54,14 +54,14 @@ class Helper
 
     public static function interviewSchedule($id = null)
     {
-        
+
         $interviewSchedule = CandidateJob::where('assign_by_id', $id)->where('date_of_interview', '!=', null)->count();
         if ($interviewSchedule) {
             return $interviewSchedule;
         } else {
             return 0;
         }
-        
+
     }
 
     public static function interviewAppear($id = null)
@@ -73,6 +73,6 @@ class Helper
             return 0;
         }
     }
-   
+
 
 }

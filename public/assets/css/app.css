@@ -5030,7 +5030,7 @@ h6+[aria-label=breadcrumb],
 .position_applied_1 .error {
     position: absolute;
     left: 0;
-    top: 85px;
+    /* top: 85px; */
     z-index: 10;
 }
 
@@ -5664,6 +5664,9 @@ li.tagator_option{
         font-size: 12px !important;
         line-height: 12px !important;
     }
+    .interview-text h4 {
+        min-height: 37px;
+    }
 }
 
 @media (max-width: 1440.5px) {
@@ -5936,6 +5939,12 @@ border: none !important;
     font-size: 17px;
     margin-left: 6px;
  }
+
+ /* css by pramesh */
+ #position_applied_for_1-error{
+    top: 80px !important;
+ }
+
  @media only screen and (max-width: 1400px){
     .table#candidate-form{
         width: 1200px;
