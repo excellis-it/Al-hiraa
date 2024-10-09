@@ -556,7 +556,7 @@ class CandidateController extends Controller
                 $candidate_job->passport_number = $candidate->passport_number ?? null;
                 $candidate_job->english_speak = $candidate->english_speak ?? null;
                 $candidate_job->arabic_speak = $candidate->arabic_speak ?? null;
-                $candidate_job->assign_by_id = $candidate->enter_by ?? null;
+                $candidate_job->assign_by_id = Auth::user()->id ?? null;
                 $candidate_job->job_id = $job_details->id ?? null;
                 $candidate_job->job_position = $job_details->candidate_position_id ?? null;
                 $candidate_job->job_location = $job_details->address ?? null;

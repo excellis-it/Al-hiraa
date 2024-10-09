@@ -151,7 +151,7 @@
             @if (Auth::user()->hasRole('ADMIN'))
                 {{-- chart --}}
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         {{-- @php
                         $year = 2023;
                     @endphp
@@ -169,7 +169,8 @@
                             @include('dashboard-interview-chart')
                         </div>
                     </div>
-
+                </div>
+                <div class="row">
                     <div class="col-lg-6">
                         <div class="table_right">
                             <div class="py-3">
@@ -187,6 +188,32 @@
                                     </thead>
                                     <tbody>
                                         @include('dashboard-users-table')
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- rc report --}}
+                    <div class="col-lg-6">
+                        <div class="table_right">
+                            <div class="py-3">
+                                <h4 class="card-header__title">RC Report</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0 thead-border-top-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Recruiter</th>
+                                            <th>Interested</th>
+                                            <th>Selected</th>
+                                            {{-- <th>Back Out</th> --}}
+                                            <th>Deployed</th>
+                                            <th>Candidate Added</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @include('dashboard-rc-report-table')
 
                                     </tbody>
                                 </table>

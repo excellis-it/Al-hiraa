@@ -7,6 +7,7 @@ use App\Models\CandidateJob;
 use App\Models\CandidateActivity;
 use App\Models\Interview;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use DateTime;
@@ -25,40 +26,63 @@ class DashboardController extends Controller
             $count['last_month_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
 
             $candidates = Candidate::where('enter_by', Auth::user()->id)->orderBy('id', 'desc')->paginate(5);
-        } else if(Auth::user()->hasRole('RECRUITER'))
-        {
-            $count['daily_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at',date('Y-m-d'))->count() ?? 0;
+            $recruiters = [];
+        } else if (Auth::user()->hasRole('RECRUITER')) {
+            $count['daily_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'))->count() ?? 0;
             $count['call_back'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'Call Back')->count() ?? 0;
 
             // last month entry
             $candidates = Candidate::where('enter_by', Auth::user()->id)->get();
+            $recruiters = [];
             $interviewSchedule = 0;
             $selection = 0;
             foreach ($candidates as $candidate) {
                 // Count how many times the candidate has a job_interview_status of 'interested'
                 $interviewSchedule += CandidateJob::where('candidate_id', $candidate->id)
-                                                ->where('job_interview_status', 'Interested')
-                                                ->count() ?? 0;
+                    ->where('job_interview_status', 'Interested')
+                    ->count() ?? 0;
 
                 $selection += CandidateJob::where('candidate_id', $candidate->id)
-                ->where('job_interview_status', 'Selected')
-                ->count() ?? 0;
+                    ->where('job_interview_status', 'Selected')
+                    ->count() ?? 0;
             }
 
             // Store the result in the $count array
             $count['interview_schedule'] = $interviewSchedule;
             $count['selection'] = $selection;
-
-
-
-        }
-        else {
+        } else {
             $count['total_candidate_entry'] = Candidate::count() ?? 0;
             $count['today_candidate_entry'] = Candidate::whereDate('created_at', date('Y-m-d'))->count() ?? 0;
             $count['monthly_candidate_entry'] = Candidate::whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
             $count['last_month_candidate_entry'] = Candidate::whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
-            $candidates = Candidate::orderBy('id', 'desc')->paginate(5);
+            $candidates = Candidate::orderBy('id', 'desc')->paginate(10);
+    
+            // Fetch recruiters with custom pagination key
+            $recruiters = User::where('role_type', 'RECRUITER')->paginate(10);
+            // Loop through each recruiter to count their candidates' statuses
+            foreach ($recruiters as $recruiter) {
+                $candidateIds = Candidate::where('enter_by', $recruiter->id)
+                    ->pluck('id')->toArray();
+
+                $recruiter->selected_job_count = CandidateJob::where('assign_by_id', $recruiter->id)
+                    ->where('job_interview_status', 'Selected') // Adjust this string based on your actual status value
+                    ->count();
+        
+                
+                $recruiter->interested_job_count = CandidateJob::where('assign_by_id', $recruiter->id)
+                    ->where('job_interview_status', 'Interested') // Adjust this string based on your actual status value
+                    ->count();
+
+                
+
+                    $recruiter->deployed_job_count = CandidateJob::where('assign_by_id', $recruiter->id)
+                    ->where('deployment_date', '!=', null) // Adjust this string based on your actual status value
+                    ->count();
+
+                $recruiter->candidate_added_count = Candidate::where('enter_by', $recruiter->id)
+                    ->count(); 
+            }
         }
 
 
@@ -78,7 +102,7 @@ class DashboardController extends Controller
         //     ->orderByRaw('total_schedules DESC, total_appears DESC, total DESC')
         //     ->paginate(5);
 
-          $most_candidates = DB::table('candidates')
+        $most_candidates = DB::table('candidates')
             ->join('users', 'candidates.enter_by', '=', 'users.id')
             ->leftJoin(DB::raw('
                 (SELECT assign_by_id, COUNT(*) as total_schedules
@@ -112,7 +136,7 @@ class DashboardController extends Controller
             ->orderByRaw('appear_ratio DESC, total_schedules DESC, total_appears DESC, total DESC')
             ->paginate(5);
 
-            // dd($most_candidates);
+        // dd($most_candidates);
 
         $interview_list = CandidateJob::where('date_of_interview', date('d-m-Y'))->orderBy('id', 'desc')->paginate(1);
 
@@ -198,7 +222,7 @@ class DashboardController extends Controller
         $payment_due = $total_installments - $total_service_fee;
         $new_jobs_openings = Interview::whereBetween('interview_start_date', [date('d-m-Y'), date('d-m-Y', strtotime('+1 week'))])->paginate(5);
 
-        return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings'));
+        return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings','recruiters'));
     }
 
     public function getInterviewList(Request $request)
