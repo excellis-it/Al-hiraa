@@ -16,8 +16,20 @@ class AssignJob extends Model
         'job_id',
         'company_id',
         'user_id',
-        'interview_id'
+        'interview_id',
+        'interview_status'
     ];
+
+    public function getAllFields()
+    {
+        return array_map('strtoupper', $this->fillable);
+    }
+
+    public function setAttribute($key, $value)
+    {
+        $value = strtoupper($value);
+        return parent::setAttribute($key, $value); // Ensure you return the parent call
+    }
 
     public function candidate()
     {

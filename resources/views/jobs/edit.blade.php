@@ -3,12 +3,8 @@
     use App\Constants\Position;
 @endphp
 @if (isset($edit))
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
-        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN')) @else data-bs-backdrop="static" @endif aria-labelledby="offcanvasRightLabel">
-        @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))
-            <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
-        @endif
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel">
+        <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
         <div class="offcanvas-body">
             <div class="row g-3">
                 <div class="col-lg-4">
@@ -569,7 +565,7 @@
                         // show the edit button
                         $('#open-job-input').html(
                             ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                            )
+                        )
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -608,7 +604,7 @@
                     // show the edit button
                     $('#open-family-input').html(
                         ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        )
+                    )
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
@@ -646,7 +642,7 @@
                     // show the edit button
                     $('#open-medical-input').html(
                         ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        )
+                    )
 
                 },
                 error: function(xhr) {
@@ -684,7 +680,7 @@
                     // show the edit button
                     $('#open-visa-input').html(
                         ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        )
+                    )
                 },
                 error: function(xhr) {
 
@@ -721,7 +717,7 @@
                     // show the edit button
                     $('#open-ticket-input').html(
                         ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        )
+                    )
 
                 },
                 error: function(xhr) {
@@ -758,7 +754,7 @@
                     // show the edit button
                     $('#open-payment-input').html(
                         ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        )
+                    )
 
                 },
                 error: function(xhr) {
@@ -789,5 +785,4 @@
             'input[name="fst_installment_amount"], input[name="secnd_installment_amount"], input[name="third_installment_amount"], input[name="fourth_installment_amount"]',
             calculateTotal);
     </script>
-
 @endif

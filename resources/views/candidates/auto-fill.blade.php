@@ -14,21 +14,11 @@
         </div>
     </div>
     <div class="col-lg-3">
-        <div class="form-group">
-            <label for="">Email</label>
-            <input type="text" class="form-control  uppercase-text" id=""
-                value="{{ $candidate->email ?? '' }}" name="email" placeholder="">
-            @if ($errors->has('email'))
-                <span class="text-danger">{{ $errors->first('email') }}</span>
-            @endif
-        </div>
-    </div>
-    <div class="col-lg-3">
         <div class="form-group date-btn">
             <label for="dob">DOB</label>
             <input type="text" class="form-control uppercase-text datepicker" id="dob"
-                value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob" autocomplete="false"
-                max="{{ date('d-m-Y') }}" placeholder="dd-mm-yyyy" onkeydown="return false">
+                value="{{ \Carbon\Carbon::parse($candidate->date_of_birth)->format('d-m-Y') ?? '' }}" name="dob"
+                autocomplete="false" max="{{ date('d-m-Y') }}" placeholder="dd-mm-yyyy" onkeydown="return false">
 
         </div>
         @if ($errors->has('dob'))
@@ -47,32 +37,27 @@
     </div>
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Indian Driving License: </label>
-            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id="" multiple>
-                <option value="" disabled>Select Indian Driving License</option>
-                <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
-                    2 WHEELER</option>
-                <option value="4 WHEELER" {{ in_array('4 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
-                    4 WHEELER</option>
-                <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
-            </select>
+            <label for="">Indian Work Experience (If Any?)</label>
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ $candidate->indian_exp ?? '' }}" name="indian_exp" placeholder="">
+            @if ($errors->has('indian_exp'))
+                @error('indian_exp')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
 
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Gulf Driving License: </label>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
-                value="{{ $candidate->international_driving_license ?? '' }}" placeholder=""> --}}
-            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
-                multiple>
-                <option value="" disabled>Select Gulf Driving License</option>
-                <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
-                    2 WHEELER</option>
-                <option value="4 WHEELER" {{ in_array('4 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
-                    4 WHEELER</option>
-                <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
-            </select>
+            <label for="">Abroad Work Experience (If Any?)</label>
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ $candidate->abroad_exp ?? '' }}" name="abroad_exp" placeholder="">
+            @if ($errors->has('abroad_exp'))
+                @error('abroad_exp')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
         </div>
     </div>
 
@@ -234,29 +219,51 @@
 
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Indian Work Experience (If Any?)</label>
+            <label for="">Email</label>
             <input type="text" class="form-control  uppercase-text" id=""
-                value="{{ $candidate->indian_exp ?? '' }}" name="indian_exp" placeholder="">
-            @if ($errors->has('indian_exp'))
-                @error('indian_exp')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+                value="{{ $candidate->email ?? '' }}" name="email" placeholder="">
+            @if ($errors->has('email'))
+                <span class="text-danger">{{ $errors->first('email') }}</span>
             @endif
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Indian Driving License: </label>
+            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
+                <option value="" disabled>Select Indian Driving License</option>
+                <option value="2 WHEELER" {{ in_array('2 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER" {{ in_array('4 WHEELER', $indian_driving_license) ? 'selected' : '' }}>
+                    4 WHEELER</option>
+                <option value="HV" {{ in_array('HV', $indian_driving_license) ? 'selected' : '' }}>HV</option>
+            </select>
 
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Abroad Work Experience (If Any?)</label>
-            <input type="text" class="form-control  uppercase-text" id=""
-                value="{{ $candidate->abroad_exp ?? '' }}" name="abroad_exp" placeholder="">
-            @if ($errors->has('abroad_exp'))
-                @error('abroad_exp')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            @endif
+            <label for="">Gulf Driving License: </label>
+            {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
+                value="{{ $candidate->international_driving_license ?? '' }}" placeholder=""> --}}
+            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
+                <option value="" disabled>Select Gulf Driving License</option>
+                <option value="2 WHEELER" {{ in_array('2 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER" {{ in_array('4 WHEELER', $gulf_driving_license) ? 'selected' : '' }}>
+                    4 WHEELER</option>
+                <option value="HV" {{ in_array('HV', $gulf_driving_license) ? 'selected' : '' }}>HV</option>
+            </select>
         </div>
     </div>
+
+
+
+
+
 
     <div class="col-lg-3">
         <div class="form-group">
@@ -570,11 +577,12 @@
         <div class="col-lg-3"></div>
     @endif
 
-     {{-- cv --}}
-     <div class="col-lg-3">
+    {{-- cv --}}
+    <div class="col-lg-3">
         <div class="form-group">
             <label for="">Upload CV</label>
-            <input type="file" class="form-control  uppercase-text" id="cv" name="cv" placeholder="">
+            <input type="file" class="form-control  uppercase-text" id="cv" name="cv"
+                placeholder="">
             @if ($errors->has('cv'))
                 @error('cv')
                     <span class="text-danger">{{ $message }}</span>
@@ -624,22 +632,14 @@
             @endif
         </div>
     </div>
-    <div class="col-lg-3">
-        <div class="form-group">
-            <label for="">Email </label>
-            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('email') }}"
-                name="email" placeholder="">
-            @if ($errors->has('email'))
-                <span class="text-danger">{{ $errors->first('email') }}</span>
-            @endif
-        </div>
-    </div>
+
 
     <div class="col-lg-3">
         <div class="form-group date-btn">
             <label for="">DOB <span>*</span></label>
-            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}" autocomplete="false"
-                name="dob" max="{{ date('d-m-Y') }}" placeholder="dd-mm-yy" onkeydown="return false">
+            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
+                autocomplete="false" name="dob" max="{{ date('d-m-Y') }}" placeholder="dd-mm-yy"
+                onkeydown="return false">
         </div>
         @if ($errors->has('dob'))
             <span class="text-danger">{{ $errors->first('dob') }}</span>
@@ -658,44 +658,26 @@
             @endif
         </div>
     </div>
-
     <div class="col-lg-3">
         <div class="form-group">
-            <label>Indian Driving License:<span></span></label>
-            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
-                multiple>
-                <option value="" disabled>Select Indian Driving License</option>
-                <option value="2 WHEELER"
-                    {{ in_array('2 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
-                    2 WHEELER</option>
-                <option value="4 WHEELER"
-                    {{ in_array('4 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
-                    4 WHEELER</option>
-                <option value="HV" {{ in_array('HV', old('indian_driving_license') ?? []) ? 'selected' : '' }}>HV
-                </option>
-            </select>
+            <label for="">Indian Work Experience (If Any?)</label>
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ old('indian_exp') }}" name="indian_exp" placeholder="">
+            @if ($errors->has('indian_exp'))
+                @error('indian_exp')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            @endif
         </div>
     </div>
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Gulf Driving License: <span></span></label>
-            {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
-            value="{{ old('international_driving_license') }}" placeholder=""> --}}
-            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
-                multiple>
-                <option value="" disabled>Select Gulf Driving License</option>
-                <option value="2 WHEELER"
-                    {{ in_array('2 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
-                    2 WHEELER</option>
-                <option value="4 WHEELER"
-                    {{ in_array('4 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
-                    4 WHEELER</option>
-                <option value="HV"
-                    {{ in_array('HV', old('international_driving_license') ?? []) ? 'selected' : '' }}>HV</option>
-            </select>
+            <label for="">Abroad Work Experience (If Any?)</label>
+            <input type="text" class="form-control  uppercase-text" id=""
+                value="{{ old('abroad_exp') }}" name="abroad_exp" placeholder="">
+
         </div>
     </div>
-
     <div class="col-lg-3">
         <div class="form-group position_applied_1">
             <label for="">Position Applied For(1) <span>*</span> <span><a href="javascript:void(0);"
@@ -755,25 +737,57 @@
 
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Indian Work Experience (If Any?)</label>
-            <input type="text" class="form-control  uppercase-text" id=""
-                value="{{ old('indian_exp') }}" name="indian_exp" placeholder="">
-            @if ($errors->has('indian_exp'))
-                @error('indian_exp')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+            <label for="">Email </label>
+            <input type="text" class="form-control  uppercase-text" id="" value="{{ old('email') }}"
+                name="email" placeholder="">
+            @if ($errors->has('email'))
+                <span class="text-danger">{{ $errors->first('email') }}</span>
             @endif
         </div>
     </div>
 
     <div class="col-lg-3">
         <div class="form-group">
-            <label for="">Abroad Work Experience (If Any?)</label>
-            <input type="text" class="form-control  uppercase-text" id=""
-                value="{{ old('abroad_exp') }}" name="abroad_exp" placeholder="">
-
+            <label>Indian Driving License:<span></span></label>
+            <select name="indian_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
+                <option value="" disabled>Select Indian Driving License</option>
+                <option value="2 WHEELER"
+                    {{ in_array('2 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER"
+                    {{ in_array('4 WHEELER', old('indian_driving_license') ?? []) ? 'selected' : '' }}>
+                    4 WHEELER</option>
+                <option value="HV" {{ in_array('HV', old('indian_driving_license') ?? []) ? 'selected' : '' }}>HV
+                </option>
+            </select>
         </div>
     </div>
+    <div class="col-lg-3">
+        <div class="form-group">
+            <label for="">Gulf Driving License: <span></span></label>
+            {{-- <input type="text" class="form-control  uppercase-text" id="" name="international_driving_license"
+            value="{{ old('international_driving_license') }}" placeholder=""> --}}
+            <select name="international_driving_license[]" class="form-select  uppercase-text select2" id=""
+                multiple>
+                <option value="" disabled>Select Gulf Driving License</option>
+                <option value="2 WHEELER"
+                    {{ in_array('2 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
+                    2 WHEELER</option>
+                <option value="4 WHEELER"
+                    {{ in_array('4 WHEELER', old('international_driving_license') ?? []) ? 'selected' : '' }}>
+                    4 WHEELER</option>
+                <option value="HV"
+                    {{ in_array('HV', old('international_driving_license') ?? []) ? 'selected' : '' }}>HV</option>
+            </select>
+        </div>
+    </div>
+
+
+
+
+
+
     <div class="col-lg-3">
         <div class="form-group">
             <label for="">Alternative Contact NO: </label>
@@ -1027,7 +1041,8 @@
     <div class="col-lg-3">
         <div class="form-group">
             <label for="">Upload CV</label>
-            <input type="file" class="form-control  uppercase-text" id="cv" name="cv" placeholder="">
+            <input type="file" class="form-control  uppercase-text" id="cv" name="cv"
+                placeholder="">
             @if ($errors->has('cv'))
                 @error('cv')
                     <span class="text-danger">{{ $message }}</span>

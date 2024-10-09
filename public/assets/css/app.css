@@ -5619,6 +5619,7 @@ li.tagator_option{
 
 .jobs_canvas .candidate_details .table tbody td{
     width:16% !important;
+    text-transform:uppercase;
 }
 
 

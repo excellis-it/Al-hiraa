@@ -296,6 +296,35 @@ class CandidateController extends Controller
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
         $sources = Source::orderBy('name', 'asc')->get();
         $assign_job = AssignJob::where('candidate_id', $candidate->id)->orderBy('id', 'desc')->first();
+        $today = date('Y-m-d'); // Format current date for comparison
+
+        if ($assign_job) {
+            // Retrieve the single interview associated with the assign_job
+            $interview = Interview::where('id', $assign_job->interview_id)->first();
+
+            // Retrieve all interviews for the same company within the date range
+            $interviews = Interview::where('company_id', $assign_job->company_id)
+                ->where(function ($query) use ($today) {
+                    $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $today)
+                        ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
+                })
+                ->whereHas('job', function ($query) {
+                    $query->where('status', 'Ongoing');
+                })
+                ->get();
+
+            // Merge the single interview with the collection of interviews if it exists
+            if ($interview) {
+                $interviews = $interviews->merge([$interview]);
+            }
+        } else {
+            // No assigned job, return an empty collection
+            $interview = null;
+            $interviews = collect(); // Empty collection to avoid null issues
+        }
+
+
+
         $companies = Company::orderBy('company_name', 'asc')->get();
         // $cities = City::orderBy('name', 'asc')->get();
         $states = State::orderBy('name', 'asc')->get();
@@ -315,7 +344,7 @@ class CandidateController extends Controller
             }
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -512,7 +541,7 @@ class CandidateController extends Controller
             if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
                 $candidatePosition->is_granted = 1;
             } else {
-                $candidatePosition->is_granted = 0;
+                $candidatePosition->is_granted = 1;
             }
 
             $candidatePosition->save();
@@ -524,71 +553,72 @@ class CandidateController extends Controller
         if ($request->interview_id) {
             $count = AssignJob::where('candidate_id', $id)->where('interview_id', $request->interview_id)->count();
             if ($count > 0) {
-                return response()->json(['status' => false, 'message' => 'Job already assigned to this candidate.']);
+                $assign_job = AssignJob::where('candidate_id', $id)->where('interview_id', $request->interview_id)->first();
+                $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
             } else {
                 $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
                 $assign_job = new AssignJob();
-                $assign_job->candidate_id = $id;
-                $assign_job->job_id = $job_id;
-                $assign_job->company_id = $request->company_id;
-                $assign_job->interview_id = $request->interview_id;
-                $assign_job->user_id = Auth::user()->id;
-                $assign_job->interview_status = $request->interview_status;
-                $assign_job->save();
+            }
+            $assign_job->candidate_id = $id;
+            $assign_job->job_id = $job_id;
+            $assign_job->company_id = $request->company_id;
+            $assign_job->interview_id = $request->interview_id;
+            $assign_job->user_id = Auth::user()->id;
+            $assign_job->interview_status = $request->interview_status;
+            $assign_job->save();
 
-                $job_details = Job::findOrfail($job_id);
+            $job_details = Job::findOrfail($job_id);
 
-                $candidate_job = new CandidateJob();
-                $candidate_job->candidate_id = $id;
-                $candidate_job->interview_id = $request->interview_id;
-                $candidate_job->assign_job_id = $assign_job->id;
-                $candidate_job->full_name = $candidate->full_name ?? null;
-                $candidate_job->email = $candidate->email ?? null;
-                $candidate_job->gender = $candidate->gender ?? null;
-                $candidate_job->date_of_birth = $candidate->date_of_birth ?? null;
-                $candidate_job->whatapp_no = $candidate->whatapp_no ?? null;
-                $candidate_job->alternate_contact_no = $candidate->alternate_contact_no ?? null;
-                $candidate_job->religion = $candidate->religion ?? null;
-                $candidate_job->city = $candidate->city ?? null;
-                $candidate_job->address = null;
-                $candidate_job->education = $candidate->education ?? null;
-                $candidate_job->other_education = $candidate->other_education ?? null;
-                $candidate_job->passport_number = $candidate->passport_number ?? null;
-                $candidate_job->english_speak = $candidate->english_speak ?? null;
-                $candidate_job->arabic_speak = $candidate->arabic_speak ?? null;
-                $candidate_job->assign_by_id = $candidate->enter_by ?? null;
-                $candidate_job->job_id = $job_details->id ?? null;
-                $candidate_job->job_position = $job_details->candidate_position_id ?? null;
-                $candidate_job->job_location = $job_details->address ?? null;
-                $candidate_job->company_id = $job_details->company_id ?? null;
-                $candidate_job->salary = $job_details->salary ?? null;
-                $candidate_job->job_interview_status = $request->interview_status ?? null;
-                $candidate_job->save();
+            $candidate_job = new CandidateJob();
+            $candidate_job->candidate_id = $id;
+            $candidate_job->interview_id = $request->interview_id;
+            $candidate_job->assign_job_id = $assign_job->id;
+            $candidate_job->full_name = $candidate->full_name ?? null;
+            $candidate_job->email = $candidate->email ?? null;
+            $candidate_job->gender = $candidate->gender ?? null;
+            $candidate_job->date_of_birth = $candidate->date_of_birth ?? null;
+            $candidate_job->whatapp_no = $candidate->whatapp_no ?? null;
+            $candidate_job->alternate_contact_no = $candidate->alternate_contact_no ?? null;
+            $candidate_job->religion = $candidate->religion ?? null;
+            $candidate_job->city = $candidate->city ?? null;
+            $candidate_job->address = null;
+            $candidate_job->education = $candidate->education ?? null;
+            $candidate_job->other_education = $candidate->other_education ?? null;
+            $candidate_job->passport_number = $candidate->passport_number ?? null;
+            $candidate_job->english_speak = $candidate->english_speak ?? null;
+            $candidate_job->arabic_speak = $candidate->arabic_speak ?? null;
+            $candidate_job->assign_by_id = $candidate->enter_by ?? null;
+            $candidate_job->job_id = $job_details->id ?? null;
+            $candidate_job->job_position = $job_details->candidate_position_id ?? null;
+            $candidate_job->job_location = $job_details->address ?? null;
+            $candidate_job->company_id = $job_details->company_id ?? null;
+            $candidate_job->salary = $job_details->salary ?? null;
+            $candidate_job->job_interview_status = $request->interview_status ?? null;
+            $candidate_job->save();
 
-                //candidate licence details add
-                $indian_driving_licenses = CandidateLicence::where('candidate_id', $id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray() ?? null;
-                $gulf_driving_licenses = CandidateLicence::where('candidate_id', $id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray() ?? null;
-                // dd($indian_driving_licenses);
-                foreach ($indian_driving_licenses as $key => $value) {
-                    if ($value != null) {
-                        $candidate_ind_licence = new CandJobLicence();
-                        $candidate_ind_licence->candidate_job_id = $candidate_job->id;
-                        $candidate_ind_licence->candidate_id = $id;
-                        $candidate_ind_licence->licence_type = 'INDIAN';
-                        $candidate_ind_licence->licence_name = $value;
-                        $candidate_ind_licence->save();
-                    }
+            //candidate licence details add
+            $indian_driving_licenses = CandidateLicence::where('candidate_id', $id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray() ?? null;
+            $gulf_driving_licenses = CandidateLicence::where('candidate_id', $id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray() ?? null;
+            // dd($indian_driving_licenses);
+            foreach ($indian_driving_licenses as $key => $value) {
+                if ($value != null) {
+                    $candidate_ind_licence = new CandJobLicence();
+                    $candidate_ind_licence->candidate_job_id = $candidate_job->id;
+                    $candidate_ind_licence->candidate_id = $id;
+                    $candidate_ind_licence->licence_type = 'INDIAN';
+                    $candidate_ind_licence->licence_name = $value;
+                    $candidate_ind_licence->save();
                 }
+            }
 
-                foreach ($gulf_driving_licenses as $key => $value) {
-                    if ($value != null) {
-                        $candidate_gulf_licence = new CandJobLicence();
-                        $candidate_gulf_licence->candidate_job_id = $candidate_job->id;
-                        $candidate_gulf_licence->candidate_id = $id;
-                        $candidate_gulf_licence->licence_type = 'GULF';
-                        $candidate_gulf_licence->licence_name = $value;
-                        $candidate_gulf_licence->save();
-                    }
+            foreach ($gulf_driving_licenses as $key => $value) {
+                if ($value != null) {
+                    $candidate_gulf_licence = new CandJobLicence();
+                    $candidate_gulf_licence->candidate_job_id = $candidate_job->id;
+                    $candidate_gulf_licence->candidate_id = $id;
+                    $candidate_gulf_licence->licence_type = 'GULF';
+                    $candidate_gulf_licence->licence_name = $value;
+                    $candidate_gulf_licence->save();
                 }
             }
         }
@@ -897,15 +927,19 @@ class CandidateController extends Controller
     public function getJobs(Request $request)
     {
         if ($request->ajax()) {
+            $today = date('Y-m-d'); // Format current date for comparison
+
             $interviews = Interview::where('company_id', $request->company_id)
-                ->where(function ($query) {
-                    $query->where('interview_start_date', '>=', date('d-m-Y'))
-                        ->where('interview_end_date', '>=', date('d-m-Y'));
+                ->where(function ($query) use ($today) {
+                    $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $today)
+                        ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
                 })
                 ->whereHas('job', function ($query) {
                     $query->where('status', 'Ongoing');
                 })
                 ->get();
+
+
 
             $html = '';
             $html .= '<option value="">Select Job</option>';
@@ -1026,8 +1060,18 @@ class CandidateController extends Controller
 
     public function downloadCv($id)
     {
+        // Find the candidate by ID
         $candidate = Candidate::findOrFail($id);
+
+        // Get the path to the candidate's CV
         $pathToFile = Storage::disk('public')->path($candidate->cv);
-        return response()->download($pathToFile);
+
+        // Prepare the filename with full name and phone number
+        $fullName = str_replace(' ', '_', $candidate->full_name); // Replace spaces with underscores
+        $phone = $candidate->contact_no ; // Assuming the phone number is stored as-is
+        $filename = "{$fullName}_{$phone}.pdf"; // Change the file extension as necessary
+
+        // Return the file as a download with the customized filename
+        return response()->download($pathToFile, $filename);
     }
 }

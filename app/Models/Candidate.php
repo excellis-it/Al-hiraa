@@ -142,4 +142,10 @@ class Candidate extends Authenticatable
     {
         return $this->belongsTo(User::class, 'associate_id');
     }
+
+    public function assign_job()
+    {
+        return $this->hasOne(AssignJob::class)->orderBy('id', 'desc');
+    }
+
 }

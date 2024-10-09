@@ -58,7 +58,7 @@
                                                         <input type="text" class="form-control datepicker" id="strt_date"
                                                             value="{{ date('d-m-Y') }}" 
                                                             name="interview_start_date" placeholder="">
-                                                        <span class="text-danger"></span>
+                                                        <span class="text-danger" id="interview_start_date_msg"></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6">
@@ -67,7 +67,7 @@
                                                         <input type="text" class="form-control datepicker" id="end1_date"
                                                             value=""  name="interview_end_date"
                                                             placeholder="">
-                                                        <span class="text-danger"></span>
+                                                        <span class="text-danger" id="interview_end_date_msg"></span>
                                                     </div>
                                                 </div>
 
@@ -271,6 +271,7 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
+                        $('.text-danger').html('');
                         if (response.status == true) {
                             window.location.reload();
                         } else {
@@ -288,6 +289,7 @@
                         $.each(errors, function(key, value) {
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
+                                $('#' + key + '_msg').html(value[0]);
                         });
                     }
                 });

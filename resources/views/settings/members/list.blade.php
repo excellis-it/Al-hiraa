@@ -277,7 +277,12 @@
                     processData: false,
                     success: function(response) {
                         // Handle success response
-                        window.location.reload();
+                        if (response.status == true) {
+                            window.location.reload();
+                        } else {
+                            window.location.reload();
+                        }
+
                         // toastr.success('Member details added successfully');
                     },
                     error: function(xhr) {
@@ -286,6 +291,8 @@
                         // Handle errors (e.g., display validation errors)
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
+                        console.log(xhr.responseJSON.errors);
+
                         $.each(errors, function(key, value) {
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);

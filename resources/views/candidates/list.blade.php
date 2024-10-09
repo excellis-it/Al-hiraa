@@ -248,13 +248,66 @@
                                                 <option value="">Select Last Update By</option>
                                                 @foreach ($candidate_last_updates as $val)
                                                     <option value="{{ $val->user->id ?? '' }}">
-                                                        {{ $val->user->first_name ?? ''}} {{ $val->user->last_name ?? ''}}</option>
+                                                        {{ $val->user->first_name ?? '' }}
+                                                        {{ $val->user->last_name ?? '' }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                     </th>
-
+                                    <th>
+                                        Interview Status
+                                    </th>
                                     <th class="can_full">Full Name</th>
+                                    <th>
+                                        Abroad Work Experience
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <select name="position_applied_for" class="select_width position1_select"
+                                                id="position_applied_for_filter" multiple>
+                                                <option value="">Select Position</option>
+                                                @foreach ($candidate_positions as $item)
+                                                    <option value="{{ $item['id'] }}">
+                                                        {{ $item['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        Specialisation for Position (1)
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <select name="position_applied_for" class="select_width position2_select"
+                                                id="position_applied_for_filter_2" multiple>
+                                                <option value="">Select Position</option>
+                                                @foreach ($candidate_positions as $item)
+                                                    <option value="{{ $item['id'] }}">
+                                                        {{ $item['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        Specialisation for Position (2)
+                                    </th>
+                                    <th>
+                                        <div>
+                                            <select name="position_applied_for" class="select_width position3_select"
+                                                id="position_applied_for_filter_3" multiple>
+                                                <option value="">Select Position</option>
+                                                @foreach ($candidate_positions as $item)
+                                                    <option value="{{ $item['id'] }}">
+                                                        {{ $item['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        Specialisation for Position (3)
+                                    </th>
+                                    <th>Age</th>
+                                    <th>DOB</th>
                                     <th>
                                         <div>
                                             <select name="gender" class="select_width gender_select" id="gender_filter"
@@ -266,8 +319,8 @@
                                             </select>
                                         </div>
                                     </th>
-                                    <th>DOB</th>
-                                    <th>Age</th>
+
+
                                     <th>
                                         <div>
                                             <select name="education" class="select_width education_select"
@@ -289,45 +342,8 @@
                                     <th>
                                         Indian Work Experience
                                     </th>
-                                    <th>
-                                        Abroad Work Experience
-                                    </th>
-                                    <th>
-                                        <div>
-                                            <select name="position_applied_for" class="select_width position1_select"
-                                                id="position_applied_for_filter" multiple>
-                                                <option value="">Select Position</option>
-                                                @foreach ($candidate_positions as $item)
-                                                    <option value="{{ $item['id'] }}">
-                                                        {{ $item['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div>
-                                            <select name="position_applied_for" class="select_width position2_select"
-                                                id="position_applied_for_filter_2" multiple>
-                                                <option value="">Select Position</option>
-                                                @foreach ($candidate_positions as $item)
-                                                    <option value="{{ $item['id'] }}">
-                                                        {{ $item['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div>
-                                            <select name="position_applied_for" class="select_width position3_select"
-                                                id="position_applied_for_filter_3" multiple>
-                                                <option value="">Select Position</option>
-                                                @foreach ($candidate_positions as $item)
-                                                    <option value="{{ $item['id'] }}">
-                                                        {{ $item['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </th>
+
+
 
                                     <th>
 
@@ -421,7 +437,7 @@
 
 
             function fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                last_call_status,last_update_by, mode_of_registration, education, city,
+                last_call_status, last_update_by, mode_of_registration, education, city,
                 position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
 
@@ -444,7 +460,7 @@
                         mode_of_registration: mode_of_registration,
                         education: education,
                         city: city,
-                        call_status: '{{request()->call_status}}',
+                        call_status: '{{ request()->call_status }}',
                     },
                     success: function(data) {
                         // console.log(data.view);
@@ -480,7 +496,7 @@
                 var last_call_status = $('#last_call_status_filter').val();
                 var last_update_by = $('#last_updated_by_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -509,7 +525,7 @@
                 var last_call_status = $('#last_call_status_filter').val();
                 var last_update_by = $('#last_updated_by_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -534,7 +550,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -560,7 +576,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -583,7 +599,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -608,7 +624,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -632,7 +648,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -658,7 +674,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -681,7 +697,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -704,7 +720,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -730,7 +746,7 @@
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -754,7 +770,7 @@
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -778,7 +794,7 @@
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -802,7 +818,7 @@
                 var ecr_type = $('#ecr_type_filter').val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -827,7 +843,7 @@
                 var ecr_type = $(this).val();
 
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -853,7 +869,7 @@
                 var city = $('#city_filter').val();
                 var ecr_type = $('#ecr_type_filter').val();
                 fetch_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
-                    last_call_status,last_update_by, mode_of_registration, education, city,
+                    last_call_status, last_update_by, mode_of_registration, education, city,
                     position_applied_for_2, position_applied_for_3,
                     english_speak, arabic_speak);
             });
@@ -981,24 +997,47 @@
                         }
                         var html = '';
                         $.each(candidate_activities, function(key, value) {
-                            var date = new Date(value.created_at);
-                            var formattedDate = date.getDate().toString().padStart(2,
-                                '0') + ' ' + date.toLocaleString('default', {
-                                month: 'short'
-                            }) + ', ' + date.getFullYear();
+                            if (value.created_at) {
+                                var date = new Date(value.created_at);
+
+                                var formattedDate = date.getDate().toString().padStart(
+                                        2, '0') + ' ' +
+                                    date.toLocaleString('default', {
+                                        month: 'short'
+                                    }) + ', ' +
+                                    date.getFullYear();
+
+                                var hours = date.getHours();
+                                var minutes = date.getMinutes().toString().padStart(2,
+                                    '0');
+                                var ampm = hours >= 12 ? 'PM' : 'AM';
+                                hours = hours % 12 || 12; // Convert to 12-hour format
+                                var formattedTime = hours + ':' + minutes + ' ' + ampm;
+
+                                var fullFormattedDate = formattedDate + ' ' +
+                                    formattedTime;
+                            } else {
+                                var fullFormattedDate = 'Date not available';
+                            }
+
+                            // html += fullFormattedDate;
+
+
                             var call_status = value.call_status == null ? 'N/A' : value
                                 .call_status;
                             html += '<div class="activity_box">';
                             html += '<div class="activity_box_dd">';
                             html += '<div class="activity_box_ff">';
                             html += '<div class="active-user">';
-                            html += value.user.first_name + ' ' + value.user.last_name;
+                            html += (value.user?.first_name || '') + ' ' + (value.user
+                                ?.last_name || '');
+
                             html += '</div>';
                             html += '<div class="all_ansered">Call Status: <span>' +
                                 call_status +
                                 '</span></div>';
                             html += '</div>';
-                            html += '<div class="date">' + formattedDate + '</div>';
+                            html += '<div class="date">' + fullFormattedDate + '</div>';
                             html += '</div>';
                             html += '<div class="active-comment">';
                             html += '<p>' + value.remarks + '</p>';
@@ -1265,20 +1304,20 @@
     </script>
 
 
-   <script>
-       $(document).ready(function() {
-           $('#query').tagator({
-               autocomplete: [
-                   @foreach (Position::getPosition() as $item)
-                       '{{ $item }}',
-                   @endforeach
-                   // Include numbers in the autocomplete options
-                   @foreach (Position::getNumber() as $number)
-                       '{{ $number->contact_no }}',
-                   @endforeach
-               ],
-               useDimmer: true
-           });
-       });
-   </script>
+    <script>
+        $(document).ready(function() {
+            $('#query').tagator({
+                autocomplete: [
+                    @foreach (Position::getPosition() as $item)
+                        '{{ $item }}',
+                    @endforeach
+                    // Include numbers in the autocomplete options
+                    @foreach (Position::getNumber() as $number)
+                        '{{ $number->contact_no }}',
+                    @endforeach
+                ],
+                useDimmer: true
+            });
+        });
+    </script>
 @endpush

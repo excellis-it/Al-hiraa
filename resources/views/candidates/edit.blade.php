@@ -51,12 +51,28 @@
                                     </svg>
                                 </div>
                             </div>
+                            {{-- <style>
+                                .input-group {
+                                    display: flex;
+                                    align-items: center;
+                                }
+
+                                .btn {
+                                    cursor: pointer;
+                                }
+                            </style> --}}
                             <div class="">
                                 <div class="name_box_text">
                                     <p>Contact No:</p>
-                                    <h4>{{ $candidate->contact_no ?? 'N/A' }}</h4>
+                                    <div class="input-group">
+                                        <h4 id="contact-number" class="d-inline">{{ $candidate->contact_no ?? 'N/A' }}
+                                        </h4>
+                                        {{-- <i class="fas fa-eye"></i> --}}
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -306,7 +322,7 @@
                                         <td>Job Location</td>
                                         <td>{{ $assign_job->job->address ?? 'N/A' }}
                                         </td>
-                                        <td>Interview status</td>
+                                        <td style="text-transform: uppercase">Interview status</td>
                                         <td>
                                             {{ $assign_job->interview_status ?? 'N/A' }}
                                         </td>
@@ -340,6 +356,7 @@
                                 <td> {{ $candidate->enterBy->full_name ?? 'N/A' }}
                                 </td>
                                 <td>Updated By</td>
+                                {{-- @dd($candidate->candidateUpdate->user) --}}
                                 <td>{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}
                                 </td>
 
@@ -987,7 +1004,7 @@
                                                 <select name="company_id" class="form-select uppercase-text company_id" id="company_id">
                                                 <option value=""> Company</option>
                                                 @foreach ($companies as $company)
-                                                <option value="{{ $company->id }}">
+                                                <option value="{{ $company->id }}" @if (isset($assign_job) && $assign_job->company_id == $company->id) selected @endif>
                                                 {{ $company->company_name }}
                                                 </option>
                                                 @endforeach
@@ -1000,6 +1017,13 @@
                                             <td>
                                             <select name="interview_id" class="form-select uppercase-text job_id" id="interview_id">
                                                 <option value=""> Job Title</option>
+                                                @if (isset($interviews) && $interviews->count() > 0)
+                                                    @foreach ($interviews as $interview)
+                                                        <option value="{{ $interview->id }}" @if (isset($assign_job) && $assign_job->interview_id == $interview->id) selected @endif>
+                                                {{ $interview->job->job_name ?? 'N/A' }}
+                                                </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                             <span class="text-danger" id="interview_id_job_msg"></span>
                                             </td>
@@ -1008,8 +1032,8 @@
                                             <td>
                                             <select name="interview_status" class="form-select uppercase-text" id="interview_status">
                                                 <option value="">Interview Status</option>
-                                                <option value="Interested">Interested</option>
-                                                <option value="Not-Interested">Not-Interested</option>
+                                                <option value="Interested" @if (isset($assign_job) && $assign_job->interview_status == 'Interested') selected @endif>Interested</option>
+                                                <option value="Not-Interested" @if (isset($assign_job) && $assign_job->interview_status == 'Not-Interested') selected @endif>Not-Interested</option>
                                             </select>
                                             <span class="text-danger" id="interview_status_job_msg"></span>
                                             </td>
@@ -1036,7 +1060,7 @@
                 });
             })
             $(function() {
-                $('.datepicker').datepicker({
+                $('#dob').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
                     maxDate: new Date()
@@ -1229,7 +1253,7 @@
                                         <td>Job Location</td>
                                         <td>{{ $assign_job->job->address ?? 'N/A' }}
                                         </td>
-                                        <td>Interview status</td>
+                                        <td style="text-transform: uppercase">Interview status</td>
                                         <td>
                                             {{ $assign_job->interview_status ?? 'N/A' }}
                                         </td>

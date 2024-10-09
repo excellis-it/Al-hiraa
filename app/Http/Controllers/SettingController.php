@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Twilio\Rest\Accounts\V1\Credential\UpdateAwsOptions;
@@ -55,69 +56,107 @@ class SettingController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'email|unique:users,email',
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->where(function ($query) {
+                    return $query->whereNull('deleted_at'); // Exclude soft-deleted users
+                })
+            ],
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
             'phone' => 'required|numeric|digits:10',
             'role_type' => 'required',
         ]);
 
-        $user = new User();
-        $user->first_name = $request->first_name;
-        $user->last_name  = $request->last_name;
-        $user->email      = $request->email;
-        $user->password   = bcrypt($request->password);
-        $user->phone      = $request->phone;
-        $user->role_type  = $request->role_type;
+        try {
+            $count = User::withTrashed()->where('email', $request->email)->count();
 
-        if ($request->role_type == 'VENDOR') {
-            // AL-VN-00001
-            $lastVendor = User::where('role_type', 'VENDOR')->orderBy('id', 'desc')->first();
-            if ($lastVendor) {
-                if ($lastVendor->code == null) {
-                    $lastVendor->code = 'AL-VN-00000';
-                }
-                $lastVendorId = explode('-', $lastVendor->code);
-                $vendorId = $lastVendorId[2] + 1;
-                $vendorId = str_pad($vendorId, 5, '0', STR_PAD_LEFT);
-                $user->code = 'AL-VN-' . $vendorId;
+            if ($count > 0) {
+                $user = User::withTrashed()->where('email', $request->email)->first();
+                $user->deleted_at = null;
             } else {
-                $user->code = 'AL-VN-00001';
+                $user = new User();
             }
-        } elseif($request->role_type == 'ASSOCIATE') {
-            // AL-AS-00001
-            $lastAssociate = User::where('role_type', 'ASSOCIATE')->orderBy('id', 'desc')->first();
-            if ($lastAssociate) {
-                if ($lastAssociate->code == null) {
-                    $lastAssociate->code = 'AL-AS-00000';
+
+            // Set user details
+            $user->first_name = $request->first_name;
+            $user->last_name  = $request->last_name;
+            $user->email      = $request->email;
+
+            // Only update password if it's provided (for updates)
+            if ($request->password) {
+                $user->password = bcrypt($request->password);
+            }
+
+            $user->phone      = $request->phone;
+            $user->role_type  = $request->role_type;
+
+            // Handle VENDOR role code
+            if ($request->role_type == 'VENDOR') {
+                if (!$user->exists || $user->role_type !== 'VENDOR') {
+                    // Generate new code for vendors
+                    $lastVendor = User::where('role_type', 'VENDOR')->orderBy('id', 'desc')->first();
+                    if ($lastVendor) {
+                        if ($lastVendor->code == null) {
+                            $lastVendor->code = 'AL-VN-00000';
+                        }
+                        $lastVendorId = explode('-', $lastVendor->code);
+                        $vendorId = $lastVendorId[2] + 1;
+                        $vendorId = str_pad($vendorId, 5, '0', STR_PAD_LEFT);
+                        $user->code = 'AL-VN-' . $vendorId;
+                    } else {
+                        $user->code = 'AL-VN-00001';
+                    }
                 }
-                $lastAssociateId = explode('-', $lastAssociate->code);
-                $associateId = $lastAssociateId[2] + 1;
-                $associateId = str_pad($associateId, 5, '0', STR_PAD_LEFT);
-                $user->code = 'AL-AS-' . $associateId;
-            } else {
-                $user->code = 'AL-AS-00001';
             }
+
+            // Handle ASSOCIATE role code
+            elseif ($request->role_type == 'ASSOCIATE') {
+                if (!$user->exists || $user->role_type !== 'ASSOCIATE') {
+                    // Generate new code for associates
+                    $lastAssociate = User::where('role_type', 'ASSOCIATE')->orderBy('id', 'desc')->first();
+                    if ($lastAssociate) {
+                        if ($lastAssociate->code == null) {
+                            $lastAssociate->code = 'AL-AS-00000';
+                        }
+                        $lastAssociateId = explode('-', $lastAssociate->code);
+                        $associateId = $lastAssociateId[2] + 1;
+                        $associateId = str_pad($associateId, 5, '0', STR_PAD_LEFT);
+                        $user->code = 'AL-AS-' . $associateId;
+                    } else {
+                        $user->code = 'AL-AS-00001';
+                    }
+                }
+            }
+
+            // Handle profile picture upload
+            if ($request->hasFile('profile_picture')) {
+                $user->profile_picture = $this->imageUpload($request->file('profile_picture'), 'profile');
+            }
+
+            // Save user
+            $user->save();
+
+            // Assign the role if the role has changed or if the user is new
+            if (!$user->hasRole($request->role_type)) {
+                $user->syncRoles([$request->role_type]);
+            }
+
+
+            $maildata = [
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'email' => $request->email,
+                'password' => $request->password,
+                'type' => Ucfirst($request->role_type),
+            ];
+
+            Mail::to($request->email)->send(new RegistrationMail($maildata));
+            session()->flash('message', 'Members added successfully');
+            return response()->json(['message' => 'Members added successfully', 'status' => true]);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Members added successfully', 'status' => false]);
         }
-
-        if ($request->hasFile('profile_picture')) {
-            $user->profile_picture = $this->imageUpload($request->file('profile_picture'), 'profile');
-        }
-
-        $user->save();
-
-        $user->assignRole($request->role_type);
-
-        $maildata = [
-            'name' => $user->first_name . ' ' . $user->last_name,
-            'email' => $request->email,
-            'password' => $request->password,
-            'type' => Ucfirst($request->role_type),
-        ];
-
-        Mail::to($request->email)->send(new RegistrationMail($maildata));
-        session()->flash('message', 'Members added successfully');
-        return response()->json(['message' => 'Members added successfully', 'status' => 'success']);
     }
 
     public function membersDelete($id)
@@ -703,6 +742,4 @@ class SettingController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
-
 }
-

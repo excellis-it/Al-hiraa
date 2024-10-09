@@ -27,15 +27,11 @@ class CompanyController extends Controller
     public function index()
     {
         if (Auth::user()->can('Manage Company')) {
-            if (Auth::user()->hasRole('ADMIN')) {
-                $companies = Company::orderBy('id', 'DESC')->paginate(15);
-            } else {
-                $companies = Company::where('user_id', Auth::user()->id)->orderBy('id', 'DESC')->paginate(15);
-            }
+            $companies = Company::orderBy('id', 'DESC')->paginate(15);
 
             $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
 
-            return view('companies.list')->with(compact('companies','referral_points'));
+            return view('companies.list')->with(compact('companies', 'referral_points'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -96,7 +92,7 @@ class CompanyController extends Controller
                 $states = State::orderBy('name', 'ASC')->get();
                 $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
                 $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
-                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'states', 'closed_jobs', 'positions','vendors','referral_points'));
+                return view('companies.view')->with(compact('company', 'ongoing_jobs', 'states', 'closed_jobs', 'positions', 'vendors', 'referral_points'));
             } else {
                 return redirect()->back()->with('error', __('Company not found.'));
             }
@@ -187,7 +183,7 @@ class CompanyController extends Controller
             'job_name' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
-            'salary'=>'required|numeric',
+            'salary' => 'required|numeric',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
@@ -215,7 +211,7 @@ class CompanyController extends Controller
         $job->save();
         $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $request->company_id])->orderBy('id', 'desc')->paginate(10);
         Session::flash('message', 'Job created successfully');
-        return response()->json(['view' => view('companies.open-job-filter', compact('ongoing_jobs'))->render() , 'message' => __('Job created successfully.'), 'status' => true]);
+        return response()->json(['view' => view('companies.open-job-filter', compact('ongoing_jobs'))->render(), 'message' => __('Job created successfully.'), 'status' => true]);
     }
 
     public function companyJobEdit(string $id)
@@ -226,7 +222,7 @@ class CompanyController extends Controller
         $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
         $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
         $edit = true;
-        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions', 'states','vendors','referral_points'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('companies.edit-job', compact('job', 'edit', 'positions', 'states', 'vendors', 'referral_points'))->render(), 'status' => 'success']);
     }
 
     public function companyJobUpdate(Request $request, string $id)
