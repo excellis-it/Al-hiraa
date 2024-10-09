@@ -587,7 +587,7 @@ class CandidateController extends Controller
             $candidate_job->passport_number = $candidate->passport_number ?? null;
             $candidate_job->english_speak = $candidate->english_speak ?? null;
             $candidate_job->arabic_speak = $candidate->arabic_speak ?? null;
-            $candidate_job->assign_by_id = $candidate->enter_by ?? null;
+            $candidate_job->assign_by_id = Auth::user()->id;
             $candidate_job->job_id = $job_details->id ?? null;
             $candidate_job->job_position = $job_details->candidate_position_id ?? null;
             $candidate_job->job_location = $job_details->address ?? null;
@@ -1068,7 +1068,7 @@ class CandidateController extends Controller
 
         // Prepare the filename with full name and phone number
         $fullName = str_replace(' ', '_', $candidate->full_name); // Replace spaces with underscores
-        $phone = $candidate->contact_no ; // Assuming the phone number is stored as-is
+        $phone = $candidate->contact_no; // Assuming the phone number is stored as-is
         $filename = "{$fullName}_{$phone}.pdf"; // Change the file extension as necessary
 
         // Return the file as a download with the customized filename
