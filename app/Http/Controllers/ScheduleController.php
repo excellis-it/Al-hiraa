@@ -70,13 +70,11 @@ class ScheduleController extends Controller
             'job_id' => 'required',
             'interview_start_date' => 'nullable|date',
             'interview_end_date' => 'required|date|after:interview_start_date',
-            'interview_status' => 'required',
         ], [
             'company_id.required' => 'The company field is required.',
             'job_id.required' => 'The job field is required.',
             'interview_start_date.required' => 'The interview start date field is required.',
             'interview_end_date.required' => 'The interview end date field is required.',
-            'interview_status.required' => 'The interview status field is required.',
         ]);
         // check if interview already scheduled
         $interviewStartDate = date('Y-m-d', strtotime($request->interview_start_date));
@@ -103,7 +101,7 @@ class ScheduleController extends Controller
         $interview->job_id = $request->job_id;
         $interview->interview_start_date = $request->interview_start_date;
         $interview->interview_end_date = $request->interview_end_date;
-        $interview->interview_status = $request->interview_status;
+        $interview->interview_status = 'Working';
         $interview->save();
 
         Session::flash('message', 'Interview scheduled successfully.');
@@ -139,12 +137,10 @@ class ScheduleController extends Controller
             'job_id' => 'required',
             'interview_start_date' => 'nullable|date',
             'interview_end_date' => 'required|date|after:interview_start_date',
-            'interview_status' => 'required',
         ], [
             'job_id.required' => 'The job field is required.',
             'interview_start_date.required' => 'The interview start date field is required.',
             'interview_end_date.required' => 'The interview end date field is required.',
-            'interview_status.required' => 'The interview status field is required.',
         ]);
 
 
@@ -174,7 +170,6 @@ class ScheduleController extends Controller
         $interview->job_id = $request->job_id;
         $interview->interview_start_date = $request->interview_start_date;
         $interview->interview_end_date = $request->interview_end_date;
-        $interview->interview_status = $request->interview_status;
         $interview->save();
 
         Session::flash('message', 'Interview updated successfully.');

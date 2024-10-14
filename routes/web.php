@@ -173,6 +173,7 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
         Route::get('/open-job-filter',[CompanyController::class,'openJobFilter'])->name('company-job.open-job.filter');
         Route::post('/get-city',[CompanyController::class,'getCity'])->name('company-job.get-city');
     });
+    Route::post('/validate-step/{step}', [CompanyController::class, 'validateStep']);
 
 
     Route::get('/candidates-auto-fill',[CandidateController::class,'userAutoFill'])->name('candidates.auto-fill');

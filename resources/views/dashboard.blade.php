@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 @endpush
 @section('content')
+@php
+    use App\Helpers\Helper;
+@endphp
     <div class="mdk-drawer-layout__content page">
         <div class="container-fluid page__container">
             <div class="page__heading">
@@ -97,7 +100,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="table_right">
                             <div class="py-3">
                                 <h4 class="card-header__title">New Job Opening</h4>
@@ -108,8 +111,10 @@
                                         <tr>
                                             <th>Company Name</th>
                                             <th>Job Title</th>
+                                            <th>Quantity of people required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
+                                            <th>RC Interested Counts</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,8 +123,14 @@
                                                 <tr>
                                                     <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}</td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}</td>
                                                     <td>{{  isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }} </td>
-                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}</td>
+                                                    <td>
+                                                        <span title="{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}" style="cursor: pointer">
+                                                            {{ Str::limit($new_jobs_opening->job ? $new_jobs_opening->job->address : '', 20, '...') }}
+                                                        </span>
+                                                    </td>
+                                                    <td>{{Helper::getRcInterestedCount($new_jobs_opening->id)}}</td>
                                                 </tr>
                                             @endforeach
 
@@ -205,6 +216,7 @@
                                     <thead>
                                         <tr>
                                             <th>Recruiter</th>
+                                            <th>Viewd</th>
                                             <th>Interested</th>
                                             <th>Selected</th>
                                             {{-- <th>Back Out</th> --}}

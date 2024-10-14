@@ -9,6 +9,7 @@ use App\Imports\CandidateImport;
 use App\Models\AssignJob;
 use App\Models\Candidate;
 use App\Models\CandidateActivity;
+use App\Models\CandidateDailyViewReport;
 use App\Models\CandidateFieldUpdate;
 use App\Models\CandidateLicence;
 use App\Models\CandidatePosition;
@@ -329,19 +330,26 @@ class CandidateController extends Controller
         // $cities = City::orderBy('name', 'asc')->get();
         $states = State::orderBy('name', 'asc')->get();
         $edit = true;
-        if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-            if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
-                return response()->json(['message' => __('Candidate already called.'), 'status' => 'error']);
-            } else {
-                $candidate_update = new CandidateUpdated();
-                $candidate_update->user_id = Auth::user()->id;
-                $candidate_update->candidate_id = $candidate->id;
-                $candidate_update->save();
-                session()->put('candidate_id', $candidate->id);
-                $candidate->is_call_id = Auth::user()->id;
-                $candidate->save();
-                // event(new CallCandidateEvent($candidate->id));
-            }
+
+        // if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+        //     if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
+        //         return response()->json(['message' => __('Candidate already called.'), 'status' => 'error']);
+        //     } else {
+        //         $candidate_update = new CandidateUpdated();
+        //         $candidate_update->user_id = Auth::user()->id;
+        //         $candidate_update->candidate_id = $candidate->id;
+        //         $candidate_update->save();
+        //         session()->put('candidate_id', $candidate->id);
+        //         $candidate->is_call_id = Auth::user()->id;
+        //         $candidate->save();
+        //     }
+        // }
+
+        if (Auth::user()->hasRole('RECRUITER')) {
+           $daily_view_report = new CandidateDailyViewReport();
+           $daily_view_report->user_id = auth()->id();
+           $daily_view_report->candidate_id = $id;
+           $daily_view_report->save();
         }
 
         return response()->json(['view' => view('candidates.edit', compact('interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
@@ -369,7 +377,7 @@ class CandidateController extends Controller
             'remark' => 'nullable|required_if:call_status,REJECTED',
             'company_id' => 'nullable|required_if:call_status,INTERESTED',
             'interview_id' => 'nullable|required_with:company_id',
-            // 'interview_status' => 'nullable|required_with:interview_id',
+            'interview_status' => 'nullable|required_with:interview_id',
             // if call status is interested then interview status will be Interested
 
         ], [
@@ -387,9 +395,9 @@ class CandidateController extends Controller
 
         $candidate = Candidate::findOrFail($id);
 
-        if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-            $candidate->cnadidate_status_id = $request->cnadidate_status_id;
-        }
+        // if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+        $candidate->cnadidate_status_id = $request->cnadidate_status_id;
+        // }
         $candidate->mode_of_registration = $request->mode_of_registration;
         $candidate->source = $request->source;
         if ($request->source == 'REFERENCE') {

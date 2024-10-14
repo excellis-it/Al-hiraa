@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Constants\Position;
 use App\Models\CandidatePosition;
 use App\Models\Company;
+use App\Models\Interview;
 use App\Models\Job;
 use App\Models\State;
 use App\Models\User;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
@@ -30,8 +32,9 @@ class CompanyController extends Controller
             $companies = Company::orderBy('id', 'DESC')->paginate(15);
 
             $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
-
-            return view('companies.list')->with(compact('companies', 'referral_points'));
+            $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
+            $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
+            return view('companies.list')->with(compact('companies', 'referral_points', 'vendors', 'positions'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -57,6 +60,8 @@ class CompanyController extends Controller
             'company_industry' => 'required',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'company_description' => 'nullable',
+            'interview_start_date' => 'nullable|date',
+            'interview_end_date' => 'required|date|after:interview_start_date',
         ]);
 
         $count = Company::where(['company_name' => $request->company_name, 'company_address' => $request->company_address])->count();
@@ -73,6 +78,33 @@ class CompanyController extends Controller
         $company->company_description = $request->company_description;
         $company->company_logo = $this->imageUpload($request->file('company_logo'), 'company');
         $company->save();
+
+        $job = new Job();
+        $job->candidate_position_id = $request->candidate_position_id;
+        $job->vendor_id = $request->vendor_id;
+        $job->service_charge = $request->service_charge;
+        $job->salary = $request->salary;
+        $job->company_id = $company->id;
+        $job->job_name = $request->job_name;
+        $job->duty_hours = $request->duty_hours;
+        $job->contract = $request->contract;
+        $job->benifits = $request->benifits;
+        $job->address = $request->address;
+        $job->job_description = $request->job_description;
+        $job->status = "Ongoing";
+        $job->referral_point_id = $request->referral_point_id;
+        $job->save();
+
+        $interview = new Interview();
+        $interview->user_id = Auth::user()->id;
+        $interview->company_id = $company->id;
+        $interview->job_id = $job->id;
+        $interview->interview_start_date = $request->interview_start_date;
+        $interview->interview_end_date = $request->interview_end_date;
+        $interview->interview_status = "Working";
+        $interview->save();
+
+
         Session::flash('message', 'Company created successfully');
         return response()->json(['message' => __('Company created successfully.'), 'status' => true]);
     }
@@ -184,6 +216,7 @@ class CompanyController extends Controller
             'contract' => 'nullable|numeric',
             'address' => 'required',
             'salary' => 'required|numeric',
+            'quantity_of_people_required' => 'required|numeric',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
@@ -201,6 +234,7 @@ class CompanyController extends Controller
         $job->salary = $request->salary;
         $job->company_id = $request->company_id;
         $job->job_name = $request->job_name;
+        $job->quantity_of_people_required = $request->quantity_of_people_required;
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;
         $job->benifits = $request->benifits;
@@ -236,6 +270,7 @@ class CompanyController extends Controller
             // contract was number or float
             'contract' => 'nullable|numeric',
             'address' => 'required',
+            'quantity_of_people_required' => 'required|numeric',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
@@ -252,6 +287,7 @@ class CompanyController extends Controller
         $job->service_charge = $request->service_charge;
         $job->salary = $request->salary;
         $job->job_name = $request->job_name;
+        $job->quantity_of_people_required = $request->quantity_of_people_required;
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;
         $job->benifits = $request->benifits;
@@ -282,5 +318,52 @@ class CompanyController extends Controller
     {
         $cities = State::find($request->state_id)->cities;
         return response()->json(['cities' => $cities]);
+    }
+
+
+    public function validateStep(Request $request, $step)
+    {
+        $rules = [];
+
+        switch ($step) {
+            case 1:
+                $rules = [
+                    'company_name' => 'required',
+                    'company_address' => 'required',
+                    'company_website' => 'nullable|url',
+                    'company_industry' => 'required',
+                    'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
+                    'company_description' => 'nullable',
+                ];
+                break;
+
+            case 2:
+                $rules = [
+                    'candidate_position_id' => 'required',
+                    'vendor_id' => 'required',
+                    'service_charge' => 'required|numeric',
+                    'job_name' => 'required',
+                    'contract' => 'nullable|numeric',
+                    'address' => 'required',
+                    'salary' => 'required|numeric',
+                    'quantity_of_people_required' => 'required|numeric',
+                ];
+                break;
+
+            case 3:
+                $rules = [
+                    'interview_start_date' => 'nullable|date',
+                    'interview_end_date' => 'required|date|after:interview_start_date'
+                ];
+                break;
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        return response()->json(['success' => true]);
     }
 }

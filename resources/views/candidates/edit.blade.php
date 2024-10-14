@@ -4,11 +4,15 @@
 @endphp
 @if (isset($edit))
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
+    {{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
         @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN')) @else data-bs-backdrop="static" @endif aria-labelledby="offcanvasRightLabel">
         @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))
             <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
-        @endif
+        @endif --}}
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
+        aria-labelledby="offcanvasRightLabel">
+
+        <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
         <div class="offcanvas-body">
             <div class="fixed-head">
                 <div class="row g-3">
@@ -1670,11 +1674,7 @@
             var call_status = $(this).val();
             if (call_status == 'INTERESTED') {
                 $('#interview_status').html(`<option value="">Interview Status</option>
-                                        <option value="Interested" selected>Interested</option>`);
-            } else {
-                $('#interview_status').html(`<option value="">Interview Status</option>
-                                        <option value="Interested">Interested</option>
-                                        <option value="Not-Interested">Not-Interested</option>`);
+                                        <option value="Interested" selected>Interested</option> <option value="Not-Interested">Not-Interested</option>`);
             }
         });
     });

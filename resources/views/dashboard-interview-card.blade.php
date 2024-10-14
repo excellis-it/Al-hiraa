@@ -6,7 +6,7 @@
                 @if ($interview && $interview->company && $interview->company->company_logo)
                     <img src="{{ Storage::url($interview->company->company_logo) }}" alt="Company Logo">
                 @else
-                    <img src="{{ asset('assets/images/food-img-1.jpg') }}" alt="Default Image">
+                    <img src="{{ asset('assets/images/company.png') }}" alt="Default Image">
                 @endif
             </div>
             <div class="food-box-head">

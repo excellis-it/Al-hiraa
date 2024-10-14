@@ -258,6 +258,10 @@
                                         Interview Status
                                     </th>
                                     <th class="can_full">Full Name</th>
+                                    <th>Age</th>
+                                    <th>
+                                        Indian Work Experience
+                                    </th>
                                     <th>
                                         Abroad Work Experience
                                     </th>
@@ -306,7 +310,7 @@
                                     <th>
                                         Specialisation for Position (3)
                                     </th>
-                                    <th>Age</th>
+
                                     <th>DOB</th>
                                     <th>
                                         <div>
@@ -339,9 +343,7 @@
                                     <th>
                                         Other Education
                                     </th>
-                                    <th>
-                                        Indian Work Experience
-                                    </th>
+
 
 
 

@@ -639,7 +639,7 @@
             <label for="">DOB <span>*</span></label>
             <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
                 autocomplete="false" name="dob" max="{{ date('d-m-Y') }}" placeholder="dd-mm-yy"
-                onkeydown="return false">
+                >
         </div>
         @if ($errors->has('dob'))
             <span class="text-danger">{{ $errors->first('dob') }}</span>

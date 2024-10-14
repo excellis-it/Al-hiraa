@@ -56,7 +56,7 @@
                                                     <div class="form-group">
                                                         <label for="">Start Date </label>
                                                         <input type="text" class="form-control datepicker" id="strt_date"
-                                                            value="{{ date('d-m-Y') }}" 
+                                                            value="{{ date('d-m-Y') }}"
                                                             name="interview_start_date" placeholder="">
                                                         <span class="text-danger" id="interview_start_date_msg"></span>
                                                     </div>
@@ -71,7 +71,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-xl-12">
+                                                {{-- <div class="col-xl-12">
                                                     <div class="form-group">
                                                         <label for="">Status <span>*</span></label>
                                                         <select name="interview_status" class="form-select" id="">
@@ -82,7 +82,7 @@
                                                         </select>
                                                         <span class="text-danger"></span>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="col-lg-12 mt-3">
                                                     <div class="save-btn-div d-flex align-items-center">
                                                         <button type="submit" class="btn save-btn"><span><i
@@ -139,7 +139,7 @@
                                         <th>Job Name</th>
                                         <th>Asignee</th>
                                         <th>Due Date</th>
-                                        <th>Status</th>
+                                        {{-- <th>Status</th> --}}
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -166,12 +166,12 @@
                                                     - {{ date('d/m/Y', strtotime($interview['interview_end_date'])) }}
                                                 @endif
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 <div
                                                     class="round_staus {{ $interview['interview_status'] == 'Completed' ? 'active' : '' }} {{ $interview['interview_status'] == 'Transferred' ? 'inactive' : '' }} {{ $interview['interview_status'] == 'Working' ? 'warning' : '' }}">
                                                     {{ $interview['interview_status'] ?? 'N/A' }}
                                                 </div>
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 <a href="javascript:void(0);" class="edit-route"
                                                     data-route="{{ route('schedule-to-do.edit', Crypt::encrypt($interview['id'])) }}"><i

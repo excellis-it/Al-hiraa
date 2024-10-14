@@ -83,12 +83,13 @@
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
-                                            <label for="">Location <span>*</span></label>
-                                            <input type="text" class="form-control" id="" value=""
-                                                name="address" placeholder="">
-                                            <span class="text-danger" id="address_msg_create"></span>
+                                            <label for="">Quantity of people required<span>*</span></label>
+                                            <input type="number" class="form-control" id=""
+                                                value="" name="quantity_of_people_required" placeholder="">
+                                            <span class="text-danger" id="quantity_of_people_required_msg_create"></span>
                                         </div>
                                     </div>
+
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label for="">Benefits</label>
@@ -128,6 +129,14 @@
                                                 @endforeach
                                             </select>
                                             <span class="text-danger" id="referral_point_msg_create"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label for="">Location <span>*</span></label>
+                                            <input type="text" class="form-control" id="" value=""
+                                                name="address" placeholder="">
+                                            <span class="text-danger" id="address_msg_create"></span>
                                         </div>
                                     </div>
                                     <div class="col-xl-12">

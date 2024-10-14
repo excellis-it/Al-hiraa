@@ -27,7 +27,7 @@
                                         <span class="text-danger" id="job_id_msg"></span>
                                     </div>
                                 </div>
-                                <div class="col-xl-6">
+                                {{-- <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Status <span>*</span></label>
                                         <select name="interview_status" class="form-select" id="">
@@ -41,7 +41,7 @@
                                         </select>
                                         <span class="text-danger" id="interview_status_msg"></span>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Start Date </label>

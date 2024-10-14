@@ -74,5 +74,10 @@ class Helper
         }
     }
 
+    public static function getRcInterestedCount($interview_id)
+    {
+        return CandidateJob::where('interview_id', $interview_id)->where('assign_by_id', auth()->id())->count();
+    }
+
 
 }

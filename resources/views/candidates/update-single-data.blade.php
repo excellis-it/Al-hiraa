@@ -38,6 +38,10 @@
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}</td>
 <td class="select-tr" data-id="{{$candidate->id}}">{{ $candidate->assign_job->interview_status ?? 'N/A' }}</td>
 <td class="select-tr" data-id="{{$candidate->id}}">{{ $candidate->full_name ?? 'N/A' }}</td>
+{{--  age calculation date of birth --}}
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
+</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->indian_exp ?? 'N/A' }}</td>
 <td class="content-short select-tr" data-id="{{$candidate->id}}">
     {{ $candidate->abroad_exp ?? 'N/A' }}
 </td>
@@ -47,9 +51,7 @@
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{$candidate->specialisation_2 ?? 'N/A'}}</td>
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->positionAppliedFor3->name ?? 'N/A' }}</td>
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{$candidate->specialisation_3 ?? 'N/A'}}</td>
-{{--  age calculation date of birth --}}
-<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->date_of_birth != null ? \Carbon\Carbon::parse($candidate->date_of_birth)->age : 'N/A' }}
-</td>
+
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->date_of_birth != null ? date('d.m.Y', strtotime($candidate->date_of_birth)) : 'N/A' }}
 </td>
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->gender ?? 'N/A' }}</td>
@@ -57,7 +59,7 @@
 
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->education ?? 'N/A' }}</td>
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->other_education ?? 'N/A' }}</td>
-<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->indian_exp ?? 'N/A' }}</td>
+
 
 
 <td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->cityName->name ?? 'N/A' }}</td>
