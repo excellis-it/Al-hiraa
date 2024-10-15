@@ -3238,7 +3238,7 @@ h6+[aria-label=breadcrumb],
 }
 
 .table tbody td {
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     font-size: 14px;
 }
@@ -3260,6 +3260,8 @@ h6+[aria-label=breadcrumb],
     min-width: 80px;
     margin: 0 auto;
     display: inline-block;
+    line-height: 14px;
+    font-size: 13px;
 }
 
 /*.round_staus:before {*/
@@ -3682,7 +3684,7 @@ h6+[aria-label=breadcrumb],
 .candidate_details .table tbody td {
     text-align: left;
     padding: 10px;
-    font-size: 16px;
+    font-size: 14px;
     width: 50%;
 }
 

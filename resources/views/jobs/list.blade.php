@@ -3,6 +3,19 @@
     {{ env('APP_NAME') }} - Jobs
 @endsection
 @push('styles')
+    <style>
+        .accordion-button:not(.collapsed) {
+            background-color: #fff !important;
+        }
+
+        .accordion-item {
+            border: none !important;
+            border-bottom: 1px solid black
+        }
+        .accordion-button {
+            border: 1px solid #0000001f;
+        }
+    </style>
 @endpush
 @section('content')
     @php
@@ -78,7 +91,7 @@
                                                     <h4>Website:</h4>
                                                 </div>
                                                 <div class="food-status-2">
-                                                    <h4>{{ Str::limit($company->company_website,15) }}</h4>
+                                                    <h4>{{ Str::limit($company->company_website, 15) }}</h4>
                                                 </div>
                                             </div>
 
@@ -125,7 +138,7 @@
         </div>
         <div id="company-filter">
 
-            
+
             @include('jobs.company-filter', ['candidate_jobs' => $candidate_jobs, 'count' => $count])
         </div>
 
@@ -192,11 +205,12 @@
                 var query = $('#query').val();
                 var int_pipeline = $('.interview-active').data('val');
                 var job_id = $('select[name="job_id[]"]').val();
-                
+
                 fetch_data(page, query, company, int_pipeline, job_id);
 
                 $('select[name="job_id[]"]').val('null');
-                $('.job_select').next('.select2-container').find('.select2-selection__rendered').html('Search Position');
+                $('.job_select').next('.select2-container').find('.select2-selection__rendered').html(
+                    'Search Position');
             });
 
             $(document).on('click', '.filter-select', function() {
@@ -205,7 +219,7 @@
                 var query = $('#query').val();
                 var int_pipeline = $(this).data('val');
                 // active this div and remove other active
-               
+
                 $('.filter-select').removeClass('interview-active');
                 $(this).addClass('interview-active');
                 var job_id = $('select[name="job_id[]"]').val();
@@ -213,7 +227,7 @@
             });
 
             $(document).on('change', 'select[name="job_id[]"]', function() {
-                
+
                 var job_id = $(this).val();
                 var company = $('.filter-company.active').data('id');
                 var int_pipeline = $('.interview-active').data('val');
@@ -297,6 +311,5 @@
                 });
             });
         });
-
     </script>
 @endpush

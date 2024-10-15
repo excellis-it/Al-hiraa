@@ -90,34 +90,46 @@
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Candidate Details</h4>
+                    <div class="accordion" id="candidateAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingCandidateDetails">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseCandidateDetails" aria-expanded="false"
+                                    aria-controls="collapseCandidateDetails">
+                                    <h4>Candidate Details</h4>
+                                </button>
+                            </h2>
+                            <div id="collapseCandidateDetails" class="accordion-collapse collapse show"
+                                aria-labelledby="headingCandidateDetails" data-bs-parent="#candidateAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+                                            <div class="edit-2 cross-red" id="cross-button"></div>
+                                            <div class="edit-2 m-lg-1" id="submit-button"></div>
+                                            <div class="edit-1" id="open-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="candidate_form candidate_edit_form" id="candidate-table">
+                                        @include('jobs.candidate-details')
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="edit-1-btn d-flex align-items-center">
-
-                            <div class="edit-2 cross-red" id="cross-button">
-
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button">
-
-                            </div>
-                            <div class="edit-1" id="open-input">
-                                @can('Edit Job')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
                     </div>
-                    <div class="candidate_form candidate_edit_form" id="candidate-table">
-                        @include('jobs.candidate-details')
 
-                    </div>
-                    <div class="see-more-container">
-                        <a href="javascript:void(0);" class="btn-1" id="seeMoreBtn">See More<img
-                                src="{{ asset('assets/images/arrow.png') }}"></a>
-                    </div>
+                    {{-- <div class="see-more-container">
+                        <a href="javascript:void(0);" class="btn-1" id="seeMoreBtn">See More<img src="{{ asset('assets/images/arrow.png') }}"></a>
+                    </div> --}}
                 </div>
+
             </form>
 
 
@@ -126,28 +138,39 @@
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Job Details</h4>
+                    <div class="accordion mt-4" id="jobAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingJobDetails">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseJobDetails" aria-expanded="false"
+                                    aria-controls="collapseJobDetails">
+                                    <h4>Job Details</h4>
+                                </button>
+                            </h2>
+                            <div id="collapseJobDetails" class="accordion-collapse collapse "
+                                aria-labelledby="headingJobDetails" data-bs-parent="#jobAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+                                            <div class="edit-2 cross-red" id="cross-button-job"></div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-job"></div>
+                                            <div class="edit-1" id="open-job-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="candidate_form candidate_edit_form" id="job-table">
+                                        @include('jobs.job-details')
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="edit-1-btn d-flex align-items-center">
-
-                            <div class="edit-2 cross-red" id="cross-button-job">
-
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button-job">
-
-                            </div>
-                            <div class="edit-1" id="open-job-input">
-                                @can('Edit Job')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate_form candidate_edit_form" id="job-table">
-                        @include('jobs.job-details')
-
                     </div>
                 </div>
             </form>
@@ -157,30 +180,46 @@
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Family Details</h4>
+                    <div class="accordion" id="familyAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFamilyDetails">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFamilyDetails" aria-expanded="false"
+                                    aria-controls="collapseFamilyDetails">
+                                    <h4>Family Details</h4>
+                                </button>
+                            </h2>
+                            <div id="collapseFamilyDetails" class="accordion-collapse collapse"
+                                aria-labelledby="headingFamilyDetails" data-bs-parent="#familyAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+                                            <div class="edit-2 cross-red" id="cross-button-family">
+                                                <!-- Cross button for canceling edit -->
+                                            </div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-family">
+                                                <!-- Submit button -->
+                                            </div>
+                                            <div class="edit-1" id="open-family-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="candidate_form candidate_edit_form" id="job-family-table">
+                                        @include('jobs.family-details')
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="edit-1-btn d-flex align-items-center">
-
-                            <div class="edit-2 cross-red" id="cross-button-family">
-
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button-family">
-
-                            </div>
-                            <div class="edit-1" id="open-family-input">
-                                @can('Edit Job')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate_form candidate_edit_form" id="job-family-table">
-                        @include('jobs.family-details')
-
                     </div>
                 </div>
+
             </form>
 
             <form action="{{ route('jobs.medical-details.update', $candidate_job_detail->id) }}" method="POST"
@@ -188,27 +227,46 @@
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Medical Details</h4>
+                    <div class="accordion" id="medicalAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingMedical">
+                                <button
+                                    class="accordion-button collapsed d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseMedical"
+                                    aria-expanded="false" aria-controls="collapseMedical">
+                                    <h4>Medical Details</h4>
+                                </button>
+                            </h2>
+                            <div id="collapseMedical" class="accordion-collapse collapse"
+                                aria-labelledby="headingMedical" data-bs-parent="#medicalAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+
+                                            <div class="edit-2 cross-red" id="cross-button-medical">
+
+                                            </div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-medical">
+
+                                            </div>
+                                            <div class="edit-1" id="open-medical-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="candidate_form candidate_edit_form" id="job-medical-table">
+                                        @include('jobs.medical-details')
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="edit-1-btn d-flex align-items-center">
-
-                            <div class="edit-2 cross-red" id="cross-button-medical">
-
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button-medical">
-
-                            </div>
-                            <div class="edit-1" id="open-medical-input">
-                                @can('Edit Job')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate_form candidate_edit_form" id="job-medical-table">
-                        @include('jobs.medical-details')
                     </div>
                 </div>
             </form>
@@ -218,30 +276,42 @@
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Visa Details</h4>
+                    <div id="visaAccordion" class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingVisa">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseVisa" aria-expanded="false"
+                                    aria-controls="collapseVisa">
+                                    <h4>Visa Details</h4>
+                                </button>
+                            </h2>
+                            <div id="collapseVisa" class="accordion-collapse collapse" aria-labelledby="headingVisa"
+                                data-bs-parent="#visaAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+                                            <div class="edit-2 cross-red" id="cross-button-visa"></div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-visa"></div>
+                                            <div class="edit-1" id="open-visa-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" candidate_form candidate_edit_form" id="job-visa-table">
+                                        @include('jobs.visa-details')
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="edit-1-btn d-flex align-items-center">
-
-                            <div class="edit-2 cross-red" id="cross-button-visa">
-
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button-visa">
-
-                            </div>
-                            <div class="edit-1" id="open-visa-input">
-                                @can('Edit Job')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate_form candidate_edit_form" id="job-visa-table">
-                        @include('jobs.visa-details')
-
                     </div>
                 </div>
+
             </form>
 
             <form action="{{ route('jobs.ticket-details.update', $candidate_job_detail->id) }}" method="POST"
@@ -249,39 +319,46 @@
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Ticket Details</h4>
+                    <div class="accordion" id="ticketAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTicket">
+                                <button
+                                    class="accordion-button collapsed d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseTicket"
+                                    aria-expanded="false" aria-controls="collapseTicket">
+                                    <h4>Ticket Details</h4>
+
+                                </button>
+                            </h2>
+                            <div id="collapseTicket" class="accordion-collapse collapse "
+                                aria-labelledby="headingTicket" data-bs-parent="#ticketAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+
+                                            <div class="edit-2 cross-red" id="cross-button-ticket">
+
+                                            </div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-ticket">
+
+                                            </div>
+                                            <div class="edit-1" id="open-ticket-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="candidate_form candidate_edit_form" id="job-ticket-table">
+                                        @include('jobs.ticket-details')
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="edit-1-btn d-flex align-items-center">
-
-                            <div class="edit-2 cross-red" id="cross-button-ticket">
-
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button-ticket">
-
-                            </div>
-                            <div class="edit-1" id="open-ticket-input">
-                                @can('Edit Job')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate_form candidate_edit_form" id="job-ticket-table">
-                        @include('jobs.ticket-details')
-                        {{-- <div class="table-responsive" id="tableContainer">
-                            <table class="table" id="candidate-form-ticket">
-                                <tbody>
-                                    <tr>
-                                        <td>Ticket Booking Date</td>
-                                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy' }}</td>
-                                        <td>Ticket Confirmation Date</td>
-                                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> --}}
                     </div>
                 </div>
             </form>
@@ -291,67 +368,49 @@
                 @method('PUT')
                 @csrf
                 <div class="candidate_details">
-                    <div class="can-div d-flex justify-content-between align-items-center">
-                        <div class="can-head">
-                            <h4>Payment Details</h4>
+                    <div class="accordion" id="paymentAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPayment">
+                                <button
+                                    class="accordion-button collapsed d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment"
+                                    aria-expanded="false" aria-controls="collapsePayment">
+                                    <h4>Payment Details</h4>
+                                </button>
+                            </h2>
+                            <div id="collapsePayment" class="accordion-collapse collapse"
+                                aria-labelledby="headingPayment" data-bs-parent="#paymentAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h4></h4>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+
+                                            <div class="edit-2 cross-red" id="cross-button-payment">
+
+                                            </div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-payment">
+
+                                            </div>
+                                            <div class="edit-1" id="open-payment-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="candidate_form candidate_edit_form" id="job-payment-table">
+                                        @include('jobs.payment-details')
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="edit-1-btn d-flex align-items-center">
-
-                            <div class="edit-2 cross-red" id="cross-button-payment">
-
-                            </div>
-                            <div class="edit-2 m-lg-1" id="submit-button-payment">
-
-                            </div>
-                            <div class="edit-1" id="open-payment-input">
-                                @can('Edit Job')
-                                    <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                                @endcan
-                            </div>
-                        </div>
-                    </div>
-                    <div class="candidate_form candidate_edit_form" id="job-payment-table">
-                        @include('jobs.payment-details')
-                        {{-- <div class="table-responsive" id="tableContainer">
-                            <table class="table" id="candidate-form-payment">
-                                <tbody>
-                                    <tr>
-                                        <td>1st Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_amount ?? '' }}</td>
-                                        <td>1st Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fst_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                        <td>2nd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_amount ?? '' }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>2nd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->secnd_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                        <td>3rd Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->third_installment_amount ?? '' }}</td>
-                                        <td>3rd Installment Date</td>
-                                        <td>{{ $candidate_job_detail->third_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>4th Installment Amount</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_amount ?? '' }}</td>
-                                        <td>4th Installment Date</td>
-                                        <td>{{ $candidate_job_detail->fourth_installment_date ?? 'dd-mm-yyyy' }}</td>
-                                        <td>Total Amount</td>
-                                        <td>{{ $candidate_job_detail->total_amount ?? 'N/A' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Deployment Date</td>
-                                        <td>{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td>
-                                        <td>Job Status</td>
-                                        <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A' }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div> --}}
                     </div>
                 </div>
+
             </form>
         </div>
     </div>
@@ -384,38 +443,41 @@
     <script>
         $(document).ready(function() {
             // Show the first 5 rows initially
-            var visibleRows = 5;
-            showRows(visibleRows);
+            // var visibleRows = 2;
+            // showRows(visibleRows);
 
             // Handle the "See More" button click
-            $(document).on("click", '#seeMoreBtn', function(e) {
-                e.preventDefault();
-                // Show additional rows (e.g., 5 more)
-                visibleRows += 28;
-                showRows(visibleRows);
-            });
+            // $(document).on("click", '#seeMoreBtn', function(e) {
+            //     e.preventDefault();
+            //     // Show additional rows (e.g., 5 more)
+            //     visibleRows += 28;
+            //     showRows(visibleRows);
+            // });
 
             // Function to show the specified number of rows
-            function showRows(rowsToShow) {
-                var $tableContainer = $("#tableContainer");
-                var $tableRows = $tableContainer.find("tbody tr");
+            // function showRows(rowsToShow) {
+            //     var $tableContainer = $("#tableContainer");
+            //     var $tableRows = $tableContainer.find("tbody tr");
 
-                // Hide all rows
-                $tableRows.hide();
+            //     // Hide all rows
+            //     $tableRows.hide();
 
-                // Show the specified number of rows
-                $tableRows.slice(0, rowsToShow).show();
+            //     // Show the specified number of rows
+            //     $tableRows.slice(0, rowsToShow).show();
 
-                // Toggle the "See More" button visibility based on the total number of rows
-                if ($tableRows.length > rowsToShow) {
-                    $(".see-more-container").show();
-                } else {
-                    $(".see-more-container").hide();
-                }
-            }
+            //     // Toggle the "See More" button visibility based on the total number of rows
+            //     if ($tableRows.length > rowsToShow) {
+            //         $(".see-more-container").show();
+            //     } else {
+            //         $(".see-more-container").hide();
+            //     }
+            // }
 
             $(document).on('submit', '#candidate-edit-form', function(e) {
                 e.preventDefault();
+
+                // Disable the submit button to prevent multiple submissions
+                $('#submit-button').prop('disabled', true);
 
                 var formData = new FormData($(this)[0]);
 
@@ -436,8 +498,8 @@
 
                         // show the edit button
                         $('#open-input').html(
-                            ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        )
+                            `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        );
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -445,85 +507,17 @@
                         $.each(errors, function(key, value) {
                             toastr.error(value);
                         });
+                    },
+                    complete: function() {
+                        // Re-enable the submit button after the request is complete
+                        $('#submit-button').prop('disabled', false);
                     }
                 });
             });
 
+
         });
     </script>
-
-
-
-
-
-
-
-
-
-
-
-    <script>
-        // Ticket deatils
-        $(document).on("click", '#open-ticket-input', function(e) {
-
-            $(this).html(``);
-
-            $('#submit-button-ticket').html(
-                `<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>`
-            )
-
-            $('#cross-button-ticket').html(
-                `<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>`
-            )
-
-            $('#candidate-form-ticket').html(`<tbody class="candidate-form-new">
-
-                <tr>
-                    <td>Ticket Booking Date</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="tickt_booking_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') ?? '' }}" name="ticket_booking_date" placeholder="dd-mm-yyyy">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-                    <td>Ticket Confirmation Date</td>
-                    <td class="date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="ticket_confirm_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_confirmation_date)->format('d-m-Y') ?? '' }}" name="ticket_confirmation_date" placeholder="dd-mm-yyyy">
-                        <span class="text-danger" id="interview_id_job_msg"></span>
-                    </td>
-
-                </tr>
-
-                </tbody>`)
-
-            $('#ticket_confirm_dt').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->ticket_confirmation_date ? \Carbon\Carbon::parse($candidate_job_detail->ticket_confirmation_date)->format('d-m-Y') : '' }}"
-            });
-
-            $('#tickt_booking_dt').datepicker({
-                uiLibrary: 'bootstrap5',
-                format: 'dd-mm-yyyy',
-                value: "{{ $candidate_job_detail->ticket_booking_date ? \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') : '' }}"
-            });
-        });
-
-        $(document).on("click", '#cross-button-ticket', function(e) {
-
-            $(this).html(``);
-            $('#submit-button-ticket').html(``)
-            $('#open-ticket-input').html(
-                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
-            $('#candidate-form-ticket').html(`<tbody>
-                    <tr>
-                        <td>Ticket Booking Date</td>
-                        <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy' }}</td>
-                        <td>Ticket Confirmation Date</td>
-                        <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
-                    </tr>
-                </tbody>`);
-        });
-    </script>
-
 
 
     <script>
@@ -542,8 +536,13 @@
                     }
                 });
             });
+
+
             $(document).on('submit', '#candidate-job-edit-form', function(e) {
                 e.preventDefault();
+
+                // Disable the submit button to prevent multiple submissions
+                $('#submit-button-job').prop('disabled', true);
 
                 var formData = new FormData($(this)[0]);
 
@@ -564,8 +563,8 @@
 
                         // show the edit button
                         $('#open-job-input').html(
-                            ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        )
+                            `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        );
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -573,9 +572,14 @@
                         $.each(errors, function(key, value) {
                             toastr.error(value);
                         });
+                    },
+                    complete: function() {
+                        // Re-enable the submit button regardless of success or error
+                        $('#submit-button-job').prop('disabled', false);
                     }
                 });
             });
+
         });
     </script>
 
@@ -583,6 +587,9 @@
         //family details update
         $(document).on('submit', '#candidate-family-edit-form', function(e) {
             e.preventDefault();
+
+            // Disable the submit button to prevent multiple submissions
+            $('#submit-button-family').prop('disabled', true);
 
             var formData = new FormData($(this)[0]);
 
@@ -594,17 +601,20 @@
                 processData: false,
                 success: function(response) {
                     toastr.success('Candidate family details updated successfully');
-                    // $('#offcanvasEdit').offcanvas('hide');
+
                     var candidate_id = "{{ $candidate_job_detail->id }}";
                     $(".candidate-new-" + candidate_id).html(response.view);
                     $('#job-family-table').html(response.view1);
                     $('#submit-button-family').html(``);
                     $('#cross-button-family').html(``);
 
-                    // show the edit button
+                    // Show the edit button
                     $('#open-family-input').html(
-                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    )
+                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                    );
+
+                    // Re-enable the submit button after success
+                    $('#submit-button-family').prop('disabled', false);
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
@@ -612,6 +622,9 @@
                     $.each(errors, function(key, value) {
                         toastr.error(value);
                     });
+
+                    // Re-enable the submit button on error
+                    $('#submit-button-family').prop('disabled', false);
                 }
             });
         });
@@ -621,9 +634,11 @@
         $(document).on('submit', '#candidate-medical-edit-form', function(e) {
             e.preventDefault();
 
+            // Disable the submit button to prevent multiple submissions
+            var $submitButton = $('#submit-button-medical');
+            $submitButton.prop('disabled', true);
 
             var formData = new FormData($(this)[0]);
-            // Define the flag
 
             $.ajax({
                 url: $(this).attr('action'),
@@ -639,11 +654,10 @@
                     $('#submit-button-medical').html(``);
                     $('#cross-button-medical').html(``);
 
-                    // show the edit button
+                    // Show the edit button
                     $('#open-medical-input').html(
-                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    )
-
+                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                    );
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
@@ -651,6 +665,10 @@
                     $.each(errors, function(key, value) {
                         toastr.error(value[0]);
                     });
+                },
+                complete: function() {
+                    // Re-enable the submit button after the AJAX call is complete
+                    $submitButton.prop('disabled', false);
                 }
             });
         });
@@ -659,6 +677,9 @@
     <script>
         $(document).on('submit', '#candidate-visa-edit-form', function(e) {
             e.preventDefault();
+
+            // Disable the submit button to prevent multiple submissions
+            $('#submit-button-visa').prop('disabled', true);
 
             var formData = new FormData($(this)[0]);
 
@@ -674,21 +695,25 @@
                     $(".candidate-new-" + candidate_id).html(response.view);
                     $("#job-visa-table").html(response.view1);
 
+                    // Clear the button HTML
                     $('#submit-button-visa').html(``);
                     $('#cross-button-visa').html(``);
 
-                    // show the edit button
+                    // Show the edit button
                     $('#open-visa-input').html(
-                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    )
+                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                    );
                 },
                 error: function(xhr) {
-
                     // Handle errors (e.g., display validation errors)
                     var errors = xhr.responseJSON.errors;
                     $.each(errors, function(key, value) {
                         toastr.error(value);
                     });
+                },
+                complete: function() {
+                    // Re-enable the submit button after the AJAX call is complete
+                    $('#submit-button-visa').prop('disabled', false);
                 }
             });
         });
@@ -697,6 +722,9 @@
     <script>
         $(document).on('submit', '#candidate-ticket-edit-form', function(e) {
             e.preventDefault();
+
+            // Disable the submit button to prevent multiple submissions
+            $('#submit-button-ticket').prop('disabled', true);
 
             var formData = new FormData($(this)[0]);
 
@@ -717,8 +745,7 @@
                     // show the edit button
                     $('#open-ticket-input').html(
                         ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    )
-
+                    );
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
@@ -726,6 +753,10 @@
                     $.each(errors, function(key, value) {
                         toastr.error(value);
                     });
+                },
+                complete: function() {
+                    // Re-enable the submit button after the AJAX request is complete
+                    $('#submit-button-ticket').prop('disabled', false);
                 }
             });
         });
@@ -737,6 +768,9 @@
             e.preventDefault();
 
             var formData = new FormData($(this)[0]);
+
+            // Disable the submit button to prevent multiple submissions
+            $('#submit-button-payment').prop('disabled', true);
 
             $.ajax({
                 url: $(this).attr('action'),
@@ -751,11 +785,11 @@
                     $('#job-payment-table').html(response.view1);
                     $('#submit-button-payment').html(``);
                     $('#cross-button-payment').html(``);
-                    // show the edit button
-                    $('#open-payment-input').html(
-                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    )
 
+                    // Show the edit button
+                    $('#open-payment-input').html(
+                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                    );
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
@@ -763,6 +797,10 @@
                     $.each(errors, function(key, value) {
                         toastr.error(value);
                     });
+                },
+                complete: function() {
+                    // Re-enable the submit button after the request completes
+                    $('#submit-button-payment').prop('disabled', false);
                 }
             });
         });

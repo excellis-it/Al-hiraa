@@ -3,6 +3,7 @@
         <tr @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('DATA ENTRY OPERATOR')) class="candidate-new-{{ $candidate['id'] }}" @else
         class="{{ $candidate->is_call_id != null ? 'disabled-row' : '' }} candidate-new-{{ $candidate['id'] }}" id="candidate-{{ $candidate['id'] }}" @endif
             data-id="{{ $candidate['id'] }}">
+
             @include('candidates.update-single-data', ['candidate' => $candidate])
         </tr>
     @endforeach

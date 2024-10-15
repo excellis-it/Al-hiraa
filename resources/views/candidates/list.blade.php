@@ -3,6 +3,13 @@
     {{ env('APP_NAME') }} - Candidates
 @endsection
 @push('styles')
+    <style>
+        .loading-spinner {
+            display: block;
+            margin: 0 auto;
+            padding: 2em;
+        }
+    </style>
 @endpush
 @section('content')
     @php
@@ -417,7 +424,6 @@
                                 </tr>
                             </thead>
                             <tbody class="list" id="candidate_body">
-
                                 @include('candidates.filter')
                             </tbody>
                         </table>
@@ -442,6 +448,11 @@
                 last_call_status, last_update_by, mode_of_registration, education, city,
                 position_applied_for_2, position_applied_for_3,
                 english_speak, arabic_speak) {
+                $('#candidate_body').html(`<tr><td colspan="15">
+                <div class="spinner-border text-align-center" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div></td></tr>
+            `);
 
                 $.ajax({
                     url: "{{ route('candidates.filter') }}",
