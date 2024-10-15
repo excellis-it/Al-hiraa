@@ -96,7 +96,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseCandidateDetails" aria-expanded="false"
                                     aria-controls="collapseCandidateDetails">
-                                    <h4>Candidate Details</h4>
+                                    <h5>Candidate Details</h5>
                                 </button>
                             </h2>
                             <div id="collapseCandidateDetails" class="accordion-collapse collapse show"
@@ -104,7 +104,7 @@
                                 <div class="accordion-body">
                                     <div class="can-div d-flex justify-content-between align-items-center">
                                         <div class="can-head">
-                                            <h4></h4>
+                                            <h5></h5>
                                         </div>
                                         <div class="edit-1-btn d-flex align-items-center">
                                             <div class="edit-2 cross-red" id="cross-button"></div>
@@ -144,7 +144,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseJobDetails" aria-expanded="false"
                                     aria-controls="collapseJobDetails">
-                                    <h4>Job Details</h4>
+                                    <h5>Job Details</h5>
                                 </button>
                             </h2>
                             <div id="collapseJobDetails" class="accordion-collapse collapse "
@@ -152,7 +152,7 @@
                                 <div class="accordion-body">
                                     <div class="can-div d-flex justify-content-between align-items-center">
                                         <div class="can-head">
-                                            <h4></h4>
+                                            <h5></h5>
                                         </div>
                                         <div class="edit-1-btn d-flex align-items-center">
                                             <div class="edit-2 cross-red" id="cross-button-job"></div>
@@ -186,7 +186,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseFamilyDetails" aria-expanded="false"
                                     aria-controls="collapseFamilyDetails">
-                                    <h4>Family Details</h4>
+                                    <h5>Family Details</h5>
                                 </button>
                             </h2>
                             <div id="collapseFamilyDetails" class="accordion-collapse collapse"
@@ -194,7 +194,7 @@
                                 <div class="accordion-body">
                                     <div class="can-div d-flex justify-content-between align-items-center">
                                         <div class="can-head">
-                                            <h4></h4>
+                                            <h5></h5>
                                         </div>
                                         <div class="edit-1-btn d-flex align-items-center">
                                             <div class="edit-2 cross-red" id="cross-button-family">
@@ -234,7 +234,7 @@
                                     class="accordion-button collapsed d-flex justify-content-between align-items-center"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseMedical"
                                     aria-expanded="false" aria-controls="collapseMedical">
-                                    <h4>Medical Details</h4>
+                                    <h5>Medical Details</h5>
                                 </button>
                             </h2>
                             <div id="collapseMedical" class="accordion-collapse collapse"
@@ -242,7 +242,7 @@
                                 <div class="accordion-body">
                                     <div class="can-div d-flex justify-content-between align-items-center">
                                         <div class="can-head">
-                                            <h4></h4>
+                                            <h5></h5>
                                         </div>
                                         <div class="edit-1-btn d-flex align-items-center">
 
@@ -282,7 +282,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#collapseVisa" aria-expanded="false"
                                     aria-controls="collapseVisa">
-                                    <h4>Visa Details</h4>
+                                    <h5>Visa Details</h5>
                                 </button>
                             </h2>
                             <div id="collapseVisa" class="accordion-collapse collapse" aria-labelledby="headingVisa"
@@ -290,7 +290,7 @@
                                 <div class="accordion-body">
                                     <div class="can-div d-flex justify-content-between align-items-center">
                                         <div class="can-head">
-                                            <h4></h4>
+                                            <h5></h5>
                                         </div>
                                         <div class="edit-1-btn d-flex align-items-center">
                                             <div class="edit-2 cross-red" id="cross-button-visa"></div>
@@ -326,7 +326,7 @@
                                     class="accordion-button collapsed d-flex justify-content-between align-items-center"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseTicket"
                                     aria-expanded="false" aria-controls="collapseTicket">
-                                    <h4>Ticket Details</h4>
+                                    <h5>Ticket Details</h5>
 
                                 </button>
                             </h2>
@@ -335,7 +335,7 @@
                                 <div class="accordion-body">
                                     <div class="can-div d-flex justify-content-between align-items-center">
                                         <div class="can-head">
-                                            <h4></h4>
+                                            <h5></h5>
                                         </div>
                                         <div class="edit-1-btn d-flex align-items-center">
 
@@ -375,7 +375,7 @@
                                     class="accordion-button collapsed d-flex justify-content-between align-items-center"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment"
                                     aria-expanded="false" aria-controls="collapsePayment">
-                                    <h4>Payment Details</h4>
+                                    <h5>Payment Details</h5>
                                 </button>
                             </h2>
                             <div id="collapsePayment" class="accordion-collapse collapse"
@@ -383,7 +383,7 @@
                                 <div class="accordion-body">
                                     <div class="can-div d-flex justify-content-between align-items-center">
                                         <div class="can-head">
-                                            <h4></h4>
+                                            <h5></h5>
                                         </div>
                                         <div class="edit-1-btn d-flex align-items-center">
 
