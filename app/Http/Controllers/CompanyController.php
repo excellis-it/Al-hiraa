@@ -56,7 +56,7 @@ class CompanyController extends Controller
         $request->validate([
             'company_name' => 'required',
             'company_address' => 'required',
-            'company_website' => 'nullable|url',
+            'company_website' => 'nullable',
             'company_industry' => 'required',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'company_description' => 'nullable',
@@ -89,6 +89,7 @@ class CompanyController extends Controller
         $job->duty_hours = $request->duty_hours;
         $job->contract = $request->contract;
         $job->benifits = $request->benifits;
+        $job->quantity_of_people_required = $request->quantity_of_people_required;
         $job->address = $request->address;
         $job->job_description = $request->job_description;
         $job->status = "Ongoing";
@@ -101,6 +102,7 @@ class CompanyController extends Controller
         $interview->job_id = $job->id;
         $interview->interview_start_date = $request->interview_start_date;
         $interview->interview_end_date = $request->interview_end_date;
+
         $interview->interview_status = "Working";
         $interview->save();
 
@@ -330,7 +332,7 @@ class CompanyController extends Controller
                 $rules = [
                     'company_name' => 'required',
                     'company_address' => 'required',
-                    'company_website' => 'nullable|url',
+                    'company_website' => 'nullable',
                     'company_industry' => 'required',
                     'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
                     'company_description' => 'nullable',

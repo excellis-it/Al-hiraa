@@ -95,12 +95,13 @@
                                 <form id="company-form-create" action="{{ route('companies.store') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <div class="frm-head">
-                                        <h2>Create New Company</h2>
-                                    </div>
+
                                     <div class="step">
                                         <!-- Step 1: Company Details -->
                                         <div class="step-1">
+                                            <div class="frm-head">
+                                                <h2>Create New Company</h2>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-xl-12">
                                                     <div class="form-group">
@@ -162,6 +163,9 @@
 
                                         <!-- Step 2: Job Details -->
                                         <div class="step-2 d-none">
+                                            <div class="frm-head">
+                                                <h2>Add Job</h2>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-xl-12">
                                                     <div class="add-mem-form job-creat">
@@ -327,6 +331,9 @@
                                         </div>
 
                                         <div class="step-3 d-none">
+                                            <div class="frm-head">
+                                                <h2>Interview Schedule</h2>
+                                            </div>
                                             <div class="row">
                                                 <div class="col-xl-12">
                                                     <div class="add-mem-form">

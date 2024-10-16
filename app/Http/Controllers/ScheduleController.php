@@ -29,7 +29,7 @@ class ScheduleController extends Controller
                     ->get();
 
                 $interviews = $interviews->groupBy(function ($interview) {
-                    return $interview->company->company_name;
+                    return $interview->company->company_name ?? '';
                 });
 
                 $interviews = $interviews->mapWithKeys(function ($item, $key) {

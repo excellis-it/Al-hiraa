@@ -9,8 +9,7 @@
         @if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('ADMIN'))
             <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
         @endif --}}
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit"
-        aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel">
 
         <a href="" class="cross_x"><i class="fa-solid fa-circle-xmark"></i></a>
         <div class="offcanvas-body">
@@ -1333,6 +1332,45 @@
             }
         }
 
+        function last_data(page, query, cnadidate_status_id, source, gender, position_applied_for, ecr_type,
+            last_call_status, last_update_by, mode_of_registration, education, city,
+            position_applied_for_2, position_applied_for_3,
+            english_speak, arabic_speak) {
+            $('#candidate_body').html(`<tr><td colspan="15">
+                <div class="spinner-border text-align-center" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div></td></tr>
+            `);
+
+            $.ajax({
+                url: "{{ route('candidates.filter') }}",
+                data: {
+                    page: page,
+                    search: query,
+                    cnadidate_status_id: cnadidate_status_id,
+                    source: source,
+                    gender: gender,
+                    position_applied_for: position_applied_for,
+                    position_applied_for_2: position_applied_for_2,
+                    position_applied_for_3: position_applied_for_3,
+                    english_speak: english_speak,
+                    arabic_speak: arabic_speak,
+                    ecr_type: ecr_type,
+                    last_call_status: last_call_status,
+                    last_update_by: last_update_by,
+                    mode_of_registration: mode_of_registration,
+                    education: education,
+                    city: city,
+                    call_status: '{{ request()->call_status }}',
+                    is_update: true
+                },
+                success: function(data) {
+                    // console.log(data.view);
+                    $('#candidate_body').html(data.view);
+                }
+            });
+        }
+
         // let toasterMessageShown = false;
         // var ajaxCallAllowed = true;
         $(document).off('submit', '#candidate-edit-form-submit').on('submit', '#candidate-edit-form-submit',
@@ -1350,10 +1388,34 @@
                     success: function(response) {
                         if (response.status == true) {
                             toastr.success('Candidate details updated successfully');
-                            $('#offcanvasEdit').offcanvas('hide');
+                            var page = $('#hidden_page').val();
                             var candidate_id = "{{ $candidate->id }}";
-                            console.log(candidate_id);
-                            $(".candidate-new-" + candidate_id).html(response.view);
+                            var query = $('#query').val();
+                            var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
+                            var source = $('#source_filter').val();
+                            var gender = $('#gender_filter').val();
+                            var position_applied_for = $('#position_applied_for_filter').val();
+                            var position_applied_for_2 = $('#position_applied_for_filter_2')
+                                .val();
+                            var position_applied_for_3 = $('#position_applied_for_filter_3')
+                                .val();
+                            var english_speak = $('#english_speak_filter').val();
+                            var arabic_speak = $('#arabic_speak_filter').val();
+                            var mode_of_registration = $('#mode_of_registration_filter').val();
+                            var education = $('#education_filter').val();
+                            var city = $('#city_filter').val();
+                            var ecr_type = $('#ecr_type_filter').val();
+                            var last_call_status = $('#last_call_status_filter').val();
+                            var last_update_by = $('#last_updated_by_filter').val();
+
+                            // Pass currentPage to the fetch_data function
+                            last_data(page, query, cnadidate_status_id, source, gender,
+                                position_applied_for, ecr_type, last_call_status,
+                                last_update_by, mode_of_registration, education, city,
+                                position_applied_for_2, position_applied_for_3,
+                                english_speak, arabic_speak);
+
+                            $('#offcanvasEdit').offcanvas('hide');
                             // ajaxCallAllowed = false;
                         } else {
                             toastr.error(response.message);
@@ -1673,8 +1735,10 @@
         $(document).on('change', 'select[name="call_status"]', function() {
             var call_status = $(this).val();
             if (call_status == 'INTERESTED') {
-                $('#interview_status').html(`<option value="">Interview Status</option>
-                                        <option value="Interested" selected>Interested</option> <option value="Not-Interested">Not-Interested</option>`);
+                $('#interview_status').html(
+                    `<option value="">Interview Status</option>
+                                        <option value="Interested" selected>Interested</option> <option value="Not-Interested">Not-Interested</option>`
+                );
             }
         });
     });

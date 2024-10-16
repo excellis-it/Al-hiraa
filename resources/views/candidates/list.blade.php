@@ -426,6 +426,7 @@
                             <tbody class="list" id="candidate_body">
                                 @include('candidates.filter')
                             </tbody>
+                            <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
                         </table>
                     </div>
                 </div>

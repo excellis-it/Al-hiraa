@@ -306,8 +306,7 @@ class CandidateController extends Controller
             // Retrieve all interviews for the same company within the date range
             $interviews = Interview::where('company_id', $assign_job->company_id)
                 ->where(function ($query) use ($today) {
-                    $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $today)
-                        ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
+                    $query->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
                 })
                 ->whereHas('job', function ($query) {
                     $query->where('status', 'Ongoing');
@@ -502,6 +501,7 @@ class CandidateController extends Controller
         $candidate->abroad_exp = $request->abroad_exp;
         $candidate->passport_number = $request->passport_number;
         $candidate->is_call_id = null;
+        $candidate->updated_at = now(); // Set to the current time
         $candidate->save();
 
         if ($request->remark || $request->call_status) {
@@ -827,8 +827,12 @@ class CandidateController extends Controller
         }
 
 
+        // if (isset($request->is_update)) {
+            $candidates = $candidates->orderBy('updated_at', 'asc')->paginate(50);
+        // } else {
+        //     $candidates = $candidates->orderBy('id', 'desc')->paginate(50);
+        // }
 
-        $candidates = $candidates->orderBy('id', 'desc')->paginate(50);
 
         return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
     }
@@ -939,8 +943,7 @@ class CandidateController extends Controller
 
             $interviews = Interview::where('company_id', $request->company_id)
                 ->where(function ($query) use ($today) {
-                    $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $today)
-                        ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
+                        $query->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
                 })
                 ->whereHas('job', function ($query) {
                     $query->where('status', 'Ongoing');

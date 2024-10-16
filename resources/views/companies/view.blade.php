@@ -96,7 +96,7 @@
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
-                                                            <label for="">Quantity of people required<span>*</span></label>
+                                                            <label for="">Number of people required<span>*</span></label>
                                                             <input type="number" class="form-control" id=""
                                                                 value="" name="quantity_of_people_required" placeholder="">
                                                             <span class="text-danger" id="quantity_of_people_required_msg_create"></span>
@@ -406,6 +406,7 @@
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benefits</th>
+                                            <th>Number of people required</th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
                                         </tr>
@@ -432,6 +433,7 @@
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benefits</th>
+                                            <th>Number of people required</th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
                                         </tr>

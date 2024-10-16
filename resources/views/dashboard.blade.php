@@ -111,7 +111,7 @@
                                         <tr>
                                             <th>Company Name</th>
                                             <th>Job Title</th>
-                                            <th>Quantity of people required</th>
+                                            <th>Number of people required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
                                             <th>RC Interested Counts</th>

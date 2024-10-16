@@ -32,10 +32,10 @@
                 </div>
                 <div class="food-status">
                     <div class="food-status-1">
-                        <h4>Company Website:</h4>
+                        <h4>Active Job Opening:</h4>
                     </div>
                     <div class="food-status-2 companey_wesi">
-                        <h4>{{ $company->company_website ?? 'N/A' }}</h4>
+                       <a href="{{route('companies.show', Crypt::encrypt($company->id))}}"><h4>{{ $company->jobs ? $company->jobs()->where('status', 'Ongoing')->count() : 'N/A' }}</h4></a>
                     </div>
                 </div>
                 {{-- <div class="food-status">

@@ -6,8 +6,12 @@
             <td>{{ $item->duty_hours ? $item->duty_hours . ' Hours / Day' : 'N/A' }}</td>
             <td>{{ $item->contract ? $item->contract . ' Years' : 'N/A' }}</td>
             <td>{{ $item->benifits ?? 'N/A' }}</td>
+            <td>
+                {{ $item->quantity_of_people_required ?? 'N/A' }}
+            </td>
             <td>{{ $item->created_at != null ? date('d M, Y', strtotime($item->created_at)) : 'N/A' }}
             </td>
+
             <td><a href="javascript:void(0);" class="edit-job-route"
                     data-route="{{ route('company-job.edit', $item['id']) }}"><i class="fas fa-edit"></i></a></td>
         </tr>
@@ -26,6 +30,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="6" class="text-center">No Data Found</td>
+        <td colspan="8" class="text-center">No Data Found</td>
     </tr>
 @endif

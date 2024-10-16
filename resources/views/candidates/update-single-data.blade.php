@@ -33,9 +33,9 @@
     @endif
 </td>
 <td class="content-short select-tr" data-id="{{$candidate->id}}">
-    {{ $candidate->candidateUpdate()->count() > 0 ? date('d.m.Y', strtotime($candidate->candidateUpdate->created_at)) : date('d.m.Y', strtotime($candidate->updated_at)) }}
+    {{  date('d.m.Y', strtotime($candidate->updated_at)) }}
 </td>
-<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->candidateUpdate->user->full_name ?? 'N/A' }}</td>
+<td class="content-short select-tr" data-id="{{$candidate->id}}">{{ $candidate->lastCandidateActivity->user->full_name ?? 'N/A' }}</td>
 <td class="select-tr" data-id="{{$candidate->id}}">{{ $candidate->assign_job->interview_status ?? 'N/A' }}</td>
 <td class="select-tr" data-id="{{$candidate->id}}">{{ $candidate->full_name ?? 'N/A' }}</td>
 {{--  age calculation date of birth --}}
