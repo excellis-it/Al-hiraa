@@ -12,6 +12,7 @@
             border: none !important;
             border-bottom: 1px solid black
         }
+
         .accordion-button {
             border: 1px solid #0000001f;
         }
@@ -72,7 +73,8 @@
                                     <div class="food_box_padding " data-id="{{ $company->id }}">
                                         <div class="food-box filter-company" data-id="{{ $company->id }}">
                                             <div class="food-box-img">
-                                                <img src="{{ Storage::url($company->company_logo) }}" alt="">
+                                                <img src="{{ $company->company_logo ? Storage::url($company->company_logo) : asset('assets/images/company.png') }}"
+                                                    alt="">
                                             </div>
                                             <div class="food-box-head">
                                                 <h3>{{ $company->company_name }}</h3>
