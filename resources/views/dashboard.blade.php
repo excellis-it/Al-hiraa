@@ -216,12 +216,13 @@
                                     <thead>
                                         <tr>
                                             <th>Recruiter</th>
-                                            <th>Viewd</th>
+                                            <th>Candidate Added</th>
+                                            <th>Viewed</th>
                                             <th>Interested</th>
                                             <th>Selected</th>
                                             {{-- <th>Back Out</th> --}}
                                             <th>Deployed</th>
-                                            <th>Candidate Added</th>
+
                                         </tr>
                                     </thead>
                                     <tbody>

@@ -3,11 +3,12 @@
         <tr>
             <td>{{ $recruiter->first_name }} {{ $recruiter->last_name }}</td>
             <!-- Adjust if recruiter name is under a different field -->
+            <td>{{ $recruiter->candidate_added_count }}</td>
             <td>{{ $recruiter->candidate_data_view_count }}</td>
             <td>{{ $recruiter->interested_job_count }}</td>
             <td>{{ $recruiter->selected_job_count }}</td>
             <td>{{ $recruiter->deployed_job_count }}</td>
-            <td>{{ $recruiter->candidate_added_count }}</td>
+
         </tr>
     @endforeach
 
