@@ -145,9 +145,179 @@
         </div>
 
     </div>
+
+    <!-- SMS Modal -->
+    <div class="modal fade" id="smsModal" tabindex="-1" aria-labelledby="smsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="smsModalLabel">Send SMS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- SMS content -->
+                    <form id="send-job-sms" action="{{ route('jobs.send-job-sms') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="smsMessage" class="form-label">Message</label>
+                            <textarea class="form-control" id="smsMessage" rows="15" cols="15" placeholder="Enter your message"
+                                style="height:auto;"></textarea>
+                        </div>
+                        <button type="submit" class="btn save-btn">Send SMS</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- WhatsApp Modal -->
+    <div class="modal fade" id="whatsappModal" tabindex="-1" aria-labelledby="whatsappModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="whatsappModalLabel">Send WhatsApp Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- WhatsApp content -->
+                    <form id="send-job-whatsapp" action="{{route('jobs.send-job-whatsapp')}}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="whatsappMessage" class="form-label">Message</label>
+                            <textarea class="form-control" id="whatsappMessage" rows="15" cols="15" placeholder="Enter your message"
+                                style="height:auto;"></textarea>
+                        </div>
+                        <button type="submit" class="btn save-btn">Send WhatsApp</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $(document).on('submit', '#send-job-sms', function(e) {
+                e.preventDefault();
+                var message = $('#smsMessage').val();
+
+                //  get the candidate id which checkbox is checked
+                var candidate_ids = [];
+                $('.checkd-row:checked').each(function() {
+                    candidate_ids.push($(this).data('id'));
+                });
+                // are you sure you want to change status
+                if (candidate_ids.length == 0) {
+                    toastr.error('Please select atleast one candidate');
+                    return false;
+                }
+                if (message == '') {
+                    toastr.error('Please write something to send message');
+                    return false;
+                }
+
+                // are you sure confirm msg show
+                swal({
+                        title: 'Are you sure?',
+                        text: "You want to send message of selected candidates!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, send it!'
+                    })
+                    .then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: $(this).attr('action'),
+                                type: $(this).attr('method'),
+                                data: {
+                                    message: message,
+                                    candidate_ids: candidate_ids,
+                                },
+                                success: function(response) {
+                                    //windows load with toastr message
+                                    window.location.reload();
+                                },
+                                error: function(xhr) {
+                                    var errors = xhr.responseJSON.errors;
+                                    $.each(errors, function(key, value) {
+                                        toastr.error(value[0]);
+                                    });
+                                }
+                            });
+                        } else {
+                            toastr.error('You have cancelled!');
+                        }
+                    });
+            });
+
+            $(document).on('submit', '#send-job-whatsapp', function(e) {
+                e.preventDefault();
+                var message = $('#whatsappMessage').val();
+
+                //  get the candidate id which checkbox is checked
+                var candidate_ids = [];
+                var job_ids = [];
+                $('.checkd-row:checked').each(function() {
+                    candidate_ids.push($(this).data('id'));
+                    job_ids.push($(this).data('jobid'));
+                });
+                // are you sure you want to change status
+                if (candidate_ids.length == 0) {
+                    toastr.error('Please select atleast one candidate');
+                    return false;
+                }
+                if (message == '') {
+                    toastr.error('Please write something to send whatsapp message');
+                    return false;
+                }
+
+                // are you sure confirm msg show
+                swal({
+                        title: 'Are you sure?',
+                        text: "You want to send whatsapp message of selected candidates!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, send it!'
+                    })
+                    .then((result) => {
+                        if (result.value) {
+                            $.ajax({
+                                url: $(this).attr('action'),
+                                type: $(this).attr('method'),
+                                data: {
+                                    message: message,
+                                    candidate_ids: candidate_ids,
+                                    job_ids:job_ids
+                                },
+                                success: function(response) {
+                                    //windows load with toastr message
+                                    window.location.reload();
+                                },
+                                error: function(xhr) {
+                                    var errors = xhr.responseJSON.errors;
+                                    $.each(errors, function(key, value) {
+                                        toastr.error(value[0]);
+                                    });
+                                }
+                            });
+                        } else {
+                            toastr.error('You have cancelled!');
+                        }
+                    });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
@@ -311,6 +481,21 @@
 
                     this.classList.add('active');
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Check-all functionality
+            $(document).on('change', '.checkAll', function() {
+                $(".checkd-row").prop('checked', $(this).prop('checked'));
+            });
+
+            // Individual checkbox change
+            $(document).on('change', '.checkd-row', function() {
+                if (!$(this).prop("checked")) {
+                    $(".checkAll").prop("checked", false);
+                }
             });
         });
     </script>

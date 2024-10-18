@@ -6,6 +6,8 @@ use App\Events\CallCandidateEndEvent;
 use App\Events\CallCandidateEvent;
 use App\Exports\CandidateExport;
 use App\Imports\CandidateImport;
+use App\Jobs\SendCandidateSms;
+use App\Jobs\SendCandidateWhatsapp;
 use App\Models\AssignJob;
 use App\Models\Candidate;
 use App\Models\CandidateActivity;
@@ -1084,5 +1086,40 @@ class CandidateController extends Controller
 
         // Return the file as a download with the customized filename
         return response()->download($pathToFile, $filename);
+    }
+
+    public function sendSms(Request $request)
+    {
+        $candidate_ids = $request->candidate_ids;
+        $message = $request->message;
+
+        foreach ($candidate_ids as $candidate_id) {
+            $candidate = Candidate::where('id', $candidate_id)->first();
+
+            if ($candidate) {
+                SendCandidateSms::dispatch($candidate, $message);
+            }
+        }
+
+        session()->flash('message', 'Messages are being sent.');
+        return response()->json(['status' => 'Messages are being sent.']);
+    }
+
+
+    public function sendWhatsapp(Request $request)
+    {
+        $candidate_ids = $request->candidate_ids;
+        $message = $request->message;
+
+        foreach ($candidate_ids as $candidate_id) {
+            $candidate = Candidate::where('id', $candidate_id)->first();
+
+            if ($candidate && $candidate->whatapp_no) {
+                SendCandidateWhatsapp::dispatch($candidate, $message);
+            }
+        }
+
+        session()->flash('message', 'Messages are being sent.');
+        return response()->json(['status' => 'Messages are being sent.']);
     }
 }

@@ -190,8 +190,12 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
     Route::get('/get-jobs',[CandidateController::class,'getJobs'])->name('candidates.getJobs');
     // candidates.assign-job
     Route::put('/assign-job/{id}',[CandidateController::class,'assignJob'])->name('candidates.assign-job');
+    Route::post('/send-candidate-sms',[CandidateController::class,'sendSms'])->name('candidates.send-sms');
+    Route::post('/send-candidate-whatsapp',[CandidateController::class,'sendWhatsapp'])->name('candidates.send-whatsapp');
+
 
     Route::get('/companies-filter',[CompanyController::class,'companiesFilter'])->name('companies.filter');
+
 
 
 
@@ -205,6 +209,8 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
     Route::put('/jobs-visa-details/{id}',[JobsController::class,'candidateVisaDetailsUpdate'])->name('jobs.visa-details.update');
     Route::put('/jobs-ticket-details/{id}',[JobsController::class,'candidateTicketDetailsUpdate'])->name('jobs.ticket-details.update');
     Route::put('/jobs-payment-details/{id}',[JobsController::class,'candidatePaymentDetailsUpdate'])->name('jobs.payment-details.update');
+    Route::post('/send-job-sms',[JobsController::class,'sendJobSms'])->name('jobs.send-job-sms');
+    Route::post('/send-job-whatsapp',[JobsController::class,'sendJobWhatsapp'])->name('jobs.send-job-whatsapp');
 
     //referral cms routes
     Route::get('/referral-cms',[ReferCmsController::class,'referCmsView'])->name('referral-cms.edit');

@@ -1,12 +1,9 @@
-{{-- @if (Auth::user()->hasRole('ADMIN'))
-    <td class="">
-        <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input js-check-selected-row checkd-row"
-                data-id="{{ $candidate_job['id'] }}">
-        </div>
-    </td>
-@endif --}}
-{{-- checkbox for bulk select --}}
+<td class="">
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input js-check-selected-row checkd-row"
+            data-id="{{ $candidate_job['candidate_id'] }}" data-jobid="{{ $candidate_job['id'] }}">
+    </div>
+</td>
 @can('View Job')
     <td class="stick-td">
         <a href="javascript:void(0);" class="edit-route" data-route="{{ route('jobs.edit', $candidate_job['id']) }}"><i

@@ -473,47 +473,48 @@
             //     }
             // }
 
-            $(document).on('submit', '#candidate-edit-form', function(e) {
-                e.preventDefault();
+            $(document).off('submit', '#candidate-edit-form').on('submit', '#candidate-edit-form',
+                function(e) {
+                    e.preventDefault();
 
-                // Disable the submit button to prevent multiple submissions
-                $('#submit-button').prop('disabled', true);
+                    // Disable the submit button to prevent multiple submissions
+                    $('#submit-button').prop('disabled', true);
 
-                var formData = new FormData($(this)[0]);
+                    var formData = new FormData($(this)[0]);
 
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function(response) {
-                        toastr.success('Candidate details updated successfully');
-                        // $('#offcanvasEdit').offcanvas('hide');
-                        var candidate_id = "{{ $candidate_job_detail->id }}";
-                        $(".candidate-new-" + candidate_id).html(response.view);
-                        $('#candidate-table').html(response.view1);
-                        $('#submit-button').html(``);
-                        $('#cross-button').html(``);
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            toastr.success('Candidate details updated successfully');
+                            // $('#offcanvasEdit').offcanvas('hide');
+                            var candidate_id = "{{ $candidate_job_detail->id }}";
+                            $(".candidate-new-" + candidate_id).html(response.view);
+                            $('#candidate-table').html(response.view1);
+                            $('#submit-button').html(``);
+                            $('#cross-button').html(``);
 
-                        // show the edit button
-                        $('#open-input').html(
-                            `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        );
-                    },
-                    error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            toastr.error(value);
-                        });
-                    },
-                    complete: function() {
-                        // Re-enable the submit button after the request is complete
-                        $('#submit-button').prop('disabled', false);
-                    }
+                            // show the edit button
+                            $('#open-input').html(
+                                `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                            );
+                        },
+                        error: function(xhr) {
+                            // Handle errors (e.g., display validation errors)
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                toastr.error(value);
+                            });
+                        },
+                        complete: function() {
+                            // Re-enable the submit button after the request is complete
+                            $('#submit-button').prop('disabled', false);
+                        }
+                    });
                 });
-            });
 
 
         });
@@ -537,12 +538,60 @@
                 });
             });
 
+            $(document).off('submit', '#candidate-job-edit-form').on('submit', '#candidate-job-edit-form',
+                function(e) {
+                    e.preventDefault();
 
-            $(document).on('submit', '#candidate-job-edit-form', function(e) {
+                    // Disable the submit button to prevent multiple submissions
+                    $('#submit-button-job').prop('disabled', true);
+
+                    var formData = new FormData($(this)[0]);
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            toastr.success('Candidate job details updated successfully');
+                            // $('#offcanvasEdit').offcanvas('hide');
+                            var candidate_id = "{{ $candidate_job_detail->id }}";
+                            $(".candidate-new-" + candidate_id).html(response.view);
+                            $('#job-table').html(response.view1);
+                            $('#submit-button-job').html(``);
+                            $('#cross-button-job').html(``);
+
+                            // show the edit button
+                            $('#open-job-input').html(
+                                `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                            );
+                        },
+                        error: function(xhr) {
+                            // Handle errors (e.g., display validation errors)
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, value) {
+                                toastr.error(value);
+                            });
+                        },
+                        complete: function() {
+                            // Re-enable the submit button regardless of success or error
+                            $('#submit-button-job').prop('disabled', false);
+                        }
+                    });
+                });
+
+        });
+    </script>
+
+    <script>
+        //family details update
+        $(document).off('submit', '#candidate-family-edit-form').on('submit', '#candidate-family-edit-form',
+            function(e) {
                 e.preventDefault();
 
                 // Disable the submit button to prevent multiple submissions
-                $('#submit-button-job').prop('disabled', true);
+                $('#submit-button-family').prop('disabled', true);
 
                 var formData = new FormData($(this)[0]);
 
@@ -553,16 +602,109 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        toastr.success('Candidate job details updated successfully');
-                        // $('#offcanvasEdit').offcanvas('hide');
+                        toastr.success('Candidate family details updated successfully');
+
                         var candidate_id = "{{ $candidate_job_detail->id }}";
                         $(".candidate-new-" + candidate_id).html(response.view);
-                        $('#job-table').html(response.view1);
-                        $('#submit-button-job').html(``);
-                        $('#cross-button-job').html(``);
+                        $('#job-family-table').html(response.view1);
+                        $('#submit-button-family').html(``);
+                        $('#cross-button-family').html(``);
 
-                        // show the edit button
-                        $('#open-job-input').html(
+                        // Show the edit button
+                        $('#open-family-input').html(
+                            `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        );
+
+                        // Re-enable the submit button after success
+                        $('#submit-button-family').prop('disabled', false);
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value);
+                        });
+
+                        // Re-enable the submit button on error
+                        $('#submit-button-family').prop('disabled', false);
+                    }
+                });
+            });
+    </script>
+
+    <script>
+        $(document).off('submit', '#candidate-medical-edit-form').on('submit', '#candidate-medical-edit-form',
+            function(e) {
+                e.preventDefault();
+
+                // Disable the submit button to prevent multiple submissions
+                var $submitButton = $('#submit-button-medical');
+                $submitButton.prop('disabled', true);
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        toastr.success('Candidate medical details updated successfully');
+                        var candidate_id = "{{ $candidate_job_detail->id }}";
+                        $(".candidate-new-" + candidate_id).html(response.view);
+                        $('#job-medical-table').html(response.view1);
+                        $('#submit-button-medical').html(``);
+                        $('#cross-button-medical').html(``);
+
+                        // Show the edit button
+                        $('#open-medical-input').html(
+                            `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        );
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value[0]);
+                        });
+                    },
+                    complete: function() {
+                        // Re-enable the submit button after the AJAX call is complete
+                        $submitButton.prop('disabled', false);
+                    }
+                });
+            });
+    </script>
+
+    <script>
+        $(document).off('submit', '#candidate-visa-edit-form').on('submit', '#candidate-visa-edit-form',
+            function(e) {
+                e.preventDefault();
+
+                // Disable the submit button to prevent multiple submissions
+                $('#submit-button-visa').prop('disabled', true);
+
+                var formData = new FormData($(this)[0]);
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        toastr.success('Candidate visa details updated successfully');
+                        var candidate_id = "{{ $candidate_job_detail->id }}";
+                        $(".candidate-new-" + candidate_id).html(response.view);
+                        $("#job-visa-table").html(response.view1);
+
+                        // Clear the button HTML
+                        $('#submit-button-visa').html(``);
+                        $('#cross-button-visa').html(``);
+
+                        // Show the edit button
+                        $('#open-visa-input').html(
                             `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
                         );
                     },
@@ -574,236 +716,100 @@
                         });
                     },
                     complete: function() {
-                        // Re-enable the submit button regardless of success or error
-                        $('#submit-button-job').prop('disabled', false);
+                        // Re-enable the submit button after the AJAX call is complete
+                        $('#submit-button-visa').prop('disabled', false);
                     }
                 });
             });
-
-        });
     </script>
 
     <script>
-        //family details update
-        $(document).on('submit', '#candidate-family-edit-form', function(e) {
-            e.preventDefault();
+        $(document).off('submit', '#candidate-ticket-edit-form').on('submit', '#candidate-ticket-edit-form',
+            function(e) {
+                e.preventDefault();
 
-            // Disable the submit button to prevent multiple submissions
-            $('#submit-button-family').prop('disabled', true);
+                // Disable the submit button to prevent multiple submissions
+                $('#submit-button-ticket').prop('disabled', true);
 
-            var formData = new FormData($(this)[0]);
+                var formData = new FormData($(this)[0]);
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    toastr.success('Candidate family details updated successfully');
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        toastr.success('Candidate ticket details updated successfully');
+                        var candidate_id = "{{ $candidate_job_detail->id }}";
+                        $(".candidate-new-" + candidate_id).html(response.view);
+                        $('#job-ticket-table').html(response.view1);
+                        $('#submit-button-ticket').html(``);
+                        $('#cross-button-ticket').html(``);
 
-                    var candidate_id = "{{ $candidate_job_detail->id }}";
-                    $(".candidate-new-" + candidate_id).html(response.view);
-                    $('#job-family-table').html(response.view1);
-                    $('#submit-button-family').html(``);
-                    $('#cross-button-family').html(``);
-
-                    // Show the edit button
-                    $('#open-family-input').html(
-                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    );
-
-                    // Re-enable the submit button after success
-                    $('#submit-button-family').prop('disabled', false);
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value);
-                    });
-
-                    // Re-enable the submit button on error
-                    $('#submit-button-family').prop('disabled', false);
-                }
+                        // show the edit button
+                        $('#open-ticket-input').html(
+                            ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        );
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value);
+                        });
+                    },
+                    complete: function() {
+                        // Re-enable the submit button after the AJAX request is complete
+                        $('#submit-button-ticket').prop('disabled', false);
+                    }
+                });
             });
-        });
-    </script>
-
-    <script>
-        $(document).on('submit', '#candidate-medical-edit-form', function(e) {
-            e.preventDefault();
-
-            // Disable the submit button to prevent multiple submissions
-            var $submitButton = $('#submit-button-medical');
-            $submitButton.prop('disabled', true);
-
-            var formData = new FormData($(this)[0]);
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    toastr.success('Candidate medical details updated successfully');
-                    var candidate_id = "{{ $candidate_job_detail->id }}";
-                    $(".candidate-new-" + candidate_id).html(response.view);
-                    $('#job-medical-table').html(response.view1);
-                    $('#submit-button-medical').html(``);
-                    $('#cross-button-medical').html(``);
-
-                    // Show the edit button
-                    $('#open-medical-input').html(
-                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    );
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value[0]);
-                    });
-                },
-                complete: function() {
-                    // Re-enable the submit button after the AJAX call is complete
-                    $submitButton.prop('disabled', false);
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).on('submit', '#candidate-visa-edit-form', function(e) {
-            e.preventDefault();
-
-            // Disable the submit button to prevent multiple submissions
-            $('#submit-button-visa').prop('disabled', true);
-
-            var formData = new FormData($(this)[0]);
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    toastr.success('Candidate visa details updated successfully');
-                    var candidate_id = "{{ $candidate_job_detail->id }}";
-                    $(".candidate-new-" + candidate_id).html(response.view);
-                    $("#job-visa-table").html(response.view1);
-
-                    // Clear the button HTML
-                    $('#submit-button-visa').html(``);
-                    $('#cross-button-visa').html(``);
-
-                    // Show the edit button
-                    $('#open-visa-input').html(
-                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    );
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                },
-                complete: function() {
-                    // Re-enable the submit button after the AJAX call is complete
-                    $('#submit-button-visa').prop('disabled', false);
-                }
-            });
-        });
-    </script>
-
-    <script>
-        $(document).on('submit', '#candidate-ticket-edit-form', function(e) {
-            e.preventDefault();
-
-            // Disable the submit button to prevent multiple submissions
-            $('#submit-button-ticket').prop('disabled', true);
-
-            var formData = new FormData($(this)[0]);
-
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    toastr.success('Candidate ticket details updated successfully');
-                    var candidate_id = "{{ $candidate_job_detail->id }}";
-                    $(".candidate-new-" + candidate_id).html(response.view);
-                    $('#job-ticket-table').html(response.view1);
-                    $('#submit-button-ticket').html(``);
-                    $('#cross-button-ticket').html(``);
-
-                    // show the edit button
-                    $('#open-ticket-input').html(
-                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    );
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                },
-                complete: function() {
-                    // Re-enable the submit button after the AJAX request is complete
-                    $('#submit-button-ticket').prop('disabled', false);
-                }
-            });
-        });
     </script>
 
     <script>
         //paymnent details
-        $(document).on('submit', '#candidate-payment-edit-form', function(e) {
-            e.preventDefault();
+        $(document).off('submit', '#candidate-payment-edit-form').on('submit', '#candidate-payment-edit-form',
+            function(e) {
+                e.preventDefault();
 
-            var formData = new FormData($(this)[0]);
+                var formData = new FormData($(this)[0]);
 
-            // Disable the submit button to prevent multiple submissions
-            $('#submit-button-payment').prop('disabled', true);
+                // Disable the submit button to prevent multiple submissions
+                $('#submit-button-payment').prop('disabled', true);
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    toastr.success('Candidate payment details updated successfully');
-                    var candidate_id = "{{ $candidate_job_detail->id }}";
-                    $(".candidate-new-" + candidate_id).html(response.view);
-                    $('#job-payment-table').html(response.view1);
-                    $('#submit-button-payment').html(``);
-                    $('#cross-button-payment').html(``);
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        toastr.success('Candidate payment details updated successfully');
+                        var candidate_id = "{{ $candidate_job_detail->id }}";
+                        $(".candidate-new-" + candidate_id).html(response.view);
+                        $('#job-payment-table').html(response.view1);
+                        $('#submit-button-payment').html(``);
+                        $('#cross-button-payment').html(``);
 
-                    // Show the edit button
-                    $('#open-payment-input').html(
-                        `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    );
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                },
-                complete: function() {
-                    // Re-enable the submit button after the request completes
-                    $('#submit-button-payment').prop('disabled', false);
-                }
+                        // Show the edit button
+                        $('#open-payment-input').html(
+                            `<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        );
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value);
+                        });
+                    },
+                    complete: function() {
+                        // Re-enable the submit button after the request completes
+                        $('#submit-button-payment').prop('disabled', false);
+                    }
+                });
             });
-        });
     </script>
     <script>
         // Function to calculate total amount

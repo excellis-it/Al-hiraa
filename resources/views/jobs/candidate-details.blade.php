@@ -356,112 +356,119 @@
             $('#open-input').html(
                 ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
             $('#candidate-form').html(`
-                            <tbody>
-                                <tr>
-                                    <td>Full Name</td>
-                                    <td>{{ $candidate_job_detail->full_name ?? '' }}</td>
-                                    <td>Email</td>
-                                    <td>{{ $candidate_job_detail->email ?? '' }}</td>
-                                    <td>Gender</td>
-                                    <td>{{ $candidate_job_detail->gender ?? '' }}</td>
+                              <tbody>
+            <tr>
+                <td>Full Name</td>
+                <td>{{ $candidate_job_detail->full_name ?? 'N/A' }}</td>
+                <td>Email</td>
+                <td>{{ $candidate_job_detail->email ?? 'N/A' }}</td>
+                <td>Gender</td>
+                <td>{{ $candidate_job_detail->gender ?? 'N/A' }}</td>
 
-                                </tr>
-                                <tr>
-                                    <td>Date of birth</td>
-                                    <td>{{ $candidate_job_detail->date_of_birth ?? '' }}</td>
-                                    <td>whatapp_no</td>
-                                    <td>{{ $candidate_job_detail->whatapp_no ?? '' }}</td>
-                                    <td>Alternate Contact No</td>
-                                    <td>{{ $candidate_job_detail->alternate_contact_no ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Religion</td>
-                                    <td>{{ $candidate_job_detail->religion ?? '' }}</td>
-                                    <td>City</td>
-                                    <td>{{ $candidate_job_detail->city ?? '' }}</td>
-                                    <td>Address</td>
-                                    <td>{{ $candidate_job_detail->address ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Education</td>
-                                    <td>{{ $candidate_job_detail->education ?? '' }}</td>
-                                    <td>Other Education</td>
-                                    <td>{{ $candidate_job_detail->other_education ?? '' }}</td>
-                                    <td>Passport Number</td>
-                                    <td>{{ $candidate_job_detail->passport_number ?? '' }}</td>
-                                </tr>
-                                <tr>
-                                    <td>English_speak</td>
-                                    <td>{{ $candidate_job_detail->english_speak ?? '' }}</td>
-                                    <td>Arabic Speak</td>
-                                    <td>{{ $candidate_job_detail->arabic_speak ?? '' }}</td>
-                                    <td>Assign By </td>
-                                    <td>@if ($candidate_job_detail->assign_by_id != null)
-                                            {{ isset($candidate_job_detail->assignBy) ? $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name : '' }}
-                                        @else
-                                            {{ $candidate_job_detail->assignBy ?? '' }}
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Job Title</td>
-                                    <td>@if ($candidate_job_detail->jobTitle != null)
-                                        {{ $candidate_job_detail->jobTitle->job_name }}
-                                        @else
-                                            {{ $candidate_job_detail->jobTitle ?? '' }}
-                                        @endif
-                                    </td>
-                                    <td>Job Position</td>
-                                    <td>@if ($candidate_job_detail->jobTitle->candidatePosition != null)
-                                        {{ $candidate_job_detail->jobTitle->candidatePosition->name ?? '' }}
-                                        @else
-                                            {{ $candidate_job_detail->jobTitle ?? '' }}
-                                        @endif
-                                    </td>
-                                    <td>Job Location</td>
-                                    <td>{{ $candidate_job_detail->job_location ?? '' }}</td>
-                                </tr>
+            </tr>
+            <tr>
+                <td>Date of birth</td>
+                <td>{{ $candidate_job_detail->date_of_birth ?? 'N/A' }}</td>
+                <td>whatapp_no</td>
+                <td>{{ $candidate_job_detail->whatapp_no ?? 'N/A' }}</td>
+                <td>Alternate Contact No</td>
+                <td>{{ $candidate_job_detail->alternate_contact_no ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>Religion</td>
+                <td>{{ $candidate_job_detail->religion ?? 'N/A' }}</td>
+                <td>City</td>
+                <td>{{ $candidate_job_detail->city ?? 'N/A' }}</td>
+                <td>Address</td>
+                <td>{{ $candidate_job_detail->address ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>Education</td>
+                <td>{{ $candidate_job_detail->education ?? 'N/A' }}</td>
+                <td>Other Education</td>
+                <td>{{ $candidate_job_detail->other_education ?? 'N/A' }}</td>
+                <td>Passport Number</td>
+                <td>{{ $candidate_job_detail->passport_number ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>English_speak</td>
+                <td>{{ $candidate_job_detail->english_speak ?? 'N/A' }}</td>
+                <td>Arabic Speak</td>
+                <td>{{ $candidate_job_detail->arabic_speak ?? 'N/A' }}</td>
+                <td>Assign By </td>
+                <td>
+                    @if ($candidate_job_detail->assign_by_id != null)
+                        {{ isset($candidate_job_detail->assignBy) && $candidate_job_detail->assignBy ? $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name : 'N/A' }}
+                    @else
+                        {{ $candidate_job_detail->assignBy ?? 'N/A' }}
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <td>Job Title</td>
+                <td>
+                    @if ($candidate_job_detail->jobTitle != null)
+                        {{ $candidate_job_detail->jobTitle->job_name }}
+                    @else
+                        {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
+                    @endif
+                </td>
+                <td>Job Position</td>
+                <td>
+                    @if ($candidate_job_detail->jobTitle->candidatePosition != null)
+                        {{ $candidate_job_detail->jobTitle->candidatePosition->name ?? 'N/A' }}
+                    @else
+                        {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
+                    @endif
+                </td>
+                <td>Job Location</td>
+                <td>{{ $candidate_job_detail->job_location ?? 'N/A' }}</td>
+            </tr>
 
-                                <tr>
-                                    <td>Indian Driving Licence</td>
-                                    <td>@if ($indian_driving_license != null)
-                                        @foreach ($indian_driving_license as $key => $value)
-                                            {{ $value ?? 'N/A' }},
-                                        @endforeach
-                                        @else
-                                            {{ 'N/A' }}
-                                        @endif
-                                    </td>
-                                    <td>Gulf Driving Licence</td>
-                                    <td>@if ($gulf_driving_license != null)
-                                        @foreach ($gulf_driving_license as $key => $value)
-                                            {{ $value ?? 'N/A' }},
-                                        @endforeach
-                                        @else
-                                            {{ 'N/A' }}
-                                        @endif
-                                    </td>
-                                    <td>Interview Status</td>
-                                    <td>@if ($candidate_job_detail->job_interview_status == 'Selected')
-                                            <span style="color: green;">{{ $candidate_job_detail->job_interview_status }}</span>
-                                        @else
-                                            {{ $candidate_job_detail->job_interview_status ?? 'N/A' }}
-                                        @endif
-                                    </td>
+            <tr>
+                <td>Indian Driving Licence</td>
+                <td>
+                    @if ($indian_driving_license != null)
+                        @foreach ($indian_driving_license as $key => $value)
+                            {{ $value ?? 'N/A' }},
+                        @endforeach
+                    @else
+                        {{ 'N/A' }}
+                    @endif
+                </td>
+                <td>Gulf Driving Licence</td>
+                <td>
+                    @if ($gulf_driving_license != null)
+                        @foreach ($gulf_driving_license as $key => $value)
+                            {{ $value ?? 'N/A' }},
+                        @endforeach
+                    @else
+                        {{ 'N/A' }}
+                    @endif
+                </td>
+                <td>Interview Status</td>
+                <td>
+                    @if ($candidate_job_detail->job_interview_status == 'Selected')
+                        <span
+                            style="color: green;">{{ $candidate_job_detail->job_interview_status }}</span>
+                    @else
+                        {{ $candidate_job_detail->job_interview_status ?? 'N/A' }}
+                    @endif
+                </td>
 
-                                </tr>
+            </tr>
 
-                            </tbody>`);
-            var visibleRows = 5;
-            showRows(visibleRows);
+        </tbody>`);
+            // var visibleRows = 5;
+            // showRows(visibleRows);
 
             // Handle the "See More" button click
-            $(document).on("click", '#seeMoreBtn', function(e) {
-                e.preventDefault();
-                // Show additional rows (e.g., 5 more)
-                visibleRows += 28;
-                showRows(visibleRows);
-            });
+            // $(document).on("click", '#seeMoreBtn', function(e) {
+            //     e.preventDefault();
+            //     // Show additional rows (e.g., 5 more)
+            //     visibleRows += 28;
+            //     showRows(visibleRows);
+            // });
 
             // Function to show the specified number of rows
             function showRows(rowsToShow) {

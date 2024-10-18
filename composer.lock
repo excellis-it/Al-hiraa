@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46dd474d8fc2eb6a0f3494c4d359c4df",
+    "content-hash": "4e8d3cb729844909a81b7e2267d6ffe8",
     "packages": [
         {
             "name": "beyondcode/laravel-websockets",
@@ -8472,16 +8472,16 @@
         },
         {
             "name": "twilio/sdk",
-            "version": "7.16.2",
+            "version": "8.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twilio/twilio-php.git",
-                "reference": "02ad214b0cc9fc513bd67df251d54aed8901284f"
+                "reference": "0c67059f472bf2a543b006c2bd7c07feb45ab465"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/02ad214b0cc9fc513bd67df251d54aed8901284f",
-                "reference": "02ad214b0cc9fc513bd67df251d54aed8901284f",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/0c67059f472bf2a543b006c2bd7c07feb45ab465",
+                "reference": "0c67059f472bf2a543b006c2bd7c07feb45ab465",
                 "shasum": ""
             },
             "require": {
@@ -8519,9 +8519,9 @@
             ],
             "support": {
                 "issues": "https://github.com/twilio/twilio-php/issues",
-                "source": "https://github.com/twilio/twilio-php/tree/7.16.2"
+                "source": "https://github.com/twilio/twilio-php/tree/8.3.4"
             },
-            "time": "2024-04-01T10:34:42+00:00"
+            "time": "2024-10-17T14:11:51+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

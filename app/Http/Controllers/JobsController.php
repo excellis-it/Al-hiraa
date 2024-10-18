@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\CallCandidateEndEvent;
+use App\Jobs\SendJobSms;
+use App\Jobs\SendJobWhatsapp;
 use App\Models\AssignJob;
 use App\Models\Candidate;
 use App\Models\CandidateActivity;
@@ -18,7 +20,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Twilio\Rest\Client;
 
 class JobsController extends Controller
 {
@@ -502,7 +506,7 @@ class JobsController extends Controller
             'fourth_installment_date' => 'nullable|required_with:fourth_installment_amount|date',
             // if any of the installment amount is not null then total_amount is required
             'total_amount' => 'nullable|required_with:fst_installment_amount,secnd_installment_amount,third_installment_amount,fourth_installment_amount|numeric',
-        ],[
+        ], [
             'fst_installment_amount.required' => 'The first installment amount is required.',
             'fst_installment_date.required' => 'The first installment date is required.',
             'total_amount.required' => 'The total amount is required.',
@@ -563,5 +567,40 @@ class JobsController extends Controller
         // session()->flash('message', 'Candidate payment details updated successfully');
         // return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'view1' => view('jobs.payment-details', compact('candidate_job_detail'))->render(), 'status' => 'success']);
+    }
+
+    public function sendJobSms(Request $request)
+    {
+        $candidate_ids = $request->candidate_ids;
+        $message = $request->message;
+
+        foreach ($candidate_ids as $candidate_id) {
+            $candidate = Candidate::where('id', $candidate_id)->first();
+
+            if ($candidate) {
+                SendJobSms::dispatch($candidate, $message);
+            }
+        }
+
+        session()->flash('message', 'Messages are being sent.');
+        return response()->json(['status' => 'Messages are being sent.']);
+    }
+
+
+    public function sendJobWhatsapp(Request $request)
+    {
+        $job_ids = $request->job_ids;
+        $message = $request->message;
+
+        foreach ($job_ids as $job_id) {
+            $candidate = CandidateJob::where('id', $job_id)->first();
+
+            if ($candidate && $candidate->whatapp_no) {
+                SendJobWhatsapp::dispatch($candidate, $message);
+            }
+        }
+
+        session()->flash('message', 'Messages are being sent.');
+        return response()->json(['status' => 'Messages are being sent.']);
     }
 }
