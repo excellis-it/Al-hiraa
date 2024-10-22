@@ -267,6 +267,11 @@
                     </div>
                 </div>
             </div>
+            <button class="hdr_toggler desktop_toggle" type="button">
+                <span class="navbar-toggler-icon">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </span>
+            </button>
         </div>
     </div>
 </div>

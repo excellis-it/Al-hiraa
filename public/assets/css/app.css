@@ -5623,8 +5623,48 @@ li.tagator_option{
     width:16% !important;
     text-transform:uppercase;
 }
+.desktop_toggle{
+        display:none;
+    }
+@media (min-width: 992px) {
+    .desktop_toggle{
+        z-index: 9999999999999;
+        position: absolute;
+        display: block;
+        right: 0;
+        top: 6px;
+        border:none;
+    }
+    .layout-default.nav_open .mdk-drawer-layout .mdk-drawer, .layout-default.nav_open .mdk-drawer__content {
+        width: 65px;
+        transition: all ease-in 0.3s;
+    }
+    .layout-default.nav_open .sidebar-menu-text{
+        display:none;
+        transition: all ease-in 0.3s;
+    }
+    .layout-default.nav_open .sidebar-menu-button{
+        justify-content:center;
+        transition: all ease-in 0.3s;
+    }
+    .layout-default.nav_open .sidebar-menu-icon--left{
+        margin-right:0;
+        transition: all ease-in 0.3s;
+    }
+    .layout-default.nav_open .navbar-brand {
+        padding-left: 7px;
+        padding-top: 53px !important;
+    }
+    .layout-default.nav_open .conversation h4, .layout-default.nav_open .sidebar-account{
+        display:none !important;
+    }
+
+    .layout-default.nav_open .sidebar-menu{
+        margin-top: 20px;
+    }
 
 
+}
 
 /* Responsive */
 @media (max-width: 1600.5px) {
