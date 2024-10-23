@@ -276,7 +276,7 @@
                             @endcan
 
                             <th>
-                                Interview Status
+                                Current Status
                             </th>
                             <th class="can_full">Full Name</th>
                             <th>Gender</th>

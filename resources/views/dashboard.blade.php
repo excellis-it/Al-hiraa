@@ -234,7 +234,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-lg-4">
 
                         <div class="calendar-container wrapper">
@@ -242,10 +242,6 @@
                                 <button id="prev" class="icon">&lt;</button>
                                 <h2 id="month-year" class="current-date">Month Year</h2>
                                 <button id="next" class="icon">&gt;</button>
-                                {{-- <div class="icons">
-                                    <span class="icon">Icon 1</span>
-                                    <span class="icon">Icon 2</span>
-                                </div> --}}
                             </div>
                             <div class="calendar-body calendar">
                                 <div class="weekdays">
@@ -265,26 +261,20 @@
 
                     </div>
                     <div class="col-lg-4">
-
                         <div class="interview-card">
                             @include('dashboard-interview-card')
                         </div>
-                        {{-- <div class="">
-                        <button class="btn btn-info">>> next</button>
-                    </div> --}}
                     </div>
                     <div class="col-lg-4">
-                        {{--  --}}
                         <div class="dashboard_graph">
                             <input type="text" class="form-control new_date" id="date-range">
                         </div>
                         <div class="dashboard_graph" id="installment-pie-chart">
                             @include('installment-pie-chart')
-
                         </div>
                     </div>
 
-                </div>
+                </div> --}}
 
                 {{-- chart end --}}
             @endif

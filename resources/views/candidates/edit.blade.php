@@ -1379,6 +1379,9 @@
 
                 var formData = new FormData($(this)[0]);
 
+                // loader
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
@@ -1414,14 +1417,19 @@
                                 last_update_by, mode_of_registration, education, city,
                                 position_applied_for_2, position_applied_for_3,
                                 english_speak, arabic_speak);
-
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
                             $('#offcanvasEdit').offcanvas('hide');
                             // ajaxCallAllowed = false;
                         } else {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
                             toastr.error(response.message);
                         }
                     },
                     error: function(xhr) {
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
                         // Handle errors (e.g., display validation errors)
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {

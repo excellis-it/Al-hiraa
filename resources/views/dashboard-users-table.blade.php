@@ -8,7 +8,7 @@
         <tr>
             <td>
                 <div class="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24">
+                    {{-- <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24">
                         <g id="Group_86" data-name="Group 86" transform="translate(-1306 -464)">
                             <g id="Ellipse_124" data-name="Ellipse 124" transform="translate(1306 464)" fill="#fff"
                                 stroke="#d9d9d9" stroke-width="1">
@@ -23,7 +23,7 @@
                                     transform="translate(-64 -292.628)" fill="#6a6a6a" />
                             </g>
                         </g>
-                    </svg>
+                    </svg> --}}
                     <span class="">{{ $data->enter_by_name }}
                         {{-- role name --}}
                         <small> , {{ Helper::userRole($data->user_id) }}</small>

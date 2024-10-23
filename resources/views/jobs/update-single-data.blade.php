@@ -10,10 +10,9 @@
                 class="fas fa-eye"></i></a>
     </td>
 @endcan
-{{-- <td>{{ $candidate->enterBy->full_name ?? 'N/A' }}</td> --}}
 
+{{-- <td>
 
-<td>
     @if ($candidate_job->job_interview_status == 'Selected')
         <div class="round_staus active">
             {{ $candidate_job->job_interview_status ?? 'N/A' }}
@@ -27,6 +26,11 @@
             {{ $candidate_job->job_interview_status ?? 'N/A' }}
         </div>
     @endif
+</td> --}}
+<td>
+    <div class="round_staus active">
+        {{ App\Helpers\Helper::getCurrentStatus($candidate_job->id) }}
+    </div>
 </td>
 
 

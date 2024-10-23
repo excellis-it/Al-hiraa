@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Job;
 use App\Transformers\JobTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use League\Fractal\Manager;
 use League\Fractal\Resource\Collection;
 
@@ -49,11 +50,10 @@ class JobController extends Controller
                 if ($request->location_search) {
                     $jobs = $jobs->where('address', 'like', '%' . $request->location_search . '%');
                 }
-
+                $today = date('Y-m-d');
                 // Fetch jobs with interviews starting or ending from today onwards
-                $jobs = $jobs->with('presentInterview')->whereHas('interviews', function ($query) {
-                    $query->where('interview_start_date', '>=', date('Y-m-d'))
-                          ->orWhere('interview_end_date', '>=', date('Y-m-d'));
+                $jobs = $jobs->with('presentInterview')->whereHas('interviews', function ($query)  use ($today){
+                    $query->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
                 })->where('status', 'Ongoing')->orderBy('id', 'desc')->offset($offset)->limit($limit)->get();
 
                 $jobs = fractal($jobs, new JobTransformer())->toArray()['data'];

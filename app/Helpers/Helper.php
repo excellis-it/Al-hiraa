@@ -79,5 +79,29 @@ class Helper
         return CandidateJob::where('interview_id', $interview_id)->where('assign_by_id', auth()->id())->count();
     }
 
+    public static function getCurrentStatus($job_id)
+{
+    $candidate_job_details = CandidateJob::where('id', $job_id)->first();
+
+    // Status array with corresponding labels
+    $status = [
+        'Deployment' => ($candidate_job_details->deployment_date != null),
+        'Collection' => ($candidate_job_details->total_amount != null),
+        'Document' => ($candidate_job_details->visa_receiving_date != null),
+        'Medical' => ($candidate_job_details->medical_status != null),
+        'Selected' => ($candidate_job_details->job_interview_status == 'Interested'),
+        'Interview' => ($candidate_job_details->job_status == 'Active'),
+    ];
+
+    // Return the last true status
+    foreach ($status as $key => $value) {
+        if ($value) {
+            return $key;
+        }
+    }
+
+    // Return 'No Status' if none of the conditions are met
+    return 'No Status';
+}
 
 }
