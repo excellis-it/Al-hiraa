@@ -89,8 +89,8 @@ class Helper
         'Collection' => ($candidate_job_details->total_amount != null),
         'Document' => ($candidate_job_details->visa_receiving_date != null),
         'Medical' => ($candidate_job_details->medical_status != null),
-        'Selected' => ($candidate_job_details->job_interview_status == 'Interested'),
-        'Interview' => ($candidate_job_details->job_status == 'Active'),
+        'Selected' => ($candidate_job_details->job_interview_status == 'Selected'),
+        'Interview' => ($candidate_job_details->job_interview_status == 'Interested' || $candidate_job_details->job_interview_status == 'Selected'), // Added 'Interested' status
     ];
 
     // Return the last true status

@@ -24,7 +24,7 @@ class CandidateJobController extends Controller
 {
     /**
      * Candidate Job Apply
-     *  
+     *
      * This endpoint will be used to apply job for candidate.
      * @bodyParam job_id string required Job id of the user. Example: 100
      * @bodyParam candidate_id string required candidate id of the user. Example: 20
@@ -92,7 +92,7 @@ class CandidateJobController extends Controller
                 $candidate_job->date_of_birth = $candidate_details->date_of_birth ?? null;
                 $candidate_job->whatapp_no = $candidate_details->whatapp_no ?? null;
                 $candidate_job->alternate_contact_no = $candidate_details->alternate_contact_no ?? null;
-                $candidate_job->religion = $candidate_details->religion ?? null; 
+                $candidate_job->religion = $candidate_details->religion ?? null;
                 $candidate_job->city = $candidate_details->city ?? null;
                 $candidate_job->address = null;
                 $candidate_job->education = $candidate_details->education ?? null;
@@ -112,7 +112,7 @@ class CandidateJobController extends Controller
                 //candidate licence details add
                 $indian_driving_licenses = CandidateLicence::where('candidate_id', Auth::user()->id)->where('licence_type', 'indian')->pluck('licence_name')->toArray() ?? null;
                 $gulf_driving_licenses = CandidateLicence::where('candidate_id', Auth::user()->id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray() ?? null;
-                
+
                 foreach ($indian_driving_licenses as $key => $value) {
                     if($value != null){
                         $candidate_ind_licence = new CandJobLicence();
@@ -122,9 +122,9 @@ class CandidateJobController extends Controller
                         $candidate_ind_licence->licence_name = $value;
                         $candidate_ind_licence->save();
                     }
-                    
+
                 }
-                
+
                 foreach($gulf_driving_licenses as $key => $value){
                     if($value != null){
                         $candidate_gulf_licence = new CandJobLicence();
@@ -143,7 +143,7 @@ class CandidateJobController extends Controller
             $notification->message = 'Congratulations on Applying for Your New Job!';
             $notification->save();
 
-            return response()->json(['message' => 'Job applied successfully.', 'status' => true], 200);     
+            return response()->json(['message' => 'Job applied successfully.', 'status' => true], 200);
 
         }catch(\Throwable $th){
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
@@ -180,12 +180,47 @@ class CandidateJobController extends Controller
 
             $candidate_job_details = CandidateJob::where('id', $request->candidate_job_id)->first();
 
-            $status['interview'] = ($candidate_job_details->job_status == 'Active');
-            $status['selected'] = ($candidate_job_details->job_interview_status == 'Interested');
-            $status['medical'] = ($candidate_job_details->medical_status != null);
-            $status['document'] = ($candidate_job_details->visa_receiving_date != null);
-            $status['collection'] = ($candidate_job_details->total_amount != null);
-            $status['deployment'] = ($candidate_job_details->deployment_date != null);
+            // $status['interview'] = ($candidate_job_details->job_interview_status == 'Interested' || $candidate_job_details->job_interview_status == 'Selected');
+            // $status['selected'] = ($candidate_job_details->job_interview_status == 'Selected');
+            // $status['medical'] = ($candidate_job_details->medical_status != null);
+            // $status['document'] = ($candidate_job_details->visa_receiving_date != null);
+            // $status['collection'] = ($candidate_job_details->total_amount != null);
+            // $status['deployment'] = ($candidate_job_details->deployment_date != null);
+            if ($candidate_job_details->job_interview_status == 'Interested' || $candidate_job_details->job_interview_status == 'Selected') {
+                $status['interview'] = CandidateJob::where('id', $request->candidate_job_id)->select('date_of_interview')->first();
+            } else {
+                $status['interview'] = null;
+            }
+
+            if ($candidate_job_details->job_interview_status == 'Selected') {
+                $status['selected'] = CandidateJob::where('id', $request->candidate_job_id)->select('date_of_selection')->first();
+            } else {
+                $status['selected'] = null;
+            }
+
+            if ($candidate_job_details->medical_status != null) {
+                $status['medical'] = CandidateJob::where('id', $request->candidate_job_id)->select('medical_application_date','medical_completion_date', 'medical_status', 'medical_repeat_date')->first();
+            } else {
+                $status['medical'] = null;
+            }
+
+            if ($candidate_job_details->visa_receiving_date != null) {
+                $status['document'] = CandidateJob::where('id', $request->candidate_job_id)->select('visa_receiving_date', 'visa_issue_date', 'visa_expiry_date', 'ticket_confirmation_date', 'ticket_booking_date')->first();
+            } else {
+                $status['document'] = null;
+            }
+
+            if ($candidate_job_details->total_amount != null) {
+                $status['collection'] = CandidateJob::where('id', $request->candidate_job_id)->select('fst_installment_amount', 'fst_installment_date',  'secnd_installment_amount', 'secnd_installment_date', 'third_installment_amount', 'third_installment_date', 'fourth_installment_amount', 'fourth_installment_date', 'total_amount')->first();
+            } else {
+                $status['collection'] = null;
+            }
+
+            if ($candidate_job_details->deployment_date != null) {
+                $status['deployment'] = CandidateJob::where('id', $request->candidate_job_id)->select('deployment_date')->first();
+            } else {
+                $status['deployment'] = null;
+            }
 
            return response()->json(['message' => 'Candidates details listed successfully.', 'status' => true, 'job_status'=> $status], 200);
         } catch (\Throwable $th) {
@@ -196,7 +231,7 @@ class CandidateJobController extends Controller
 
     /**
      * Candidate Job List
-     * 
+     *
      * This endpoint will be used to list all jobs for candidate.
      * @response {
      * "message": "Candidate Jobs listed successfully."
@@ -213,10 +248,10 @@ class CandidateJobController extends Controller
     {
         $limit = $request->limit ?? 10;
         $offset = $request->offset ?? 0;
-        
+
         try {
             $candidate_jobs = CandidateJob::where('candidate_id', Auth::user()->id);
-        
+
             // Apply search filter if present
             if ($request->search) {
                 $search = $request->search;
@@ -226,18 +261,18 @@ class CandidateJobController extends Controller
                     $query->where('company_name', 'like', '%' . $search . '%');
                 });
             }
-        
+
             // Pagination
             $candidate_jobs = $candidate_jobs->with('jobTitle', 'company')
                                              ->offset($offset)
                                              ->limit($limit)
                                              ->get();
-        
+
             return response()->json(['message' => 'Candidate Jobs listed successfully.', 'status' => true, 'data' => $candidate_jobs], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
-        
+
 
     }
 }

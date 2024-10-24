@@ -326,9 +326,9 @@
                     <td>Interview Status</td>
                     <td>
                     <select name="interview_status" class="form-select uppercase-text" id="">
-                            <option value="Interested" {{ $candidate_job_detail->job_interview_status == 'Interested' ? 'selected' : '' }}>Interested</option>
-                            <option value="Not-Interested" {{ $candidate_job_detail->job_interview_status == 'Not-Interested' ? 'selected' : '' }}>Not-Interested</option>
+                            <option value="Interested" {{ $candidate_job_detail->job_interview_status == 'Interested' ? 'selected' : '' }} {{ $candidate_job_detail->job_interview_status == 'Selected' ? 'disabled' : '' }}>Interested</option>
                             <option value="Selected" {{ $candidate_job_detail->job_interview_status == 'Selected' ? 'selected' : '' }}>Selected</option>
+                            <option value="Not-Interested" {{ $candidate_job_detail->job_interview_status == 'Not-Interested' ? 'selected' : '' }}>Not-Interested</option>
                     </select>
                     </td>
                 </tr>

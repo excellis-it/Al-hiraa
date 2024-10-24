@@ -20,7 +20,7 @@ class JobTransformer extends TransformerAbstract
             'job_name' => $job->job_name ?? null,
             'duty_hours' => $job->duty_hours ? $job->duty_hours . ' Hours' : null,
             'contract' => $job->contract ? $job->contract . ' Years' : null,
-            'benefits' => $job->benefits ?? null,
+            'benefits' => $job->benifits ?? null,
             'address' => $job->address ?? null,
             'job_description' => $job->job_description ?? null,
             'status' => $job->status ?? null,

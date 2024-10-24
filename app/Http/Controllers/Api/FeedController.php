@@ -41,7 +41,7 @@ class FeedController extends Controller
                 ->get();
 
             $feeds->each(function ($feed) {
-                $feed->is_liked = $feed->feedLikes()->where('is_like', true)->exists();
+                $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::user()->id)->exists();
             });
 
 

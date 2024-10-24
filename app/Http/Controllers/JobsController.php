@@ -218,7 +218,7 @@ class JobsController extends Controller
     {
         switch ($int_pipeline) {
             case 'All':
-                $query->where('job_interview_status', 'Interested');
+                $query->where('job_interview_status', 'Interested')->orWhere('job_interview_status', 'Selected');
                 break;
             case 'Selection':
                 $query->where('job_interview_status', 'Selected');
@@ -541,7 +541,7 @@ class JobsController extends Controller
         $payment_details_update->fourth_installment_date = $request->fourth_installment_date;
         $payment_details_update->total_amount = $request->total_amount;
         $payment_details_update->deployment_date = $request->deployment_date;
-        $payment_details_update->job_status = $request->job_status;
+        // $payment_details_update->job_status = $request->job_status;
         $payment_details_update->update();
 
 

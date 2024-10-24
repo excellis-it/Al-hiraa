@@ -30,8 +30,8 @@
             <tr>
                 <td>Deployment Date</td>
                 <td>{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td>
-                <td>Job Status</td>
-                <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A' }}</td>
+                {{-- <td>Job Status</td>
+                <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A' }}</td> --}}
             </tr>
         </tbody>
     </table>
@@ -113,20 +113,20 @@
             <input type="text" class="form-control uppercase-text datepicker" id="deploy-date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') ?? '' }}" name="deployment_date" placeholder="dd-mm-yyyy">
             <span class="text-danger" id="interview_id_job_msg"></span>
         </td>
-        <td>Job Status</td>
-
-            <td colspan="3">
-                <select name="job_status" class="form-select uppercase-text" id="">
-                    <option value="">Select Job Status</option>
-                    <option value="Active" {{ $candidate_job_detail->job_status == 'Active' ? 'selected' : '' }}> Active </option>
-                    <option value="Deactive" {{ $candidate_job_detail->job_status == 'Deactive' ? 'selected' : '' }}>Deactive</option>
-                </select>
-            </td>
-            <span class="text-danger" id="interview_id_job_msg"></span>
 
     </tr>
 
     </tbody>`)
+
+        // <td>Job Status</td>
+
+        //         <td colspan="3">
+        //             <select name="job_status" class="form-select uppercase-text" id="">
+        //                 <option value="">Select Job Status</option>
+        //                 <option value="Active" {{ $candidate_job_detail->job_status == 'Active' ? 'selected' : '' }}> Active </option>
+        //                 <option value="Deactive" {{ $candidate_job_detail->job_status == 'Deactive' ? 'selected' : '' }}>Deactive</option>
+        //             </select>
+        //         </td>
 
         $('#deploy-date').datepicker({
             uiLibrary: 'bootstrap5',
@@ -160,11 +160,11 @@
 
     $(document).on("click", '#cross-button-payment', function(e) {
 
-$(this).html(``);
-$('#submit-button-payment').html(``)
-$('#open-payment-input').html(
-    ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
-$('#candidate-form-payment').html(`<tbody>
+        $(this).html(``);
+        $('#submit-button-payment').html(``)
+        $('#open-payment-input').html(
+            ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
+        $('#candidate-form-payment').html(`<tbody>
                         <tr>
                             <td>1st Installment Amount</td>
                             <td>{{ $candidate_job_detail->fst_installment_amount ?? '' }}</td>
@@ -197,5 +197,5 @@ $('#candidate-form-payment').html(`<tbody>
 
                         </tr>
                     </tbody>`);
-});
+    });
 </script>
