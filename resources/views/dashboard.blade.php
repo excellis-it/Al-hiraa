@@ -114,6 +114,7 @@
                                             <th>Number of people required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
+                                            <th>Salary</th>
                                             <th>RC Interested Counts</th>
                                         </tr>
                                     </thead>
@@ -121,7 +122,7 @@
                                         @if (count($new_jobs_openings) > 0)
                                             @foreach ($new_jobs_openings as $new_jobs_opening)
                                                 <tr>
-                                                    <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
+                                                    <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}</td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}</td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}</td>
                                                     <td>{{  isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }} </td>
@@ -130,6 +131,10 @@
                                                             {{ Str::limit($new_jobs_opening->job ? $new_jobs_opening->job->address : '', 20, '...') }}
                                                         </span>
                                                     </td>
+                                                    <td>
+                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '₹' . $new_jobs_opening->job->salary : '' }}
+                                                    </td>
+
                                                     <td>{{Helper::getRcInterestedCount($new_jobs_opening->id)}}</td>
                                                 </tr>
                                             @endforeach

@@ -265,7 +265,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             'candidate_position_id' => 'required', // candidate_position_id was missing in the validation
-            'vendor_id' => 'required',
+            // 'vendor_id' => 'required',
             'service_charge' => 'required|numeric',
             'job_name' => 'required',
             'status' => 'required',
@@ -274,7 +274,7 @@ class CompanyController extends Controller
             'address' => 'required',
             'quantity_of_people_required' => 'required|numeric',
         ], [
-            'vendor_id.required' => 'The vendor field is required.',
+            // 'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
             'candidate_position_id.required' => 'The position field is required.',
             'to_date.required' => 'The end date field is required.',
@@ -285,7 +285,7 @@ class CompanyController extends Controller
 
         $job = Job::findOrFail(Crypt::decrypt($id));
         $job->candidate_position_id = $request->candidate_position_id;
-        $job->vendor_id = $request->vendor_id;
+        // $job->vendor_id = $request->vendor_id;
         $job->service_charge = $request->service_charge;
         $job->salary = $request->salary;
         $job->job_name = $request->job_name;

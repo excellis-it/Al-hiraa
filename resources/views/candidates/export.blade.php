@@ -24,7 +24,7 @@
             <th>City</th>
             <th>Religion</th>
             <th>ECR Type</th>
-            <th>Indidan Driving License </th>
+            <th>Indian Driving License </th>
             <th>Gulf Driving License </th>
             <th>English Speak</th>
             <th>Arabic Speak</th>

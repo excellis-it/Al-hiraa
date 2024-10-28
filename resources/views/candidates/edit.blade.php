@@ -221,7 +221,7 @@
                                         <td>Religion</td>
                                         <td>{{ $candidate->religion ?? 'N/A' }}</td>
 
-                                        <td>Indidan Driving License </td>
+                                        <td>Indian Driving License </td>
                                         <td>
                                             @if ($candidate->candidateIndianLicence()->count() > 0)
                                                 @foreach ($candidate->candidateIndianLicence as $key => $value)
@@ -1152,7 +1152,7 @@
                                         <td>Religion</td>
                                         <td>{{ $candidate->religion ?? 'N/A' }}</td>
 
-                                        <td>Indidan Driving License </td>
+                                        <td>Indian Driving License </td>
                                         <td> @if ($candidate->candidateIndianLicence()->count() > 0)
                                                 @foreach ($candidate->candidateIndianLicence as $key => $value)
                                                 <span

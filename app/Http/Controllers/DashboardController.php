@@ -223,7 +223,18 @@ class DashboardController extends Controller
         }
 
         $payment_due = $total_installments - $total_service_fee;
-        $new_jobs_openings = Interview::whereBetween('interview_start_date', [date('d-m-Y'), date('d-m-Y', strtotime('+1 week'))])->paginate(10);
+
+        $today = date('Y-m-d'); // Format current date for comparison
+
+            $new_jobs_openings = Interview::where(function ($query) use ($today) {
+                    $query->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
+                })
+                ->whereHas('job', function ($query) {
+                    $query->where('status', 'Ongoing');
+                })
+                ->paginate(10);
+
+        // $new_jobs_openings = Interview::whereBetween('interview_start_date', [date('d-m-Y'), date('d-m-Y', strtotime('+1 week'))])->paginate(10);
 
         return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings', 'recruiters'));
     }

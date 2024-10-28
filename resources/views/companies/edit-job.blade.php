@@ -25,7 +25,7 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Vendors<span>*</span></label>
-                                        <select name="vendor_id" class="form-select new_select2" id="">
+                                        <select name="vendor_id" class="form-select new_select2" id="" disabled>
                                             <option value="">Select an vendor</option>
                                             @foreach ($vendors as $vendor)
                                                 <option value="{{ $vendor->id }}"
