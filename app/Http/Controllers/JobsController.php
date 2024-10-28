@@ -493,16 +493,16 @@ class JobsController extends Controller
     {
         $request->validate([
             // if fst_installment_amount is not null then fst_installment_date is required
-            'fst_installment_amount' => 'required|required_with:fst_installment_date|numeric',
+            'fst_installment_amount' => 'required|required_with:fst_installment_date|numeric|gte:0',
             'fst_installment_date' => 'nullable|required_with:fst_installment_amount|date',
             // if secnd_installment_amount is not null then secnd_installment_date is required
-            'secnd_installment_amount' => 'nullable|numeric',
+            'secnd_installment_amount' => 'nullable|numeric|gte:0',
             'secnd_installment_date' => 'nullable|required_with:secnd_installment_amount|date',
             // if third_installment_amount is not null then third_installment_date is required
-            'third_installment_amount' => 'nullable|numeric',
+            'third_installment_amount' => 'nullable|numeric|gte:0',
             'third_installment_date' => 'nullable|required_with:third_installment_amount|date',
             // if fourth_installment_amount is not null then fourth_installment_date is required
-            'fourth_installment_amount' => 'nullable|numeric',
+            'fourth_installment_amount' => 'nullable|numeric|gte:0',
             'fourth_installment_date' => 'nullable|required_with:fourth_installment_amount|date',
             // if any of the installment amount is not null then total_amount is required
             'total_amount' => 'nullable|required_with:fst_installment_amount,secnd_installment_amount,third_installment_amount,fourth_installment_amount|numeric',
