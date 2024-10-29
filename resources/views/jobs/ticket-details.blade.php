@@ -6,6 +6,8 @@
                 <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy' }}</td>
                 <td>Ticket Confirmation Date</td>
                 <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
+                <td>On Boarding Flight City</td>
+                <td>{{ $candidate_job_detail->onboarding_flight_city ?? 'N/A' }}</td>
             </tr>
         </tbody>
     </table>
@@ -39,6 +41,11 @@
                     <input type="text" class="form-control uppercase-text datepicker" id="ticket_confirm_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_confirmation_date)->format('d-m-Y') ?? '' }}" name="ticket_confirmation_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
+                <td>On Boarding Flight City</td>
+                <td class="text-btn">
+                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->onboarding_flight_city ?? '' }}" name="onboarding_flight_city" placeholder="">
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
 
             </tr>
 
@@ -55,6 +62,8 @@
             format: 'dd-mm-yyyy',
             value: "{{ $candidate_job_detail->ticket_booking_date ? \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') : '' }}"
         });
+
+
     });
 
     $(document).on("click", '#cross-button-ticket', function(e) {
@@ -69,6 +78,8 @@
                     <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy' }}</td>
                     <td>Ticket Confirmation Date</td>
                     <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
+                    <td>On Boarding Flight City</td>
+                    <td>{{ $candidate_job_detail->onboarding_flight_city ?? 'N/A' }}</td>
                 </tr>
             </tbody>`);
     });

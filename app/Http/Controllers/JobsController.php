@@ -421,24 +421,30 @@ class JobsController extends Controller
         $request->validate([
             'medical_application_date' => 'required|date',
             'medical_completion_date' => 'nullable|required_with:medical_status|date',
+            'medical_expiry_date' => 'nullable|date',
             'medical_status' => 'nullable|required_with:medical_completion_date',
             // if medical_status is REPEAT then medical_repeat_date is required
             'medical_repeat_date' => 'nullable|required_if:medical_status,REPEAT|date',
+
         ], [
             'medical_application_date.required' => 'The medical apllication date is required.',
             'medical_completion_date.required' => 'The medical completion date is required.',
+            'medical_expiry_date.required' => 'The medical expiry date is required.',
             'medical_status.required' => 'The medical status is required.',
+
         ]);
 
         $medical_details_update = CandidateJob::findOrFail($id);
         $medical_details_update->medical_application_date = $request->medical_application_date;
         $medical_details_update->medical_completion_date = $request->medical_completion_date;
+        $medical_details_update->medical_expiry_date = $request->medical_expiry_date;
         $medical_details_update->medical_status = $request->medical_status;
         if ($request->medical_status == 'REPEAT') {
             $medical_details_update->medical_repeat_date = $request->medical_repeat_date ?? null;
         } else {
             $medical_details_update->medical_repeat_date = null;
         }
+
 
         $medical_details_update->update();
 
@@ -473,11 +479,13 @@ class JobsController extends Controller
         $request->validate([
             'ticket_booking_date' => 'required|date',
             'ticket_confirmation_date' => 'nullable|date',
+            'onboarding_flight_city' => 'nullable',
         ]);
 
         $ticket_details_update = CandidateJob::findOrFail($id);
         $ticket_details_update->ticket_booking_date = $request->ticket_booking_date;
         $ticket_details_update->ticket_confirmation_date = $request->ticket_confirmation_date;
+        $ticket_details_update->onboarding_flight_city = $request->onboarding_flight_city;
         $ticket_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
