@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CompanyController extends Controller
 {
@@ -244,6 +245,9 @@ class CompanyController extends Controller
         $job->job_description = $request->job_description;
         $job->status = "Ongoing";
         $job->referral_point_id = $request->referral_point_id;
+        if ($request->hasFile('document')) {
+            $job->document = $this->imageUpload($request->file('document'), 'job');
+        }
         $job->save();
         $ongoing_jobs = Job::where(['status' => 'Ongoing', 'company_id' => $request->company_id])->orderBy('id', 'desc')->paginate(10);
         Session::flash('message', 'Job created successfully');
@@ -297,6 +301,13 @@ class CompanyController extends Controller
         $job->job_description = $request->job_description;
         $job->status = $request->status;
         $job->referral_point_id = $request->referral_point_id;
+        if ($request->hasFile('document')) {
+            if ($job->document) {
+                $currentImageFilename = $job->document; // get current image name
+                Storage::delete('app/'.$currentImageFilename);
+            }
+            $job->document = $this->imageUpload($request->file('document'), 'job');
+        }
         $job->save();
         Session::flash('message', 'Job Updated successfully');
         return response()->json(['message' => __('Job Updated successfully.'), 'status' => true]);

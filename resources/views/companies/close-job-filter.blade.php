@@ -11,6 +11,11 @@
         <td>
             {{ $item->quantity_of_people_required ?? 'N/A' }}
         </td>
+        <td>
+            <a href="{{ Storage::url($item->document) }}" target="_blank">
+                <i class="fa-solid fa-eye"></i>
+            </a>
+        </td>
         <td>{{ $item->created_at != null ? date('d M, Y', strtotime($item->created_at)) : 'N/A' }}
         </td>
 

@@ -12,6 +12,7 @@ use App\Http\Controllers\CandidateStatusController;
 use App\Http\Controllers\ReferralPointController;
 use App\Http\Controllers\ReferCmsController;
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/download-pdf/{id}', [PDFController::class, 'downloadPdf'])->name('download.pdf');
 
 Route::get('/',[AuthenticationController::class,'login'])->name('login');
 Route::post('/login-check',[AuthenticationController::class,'loginCheck'])->name('login.check');

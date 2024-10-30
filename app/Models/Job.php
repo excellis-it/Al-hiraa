@@ -20,6 +20,7 @@ class Job extends Model
         'benifits',
         'address', // 'address' is a typo, it should be 'benefits
         'job_description',
+        'document',
         'status',
     ];
 
@@ -69,5 +70,5 @@ class Job extends Model
     public function presentInterview()
     {
         return $this->hasOne(Interview::class, 'job_id')->where('interview_start_date', '>=', date('Y-m-d'))->orWhere('interview_end_date', '>=', date('Y-m-d'));
-    }   
+    }
 }
