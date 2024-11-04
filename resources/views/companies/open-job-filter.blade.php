@@ -10,9 +10,12 @@
                 {{ $item->quantity_of_people_required ?? 'N/A' }}
             </td>
             <td>
-                <a href="{{ route('download.pdf', $item->id) }}">
-                    <i class="fa-solid fa-download"></i>
-                </a>
+                @if ($item->document)
+                    <a href="{{ Storage::url($item->document) }}" target="_blank">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                @endif
+
             </td>
             <td>{{ $item->created_at != null ? date('d M, Y', strtotime($item->created_at)) : 'N/A' }}
             </td>
@@ -29,7 +32,7 @@
                     {{ $ongoing_jobs->lastItem() }} Jobs of
                     {{ $ongoing_jobs->total() }} Jobs)
                 </div>
-                <div>{{$ongoing_jobs->links('vendor.pagination.bootstrap-4')}}</div>
+                <div>{{ $ongoing_jobs->links('vendor.pagination.bootstrap-4') }}</div>
             </div>
         </td>
     </tr>

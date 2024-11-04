@@ -154,8 +154,8 @@
                                     </td> --}}
                                             <td>{{ $interview['job']['job_name'] ?? 'N/A' }}</td>
                                             <td><span
-                                                    class="name_textbg">{{ substr($interview['user']['first_name'], 0, 1) ?? '' }}
-                                                    {{ substr($interview['user']['last_name'], 0, 1) ?? '' }}</span>{{ $interview['user']['first_name'] ?? '' }}
+                                                    class="name_textbg">{{ isset($interview['user']['first_name']) ? substr($interview['user']['first_name'], 0, 1) : '' }}
+                                                    {{ isset($interview['user']['last_name']) ? substr($interview['user']['last_name'], 0, 1) : '' }}</span>{{ $interview['user']['first_name'] ?? '' }}
                                                 {{ $interview['user']['last_name'] ?? '' }}</td>
                                             <td>
                                                 {{ isset($interview['interview_start_date']) ? date('d/m/Y', strtotime($interview['interview_start_date'])) : '' }}

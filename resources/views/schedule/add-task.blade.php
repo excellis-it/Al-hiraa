@@ -139,12 +139,21 @@
                                             <span class="text-danger" id="address_msg_create"></span>
                                         </div>
                                     </div>
+
                                     <div class="col-xl-12">
                                         <div class="form-group">
                                             <label for="">Job Description</label>
                                             <textarea name="job_description" id="" cols="30" class="form-control" style="height: 100%;"
                                                 rows="10"></textarea>
                                             <span class="text-danger" id="job_description_msg_create"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label for="">Document </label>
+                                            <input type="file" class="form-control" id=""
+                                                value="" name="document" placeholder="">
+                                            <span class="text-danger" id=""></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mt-3">

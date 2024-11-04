@@ -643,6 +643,7 @@
                         education: education,
                         city: city,
                         call_status: '{{ request()->call_status }}',
+                        candidate_entry: '{{ request()->candidate_entry }}',
                     },
                     success: function(data) {
                         // console.log(data.view);

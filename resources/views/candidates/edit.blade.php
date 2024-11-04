@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="name_box">
+                        <div class="name_box position-relative">
                             <div class="">
                                 <div class="name_box_icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20.761" height="22.275"
@@ -54,27 +54,19 @@
                                     </svg>
                                 </div>
                             </div>
-                            {{-- <style>
-                                .input-group {
-                                    display: flex;
-                                    align-items: center;
-                                }
-
-                                .btn {
-                                    cursor: pointer;
-                                }
-                            </style> --}}
                             <div class="">
                                 <div class="name_box_text">
                                     <p>Contact No:</p>
                                     <div class="input-group">
                                         <h4 id="contact-number" class="d-inline">{{ $candidate->contact_no ?? 'N/A' }}
                                         </h4>
-                                        {{-- <i class="fas fa-eye"></i> --}}
                                     </div>
                                 </div>
                             </div>
-
+                            @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER'))
+                                <a href="javascript:void(0);" class="edit-phone" data-bs-toggle="modal"
+                                    data-bs-target="#phoneModal"><i class="fas fa-pencil"></i></a>
+                            @endif
 
                         </div>
                     </div>
@@ -405,6 +397,28 @@
 </table>
 </div>
 </div>
+<div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" id="update-contact-form">
+                @csrf
+                <input type="hidden" id="candidate_id" value="{{ $candidate->id }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="contact_number" class="col-form-label">Contact Number:</label>
+                        <input type="text" class="form-control" id="contact_number" name="contact_no"
+                            value="{{ $candidate['contact_no'] }}">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="update-contact-btn">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 {{-- <form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST" id="candidate-job-create-form">
     @method('PUT')
     @csrf
@@ -465,6 +479,47 @@
 </form> --}}
 </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $(document).on('click', '#update-contact-btn', function(e) {
+            e.preventDefault();
+
+            let contact_no = $('#contact_number').val();
+            let candidate_id = $('#candidate_id').val();
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+            $.ajax({
+                url: "{{ route('candidates.update-candidate-contact-number') }}",
+                type: 'POST',
+                data: {
+                    _token: $('input[name="_token"]').val(),
+                    contact_no: contact_no,
+                    id: candidate_id
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#contact-number').text(contact_no);
+                        $('#phoneModal').modal('hide');
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        toastr.success('Contact number updated successfully')
+                    }
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                },
+                error: function(xhr) {
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        toastr.error(value[
+                            0]);
+                    });
+                }
+            });
+        });
+    });
+</script>
 
 <script>
     $(document).ready(function() {

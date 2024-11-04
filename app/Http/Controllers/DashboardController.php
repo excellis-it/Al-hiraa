@@ -25,32 +25,19 @@ class DashboardController extends Controller
             $count['monthly_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
             $count['last_month_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
-
+            $count['interview_schedule'] = CandidateActivity::where('call_status', 'INTERVIEW SCHEDULE')->whereHas('candidate', function($query){
+                $query->where('enter_by', Auth::user()->id);
+            })->count();
             $candidates = Candidate::where('enter_by', Auth::user()->id)->orderBy('id', 'desc')->paginate(5);
             $recruiters = [];
         } else if (Auth::user()->hasRole('RECRUITER')) {
             $count['daily_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'))->count() ?? 0;
-            $count['call_back'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'Call Back')->count() ?? 0;
-
+            $count['call_back'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'CALL BACK')->count() ?? 0;
+            $count['interview_schedule'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'INTERVIEW SCHEDULE')->count() ?? 0;
+            $count['selection'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'INTERESTED')->count() ?? 0;
             // last month entry
             $candidates = Candidate::where('enter_by', Auth::user()->id)->get();
             $recruiters = [];
-            $interviewSchedule = 0;
-            $selection = 0;
-            foreach ($candidates as $candidate) {
-                // Count how many times the candidate has a job_interview_status of 'interested'
-                $interviewSchedule += CandidateJob::where('candidate_id', $candidate->id)
-                    ->where('job_interview_status', 'Interested')
-                    ->count() ?? 0;
-
-                $selection += CandidateJob::where('candidate_id', $candidate->id)
-                    ->where('job_interview_status', 'Selected')
-                    ->count() ?? 0;
-            }
-
-            // Store the result in the $count array
-            $count['interview_schedule'] = $interviewSchedule;
-            $count['selection'] = $selection;
         } else {
             $count['total_candidate_entry'] = Candidate::count() ?? 0;
             $count['today_candidate_entry'] = Candidate::whereDate('created_at', date('Y-m-d'))->count() ?? 0;

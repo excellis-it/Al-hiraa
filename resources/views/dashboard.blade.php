@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
 @endpush
 @section('content')
-@php
-    use App\Helpers\Helper;
-@endphp
+    @php
+        use App\Helpers\Helper;
+    @endphp
     <div class="mdk-drawer-layout__content page">
         <div class="container-fluid page__container">
             <div class="page__heading">
@@ -34,69 +34,95 @@
                     </div>
                 </div>
             </div>
-            @if (Auth::user()->hasRole('ADMIN'))
+            @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER') || Auth::user()->hasRole('DATA ENTRY OPERATOR'))
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
                     <div class="col">
+                        <a href="{{ route('candidates.index') }}">
                         <div class="border_left_hh">
                             <div class="card-header__title mb-2">All Time Stats</div>
                             <div class="text-amount">{{ $count['total_candidate_entry'] }} </div>
                             <div class="text-stats">Candidate Entry</div>
                         </div>
+                        </a>
                     </div>
                     <div class="col">
+                        <a href="{{ route('candidates.index', ['candidate_entry' => 'monthly']) }}">
                         <div class="border_left_hh">
                             <div class="card-header__title mb-2">Monthly Stats</div>
                             <div class="text-amount">{{ $count['monthly_candidate_entry'] }} </div>
                             <div class="text-stats">Candidate Entry</div>
                         </div>
+                        </a>
                     </div>
                     <div class="col">
+                        <a href="{{ route('candidates.index', ['candidate_entry' => 'daily']) }}">
                         <div class="border_left_hh">
                             <div class="card-header__title mb-2">Today Stats</div>
                             <div class="text-amount">{{ $count['today_candidate_entry'] }} </div>
                             <div class="text-stats">Candidate Entry</div>
                         </div>
+                        </a>
                     </div>
 
-
+                    @if (Auth::user()->hasRole('DATA ENTRY OPERATOR'))
                     <div class="col">
+                        <a href="{{ route('candidates.index', ['call_status' => 'INTERVIEW SCHEDULE']) }}">
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">Total Interview Schedule</div>
+                                <div class="text-amount">{{ $count['interview_schedule'] }} </div>
+                            </div>
+                        </a>
+                    </div>
+                    @else
+                    <div class="col">
+                        <a href="{{ route('candidates.index', ['candidate_entry' => 'last_month']) }}">
                         <div class="border_left_hh">
                             <div class="card-header__title mb-2">Last Month</div>
                             <div class="text-amount">{{ $count['last_month_candidate_entry'] }}</div>
                             <div class="text-stats">Candidate Entry</div>
                         </div>
+                        </a>
                     </div>
+                    @endif
+
+
                 </div>
             @endif
             @if (Auth::user()->hasRole('RECRUITER'))
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
                     <div class="col">
+                        <a href="{{ route('candidates.index', ['candidate_entry' => 'daily']) }}">
                         <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Daily Entry</div>
+                            <div class="card-header__title mb-2">Daily Candidate Entry</div>
                             <div class="text-amount">{{ $count['daily_entry'] }} </div>
                         </div>
+                        </a>
                     </div>
                     <div class="col">
-                        <a href="{{ route('candidates.index', ['call_status' => 'Call Back']) }}">
+                        <a href="{{ route('candidates.index', ['call_status' => 'CALL BACK']) }}">
                             <div class="border_left_hh">
-                                <div class="card-header__title mb-2">Call Back</div>
+                                <div class="card-header__title mb-2">Total Call Back</div>
                                 <div class="text-amount">{{ $count['call_back'] }} </div>
                             </div>
                         </a>
                     </div>
                     <div class="col">
-                        <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Interview Schedule</div>
-                            <div class="text-amount">{{ $count['interview_schedule'] }} </div>
-                        </div>
+                        <a href="{{ route('candidates.index', ['call_status' => 'INTERVIEW SCHEDULE']) }}">
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">Total Interview Schedule</div>
+                                <div class="text-amount">{{ $count['interview_schedule'] }} </div>
+                            </div>
+                        </a>
                     </div>
 
 
                     <div class="col">
-                        <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Selection</div>
-                            <div class="text-amount">{{ $count['selection'] }}</div>
-                        </div>
+                        <a href="{{ route('candidates.index', ['call_status' => 'INTERESTED']) }}">
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">Total Interested Candidate</div>
+                                <div class="text-amount">{{ $count['selection'] }}</div>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div class="row">
@@ -122,20 +148,26 @@
                                         @if (count($new_jobs_openings) > 0)
                                             @foreach ($new_jobs_openings as $new_jobs_opening)
                                                 <tr>
-                                                    <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}</td>
-                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}</td>
-                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}</td>
-                                                    <td>{{  isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }} </td>
+                                                    <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
+                                                    </td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
+                                                    </td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
+                                                    </td>
+                                                    <td>{{ isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }}
+                                                    </td>
                                                     <td>
-                                                        <span title="{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}" style="cursor: pointer">
+                                                        <span
+                                                            title="{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}"
+                                                            style="cursor: pointer">
                                                             {{ Str::limit($new_jobs_opening->job ? $new_jobs_opening->job->address : '', 20, '...') }}
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '₹' . $new_jobs_opening->job->salary : '' }}
+                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
                                                     </td>
 
-                                                    <td>{{Helper::getRcInterestedCount($new_jobs_opening->id)}}</td>
+                                                    <td>{{ Helper::getRcInterestedCount($new_jobs_opening->id) }}</td>
                                                 </tr>
                                             @endforeach
 
@@ -164,7 +196,7 @@
                     </div>
                 </div>
             @endif
-            @if (Auth::user()->hasRole('ADMIN'))
+            @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER'))
                 {{-- chart --}}
                 <div class="row">
                     <div class="col-lg-12">

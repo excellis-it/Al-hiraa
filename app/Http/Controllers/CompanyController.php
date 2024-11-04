@@ -93,6 +93,13 @@ class CompanyController extends Controller
         $job->quantity_of_people_required = $request->quantity_of_people_required;
         $job->address = $request->address;
         $job->job_description = $request->job_description;
+        if ($request->hasFile('document')) {
+            if ($job->document) {
+                $currentImageFilename = $job->document; // get current image name
+                Storage::delete('app/'.$currentImageFilename);
+            }
+            $job->document = $this->imageUpload($request->file('document'), 'job');
+        }
         $job->status = "Ongoing";
         $job->referral_point_id = $request->referral_point_id;
         $job->save();

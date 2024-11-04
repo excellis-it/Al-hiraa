@@ -27,6 +27,7 @@ use App\Models\CandJobLicence;
 use App\Models\State;
 use App\Models\City;
 use App\Traits\ImageTrait;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
@@ -49,13 +50,47 @@ class CandidateController extends Controller
             $cities = City::orderBy('name', 'asc')->get();
             $candidate_last_updates = CandidateUpdated::orderBy('id', 'desc')->get()->unique('user_id');
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id)->paginate(50);
+                $candidates = Candidate::orderBy('id', 'desc')->where('enter_by', Auth::user()->id);
+                if ($request->has('call_status')) {
+                    $candidates = $candidates->whereHas('candidateActivity', function ($query) use ($request) {
+                        $query->where('call_status', $request->call_status);
+                    });
+                }
+
+                if ($request->candidate_entry == 'daily') {
+                    $candidates->whereDate('created_at', date('Y-m-d'));
+                } elseif ($request->candidate_entry == 'last_month') {
+                    $candidates->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                } elseif ($request->candidate_entry == 'monthly') {
+                    $candidates->whereMonth('created_at', date('m'));
+                }
+
+                $candidates = $candidates->paginate(50);
             } else {
                 $candidates = Candidate::orderBy('id', 'desc');
                 if ($request->has('call_status')) {
                     $candidates = $candidates->whereHas('candidateActivity', function ($query) use ($request) {
                         $query->where('call_status', $request->call_status)->where('user_id', Auth::user()->id);
                     });
+                }
+                if ($request->has('candidate_entry')) {
+                    if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')) {
+                        if ($request->candidate_entry == 'daily') {
+                            $candidates->whereDate('created_at', date('Y-m-d'));
+                        } elseif ($request->candidate_entry == 'last_month') {
+                            $candidates->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                        } elseif ($request->candidate_entry == 'monthly') {
+                            $candidates->whereMonth('created_at', date('m'));
+                        }
+                    } else {
+                        if ($request->candidate_entry == 'daily') {
+                            $candidates->where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'));
+                        } elseif ($request->candidate_entry == 'last_month') {
+                            $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                        } elseif ($request->candidate_entry == 'monthly') {
+                            $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'));
+                        }
+                    }
                 }
 
                 $candidates = $candidates->paginate(50);
@@ -734,6 +769,25 @@ class CandidateController extends Controller
             });
         }
 
+        if ($request->has('candidate_entry')) {
+            if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')) {
+                if ($request->candidate_entry == 'daily') {
+                    $candidates->whereDate('created_at', date('Y-m-d'));
+                } elseif ($request->candidate_entry == 'last_month') {
+                    $candidates->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                } elseif ($request->candidate_entry == 'monthly') {
+                    $candidates->whereMonth('created_at', date('m'));
+                }
+            } else {
+                if ($request->candidate_entry == 'daily') {
+                    $candidates->where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'));
+                } elseif ($request->candidate_entry == 'last_month') {
+                    $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                } elseif ($request->candidate_entry == 'monthly') {
+                    $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'));
+                }
+            }
+        }
 
         if ($request->source) {
             $candidates->where('source', $request->source);
@@ -1120,4 +1174,25 @@ class CandidateController extends Controller
         session()->flash('message', 'Messages are being sent.');
         return response()->json(['status' => 'Messages are being sent.']);
     }
+
+    public function updateCandidateContactNumber(Request $request)
+{
+    if ($request->ajax()) {
+        $request->validate([
+            'contact_no' => 'required|digits:10|unique:candidates,contact_no,' . $request->id,
+        ]);
+
+        $candidate = Candidate::find($request->id);
+
+        if ($candidate) {
+            $candidate->contact_no = $request->contact_no;
+            $candidate->save();
+
+            return response()->json(['success' => true, 'message' => 'Contact number updated successfully.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Candidate not found.']);
+    }
+}
+
 }

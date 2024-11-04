@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Job extends Model
 {
@@ -69,6 +70,7 @@ class Job extends Model
 
     public function presentInterview()
     {
-        return $this->hasOne(Interview::class, 'job_id')->where('interview_start_date', '>=', date('Y-m-d'))->orWhere('interview_end_date', '>=', date('Y-m-d'));
+        $today = date('Y-m-d');
+        return $this->hasOne(Interview::class, 'job_id')->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
     }
 }

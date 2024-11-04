@@ -194,6 +194,7 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
     Route::put('/assign-job/{id}',[CandidateController::class,'assignJob'])->name('candidates.assign-job');
     Route::post('/send-candidate-sms',[CandidateController::class,'sendSms'])->name('candidates.send-sms');
     Route::post('/send-candidate-whatsapp',[CandidateController::class,'sendWhatsapp'])->name('candidates.send-whatsapp');
+    Route::post('/update-candidate-contact-number',[CandidateController::class,'updateCandidateContactNumber'])->name('candidates.update-candidate-contact-number');
 
 
     Route::get('/companies-filter',[CompanyController::class,'companiesFilter'])->name('companies.filter');

@@ -23,29 +23,27 @@ class ScheduleController extends Controller
     {
         if (Auth::user()->can('Manage Schedule')) {
             $companies = Company::orderBy('company_name', 'asc')->get();
-            if (Auth::user()->hasRole('ADMIN')) {
-                $interviews = Interview::with(['company', 'job', 'user'])
-                    ->orderBy('id', 'DESC')
-                    ->get();
+            // if (Auth::user()->hasRole('ADMIN')) {
+            $interviews = Interview::with(['company', 'job', 'user'])
+                ->orderBy('id', 'DESC')
+                ->get();
 
-                $interviews = $interviews->groupBy(function ($interview) {
-                    return $interview->company->company_name ?? '';
-                });
+            $interviews = $interviews->groupBy(function ($interview) {
+                return $interview->company->company_name ?? '';
+            });
 
-                $interviews = $interviews->mapWithKeys(function ($item, $key) {
-                    return [$key => $item->toArray()];
-                });
-                // dd($interviews);
-            } else {
-                $interviews = Interview::join('companies', 'interviews.company_id', '=', 'companies.id')
-                    ->select('interviews.*', 'companies.company_name as company_name')
-                    ->where('interviews.user_id', Auth::user()->id)
-                    ->get()
-                    ->groupBy('company_name')
-                    ->mapWithKeys(function ($item, $key) {
-                        return [$key => $item->toArray()];
-                    })->toArray();
-            }
+            $interviews = $interviews->mapWithKeys(function ($item, $key) {
+                return [$key => $item->toArray()];
+            });
+            // } else {
+            //     $interviews = Interview::join('companies', 'interviews.company_id', '=', 'companies.id')
+            //         ->select('interviews.*', 'companies.company_name as company_name')
+            //         ->get()
+            //         ->groupBy('company_name')
+            //         ->mapWithKeys(function ($item, $key) {
+            //             return [$key => $item->toArray()];
+            //         })->toArray();
+            // }
             return view('schedule.list')->with(compact('companies', 'interviews'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));

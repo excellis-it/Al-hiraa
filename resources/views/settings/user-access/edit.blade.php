@@ -12,13 +12,13 @@
                         @method('PUT')
                         @csrf
                         <div class="frm-head">
-                            <h2>Create New Role</h2>
+                            <h2>Update Role</h2>
                         </div>
                         <div class="name-fill">
                             <div class="form-group">
                                 <label for="name" class="form-label">Name</label>
                                 <input class="form-control" placeholder="" name="role_name" type="text"
-                                    value="{{ $role->name }}" @if ($role->name == 'ASSOCIATE') readonly @endif>
+                                    value="{{ $role->name }}" @if ($role->name == 'RECRUITER' || $role->name == 'PROCESS MANAGER' || $role->name == 'DATA ENTRY OPERATOR' || $role->name == 'ASSOCIATE' || $role->name == 'VENDOR' || $role->name == 'OPERATION MANAGER') readonly @endif>
                                 <span class="text-danger" id="role_name_msg"></span>
                             </div>
                         </div>
