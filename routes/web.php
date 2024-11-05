@@ -223,4 +223,4 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     //referral cms routes
     Route::get('/referral-cms', [ReferCmsController::class, 'referCmsView'])->name('referral-cms.edit');
     Route::post('/jobs-details-update', [ReferCmsController::class, 'referCmsUpdate'])->name('referral-cms.update');
-});
+}); 
