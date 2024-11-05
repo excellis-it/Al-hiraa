@@ -286,6 +286,7 @@ class CompanyController extends Controller
             // contract was number or float
             'contract' => 'nullable|numeric',
             'address' => 'required',
+            'salary' => 'required|numeric',
             'quantity_of_people_required' => 'required|numeric',
         ], [
             // 'vendor_id.required' => 'The vendor field is required.',
@@ -398,10 +399,11 @@ class CompanyController extends Controller
     public function import(Request $request)
     {
         //dd($request->all());
+        $company_id = $request->company_id;
         $request->validate([
             'file' => 'required|mimes:xls,xlsx',
         ]);
-        Excel::import(new InterviewJobImport, $request->file('file')->store('temp'));
+        Excel::import(new InterviewJobImport($company_id), $request->file('file')->store('temp'));
         return redirect()->back()->with('message', 'Job imported successfully');
     }
 

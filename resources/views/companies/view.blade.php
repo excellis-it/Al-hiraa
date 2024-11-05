@@ -380,8 +380,8 @@
                 <div class="col-md-12 mb-2">
                     <!-- Import Button with Dropdown -->
                     <div class="btn-group float-end">
-                        <button type="button" class="btn addcandidate_btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob" aria-controls="offcanvasRightJob">
-                            Import
+                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob" aria-controls="offcanvasRightJob" class="btn addcandidate_btn float-end">
+                            <i class="fas fa-plus"></i> Add a Job
                         </button>
 
                         <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -398,9 +398,7 @@
                     </div>
 
                     <!-- Add Job Button -->
-                    <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob" aria-controls="offcanvasRightJob" class="btn addcandidate_btn float-end me-2">
-                        <i class="fas fa-plus"></i> Add a Job
-                    </a>
+
                 </div>
 
                 <div class="col-lg-12 col-md-12 text_left_td_th">
@@ -564,6 +562,7 @@
                 <form action="{{ route('company-job.import') }}" method="POST" id="company-job-form-import"
                     enctype="multipart/form-data">
                     @csrf
+                    <input type="hidden" name="company_id" value="{{$company['id']}}">
                     <div class="modal-body">
                         <div class="mb-3">
                             {{-- <label for="recipient-name" class="col-form-label">Excel:</label> --}}

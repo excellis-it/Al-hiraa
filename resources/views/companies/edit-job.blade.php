@@ -69,7 +69,7 @@
                                 {{-- salary --}}
                                 <div class="col-xl-6">
                                     <div class="form-group">
-                                        <label for="">Salary</label>
+                                        <label for="">Salary <span>*</span></label>
                                         <input type="text" class="form-control" id=""
                                             value="{{ $job->salary }}" name="salary" placeholder="">
                                         <span class="text-danger" id="salary_msg_job"></span>
