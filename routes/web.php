@@ -174,6 +174,8 @@ Route::group(['middleware' => ['user','preventBackHistory','ip-permission']], fu
         Route::get('/close-job-filter',[CompanyController::class,'closeJobFilter'])->name('company-job.close-job.filter');
         Route::get('/open-job-filter',[CompanyController::class,'openJobFilter'])->name('company-job.open-job.filter');
         Route::post('/get-city',[CompanyController::class,'getCity'])->name('company-job.get-city');
+        Route::get('/company-job-download-sample', [CompanyController::class, 'downloadSample'])->name('company-job.download.sample');
+        Route::post('/company-job-import', [CompanyController::class, 'import'])->name('company-job.import');
     });
     Route::post('/validate-step/{step}', [CompanyController::class, 'validateStep']);
 

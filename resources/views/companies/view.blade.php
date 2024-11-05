@@ -374,15 +374,35 @@
                 </div>
             </section>
         </div>
+
         <div class="container-fluid page__container">
             <div class="row">
                 <div class="col-md-12 mb-2">
-                    <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob"
-                        aria-controls="offcanvasRightJob" class="btn addcandidate_btn" style="float: right"><i
-                            class="fas fa-plus"></i>
-                        Add
-                        a Job</a>
+                    <!-- Import Button with Dropdown -->
+                    <div class="btn-group float-end">
+                        <button type="button" class="btn addcandidate_btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob" aria-controls="offcanvasRightJob">
+                            Import
+                        </button>
+
+                        <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                            <li>
+                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#importModel" data-bs-whatever="@fat">
+                                    Import CSV
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Add Job Button -->
+                    <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob" aria-controls="offcanvasRightJob" class="btn addcandidate_btn float-end me-2">
+                        <i class="fas fa-plus"></i> Add a Job
+                    </a>
                 </div>
+
                 <div class="col-lg-12 col-md-12 text_left_td_th">
                     <ul class="nav nav-tabs open_jobs_tab" id="myTab" role="tablist">
                         <li class="nav-item" role="presentation">
@@ -532,6 +552,45 @@
             </div>
         </div>
     </div>
+
+    {{-- Import Model  --}}
+    <div class="modal fade" id="importModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ route('company-job.import') }}" method="POST" id="company-job-form-import"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            {{-- <label for="recipient-name" class="col-form-label">Excel:</label> --}}
+
+                            <div class="row mb-3">
+                                <div class="col-md-12 mb-6">
+                                    <label class="form-label">Download job CSV file</label>
+                                    <a href="{{ route('company-job.download.sample') }}"
+                                        class="btn btn-sm btn-primary rounded">
+                                        <i class="ti ti-download"></i> Download
+                                    </a>
+                                </div>
+                            </div>
+
+                            <input type="file" class="form-control" id="file" name="file"
+                                style="height: auto">
+                            <span class="text-danger" id="file-err"></span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                        <button type="submit" class="btn btn-primary">Import</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -544,6 +603,37 @@
                 });
             })
         });
+    </script>
+    <script>
+        $(document).on('submit', '#company-job-form-import', function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        //windows load with toastr message
+                        window.location.reload();
+
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        //clear any old errors
+                        $('.text-danger').html('');
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            // console.log(key);
+                            // Assuming you have a div with class "text-danger" next to each input
+                            $('[name="file"]').next('.text-danger').html(value[
+                                0]);
+                        });
+                    }
+                });
+            });
+
     </script>
     <script>
         $(document).ready(function() {

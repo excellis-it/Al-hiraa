@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\InterviewJobImport;
 use App\Constants\Position;
 use App\Models\CandidatePosition;
 use App\Models\Company;
@@ -17,7 +18,9 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
@@ -386,4 +389,20 @@ class CompanyController extends Controller
 
         return response()->json(['success' => true]);
     }
+    public function downloadSample()
+    {
+        // return "dsa";
+        $pathToFile = public_path('sample_excel/job-and-interview.xlsx');
+        return response()->download($pathToFile);
+    }
+    public function import(Request $request)
+    {
+        //dd($request->all());
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx',
+        ]);
+        Excel::import(new InterviewJobImport, $request->file('file')->store('temp'));
+        return redirect()->back()->with('message', 'Job imported successfully');
+    }
+
 }
