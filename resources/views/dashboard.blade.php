@@ -36,7 +36,8 @@
             </div>
             @if (Auth::user()->hasRole('ADMIN') ||
                     Auth::user()->hasRole('OPERATION MANAGER') ||
-                    Auth::user()->hasRole('DATA ENTRY OPERATOR'))
+                    Auth::user()->hasRole('DATA ENTRY OPERATOR') ||
+                     Auth::user()->hasRole('PROCESS MANAGER'))
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
                     <div class="col">
                         <a href="{{ route('candidates.index') }}">
@@ -198,7 +199,8 @@
                     </div>
                 </div>
             @endif
-            @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER'))
+            @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')  ||
+                     Auth::user()->hasRole('PROCESS MANAGER'))
                 {{-- chart --}}
                 <div class="row">
                     <div class="col-lg-12">
@@ -220,6 +222,7 @@
                         </div>
                     </div>
                 </div>
+                @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER'))
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="table_right">
@@ -346,6 +349,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 {{-- <div class="row">
                     <div class="col-lg-4">
 
