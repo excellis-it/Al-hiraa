@@ -6004,6 +6004,44 @@ border: none !important;
     height: 30px;
  }
 
+ .round_staus.Interview {
+    color: #11AF65;
+    background: #E6FFE9;
+    border: 1px solid #11AF65;
+}
+
+.round_staus.Selected {
+    color: #2196F3;
+    background: #E3F2FD;
+    border: 1px solid #2196F3;
+}
+
+.round_staus.Medical {
+    color: #FF9800;
+    background: #E6FFE9;
+    border: 1px solid #FF9800;
+}
+
+.round_staus.Document {
+    color: #654321;
+    background: #E6FFE9;
+    border: 1px solid #654321;
+}
+
+.round_staus.Collection {
+    color: #00BCD4;
+    background: #ffffff;
+    border: 1px solid #00BCD4;
+}
+
+.round_staus.Deployment {
+    color: #ef3953;
+    background: #ffffff;
+    border: 1px solid #ef3953;
+}
+
+
+
  @media only screen and (max-width: 1400px){
     .table#candidate-form{
         width: 1200px;

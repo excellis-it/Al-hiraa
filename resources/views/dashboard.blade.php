@@ -34,55 +34,57 @@
                     </div>
                 </div>
             </div>
-            @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER') || Auth::user()->hasRole('DATA ENTRY OPERATOR'))
+            @if (Auth::user()->hasRole('ADMIN') ||
+                    Auth::user()->hasRole('OPERATION MANAGER') ||
+                    Auth::user()->hasRole('DATA ENTRY OPERATOR'))
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
                     <div class="col">
                         <a href="{{ route('candidates.index') }}">
-                        <div class="border_left_hh">
-                            <div class="card-header__title mb-2">All Time Stats</div>
-                            <div class="text-amount">{{ $count['total_candidate_entry'] }} </div>
-                            <div class="text-stats">Candidate Entry</div>
-                        </div>
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">All Time Stats</div>
+                                <div class="text-amount">{{ $count['total_candidate_entry'] }} </div>
+                                <div class="text-stats">Candidate Entry</div>
+                            </div>
                         </a>
                     </div>
                     <div class="col">
                         <a href="{{ route('candidates.index', ['candidate_entry' => 'monthly']) }}">
-                        <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Monthly Stats</div>
-                            <div class="text-amount">{{ $count['monthly_candidate_entry'] }} </div>
-                            <div class="text-stats">Candidate Entry</div>
-                        </div>
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">Monthly Stats</div>
+                                <div class="text-amount">{{ $count['monthly_candidate_entry'] }} </div>
+                                <div class="text-stats">Candidate Entry</div>
+                            </div>
                         </a>
                     </div>
                     <div class="col">
                         <a href="{{ route('candidates.index', ['candidate_entry' => 'daily']) }}">
-                        <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Today Stats</div>
-                            <div class="text-amount">{{ $count['today_candidate_entry'] }} </div>
-                            <div class="text-stats">Candidate Entry</div>
-                        </div>
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">Today Stats</div>
+                                <div class="text-amount">{{ $count['today_candidate_entry'] }} </div>
+                                <div class="text-stats">Candidate Entry</div>
+                            </div>
                         </a>
                     </div>
 
                     @if (Auth::user()->hasRole('DATA ENTRY OPERATOR'))
-                    <div class="col">
-                        <a href="{{ route('candidates.index', ['call_status' => 'INTERVIEW SCHEDULE']) }}">
-                            <div class="border_left_hh">
-                                <div class="card-header__title mb-2">Total Interview Schedule</div>
-                                <div class="text-amount">{{ $count['interview_schedule'] }} </div>
-                            </div>
-                        </a>
-                    </div>
-                    @else
-                    <div class="col">
-                        <a href="{{ route('candidates.index', ['candidate_entry' => 'last_month']) }}">
-                        <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Last Month</div>
-                            <div class="text-amount">{{ $count['last_month_candidate_entry'] }}</div>
-                            <div class="text-stats">Candidate Entry</div>
+                        <div class="col">
+                            <a href="{{ route('candidates.index', ['call_status' => 'INTERVIEW SCHEDULE']) }}">
+                                <div class="border_left_hh">
+                                    <div class="card-header__title mb-2">Total Interview Schedule</div>
+                                    <div class="text-amount">{{ $count['interview_schedule'] }} </div>
+                                </div>
+                            </a>
                         </div>
-                        </a>
-                    </div>
+                    @else
+                        <div class="col">
+                            <a href="{{ route('candidates.index', ['candidate_entry' => 'last_month']) }}">
+                                <div class="border_left_hh">
+                                    <div class="card-header__title mb-2">Last Month</div>
+                                    <div class="text-amount">{{ $count['last_month_candidate_entry'] }}</div>
+                                    <div class="text-stats">Candidate Entry</div>
+                                </div>
+                            </a>
+                        </div>
                     @endif
 
 
@@ -92,10 +94,10 @@
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
                     <div class="col">
                         <a href="{{ route('candidates.index', ['candidate_entry' => 'daily']) }}">
-                        <div class="border_left_hh">
-                            <div class="card-header__title mb-2">Daily Candidate Entry</div>
-                            <div class="text-amount">{{ $count['daily_entry'] }} </div>
-                        </div>
+                            <div class="border_left_hh">
+                                <div class="card-header__title mb-2">Daily Candidate Entry</div>
+                                <div class="text-amount">{{ $count['daily_entry'] }} </div>
+                            </div>
                         </a>
                     </div>
                     <div class="col">
@@ -270,6 +272,79 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-12">
+                        <div class="table_right">
+                            <div class="py-3">
+                                <h4 class="card-header__title">Job Interview Report</h4>
+                            </div>
+                            <div class="justify-content-end mb-2 d-flex">
+                                @php
+                                    $year = date('Y');
+                                    $months = [
+                                        '01' => 'January',
+                                        '02' => 'February',
+                                        '03' => 'March',
+                                        '04' => 'April',
+                                        '05' => 'May',
+                                        '06' => 'June',
+                                        '07' => 'July',
+                                        '08' => 'August',
+                                        '09' => 'September',
+                                        '10' => 'October',
+                                        '11' => 'November',
+                                        '12' => 'December',
+                                    ];
+                                @endphp
+                                <div class="dashboard_graph" style="margin-right: 5px;">
+                                    <select id="interview-yearly" class="form-select" style="width: 150px;">
+                                        @for ($i = 2023; $i <= date('Y'); $i++)
+                                            <option value="{{ $i }}"
+                                                @if ($i == $year) selected @endif>{{ $i }}
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="dashboard_graph" style="margin-right: 5px;">
+                                    <select id="interview-monthly" class="form-select" style="width: 150px;">
+                                        @foreach ($months as $key => $month)
+                                            <option value="{{ $key }}"
+                                                @if ($key == date('m')) selected @endif>{{ $month }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <a href="{{ route('report.job-interview.export', ['year' => request('year', date('Y')), 'month' => request('month', date('m'))]) }}" class="support_btn text-end" id="export-button">
+                                        <span><i class="fas fa-file-excel"></i> Export</span>
+                                    </a>
+                                </div>
+                            </div>
+
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0 thead-border-top-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Company Name</th>
+                                            <th>Candidate Interested In Interviews</th>
+                                            <th>Candidate In Selection</th>
+                                            <th>Candidate In Medical</th>
+                                            <th>Candidate In Documentation</th>
+                                            <th>Candidate In Deployment</th>
+                                            <th>Total Service Charge</th>
+                                            <th>Total Collection</th>
+                                            <th>Vendor Service Charge</th>
+                                            <th>Pending Collection</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="dashboard-job-interview-report-table">
+                                        @include('dashboard-job-interview-report-table')
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 {{-- <div class="row">
                     <div class="col-lg-4">
@@ -322,6 +397,43 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '#interview-yearly, #interview-monthly', function() {
+                let year = $('#interview-yearly').val();
+                let month = $('#interview-monthly').val();
+
+                $.ajax({
+                    url: "{{ route('report.job-interview.ajax') }}", // Update this route
+                    method: "GET",
+                    data: {
+                        year: year,
+                        month: month
+                    },
+                    success: function(response) {
+                        // Assuming response contains the updated table rows
+                        $('#dashboard-job-interview-report-table').html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('interview-yearly').addEventListener('change', updateExportLink);
+        document.getElementById('interview-monthly').addEventListener('change', updateExportLink);
+
+        function updateExportLink() {
+            const year = document.getElementById('interview-yearly').value;
+            const month = document.getElementById('interview-monthly').value;
+            const exportButton = document.getElementById('export-button');
+
+            const baseUrl = "{{ route('report.job-interview.export') }}";
+            exportButton.href = `${baseUrl}?year=${year}&month=${month}`;
+        }
+    </script>
     <script>
         $('.new_date').daterangepicker({
                 locale: {

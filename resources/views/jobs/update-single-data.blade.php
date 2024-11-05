@@ -28,7 +28,7 @@
     @endif
 </td> --}}
 <td>
-    <div class="round_staus active">
+    <div class="round_staus   {{ App\Helpers\Helper::getCurrentStatus($candidate_job->id) }}">
         {{ App\Helpers\Helper::getCurrentStatus($candidate_job->id) }}
     </div>
 </td>

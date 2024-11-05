@@ -611,10 +611,20 @@ class CandidateController extends Controller
 
                 $job_details = Job::findOrfail($job_id);
 
+                if ($job_details->vendor_id) {
+                    $vendor = User::where('id', $job_details->vendor_id)->first();
+                  } else {
+                      $vendor = null;
+                  }
+
                 $candidate_job = new CandidateJob();
                 $candidate_job->candidate_id = $id;
                 $candidate_job->interview_id = $request->interview_id;
                 $candidate_job->assign_job_id = $assign_job->id;
+
+                $candidate_job->vendor_id = $job_details->vendor_id ?? null;
+                $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
+
                 $candidate_job->full_name = $candidate->full_name ?? null;
                 $candidate_job->email = $candidate->email ?? null;
                 $candidate_job->gender = $candidate->gender ?? null;
@@ -1041,11 +1051,19 @@ class CandidateController extends Controller
             //candidate job details add
             $candidate_details = Candidate::findOrFail($candidate_id);
             $job_details = Job::findOrfail($job_id);
-
+            if ($job_details->vendor_id) {
+              $vendor = User::where('id', $job_details->vendor_id)->first();
+            } else {
+                $vendor = null;
+            }
             $candidate_job = new CandidateJob();
             $candidate_job->candidate_id = $candidate_id;
             $candidate_job->interview_id = $request->interview_id;
             $candidate_job->assign_job_id = $assign_job->id;
+
+            $candidate_job->vendor_id = $job_details->vendor_id ?? null;
+            $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
+
             $candidate_job->full_name = $candidate_details->full_name ?? null;
             $candidate_job->email = $candidate_details->email ?? null;
             $candidate_job->gender = $candidate_details->gender ?? null;

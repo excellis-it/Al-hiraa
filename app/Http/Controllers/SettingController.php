@@ -60,13 +60,14 @@ class SettingController extends Controller
                 'required',
                 'email',
                 Rule::unique('users')->where(function ($query) {
-                    return $query->whereNull('deleted_at'); // Exclude soft-deleted users
+                    return $query->whereNull('deleted_at');
                 })
             ],
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
             'phone' => 'required|numeric|digits:10',
             'role_type' => 'required',
+            'vendor_service_charge' => $request->role_type === 'VENDOR' ? 'required|numeric' : 'nullable'
         ]);
 
         try {
@@ -135,6 +136,12 @@ class SettingController extends Controller
                 $user->profile_picture = $this->imageUpload($request->file('profile_picture'), 'profile');
             }
 
+            if ($request->role_type === 'VENDOR') {
+                $user->vendor_service_charge = $request->vendor_service_charge; // Store vendor service charge if applicable
+            } else {
+                $user->vendor_service_charge = null; // Clear vendor service charge if not applicable
+            }
+
             // Save user
             $user->save();
 
@@ -197,8 +204,9 @@ class SettingController extends Controller
             'email' => 'required|email|unique:users,email,' . $id,
             'password' => 'nullable|min:8',
             'phone' => 'required|numeric|digits:10',
-            //if password is not null then confirm password is required
             'confirm_password' => $request->password ? 'required|same:password' : 'nullable',
+            // Conditionally require vendor_service_charge if role_type is VENDOR
+            'vendor_service_charge' => $request->role_type === 'VENDOR' ? 'required|numeric|min:0' : 'nullable',
         ]);
 
         $user = User::findOrFail($id);
@@ -217,6 +225,12 @@ class SettingController extends Controller
                 Storage::delete('app/' . $currentImageFilename);
             }
             $user->profile_picture = $this->imageUpload($request->file('profile_picture'), 'profile');
+        }
+
+        if ($request->role_type === 'VENDOR') {
+            $user->vendor_service_charge = $request->vendor_service_charge; // Store vendor service charge if applicable
+        } else {
+            $user->vendor_service_charge = null; // Clear vendor service charge if not applicable
         }
 
         $user->save();
