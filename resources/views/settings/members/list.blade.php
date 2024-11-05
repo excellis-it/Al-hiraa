@@ -11,7 +11,7 @@
                 {{-- member create start --}}
                 @can('Create Team')
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
-                         aria-hidden="true">
+                        aria-hidden="true">
                         <div class="offcanvas-body">
                             <form action="{{ route('members.store') }}" method="POST" enctype="multipart/form-data"
                                 id="member-form-create">
@@ -78,7 +78,7 @@
                                                     <div class="form-group">
                                                         <label for="">Designation <span>*</span></label>
                                                         <select class="form-select" aria-label="Default select example"
-                                                            name="role_type">
+                                                            name="role_type" id="roleTypeSelect">
                                                             <option value="">Select a Designation</option>
                                                             @foreach ($roles as $role)
                                                                 <option value="{{ $role->name }}">{{ $role->name }}</option>
@@ -87,6 +87,16 @@
                                                         <span class="text-danger"></span>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-xl-12" id="vendorServiceChargeField" style="display: none;">
+                                                    <div class="form-group">
+                                                        <label for="">Vendor Service Charge <span>*</span></label>
+                                                        <input type="text" class="form-control" name="vendor_service_charge"
+                                                            placeholder="">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-xl-6">
                                                     <div class="ps-div">
                                                         <div class="form-group">
@@ -94,10 +104,10 @@
                                                             <input type="password" class="form-control" id="password"
                                                                 value="{{ old('password') }}" name="password" placeholder="">
                                                             <div class="eye-icon-2" id="rand-pass">
-                                                               <span><i class="fa fa-random"></i></span>
+                                                                <span><i class="fa fa-random"></i></span>
                                                             </div>
                                                             <div class="eye-icon-1" id="first-eye">
-                                                               <span><i class="fa-solid fa-eye-slash"></i></span>
+                                                                <span><i class="fa-solid fa-eye-slash"></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -139,9 +149,9 @@
 
                 {{-- member edit start --}}
                 @can('Edit Team')
-                <div id="edit-members">
-                    @include('settings.members.edit')
-                </div>
+                    <div id="edit-members">
+                        @include('settings.members.edit')
+                    </div>
                 @endcan
 
                 {{-- member edit end --}}
@@ -162,16 +172,16 @@
                     </div>
                 </div>
                 @can('Create Team')
-                <div class="col-xl-4 col-lg-5 col-md-6">
-                    <div class="d-flex justify-content-center justify-content-md-start">
-                        <div class="btn-group me-4">
-                            <a href="add_candidate.html" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                                aria-controls="offcanvasRight" class="btn addcandidate_btn"><i class="fas fa-plus"></i>
-                                Add
-                                Memeber</a>
+                    <div class="col-xl-4 col-lg-5 col-md-6">
+                        <div class="d-flex justify-content-center justify-content-md-start">
+                            <div class="btn-group me-4">
+                                <a href="add_candidate.html" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    aria-controls="offcanvasRight" class="btn addcandidate_btn"><i class="fas fa-plus"></i>
+                                    Add
+                                    Memeber</a>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endcan
             </div>
             <!-- page-contain-start  -->
@@ -196,24 +206,25 @@
                                                 <th>Phone Number</th>
                                                 <th>Login ID</th>
                                                 <th>Code</th>
+                                                <th>Vendor Charge</th>
                                                 <th>Designation</th>
                                                 <th>Status</th>
                                                 @can('Delete Team')
-                                                <th><svg xmlns="http://www.w3.org/2000/svg" width="2" height="12"
-                                                        viewBox="0 0 2 12">
-                                                        <g id="Group_87" data-name="Group 87"
-                                                            transform="translate(-1898 -172)">
-                                                            <circle id="Ellipse_238" data-name="Ellipse 238"
-                                                                cx="1" cy="1" r="1"
-                                                                transform="translate(1898 172)" fill="#989898" />
-                                                            <circle id="Ellipse_239" data-name="Ellipse 239"
-                                                                cx="1" cy="1" r="1"
-                                                                transform="translate(1898 177)" fill="#989898" />
-                                                            <circle id="Ellipse_240" data-name="Ellipse 240"
-                                                                cx="1" cy="1" r="1"
-                                                                transform="translate(1898 182)" fill="#989898" />
-                                                        </g>
-                                                    </svg></th>
+                                                    <th><svg xmlns="http://www.w3.org/2000/svg" width="2" height="12"
+                                                            viewBox="0 0 2 12">
+                                                            <g id="Group_87" data-name="Group 87"
+                                                                transform="translate(-1898 -172)">
+                                                                <circle id="Ellipse_238" data-name="Ellipse 238"
+                                                                    cx="1" cy="1" r="1"
+                                                                    transform="translate(1898 172)" fill="#989898" />
+                                                                <circle id="Ellipse_239" data-name="Ellipse 239"
+                                                                    cx="1" cy="1" r="1"
+                                                                    transform="translate(1898 177)" fill="#989898" />
+                                                                <circle id="Ellipse_240" data-name="Ellipse 240"
+                                                                    cx="1" cy="1" r="1"
+                                                                    transform="translate(1898 182)" fill="#989898" />
+                                                            </g>
+                                                        </svg></th>
                                                 @endcan
                                             </tr>
                                         </thead>
@@ -233,6 +244,16 @@
 @endsection
 
 @push('scripts')
+    <script>
+        document.getElementById('roleTypeSelect').addEventListener('change', function() {
+            const vendorField = document.getElementById('vendorServiceChargeField');
+            if (this.value === 'VENDOR') {
+                vendorField.style.display = 'block';
+            } else {
+                vendorField.style.display = 'none';
+            }
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('#first-eye').click(function() {
@@ -338,8 +359,8 @@
                 })
         });
     </script>
-     <script>
-         $(document).on('change', '.toggle-class', function() {
+    <script>
+        $(document).on('change', '.toggle-class', function() {
             var status = $(this).prop('checked') == true ? 1 : 0;
             var user_id = $(this).data('id');
 
@@ -458,9 +479,23 @@
                 var randomstring = Math.random().toString(36).slice(-8);
                 $('#password').val(randomstring);
                 $('#confirm_password').val(randomstring);
-                $('#password').attr('type','text');
+                $('#password').attr('type', 'text');
                 $('#first-eye').find('i').addClass('fa-eye');
 
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '#edit_role_type', function() {
+                var selectedRole = $(this).val();
+                if (selectedRole === 'VENDOR') {
+                    $('#editVendorServiceChargeField').show();
+                    $('#edit_vendor_service_charge').attr('required', 'required');
+                } else {
+                    $('#editVendorServiceChargeField').hide();
+                    $('#edit_vendor_service_charge').removeAttr('required');
+                }
             });
         });
     </script>

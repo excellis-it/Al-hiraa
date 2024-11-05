@@ -9,7 +9,7 @@ class CandidateJob extends Model
 {
     use HasFactory;
 
-    
+
     public function assignBy()
     {
         return $this->belongsTo(User::class, 'assign_by_id');
@@ -30,5 +30,5 @@ class CandidateJob extends Model
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
-   
+
 }

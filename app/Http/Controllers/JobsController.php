@@ -42,7 +42,7 @@ class JobsController extends Controller
             }
 
             $companies = Company::orderBy('company_name', 'asc')->with('jobs')->get();
-            $count['total_interviews'] = CandidateJob::where('job_interview_status', 'Interested')->count();
+            $count['total_interviews'] = CandidateJob::whereIn('job_interview_status', ['Interested', 'Selected'])->count();
             $count['total_selection'] = CandidateJob::where('job_interview_status', 'Selected')->count();
             $count['total_medical'] = CandidateJob::where('medical_status', '!=', null)->count();
             $count['total_doc'] = CandidateJob::where('visa_receiving_date', '!=', null)->count();
@@ -274,11 +274,11 @@ class JobsController extends Controller
         $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
 
         return [
-            'total_interviews' => $candidate_jobs->where('job_interview_status', 'Interested')->count(),
+            'total_interviews' => $candidate_jobs->whereIn('job_interview_status', ['Interested', 'Selected'])->count(),
             'total_selection' => $candidate_jobs->where('job_interview_status', 'Selected')->count(),
-            'total_medical' => $candidate_jobs->where('medical_status', '!=', null)->count(),
-            'total_doc' => $candidate_jobs->where('visa_receiving_date', '!=', null)->count(),
-            'total_collection' => $candidate_jobs->where('total_amount', '!=', null)->count(),
+            'total_medical' => $candidate_jobs->whereNotNull('medical_status')->count(),
+            'total_doc' => $candidate_jobs->whereNotNull('visa_receiving_date')->count(),
+            'total_collection' => $candidate_jobs->whereNotNull('total_amount')->count(),
             'total_deployment' => $candidate_jobs->whereNotNull('deployment_date')->count()
         ];
     }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\JobInterviewReport;
 use App\Models\Candidate;
 use App\Models\CandidateJob;
 use App\Models\CandidateActivity;
 use App\Models\CandidateDailyViewReport;
+use App\Models\Company;
 use App\Models\Interview;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -13,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use DateTime;
 use Carbon\Carbon;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -25,7 +27,7 @@ class DashboardController extends Controller
             $count['monthly_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
             $count['last_month_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
-            $count['interview_schedule'] = CandidateActivity::where('call_status', 'INTERVIEW SCHEDULE')->whereHas('candidate', function($query){
+            $count['interview_schedule'] = CandidateActivity::where('call_status', 'INTERVIEW SCHEDULE')->whereHas('candidate', function ($query) {
                 $query->where('enter_by', Auth::user()->id);
             })->count();
             $candidates = Candidate::where('enter_by', Auth::user()->id)->orderBy('id', 'desc')->paginate(5);
@@ -74,23 +76,6 @@ class DashboardController extends Controller
                     ->count();
             }
         }
-
-
-        //how to find list which enter_by in candidates table has most of the candidates in descending order
-        // $most_candidates = DB::table('candidates')
-        //     ->join('users', 'candidates.enter_by', '=', 'users.id')
-        //     ->leftJoin(DB::raw('(SELECT assign_by_id, COUNT(*) as total_schedules FROM candidate_jobs WHERE date_of_interview IS NOT NULL GROUP BY assign_by_id) as schedule_counts'), 'users.id', '=', 'schedule_counts.assign_by_id')
-        //     ->leftJoin(DB::raw('(SELECT assign_by_id, COUNT(*) as total_appears FROM candidate_jobs WHERE deployment_date IS NOT NULL GROUP BY assign_by_id) as appear_counts'), 'users.id', '=', 'appear_counts.assign_by_id')
-        //     ->select(
-        //         'users.id as user_id',
-        //         DB::raw("CONCAT(users.first_name, ' ', users.last_name) as enter_by_name"),
-        //         DB::raw('count(candidates.id) as total'),
-        //         DB::raw('COALESCE(total_schedules, 0) as total_schedules'),
-        //         DB::raw('COALESCE(total_appears, 0) as total_appears')
-        //     )
-        //     ->groupBy('users.id', 'users.first_name', 'users.last_name', 'total_schedules', 'total_appears')
-        //     ->orderByRaw('total_schedules DESC, total_appears DESC, total DESC')
-        //     ->paginate(5);
 
         $most_candidates = DB::table('candidates')
             ->join('users', 'candidates.enter_by', '=', 'users.id')
@@ -213,17 +198,20 @@ class DashboardController extends Controller
 
         $today = date('Y-m-d'); // Format current date for comparison
 
-            $new_jobs_openings = Interview::where(function ($query) use ($today) {
-                    $query->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
-                })
-                ->whereHas('job', function ($query) {
-                    $query->where('status', 'Ongoing');
-                })
-                ->paginate(10);
+        $new_jobs_openings = Interview::where(function ($query) use ($today) {
+            $query->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
+        })
+            ->whereHas('job', function ($query) {
+                $query->where('status', 'Ongoing');
+            })
+            ->paginate(10);
 
-        // $new_jobs_openings = Interview::whereBetween('interview_start_date', [date('d-m-Y'), date('d-m-Y', strtotime('+1 week'))])->paginate(10);
 
-        return view('dashboard')->with(compact('count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings', 'recruiters'));
+        $companies = Company::orderBy('company_name', 'asc')->get();
+        $new_month = date('m');
+        $new_year = date('Y');
+
+        return view('dashboard')->with(compact('companies','new_month', 'new_year', 'count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings', 'recruiters'));
     }
 
     public function getInterviewList(Request $request)
@@ -313,5 +301,26 @@ class DashboardController extends Controller
 
             return response()->json(['view' => view('installment-pie-chart', compact('total_installments', 'total_service_fee', 'payment_due'))->render()]);
         }
+    }
+
+    public function reportJobInterview(Request $request)
+    {
+        try {
+            $year = $request->input('year');
+            $month = $request->input('month');
+            // dd($month);
+            return Excel::download(new JobInterviewReport($year, $month), 'job_interview_report_'.$year.'_'.$month.'.xlsx');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function getInterviewReportData(Request $request)
+    {
+        $new_year = $request->input('year');
+        $new_month = $request->input('month');
+        $companies = Company::orderBy('company_name', 'asc')->get();
+
+        return view('dashboard-job-interview-report-table', compact('companies', 'new_year', 'new_month'));
     }
 }

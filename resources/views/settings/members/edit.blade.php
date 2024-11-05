@@ -74,16 +74,23 @@
                                 <div class="col-xl-12">
                                     <div class="form-group">
                                         <label for="">Designation <span>*</span></label>
-                                        <select class="form-select" aria-label="Default select example"
-                                            name="role_type">
+                                        <select class="form-select" aria-label="Default select example" name="role_type" id="edit_role_type">
                                             <option>Select a Designation</option>
                                             @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}"
-                                                    @if ($role->name == $member->role_type) selected @endif>
-                                                    {{ $role->name }}</option>
+                                                <option value="{{ $role->name }}" @if ($role->name == $member->role_type) selected @endif>
+                                                    {{ $role->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger" id="role_type_msg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-12" id="editVendorServiceChargeField" style="{{ $member->role_type == 'VENDOR' ? 'display: block;' : 'display: none;' }}">
+                                    <div class="form-group">
+                                        <label for="">Vendor Service Charge <span>*</span></label>
+                                        <input type="text" class="form-control" name="vendor_service_charge" id="edit_vendor_service_charge" value="{{ $member->vendor_service_charge }}" placeholder="">
+                                        <span class="text-danger" id="vendor_service_charge_msg"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
@@ -127,6 +134,7 @@
             </form>
         </div>
     </div>
+
     <script>
         function readEditURL(input) {
             if (input.files && input.files[0]) {

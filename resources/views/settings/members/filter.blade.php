@@ -35,8 +35,11 @@
                 {{ $member->phone }}</td>
             <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
                 {{ $member->email }}</td>
+
                 <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
-                    {{ $member->code ?? 'N/A' }}</td>
+                    {{ $member->code ?? '-' }}</td>
+                    <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
+                        {{ $member->vendor_service_charge > 0 ? '₹'. $member->vendor_service_charge : '-' }}</td>
             <td @can('Edit Team') class="edit-route" data-route="{{ route('members.edit', $member['id']) }}" @endcan>
                 {{ $member->getRoleNames()->first() }}
             </td>
@@ -59,7 +62,7 @@
         </tr>
     @endforeach
     <tr class="toxic">
-        <td colspan="6" class="text-left">
+        <td colspan="9" class="text-left">
             <div class="d-flex justify-content-between">
                 <div class="">
                      (Showing {{ $members->firstItem() }} – {{ $members->lastItem() }} members of
@@ -71,6 +74,6 @@
     </tr>
 @else
     <tr>
-        <td colspan="6" class="text-center">No Data Found</td>
+        <td colspan="9" class="text-center">No Data Found</td>
     </tr>
 @endif
