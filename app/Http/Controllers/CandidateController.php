@@ -153,9 +153,9 @@ class CandidateController extends Controller
             $candidate = Candidate::where('contact_no', $request->contact_no)->first();
         } else {
             $candidate = new Candidate();
+            $candidate->enter_by = Auth::user()->id;
         }
 
-        $candidate->enter_by = Auth::user()->id;
         $candidate->cnadidate_status_id = $request->cnadidate_status_id ?? null;
         $candidate->mode_of_registration = $request->mode_of_registration ?? null;
         $candidate->source = $request->source ?? null;
