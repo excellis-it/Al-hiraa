@@ -271,6 +271,106 @@
                 </div>
             </form>
 
+            <form action="{{ route('jobs.document-details.update', $candidate_job_detail->id) }}" method="POST"
+                id="candidate-payment-edit-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="accordion" id="paymentAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPayment">
+                                <button
+                                    class="accordion-button collapsed d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment"
+                                    aria-expanded="false" aria-controls="collapsePayment">
+                                    <h5>Payment Details</h5>
+                                </button>
+                            </h2>
+                            <div id="collapsePayment" class="accordion-collapse collapse"
+                                aria-labelledby="headingPayment" data-bs-parent="#paymentAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h5></h5>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+
+                                            <div class="edit-2 cross-red" id="cross-button-payment">
+
+                                            </div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-payment">
+
+                                            </div>
+                                            <div class="edit-1" id="open-payment-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="candidate_form candidate_edit_form" id="job-payment-table">
+                                        @include('jobs.payment-details')
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+            <form action="{{ route('jobs.document-details.update', $candidate_job_detail->id) }}" method="POST"
+                id="candidate-document-edit-form">
+                @method('PUT')
+                @csrf
+                <div class="candidate_details">
+                    <div class="accordion" id="documentAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingDocument">
+                                <button
+                                    class="accordion-button collapsed d-flex justify-content-between align-items-center"
+                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapseDocument"
+                                    aria-expanded="false" aria-controls="collapseDocument">
+                                    <h5>Documents</h5>
+                                </button>
+                            </h2>
+                            <div id="collapseDocument" class="accordion-collapse collapse"
+                                aria-labelledby="headingDocument" data-bs-parent="#documentAccordion">
+                                <div class="accordion-body">
+                                    <div class="can-div d-flex justify-content-between align-items-center">
+                                        <div class="can-head">
+                                            <h5></h5>
+                                        </div>
+                                        <div class="edit-1-btn d-flex align-items-center">
+
+                                            <div class="edit-2 cross-red" id="cross-button-document">
+
+                                            </div>
+                                            <div class="edit-2 m-lg-1" id="submit-button-document">
+
+                                            </div>
+                                            <div class="edit-1" id="open-document-input">
+                                                @can('Edit Job')
+                                                    <a href="javascript:void(0);"><span><i
+                                                                class="fa-solid fa-pen"></i></span></a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="candidate_form candidate_edit_form" id="job-document-table">
+                                        @include('jobs.document-details')
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
             <form action="{{ route('jobs.visa-details.update', $candidate_job_detail->id) }}" method="POST"
                 id="candidate-visa-edit-form">
                 @method('PUT')
@@ -363,55 +463,7 @@
                 </div>
             </form>
 
-            <form action="{{ route('jobs.payment-details.update', $candidate_job_detail->id) }}" method="POST"
-                id="candidate-payment-edit-form">
-                @method('PUT')
-                @csrf
-                <div class="candidate_details">
-                    <div class="accordion" id="paymentAccordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingPayment">
-                                <button
-                                    class="accordion-button collapsed d-flex justify-content-between align-items-center"
-                                    type="button" data-bs-toggle="collapse" data-bs-target="#collapsePayment"
-                                    aria-expanded="false" aria-controls="collapsePayment">
-                                    <h5>Payment Details</h5>
-                                </button>
-                            </h2>
-                            <div id="collapsePayment" class="accordion-collapse collapse"
-                                aria-labelledby="headingPayment" data-bs-parent="#paymentAccordion">
-                                <div class="accordion-body">
-                                    <div class="can-div d-flex justify-content-between align-items-center">
-                                        <div class="can-head">
-                                            <h5></h5>
-                                        </div>
-                                        <div class="edit-1-btn d-flex align-items-center">
 
-                                            <div class="edit-2 cross-red" id="cross-button-payment">
-
-                                            </div>
-                                            <div class="edit-2 m-lg-1" id="submit-button-payment">
-
-                                            </div>
-                                            <div class="edit-1" id="open-payment-input">
-                                                @can('Edit Job')
-                                                    <a href="javascript:void(0);"><span><i
-                                                                class="fa-solid fa-pen"></i></span></a>
-                                                @endcan
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="candidate_form candidate_edit_form" id="job-payment-table">
-                                        @include('jobs.payment-details')
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </form>
         </div>
     </div>
 
@@ -766,6 +818,50 @@
                 });
             });
     </script>
+
+<script>
+    $(document).off('submit', '#candidate-document-edit-form').on('submit', '#candidate-document-edit-form',
+        function(e) {
+            e.preventDefault();
+
+            // Disable the submit button to prevent multiple submissions
+            $('#submit-button-document').prop('disabled', true);
+
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    toastr.success('Candidate document details updated successfully');
+                    var candidate_id = "{{ $candidate_job_detail->id }}";
+                    $(".candidate-new-" + candidate_id).html(response.view);
+                    $('#job-document-table').html(response.view1);
+                    $('#submit-button-document').html(``);
+                    $('#cross-button-document').html(``);
+
+                    // show the edit button
+                    $('#open-document-input').html(
+                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                    );
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        toastr.error(value);
+                    });
+                },
+                complete: function() {
+                    // Re-enable the submit button after the AJAX request is complete
+                    $('#submit-button-document').prop('disabled', false);
+                }
+            });
+        });
+</script>
 
     <script>
         //paymnent details

@@ -217,10 +217,12 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::put('/jobs-visa-details/{id}', [JobsController::class, 'candidateVisaDetailsUpdate'])->name('jobs.visa-details.update');
     Route::put('/jobs-ticket-details/{id}', [JobsController::class, 'candidateTicketDetailsUpdate'])->name('jobs.ticket-details.update');
     Route::put('/jobs-payment-details/{id}', [JobsController::class, 'candidatePaymentDetailsUpdate'])->name('jobs.payment-details.update');
+    // jobs.document-details.update
+    Route::put('/jobs-document-details/{id}', [JobsController::class, 'candidateDocumentDetailsUpdate'])->name('jobs.document-details.update');
     Route::post('/send-job-sms', [JobsController::class, 'sendJobSms'])->name('jobs.send-job-sms');
     Route::post('/send-job-whatsapp', [JobsController::class, 'sendJobWhatsapp'])->name('jobs.send-job-whatsapp');
 
     //referral cms routes
     Route::get('/referral-cms', [ReferCmsController::class, 'referCmsView'])->name('referral-cms.edit');
     Route::post('/jobs-details-update', [ReferCmsController::class, 'referCmsUpdate'])->name('referral-cms.update');
-}); 
+});

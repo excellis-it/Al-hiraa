@@ -5,21 +5,23 @@
 
                 <td>Medical Application Date</td>
                 <td>{{ $candidate_job_detail->medical_application_date ?? 'dd-mm-yyyy' }}</td>
+                <td>Medical Approval Date</td>
+                <td>{{ $candidate_job_detail->medical_approval_date ?? 'dd-mm-yyyy' }}</td>
                 <td>Medical Completion Date</td>
                 <td>{{ $candidate_job_detail->medical_completion_date ?? 'dd-mm-yyyy' }}</td>
-                <td>Medical Expiry Date</td>
-                <td>{{ $candidate_job_detail->medical_expiry_date ?? 'dd-mm-yyyy' }}</td>
 
 
             </tr>
             <tr>
+                <td>Medical Expiry Date</td>
+                <td>{{ $candidate_job_detail->medical_expiry_date ?? 'dd-mm-yyyy' }}</td>
                 <td>Medical Status</td>
                 <td>{{ $candidate_job_detail->medical_status ?? '' }}</td>
                 @if ($candidate_job_detail->medical_status == 'REPEAT')
-                <td colspan="" class="">Repeat Date</td>
-                <td colspan="" class="">
-                    {{ $candidate_job_detail->medical_repeat_date ?? 'dd-mm-yyyy' }}
-                </td>
+                    <td colspan="" class="">Repeat Date</td>
+                    <td colspan="" class="">
+                        {{ $candidate_job_detail->medical_repeat_date ?? 'dd-mm-yyyy' }}
+                    </td>
                 @endif
                 <td colspan="4"></td>
             </tr>
@@ -52,18 +54,24 @@
                     <input type="text" class="form-control uppercase-text datepicker" id="med_date1" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') ?? '' }}" name="medical_application_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
+                  <td>Medical Approval Date</td>
+                <td class="date-btn">
+                    <input type="text" class="form-control uppercase-text datepicker" id="med_date110" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_approval_date)->format('d-m-Y') ?? '' }}" name="medical_approval_date" placeholder="dd-mm-yyyy">
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
                 <td>Medical Completion Date</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="med_date2" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_completion_date)->format('d-m-Y') ?? '' }}" name="medical_completion_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                   <td>Medical Expiry Date</td>
+
+                </tr>
+                <tr>
+                     <td>Medical Expiry Date</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="med_date4" value="{{ \Carbon\Carbon::parse($candidate_job_detail->medical_expiry_date)->format('d-m-Y') ?? '' }}" name="medical_expiry_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                </tr>
-                <tr>
                 <td>Medical Status</td>
                 <td>
                     <select name="medical_status" class="form-select uppercase-text" id="medical_status">
@@ -94,6 +102,12 @@
                 format: 'dd-mm-yyyy',
                 value: "{{ $candidate_job_detail->medical_application_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_application_date)->format('d-m-Y') : '' }}"
             });
+            $('#med_date110').datepicker({
+                uiLibrary: 'bootstrap5',
+                format: 'dd-mm-yyyy',
+                value: "{{ $candidate_job_detail->medical_approval_date ? \Carbon\Carbon::parse($candidate_job_detail->medical_approval_date)->format('d-m-Y') : '' }}"
+            });
+
             @if ($candidate_job_detail->medical_status == 'REPEAT')
                 $('#med_date3').datepicker({
                     uiLibrary: 'bootstrap5',

@@ -145,6 +145,7 @@
                                             <th>Job Location </th>
                                             <th>Salary</th>
                                             <th>RC Interested Counts</th>
+                                            <th>Doc.View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -171,11 +172,21 @@
                                                     </td>
 
                                                     <td>{{ Helper::getRcInterestedCount($new_jobs_opening->id) }}</td>
+                                                    <td>
+                                                        @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
+                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}" target="_blank">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                            @else
+                                                           No Document
+                                                        @endif
+
+                                                    </td>
                                                 </tr>
                                             @endforeach
 
                                             <tr>
-                                                <td colspan="4" class="text-left">
+                                                <td colspan="8" class="text-left">
                                                     <div class="d-flex justify-content-between">
                                                         <div class="">
                                                             (Showing {{ $new_jobs_openings->firstItem() }} –
@@ -188,7 +199,7 @@
                                             </tr>
                                         @else
                                             <tr>
-                                                <td colspan="4" class="text-center">No data found</td>
+                                                <td colspan="8" class="text-center">No data found</td>
                                             </tr>
                                         @endif
 

@@ -50,8 +50,8 @@
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Position<span>*</span></label>
-                                                            <select name="candidate_position_id" class="form-select new_select2"
-                                                                id="">
+                                                            <select name="candidate_position_id"
+                                                                class="form-select new_select2" id="">
                                                                 <option value="">Select a position</option>
                                                                 @foreach ($positions as $position)
                                                                     <option value="{{ $position->id }}">
@@ -96,10 +96,13 @@
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
-                                                            <label for="">Number of people required<span>*</span></label>
+                                                            <label for="">Number of people
+                                                                required<span>*</span></label>
                                                             <input type="number" class="form-control" id=""
-                                                                value="" name="quantity_of_people_required" placeholder="">
-                                                            <span class="text-danger" id="quantity_of_people_required_msg_create"></span>
+                                                                value="" name="quantity_of_people_required"
+                                                                placeholder="">
+                                                            <span class="text-danger"
+                                                                id="quantity_of_people_required_msg_create"></span>
                                                         </div>
                                                     </div>
 
@@ -117,7 +120,8 @@
                                                             <label for="">Service Charge<span>*</span></label>
                                                             <input type="text" class="form-control" id=""
                                                                 value="" name="service_charge" placeholder="">
-                                                            <span class="text-danger" id="service_charge_msg_create"></span>
+                                                            <span class="text-danger"
+                                                                id="service_charge_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     {{-- <div class="col-xl-4">
@@ -134,14 +138,16 @@
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
                                                             <label for="">Referral Point</label>
-                                                            <select name="referral_point_id" class="form-select" id="">
+                                                            <select name="referral_point_id" class="form-select"
+                                                                id="">
                                                                 <option value="">Select a referral point</option>
                                                                 @foreach ($referral_points as $referral_point)
                                                                     <option value="{{ $referral_point->id }}">
                                                                         {{ $referral_point->point }}</option>
                                                                 @endforeach
                                                             </select>
-                                                            <span class="text-danger" id="referral_point_msg_create"></span>
+                                                            <span class="text-danger"
+                                                                id="referral_point_msg_create"></span>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-12">
@@ -171,11 +177,13 @@
                                                     </div>
                                                     <div class="col-lg-12 mt-3">
                                                         <div class="save-btn-div d-flex align-items-center">
-                                                            <button type="button" class="btn save-btn submit-form"><span></span>
+                                                            <button type="button"
+                                                                class="btn save-btn submit-form"><span></span>
                                                                 Submit</button>
 
-                                                                <button type="button" class="btn add-anoter-btn save-and-add-anoter"><span></span>
-                                                            Save & Add Another</button>
+                                                            <button type="button"
+                                                                class="btn add-anoter-btn save-and-add-anoter"><span></span>
+                                                                Save & Add Another</button>
 
                                                             <button type="button"
                                                                 class="btn save-btn save-btn-1 close-btn"><span><i
@@ -380,17 +388,20 @@
                 <div class="col-md-12 mb-2">
                     <!-- Import Button with Dropdown -->
                     <div class="btn-group float-end">
-                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob" aria-controls="offcanvasRightJob" class="btn addcandidate_btn float-end">
+                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob"
+                            aria-controls="offcanvasRightJob" class="btn addcandidate_btn float-end">
                             <i class="fas fa-plus"></i> Add a Job
                         </button>
 
-                        <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
 
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                             <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#importModel" data-bs-whatever="@fat">
+                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
+                                    data-bs-target="#importModel" data-bs-whatever="@fat">
                                     Import CSV
                                 </a>
                             </li>
@@ -562,7 +573,7 @@
                 <form action="{{ route('company-job.import') }}" method="POST" id="company-job-form-import"
                     enctype="multipart/form-data">
                     @csrf
-                    <input type="hidden" name="company_id" value="{{$company['id']}}">
+                    <input type="hidden" name="company_id" value="{{ $company['id'] }}">
                     <div class="modal-body">
                         <div class="mb-3">
                             {{-- <label for="recipient-name" class="col-form-label">Excel:</label> --}}
@@ -605,34 +616,33 @@
     </script>
     <script>
         $(document).on('submit', '#company-job-form-import', function(e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: $(this).attr('method'),
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        //windows load with toastr message
-                        window.location.reload();
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    //windows load with toastr message
+                    window.location.reload();
 
-                    },
-                    error: function(xhr) {
-                        // Handle errors (e.g., display validation errors)
-                        //clear any old errors
-                        $('.text-danger').html('');
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function(key, value) {
-                            // console.log(key);
-                            // Assuming you have a div with class "text-danger" next to each input
-                            $('[name="file"]').next('.text-danger').html(value[
-                                0]);
-                        });
-                    }
-                });
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // console.log(key);
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="file"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
             });
-
+        });
     </script>
     <script>
         $(document).ready(function() {
@@ -670,7 +680,8 @@
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
-
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
                 $.ajax({
                     url: $(this).attr('action'),
                     type: $(this).attr('method'),
@@ -685,9 +696,14 @@
                         } else {
                             toastr.error(response.message);
                         }
+
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
                         $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
@@ -754,7 +770,7 @@
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
-                         $('.text-danger').html('');
+                        $('.text-danger').html('');
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input

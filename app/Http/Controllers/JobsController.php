@@ -387,8 +387,7 @@ class JobsController extends Controller
         $job_details_update->salary = $request->salary;
         $job_details_update->food_allowance = $request->food_allowance;
         $job_details_update->contract_duration = $request->contract_duration;
-        $job_details_update->mofa_no = $request->mofa_no;
-        $job_details_update->mofa_date = $request->mofa_date;
+
         $job_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
@@ -420,6 +419,7 @@ class JobsController extends Controller
     {
         $request->validate([
             'medical_application_date' => 'required|date',
+            'medical_approval_date' => 'nullable|required_with:medical_status|date',
             'medical_completion_date' => 'nullable|required_with:medical_status|date',
             'medical_expiry_date' => 'nullable|date',
             'medical_status' => 'nullable|required_with:medical_completion_date',
@@ -436,6 +436,7 @@ class JobsController extends Controller
 
         $medical_details_update = CandidateJob::findOrFail($id);
         $medical_details_update->medical_application_date = $request->medical_application_date;
+        $medical_details_update->medical_approval_date = $request->medical_approval_date;
         $medical_details_update->medical_completion_date = $request->medical_completion_date;
         $medical_details_update->medical_expiry_date = $request->medical_expiry_date;
         $medical_details_update->medical_status = $request->medical_status;
@@ -459,14 +460,31 @@ class JobsController extends Controller
             'visa_receiving_date' => 'required|date',
             'visa_issue_date' => 'nullable|date',
             'visa_expiry_date' => 'nullable|date',
+            'mofa_no' => 'nullable|string',
+            'mofa_date' => 'nullable|date|required_with:mofa_received_date',
+            'mofa_received_date' => 'nullable|date|after_or_equal:mofa_date',
+            'vfs_applied_date' => 'nullable|date|required_with:vfs_received_date',
+            'vfs_received_date' => 'nullable|date|after_or_equal:vfs_applied_date',
         ], [
             'visa_receiving_date.required' => 'The visa receiving date is required.',
+            'mofa_date.required_with' => 'The MOFA date is required when the MOFA received date is provided.',
+            'mofa_received_date.after_or_equal' => 'The MOFA received date must be equal to or after the MOFA date.',
+            'vfs_applied_date.required_with' => 'The VFS applied date is required when the VFS received date is provided.',
+            'vfs_received_date.after_or_equal' => 'The VFS received date must be equal to or after the VFS applied date.',
+            'mofa_date.date' => 'The MOFA date must be a valid date.',
         ]);
+
+
 
         $visa_details_update = CandidateJob::findOrFail($id);
         $visa_details_update->visa_receiving_date = $request->visa_receiving_date;
         $visa_details_update->visa_issue_date = $request->visa_issue_date;
         $visa_details_update->visa_expiry_date = $request->visa_expiry_date;
+        $visa_details_update->mofa_no = $request->mofa_no;
+        $visa_details_update->mofa_date = $request->mofa_date;
+        $visa_details_update->mofa_received_date = $request->mofa_received_date;
+        $visa_details_update->vfs_applied_date = $request->vfs_applied_date;
+        $visa_details_update->vfs_received_date = $request->vfs_received_date;
         $visa_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
@@ -575,6 +593,27 @@ class JobsController extends Controller
         // session()->flash('message', 'Candidate payment details updated successfully');
         // return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success']);
         return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'view1' => view('jobs.payment-details', compact('candidate_job_detail'))->render(), 'status' => 'success']);
+    }
+
+    public function candidateDocumentDetailsUpdate(Request $request, string $id)
+    {
+        $request->validate([
+            'courrier_sent_date' => 'required|date',
+            'courrier_received_date' => 'nullable|date|after_or_equal:courrier_sent_date',
+        ], [
+            'courrier_sent_date.required' => 'The courrier sent date is required.',
+            'courrier_sent_date.date' => 'The courrier sent date must be a valid date.',
+            'courrier_received_date.date' => 'The courrier received date must be a valid date.',
+        ]);
+
+        $document_details_update = CandidateJob::findOrFail($id);
+        $document_details_update->courrier_sent_date = $request->courrier_sent_date;
+        $document_details_update->courrier_received_date = $request->courrier_received_date;
+        $document_details_update->update();
+
+        $candidate_job = CandidateJob::findOrFail($id);
+        // session()->flash('message', 'Candidate document details updated successfully');
+        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'view1' => view('jobs.document-details', ['candidate_job_detail' => $candidate_job])->render(), 'status' => 'success']);
     }
 
     public function sendJobSms(Request $request)

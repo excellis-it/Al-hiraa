@@ -41,12 +41,7 @@
                 <td colspan="3">{{ $candidate_job_detail->contract_duration ?? '' }}</td>
 
             </tr>
-            <tr>
-                <td>Mofa No</td>
-                <td>{{ $candidate_job_detail->mofa_no ?? '' }}</td>
-                <td>Mofa Date</td>
-                <td colspan="3">{{ $candidate_job_detail->mofa_date ?? 'dd-mm-yyyy' }}</td>
-            </tr>
+
         </tbody>
     </table>
 </div>
@@ -144,26 +139,10 @@
                 </td>
 
             </tr>
-            <tr>
-                <td>Mofa No</td>
-                <td>
-                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mofa_no ?? '' }}" name="mofa_no" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
-                </td>
-                <td>Mofa Date</td>
-                <td colspan="3" class="date-btn">
-                    <input type="text" class="form-control uppercase-text datepicker" id="mofa_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') ?? '' }}" name="mofa_date" placeholder="dd-mm-yyyy">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
-                </td>
 
-            </tr>
             </tbody>`);
 
-        $('#mofa_date').datepicker({
-            uiLibrary: 'bootstrap5',
-            format: 'dd-mm-yyyy',
-            value: "{{ $candidate_job_detail->mofa_date ? \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') : '' }}"
-        });
+
 
         $('#selection_date').datepicker({
             uiLibrary: 'bootstrap5',

@@ -9,6 +9,21 @@
                 <td>Visa Expiry Date</td>
                 <td>{{ $candidate_job_detail->visa_expiry_date ?? 'dd-mm-yyyy' }}</td>
             </tr>
+            <tr>
+                <td>Mofa No</td>
+                <td>{{ $candidate_job_detail->mofa_no ?? '' }}</td>
+                <td>Mofa Applied Date</td>
+                <td>{{ $candidate_job_detail->mofa_date ?? 'dd-mm-yyyy' }}</td>
+                <td> Mofa Received Date</td>
+                <td>{{ $candidate_job_detail->mofa_received_date ?? 'dd-mm-yyyy' }}</td>
+            </tr>
+            <tr>
+                <td>VFS Applied Date</td>
+                <td>{{ $candidate_job_detail->vfs_applied_date ?? 'dd-mm-yyyy' }}</td>
+                <td>VFS Received Date</td>
+                <td>{{ $candidate_job_detail->vfs_received_date ?? 'dd-mm-yyyy' }}</td>
+                <td colspan="2"></td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -47,13 +62,66 @@
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
             </tr>
-
+  <tr>
+                <td>Mofa No</td>
+                <td>
+                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->mofa_no ?? '' }}" name="mofa_no" placeholder="">
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
+                <td>Mofa Applied Date</td>
+                <td  class="date-btn">
+                    <input type="text" class="form-control uppercase-text datepicker" id="mofa_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') ?? '' }}" name="mofa_date" placeholder="dd-mm-yyyy">
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
+                <td> Mofa Received Date</td>
+                <td  class="date-btn">
+                    <input type="text" class="form-control uppercase-text datepicker" id="mofa_received_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->mofa_received_date)->format('d-m-Y') ?? '' }}" name="mofa_received_date" placeholder="dd-mm-yyyy">
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>VFS Applied Date</td>
+                <td class="date-btn">
+                    <input type="text" class="form-control uppercase-text datepicker" id="vfs_applied_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->vfs_applied_date)->format('d-m-Y') ?? '' }}" name="vfs_applied_date" placeholder="dd-mm-yyyy">
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
+                <td>VFS Received Date</td>
+                <td class="date-btn">
+                    <input type="text" class="form-control uppercase-text datepicker" id="vfs_received_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->vfs_received_date)->format('d-m-Y') ?? '' }}" name="vfs_received_date" placeholder="dd-mm-yyyy">
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
+                <td colspan="2"></td>
+            </tr>
             </tbody>`);
 
         $('#visa_rec_date').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
             value: "{{ $candidate_job_detail->visa_receiving_date ? \Carbon\Carbon::parse($candidate_job_detail->visa_receiving_date)->format('d-m-Y') : '' }}"
+        });
+
+        $('#mofa_received_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+            value: "{{ $candidate_job_detail->mofa_received_date ? \Carbon\Carbon::parse($candidate_job_detail->mofa_received_date)->format('d-m-Y') : '' }}"
+        });
+
+        $('#vfs_applied_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+            value: "{{ $candidate_job_detail->vfs_applied_date ? \Carbon\Carbon::parse($candidate_job_detail->vfs_applied_date)->format('d-m-Y') : '' }}"
+        });
+
+        $('#vfs_received_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+            value: "{{ $candidate_job_detail->vfs_received_date ? \Carbon\Carbon::parse($candidate_job_detail->vfs_received_date)->format('d-m-Y') : '' }}"
+        });
+
+        $('#mofa_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+            value: "{{ $candidate_job_detail->mofa_date ? \Carbon\Carbon::parse($candidate_job_detail->mofa_date)->format('d-m-Y') : '' }}"
         });
 
         $('#visa_issu_date').datepicker({
