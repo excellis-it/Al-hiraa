@@ -404,6 +404,7 @@ class CompanyController extends Controller
             'file' => 'required|mimes:xls,xlsx',
         ]);
         Excel::import(new InterviewJobImport($company_id), $request->file('file')->store('temp'));
+        session()->flash('message', 'Job imported successfully');
         return redirect()->back()->with('message', 'Job imported successfully');
     }
 

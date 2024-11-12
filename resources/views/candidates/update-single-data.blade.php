@@ -23,7 +23,7 @@
     </div>
 
 </td>
-<td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
+<td  class="view-details-btn content-short"
     data-route="{{ route('candidates.activity', $candidate['id']) }}" style="cursor: pointer">
     {{-- remarks only show 10 word --}}
     @if ($candidate->lastCandidateActivity != null)
@@ -102,7 +102,7 @@
     {{ $candidate->ecr_type ?? 'N/A' }}
 </td>
 
-<td data-bs-toggle="modal" data-bs-target="#exampleModal2" class="view-details-btn content-short"
+<td  class="view-details-btn content-short"
     data-route="{{ route('candidates.activity', $candidate['id']) }}" style="cursor: pointer">
     {{-- remarks only show 10 word --}}
     @if ($candidate->lastCandidateActivity != null)

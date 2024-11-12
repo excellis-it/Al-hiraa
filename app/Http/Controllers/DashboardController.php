@@ -211,7 +211,7 @@ class DashboardController extends Controller
         $new_month = date('m');
         $new_year = date('Y');
 
-        return view('dashboard')->with(compact('companies','new_month', 'new_year', 'count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings', 'recruiters'));
+        return view('dashboard')->with(compact('companies', 'new_month', 'new_year', 'count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings', 'recruiters'));
     }
 
     public function getInterviewList(Request $request)
@@ -308,8 +308,9 @@ class DashboardController extends Controller
         try {
             $year = $request->input('year');
             $month = $request->input('month');
+            $company_id = $request->input('company_id') ?? null;
             // dd($month);
-            return Excel::download(new JobInterviewReport($year, $month), 'job_interview_report_'.$year.'_'.$month.'.xlsx');
+            return Excel::download(new JobInterviewReport($year, $month, $company_id),'job_interview_report_' . $year . '_' . $month . '.xlsx');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -319,7 +320,14 @@ class DashboardController extends Controller
     {
         $new_year = $request->input('year');
         $new_month = $request->input('month');
-        $companies = Company::orderBy('company_name', 'asc')->get();
+        $companyId = $request->input('company_id'); // Get the selected company ID
+
+        // Filter companies based on the selected company if provided
+        if ($companyId) {
+            $companies = Company::where('id', $companyId)->orderBy('company_name', 'asc')->get();
+        } else {
+            $companies = Company::orderBy('company_name', 'asc')->get();
+        }
 
         return view('dashboard-job-interview-report-table', compact('companies', 'new_year', 'new_month'));
     }

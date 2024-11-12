@@ -44,4 +44,32 @@ class SendCandidateSms implements ShouldQueue
             Log::error('Failed to send SMS to ' . $this->candidate->contact_no . ': ' . $e->getMessage());
         }
     }
+
+    // public function handle()
+    // {
+    //     $apiKey = env('TEXTLOCAL_API_KEY');
+
+    //     $number = $this->candidate->contact_no;
+    //     $message = $this->message;
+
+    //     $sender = urlencode('TXTLCL');
+    //     $message = rawurlencode($this->message);
+
+    //     $data = array(
+    //         'apikey' => $apiKey,
+    //         'numbers' => $number,
+    //         'message' => $message,
+    //         'sender' => $sender
+    //     );
+
+
+    //     $ch = curl_init('https://api.textlocal.in/send/');
+    //     curl_setopt($ch, CURLOPT_POST, true);
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //     $response = curl_exec($ch);
+    //     curl_close($ch);
+
+    //     Log::info('SMS sent to ' . $this->candidate->contact_no . ': ' . $response);
+    // }
 }

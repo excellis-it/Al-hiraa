@@ -387,26 +387,21 @@
             <div class="row">
                 <div class="col-md-12 mb-2">
                     <!-- Import Button with Dropdown -->
-                    <div class="btn-group float-end">
-                        <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob"
-                            aria-controls="offcanvasRightJob" class="btn addcandidate_btn float-end">
-                            <i class="fas fa-plus"></i> Add a Job
-                        </button>
+                    <div class="float-end d-flex">
+                        <div class="btn-group me-2 w-100">
+                            <button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRightJob"
+                                style="min-width: 135px; padding: 11px;" aria-controls="offcanvasRightJob"
+                                class="btn addcandidate_btn">
+                                <i class="fas fa-plus"></i> Add a Job
+                            </button>
+                        </div>
 
-                        <button type="button" class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-
-                        <ul class="dropdown-menu dropdown-menu-lg-end">
-                            <li>
-                                <a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
-                                    data-bs-target="#importModel" data-bs-whatever="@fat">
-                                    Import CSV
-                                </a>
-                            </li>
-                        </ul>
+                        <a class="dropdown-item " href="javascript:void(0);" data-bs-toggle="modal"
+                            data-bs-target="#importModel" data-bs-whatever="@fat"> <button type="submit"
+                                class="btn advance_search_btn " style="border-right: none;"> <i
+                                    class="fas fa-file-excel"></i> Import CSV</button> </a>
                     </div>
+
 
                     <!-- Add Job Button -->
 
@@ -618,6 +613,8 @@
         $(document).on('submit', '#company-job-form-import', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
             $.ajax({
                 url: $(this).attr('action'),
                 type: $(this).attr('method'),
@@ -628,10 +625,14 @@
                     //windows load with toastr message
                     window.location.reload();
 
+                    toastr.success('Job imported successfully');
                 },
                 error: function(xhr) {
                     // Handle errors (e.g., display validation errors)
                     //clear any old errors
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+
                     $('.text-danger').html('');
                     var errors = xhr.responseJSON.errors;
                     $.each(errors, function(key, value) {

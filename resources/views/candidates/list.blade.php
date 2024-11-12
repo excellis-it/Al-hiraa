@@ -69,7 +69,7 @@
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-lg-end">
-                                    <li><a class="dropdown-item" href="{{ route('candidates.export') }}">Export CSV</a></li>
+                                    <li><a class="dropdown-item export_cnadidate_csv" href="javascript:void(0);">Export CSV</a></li>
                                 </ul>
                             </div>
                         @endcan
@@ -608,6 +608,8 @@
         $(document).ready(function() {
 
             $('.export_cnadidate_csv').on('click', function() {
+                // $('#loading').addClass('loading');
+                // $('#loading-content').addClass('loading-content');
                 window.location.href = "{{ route('candidates.export') }}";
             });
 
@@ -655,7 +657,6 @@
             $(document).on('submit', '.search-form', function(e) {
                 e.preventDefault();
                 var query = $('#query').val();
-                console.log(query);
                 var page = $('#hidden_page').val();
                 var cnadidate_status_id = $('#cnadidate_status_id_filter').val();
                 var source = $('#source_filter').val();
@@ -1230,6 +1231,8 @@
                         });
 
                         $('#show-details').html(html);
+                        // exampleModal2
+                        $('#exampleModal2').modal('show');
                     }
                 });
             });

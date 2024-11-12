@@ -21,7 +21,7 @@ class ProfileTransformer extends TransformerAbstract
             'full_name' => $candidate->full_name ?? null,
             'email' => $candidate->email ?? null,
             'phone' => $candidate->contact_no,
-            'enter_by' => $candidate->enterBy->full_name ?? null,
+            'enter_by' => $candidate->enter_by == 0 ? 'MOBILE' : $candidate->enterBy->full_name ?? null,
             'status' => $candidate->candidateStatus->name ?? null,
             'passport_no' => $candidate->passport_number ?? null,
             'mode_of_registration' => $candidate->mode_of_registration ?? null,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Candidate;
 use App\Models\CandidateOtp;
 use App\Models\CandidatePosition;
+use App\Models\Source;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,7 +42,7 @@ class AuthenticationController extends Controller
         try {
             $userOtp = $this->generateOtp($request->mobile_number);
             if ($userOtp) {
-                $userOtp->sendSMS($request->mobile_number); // Send OTP to the user
+                // $userOtp->sendSMS($request->mobile_number); // Send OTP to the user
                 return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id , 'otp' => $userOtp->otp], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
@@ -158,6 +159,15 @@ class AuthenticationController extends Controller
             } elseif ($candidateOtp && $now->isAfter($candidateOtp->expire_at)) {
                 return response()->json(['message' => 'OTP Expired.', 'status' => false], 201);
             } else {
+                $sourceCount = Source::where('name', 'MOBILE')->count();
+                if ($sourceCount == 0) {
+                    $source = new Source();
+                    $source->name = 'MOBILE';
+                    $source->save();
+                } else {
+                    $source = Source::where('name', 'MOBILE')->first();
+                }
+
                 $candidate = new Candidate();
                 $candidate->full_name = $request->full_name;
                 $candidate->contact_no = $request->contact_no;
@@ -165,6 +175,8 @@ class AuthenticationController extends Controller
                 $candidate->position_applied_for_2 = $request->job_interest[1]  ?? null;
                 $candidate->position_applied_for_3 = $request->job_interest[2]  ?? null;
                 $candidate->cnadidate_status_id = 1;
+                $candidate->enter_by = 0;
+                $candidate->source = $source->name;
                 $candidate->save();
                 $candidateOtp->update(['expire_at' => $now]);
                 $candidate['token'] = $candidate->createToken('accessToken')->accessToken;
@@ -193,7 +205,7 @@ class AuthenticationController extends Controller
             $userOtp = $this->generateOtpRegister($request->mobile_number);
             if ($userOtp) {
                 $userOtp->sendSMS($request->mobile_number);
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $request->mobile_number], 200);
+                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $request->mobile_number , 'otp' => $userOtp->otp], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }

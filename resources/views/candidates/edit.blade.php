@@ -140,7 +140,7 @@
                                     {{-- @include('candidates.details-form') --}}
                                     <tr>
                                         <td>Enter By</td>
-                                        <td>{{ $candidate->enterBy->full_name ?? 'N/A' }}
+                                        <td>{{ $candidate->enter_by == 0 ? 'Mobile' : $candidate->enterBy->full_name ?? 'N/A' }}
                                         </td>
                                         <td>Status</td>
                                         <td>{{ $candidate->candidateStatus->name ?? 'N/A' }}</td>
@@ -348,7 +348,7 @@
                         <tbody>
                             <tr>
                                 <td>Enter By</td>
-                                <td> {{ $candidate->enterBy->full_name ?? 'N/A' }}
+                                <td> {{ $candidate->enter_by == 0 ? 'Mobile' : $candidate->enterBy->full_name ?? 'N/A' }}
                                 </td>
                                 <td>Updated By</td>
                                 {{-- @dd($candidate->candidateUpdate->user) --}}
@@ -607,7 +607,7 @@
                         <td>Enter By</td>
                         <td>
                         <div class="form-group">
-                            <input class="form-control uppercase-text" type="text" placeholder="Enter by" aria-label="default input example" value="{{ $candidate->enterBy->full_name ?? '' }}" readonly>
+                            <input class="form-control uppercase-text" type="text" placeholder="Enter by" aria-label="default input example" value="{{ $candidate->enter_by == 0 ? 'Mobile' : $candidate->enterBy->full_name ?? '' }}" readonly>
                         </div>
                         </td>
 
@@ -1136,7 +1136,7 @@
                 ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
             $('#candidate-form').html(`<tbody > <tr>
                                         <td>Enter By</td>
-                                        <td>{{ $candidate->enterBy->full_name ?? '' }}
+                                        <td>{{ $candidate->enter_by == 0 ? 'Mobile' : $candidate->enterBy->full_name ?? '' }}</td>
                                         </td>
                                         <td>Status</td>
                                         <td>{{ $candidate->candidateStatus->name ?? '' }}

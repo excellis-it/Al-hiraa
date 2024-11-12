@@ -27,7 +27,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $rows)
     {
-        $errors = [];
+        // $errors = [];
 
         // Perform validation on the entire dataset before processing
         $validator = Validator::make($rows->toArray(), [
@@ -36,21 +36,38 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             '*.service_charge' => 'required|numeric',
             '*.job_name' => 'required',
             '*.contract' => 'nullable|numeric',
-            '*.address' => 'required',
+            '*.location' => 'required',
             '*.salary' => 'required|numeric',
             '*.duty_hours' => 'numeric',
             '*.quantity_of_people_required' => 'required|numeric',
-            '*.interview_start_date' => 'required|date',
-            '*.interview_end_date' => 'required|date'
-        ]);
+            '*.interview_start_date' => 'required|date|after_or_equal:today',
+            '*.interview_end_date' => 'required|date|after_or_equal:*.interview_start_date',
+        ], [
+            'vendor_email.exists' => 'Vendor with email :input not found.',
+            'interview_start_date.after_or_equal' => 'The interview start date must be a date after or equal to today.',
+            'interview_end_date.after_or_equal' => 'The interview end date must be a date after or equal to the interview start date.',
+            'position.required' => 'Position is required',
+            'vendor_email.required' => 'Vendor email is required',
+            'service_charge.required' => 'Service charge is required',
+            'job_name.required' => 'Job name is required',
+            'contract.required' => 'Contract is required',
+            'location.required' => 'Location is required',
+            'salary.required' => 'Salary is required',
+            'duty_hours.required' => 'Duty hours is required',
+            'quantity_of_people_required.required' => 'Quantity of people required is required',
+            'interview_start_date.required' => 'Interview start date is required',
+            'interview_end_date.required' => 'Interview end date is required'
+        ])->validate();
 
-        if ($validator->fails()) {
-            // Capture and log validation errors
-            foreach ($validator->errors()->getMessages() as $key => $error) {
-                $errors[$key] = $error;
-            }
-            return $errors;
-        }
+        // dd($rows);
+
+        // if ($validator->fails()) {
+        //     // Capture and log validation errors
+        //     foreach ($validator->errors()->getMessages() as $key => $error) {
+        //         $errors[$key] = $error;
+        //     }
+        //     return $errors;
+        // }
 
         foreach ($rows as $key => $row) {
             $vendor = User::role('VENDOR')->where('email', $row['vendor_email'])->first();
@@ -79,7 +96,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             $job->service_charge = $row['service_charge'] ?? '';
             $job->job_description = $row['job_description'] ?? '';
             $job->duty_hours = $row['duty_hours'] ? $row['duty_hours'] : '';
-            $job->address = $row['address'] ?? '';
+            $job->address = $row['location'] ?? '';
             $job->quantity_of_people_required = $row['quantity_of_people_required'] ?? '';
             $job->vendor_id = $vendor->id;
             $job->candidate_position_id = $position_id;
@@ -97,7 +114,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             }
         }
 
-        return $errors ?: 'Processing completed successfully';
+        // return $errors ?: 'Processing completed successfully';
     }
 
     public function headingRow(): int

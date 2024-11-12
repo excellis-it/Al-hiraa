@@ -18,6 +18,7 @@ class SourceSeeder extends Seeder
             'Reference',
             'Facebook',
             'Instagram',
+            'Mobile',
             'Others'
         ];
 

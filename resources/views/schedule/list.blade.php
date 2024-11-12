@@ -354,7 +354,7 @@
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(key, value) {
                             // Assuming you have a span with class "text-danger" next to each input
-                            $('#' + key + '_msg').html(value[0]);
+                            $('#' + key + '_msg_error').html(value[0]);
                         });
                     }
                 });

@@ -37,7 +37,7 @@
             @if (Auth::user()->hasRole('ADMIN') ||
                     Auth::user()->hasRole('OPERATION MANAGER') ||
                     Auth::user()->hasRole('DATA ENTRY OPERATOR') ||
-                     Auth::user()->hasRole('PROCESS MANAGER'))
+                    Auth::user()->hasRole('PROCESS MANAGER'))
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
                     <div class="col">
                         <a href="{{ route('candidates.index') }}">
@@ -174,11 +174,12 @@
                                                     <td>{{ Helper::getRcInterestedCount($new_jobs_opening->id) }}</td>
                                                     <td>
                                                         @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
-                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}" target="_blank">
+                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}"
+                                                                target="_blank">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </a>
-                                                            @else
-                                                           No Document
+                                                        @else
+                                                            No Document
                                                         @endif
 
                                                     </td>
@@ -210,8 +211,9 @@
                     </div>
                 </div>
             @endif
-            @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')  ||
-                     Auth::user()->hasRole('PROCESS MANAGER'))
+            @if (Auth::user()->hasRole('ADMIN') ||
+                    Auth::user()->hasRole('OPERATION MANAGER') ||
+                    Auth::user()->hasRole('PROCESS MANAGER'))
                 {{-- chart --}}
                 <div class="row">
                     <div class="col-lg-12">
@@ -234,132 +236,139 @@
                     </div>
                 </div>
                 @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER'))
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="table_right">
-                            <div class="py-3">
-                                <h4 class="card-header__title">Current Users</h4>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0 thead-border-top-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Team Member</th>
-                                            <th>Candidate Added</th>
-                                            <th>Interview Schedule</th>
-                                            <th>Appear</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @include('dashboard-users-table')
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="table_right">
+                                <div class="py-3">
+                                    <h4 class="card-header__title">Current Users</h4>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0 thead-border-top-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Team Member</th>
+                                                <th>Candidate Added</th>
+                                                <th>Interview Schedule</th>
+                                                <th>Appear</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @include('dashboard-users-table')
 
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- rc report --}}
+                        <div class="col-lg-6">
+                            <div class="table_right">
+                                <div class="py-3">
+                                    <h4 class="card-header__title">RC Report</h4>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0 thead-border-top-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Recruiter</th>
+                                                <th>Candidate Added</th>
+                                                <th>Viewed</th>
+                                                <th>Interested</th>
+                                                <th>Selected</th>
+                                                {{-- <th>Back Out</th> --}}
+                                                <th>Deployed</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @include('dashboard-rc-report-table')
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="table_right">
+                                <div class="py-3">
+                                    <h4 class="card-header__title">Job Interview Report</h4>
+                                </div>
+                                <div class="justify-content-end mb-2 d-flex">
+                                    @php
+                                        $year = date('Y');
+                                        $months = [
+                                            '01' => 'January',
+                                            '02' => 'February',
+                                            '03' => 'March',
+                                            '04' => 'April',
+                                            '05' => 'May',
+                                            '06' => 'June',
+                                            '07' => 'July',
+                                            '08' => 'August',
+                                            '09' => 'September',
+                                            '10' => 'October',
+                                            '11' => 'November',
+                                            '12' => 'December',
+                                        ];
+                                    @endphp
+                                    <div class="dashboard_graph" style="margin-right: 5px;">
+                                        <select id="company-filter" class="form-select" style="width: 300px;">
+                                            <option value="" selected>Select Company</option>
+                                            @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="dashboard_graph" style="margin-right: 5px;">
+                                        <select id="interview-yearly" class="form-select" style="width: 150px;">
+                                            @for ($i = 2023; $i <= date('Y'); $i++)
+                                                <option value="{{ $i }}"
+                                                    @if ($i == $year) selected @endif>{{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="dashboard_graph" style="margin-right: 5px;">
+                                        <select id="interview-monthly" class="form-select" style="width: 150px;">
+                                            @foreach ($months as $key => $month)
+                                                <option value="{{ $key }}"
+                                                    @if ($key == date('m')) selected @endif>{{ $month }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('report.job-interview.export', ['year' => request('year', date('Y')), 'month' => request('month', date('m')), 'company_id' => request('company_id')]) }}"
+                                            class="support_btn text-end" id="export-button">
+                                            <span><i class="fas fa-file-excel"></i> Export</span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0 thead-border-top-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Company Name</th>
+                                                <th>Candidate Interested In Interviews</th>
+                                                <th>Candidate In Selection</th>
+                                                <th>Candidate In Medical</th>
+                                                <th>Candidate In Documentation</th>
+                                                <th>Candidate In Deployment</th>
+                                                <th>Total Service Charge</th>
+                                                <th>Total Collection</th>
+                                                <th>Vendor Service Charge</th>
+                                                <th>Pending Collection</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="dashboard-job-interview-report-table">
+                                            @include('dashboard-job-interview-report-table')
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    {{-- rc report --}}
-                    <div class="col-lg-6">
-                        <div class="table_right">
-                            <div class="py-3">
-                                <h4 class="card-header__title">RC Report</h4>
-                            </div>
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0 thead-border-top-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Recruiter</th>
-                                            <th>Candidate Added</th>
-                                            <th>Viewed</th>
-                                            <th>Interested</th>
-                                            <th>Selected</th>
-                                            {{-- <th>Back Out</th> --}}
-                                            <th>Deployed</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @include('dashboard-rc-report-table')
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="table_right">
-                            <div class="py-3">
-                                <h4 class="card-header__title">Job Interview Report</h4>
-                            </div>
-                            <div class="justify-content-end mb-2 d-flex">
-                                @php
-                                    $year = date('Y');
-                                    $months = [
-                                        '01' => 'January',
-                                        '02' => 'February',
-                                        '03' => 'March',
-                                        '04' => 'April',
-                                        '05' => 'May',
-                                        '06' => 'June',
-                                        '07' => 'July',
-                                        '08' => 'August',
-                                        '09' => 'September',
-                                        '10' => 'October',
-                                        '11' => 'November',
-                                        '12' => 'December',
-                                    ];
-                                @endphp
-                                <div class="dashboard_graph" style="margin-right: 5px;">
-                                    <select id="interview-yearly" class="form-select" style="width: 150px;">
-                                        @for ($i = 2023; $i <= date('Y'); $i++)
-                                            <option value="{{ $i }}"
-                                                @if ($i == $year) selected @endif>{{ $i }}
-                                            </option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="dashboard_graph" style="margin-right: 5px;">
-                                    <select id="interview-monthly" class="form-select" style="width: 150px;">
-                                        @foreach ($months as $key => $month)
-                                            <option value="{{ $key }}"
-                                                @if ($key == date('m')) selected @endif>{{ $month }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div>
-                                    <a href="{{ route('report.job-interview.export', ['year' => request('year', date('Y')), 'month' => request('month', date('m'))]) }}" class="support_btn text-end" id="export-button">
-                                        <span><i class="fas fa-file-excel"></i> Export</span>
-                                    </a>
-                                </div>
-                            </div>
-
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0 thead-border-top-0">
-                                    <thead>
-                                        <tr>
-                                            <th>Company Name</th>
-                                            <th>Candidate Interested In Interviews</th>
-                                            <th>Candidate In Selection</th>
-                                            <th>Candidate In Medical</th>
-                                            <th>Candidate In Documentation</th>
-                                            <th>Candidate In Deployment</th>
-                                            <th>Total Service Charge</th>
-                                            <th>Total Collection</th>
-                                            <th>Vendor Service Charge</th>
-                                            <th>Pending Collection</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="dashboard-job-interview-report-table">
-                                        @include('dashboard-job-interview-report-table')
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 @endif
                 {{-- <div class="row">
                     <div class="col-lg-4">
@@ -414,19 +423,20 @@
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script>
         $(document).ready(function() {
-            $(document).on('change', '#interview-yearly, #interview-monthly', function() {
+            $(document).on('change', '#company-filter, #interview-yearly, #interview-monthly', function() {
+                let companyId = $('#company-filter').val();
                 let year = $('#interview-yearly').val();
                 let month = $('#interview-monthly').val();
 
                 $.ajax({
-                    url: "{{ route('report.job-interview.ajax') }}", // Update this route
+                    url: "{{ route('report.job-interview.ajax') }}",
                     method: "GET",
                     data: {
                         year: year,
-                        month: month
+                        month: month,
+                        company_id: companyId
                     },
                     success: function(response) {
-                        // Assuming response contains the updated table rows
                         $('#dashboard-job-interview-report-table').html(response);
                     },
                     error: function(xhr, status, error) {
@@ -439,14 +449,16 @@
     <script>
         document.getElementById('interview-yearly').addEventListener('change', updateExportLink);
         document.getElementById('interview-monthly').addEventListener('change', updateExportLink);
+        document.getElementById('company-filter').addEventListener('change', updateExportLink);
 
         function updateExportLink() {
             const year = document.getElementById('interview-yearly').value;
             const month = document.getElementById('interview-monthly').value;
             const exportButton = document.getElementById('export-button');
+            const companyId = document.getElementById('company-filter').value;
 
             const baseUrl = "{{ route('report.job-interview.export') }}";
-            exportButton.href = `${baseUrl}?year=${year}&month=${month}`;
+            exportButton.href = `${baseUrl}?year=${year}&month=${month}&company_id=${companyId}`;
         }
     </script>
     <script>

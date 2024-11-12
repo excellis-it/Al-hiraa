@@ -63,7 +63,7 @@ Route::group(['prefix' => 'v1'], function () {
         });
 
         Route::prefix('referral')->group(function (){
-            route::post('view', [ReferController::class, 'view']);
+            Route::post('view', [ReferController::class, 'view']);
             Route::post('submit',[ReferController::class, 'submit']);
             Route::post('total-point', [ReferController::class, 'totalPoint']);
         });

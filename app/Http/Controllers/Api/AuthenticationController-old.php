@@ -61,7 +61,7 @@ class AuthenticationController extends Controller
             //if mobile number get then sendsms code will be executed otherwise mail send
             if ($userOtp) {
                 if ($request->mobile_number) {
-                    
+
                     $username = env('SMS_USERNAME');
                     $password = env('SMS_PASSWORD');
                     $type = 'TEXT';
@@ -81,7 +81,7 @@ class AuthenticationController extends Controller
                         'entityId' => $entityId,
                         'templateId' => $templateId,
                     ]);
-               
+
                   if (strpos($response->body(), 'SUBMIT_SUCCESS') !== false) {
                         return response()->json([
                             'message' => 'OTP sent successfully via SMS.',
@@ -96,15 +96,15 @@ class AuthenticationController extends Controller
                             'error' => $response->body()
                         ], $response->status());
                     }
-                  
-                
+
+
                 } else {
-                    
+
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
 
                     return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id, 'otp' => $userOtp->otp], 200);
                 }
-                
+
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
@@ -231,6 +231,7 @@ class AuthenticationController extends Controller
                 $candidate->position_applied_for_3 = $request->job_interest[2]  ?? null;
                 $candidate->cnadidate_status_id = 1;
                 $candidate->email = $request->email_id;
+                $candidate->enter_by = 0;
                 $candidate->save();
 
                 $notification = new Notification;
@@ -258,14 +259,14 @@ class AuthenticationController extends Controller
             'mobile_number' => 'required_without:email_id|digits:10|unique:candidates,contact_no',
             'email_id' => 'required_without:mobile_number|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|unique:candidates,email'
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json(['message' => $validator->errors()->first(), 'status' => false], 201);
         }
 
         try {
-            
-            
+
+
             if ($request->mobile_number) {
                 $userOtp = $this->generateOtpRegister($request->mobile_number);
             } else {
@@ -274,7 +275,7 @@ class AuthenticationController extends Controller
 
             if ($userOtp) {
                 if ($request->mobile_number) {
-                    
+
                     $username = env('SMS_USERNAME');
                     $password = env('SMS_PASSWORD');
                     $type = 'TEXT';
@@ -296,7 +297,7 @@ class AuthenticationController extends Controller
                     ]);
 
                 //   return $response->body();
-               
+
                   if (strpos($response->body(), 'SUBMIT_SUCCESS') !== false) {
                         return response()->json([
                             'message' => 'OTP sent successfully via SMS.',
@@ -310,24 +311,24 @@ class AuthenticationController extends Controller
                             'error' => $response->body()
                         ], $response->status());
                     }
-                  
-                
+
+
                 } else {
-                    
+
                     Mail::to($request->email_id)->send(new SendUserOtp($userOtp));
 
                     return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'otp' => $userOtp->otp], 200);
                 }
-                
+
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
         }
-        
+
     }
-    
+
 
 
     private function generateOtpRegister($value)
@@ -373,5 +374,5 @@ class AuthenticationController extends Controller
     }
 
 
-   
+
 }

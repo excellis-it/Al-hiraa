@@ -24,7 +24,7 @@
                                                     {{ $job->job_name }}</option>
                                             @endforeach
                                         </select>
-                                        <span class="text-danger" id="job_id_msg"></span>
+                                        <span class="text-danger" id="job_id_msg_error"></span>
                                     </div>
                                 </div>
                                 {{-- <div class="col-xl-6">
@@ -48,7 +48,7 @@
                                         <input type="text" class="form-control" id="str_date"
                                             value="{{ $interview->interview_start_date ? date('d-m-Y', strtotime($interview->interview_start_date)) : '' }}"
                                             name="interview_start_date" placeholder="">
-                                        <span class="text-danger" id="interview_start_date_msg"></span>
+                                        <span class="text-danger" id="interview_start_date_msg_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
@@ -57,7 +57,7 @@
                                         <input type="text" class="form-control datepicker" id="end_date"
                                             value="{{ $interview->interview_end_date ? date('d-m-Y', strtotime($interview->interview_end_date)) : '' }}"
                                             name="interview_end_date" placeholder="">
-                                        <span class="text-danger" id="interview_end_date_msg"></span>
+                                        <span class="text-danger" id="interview_end_date_msg_error"></span>
                                     </div>
                                 </div>
 

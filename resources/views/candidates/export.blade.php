@@ -51,7 +51,7 @@
                         {{ 'N/A' }}
                     @endif
                 </td>
-                <td>{{ $item->enterBy->full_name ?? 'N/A' }}</td>
+                <td>{{ $item->enter_by == 0 ? 'Mobile' :  $item->enterBy->full_name ?? 'N/A' }}</td>
                 <td>
                     <div class="round_staus active">
                         {{ $item->candidateStatus->name ?? 'N/A' }}
@@ -72,7 +72,7 @@
                 </td>
                 <td>{{ $item->alternate_contact_no ?? 'N/A' }}
                 </td>
-                <td>{{ $item->whatapp_no ?? 'N/A' }}</td>
+                <td>{{ '='.'"'.$item->whatapp_no.'"' ?? 'N/A' }}</td>
                 <td>{{ $item->email ?? 'N/A' }}</td>
                 <td>{{ $item->referred_by ?? 'N/A' }}</td>
                 <td>

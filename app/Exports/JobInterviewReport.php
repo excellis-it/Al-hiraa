@@ -12,17 +12,24 @@ class JobInterviewReport implements FromView
     */
     protected $year;
     protected $month;
+    protected $company_id;
 
-    public function __construct($year, $month)
+    public function __construct($year, $month, $company_id = null)
     {
         $this->year = $year;
         $this->month = $month;
+        $this->company_id = $company_id;
     }
-
 
     public function view(): View
     {
-        $companies = Company::orderBy('company_name', 'asc')->get();
+        $companies = Company::query();
+        if ($this->company_id) {
+            $companies = $companies->where('id', $this->company_id);
+        }
+
+        $companies = $companies->orderBy('company_name', 'asc')->get();
+
         // dd($jobs);
         return view('export.job-interview-report-export', [
             'companies' => $companies,
