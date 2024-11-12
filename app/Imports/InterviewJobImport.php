@@ -43,7 +43,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             '*.interview_start_date' => 'required|date|after_or_equal:today',
             '*.interview_end_date' => 'required|date|after_or_equal:*.interview_start_date',
         ], [
-            'vendor_email.exists' => 'Vendor with email :input not found.',
+            'vendor_email.exists' => 'Please provide a valid vendor email from the system.',
             'interview_start_date.after_or_equal' => 'The interview start date must be a date after or equal to today.',
             'interview_end_date.after_or_equal' => 'The interview end date must be a date after or equal to the interview start date.',
             'position.required' => 'Position is required',

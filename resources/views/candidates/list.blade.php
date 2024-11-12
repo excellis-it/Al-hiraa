@@ -1092,33 +1092,34 @@
                     }
                 });
             });
-            @if (Session::has('candidate_id'))
-                var route = "{{ route('candidates.edit', Session::get('candidate_id')) }}";
-                $('#loading').addClass('loading');
-                $('#loading-content').addClass('loading-content');
-                $.ajax({
-                    url: route,
-                    type: 'GET',
-                    success: function(response) {
-                        if (response.status == 'error') {
-                            toastr.error(response.message);
-                            return false;
-                        } else {
-                            $('#candidate-edit').html(response.view);
-                            $('#loading').removeClass('loading');
-                            $('#loading-content').removeClass('loading-content');
-                            $('#offcanvasEdit').offcanvas('show');
-                        }
-                    },
-                    error: function(xhr) {
-                        // Handle errors
-                        $('#loading').removeClass('loading');
-                        $('#loading-content').removeClass('loading-content');
-                        console.log(xhr);
-                    }
-                });
-            @endif
         });
+
+        {{--@if (Session::has('candidate_id'))
+            //     var route = "{{ route('candidates.edit', Session::get('candidate_id')) }}";
+            //     $('#loading').addClass('loading');
+            //     $('#loading-content').addClass('loading-content');
+            //     $.ajax({
+            //         url: route,
+            //         type: 'GET',
+            //         success: function(response) {
+            //             if (response.status == 'error') {
+            //                 toastr.error(response.message);
+            //                 return false;
+            //             } else {
+            //                 $('#candidate-edit').html(response.view);
+            //                 $('#loading').removeClass('loading');
+            //                 $('#loading-content').removeClass('loading-content');
+            //                 $('#offcanvasEdit').offcanvas('show');
+            //             }
+            //         },
+            //         error: function(xhr) {
+            //             // Handle errors
+            //             $('#loading').removeClass('loading');
+            //             $('#loading-content').removeClass('loading-content');
+            //             console.log(xhr);
+            //         }
+            //     });
+            // @endif --}}
     </script>
     <script>
         $(document).ready(function() {

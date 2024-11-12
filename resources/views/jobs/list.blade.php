@@ -499,4 +499,41 @@
             });
         });
     </script>
+
+<script>
+    $(document).on('submit', '#candidate-job-form-import', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $('#loading').addClass('loading');
+        $('#loading-content').addClass('loading-content');
+        $.ajax({
+            url: $(this).attr('action'),
+            type: $(this).attr('method'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                //windows load with toastr message
+                window.location.reload();
+
+                toastr.success('Job imported successfully');
+            },
+            error: function(xhr) {
+                // Handle errors (e.g., display validation errors)
+                //clear any old errors
+                $('#loading').removeClass('loading');
+                $('#loading-content').removeClass('loading-content');
+
+                $('.text-danger').html('');
+                var errors = xhr.responseJSON.errors;
+                $.each(errors, function(key, value) {
+                    // console.log(key);
+                    // Assuming you have a div with class "text-danger" next to each input
+                    $('[name="file"]').next('.text-danger').html(value[
+                        0]);
+                });
+            }
+        });
+    });
+</script>
 @endpush

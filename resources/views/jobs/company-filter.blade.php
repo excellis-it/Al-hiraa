@@ -5,10 +5,10 @@
     <div class="interview-box-sec">
         <div class="interview-slide">
             <div class="interview-slide-wrap">
-                <div class="interview-box filter-select {{isset($int_pipeline) && $int_pipeline == 'All' ? 'interview-active' : ''}}" data-val="All">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'All' ? 'interview-active' : '' }}"
+                    data-val="All">
                     <div class="interview-box-img">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"
-                            viewBox="0 0 35 35">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35">
                             <g id="job-interview" transform="translate(0)">
                                 <path id="Path_74" data-name="Path 74"
                                     d="M338.693,36.4a4.266,4.266,0,1,1-4.266-4.266A4.266,4.266,0,0,1,338.693,36.4Zm0,0"
@@ -39,16 +39,17 @@
                 </div>
             </div>
             <div class="interview-slide-wrap">
-                <div class="interview-box filter-select {{isset($int_pipeline) && $int_pipeline == 'Selection' ? 'interview-active' : ''}}" data-val="Selection">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Selection' ? 'interview-active' : '' }}"
+                    data-val="Selection">
 
                     <div class="interview-box-img">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32.694" height="29.756"
                             viewBox="0 0 32.694 29.756">
                             <g id="selection_1_" data-name="selection (1)" transform="translate(0 -23)">
-                                <circle id="Ellipse_39" data-name="Ellipse 39" cx="3.815" cy="3.815"
-                                    r="3.815" transform="translate(1.868 34.59)" />
-                                <circle id="Ellipse_40" data-name="Ellipse 40" cx="3.815" cy="3.815"
-                                    r="3.815" transform="translate(23.067 34.59)" />
+                                <circle id="Ellipse_39" data-name="Ellipse 39" cx="3.815" cy="3.815" r="3.815"
+                                    transform="translate(1.868 34.59)" />
+                                <circle id="Ellipse_40" data-name="Ellipse 40" cx="3.815" cy="3.815" r="3.815"
+                                    transform="translate(23.067 34.59)" />
                                 <path id="Path_98" data-name="Path 98"
                                     d="M382.4,324.528a9.522,9.522,0,0,1,1.507,5.153v3.831h5.811a.958.958,0,0,0,.958-.958v-2.873A5.746,5.746,0,0,0,382.4,324.528Z"
                                     transform="translate(-357.978 -281.713)" />
@@ -61,8 +62,8 @@
                                 <path id="Path_101" data-name="Path 101"
                                     d="M197.76,28.467a.958.958,0,0,0,1.355,0l3.831-3.831a.958.958,0,0,0-1.355-1.355l-3.154,3.154-1.3-1.3a.958.958,0,0,0-1.355,1.355Z"
                                     transform="translate(-183.016)" />
-                                <circle id="Ellipse_41" data-name="Ellipse 41" cx="4.723" cy="4.723"
-                                    r="4.723" transform="translate(11.624 30.794)" />
+                                <circle id="Ellipse_41" data-name="Ellipse 41" cx="4.723" cy="4.723" r="4.723"
+                                    transform="translate(11.624 30.794)" />
                             </g>
                         </svg>
                     </div>
@@ -73,7 +74,8 @@
                 </div>
             </div>
             <div class="interview-slide-wrap">
-                <div class="interview-box filter-select {{isset($int_pipeline) && $int_pipeline == 'Medical' ? 'interview-active' : ''}}" data-val="Medical">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Medical' ? 'interview-active' : '' }}"
+                    data-val="Medical">
                     <div class="interview-box-img">
                         <svg xmlns="http://www.w3.org/2000/svg" width="36.847" height="36.288"
                             viewBox="0 0 36.847 36.288">
@@ -103,7 +105,8 @@
                 </div>
             </div>
             <div class="interview-slide-wrap">
-                <div class="interview-box filter-select {{isset($int_pipeline) && $int_pipeline == 'Document' ? 'interview-active' : ''}}"  data-val="Document">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Document' ? 'interview-active' : '' }}"
+                    data-val="Document">
                     <div class="interview-box-img">
                         <svg xmlns="http://www.w3.org/2000/svg" width="23.83" height="31.285"
                             viewBox="0 0 23.83 31.285">
@@ -124,7 +127,8 @@
                 </div>
             </div>
             <div class="interview-slide-wrap">
-                <div class="interview-box filter-select {{isset($int_pipeline) && $int_pipeline == 'Collection' ? 'interview-active' : ''}}" data-val="Collection">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Collection' ? 'interview-active' : '' }}"
+                    data-val="Collection">
                     <div class="interview-box-img">
                         <svg xmlns="http://www.w3.org/2000/svg" width="31.309" height="31.285"
                             viewBox="0 0 31.309 31.285">
@@ -157,7 +161,8 @@
                 </div>
             </div>
             <div class="interview-slide-wrap">
-                <div class="interview-box filter-select {{isset($int_pipeline) && $int_pipeline == 'Deployment' ? 'interview-active' : ''}}" data-val="Deployment">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Deployment' ? 'interview-active' : '' }}"
+                    data-val="Deployment">
                     <div class="interview-box-img">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22.98" height="28"
                             viewBox="0 0 22.98 28">
@@ -165,8 +170,8 @@
                                 <path id="Path_111" data-name="Path 111"
                                     d="M4.554,23.764a1,1,0,0,0,.163.946A14.36,14.36,0,0,0,15.99,30a14.36,14.36,0,0,0,11.273-5.29,1,1,0,0,0,.163-.946A11.955,11.955,0,0,0,15.99,16,11.955,11.955,0,0,0,4.554,23.764Z"
                                     fill-rule="evenodd" />
-                                <circle id="Ellipse_42" data-name="Ellipse 42" cx="6" cy="6"
-                                    r="6" transform="translate(9.99 2)" />
+                                <circle id="Ellipse_42" data-name="Ellipse 42" cx="6" cy="6" r="6"
+                                    transform="translate(9.99 2)" />
                             </g>
                         </svg>
                     </div>
@@ -227,15 +232,21 @@
                         Status</a>
                     </li> --}}
                     <li><a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#smsModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19.091" height="19.088" viewBox="0 0 19.091 19.088">
-                            <path id="Path_359" data-name="Path 359" d="M15.655,4.157a2.53,2.53,0,1,1,2.53,2.53,2.53,2.53,0,0,1-2.53-2.53Zm4.37,4.735V13.32a4.591,4.591,0,0,1-4.591,4.591H14.045a.92.92,0,0,0-.735.366L11.929,20.11a1.311,1.311,0,0,1-2.208,0l-1.38-1.831a1.023,1.023,0,0,0-.736-.368H6.225a4.6,4.6,0,0,1-4.6-4.6V6.917a4.6,4.6,0,0,1,4.6-4.6h7.226a.917.917,0,0,1,.895,1.1,4.01,4.01,0,0,0,.026,1.617,3.885,3.885,0,0,0,2.934,2.934A4.01,4.01,0,0,0,18.923,8a.917.917,0,0,1,1.1.895ZM8.065,10.6a.92.92,0,1,0-.92.92A.92.92,0,0,0,8.065,10.6Zm3.68,0a.92.92,0,1,0-.92.92A.92.92,0,0,0,11.745,10.6Zm3.68,0a.92.92,0,1,0-.92.92A.92.92,0,0,0,15.425,10.6Z" transform="translate(-1.625 -1.627)"/>
-                          </svg>
-                         SMS</a></li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19.091" height="19.088"
+                                viewBox="0 0 19.091 19.088">
+                                <path id="Path_359" data-name="Path 359"
+                                    d="M15.655,4.157a2.53,2.53,0,1,1,2.53,2.53,2.53,2.53,0,0,1-2.53-2.53Zm4.37,4.735V13.32a4.591,4.591,0,0,1-4.591,4.591H14.045a.92.92,0,0,0-.735.366L11.929,20.11a1.311,1.311,0,0,1-2.208,0l-1.38-1.831a1.023,1.023,0,0,0-.736-.368H6.225a4.6,4.6,0,0,1-4.6-4.6V6.917a4.6,4.6,0,0,1,4.6-4.6h7.226a.917.917,0,0,1,.895,1.1,4.01,4.01,0,0,0,.026,1.617,3.885,3.885,0,0,0,2.934,2.934A4.01,4.01,0,0,0,18.923,8a.917.917,0,0,1,1.1.895ZM8.065,10.6a.92.92,0,1,0-.92.92A.92.92,0,0,0,8.065,10.6Zm3.68,0a.92.92,0,1,0-.92.92A.92.92,0,0,0,11.745,10.6Zm3.68,0a.92.92,0,1,0-.92.92A.92.92,0,0,0,15.425,10.6Z"
+                                    transform="translate(-1.625 -1.627)" />
+                            </svg>
+                            SMS</a></li>
                     <li><a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#whatsappModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="19.088" height="19.088" viewBox="0 0 19.088 19.088">
-                            <path id="_x30_8.Whatsapp" d="M19.544,10a9.552,9.552,0,0,0-7.73,15.151L10.5,28.61l3.794-1.1a9.442,9.442,0,0,0,5.249,1.575,9.544,9.544,0,0,0,0-19.088Zm5.082,13.5-1.026,1c-1.074,1.074-3.913-.1-6.418-2.625-2.505-2.505-3.627-5.345-2.625-6.394l1.026-1.026a1.038,1.038,0,0,1,1.432,0l1.5,1.5a.994.994,0,0,1-.382,1.646.966.966,0,0,0-.644,1.169,4.582,4.582,0,0,0,2.792,2.768,1,1,0,0,0,1.169-.644.994.994,0,0,1,1.646-.382l1.5,1.5A1.125,1.125,0,0,1,24.626,23.5Z" transform="translate(-10 -10)"/>
-                          </svg>
-                        WhatsApp</a></li>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19.088" height="19.088"
+                                viewBox="0 0 19.088 19.088">
+                                <path id="_x30_8.Whatsapp"
+                                    d="M19.544,10a9.552,9.552,0,0,0-7.73,15.151L10.5,28.61l3.794-1.1a9.442,9.442,0,0,0,5.249,1.575,9.544,9.544,0,0,0,0-19.088Zm5.082,13.5-1.026,1c-1.074,1.074-3.913-.1-6.418-2.625-2.505-2.505-3.627-5.345-2.625-6.394l1.026-1.026a1.038,1.038,0,0,1,1.432,0l1.5,1.5a.994.994,0,0,1-.382,1.646.966.966,0,0,0-.644,1.169,4.582,4.582,0,0,0,2.792,2.768,1,1,0,0,0,1.169-.644.994.994,0,0,1,1.646-.382l1.5,1.5A1.125,1.125,0,0,1,24.626,23.5Z"
+                                    transform="translate(-10 -10)" />
+                            </svg>
+                            WhatsApp</a></li>
                     {{-- <li><a href="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20.072" height="20.072" viewBox="0 0 20.072 20.072">
                             <path id="envelope-download" d="M12.332,5.256a.836.836,0,0,1,1.183.013l1.539,1.573V.836a.836.836,0,1,1,1.673,0V6.842l1.539-1.573a.837.837,0,0,1,1.2,1.171l-2.1,2.149A2.072,2.072,0,0,1,15.9,9.2a.033.033,0,0,1-.016,0,2.054,2.054,0,0,1-1.455-.6L12.319,6.44a.836.836,0,0,1,.013-1.183Zm-2.3,7.642a2.509,2.509,0,0,0,1.775-.733l1.958-1.958a3.758,3.758,0,0,1-.523-.43L11.123,7.611a2.509,2.509,0,0,1,.038-3.548c.4-.388,1.209-1.1,1.735-1.554H4.182A4.17,4.17,0,0,0,.622,4.525l7.639,7.64a2.509,2.509,0,0,0,1.775.733Zm8.518-3.14a3.636,3.636,0,0,1-3.048,1.076l-2.513,2.513a4.188,4.188,0,0,1-5.915,0L.038,6.308C.027,6.44,0,6.559,0,6.691v9.2a4.187,4.187,0,0,0,4.182,4.182H15.89a4.187,4.187,0,0,0,4.182-4.182V8.206Z"/>
@@ -246,13 +257,21 @@
         </div>
 
         <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
-            <div class="action_btn">
-                <div class="dropdown">
-                    <a class="btn reset-btn" href="{{ route('jobs.index') }}"><i
-                            class="fas fa-redo-alt"></i>
-                        Reset</a>
+            <div class="d-flex">
+                <a class="dropdown-item me-2" href="javascript:void(0);" data-bs-toggle="modal"
+                    data-bs-target="#importJobModel" data-bs-whatever="@fat"> <button type="submit"
+                        class="btn advance_search_btn " style="border-right: none;"> <i
+                            class="fas fa-file-excel"></i> Import CSV</button> </a>
+                <div class="action_btn ">
+                    <div class="dropdown">
+                        <a class="btn reset-btn" href="{{ route('jobs.index') }}"
+                            style="min-width: 135px; padding: 11px;"><i class="fas fa-redo-alt"></i>
+                            Reset</a>
+                    </div>
                 </div>
+
             </div>
+
         </div>
 
 
@@ -263,8 +282,7 @@
                         <tr>
                             <th>
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox"
-                                        class="custom-control-input js-check-selected-row checkAll"
+                                    <input type="checkbox" class="custom-control-input js-check-selected-row checkAll"
                                         name="checkAll">
                                 </div>
                             </th>
@@ -307,50 +325,83 @@
 
     </div>
 </div>
+{{-- Import Model  --}}
+<div class="modal fade" id="importJobModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('jobs.import') }}" method="POST" id="candidate-job-form-import"
+                enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        {{-- <label for="recipient-name" class="col-form-label">Excel:</label> --}}
 
+                        <div class="row mb-3">
+                            <div class="col-md-12 mb-6">
+                                <label class="form-label">Download job CSV file</label>
+                                <a href="{{ route('jobs.download.sample') }}"
+                                    class="btn btn-sm btn-primary rounded">
+                                    <i class="ti ti-download"></i> Download
+                                </a>
+                            </div>
+                        </div>
+
+                        <input type="file" class="form-control" id="file" name="file"
+                            style="height: auto">
+                        <span class="text-danger" id="file-err"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                    <button type="submit" class="btn btn-primary">Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
     $(".interview-slide").slick({
-  slidesToShow: 6,
-  slidesToScroll: 1,
-  arrows: false,
-  dots: false,
-  speed: 300,
-  centerPadding: "20px",
-  infinite: true,
-  autoplaySpeed: 5000,
-  autoplay: false,
-  prevArrow:
-    '<div class="slick-nav prev-arrow"><i class="fa-solid fa-angle-left"></i></div>',
-  nextArrow:
-    '<div class="slick-nav next-arrow"><i class="fa-solid fa-angle-right"></i></div>',
-  responsive: [
-    {
-      breakpoint: 1025,
-      settings: {
-        slidesToShow: 4,
+        slidesToShow: 6,
         slidesToScroll: 1,
-        infinite: true,
+        arrows: false,
         dots: false,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 480,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-      },
-    },
-    // You can unslick at a given breakpoint now by adding:
-    // settings: "unslick"
-    // instead of a settings object
-  ],
-});
-
+        speed: 300,
+        centerPadding: "20px",
+        infinite: true,
+        autoplaySpeed: 5000,
+        autoplay: false,
+        prevArrow: '<div class="slick-nav prev-arrow"><i class="fa-solid fa-angle-left"></i></div>',
+        nextArrow: '<div class="slick-nav next-arrow"><i class="fa-solid fa-angle-right"></i></div>',
+        responsive: [{
+                breakpoint: 1025,
+                settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    infinite: true,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                },
+            },
+            // You can unslick at a given breakpoint now by adding:
+            // settings: "unslick"
+            // instead of a settings object
+        ],
+    });
 </script>

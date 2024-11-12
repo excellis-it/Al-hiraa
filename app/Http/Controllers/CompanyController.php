@@ -99,7 +99,7 @@ class CompanyController extends Controller
         if ($request->hasFile('document')) {
             if ($job->document) {
                 $currentImageFilename = $job->document; // get current image name
-                Storage::delete('app/'.$currentImageFilename);
+                Storage::delete('app/' . $currentImageFilename);
             }
             $job->document = $this->imageUpload($request->file('document'), 'job');
         }
@@ -315,7 +315,7 @@ class CompanyController extends Controller
         if ($request->hasFile('document')) {
             if ($job->document) {
                 $currentImageFilename = $job->document; // get current image name
-                Storage::delete('app/'.$currentImageFilename);
+                Storage::delete('app/' . $currentImageFilename);
             }
             $job->document = $this->imageUpload($request->file('document'), 'job');
         }
@@ -396,6 +396,7 @@ class CompanyController extends Controller
         $pathToFile = public_path('sample_excel/job-and-interview.xlsx');
         return response()->download($pathToFile);
     }
+    
     public function import(Request $request)
     {
         //dd($request->all());
@@ -407,5 +408,4 @@ class CompanyController extends Controller
         session()->flash('message', 'Job imported successfully');
         return redirect()->back()->with('message', 'Job imported successfully');
     }
-
 }

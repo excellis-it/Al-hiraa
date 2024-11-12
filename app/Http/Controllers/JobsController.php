@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CallCandidateEndEvent;
+use App\Imports\CandidateJobImport;
 use App\Jobs\SendJobSms;
 use App\Jobs\SendJobWhatsapp;
 use App\Models\AssignJob;
@@ -649,5 +650,21 @@ class JobsController extends Controller
 
         session()->flash('message', 'Messages are being sent.');
         return response()->json(['status' => 'Messages are being sent.']);
+    }
+
+    public function downloadSample()
+    {
+        $path = public_path('sample_excel/jobs-example.xlsx');
+        return response()->download($path);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx',
+        ]);
+        Excel::import(new CandidateJobImport(), $request->file('file')->store('temp'));
+        session()->flash('message', 'Job imported successfully');
+        return redirect()->back()->with('message', 'Job imported successfully');
     }
 }

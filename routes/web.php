@@ -222,6 +222,10 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::post('/send-job-sms', [JobsController::class, 'sendJobSms'])->name('jobs.send-job-sms');
     Route::post('/send-job-whatsapp', [JobsController::class, 'sendJobWhatsapp'])->name('jobs.send-job-whatsapp');
 
+    // jobs.download.sample
+    Route::get('/jobs-download-sample', [JobsController::class, 'downloadSample'])->name('jobs.download.sample');
+    Route::post('/jobs-import', [JobsController::class, 'import'])->name('jobs.import');
+
     //referral cms routes
     Route::get('/referral-cms', [ReferCmsController::class, 'referCmsView'])->name('referral-cms.edit');
     Route::post('/jobs-details-update', [ReferCmsController::class, 'referCmsUpdate'])->name('referral-cms.update');
