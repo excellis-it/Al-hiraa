@@ -38,7 +38,7 @@
                 <td>Food Allowance</td>
                 <td>{{ $candidate_job_detail->food_allowance ?? '' }}</td>
                 <td>Contract Duration</td>
-                <td colspan="3">{{ $candidate_job_detail->contract_duration ?? '' }}</td>
+                <td colspan="3">{{ $candidate_job_detail->contract_duration ? $candidate_job_detail->contract_duration . ' years' : 'N/A' }}</td>
 
             </tr>
 

@@ -9,11 +9,13 @@ class CompanyNameJobExists implements Rule
 {
     protected $companyName;
     protected $jobTitle;
+    protected $companyLocation;
 
-    public function __construct($companyName, $jobTitle)
+    public function __construct($companyName, $jobTitle , $companyLocation)
     {
         $this->companyName = $companyName;
         $this->jobTitle = $jobTitle;
+        $this->companyLocation = $companyLocation;
     }
 
     public function passes($attribute, $value)
@@ -21,6 +23,7 @@ class CompanyNameJobExists implements Rule
         return DB::table('jobs')
             ->join('companies', 'jobs.company_id', '=', 'companies.id')
             ->where('companies.company_name', $this->companyName)
+            ->where('companies.company_address', $this->companyLocation)
             ->where('jobs.job_name', $this->jobTitle)
             ->exists();
     }

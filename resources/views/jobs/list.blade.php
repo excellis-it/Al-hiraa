@@ -513,10 +513,11 @@
             processData: false,
             contentType: false,
             success: function(response) {
-                //windows load with toastr message
-                window.location.reload();
+                toastr.success('Candidates imported successfully');
+                setTimeout(function() {
+                    window.location.reload();
+                }, 1000);
 
-                toastr.success('Job imported successfully');
             },
             error: function(xhr) {
                 // Handle errors (e.g., display validation errors)
@@ -529,8 +530,11 @@
                 $.each(errors, function(key, value) {
                     // console.log(key);
                     // Assuming you have a div with class "text-danger" next to each input
-                    $('[name="file"]').next('.text-danger').html(value[
-                        0]);
+                    // $('[name="file"]').next('.text-danger').html(value[
+                    //     0]);
+
+                    // append all error messages
+                    $('[name="file"]').siblings('.text-danger').append('<p>' + value + '</p>');
                 });
             }
         });

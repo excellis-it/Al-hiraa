@@ -57,14 +57,14 @@
                 <td>Job Title</td>
                 <td>
                     @if ($candidate_job_detail->jobTitle != null)
-                        {{ $candidate_job_detail->jobTitle->job_name }}
+                        {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A' }}
                     @else
                         {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
                     @endif
                 </td>
                 <td>Job Position</td>
                 <td>
-                    @if ($candidate_job_detail->jobTitle->candidatePosition != null)
+                    @if (isset($candidate_job_detail->jobTitle->candidatePosition))
                         {{ $candidate_job_detail->jobTitle->candidatePosition->name ?? 'N/A' }}
                     @else
                         {{ $candidate_job_detail->jobTitle ?? 'N/A' }}

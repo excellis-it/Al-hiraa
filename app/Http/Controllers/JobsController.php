@@ -84,6 +84,7 @@ class JobsController extends Controller
     {
         $users = User::where('is_active', 1)->get();
         $candidate_job_detail = CandidateJob::findOrFail($id);
+        // dd($candidate_job_detail);
         $candidate = Candidate::findOrFail($candidate_job_detail->candidate_id);
         $jobs = Job::where('status', 'Ongoing')->get();
         $indian_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
@@ -318,9 +319,7 @@ class JobsController extends Controller
         $candidate_job_update->english_speak = $request->english_speak;
         $candidate_job_update->arabic_speak = $request->arabic_speak;
         $candidate_job_update->job_id = $request->job_title;
-        $candidate_job_update->job_position = $request->job_position;
         $candidate_job_update->job_location = $request->job_location;
-        $candidate_job_update->company_id = $company_id;
         $candidate_job_update->job_interview_status = $request->interview_status;
         $candidate_job_update->update();
 
@@ -371,6 +370,7 @@ class JobsController extends Controller
             'date_of_interview' => 'required|date',
             'date_of_selection' => 'nullable|date',
             'salary' => 'required|numeric',
+            'contract_duration' => 'nullable|numeric',
         ], [
             'salary.required' => 'The salary field is required.',
             'date_of_interview.required' => 'The date of interview is required.',

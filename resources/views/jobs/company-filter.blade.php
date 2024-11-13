@@ -333,36 +333,51 @@
                 <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('jobs.import') }}" method="POST" id="candidate-job-form-import"
-                enctype="multipart/form-data">
+            <form action="{{ route('jobs.import') }}" method="POST" id="candidate-job-form-import" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
-                        {{-- <label for="recipient-name" class="col-form-label">Excel:</label> --}}
-
                         <div class="row mb-3">
                             <div class="col-md-12 mb-6">
                                 <label class="form-label">Download job CSV file</label>
-                                <a href="{{ route('jobs.download.sample') }}"
-                                    class="btn btn-sm btn-primary rounded">
+                                <a href="{{ route('jobs.download.sample') }}" class="btn btn-sm btn-primary rounded">
                                     <i class="ti ti-download"></i> Download
                                 </a>
                             </div>
                         </div>
 
-                        <input type="file" class="form-control" id="file" name="file"
-                            style="height: auto">
+                        <input type="file" class="form-control" id="file" name="file" style="height: auto">
                         <span class="text-danger" id="file-err"></span>
                     </div>
+
+                    <!-- Validation notes for users -->
+                    <div class="mt-3">
+                        <h6>Validation Notes:</h6>
+                        <ul>
+                            <li><strong>Contact Number:</strong> Must exist in the system and be numeric.</li>
+                            <li><strong>Company Name & Location:</strong> Ensure that the company name and location match existing records.</li>
+                            <li><strong>Job Title:</strong> Must exist for the selected company and location.</li>
+                            <li><strong>Interview Dates:</strong> Ensure that the interview start and end dates are valid and that the end date is after or equal to the start date.</li>
+                            <li><strong>Selection Date:</strong> Must be a date after or equal to the date of interview.</li>
+                            <li><strong>Salary:</strong> Must be numeric.</li>
+                            <li><strong>Medical Dates:</strong> Medical dates (application, approval, etc.) must match specific conditions, e.g., they must be provided together or with other relevant fields.</li>
+                            <li><strong>Installments:</strong> Ensure installment amounts are numeric and that dates are valid.</li>
+                            <li><strong>Mode of Selection:</strong> Must be one of the following: FULL TIME, PART TIME, CONTRACT.</li>
+                            <li><strong>Job Interview Status:</strong> Must be one of the following: SELECTED, INTERESTED, NOT-INTERESTED.</li>
+                            {{-- date format --}}
+                            <li><strong>Date Format:</strong> Date format must be in the following format: dd-mm-yyyy.</li>
+                        </ul>
+                    </div>
                 </div>
+
                 <div class="modal-footer">
-                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
                     <button type="submit" class="btn btn-primary">Import</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
 <script>
     $(".interview-slide").slick({
         slidesToShow: 6,
