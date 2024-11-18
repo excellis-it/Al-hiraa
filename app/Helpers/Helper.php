@@ -124,14 +124,20 @@ class Helper
         } elseif ($type == 'Deployment') {
             $count = $query->whereNotNull('deployment_date')->count();
         } elseif ($type == 'Total Collection') {
-            $count = $query->sum('fst_installment_amount') +
-                $query->sum('secnd_installment_amount') +
-                $query->sum('third_installment_amount') +
-                $query->sum('fourth_installment_amount');
+
+            // $count = $query->sum('fst_installment_amount') +
+            //     $query->sum('secnd_installment_amount') +
+            //     $query->sum('third_installment_amount') +
+            //     $query->sum('fourth_installment_amount');
+            $jobs = $query->where('medical_status', 'FIT')->get();
+            $count = $jobs->sum('fst_installment_amount') +
+                $jobs->sum('secnd_installment_amount') +
+                $jobs->sum('third_installment_amount') +
+                $jobs->sum('fourth_installment_amount');
         } elseif ($type == 'Vendor Service Charge') {
-            $count = $query->sum('vendor_service_charge');
+            $count = $query->where('medical_status', 'FIT')->sum('vendor_service_charge');
         } elseif ($type == 'Pending Collection') {
-            $jobs = $query->get();
+            $jobs = $query->where('medical_status', 'FIT')->get();
             $total_service_charge = $jobs->sum(function ($job) {
                 return $job->jobTitle ? $job->jobTitle->service_charge : 0;
             });
@@ -143,7 +149,7 @@ class Helper
 
             $count = $total_service_charge - ($fst_installment_amount + $secnd_installment_amount + $third_installment_amount + $fourth_installment_amount);
         } elseif ($type == 'Total Service Charge') {
-            $jobs = $query->get();
+            $jobs = $query->where('medical_status', 'FIT')->get();
             $count = $jobs->sum(function ($job) {
                 return $job->jobTitle ? $job->jobTitle->service_charge : 0;
             });
