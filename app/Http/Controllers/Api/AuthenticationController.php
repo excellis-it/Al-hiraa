@@ -106,6 +106,11 @@ class AuthenticationController extends Controller
             }
 
             $candidate = Candidate::find($request->user_id);
+
+            if ($candidate->login_status == 0) {
+                return response()->json(['message' => 'Your account is not active. Please contact admin.', 'status' => false], 201);
+            }
+
             if ($candidate) {
                 $candidateOtp->update(['expire_at' => $now]);
                 $token = $candidate->createToken('accessToken')->accessToken;

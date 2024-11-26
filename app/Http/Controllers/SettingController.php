@@ -756,4 +756,20 @@ class SettingController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+    public function page(Request $request, $slug = null)
+    {
+        $url = url()->current();
+        $slug = explode('/', $url);
+        $slug = end($slug);
+        
+        $page = Cms::where(function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        })->first();
+        if (!$page) {
+            abort(404);
+        }
+
+        return view('welcome')->with(compact('page'));
+    }
 }

@@ -1138,8 +1138,8 @@ class ProfileController extends Controller
     {
         try {
             $candidate_id = Auth::user()->id;
-            $candidate = Candidate::find($candidate_id);
-            $candidate->delete();
+            $candidate = Candidate::findOrFail($candidate_id);
+            $candidate->update(['login_status' => 0]);
             return response()->json(['message' => 'Candidate deleted successfully.', 'status' => true], $this->successStatus);
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage(), 'status' => false], 401);

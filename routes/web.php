@@ -13,6 +13,7 @@ use App\Http\Controllers\ReferralPointController;
 use App\Http\Controllers\ReferCmsController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\PDFController;
+use App\Models\Cms;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -230,3 +231,7 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::get('/referral-cms', [ReferCmsController::class, 'referCmsView'])->name('referral-cms.edit');
     Route::post('/jobs-details-update', [ReferCmsController::class, 'referCmsUpdate'])->name('referral-cms.update');
 });
+
+
+Route::get('/terms-and-conditions', [SettingController::class, 'page']);
+Route::get('/privacy-policy', [SettingController::class, 'page']);
