@@ -55,6 +55,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('list', [FeedController::class, 'feedList']);
             Route::post('like', [FeedController::class, 'feedLike']);
             Route::post('detail', [FeedController::class, 'feedDetail']);
+            Route::get('/{encryptedId}', [FeedController::class, 'singleFeed']); // Single feed details
         });
 
         Route::prefix('settings')->group(function () {

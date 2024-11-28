@@ -9,7 +9,7 @@ use App\Models\FeedFile;
 use App\Models\FeedLike;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Crypt;
 /**
  * @group Feed
  */
@@ -41,9 +41,12 @@ class FeedController extends Controller
                 ->get();
 
             $feeds->each(function ($feed) {
-                $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::user()->id)->exists();
-            });
+                $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::id())->exists();
 
+                // Add encrypted deep link to each feed
+                $encryptedId = Crypt::encryptString($feed->id);
+                $feed->deep_link = url('/api/v1/feeds/' . $encryptedId);
+            });
 
             return response()->json([
                 'message' => 'Feed listed successfully.',
@@ -57,6 +60,42 @@ class FeedController extends Controller
             ]);
         }
     }
+
+    /**
+     *  Single feed list
+     */
+
+    public function singleFeed($encryptedId)
+    {
+        try {
+            // Decrypt the encrypted feed ID
+            $feedId = Crypt::decryptString($encryptedId);
+
+            // Fetch the feed
+            $feed = Feed::with([
+                'feedFiles:id,feed_id,file_name',
+                'author:id,first_name,last_name,profile_picture'
+            ])
+                ->withCount('feedLikes')
+                ->findOrFail($feedId);
+
+            // Check if the feed is liked
+            $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::id())->exists();
+
+            return response()->json([
+                'message' => 'Feed retrieved successfully.',
+                'status' => true,
+                'data' => $feed
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
+
 
     /**
      * Feed Like
@@ -79,16 +118,16 @@ class FeedController extends Controller
             'is_like' => 'required|boolean',
         ]);
 
-        try{
+        try {
             $feedId = $request->feed_id;
             $isLike = $request->is_like;
 
             $feedLike = FeedLike::where('feed_id', $feedId)->where('member_id', Auth::user()->id)->first();
 
-            if($feedLike){
+            if ($feedLike) {
                 $feedLike->is_like = $isLike;
                 $feedLike->save();
-            }else{
+            } else {
                 $feedLike = new FeedLike();
                 $feedLike->feed_id = $feedId;
                 $feedLike->member_id = Auth::user()->id;
@@ -96,9 +135,8 @@ class FeedController extends Controller
                 $feedLike->save();
             }
 
-            return response()->json(['message' => 'Feed changed successfully.','status' => true, 'is_liked' => $feedLike->is_like ], 200);
-
-        }catch(\Exception $e){
+            return response()->json(['message' => 'Feed changed successfully.', 'status' => true, 'is_liked' => $feedLike->is_like], 200);
+        } catch (\Exception $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
     }
@@ -126,11 +164,11 @@ class FeedController extends Controller
             return response()->json(['status' => false, 'message' => $validator->errors()->first()], 201);
         }
 
-        try{
+        try {
             $feed = Feed::where('id', $request->feed_id)
                 ->with([
                     'feedFiles:id,feed_id,file_name',
-                     'author:id,first_name,last_name,profile_picture'
+                    'author:id,first_name,last_name,profile_picture'
                 ])
 
                 ->withCount('feedLikes')
@@ -139,8 +177,7 @@ class FeedController extends Controller
             $feed->is_liked = $feed->feedLikes()->where('is_like', true)->exists();
 
             return response()->json(['message' => 'Feed detail fetched successfully.', 'status' => true, 'data' => $feed], 200);
-
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
     }
