@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+
 Route::group(['prefix' => 'v1'], function () {
     Route::post('request-otp', [AuthenticationController::class, 'requestOtp']);
     Route::post('login', [AuthenticationController::class, 'login']);
@@ -41,7 +42,6 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('apply', [CandidateJobController::class, 'candidateJobApply']);
             Route::post('detail', [CandidateJobController::class, 'candidateJobDetail']);
             Route::post('list', [CandidateJobController::class, 'candidateJobList']);
-
         });
 
         Route::prefix('profile')->group(function () {
@@ -55,7 +55,6 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('list', [FeedController::class, 'feedList']);
             Route::post('like', [FeedController::class, 'feedLike']);
             Route::post('detail', [FeedController::class, 'feedDetail']);
-            Route::get('/{encryptedId}', [FeedController::class, 'singleFeed']); // Single feed details
         });
 
         Route::prefix('settings')->group(function () {
@@ -63,9 +62,9 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('additional-page', [SettingController::class, 'additionalPage']);
         });
 
-        Route::prefix('referral')->group(function (){
+        Route::prefix('referral')->group(function () {
             Route::post('view', [ReferController::class, 'view']);
-            Route::post('submit',[ReferController::class, 'submit']);
+            Route::post('submit', [ReferController::class, 'submit']);
             Route::post('total-point', [ReferController::class, 'totalPoint']);
         });
     });
