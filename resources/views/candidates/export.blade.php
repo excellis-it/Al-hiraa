@@ -41,56 +41,56 @@
         </tr>
     </thead>
     <tbody class="list" id="candidate_body">
-        @foreach ($candidates as $item)
+        @foreach ($candidates as $candidate)
             <tr>
-                <td>{{ date('d.m.Y', strtotime($item->created_at)) ?? 'N/A' }}</td>
+                <td>{{ date('d.m.Y', strtotime($candidate['created_at'])) ?? 'N/A' }}</td>
                 <td>
-                    @if ($item->lastCandidateActivity != null)
-                        {{ $item->lastCandidateActivity->remarks ?? 'N/A' }}
+                    @if (!empty($candidate['lastCandidateActivity']))
+                        {{ $candidate['lastCandidateActivity']['remarks'] ?? 'N/A' }}
                     @else
                         {{ 'N/A' }}
                     @endif
                 </td>
-                <td>{{ $item->enter_by == 0 ? 'Mobile' :  $item->enterBy->full_name ?? 'N/A' }}</td>
+                <td>{{ $candidate['enter_by'] == 0 ? 'Mobile' : $candidate['enterBy']['full_name'] ?? 'N/A' }}</td>
                 <td>
                     <div class="round_staus active">
-                        {{ $item->candidateStatus->name ?? 'N/A' }}
+                        {{ $candidate['candidateStatus']['name'] ?? 'N/A' }}
                     </div>
                 </td>
-                <td>{{ $item->mode_of_registration ?? 'N/A' }}</td>
+                <td>{{ $candidate['mode_of_registration'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['source'] ?? 'N/A' }}</td>
+                <td>{{ !empty($candidate['last_update_date']) ? date('d.m.Y', strtotime($candidate['last_update_date'])) : 'N/A' }}
+                </td>
+                <td>{{ $candidate['full_name'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['gender'] ?? 'N/A' }}</td>
+                <td>{{ !empty($candidate['date_of_birth']) ? date('d.m.Y', strtotime($candidate['date_of_birth'])) : 'N/A' }}
+                </td>
+                <td>{{ !empty($candidate['date_of_birth']) ? \Carbon\Carbon::parse($candidate['date_of_birth'])->age : 'N/A' }}
+                </td>
+                <td>{{ $candidate['education'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['contact_no'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['alternate_contact_no'] ?? 'N/A' }}</td>
+                <td>{{ '=' . '"' . $candidate['whatapp_no'] . '"' ?? 'N/A' }}</td>
+                <td>{{ $candidate['email'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['referred_by'] ?? 'N/A' }}</td>
                 <td>
-                    {{ $item->source ?? 'N/A' }}
-                </td>
-                <td>{{ $item->last_update_date != null ? date('d.m.Y', strtotime($item->last_update_date)) : 'N/A' }}
-                </td>
-                <td>{{ $item->full_name ?? 'N/A' }}</td>
-                <td>{{ $item->gender ?? 'N/A' }}</td>
-                <td>{{ $item->date_of_birth != null ? date('d.m.Y', strtotime($item->date_of_birth)) : 'N/A' }}</td>
-                <td>{{ $item->date_of_birth != null ? \Carbon\Carbon::parse($item->date_of_birth)->age : 'N/A' }}</td>
-                <td>{{ $item->education ?? 'N/A' }}</td>
-                <td>{{ $item->contact_no ?? 'N/A' }}
-                </td>
-                <td>{{ $item->alternate_contact_no ?? 'N/A' }}
-                </td>
-                <td>{{ '='.'"'.$item->whatapp_no.'"' ?? 'N/A' }}</td>
-                <td>{{ $item->email ?? 'N/A' }}</td>
-                <td>{{ $item->referred_by ?? 'N/A' }}</td>
-                <td>
-                    @if ($item->associate_id != null)
-                        {{ $item->associatedBy->first_name  ?? 'N/A' }} {{ $item->associatedBy->last_name  ?? 'N/A' }}
+                    @if (!empty($candidate['associate_id']))
+                        {{ $candidate['associatedBy']['first_name'] ?? 'N/A' }}
+                        {{ $candidate['associatedBy']['last_name'] ?? 'N/A' }}
                     @else
                         {{ 'N/A' }}
                     @endif
-                <td>{{ $item->other_education ?? 'N/A' }}</td>
-                <td>{{ $item->state->name ?? 'N/A'}}</td>
-                <td>{{ $item->cityName->name ?? 'N/A' }}</td>
-                <td>{{ $item->religion ?? 'N/A' }}</td>
-                <td>{{ $item->ecr_type ?? 'N/A' }}</td>
+                </td>
+                <td>{{ $candidate['other_education'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['state']['name'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['cityName']['name'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['religion'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['ecr_type'] ?? 'N/A' }}</td>
                 <td>
-                    @if ($item->candidateIndianLicence()->count() > 0)
-                        @foreach ($item->candidateIndianLicence as $key => $value)
+                    @if (isset($candidate['candidateIndianLicence']) && count($candidate['candidateIndianLicence']) > 0)
+                        @foreach ($candidate['candidateIndianLicence'] as $value)
                             <span class="badge bg-primary rounded-pill">
-                                {{ $value->licence_name ?? 'N/A' }}
+                                {{ $value['licence_name'] ?? 'N/A' }}
                             </span>
                         @endforeach
                     @else
@@ -98,34 +98,35 @@
                     @endif
                 </td>
                 <td>
-                    @if ($item->candidateGulfLicence()->count() > 0)
-                        @foreach ($item->candidateGulfLicence as $key => $value)
+                    @if (isset($candidate['candidateGulfLicence']) && count($candidate['candidateGulfLicence']) > 0)
+                        @foreach ($candidate['candidateGulfLicence'] as $value)
                             <span class="badge bg-primary rounded-pill">
-                                {{ $value->licence_name ?? 'N/A' }}
+                                {{ $value['licence_name'] ?? 'N/A' }}
                             </span>
                         @endforeach
                     @else
                         {{ 'N/A' }}
                     @endif
                 </td>
-                <td>{{ $item->english_speak ?? 'N/A' }}</td>
-                <td>{{ $item->arabic_speak ?? 'N/A' }}</td>
-                <td>{{ $item->return == 1 ? 'Yes' : 'No' }}</td>
-                <td>{{ $item->positionAppliedFor1->name ?? 'N/A' }}</td>
-                <td>{{ $item->positionAppliedFor2->name ?? 'N/A' }}</td>
-                <td>{{ $item->positionAppliedFor3->name ?? 'N/A' }}</td>
-                <td>{{ $item->passport_number ?? 'N/A' }}</td>
-                <td>{{ $item->indian_exp ?? 'N/A' }}</td>
-                <td>{{ $item->abroad_exp ?? 'N/A' }}</td>
+                <td>{{ $candidate['english_speak'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['arabic_speak'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['return'] == 1 ? 'Yes' : 'No' }}</td>
+                <td>{{ $candidate['positionAppliedFor1']['name'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['positionAppliedFor2']['name'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['positionAppliedFor3']['name'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['passport_number'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['indian_exp'] ?? 'N/A' }}</td>
+                <td>{{ $candidate['abroad_exp'] ?? 'N/A' }}</td>
                 <td>
-                    @if ($item->lastCandidateActivity != null)
-                        {{ $item->lastCandidateActivity->remarks ?? 'N/A' }}
+                    @if (!empty($candidate['lastCandidateActivity']))
+                        {{ $candidate['lastCandidateActivity']['remarks'] ?? 'N/A' }}
                     @else
                         {{ 'N/A' }}
                     @endif
                 </td>
             </tr>
         @endforeach
+
 
     </tbody>
 </table>

@@ -34,6 +34,7 @@ use Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 
 class CandidateController extends Controller
 {
@@ -902,17 +903,18 @@ class CandidateController extends Controller
     }
 
     public function export(Request $request)
-    {
-        if (Auth::user()->can('Export Candidate')) {
-            try {
-                return Excel::download(new CandidateExport(), 'candidate-export.xlsx');
-            } catch (\Throwable $th) {
-                return redirect()->back()->with('error', $th->getMessage());
-            }
-        } else {
-            return redirect()->back()->with('error', __('Permission denied.'));
+{
+    if (Auth::user()->can('Export Candidate')) {
+        try {
+            return FacadesExcel::download(new CandidateExport(), 'candidate-export.xlsx');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
         }
+    } else {
+        return redirect()->back()->with('error', __('Permission denied.'));
     }
+}
+
 
     public function import(Request $request)
     {

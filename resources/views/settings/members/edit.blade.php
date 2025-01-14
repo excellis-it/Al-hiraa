@@ -75,7 +75,7 @@
                                     <div class="form-group">
                                         <label for="">Designation <span>*</span></label>
                                         <select class="form-select" aria-label="Default select example" name="role_type" id="edit_role_type">
-                                            <option>Select a Designation</option>
+                                            <option value="">Select a Designation</option>
                                             @foreach ($roles as $role)
                                                 <option value="{{ $role->name }}" @if ($role->name == $member->role_type) selected @endif>
                                                     {{ $role->name }}
