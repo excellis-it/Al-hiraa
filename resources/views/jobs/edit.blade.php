@@ -271,7 +271,7 @@
                 </div>
             </form>
 
-            <form action="{{ route('jobs.document-details.update', $candidate_job_detail->id) }}" method="POST"
+            <form action="{{ route('jobs.payment-details.update', $candidate_job_detail->id) }}" method="POST"
                 id="candidate-payment-edit-form">
                 @method('PUT')
                 @csrf
