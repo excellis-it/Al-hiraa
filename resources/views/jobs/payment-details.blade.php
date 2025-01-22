@@ -6,30 +6,44 @@
                 <td>{{ $candidate_job_detail->fst_installment_amount ?? '' }}</td>
                 <td>1st Installment Date</td>
                 <td>{{ $candidate_job_detail->fst_installment_date ?? 'dd-mm-yyyy' }}</td>
-                <td>2nd Installment Amount</td>
-                <td>{{ $candidate_job_detail->secnd_installment_amount ?? '' }}</td>
+                <td>1st Installment Remarks</td>
+                <td>{{ $candidate_job_detail->fst_installment_remarks ?? '' }}</td>
             </tr>
 
             <tr>
+                <td>2nd Installment Amount</td>
+                <td>{{ $candidate_job_detail->secnd_installment_amount ?? '' }}</td>
                 <td>2nd Installment Date</td>
                 <td>{{ $candidate_job_detail->secnd_installment_date ?? 'dd-mm-yyyy' }}</td>
+                <td>2nd Installment Remarks</td>
+                <td>{{ $candidate_job_detail->secnd_installment_remarks ?? '' }}</td>
+            </tr>
+
+            <tr>
                 <td>3rd Installment Amount</td>
                 <td>{{ $candidate_job_detail->third_installment_amount ?? '' }}</td>
                 <td>3rd Installment Date</td>
                 <td>{{ $candidate_job_detail->third_installment_date ?? 'dd-mm-yyyy' }}</td>
+                <td>3rd Installment Remarks</td>
+                <td>{{ $candidate_job_detail->third_installment_remarks ?? '' }}</td>
             </tr>
-
             <tr>
                 <td>4th Installment Amount</td>
                 <td>{{ $candidate_job_detail->fourth_installment_amount ?? '' }}</td>
                 <td>4th Installment Date</td>
                 <td>{{ $candidate_job_detail->fourth_installment_date ?? 'dd-mm-yyyy' }}</td>
-                <td>Total Amount</td>
-                <td>{{ $candidate_job_detail->total_amount ?? 'N/A' }}</td>
+                <td>4th Installment Remarks</td>
+                <td>{{ $candidate_job_detail->fourth_installment_remarks ?? '' }}</td>
             </tr>
             <tr>
-                <td>Deployment Date</td>
-                <td>{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td>
+                <td>Discount Amount</td>
+                <td>{{ $candidate_job_detail->discount ?? 'N/A' }}</td>
+                <td>Total Amount</td>
+                <td>{{ $candidate_job_detail->total_amount ?? 'N/A' }}</td>
+                <td>Due Amount</td>
+                <td>{{ $candidate_job_detail->due_amount ?? 'N/A' }}</td>
+                {{-- <td>Deployment Date</td>
+                <td>{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td> --}}
                 {{-- <td>Job Status</td>
                 <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A' }}</td> --}}
             </tr>
@@ -53,69 +67,97 @@
 
         $('#candidate-form-payment').html(`<tbody class="candidate-form-new">
 
-    <tr>
-        <td>1st Installment Amount*</td>
-        <td>
-            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_amount ?? '' }}" name="fst_installment_amount" placeholder="">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
-        <td>1st Installment Date</td>
-        <td class="date-btn">
-            <input type="text" class="form-control uppercase-text datepicker" id="instl1_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fst_installment_date)->format('d-m-Y') ?? '' }}" name="fst_installment_date" placeholder="dd-mm-yyyy">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
-        <td>2nd Installment Amount</td>
-        <td class="date-btn">
-            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_amount ?? '' }}" name="secnd_installment_amount" placeholder="">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
+            <tr>
+            <td>1st Installment Amount*</td>
+            <td>
+                  <input type="hidden" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->job_service_charge ?? '' }}" name="job_service_charge" placeholder="">
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_amount ?? '' }}" name="fst_installment_amount" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>1st Installment Date</td>
+            <td class="date-btn">
+                <input type="text" class="form-control uppercase-text datepicker" id="instl1_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fst_installment_date)->format('d-m-Y') ?? '' }}" name="fst_installment_date" placeholder="dd-mm-yyyy">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>1st Installment Remarks*</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fst_installment_remarks ?? '' }}" name="fst_installment_remarks" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
 
-    </tr>
-    <tr>
-        <td>2nd Installment Date</td>
-        <td class="date-btn">
-            <input type="text" class="form-control uppercase-text datepicker" id="instl2_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->secnd_installment_date)->format('d-m-Y') ?? '' }}" name="secnd_installment_date" placeholder="dd-mm-yyyy">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
-        <td>3rd Installment Amount</td>
-        <td>
-            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_amount ?? '' }}" name="third_installment_amount" placeholder="">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
-        <td>3rd Installment Date</td>
-        <td class="date-btn">
-            <input type="text" class="form-control uppercase-text datepicker" id="instl3_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') ?? '' }}" name="third_installment_date" placeholder="dd-mm-yyyy">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
+        </tr>
+        <tr>
+            <td>2nd Installment Amount</td>
+            <td class="date-btn">
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_amount ?? '' }}" name="secnd_installment_amount" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>2nd Installment Date</td>
+            <td class="date-btn">
+                <input type="text" class="form-control uppercase-text datepicker" id="instl2_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->secnd_installment_date)->format('d-m-Y') ?? '' }}" name="secnd_installment_date" placeholder="dd-mm-yyyy">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
 
-    </tr>
-    <tr>
-        <td>4th Installment Amount</td>
-        <td>
-            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_amount ?? '' }}" name="fourth_installment_amount" placeholder="">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
-        <td>4th Installment Date</td>
-        <td class="date-btn">
-            <input type="text" class="form-control uppercase-text datepicker" id="instl4_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') ?? '' }}" name="fourth_installment_date" placeholder="dd-mm-yyyy">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
+            <td>2nd Installment Remarks</td>
+            <td class="date-btn">
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->secnd_installment_remarks ?? '' }}" name="secnd_installment_remarks" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>3rd Installment Amount</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_amount ?? '' }}" name="third_installment_amount" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>3rd Installment Date</td>
+            <td class="date-btn">
+                <input type="text" class="form-control uppercase-text datepicker" id="instl3_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->third_installment_date)->format('d-m-Y') ?? '' }}" name="third_installment_date" placeholder="dd-mm-yyyy">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
 
-        <td>Total Amount</td>
-        <td>
-            <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->total_amount ?? '' }}" name="total_amount" placeholder="">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
-    </tr>
-    <tr>
-        <td>Deployment Date</td>
-        <td class="date-btn">
-            <input type="text" class="form-control uppercase-text datepicker" id="deploy-date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') ?? '' }}" name="deployment_date" placeholder="dd-mm-yyyy">
-            <span class="text-danger" id="interview_id_job_msg"></span>
-        </td>
+            <td>3rd Installment Remarks</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->third_installment_remarks ?? '' }}" name="third_installment_remarks" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
 
-    </tr>
+        </tr>
+        <tr>
+            <td>4th Installment Amount</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_amount ?? '' }}" name="fourth_installment_amount" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>4th Installment Date</td>
+            <td class="date-btn">
+                <input type="text" class="form-control uppercase-text datepicker" id="instl4_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->fourth_installment_date)->format('d-m-Y') ?? '' }}" name="fourth_installment_date" placeholder="dd-mm-yyyy">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>4th Installment Remarks</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->fourth_installment_remarks ?? '' }}" name="fourth_installment_remarks" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Discount Amount</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id=""  value="{{ $candidate_job_detail->discount ?? '' }}" name="discount" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>Total Amount</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id="" readonly value="{{ $candidate_job_detail->total_amount ?? '' }}" name="total_amount" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            <td>Due Amount</td>
+            <td>
+                <input type="text" class="form-control uppercase-text" id="" readonly value="{{ $candidate_job_detail->due_amount ?? '' }}" name="due_amount" placeholder="">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
 
+        </tr>
     </tbody>`)
 
         // <td>Job Status</td>
@@ -128,11 +170,7 @@
         //             </select>
         //         </td>
 
-        $('#deploy-date').datepicker({
-            uiLibrary: 'bootstrap5',
-            format: 'dd-mm-yyyy',
-            value: "{{ $candidate_job_detail->deployment_date ? \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') : '' }}"
-        });
+
         $('#instl1_date').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
@@ -165,37 +203,52 @@
         $('#open-payment-input').html(
             ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
         $('#candidate-form-payment').html(`<tbody>
-                        <tr>
-                            <td>1st Installment Amount</td>
-                            <td>{{ $candidate_job_detail->fst_installment_amount ?? '' }}</td>
-                            <td>1st Installment Date</td>
-                            <td>{{ $candidate_job_detail->fst_installment_date ?? 'dd-mm-yyyy' }}</td>
-                            <td>2nd Installment Amount</td>
-                            <td>{{ $candidate_job_detail->secnd_installment_amount ?? '' }}</td>
-                            <td>2nd Installment Date</td>
-                            <td>{{ $candidate_job_detail->secnd_installment_date ?? 'dd-mm-yyyy' }}</td>
-                        </tr>
+                       <tr>
+                <td>1st Installment Amount</td>
+                <td>{{ $candidate_job_detail->fst_installment_amount ?? '' }}</td>
+                <td>1st Installment Date</td>
+                <td>{{ $candidate_job_detail->fst_installment_date ?? 'dd-mm-yyyy' }}</td>
+                <td>1st Installment Remarks</td>
+                <td>{{ $candidate_job_detail->fst_installment_remarks ?? '' }}</td>
+            </tr>
 
-                        <tr>
-                            <td>3rd Installment Amount</td>
-                            <td>{{ $candidate_job_detail->third_installment_amount ?? '' }}</td>
-                            <td>3rd Installment Date</td>
-                            <td>{{ $candidate_job_detail->third_installment_date ?? 'dd-mm-yyyy' }}</td>
-                            <td>4th Installment Amount</td>
-                            <td>{{ $candidate_job_detail->fourth_installment_amount ?? '' }}</td>
-                            <td>4th Installment Date</td>
-                            <td>{{ $candidate_job_detail->fourth_installment_date ?? 'dd-mm-yyyy' }}</td>
-                        </tr>
+            <tr>
+                <td>2nd Installment Amount</td>
+                <td>{{ $candidate_job_detail->secnd_installment_amount ?? '' }}</td>
+                <td>2nd Installment Date</td>
+                <td>{{ $candidate_job_detail->secnd_installment_date ?? 'dd-mm-yyyy' }}</td>
+                <td>2nd Installment Remarks</td>
+                <td>{{ $candidate_job_detail->secnd_installment_remarks ?? '' }}</td>
+            </tr>
 
-                        <tr>
-                            <td>Total Amount</td>
-                            <td>{{ $candidate_job_detail->total_amount ?? 'N/A' }}</td>
-                            <td>Deployment Date</td>
-                            <td>{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td>
-                            <td>Job Status</td>
-                            <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A' }}</td>
-
-                        </tr>
+            <tr>
+                <td>3rd Installment Amount</td>
+                <td>{{ $candidate_job_detail->third_installment_amount ?? '' }}</td>
+                <td>3rd Installment Date</td>
+                <td>{{ $candidate_job_detail->third_installment_date ?? 'dd-mm-yyyy' }}</td>
+                <td>3rd Installment Remarks</td>
+                <td>{{ $candidate_job_detail->third_installment_remarks ?? '' }}</td>
+            </tr>
+            <tr>
+                <td>4th Installment Amount</td>
+                <td>{{ $candidate_job_detail->fourth_installment_amount ?? '' }}</td>
+                <td>4th Installment Date</td>
+                <td>{{ $candidate_job_detail->fourth_installment_date ?? 'dd-mm-yyyy' }}</td>
+                <td>4th Installment Remarks</td>
+                <td>{{ $candidate_job_detail->fourth_installment_remarks ?? '' }}</td>
+            </tr>
+            <tr>
+                <td>Discount Amount</td>
+                <td>{{ $candidate_job_detail->discount ?? 'N/A' }}</td>
+                <td>Total Amount</td>
+                <td>{{ $candidate_job_detail->total_amount ?? 'N/A' }}</td>
+                <td>Due Amount</td>
+                <td>{{ $candidate_job_detail->due_amount ?? 'N/A' }}</td>
+                {{-- <td>Deployment Date</td>
+                <td>{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td> --}}
+                {{-- <td>Job Status</td>
+                <td colspan="3">{{ $candidate_job_detail->job_status ?? 'N/A' }}</td> --}}
+            </tr>
                     </tbody>`);
     });
 </script>

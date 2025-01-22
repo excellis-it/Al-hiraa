@@ -34,21 +34,81 @@ class JobsController extends Controller
     {
 
         if (Auth::user()->can('Manage Job')) {
-
-            if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+            if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
                 $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->where('job_interview_status', '!=', 'Not-Interested')->paginate(15);
+                $candidates  = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
             } else {
 
                 $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('job_interview_status', '!=', 'Not-Interested')->paginate(15);
+                $candidates  = CandidateJob::orderBy('id', 'desc')->get();
             }
 
             $companies = Company::orderBy('company_name', 'asc')->with('jobs')->get();
-            $count['total_interviews'] = CandidateJob::whereIn('job_interview_status', ['Interested', 'Selected'])->count();
-            $count['total_selection'] = CandidateJob::where('job_interview_status', 'Selected')->count();
-            $count['total_medical'] = CandidateJob::where('medical_status', '!=', null)->count();
-            $count['total_doc'] = CandidateJob::where('visa_receiving_date', '!=', null)->count();
-            $count['total_collection'] = CandidateJob::where('total_amount', '!=', null)->count();
-            $count['total_deployment'] =  CandidateJob::where('deployment_date', '!=', null)->count();
+            $count = [
+                'total_interviews' => 0,
+                'total_not_appeared' => 0,
+                'total_selection' => 0,
+                'total_medical' => 0,
+                'total_doc' => 0,
+                'total_collection' => 0,
+                'total_deployment' => 0,
+            ];
+
+
+            foreach ($candidates as $key => $candidate) {
+                if (
+                    is_null($candidate->deployment_date) &&
+                    is_null($candidate->total_amount) &&
+                    is_null($candidate->visa_receiving_date) &&
+                    is_null($candidate->medical_status) &&
+                    ($candidate->job_interview_status != 'Not-Appeared') &&
+                    ($candidate->job_interview_status != 'Not-Interested') &&
+                    ($candidate->job_interview_status === 'Interested')
+                ) {
+                    $count['total_interviews']++;
+                } elseif (
+                    is_null($candidate->deployment_date) &&
+                    is_null($candidate->total_amount) &&
+                    is_null($candidate->visa_receiving_date) &&
+                    is_null($candidate->medical_status) &&
+                    $candidate->job_interview_status === 'Not-Appeared'
+                ) {
+                    $count['total_not_appeared']++;
+                } elseif (
+                    $candidate->job_interview_status === 'Selected' &&
+                    is_null($candidate->deployment_date) &&
+                    is_null($candidate->total_amount) &&
+                    is_null($candidate->visa_receiving_date) &&
+                    is_null($candidate->medical_status)
+                ) {
+                    $count['total_selection']++;
+                } elseif (
+                    !is_null($candidate->medical_status) &&
+                    is_null($candidate->deployment_date) &&
+                    is_null($candidate->total_amount) &&
+                    is_null($candidate->visa_receiving_date)
+                ) {
+                    $count['total_medical']++;
+                } elseif (
+                    !is_null($candidate->visa_receiving_date) &&
+                    is_null($candidate->deployment_date) &&
+                    is_null($candidate->total_amount)
+                ) {
+                    $count['total_doc']++;
+                } elseif (
+                    !is_null($candidate->total_amount) &&
+                    is_null($candidate->deployment_date)
+                ) {
+                    $count['total_collection']++;
+                } elseif (!is_null($candidate->deployment_date)) {
+                    $count['total_deployment']++;
+                }
+            }
+
+            // Output the counts
+            // echo json_encode($count, JSON_PRETTY_PRINT);
+            // dd($data);
+
             return view('jobs.list')->with(compact('candidate_jobs', 'companies', 'count'));
         } else {
 
@@ -202,9 +262,15 @@ class JobsController extends Controller
 
         // Count statistics
         $count = $this->getJobStatistics($job_id, $company, $search);
+        if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
+             // Paginate the results
+             $candidate_jobs = $query->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
+        } else {
+            // Paginate the results
+            $candidate_jobs = $query->orderBy('id', 'desc')->paginate(15);
+        }
 
-        // Paginate the results
-        $candidate_jobs = $query->orderBy('id', 'desc')->paginate(15);
+
 
         // Render the results into a view
         $view = view('jobs.company-filter', compact('candidate_jobs', 'count', 'int_pipeline'))->render();
@@ -220,27 +286,58 @@ class JobsController extends Controller
     {
         switch ($int_pipeline) {
             case 'All':
-                $query->where('job_interview_status', 'Interested')->orWhere('job_interview_status', 'Selected');
+                $query->where(function ($q) {
+                    $q->where('job_interview_status', 'Interested');
+                })
+                    ->whereNull('deployment_date')
+                    ->whereNull('total_amount')
+                    ->whereNull('visa_receiving_date')
+                    ->whereNull('medical_status');
                 break;
+
+            case 'Not-Appeared':
+                $query->where('job_interview_status', 'Not-Appeared')
+                    ->whereNull('deployment_date')
+                    ->whereNull('total_amount')
+                    ->whereNull('visa_receiving_date')
+                    ->whereNull('medical_status');
+                break;
+
             case 'Selection':
-                $query->where('job_interview_status', 'Selected');
+                $query->where('job_interview_status', 'Selected')
+                    ->whereNull('deployment_date')
+                    ->whereNull('total_amount')
+                    ->whereNull('visa_receiving_date')
+                    ->whereNull('medical_status');
                 break;
+
             case 'Medical':
-                $query->whereNotNull('medical_status');
+                $query->whereNotNull('medical_status')
+                    ->whereNull('deployment_date')
+                    ->whereNull('total_amount')
+                    ->whereNull('visa_receiving_date');
                 break;
+
             case 'Document':
-                $query->whereNotNull('visa_receiving_date');
+                $query->whereNotNull('visa_receiving_date')
+                    ->whereNull('deployment_date')
+                    ->whereNull('total_amount');
                 break;
+
             case 'Collection':
-                $query->whereNotNull('total_amount');
+                $query->whereNotNull('total_amount')
+                    ->whereNull('deployment_date');
                 break;
+
             case 'Deployment':
                 $query->whereNotNull('deployment_date');
                 break;
+
             default:
                 break;
         }
     }
+
 
     // Helper function to get job statistics
     private function getJobStatistics($job_id, $company, $search)
@@ -272,17 +369,84 @@ class JobsController extends Controller
         if ($company) {
             $baseQuery->where('company_id', $company)->where('job_interview_status', '!=', 'Not-Interested');
         }
+        if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
+        $candidate_jobs = $baseQuery->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
+        } else {
+            $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
+        }
 
-        $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
+        // return [
+        //     'total_interviews' => $candidate_jobs->whereIn('job_interview_status', ['Interested', 'Selected'])->count(),
+        //     'total_selection' => $candidate_jobs->where('job_interview_status', 'Selected')->count(),
+        //     'total_medical' => $candidate_jobs->whereNotNull('medical_status')->count(),
+        //     'total_doc' => $candidate_jobs->whereNotNull('visa_receiving_date')->count(),
+        //     'total_collection' => $candidate_jobs->whereNotNull('total_amount')->count(),
+        //     'total_deployment' => $candidate_jobs->whereNotNull('deployment_date')->count(),
+        //     'total_not_appeared' => $candidate_jobs->whereIn('job_interview_status', ['Not-Appeared'])->count(),
+        // ];
 
-        return [
-            'total_interviews' => $candidate_jobs->whereIn('job_interview_status', ['Interested', 'Selected'])->count(),
-            'total_selection' => $candidate_jobs->where('job_interview_status', 'Selected')->count(),
-            'total_medical' => $candidate_jobs->whereNotNull('medical_status')->count(),
-            'total_doc' => $candidate_jobs->whereNotNull('visa_receiving_date')->count(),
-            'total_collection' => $candidate_jobs->whereNotNull('total_amount')->count(),
-            'total_deployment' => $candidate_jobs->whereNotNull('deployment_date')->count()
+        $count = [
+            'total_interviews' => 0,
+            'total_not_appeared' => 0,
+            'total_selection' => 0,
+            'total_medical' => 0,
+            'total_doc' => 0,
+            'total_collection' => 0,
+            'total_deployment' => 0,
         ];
+
+
+        foreach ($candidate_jobs as $key => $candidate) {
+            if (
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->medical_status) &&
+                ($candidate->job_interview_status != 'Not-Appeared') &&
+                ($candidate->job_interview_status != 'Not-Interested') &&
+                ($candidate->job_interview_status === 'Interested')
+            ) {
+                $count['total_interviews']++;
+            } elseif (
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->medical_status) &&
+                $candidate->job_interview_status === 'Not-Appeared'
+            ) {
+                $count['total_not_appeared']++;
+            } elseif (
+                $candidate->job_interview_status === 'Selected' &&
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->medical_status)
+            ) {
+                $count['total_selection']++;
+            } elseif (
+                !is_null($candidate->medical_status) &&
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date)
+            ) {
+                $count['total_medical']++;
+            } elseif (
+                !is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount)
+            ) {
+                $count['total_doc']++;
+            } elseif (
+                !is_null($candidate->total_amount) &&
+                is_null($candidate->deployment_date)
+            ) {
+                $count['total_collection']++;
+            } elseif (!is_null($candidate->deployment_date)) {
+                $count['total_deployment']++;
+            }
+        }
+
+        return $count;
     }
 
     public function candidateDetailsUpdate(Request $request, string $id)
@@ -419,8 +583,8 @@ class JobsController extends Controller
     public function candidateMedicalDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
-            'medical_application_date' => 'required|date',
-            'medical_approval_date' => 'nullable|required_with:medical_status|date',
+            'medical_approval_date' => 'required|date',
+            'medical_application_date' => 'nullable|required_with:medical_status|date',
             'medical_completion_date' => 'nullable|required_with:medical_status|date',
             'medical_expiry_date' => 'nullable|date',
             'medical_status' => 'nullable|required_with:medical_completion_date',
@@ -505,9 +669,26 @@ class JobsController extends Controller
         $ticket_details_update->ticket_booking_date = $request->ticket_booking_date;
         $ticket_details_update->ticket_confirmation_date = $request->ticket_confirmation_date;
         $ticket_details_update->onboarding_flight_city = $request->onboarding_flight_city;
+        $ticket_details_update->deployment_date = $request->deployment_date;
         $ticket_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
+        $candidate_refer = Candidate::where('id', $candidate_job->candidate_id)->first() ?? '';
+        $job_referral_point = Job::where('id', $candidate_job->job_id)->first() ?? '';
+        $referral_amount = ReferralPoint::where('id', $job_referral_point->referral_point_id)->first() ?? '';
+
+        if ($request->deployment_date && $candidate_refer->referred_by_id) {
+
+            $refer_point = new CandidateReferralPoint();
+            $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
+            $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
+            $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
+            $refer_point->refer_point = $referral_amount->point ?? null;
+            $refer_point->amount = $referral_amount->amount ?? null;
+            $refer_point->refer_job_id = $candidate_job->job_id ?? null;
+            $refer_point->save();
+        }
+
         // session()->flash('message', 'Candidate ticket details updated successfully');
         return response()->json([
             'view' => view('jobs.update-single-data', compact('candidate_job'))->render(),
@@ -560,34 +741,30 @@ class JobsController extends Controller
         $payment_details_update = CandidateJob::findOrFail($id);
         $payment_details_update->fst_installment_amount = $request->fst_installment_amount;
         $payment_details_update->fst_installment_date = $request->fst_installment_date;
+        $payment_details_update->fst_installment_remarks = $request->fst_installment_remarks;
+
         $payment_details_update->secnd_installment_amount = $request->secnd_installment_amount;
         $payment_details_update->secnd_installment_date = $request->secnd_installment_date;
+        $payment_details_update->secnd_installment_remarks = $request->secnd_installment_remarks;
+
         $payment_details_update->third_installment_amount = $request->third_installment_amount;
         $payment_details_update->third_installment_date = $request->third_installment_date;
+        $payment_details_update->third_installment_remarks = $request->third_installment_remarks;
+
         $payment_details_update->fourth_installment_amount = $request->fourth_installment_amount;
         $payment_details_update->fourth_installment_date = $request->fourth_installment_date;
+        $payment_details_update->fourth_installment_remarks = $request->fourth_installment_remarks;
+
         $payment_details_update->total_amount = $request->total_amount;
-        $payment_details_update->deployment_date = $request->deployment_date;
+        $payment_details_update->due_amount = $request->due_amount;
+        $payment_details_update->discount = $request->discount;
+
         // $payment_details_update->job_status = $request->job_status;
         $payment_details_update->update();
 
 
         $candidate_job = CandidateJob::findOrFail($id);
-        $candidate_refer = Candidate::where('id', $candidate_job->candidate_id)->first() ?? '';
-        $job_referral_point = Job::where('id', $candidate_job->job_id)->first() ?? '';
-        $referral_amount = ReferralPoint::where('id', $job_referral_point->referral_point_id)->first() ?? '';
 
-        if ($request->deployment_date && $candidate_refer->referred_by_id) {
-
-            $refer_point = new CandidateReferralPoint();
-            $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
-            $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
-            $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
-            $refer_point->refer_point = $referral_amount->point ?? null;
-            $refer_point->amount = $referral_amount->amount ?? null;
-            $refer_point->refer_job_id = $candidate_job->job_id ?? null;
-            $refer_point->save();
-        }
 
         $candidate_job_detail = CandidateJob::findOrFail($id);
 

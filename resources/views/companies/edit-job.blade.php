@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
-                                        <label for="">Benefits</label>
+                                        <label for="">Benefits (Food Allowance)</label>
                                         <input type="text" class="form-control" id=""
                                             value="{{ $job->benifits }}" name="benifits" placeholder="">
                                         <span class="text-danger" id="benifits_msg_job"></span>

@@ -6040,6 +6040,12 @@ border: none !important;
     border: 1px solid #ef3953;
 }
 
+.round_staus.Not-Appeared {
+    color: #704895;
+    background: #efdada;
+    border: 1px solid #8836bb;
+}
+
 
 
  @media only screen and (max-width: 1400px){

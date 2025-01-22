@@ -256,7 +256,7 @@
 
                                                             <div class="col-xl-6">
                                                                 <div class="form-group">
-                                                                    <label for="">Benefits</label>
+                                                                    <label for="">Benefits (Food Allowance)</label>
                                                                     <input type="text" class="form-control" id=""
                                                                         value="" name="benifits" placeholder="">
                                                                     <span class="text-danger" id="benifits_msg_create"></span>
@@ -364,6 +364,16 @@
                                                                         name="interview_end_date" placeholder="">
                                                                     <span class="text-danger"
                                                                         id="interview_end_date_msg"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xl-12">
+                                                                <div class="form-group">
+                                                                    <label for="">Interview Location<span>*</span></label>
+                                                                    <input type="text" class="form-control"
+                                                                        id="interview_location" value=""
+                                                                        name="interview_location" placeholder="">
+                                                                    <span class="text-danger"
+                                                                        id="interview_location_msg"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-12 mt-3">

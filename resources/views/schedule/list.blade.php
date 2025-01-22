@@ -70,7 +70,15 @@
                                                         <span class="text-danger" id="interview_end_date_msg"></span>
                                                     </div>
                                                 </div>
-
+                                                <div class="col-xl-12">
+                                                    <div class="form-group">
+                                                        <label for="">Interview Location<span>*</span></label>
+                                                        <input type="text" class="form-control" id="interview_location"
+                                                            value=""
+                                                            name="interview_location" placeholder="">
+                                                        <span class="text-danger" id="interview_location_msg"></span>
+                                                    </div>
+                                                </div>
                                                 {{-- <div class="col-xl-12">
                                                     <div class="form-group">
                                                         <label for="">Status <span>*</span></label>
@@ -140,6 +148,7 @@
                                         <th>Asignee</th>
                                         <th>Due Date</th>
                                         {{-- <th>Status</th> --}}
+                                        <th>Interview Location</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -152,7 +161,7 @@
                                             <input type="checkbox" class="custom-control-input js-check-selected-row">
                                         </div>
                                     </td> --}}
-                                            <td>{{ $interview['job']['job_name'] ?? 'N/A' }}</td>
+                                            <td>{{ $interview['job']['job_name'] ?? '-' }}</td>
                                             <td><span
                                                     class="name_textbg">{{ isset($interview['user']['first_name']) ? substr($interview['user']['first_name'], 0, 1) : '' }}
                                                     {{ isset($interview['user']['last_name']) ? substr($interview['user']['last_name'], 0, 1) : '' }}</span>{{ $interview['user']['first_name'] ?? '' }}
@@ -166,10 +175,11 @@
                                                     - {{ date('d/m/Y', strtotime($interview['interview_end_date'])) }}
                                                 @endif
                                             </td>
+                                            <td>{{ $interview['interview_location'] ?? '-' }}</td>
                                             {{-- <td>
                                                 <div
                                                     class="round_staus {{ $interview['interview_status'] == 'Completed' ? 'active' : '' }} {{ $interview['interview_status'] == 'Transferred' ? 'inactive' : '' }} {{ $interview['interview_status'] == 'Working' ? 'warning' : '' }}">
-                                                    {{ $interview['interview_status'] ?? 'N/A' }}
+                                                    {{ $interview['interview_status'] ?? '-' }}
                                                 </div>
                                             </td> --}}
                                             <td>

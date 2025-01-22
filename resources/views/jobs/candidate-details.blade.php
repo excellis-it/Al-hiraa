@@ -98,8 +98,7 @@
                 <td>Interview Status</td>
                 <td>
                     @if ($candidate_job_detail->job_interview_status == 'Selected')
-                        <span
-                            style="color: green;">{{ $candidate_job_detail->job_interview_status }}</span>
+                        <span style="color: green;">{{ $candidate_job_detail->job_interview_status }}</span>
                     @else
                         {{ $candidate_job_detail->job_interview_status ?? 'N/A' }}
                     @endif
@@ -329,6 +328,7 @@
                             <option value="Interested" {{ $candidate_job_detail->job_interview_status == 'Interested' ? 'selected' : '' }} {{ $candidate_job_detail->job_interview_status == 'Selected' ? 'disabled' : '' }}>Interested</option>
                             <option value="Selected" {{ $candidate_job_detail->job_interview_status == 'Selected' ? 'selected' : '' }}>Selected</option>
                             <option value="Not-Interested" {{ $candidate_job_detail->job_interview_status == 'Not-Interested' ? 'selected' : '' }}>Not-Interested</option>
+                            <option value="Not-Appeared" {{ $candidate_job_detail->job_interview_status == 'Not-Appeared' ? 'selected' : '' }}>Not-Appeared</option>
                     </select>
                     </td>
                 </tr>

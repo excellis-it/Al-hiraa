@@ -66,8 +66,9 @@ class ScheduleController extends Controller
         $request->validate([
             'company_id' => 'required',
             'job_id' => 'required',
+            'interview_location' => 'required',
             'interview_start_date' => 'nullable|date',
-            'interview_end_date' => 'required|date|after:interview_start_date',
+           'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
         ], [
             'company_id.required' => 'The company field is required.',
             'job_id.required' => 'The job field is required.',
@@ -96,6 +97,7 @@ class ScheduleController extends Controller
         $interview = new Interview();
         $interview->user_id = Auth::user()->id;
         $interview->company_id = $request->company_id;
+        $interview->interview_location = $request->interview_location;
         $interview->job_id = $request->job_id;
         $interview->interview_start_date = $request->interview_start_date;
         $interview->interview_end_date = $request->interview_end_date;
@@ -133,8 +135,9 @@ class ScheduleController extends Controller
     {
         $request->validate([
             'job_id' => 'required',
+            'interview_location' => 'required',
             'interview_start_date' => 'nullable|date',
-            'interview_end_date' => 'required|date|after:interview_start_date',
+          'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
         ], [
             'job_id.required' => 'The job field is required.',
             'interview_start_date.required' => 'The interview start date field is required.',
@@ -164,7 +167,7 @@ class ScheduleController extends Controller
             return response()->json(['status' => false, 'message' => 'Interview already scheduled for this job.']);
         }
 
-
+        $interview->interview_location = $request->interview_location;
         $interview->job_id = $request->job_id;
         $interview->interview_start_date = $request->interview_start_date;
         $interview->interview_end_date = $request->interview_end_date;

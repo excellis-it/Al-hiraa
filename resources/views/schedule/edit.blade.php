@@ -13,7 +13,7 @@
                     <div class="col-xl-12">
                         <div class="add-mem-form">
                             <div class="row">
-                                <div class="col-xl-6">
+                                <div class="col-xl-12">
                                     <div class="form-group">
                                         <label for="">Task <span>*</span></label>
                                         <select name="job_id" id="job_id" class="form-select">
@@ -60,7 +60,15 @@
                                         <span class="text-danger" id="interview_end_date_msg_error"></span>
                                     </div>
                                 </div>
-
+                                <div class="col-xl-12">
+                                    <div class="form-group">
+                                        <label for="">Interview Location<span>*</span></label>
+                                        <input type="text" class="form-control" id="interview_location"
+                                            value="{{ $interview->interview_location ?? '' }}"
+                                            name="interview_location" placeholder="">
+                                        <span class="text-danger" id="interview_location_msg_error"></span>
+                                    </div>
+                                </div>
 
                                 <div class="col-lg-12 mt-3">
                                     <div class="save-btn-div d-flex align-items-center">

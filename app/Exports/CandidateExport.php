@@ -12,6 +12,15 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 class CandidateExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading
 {
     use Exportable;
+    private $startDate;
+    private $endDate;
+
+    public function __construct($startDate, $endDate)
+    {
+        $this->startDate = $startDate;
+        $this->endDate = $endDate;
+    }
+
 
     /**
      * Define the query to retrieve data with relationships.
@@ -31,7 +40,7 @@ class CandidateExport implements FromQuery, WithHeadings, WithMapping, WithChunk
                 'positionAppliedFor1',
                 'positionAppliedFor2',
                 'positionAppliedFor3'
-            ]);
+            ])->whereBetween('created_at', [$this->startDate, $this->endDate]);
     }
 
     /**

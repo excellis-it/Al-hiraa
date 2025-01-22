@@ -908,21 +908,30 @@
             });
     </script>
     <script>
-        // Function to calculate total amount
-        function calculateTotal() {
+        // Function to calculate total amount and due amount
+        function calculateTotalAndDue() {
             var fst_installment_amount = parseFloat($('input[name="fst_installment_amount"]').val()) || 0;
             var secnd_installment_amount = parseFloat($('input[name="secnd_installment_amount"]').val()) || 0;
             var third_installment_amount = parseFloat($('input[name="third_installment_amount"]').val()) || 0;
             var fourth_installment_amount = parseFloat($('input[name="fourth_installment_amount"]').val()) || 0;
 
-            var total_amount = fst_installment_amount + secnd_installment_amount + third_installment_amount +
-                fourth_installment_amount;
+            // Calculate total amount (sum of installments)
+            var total_amount = fst_installment_amount + secnd_installment_amount + third_installment_amount + fourth_installment_amount;
             $('input[name="total_amount"]').val(total_amount);
+
+            // Get discount and job service charge (default to 0 if empty)
+            var discount = parseFloat($('input[name="discount"]').val()) || 0;
+            var job_service_charge = parseFloat($('input[name="job_service_charge"]').val()) || 0;
+
+            // Calculate due amount (total_amount - discount - job_service_charge)
+            var due_amount = job_service_charge - total_amount - discount;
+            $('input[name="due_amount"]').val(due_amount);
         }
 
-        // Listen for keyup event on all installment input fields
+        // Listen for keyup event on all installment input fields, discount, and service charge fields
         $(document).on('keyup',
-            'input[name="fst_installment_amount"], input[name="secnd_installment_amount"], input[name="third_installment_amount"], input[name="fourth_installment_amount"]',
-            calculateTotal);
+            'input[name="fst_installment_amount"], input[name="secnd_installment_amount"], input[name="third_installment_amount"], input[name="fourth_installment_amount"], input[name="discount"], input[name="job_service_charge"]',
+            calculateTotalAndDue);
     </script>
+
 @endif

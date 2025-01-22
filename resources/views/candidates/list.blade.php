@@ -62,15 +62,53 @@
                             </div>
                         @endcan
                         @can('Export Candidate')
-                            <div class="btn-group ">
-                                <button type="button" class="btn export_csv export_cnadidate_csv">Export CSV</button>
+                            <div class="btn-group">
+                                <button type="button" class="btn export_csv export_cnadidate_csv" data-bs-toggle="modal"
+                                    data-bs-target="#exportModal">
+                                    Export CSV
+                                </button>
                                 <button type="button" class="btn dropdown-toggle dropdown-toggle-split export_dropdown"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-lg-end">
-                                    <li><a class="dropdown-item export_cnadidate_csv" href="javascript:void(0);">Export CSV</a></li>
+                                    <li><a class="dropdown-item export_cnadidate_csv" href="javascript:void(0);"
+                                            data-bs-toggle="modal" data-bs-target="#exportModal">Export CSV</a></li>
                                 </ul>
+                            </div>
+
+                            <!-- Export Modal -->
+                            <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <form id="exportForm" method="POST" action="{{ route('candidates.export') }}">
+                                            @csrf
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exportModalLabel">Select Date Range for Export</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="start_date" class="form-label">Start Date</label>
+                                                    <input type="date" class="form-control" id="start_date" name="start_date"
+                                                        required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="end_date" class="form-label">End Date</label>
+                                                    <input type="date" class="form-control" id="end_date" name="end_date"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancel</button>
+                                                <button type="submit" class="btn btn-primary">Export</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         @endcan
                     </div>
@@ -174,7 +212,8 @@
                                             <div class="">
                                                 <div class="mb-3">
                                                     <label for="" class="form-label">Status</label>
-                                                    <select name="change_status" class="form-select" id="change_status_id">
+                                                    <select name="change_status" class="form-select"
+                                                        id="change_status_id">
                                                         <option value="">Select A Status</option>
                                                         @foreach ($candidate_statuses as $status)
                                                             <option value="{{ $status->id }}">{{ $status->name }}
@@ -607,11 +646,11 @@
     <script>
         $(document).ready(function() {
 
-            $('.export_cnadidate_csv').on('click', function() {
-                // $('#loading').addClass('loading');
-                // $('#loading-content').addClass('loading-content');
-                window.location.href = "{{ route('candidates.export') }}";
-            });
+            // $('.export_cnadidate_csv').on('click', function() {
+            //     // $('#loading').addClass('loading');
+            //     // $('#loading-content').addClass('loading-content');
+            //     window.location.href = "{{ route('candidates.export') }}";
+            // });
 
 
 
@@ -1094,32 +1133,32 @@
             });
         });
 
-        {{--@if (Session::has('candidate_id'))
-            //     var route = "{{ route('candidates.edit', Session::get('candidate_id')) }}";
-            //     $('#loading').addClass('loading');
-            //     $('#loading-content').addClass('loading-content');
-            //     $.ajax({
-            //         url: route,
-            //         type: 'GET',
-            //         success: function(response) {
-            //             if (response.status == 'error') {
-            //                 toastr.error(response.message);
-            //                 return false;
-            //             } else {
-            //                 $('#candidate-edit').html(response.view);
-            //                 $('#loading').removeClass('loading');
-            //                 $('#loading-content').removeClass('loading-content');
-            //                 $('#offcanvasEdit').offcanvas('show');
-            //             }
-            //         },
-            //         error: function(xhr) {
-            //             // Handle errors
-            //             $('#loading').removeClass('loading');
-            //             $('#loading-content').removeClass('loading-content');
-            //             console.log(xhr);
-            //         }
-            //     });
-            // @endif --}}
+        // {{-- @if (Session::has('candidate_id'))
+        //         var route = "{{ route('candidates.edit', Session::get('candidate_id')) }}";
+        //         $('#loading').addClass('loading');
+        //         $('#loading-content').addClass('loading-content');
+        //         $.ajax({
+        //             url: route,
+        //             type: 'GET',
+        //             success: function(response) {
+        //                 if (response.status == 'error') {
+        //                     toastr.error(response.message);
+        //                     return false;
+        //                 } else {
+        //                     $('#candidate-edit').html(response.view);
+        //                     $('#loading').removeClass('loading');
+        //                     $('#loading-content').removeClass('loading-content');
+        //                     $('#offcanvasEdit').offcanvas('show');
+        //                 }
+        //             },
+        //             error: function(xhr) {
+        //                 // Handle errors
+        //                 $('#loading').removeClass('loading');
+        //                 $('#loading-content').removeClass('loading-content');
+        //                 console.log(xhr);
+        //             }
+        //         });
+        //     @endif --}}
     </script>
     <script>
         $(document).ready(function() {

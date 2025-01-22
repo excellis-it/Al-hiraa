@@ -96,7 +96,17 @@ class CandidateJobController extends Controller
 
                 $candidate_job->vendor_id = $job_details->vendor_id ?? null;
                 $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
-
+                $candidate_job->job_id = $job_details->id ?? null;
+                $candidate_job->job_position =  $job_details->candidate_position_id ?? null;
+                $candidate_job->job_location = $job_details->address ?? null;
+                $candidate_job->company_id = $interview_details->company_id ?? null;
+                $candidate_job->due_amount = $vendor->vendor_service_charge ?? null;
+                $candidate_job->job_service_charge = $job_details->service_charge ?? null;
+                $candidate_job->food_allowance = $job_details->benifits ?? null;
+                $candidate_job->contract_duration = $job_details->contract ?? null;
+                $candidate_job->interview_location = $interview_details->interview_location ?? null;
+                $candidate_job->salary = $job_details->salary ?? null;
+                $candidate_job->date_of_interview = $interview_details->interview_start_date ?? null;
 
                 $candidate_job->full_name = $candidate_details->full_name ?? null;
                 $candidate_job->email = $candidate_details->email ?? null;
@@ -113,10 +123,7 @@ class CandidateJobController extends Controller
                 $candidate_job->english_speak = $candidate_details->english_speak ?? null;
                 $candidate_job->arabic_speak = $candidate_details->arabic_speak ?? null;
                 $candidate_job->assign_by_id = null;
-                $candidate_job->job_id = $job_details->id ?? null;
-                $candidate_job->job_position =  null;
-                $candidate_job->job_location = null;
-                $candidate_job->company_id = $interview_details->company_id ?? null;
+
                 $candidate_job->job_status = 'Active';
                 $candidate_job->job_interview_status = 'Interested';
                 $candidate_job->save();

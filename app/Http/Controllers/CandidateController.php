@@ -599,24 +599,24 @@ class CandidateController extends Controller
         if ($request->interview_id) {
             $count = AssignJob::where('candidate_id', $id)->where('interview_id', $request->interview_id)->count();
             if ($count == 0) {
-                $job_id = Interview::where('id', $request->interview_id)->first()->job_id;
-                $assign_job = new AssignJob();
+                $job = Interview::where('id', $request->interview_id)->first();
 
+                $assign_job = new AssignJob();
                 $assign_job->candidate_id = $id;
-                $assign_job->job_id = $job_id;
+                $assign_job->job_id = $job->job_id;
                 $assign_job->company_id = $request->company_id;
                 $assign_job->interview_id = $request->interview_id;
                 $assign_job->user_id = Auth::user()->id;
                 $assign_job->interview_status = $request->interview_status;
                 $assign_job->save();
 
-                $job_details = Job::findOrfail($job_id);
+                $job_details = Job::findOrfail($job->job_id);
 
                 if ($job_details->vendor_id) {
                     $vendor = User::where('id', $job_details->vendor_id)->first();
-                  } else {
-                      $vendor = null;
-                  }
+                } else {
+                    $vendor = null;
+                }
 
                 $candidate_job = new CandidateJob();
                 $candidate_job->candidate_id = $id;
@@ -625,6 +625,18 @@ class CandidateController extends Controller
 
                 $candidate_job->vendor_id = $job_details->vendor_id ?? null;
                 $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
+                $candidate_job->due_amount = $vendor->vendor_service_charge ?? null;
+                $candidate_job->job_service_charge = $job_details->service_charge ?? null;
+                $candidate_job->food_allowance = $job_details->benifits ?? null;
+                $candidate_job->contract_duration = $job_details->contract ?? null;
+                $candidate_job->interview_location = $job->interview_location ?? null;
+
+                $candidate_job->job_id = $job_details->id ?? null;
+                $candidate_job->job_position = $job_details->candidate_position_id ?? null;
+                $candidate_job->job_location = $job_details->address ?? null;
+                $candidate_job->company_id = $job_details->company_id ?? null;
+                $candidate_job->salary = $job_details->salary ?? null;
+                $candidate_job->date_of_interview = $job->interview_start_date ?? null;
 
                 $candidate_job->full_name = $candidate->full_name ?? null;
                 $candidate_job->email = $candidate->email ?? null;
@@ -641,11 +653,8 @@ class CandidateController extends Controller
                 $candidate_job->english_speak = $candidate->english_speak ?? null;
                 $candidate_job->arabic_speak = $candidate->arabic_speak ?? null;
                 $candidate_job->assign_by_id = Auth::user()->id;
-                $candidate_job->job_id = $job_details->id ?? null;
-                $candidate_job->job_position = $job_details->candidate_position_id ?? null;
-                $candidate_job->job_location = $job_details->address ?? null;
-                $candidate_job->company_id = $job_details->company_id ?? null;
-                $candidate_job->salary = $job_details->salary ?? null;
+
+
                 $candidate_job->job_interview_status = $request->interview_status ?? null;
                 $candidate_job->save();
 
@@ -903,17 +912,26 @@ class CandidateController extends Controller
     }
 
     public function export(Request $request)
-{
-    if (Auth::user()->can('Export Candidate')) {
-        try {
-            return FacadesExcel::download(new CandidateExport(), 'candidate-export.xlsx');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', $th->getMessage());
+    {
+        if (Auth::user()->can('Export Candidate')) {
+            $request->validate([
+                'start_date' => 'required|date|before_or_equal:end_date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
+
+            try {
+                return FacadesExcel::download(
+                    new CandidateExport($request->start_date, $request->end_date),
+                    'candidate-export-' . now()->format('Y-m-d') . '.xlsx'
+                );
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('error', $th->getMessage());
+            }
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
-    } else {
-        return redirect()->back()->with('error', __('Permission denied.'));
     }
-}
+
 
 
     public function import(Request $request)
@@ -1054,7 +1072,7 @@ class CandidateController extends Controller
             $candidate_details = Candidate::findOrFail($candidate_id);
             $job_details = Job::findOrfail($job_id);
             if ($job_details->vendor_id) {
-              $vendor = User::where('id', $job_details->vendor_id)->first();
+                $vendor = User::where('id', $job_details->vendor_id)->first();
             } else {
                 $vendor = null;
             }
@@ -1196,23 +1214,22 @@ class CandidateController extends Controller
     }
 
     public function updateCandidateContactNumber(Request $request)
-{
-    if ($request->ajax()) {
-        $request->validate([
-            'contact_no' => 'required|digits:10|unique:candidates,contact_no,' . $request->id,
-        ]);
+    {
+        if ($request->ajax()) {
+            $request->validate([
+                'contact_no' => 'required|digits:10|unique:candidates,contact_no,' . $request->id,
+            ]);
 
-        $candidate = Candidate::find($request->id);
+            $candidate = Candidate::find($request->id);
 
-        if ($candidate) {
-            $candidate->contact_no = $request->contact_no;
-            $candidate->save();
+            if ($candidate) {
+                $candidate->contact_no = $request->contact_no;
+                $candidate->save();
 
-            return response()->json(['success' => true, 'message' => 'Contact number updated successfully.']);
+                return response()->json(['success' => true, 'message' => 'Contact number updated successfully.']);
+            }
+
+            return response()->json(['success' => false, 'message' => 'Candidate not found.']);
         }
-
-        return response()->json(['success' => false, 'message' => 'Candidate not found.']);
     }
-}
-
 }

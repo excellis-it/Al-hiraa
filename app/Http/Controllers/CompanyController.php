@@ -65,7 +65,8 @@ class CompanyController extends Controller
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'company_description' => 'nullable',
             'interview_start_date' => 'nullable|date',
-            'interview_end_date' => 'required|date|after:interview_start_date',
+            'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
+            'interview_location' => 'required',
         ]);
 
         $count = Company::where(['company_name' => $request->company_name, 'company_address' => $request->company_address])->count();
@@ -113,6 +114,7 @@ class CompanyController extends Controller
         $interview->job_id = $job->id;
         $interview->interview_start_date = $request->interview_start_date;
         $interview->interview_end_date = $request->interview_end_date;
+        $interview->interview_location = $request->interview_location;
 
         $interview->interview_status = "Working";
         $interview->save();
@@ -377,7 +379,8 @@ class CompanyController extends Controller
             case 3:
                 $rules = [
                     'interview_start_date' => 'nullable|date',
-                    'interview_end_date' => 'required|date|after:interview_start_date'
+                    'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
+                    'interview_location' => 'required'
                 ];
                 break;
         }
@@ -396,7 +399,7 @@ class CompanyController extends Controller
         $pathToFile = public_path('sample_excel/job-and-interview.xlsx');
         return response()->download($pathToFile);
     }
-    
+
     public function import(Request $request)
     {
         //dd($request->all());

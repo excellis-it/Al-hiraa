@@ -39,6 +39,39 @@
                 </div>
             </div>
             <div class="interview-slide-wrap">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Not-Appeared' ? 'interview-active' : '' }}"
+                    data-val="Not-Appeared">
+                    <div class="interview-box-img">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" style="fill: black;">
+                            <g id="job-interview" transform="translate(0)">
+                                <path id="Path_74" data-name="Path 74"
+                                    d="M338.693,36.4a4.266,4.266,0,1,1-4.266-4.266A4.266,4.266,0,0,1,338.693,36.4Zm0,0"
+                                    transform="translate(-307.591 -29.936)" />
+                                <path id="Path_75" data-name="Path 75"
+                                    d="M19.451,11.989,17.426,8.952V3.771A3.768,3.768,0,0,0,13.656,0H3.771A3.769,3.769,0,0,0,0,3.771v6.04a3.768,3.768,0,0,0,3.771,3.771H18.6a1.026,1.026,0,0,0,.853-1.594ZM8.685,9.739H5.447a1.044,1.044,0,0,1-1.053-.977A1.025,1.025,0,0,1,5.419,7.688h3.3A1.025,1.025,0,0,1,9.738,8.762,1.044,1.044,0,0,1,8.685,9.739Zm3.324-3.844H5.448A1.044,1.044,0,0,1,4.395,4.92,1.025,1.025,0,0,1,5.419,3.844h6.561a1.044,1.044,0,0,1,1.053.977,1.025,1.025,0,0,1-1.024,1.074Zm0,0"
+                                    transform="translate(0 0)" />
+                                <path id="Path_76" data-name="Path 76"
+                                    d="M7.963,372.151A8.047,8.047,0,0,0,0,380.228v.225a1.257,1.257,0,0,0,1.257,1.257H14.724a1.257,1.257,0,0,0,1.257-1.257v-.312A7.991,7.991,0,0,0,7.963,372.151Zm0,0"
+                                    transform="translate(0 -346.711)" />
+                                <path id="Path_77" data-name="Path 77"
+                                    d="M53.353,229.965a5.032,5.032,0,1,1-5.032-5.032A5.032,5.032,0,0,1,53.353,229.965Zm0,0"
+                                    transform="translate(-40.33 -209.557)" />
+                                <path id="Path_78" data-name="Path 78"
+                                    d="M310.84,162.695H297.9a6.517,6.517,0,0,1,12.942,0Zm0,0"
+                                    transform="translate(-277.534 -146.22)" />
+                                <path id="Path_79" data-name="Path 79"
+                                    d="M216.6,272a1.025,1.025,0,0,1,1.025,1.025v12.159a1.025,1.025,0,0,1-1.075,1.024,1.045,1.045,0,0,1-.975-1.053v-1.142H200.258a10.085,10.085,0,0,0-4.227-5.632A7.073,7.073,0,0,0,197.469,272Zm0,0"
+                                    transform="translate(-182.631 -253.406)" />
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="interview-text">
+                        <h4>Not Appeared</h4>
+                        <h3><span id="all">{{ $count['total_not_appeared'] }}</span></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="interview-slide-wrap">
                 <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Selection' ? 'interview-active' : '' }}"
                     data-val="Selection">
 
@@ -258,8 +291,13 @@
 
         <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
             <div class="d-flex">
+                <a class="dropdown-item me-2" href="javascript:void(0);"
+                data-bs-toggle="modal" data-bs-target="#exportModal"> <button type="button"
+                        class="btn advance_search_btn " style="border-right: none;"> <i
+                            class="fas fa-file-excel"></i> Export CSV</button> </a>
+
                 <a class="dropdown-item me-2" href="javascript:void(0);" data-bs-toggle="modal"
-                    data-bs-target="#importJobModel" data-bs-whatever="@fat"> <button type="submit"
+                    data-bs-target="#importJobModel" data-bs-whatever="@fat"> <button type="button"
                         class="btn advance_search_btn " style="border-right: none;"> <i
                             class="fas fa-file-excel"></i> Import CSV</button> </a>
                 <div class="action_btn ">
@@ -273,6 +311,40 @@
             </div>
 
         </div>
+
+         <!-- Export Modal -->
+         <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <form id="exportForm" method="POST" action="{{ route('candidates.export') }}">
+                     @csrf
+                     <div class="modal-header">
+                         <h5 class="modal-title" id="exportModalLabel">Select Date Range for Export</h5>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal"
+                             aria-label="Close"></button>
+                     </div>
+                     <div class="modal-body">
+                         <div class="mb-3">
+                             <label for="start_date" class="form-label">Start Date</label>
+                             <input type="date" class="form-control" id="start_date" name="start_date"
+                                 required>
+                         </div>
+                         <div class="mb-3">
+                             <label for="end_date" class="form-label">End Date</label>
+                             <input type="date" class="form-control" id="end_date" name="end_date"
+                                 required>
+                         </div>
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-secondary"
+                             data-bs-dismiss="modal">Cancel</button>
+                         <button type="submit" class="btn btn-primary">Export</button>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
 
 
         <div class="col-lg-12 col-md-12">

@@ -186,7 +186,7 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
 
     Route::get('/candidates-auto-fill', [CandidateController::class, 'userAutoFill'])->name('candidates.auto-fill');
     Route::get('/candidates-filter', [CandidateController::class, 'candidateFilter'])->name('candidates.filter');
-    Route::get('/candidates-export', [CandidateController::class, 'export'])->name('candidates.export'); // search export
+    Route::post('/candidates-export', [CandidateController::class, 'export'])->name('candidates.export'); // search export
     Route::post('/candidates-import', [CandidateController::class, 'import'])->name('candidates.import');
     Route::get('/candidates-download-sample', [CandidateController::class, 'downloadSample'])->name('candidates.download.sample');
     Route::get('/candidates-permission/{candidate_id}/{candidate_field_update_id}', [CandidateController::class, 'candidatePermission'])->name('candidates.permission');
@@ -222,6 +222,8 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::put('/jobs-document-details/{id}', [JobsController::class, 'candidateDocumentDetailsUpdate'])->name('jobs.document-details.update');
     Route::post('/send-job-sms', [JobsController::class, 'sendJobSms'])->name('jobs.send-job-sms');
     Route::post('/send-job-whatsapp', [JobsController::class, 'sendJobWhatsapp'])->name('jobs.send-job-whatsapp');
+
+    Route::post('/candidates-job-export', [CandidateController::class, 'export'])->name('jobs.export'); // search export
 
     // jobs.download.sample
     Route::get('/jobs-download-sample', [JobsController::class, 'downloadSample'])->name('jobs.download.sample');

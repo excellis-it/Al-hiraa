@@ -139,10 +139,12 @@
                                     <thead>
                                         <tr>
                                             <th>Company Name</th>
+                                            <th>Interview Date</th>
                                             <th>Job Title</th>
                                             <th>Number of people required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
+                                            <th>Interview Location </th>
                                             <th>Salary</th>
                                             <th>RC Interested Counts</th>
                                             <th>Doc.View</th>
@@ -153,6 +155,15 @@
                                             @foreach ($new_jobs_openings as $new_jobs_opening)
                                                 <tr>
                                                     <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ isset($new_jobs_opening['interview_start_date']) ? date('d/m/Y', strtotime($new_jobs_opening['interview_start_date'])) : '' }}
+                                                        @if (isset($new_jobs_opening['interview_start_date']) &&
+                                                                isset($new_jobs_opening['interview_end_date']) &&
+                                                                $new_jobs_opening['interview_start_date'] != $new_jobs_opening['interview_end_date']
+                                                        )
+                                                            - {{ date('d/m/Y', strtotime($new_jobs_opening['interview_end_date'])) }}
+                                                        @endif
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
                                                     </td>
@@ -165,6 +176,14 @@
                                                             title="{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}"
                                                             style="cursor: pointer">
                                                             {{ Str::limit($new_jobs_opening->job ? $new_jobs_opening->job->address : '', 20, '...') }}
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span
+                                                            title="{{ $new_jobs_opening->interview_location ?? '' }}"
+                                                            style="cursor: pointer">
+                                                            {{ Str::limit($new_jobs_opening->interview_location ? $new_jobs_opening->interview_location : '', 20, '...') }}
                                                         </span>
                                                     </td>
                                                     <td>

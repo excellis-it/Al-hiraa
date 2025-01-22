@@ -8,6 +8,11 @@
                 <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
                 <td>On Boarding Flight City</td>
                 <td>{{ $candidate_job_detail->onboarding_flight_city ?? 'N/A' }}</td>
+
+            </tr>
+            <tr>
+                <td>Deployment Date</td>
+                <td colspan="5">{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td>
             </tr>
         </tbody>
     </table>
@@ -48,8 +53,20 @@
                 </td>
 
             </tr>
-
+            <tr>
+             <td>Deployment Date</td>
+            <td class="date-btn" colspan="5">
+                <input type="text" class="form-control uppercase-text datepicker" id="deploy-date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') ?? '' }}" name="deployment_date" placeholder="dd-mm-yyyy">
+                <span class="text-danger" id="interview_id_job_msg"></span>
+            </td>
+            </tr>
             </tbody>`)
+
+        $('#deploy-date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+            value: "{{ $candidate_job_detail->deployment_date ? \Carbon\Carbon::parse($candidate_job_detail->deployment_date)->format('d-m-Y') : '' }}"
+        });
 
         $('#ticket_confirm_dt').datepicker({
             uiLibrary: 'bootstrap5',
@@ -80,7 +97,12 @@
                     <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
                     <td>On Boarding Flight City</td>
                     <td>{{ $candidate_job_detail->onboarding_flight_city ?? 'N/A' }}</td>
+
                 </tr>
+                  <tr>
+                <td>Deployment Date</td>
+                <td colspan="5">{{ $candidate_job_detail->deployment_date ?? 'N/A' }}</td>
+            </tr>
             </tbody>`);
     });
 </script>
