@@ -233,6 +233,15 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                     $candidate_job->job_position = $job->candidate_position_id;
                                     $candidate_job->job_location = $job->address;
                                     $candidate_job->company_id = $company->id;
+
+                                    $candidate_job->due_amount = $job->service_charge ?? null;
+                                    $candidate_job->job_service_charge = $job->service_charge ?? null;
+                                    $candidate_job->food_allowance = $job->benifits ?? null;
+                                    $candidate_job->contract_duration = $job->contract ?? null;
+                                    $candidate_job->date_of_interview = $interview->interview_start_date ?? null;
+                                    $candidate_job->interview_location = $interview->interview_location ?? null;
+
+
                                     $candidate_job->job_interview_status = $row['job_interview_status'];
                                     $candidate_job->interview_id = $interview->id;
                                     $candidate_job->vendor_id = $job->vendor_id;
@@ -340,7 +349,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                             $candidate_gulf_licence->save();
                                         }
                                     }
-                                } 
+                                }
                             }
                         }
                     }

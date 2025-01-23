@@ -223,7 +223,7 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::post('/send-job-sms', [JobsController::class, 'sendJobSms'])->name('jobs.send-job-sms');
     Route::post('/send-job-whatsapp', [JobsController::class, 'sendJobWhatsapp'])->name('jobs.send-job-whatsapp');
 
-    Route::post('/candidates-job-export', [CandidateController::class, 'export'])->name('jobs.export'); // search export
+    Route::post('/candidates-job-export', [JobsController::class, 'export'])->name('jobs.export'); // search export
 
     // jobs.download.sample
     Route::get('/jobs-download-sample', [JobsController::class, 'downloadSample'])->name('jobs.download.sample');

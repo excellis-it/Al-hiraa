@@ -100,7 +100,7 @@ class CandidateJobController extends Controller
                 $candidate_job->job_position =  $job_details->candidate_position_id ?? null;
                 $candidate_job->job_location = $job_details->address ?? null;
                 $candidate_job->company_id = $interview_details->company_id ?? null;
-                $candidate_job->due_amount = $vendor->vendor_service_charge ?? null;
+                $candidate_job->due_amount = $job_details->service_charge ?? null;
                 $candidate_job->job_service_charge = $job_details->service_charge ?? null;
                 $candidate_job->food_allowance = $job_details->benifits ?? null;
                 $candidate_job->contract_duration = $job_details->contract ?? null;

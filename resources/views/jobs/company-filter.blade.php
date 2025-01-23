@@ -317,7 +317,7 @@
          aria-hidden="true">
          <div class="modal-dialog">
              <div class="modal-content">
-                 <form id="exportForm" method="POST" action="{{ route('candidates.export') }}">
+                 <form id="exportForm" method="POST" action="{{ route('jobs.export') }}">
                      @csrf
                      <div class="modal-header">
                          <h5 class="modal-title" id="exportModalLabel">Select Date Range for Export</h5>

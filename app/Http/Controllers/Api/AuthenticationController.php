@@ -7,7 +7,9 @@ use App\Models\Candidate;
 use App\Models\CandidateOtp;
 use App\Models\CandidatePosition;
 use App\Models\Source;
+use App\Services\TextlocalService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 /**
@@ -16,6 +18,13 @@ use Illuminate\Support\Facades\Validator;
 class AuthenticationController extends Controller
 {
     protected $successStatus = 200;
+
+    protected $textlocalService;
+
+    public function __construct(TextlocalService $textlocalService)
+    {
+        $this->textlocalService = $textlocalService;
+    }
 
     /**
      * Request OTP
@@ -28,48 +37,85 @@ class AuthenticationController extends Controller
      *  "message": "OTP sent successfully."
      * }
      */
-
     public function requestOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required|digits:10|exists:candidates,contact_no'
+            'mobile_number' => 'required|digits:10|exists:candidates,contact_no',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['message' => $validator->errors()->first(), 'status' => false], 201);
+            return response()->json([
+                'message' => $validator->errors()->first(),
+                'status' => false,
+            ], 422); // Use 422 for validation errors
         }
 
         try {
+            // Generate OTP
             $userOtp = $this->generateOtp($request->mobile_number);
+
             if ($userOtp) {
-                // $userOtp->sendSMS($request->mobile_number); // Send OTP to the user
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'user_id' => $userOtp->user_id , 'otp' => $userOtp->otp], 200);
+                return response()->json([
+                    'message' => 'OTP sent successfully.',
+                    'status' => true,
+                    'user_id' => $userOtp['user_id'],
+                    'otp' => $userOtp['otp'], // Consider removing this in production for security
+                ], 200);
             } else {
-                return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
+                return response()->json([
+                    'message' => 'Failed to generate OTP.',
+                    'status' => false,
+                ], 201);
             }
-        } catch (\Throwable $th) {
-            return response()->json(['message' => $th->getMessage(), 'status' => false], 401);
+        } catch (\Exception $e) {
+            Log::error('OTP Request Error: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'An error occurred while processing your request. Please try again.',
+                'status' => false,
+            ], 401);
         }
     }
 
     private function generateOtp($mobileNumber)
     {
-        // return $mobileNumber;
+        // Fetch the candidate by contact number
         $candidate = Candidate::where('contact_no', $mobileNumber)->first();
 
-        /*User Does not Have any Existing OTP*/
+        if (!$candidate) {
+            throw new \Exception('Candidate not found.');
+        }
+
+        // Delete existing OTPs for the candidate
         CandidateOtp::where('user_id', $candidate->id)->delete();
 
         $now = now();
-
         $otp = rand(100000, 999999);
 
+        // Construct the OTP message
+        $message = "Dear {$candidate->full_name},\n" .
+            "Your One-Time Password (OTP) for the verification process is {$otp}. Please do not share this OTP with anyone for security reasons. Enter this OTP in the required field to proceed.\n" .
+            "Thanks,\nAL Hiraa";
+
+        // Send the OTP message via TextlocalService
+        $response = app(TextlocalService::class)->sendSms(array($mobileNumber), $message);
+
+        // Log the response for debugging
+        Log::info('Textlocal SMS Response: ' . json_encode($response));
+
+        // Check if the SMS was sent successfully
+        if (isset($response['error'])) {
+            throw new \Exception('Failed to send OTP: ' . $response['error']);
+        }
+
+        // Save the OTP in the database
         return CandidateOtp::create([
             'user_id' => $candidate->id,
             'otp' => $otp,
-            'expire_at' => $now->addMinutes(10)
+            'expire_at' => $now->addMinutes(10),
         ]);
     }
+
+
 
     /**
      * Login
@@ -199,7 +245,8 @@ class AuthenticationController extends Controller
     public function requestOtpRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'mobile_number' => 'required|numeric|digits:10|unique:candidates,contact_no'
+            'mobile_number' => 'required|numeric|digits:10|unique:candidates,contact_no',
+            'name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -207,10 +254,10 @@ class AuthenticationController extends Controller
         }
 
         try {
-            $userOtp = $this->generateOtpRegister($request->mobile_number);
+            $userOtp = $this->generateOtpRegister($request->mobile_number, $request->name);
             if ($userOtp) {
-                $userOtp->sendSMS($request->mobile_number);
-                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $request->mobile_number , 'otp' => $userOtp->otp], 200);
+                // $userOtp->sendSMS($request->mobile_number);
+                return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $request->mobile_number, 'otp' => $userOtp->otp], 200);
             } else {
                 return response()->json(['message' => 'Failed to send OTP.', 'status' => false], 201);
             }
@@ -219,21 +266,30 @@ class AuthenticationController extends Controller
         }
     }
 
-    private function generateOtpRegister($mobileNumber)
+    private function generateOtpRegister($mobileNumber, $name)
     {
-        /*User Does not Have any Existing OTP*/
+        // Delete any existing OTP for the mobile number
         CandidateOtp::where('contact_no', $mobileNumber)->delete();
 
-        $now = now();
-
+        // Generate a new OTP
         $otp = rand(100000, 999999);
 
+        // Construct the OTP message
+        $message = `Dear ` . $name . `,
+        Your One-Time Password (OTP) for the verification process is ` . $otp . `. Please do not share this OTP with anyone for security reasons. Enter this OTP in the required field to proceed.
+        Thanks,
+        AL Hiraa`;
+        // Send the OTP message via TextlocalService
+        $response = app(TextlocalService::class)->sendSms([$mobileNumber], $message);
+
+        // Save the OTP in the database with an expiry time
         return CandidateOtp::create([
             'contact_no' => $mobileNumber,
             'otp' => $otp,
-            'expire_at' => $now->addMinutes(10)
+            'expire_at' => now()->addMinutes(10),
         ]);
     }
+
 
     /**
      * Job Interest

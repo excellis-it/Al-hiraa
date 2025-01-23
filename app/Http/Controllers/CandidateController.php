@@ -26,6 +26,7 @@ use App\Models\CandidateJob;
 use App\Models\CandJobLicence;
 use App\Models\State;
 use App\Models\City;
+use App\Services\TextlocalService;
 use App\Traits\ImageTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,6 +40,13 @@ use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 class CandidateController extends Controller
 {
     use ImageTrait;
+    protected $textlocalService;
+
+    public function __construct(TextlocalService $textlocalService)
+    {
+        $this->textlocalService = $textlocalService;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -625,7 +633,7 @@ class CandidateController extends Controller
 
                 $candidate_job->vendor_id = $job_details->vendor_id ?? null;
                 $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
-                $candidate_job->due_amount = $vendor->vendor_service_charge ?? null;
+                $candidate_job->due_amount = $job_details->service_charge ?? null;
                 $candidate_job->job_service_charge = $job_details->service_charge ?? null;
                 $candidate_job->food_allowance = $job_details->benifits ?? null;
                 $candidate_job->contract_duration = $job_details->contract ?? null;
@@ -1180,20 +1188,36 @@ class CandidateController extends Controller
 
     public function sendSms(Request $request)
     {
-        $candidate_ids = $request->candidate_ids;
+        $request->validate([
+            'candidate_ids' => 'required|array',
+            'message' => 'required|string',
+        ]);
+
+        $candidateIds = $request->candidate_ids;
         $message = $request->message;
 
-        foreach ($candidate_ids as $candidate_id) {
-            $candidate = Candidate::where('id', $candidate_id)->first();
-
-            if ($candidate) {
-                SendCandidateSms::dispatch($candidate, $message);
+        $numbers = [];
+        foreach ($candidateIds as $candidateId) {
+            $candidate = Candidate::find($candidateId);
+            // dd($candidate);
+            if ($candidate && $candidate->contact_no) {
+                $numbers[] = $candidate->contact_no;
             }
         }
 
-        session()->flash('message', 'Messages are being sent.');
-        return response()->json(['status' => 'Messages are being sent.']);
+        if (!empty($numbers)) {
+            $response = $this->textlocalService->sendSms($numbers, $message);
+            dd($response);
+            if (isset($response['status']) && $response['status'] == 'success') {
+                return response()->json(['status' => true, 'message' => 'Messages sent successfully.']);
+            } else {
+                return response()->json(['status' => false, 'message' => $response['errors'] ?? 'Failed to send messages.']);
+            }
+        }
+
+        return response()->json(['status' => false, 'message' => 'No valid phone numbers found.']);
     }
+
 
 
     public function sendWhatsapp(Request $request)

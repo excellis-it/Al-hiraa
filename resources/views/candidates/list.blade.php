@@ -572,7 +572,13 @@
                                 },
                                 success: function(response) {
                                     //windows load with toastr message
-                                    window.location.reload();
+                                    if (response.status == false) {
+                                        toastr.error(response.message);
+                                    } else {
+                                        window.location.reload();
+                                    }
+
+
                                 },
                                 error: function(xhr) {
                                     var errors = xhr.responseJSON.errors;

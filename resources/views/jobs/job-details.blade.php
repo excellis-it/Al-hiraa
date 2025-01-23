@@ -1,4 +1,3 @@
-
 <div class="table-responsive" id="tableContainer">
     <table class="table" id="candidate-form-job">
         <tbody>
@@ -15,8 +14,10 @@
                 <td>{{ $candidate_job_detail->job_service_charge ?? '' }}</td>
                 <td>Food Allowance</td>
                 <td>{{ $candidate_job_detail->food_allowance ?? '' }}</td>
-                <td>Contract Duration</td>
-                <td colspan="3">{{ $candidate_job_detail->contract_duration ? $candidate_job_detail->contract_duration . ' years' : 'N/A' }}</td>
+                <td>Contract Duration (Year)</td>
+                <td colspan="3">
+                    {{ $candidate_job_detail->contract_duration ? $candidate_job_detail->contract_duration . ' years' : 'N/A' }}
+                </td>
 
             </tr>
 
@@ -35,11 +36,15 @@
             </tr>
             <tr>
                 <td>Interview Location</td>
-                <td>{{ $candidate_job_detail->interview_location ?? '' }}</td>
+                <td colspan="3">{{ $candidate_job_detail->interview_location ?? '' }}</td>
+                <td>Company Name</td>
+                <td colspan="3">{{ $candidate_job_detail->company->company_name ?? '' }}</td>
+            </tr>
+            <tr>
                 <td>Client Remarks</td>
-                <td>{{ $candidate_job_detail->client_remarks ?? '' }}</td>
+                <td colspan="3">{{ $candidate_job_detail->client_remarks ?? '' }}</td>
                 <td>Other Remarks</td>
-                <td>{{ $candidate_job_detail->other_remarks ?? '' }}</td>
+                <td colspan="3">{{ $candidate_job_detail->other_remarks ?? '' }}</td>
             </tr>
 
         </tbody>
@@ -98,7 +103,7 @@
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->food_allowance ?? '' }}" name="food_allowance" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                <td>Contract Duration</td>
+                <td>Contract Duration (Year)</td>
                 <td colspan="3">
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->contract_duration ?? '' }}" name="contract_duration" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>
@@ -125,22 +130,28 @@
 
              <tr>
                 <td>Interview Location</td>
-                <td>
+                <td colspan="3">
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->interview_location ?? '' }}" name="interview_location" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
+                <td>Company Name</td>
+                <td colspan="3">
+                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->company->company_name ?? '' }}" name="company_name" placeholder="" disabled>
+                    <span class="text-danger" id="interview_id_job_msg"></span>
+                </td>
+            </tr>
+                <tr>
                 <td>Client Remarks</td>
-                <td>
+                <td colspan="3">
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->client_remarks ?? '' }}" name="client_remarks" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
                 <td>Other Remarks</td>
-                <td>
+                <td colspan="3">
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->other_remarks ?? '' }}" name="other_remarks" placeholder="">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
             </tr>
-
             </tbody>`);
 
 
@@ -178,7 +189,7 @@
                                     <td>{{ $candidate_job_detail->job_service_charge ?? '' }}</td>
                                     <td>Food Allowance</td>
                                     <td>{{ $candidate_job_detail->food_allowance ?? '' }}</td>
-                                    <td>Contract Duration</td>
+                                    <td>Contract Duration (Year)</td>
                                     <td colspan="3">{{ $candidate_job_detail->contract_duration ?? '' }}</td>
 
                                 </tr>
@@ -193,11 +204,15 @@
                                 </tr>
                                 <tr>
                                     <td>Interview Location</td>
-                                    <td>{{ $candidate_job_detail->interview_location ?? '' }}</td>
+                                    <td colspan="3">{{ $candidate_job_detail->interview_location ?? '' }}</td>
+                                    <td>Company Name</td>
+                                    <td colspan="3">{{ $candidate_job_detail->company->company_name ?? '' }}</td>
+                                </tr>
+                                <tr>
                                     <td>Client Remarks</td>
-                                    <td>{{ $candidate_job_detail->client_remarks ?? '' }}</td>
+                                    <td colspan="3">{{ $candidate_job_detail->client_remarks ?? '' }}</td>
                                     <td>Other Remarks</td>
-                                    <td>{{ $candidate_job_detail->other_remarks ?? '' }}</td>
+                                    <td colspan="3">{{ $candidate_job_detail->other_remarks ?? '' }}</td>
                                 </tr>
                             </tbody>`);
 

@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'textlocal' => [
+        'api_key' => env('TEXTLOCAL_API_KEY'),
+        'sender_id' => env('TEXTLOCAL_SENDER'),
+    ],
+
 ];

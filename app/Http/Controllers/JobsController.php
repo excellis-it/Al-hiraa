@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\CallCandidateEndEvent;
+use App\Exports\CandidateJobExport;
 use App\Imports\CandidateJobImport;
 use App\Jobs\SendJobSms;
 use App\Jobs\SendJobWhatsapp;
@@ -17,6 +18,7 @@ use App\Models\User;
 use App\Models\CandJobLicence;
 use App\Models\ReferralPoint;
 use App\Models\CandidateReferralPoint;
+use App\Services\TextlocalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Excel;
@@ -30,6 +32,13 @@ class JobsController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $textlocalService;
+
+    public function __construct(TextlocalService $textlocalService)
+    {
+        $this->textlocalService = $textlocalService;
+    }
+
     public function index()
     {
 
@@ -799,16 +808,27 @@ class JobsController extends Controller
         $candidate_ids = $request->candidate_ids;
         $message = $request->message;
 
-        foreach ($candidate_ids as $candidate_id) {
-            $candidate = Candidate::where('id', $candidate_id)->first();
+        $numbers = [];
+        foreach ($candidate_ids as $candidateId) {
+            $candidate = Candidate::find($candidateId);
 
-            if ($candidate) {
-                SendJobSms::dispatch($candidate, $message);
+            if ($candidate && $candidate->contact_no) {
+                $numbers[] = $candidate->contact_no;
             }
         }
 
-        session()->flash('message', 'Messages are being sent.');
-        return response()->json(['status' => 'Messages are being sent.']);
+        if (!empty($numbers)) {
+            $response = $this->textlocalService->sendSms($numbers, $message);
+
+            if (isset($response['status']) && $response['status'] == 'success') {
+                session()->flash('message', 'Messages are being sent.');
+                return response()->json(['status' => true, 'message' => 'Messages sent successfully.']);
+            } else {
+                return response()->json(['status' => false, 'message' => $response['errors'] ?? 'Failed to send messages.']);
+            }
+        }
+
+        return response()->json(['status' => false, 'message' => 'No valid phone numbers found.']);
     }
 
 
@@ -843,5 +863,26 @@ class JobsController extends Controller
         Excel::import(new CandidateJobImport(), $request->file('file')->store('temp'));
         session()->flash('message', 'Job imported successfully');
         return redirect()->back()->with('message', 'Job imported successfully');
+    }
+
+    public function export(Request $request)
+    {
+        if (Auth::user()->can('Export Candidate')) {
+            $request->validate([
+                'start_date' => 'required|date|before_or_equal:end_date',
+                'end_date' => 'required|date|after_or_equal:start_date',
+            ]);
+
+            try {
+                return Excel::download(
+                    new CandidateJobExport($request->start_date, $request->end_date),
+                    'candidate-export-' . now()->format('Y-m-d') . '.xlsx'
+                );
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('error', $th->getMessage());
+            }
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 }
