@@ -87,7 +87,7 @@ class Helper
         $status = [
             'Deployment' => ($candidate_job_details->deployment_date != null),
             'Collection' => ($candidate_job_details->total_amount != null),
-            'Document' => ($candidate_job_details->visa_receiving_date != null),
+            'Visa' => ($candidate_job_details->visa_receiving_date != null),
             'Medical' => ($candidate_job_details->medical_status != null),
             'Not-Appeared' => ($candidate_job_details->job_interview_status == 'Not-Appeared'),
             'Selected' => ($candidate_job_details->job_interview_status == 'Selected'),

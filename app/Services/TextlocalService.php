@@ -21,9 +21,14 @@ class TextlocalService
         $client = new \GuzzleHttp\Client();
         $url = 'https://api.textlocal.in/send/';
 
+        // Add '91' prefix to each mobile number
+        $formattedNumbers = array_map(function ($number) {
+            return '91' . ltrim($number, '0'); // Remove leading '0' if present, and add '91'
+        }, $numbers);
+
         $data = [
             'apikey' => urlencode($this->apiKey), // Make sure `$this->apiKey` is correctly initialized
-            'numbers' => implode(',', $numbers),
+            'numbers' => implode(',', $formattedNumbers), // Join formatted numbers with commas
             'sender' => urlencode($this->sender), // Ensure `$this->sender` is set with a valid sender name
             'message' => rawurlencode($message),
         ];

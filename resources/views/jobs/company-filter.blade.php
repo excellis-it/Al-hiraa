@@ -154,7 +154,7 @@
 
                     </div>
                     <div class="interview-text">
-                        <h4>Documentation</h4>
+                        <h4>Visa</h4>
                         <h3><span id="docu">{{ $count['total_doc'] }}</span></h3>
                     </div>
                 </div>

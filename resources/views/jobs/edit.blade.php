@@ -333,7 +333,7 @@
                                     class="accordion-button collapsed d-flex justify-content-between align-items-center"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseDocument"
                                     aria-expanded="false" aria-controls="collapseDocument">
-                                    <h5>Documents</h5>
+                                    <h5>Courier Details</h5>
                                 </button>
                             </h2>
                             <div id="collapseDocument" class="accordion-collapse collapse"
