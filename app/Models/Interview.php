@@ -16,6 +16,7 @@ class Interview extends Model
         'interview_start_date',
         'interview_end_date',
         'interview_status',
+        'interview_location'
     ];
 
     public function user()

@@ -47,7 +47,7 @@
                         @can('Create Candidate')
                             <div class="btn-group me-4">
                                 <a href="{{ route('candidates.create') }}" class="btn addcandidate_btn">Add Candidate</a>
-                                @if (Auth::user()->hasRole('ADMIN'))
+                                @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER') || Auth::user()->hasRole('PROCESS MANAGER'))
                                     <button type="button"
                                         class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">

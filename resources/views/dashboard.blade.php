@@ -236,6 +236,105 @@
                 {{-- chart --}}
                 <div class="row">
                     <div class="col-lg-12">
+                        <div class="table_right">
+                            <div class="py-3">
+                                <h4 class="card-header__title">New Job Opening</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0 thead-border-top-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Company Name</th>
+                                            <th>Interview Date</th>
+                                            <th>Job Title</th>
+                                            <th>Number of people required</th>
+                                            <th>Job Postion</th>
+                                            <th>Job Location </th>
+                                            <th>Interview Location </th>
+                                            <th>Salary</th>
+                                            <th>RC Interested Counts</th>
+                                            <th>Doc.View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (count($new_jobs_openings) > 0)
+                                            @foreach ($new_jobs_openings as $new_jobs_opening)
+                                                <tr>
+                                                    <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
+                                                    </td>
+                                                    <td>
+                                                        {{ isset($new_jobs_opening['interview_start_date']) ? date('d/m/Y', strtotime($new_jobs_opening['interview_start_date'])) : '' }}
+                                                        @if (isset($new_jobs_opening['interview_start_date']) &&
+                                                                isset($new_jobs_opening['interview_end_date']) &&
+                                                                $new_jobs_opening['interview_start_date'] != $new_jobs_opening['interview_end_date']
+                                                        )
+                                                            - {{ date('d/m/Y', strtotime($new_jobs_opening['interview_end_date'])) }}
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
+                                                    </td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
+                                                    </td>
+                                                    <td>{{ isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }}
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            title="{{ $new_jobs_opening->job ? $new_jobs_opening->job->address : '' }}"
+                                                            style="cursor: pointer">
+                                                            {{ Str::limit($new_jobs_opening->job ? $new_jobs_opening->job->address : '', 20, '...') }}
+                                                        </span>
+                                                    </td>
+
+                                                    <td>
+                                                        <span
+                                                            title="{{ $new_jobs_opening->interview_location ?? '' }}"
+                                                            style="cursor: pointer">
+                                                            {{ Str::limit($new_jobs_opening->interview_location ? $new_jobs_opening->interview_location : '', 20, '...') }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
+                                                    </td>
+
+                                                    <td>{{ Helper::getRcInterestedCount($new_jobs_opening->id) }}</td>
+                                                    <td>
+                                                        @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
+                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}"
+                                                                target="_blank">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                        @else
+                                                            No Document
+                                                        @endif
+
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                            <tr>
+                                                <td colspan="8" class="text-left">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="">
+                                                            (Showing {{ $new_jobs_openings->firstItem() }} –
+                                                            {{ $new_jobs_openings->lastItem() }} users of
+                                                            {{ $new_jobs_openings->total() }} users)
+                                                        </div>
+                                                        <div>{!! $new_jobs_openings->links() !!}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td colspan="8" class="text-center">No data found</td>
+                                            </tr>
+                                        @endif
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
                         {{-- @php
                         $year = 2023;
                     @endphp

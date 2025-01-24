@@ -272,8 +272,8 @@ class JobsController extends Controller
         // Count statistics
         $count = $this->getJobStatistics($job_id, $company, $search);
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
-             // Paginate the results
-             $candidate_jobs = $query->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
+            // Paginate the results
+            $candidate_jobs = $query->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
         } else {
             // Paginate the results
             $candidate_jobs = $query->orderBy('id', 'desc')->paginate(15);
@@ -379,7 +379,7 @@ class JobsController extends Controller
             $baseQuery->where('company_id', $company)->where('job_interview_status', '!=', 'Not-Interested');
         }
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
-        $candidate_jobs = $baseQuery->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
+            $candidate_jobs = $baseQuery->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
         } else {
             $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
         }
@@ -544,6 +544,7 @@ class JobsController extends Controller
             'date_of_selection' => 'nullable|date',
             'salary' => 'required|numeric',
             'contract_duration' => 'nullable|numeric',
+            'food_allowance' => 'nullable|numeric',
         ], [
             'salary.required' => 'The salary field is required.',
             'date_of_interview.required' => 'The date of interview is required.',

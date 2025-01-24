@@ -37,8 +37,10 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             '*.job_name' => 'required',
             '*.contract' => 'nullable|numeric',
             '*.location' => 'required',
+            '*.interview_location' => 'required',
             '*.salary' => 'required|numeric',
             '*.duty_hours' => 'numeric',
+            '*.benifits' => 'nullable|numeric',
             '*.quantity_of_people_required' => 'required|numeric',
             '*.interview_start_date' => 'required|date|after_or_equal:today',
             '*.interview_end_date' => 'required|date|after_or_equal:*.interview_start_date',
@@ -107,6 +109,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
                 Interview::create([
                     'job_id' => $job->id,
                     'user_id' => auth()->id(),
+                    'interview_location' =>  $row['interview_location'],
                     'company_id' => $this->company_id,
                     'interview_start_date' => date('Y-m-d', strtotime($row['interview_start_date'])),
                     'interview_end_date' => date('Y-m-d', strtotime($row['interview_end_date']))

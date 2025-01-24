@@ -42,7 +42,8 @@
                 <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Not-Appeared' ? 'interview-active' : '' }}"
                     data-val="Not-Appeared">
                     <div class="interview-box-img">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35" style="fill: black;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35"
+                            style="fill: black;">
                             <g id="job-interview" transform="translate(0)">
                                 <path id="Path_74" data-name="Path 74"
                                     d="M338.693,36.4a4.266,4.266,0,1,1-4.266-4.266A4.266,4.266,0,0,1,338.693,36.4Zm0,0"
@@ -291,60 +292,61 @@
 
         <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
             <div class="d-flex">
-                <a class="dropdown-item me-2" href="javascript:void(0);"
-                data-bs-toggle="modal" data-bs-target="#exportModal"> <button type="button"
-                        class="btn advance_search_btn " style="border-right: none;"> <i
-                            class="fas fa-file-excel"></i> Export CSV</button> </a>
+                @if (Auth::user()->hasRole('ADMIN') ||
+                        Auth::user()->hasRole('OPERATION MANAGER') ||
+                        Auth::user()->hasRole('PROCESS MANAGER'))
+                    <a class="dropdown-item me-2" href="javascript:void(0);" data-bs-toggle="modal"
+                        data-bs-target="#exportModal"> <button type="button" class="btn advance_search_btn "
+                            style="border-right: none;"> <i class="fas fa-file-excel"></i> Export CSV</button> </a>
 
-                <a class="dropdown-item me-2" href="javascript:void(0);" data-bs-toggle="modal"
-                    data-bs-target="#importJobModel" data-bs-whatever="@fat"> <button type="button"
-                        class="btn advance_search_btn " style="border-right: none;"> <i
-                            class="fas fa-file-excel"></i> Import CSV</button> </a>
-                <div class="action_btn ">
-                    <div class="dropdown">
-                        <a class="btn reset-btn" href="{{ route('jobs.index') }}"
-                            style="min-width: 135px; padding: 11px;"><i class="fas fa-redo-alt"></i>
-                            Reset</a>
+                    <a class="dropdown-item me-2" href="javascript:void(0);" data-bs-toggle="modal"
+                        data-bs-target="#importJobModel" data-bs-whatever="@fat"> <button type="button"
+                            class="btn advance_search_btn " style="border-right: none;"> <i
+                                class="fas fa-file-excel"></i> Import CSV</button> </a>
+                                @endif
+                    <div class="action_btn ">
+                        <div class="dropdown">
+                            <a class="btn reset-btn" href="{{ route('jobs.index') }}"
+                                style="min-width: 135px; padding: 11px;"><i class="fas fa-redo-alt"></i>
+                                Reset</a>
+                        </div>
                     </div>
-                </div>
 
             </div>
 
         </div>
 
-         <!-- Export Modal -->
-         <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
-         aria-hidden="true">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <form id="exportForm" method="POST" action="{{ route('jobs.export') }}">
-                     @csrf
-                     <div class="modal-header">
-                         <h5 class="modal-title" id="exportModalLabel">Select Date Range for Export</h5>
-                         <button type="button" class="btn-close" data-bs-dismiss="modal"
-                             aria-label="Close"></button>
-                     </div>
-                     <div class="modal-body">
-                         <div class="mb-3">
-                             <label for="start_date" class="form-label">Start Date</label>
-                             <input type="date" class="form-control" id="start_date" name="start_date"
-                                 required>
-                         </div>
-                         <div class="mb-3">
-                             <label for="end_date" class="form-label">End Date</label>
-                             <input type="date" class="form-control" id="end_date" name="end_date"
-                                 required>
-                         </div>
-                     </div>
-                     <div class="modal-footer">
-                         <button type="button" class="btn btn-secondary"
-                             data-bs-dismiss="modal">Cancel</button>
-                         <button type="submit" class="btn btn-primary">Export</button>
-                     </div>
-                 </form>
-             </div>
-         </div>
-     </div>
+        <!-- Export Modal -->
+        <div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="exportForm" method="POST" action="{{ route('jobs.export') }}">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exportModalLabel">Select Date Range for Export</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="start_date" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" id="start_date" name="start_date"
+                                    required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="end_date" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="end_date" name="end_date" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Export</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
         <div class="col-lg-12 col-md-12">
@@ -405,7 +407,8 @@
                 <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('jobs.import') }}" method="POST" id="candidate-job-form-import" enctype="multipart/form-data">
+            <form action="{{ route('jobs.import') }}" method="POST" id="candidate-job-form-import"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
@@ -418,7 +421,8 @@
                             </div>
                         </div>
 
-                        <input type="file" class="form-control" id="file" name="file" style="height: auto">
+                        <input type="file" class="form-control" id="file" name="file"
+                            style="height: auto">
                         <span class="text-danger" id="file-err"></span>
                     </div>
 
@@ -427,17 +431,26 @@
                         <h6>Validation Notes:</h6>
                         <ul>
                             <li><strong>Contact Number:</strong> Must exist in the system and be numeric.</li>
-                            <li><strong>Company Name & Location:</strong> Ensure that the company name and location match existing records.</li>
+                            <li><strong>Company Name & Location:</strong> Ensure that the company name and location
+                                match existing records.</li>
                             <li><strong>Job Title:</strong> Must exist for the selected company and location.</li>
-                            <li><strong>Interview Dates:</strong> Ensure that the interview start and end dates are valid and that the end date is after or equal to the start date.</li>
-                            <li><strong>Selection Date:</strong> Must be a date after or equal to the date of interview.</li>
+                            <li><strong>Interview Dates:</strong> Ensure that the interview start and end dates are
+                                valid and that the end date is after or equal to the start date.</li>
+                            <li><strong>Selection Date:</strong> Must be a date after or equal to the date of interview.
+                            </li>
                             <li><strong>Salary:</strong> Must be numeric.</li>
-                            <li><strong>Medical Dates:</strong> Medical dates (application, approval, etc.) must match specific conditions, e.g., they must be provided together or with other relevant fields.</li>
-                            <li><strong>Installments:</strong> Ensure installment amounts are numeric and that dates are valid.</li>
-                            <li><strong>Mode of Selection:</strong> Must be one of the following: FULL TIME, PART TIME, CONTRACT.</li>
-                            <li><strong>Job Interview Status:</strong> Must be one of the following: SELECTED, INTERESTED, NOT-INTERESTED.</li>
+                            <li><strong>Medical Dates:</strong> Medical dates (application, approval, etc.) must match
+                                specific conditions, e.g., they must be provided together or with other relevant fields.
+                            </li>
+                            <li><strong>Installments:</strong> Ensure installment amounts are numeric and that dates are
+                                valid.</li>
+                            <li><strong>Mode of Selection:</strong> Must be one of the following: FULL TIME, PART TIME,
+                                CONTRACT.</li>
+                            <li><strong>Job Interview Status:</strong> Must be one of the following: SELECTED,
+                                INTERESTED, NOT-INTERESTED.</li>
                             {{-- date format --}}
-                            <li><strong>Date Format:</strong> Date format must be in the following format: dd-mm-yyyy.</li>
+                            <li><strong>Date Format:</strong> Date format must be in the following format: dd-mm-yyyy.
+                            </li>
                         </ul>
                     </div>
                 </div>

@@ -67,6 +67,7 @@ class CompanyController extends Controller
             'interview_start_date' => 'nullable|date',
             'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
             'interview_location' => 'required',
+            'benifits' => 'nullable|numeric',
         ]);
 
         $count = Company::where(['company_name' => $request->company_name, 'company_address' => $request->company_address])->count();
@@ -232,6 +233,7 @@ class CompanyController extends Controller
             'address' => 'required',
             'salary' => 'required|numeric',
             'quantity_of_people_required' => 'required|numeric',
+            'benifits' => 'nullable|numeric',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
@@ -290,6 +292,7 @@ class CompanyController extends Controller
             'address' => 'required',
             'salary' => 'required|numeric',
             'quantity_of_people_required' => 'required|numeric',
+            'benifits' => 'nullable|numeric',
         ], [
             // 'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
