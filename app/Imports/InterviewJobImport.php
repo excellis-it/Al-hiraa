@@ -31,7 +31,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
         $rows = $rows->filter(function ($row) {
             return array_filter($row->toArray()); // Check if the row has any non-empty values
         });
-
+        // dd($rows);
         // Perform validation on the filtered dataset
         $validator = Validator::make($rows->toArray(), [
             '*.position' => 'required',

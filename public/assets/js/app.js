@@ -70,14 +70,14 @@
       $("body").toggleClass("nav_open");
     });
   });
-  
+
 
 
 
   $(".food_box_slid").slick({
     slidesToShow: 5,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
     dots: false,
     speed: 300,
     centerMode: false,
@@ -136,9 +136,9 @@
     ],
   });
   $(".interview-slide").slick({
-    slidesToShow: 6,
+    slidesToShow: 7,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
     dots: false,
     speed: 300,
     centerPadding: "20px",

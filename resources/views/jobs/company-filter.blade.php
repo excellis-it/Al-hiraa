@@ -1,4 +1,4 @@
-<section class="interview-sec m-lg-3">
+<section class="interview-sec m-3">
     <div class="interview-head">
         <h4>Interview Pipeline</h4>
     </div>
@@ -226,7 +226,7 @@
 <div class="container-fluid page__container">
     <div class="row">
 
-        <div class="col-lg-6 col-6 mb-2">
+        <div class="col-lg-6 col-md-6 mb-2">
             <div class="all_filter_btn">
                 <ul>
                     {{-- <li>
@@ -290,7 +290,7 @@
             </div>
         </div>
 
-        <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
+        <div class="col-lg-6 col-md-6 mb-2" style="display: flex;justify-content: end;">
             <div class="d-flex">
                 @if (Auth::user()->hasRole('ADMIN') ||
                         Auth::user()->hasRole('OPERATION MANAGER') ||
@@ -306,8 +306,8 @@
                                 @endif
                     <div class="action_btn ">
                         <div class="dropdown">
-                            <a class="btn reset-btn" href="{{ route('jobs.index') }}"
-                                style="min-width: 135px; padding: 11px;"><i class="fas fa-redo-alt"></i>
+                            <a class="btn reset-btn advance_search_btn" href="{{ route('jobs.index') }}"
+                                style="min-width: 135px;"><i class="fas fa-redo-alt"></i>
                                 Reset</a>
                         </div>
                     </div>
