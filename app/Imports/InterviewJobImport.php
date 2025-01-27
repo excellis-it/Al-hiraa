@@ -27,12 +27,15 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $rows)
     {
-        // $errors = [];
+        // Filter out blank rows
+        $rows = $rows->filter(function ($row) {
+            return array_filter($row->toArray()); // Check if the row has any non-empty values
+        });
 
-        // Perform validation on the entire dataset before processing
+        // Perform validation on the filtered dataset
         $validator = Validator::make($rows->toArray(), [
             '*.position' => 'required',
-            '*.vendor_email' =>  'required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|exists:users,email',
+            '*.vendor_email' => 'required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|exists:users,email',
             '*.service_charge' => 'required|numeric',
             '*.job_name' => 'required',
             '*.contract' => 'nullable|numeric',
@@ -61,33 +64,19 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             'interview_end_date.required' => 'Interview end date is required'
         ])->validate();
 
-        // dd($rows);
-
-        // if ($validator->fails()) {
-        //     // Capture and log validation errors
-        //     foreach ($validator->errors()->getMessages() as $key => $error) {
-        //         $errors[$key] = $error;
-        //     }
-        //     return $errors;
-        // }
-
         foreach ($rows as $key => $row) {
             $vendor = User::role('VENDOR')->where('email', $row['vendor_email'])->first();
 
-            // If vendor not found, log the error and skip to the next row
             if (!$vendor) {
                 $errors[$key]['vendor_email'] = "Vendor with email {$row['vendor_email']} not found.";
                 continue;
             }
 
-            // Check or create position
             $position = CandidatePosition::firstOrCreate(
                 ['name' => $row['position']],
                 ['user_id' => auth()->id(), 'is_active' => 1]
             );
-            $position_id = $position->id;
 
-            // Create job record
             $job = new Job();
             $job->status = "Ongoing";
             $job->job_name = $row['job_name'] ?? '';
@@ -97,28 +86,26 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             $job->salary = $row['salary'] ?? '';
             $job->service_charge = $row['service_charge'] ?? '';
             $job->job_description = $row['job_description'] ?? '';
-            $job->duty_hours = $row['duty_hours'] ? $row['duty_hours'] : '';
+            $job->duty_hours = $row['duty_hours'] ?? '';
             $job->address = $row['location'] ?? '';
             $job->quantity_of_people_required = $row['quantity_of_people_required'] ?? '';
             $job->vendor_id = $vendor->id;
-            $job->candidate_position_id = $position_id;
+            $job->candidate_position_id = $position->id;
             $job->save();
 
-            // Create interview record if dates are provided
             if ($row['interview_start_date'] && $row['interview_end_date']) {
                 Interview::create([
                     'job_id' => $job->id,
                     'user_id' => auth()->id(),
-                    'interview_location' =>  $row['interview_location'],
+                    'interview_location' => $row['interview_location'],
                     'company_id' => $this->company_id,
                     'interview_start_date' => date('Y-m-d', strtotime($row['interview_start_date'])),
                     'interview_end_date' => date('Y-m-d', strtotime($row['interview_end_date']))
                 ]);
             }
         }
-
-        // return $errors ?: 'Processing completed successfully';
     }
+
 
     public function headingRow(): int
     {
