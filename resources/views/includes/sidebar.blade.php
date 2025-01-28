@@ -92,7 +92,7 @@
                     </li>
                 @endif
 
-                {{-- @if (Gate::check('Manage New Registration') || Gate::check('Manage Revenue') || Gate::check('Manage Team Performance'))
+                @if (Gate::check('Manage Candidate Interview Report') || Gate::check('Manage Revenue') || Gate::check('Manage Team Performance'))
                     <li class="sidebar-menu-item">
                         <a class="sidebar-menu-button" data-bs-toggle="collapse" href="#collapseReports" role="button"
                             aria-expanded="false" aria-controls="collapseReports">
@@ -101,14 +101,14 @@
                             <span class="sidebar-menu-text">Reports</span>
                         </a>
                         <ul class="sidebar-submenu collapse" id="collapseReports">
-                            @if (Gate::check('Manage New Registration'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="">
-                                        <span class="sidebar-menu-text">New Registrations</span>
+                            @if (Gate::check('Manage Candidate Interview Report'))
+                                <li class="sidebar-menu-item {{ Request::is('reports/candidate-interview*') ? 'active open' : '' }}">
+                                    <a class="sidebar-menu-button" href="{{route('reports.candidate-interview')}}">
+                                        <span class="sidebar-menu-text">Candidate Interview</span>
                                     </a>
                                 </li>
                             @endif
-                            @if (Gate::check('Manage Revenue'))
+                            {{-- @if (Gate::check('Manage Revenue'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="#">
                                         <span class="sidebar-menu-text">Revenue & Collection</span>
@@ -121,10 +121,10 @@
                                         <span class="sidebar-menu-text">Team Performance</span>
                                     </a>
                                 </li>
-                            @endif
+                            @endif --}}
                         </ul>
                     </li>
-                @endif --}}
+                @endif
 
                 @if (Gate::check('Manage Team') ||
                         Gate::check('Manage User Access') ||

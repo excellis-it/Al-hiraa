@@ -22,7 +22,7 @@ class ScheduleController extends Controller
     public function index()
     {
         if (Auth::user()->can('Manage Schedule')) {
-            $companies = Company::orderBy('company_name', 'asc')->get();
+            $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
             // if (Auth::user()->hasRole('ADMIN')) {
             $interviews = Interview::with(['company', 'job', 'user'])
                 ->orderBy('id', 'DESC')
@@ -68,7 +68,7 @@ class ScheduleController extends Controller
             'job_id' => 'required',
             'interview_location' => 'required',
             'interview_start_date' => 'nullable|date',
-           'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
+            'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
         ], [
             'company_id.required' => 'The company field is required.',
             'job_id.required' => 'The job field is required.',
@@ -137,7 +137,7 @@ class ScheduleController extends Controller
             'job_id' => 'required',
             'interview_location' => 'required',
             'interview_start_date' => 'nullable|date',
-          'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
+            'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
         ], [
             'job_id.required' => 'The job field is required.',
             'interview_start_date.required' => 'The interview start date field is required.',
@@ -174,7 +174,7 @@ class ScheduleController extends Controller
         $interview->save();
 
         Session::flash('message', 'Interview updated successfully.');
-        return response()->json(['status' => true, 'message' => 'Interview updated successfully.']);
+        return response()->json(['view' => view('schedule.single-row-update', compact('interview'))->render(), 'interview' => $interview, 'status' => true, 'message' => 'Interview updated successfully.']);
     }
 
     /**
@@ -201,5 +201,37 @@ class ScheduleController extends Controller
         $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
         $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
         return response()->json(['view' => view('schedule.add-task', compact('company', 'add', 'positions', 'vendors', 'referral_points'))->render(), 'status' => 'success']);
+    }
+
+    public function filter(Request $request)
+    {
+        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
+        // if (Auth::user()->hasRole('ADMIN')) {
+        // Assume $search is the search term input by the user
+        $search = $request->input('search');
+
+        // Query the interviews with search conditions
+        $interviews = Interview::with(['company', 'job', 'user'])
+            ->when($search, function ($query, $search) {
+                $query->whereHas('company', function ($q) use ($search) {
+                    $q->where('company_name', 'like', '%' . $search . '%');
+                })->orWhereHas('job', function ($q) use ($search) {
+                    $q->where('job_name', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        // Group interviews by company name
+        $interviews = $interviews->groupBy(function ($interview) {
+            return $interview->company->company_name ?? '';
+        });
+
+        // Convert grouped interviews to array
+        $interviews = $interviews->mapWithKeys(function ($item, $key) {
+            return [$key => $item->toArray()];
+        });
+
+        return response()->json(['view' => view('schedule.filter', compact('companies', 'interviews'))->render()]);
     }
 }

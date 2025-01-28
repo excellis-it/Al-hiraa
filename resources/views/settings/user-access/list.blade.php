@@ -37,7 +37,7 @@
                                                     <div class="table-responsive border-bottom" data-toggle="lists">
                                                         @if (!empty($permissions))
                                                             @php
-                                                                $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'New Registration', 'Revenue', 'Team Performance', 'Team', 'User Access','Position', 'Support'];
+                                                                $modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule','Candidate Interview Report', 'Team', 'User Access','Position', 'Support'];
 
                                                             @endphp
                                                             <table class="table mb-0 table-bordered">

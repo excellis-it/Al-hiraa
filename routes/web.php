@@ -13,6 +13,7 @@ use App\Http\Controllers\ReferralPointController;
 use App\Http\Controllers\ReferCmsController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\ReportController;
 use App\Models\Cms;
 use Illuminate\Support\Facades\Route;
 
@@ -168,16 +169,16 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::post('/get-job-list', [ScheduleController::class, 'getJobList'])->name('get-job-list');
     // schedule-to-do.job-create
     Route::get('/job-create/{id}', [ScheduleController::class, 'jobCreate'])->name('schedule-to-do.job-create');
-
+    Route::get('/schedule-to-do-filter', [ScheduleController::class, 'filter'])->name('schedule-to-do.filter');
 
     Route::group(['prefix' => 'company-job'], function () {
-        Route::post('/store',[CompanyController::class,'companyJobStore'])->name('company-job.store');
-        Route::get('/edit/{id}',[CompanyController::class,'companyJobEdit'])->name('company-job.edit');
-        Route::put('/update/{id}',[CompanyController::class,'companyJobUpdate'])->name('company-job.update');
-        Route::get('/delete/{id}',[CompanyController::class,'companyJobDelete'])->name('company-job.delete');
-        Route::get('/close-job-filter',[CompanyController::class,'closeJobFilter'])->name('company-job.close-job.filter');
-        Route::get('/open-job-filter',[CompanyController::class,'openJobFilter'])->name('company-job.open-job.filter');
-        Route::post('/get-city',[CompanyController::class,'getCity'])->name('company-job.get-city');
+        Route::post('/store', [CompanyController::class, 'companyJobStore'])->name('company-job.store');
+        Route::get('/edit/{id}', [CompanyController::class, 'companyJobEdit'])->name('company-job.edit');
+        Route::put('/update/{id}', [CompanyController::class, 'companyJobUpdate'])->name('company-job.update');
+        Route::get('/delete/{id}', [CompanyController::class, 'companyJobDelete'])->name('company-job.delete');
+        Route::get('/close-job-filter', [CompanyController::class, 'closeJobFilter'])->name('company-job.close-job.filter');
+        Route::get('/open-job-filter', [CompanyController::class, 'openJobFilter'])->name('company-job.open-job.filter');
+        Route::post('/get-city', [CompanyController::class, 'getCity'])->name('company-job.get-city');
         Route::get('/company-job-download-sample', [CompanyController::class, 'downloadSample'])->name('company-job.download.sample');
         Route::post('/company-job-import', [CompanyController::class, 'import'])->name('company-job.import');
     });
@@ -204,7 +205,7 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
 
 
     Route::get('/companies-filter', [CompanyController::class, 'companiesFilter'])->name('companies.filter');
-
+    Route::get('/companies-change-status', [CompanyController::class, 'changeStatus'])->name('companies.change-status');
 
 
 
@@ -218,6 +219,8 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::put('/jobs-visa-details/{id}', [JobsController::class, 'candidateVisaDetailsUpdate'])->name('jobs.visa-details.update');
     Route::put('/jobs-ticket-details/{id}', [JobsController::class, 'candidateTicketDetailsUpdate'])->name('jobs.ticket-details.update');
     Route::put('/jobs-payment-details/{id}', [JobsController::class, 'candidatePaymentDetailsUpdate'])->name('jobs.payment-details.update');
+    // jobs.change-status
+
     // jobs.document-details.update
     Route::put('/jobs-document-details/{id}', [JobsController::class, 'candidateDocumentDetailsUpdate'])->name('jobs.document-details.update');
     Route::post('/send-job-sms', [JobsController::class, 'sendJobSms'])->name('jobs.send-job-sms');
@@ -232,6 +235,12 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     //referral cms routes
     Route::get('/referral-cms', [ReferCmsController::class, 'referCmsView'])->name('referral-cms.edit');
     Route::post('/jobs-details-update', [ReferCmsController::class, 'referCmsUpdate'])->name('referral-cms.update');
+
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/candidate-interview', [ReportController::class, 'candidateInterview'])->name('candidate-interview');
+        Route::post('/candidate-interview-export', [ReportController::class, 'candidateInterviewExport'])->name('candidate-interview-export');
+        Route::get('/get-candidates', [ReportController::class, 'getCandidates'])->name('get-candidates');
+    });
 });
 
 

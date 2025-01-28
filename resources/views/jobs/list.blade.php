@@ -112,7 +112,7 @@
                                                 <div class="multi-select-box-1">
                                                     <select name="job_id[]" id="job_id" class="form-select job_select"
                                                         multiple size="3">
-                                                        <option value="">Search position</option>
+                                                        <option value="">Search job</option>
                                                         @foreach ($company->jobs as $job)
                                                             @php
                                                                 $maxLength = 15;
@@ -318,6 +318,8 @@
             });
         });
     </script>
+
+
     <script>
         $(document).ready(function() {
 
@@ -332,7 +334,9 @@
                         search: query,
                         company: company,
                         int_pipeline: int_pipeline,
-                        job_id: job_id
+                        job_id: job_id,
+                        interestedType: '{{ request()->interested_type }}',
+                        interviewId: '{{ request()->interview_id }}'
                     },
                     success: function(response) {
                         $('#loading').removeClass('loading');
@@ -410,6 +414,8 @@
             });
         });
     </script>
+
+
     <script>
         $(document).ready(function() {
             $(document).on('click', '.edit-route', function() {
@@ -449,7 +455,7 @@
     <script>
         $('.job_select').select2({
             closeOnSelect: false,
-            placeholder: "Search Positions",
+            placeholder: "Search Job",
             allowClear: false,
             tags: true
         }).on('change', function(e) {

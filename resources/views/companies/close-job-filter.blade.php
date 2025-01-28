@@ -1,6 +1,7 @@
 @if (count($closed_jobs) > 0)
 @foreach ($closed_jobs as $item)
     <tr>
+        <td>{{ $item->job_id ?? 'N/A' }}</td>
         <td>{{ $item->job_name ?? 'N/A' }}</td>
         <td>
             {{ $item->candidatePosition->name ?? 'N/A' }}

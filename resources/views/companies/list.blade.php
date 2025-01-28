@@ -3,13 +3,111 @@
     {{ env('APP_NAME') }} - Company
 @endsection
 @push('styles')
+    <style>
+        /* Start Toogle */
+
+        .button-switch {
+            font-size: 1.2em;
+            height: 1.875em;
+            margin-bottom: 0.625em;
+            position: relative;
+            width: 2.5em;
+        }
+
+        .button-switch .lbl-off,
+        .button-switch .lbl-on {
+            cursor: pointer;
+            display: block;
+            font-size: 0.9em;
+            font-weight: bold;
+            line-height: 1em;
+            position: absolute;
+            top: 0.5em;
+            transition: opacity 0.25s ease-out 0.1s;
+            text-transform: uppercase;
+        }
+
+        .button-switch .lbl-off {
+            right: 0.4375em;
+        }
+
+        .button-switch .lbl-on {
+            color: #fefefe;
+            opacity: 0;
+            left: 0.4375em;
+        }
+
+        .button-switch .switch {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            height: 0;
+            font-size: 1em;
+            left: 0;
+            line-height: 0;
+            outline: none;
+            position: absolute;
+            top: 0;
+            width: 0;
+            margin-top: 21px;
+        }
+
+        .button-switch .switch:before,
+        .button-switch .switch:after {
+            content: "";
+            font-size: 1em;
+            position: absolute;
+        }
+
+        .button-switch .switch:before {
+            border-radius: 1.25em;
+            background: #bdc3c7;
+            height: 1.1em;
+            left: -0.25em;
+            top: -0.1875em;
+            transition: background-color 0.25s ease-out 0.1s;
+            width: 2.6em;
+        }
+
+        .button-switch .switch:after {
+            box-shadow: 0 0.0625em 0.375em 0 #666;
+            border-radius: 50%;
+            background: #fefefe;
+            height: 0.7em;
+            transform: translate(0, 0);
+            transition: transform 0.25s ease-out 0.1s;
+            width: 0.7em;
+        }
+
+        .button-switch .switch:checked:after {
+            transform: translate(1.3em, 0);
+        }
+
+        .button-switch .switch:checked~.lbl-off {
+            opacity: 0;
+        }
+
+        .button-switch .switch:checked~.lbl-on {
+            opacity: 1;
+        }
+
+        .button-switch .switch#switch-orange:checked:before {
+            background: #1492e6;
+        }
+
+        .button-switch .switch#switch-blue:checked:before {
+            background: #3498db;
+        }
+
+        /* End Toogle   */
+    </style>
 @endpush
 @section('content')
     <div class="mdk-drawer-layout__content page">
         <div class="container-fluid page__heading-container">
             <div class="row page__heading">
                 @can('Create Company')
-                    {{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
                         aria-hidden="true">
                         <div class="offcanvas-body">
                             <div class="user-acces-table">
@@ -87,8 +185,46 @@
                                 </form>
                             </div>
                         </div>
-                    </div> --}}
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+                    </div>
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="importCanvas" aria-labelledby="importCanvasLabel"
+                        aria-hidden="true">
+                        <div class="offcanvas-body">
+                            <div class="import-excel-section">
+                                <form action="{{ route('company-job.import') }}" method="POST" id="company-job-form-import"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="company_id" value="">
+                                    <div class="offcanvas-header">
+                                        <h5 class="offcanvas-title" id="importCanvasLabel">Import Excel</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="offcanvas-content">
+                                        <div class="mb-3">
+                                            <div class="row mb-3">
+                                                <div class="col-md-12 mb-6">
+                                                    <label class="form-label">Download job CSV file</label>
+                                                    <a href="{{ route('company-job.download.sample') }}"
+                                                        class="btn btn-sm btn-primary rounded">
+                                                        <i class="ti ti-download"></i> Download
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <input type="file" class="form-control" id="file" name="file"
+                                                style="height: auto">
+                                            <span class="text-danger" id="file-err"></span>
+                                        </div>
+                                    </div>
+                                    <div class="offcanvas-footer">
+                                        <button type="submit" class="btn btn-primary">Import</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
                         aria-hidden="true">
                         <div class="offcanvas-body">
                             <div class="user-acces-table">
@@ -97,7 +233,6 @@
                                     @csrf
 
                                     <div class="step">
-                                        <!-- Step 1: Company Details -->
                                         <div class="step-1">
                                             <div class="frm-head">
                                                 <h2>Create New Company</h2>
@@ -161,7 +296,6 @@
 
                                         </div>
 
-                                        <!-- Step 2: Job Details -->
                                         <div class="step-2 d-none">
                                             <div class="frm-head">
                                                 <h2>Add Job</h2>
@@ -178,10 +312,10 @@
                                                                     <span class="text-danger" id="job_name_msg_create"></span>
                                                                 </div>
                                                             </div>
-                                                            {{-- vendors --}}
+
                                                             <div class="col-xl-6">
                                                                 <div class="form-group">
-                                                                    <label for="">Vendor<span>*</span></label>
+                                                                    <label for="">Vendor</label>
                                                                     <select name="vendor_id" class="form-select new_select2"
                                                                         id="">
                                                                         <option value="">Select a vendor</option>
@@ -225,7 +359,7 @@
                                                                         id="duty_hours_msg_create"></span>
                                                                 </div>
                                                             </div>
-                                                            {{-- salary --}}
+
                                                             <div class="col-xl-6">
                                                                 <div class="form-group">
                                                                     <label for="">Salary<span>*</span></label>
@@ -262,7 +396,7 @@
                                                                     <span class="text-danger" id="benifits_msg_create"></span>
                                                                 </div>
                                                             </div>
-                                                            {{-- service_charge --}}
+
                                                             <div class="col-xl-6">
                                                                 <div class="form-group">
                                                                     <label for="">Service Charge<span>*</span></label>
@@ -272,17 +406,7 @@
                                                                         id="service_charge_msg_create"></span>
                                                                 </div>
                                                             </div>
-                                                            {{-- <div class="col-xl-4">
-                                                                <div class="form-group">
-                                                                    <label for="">Status <span>*</span></label>
-                                                                    <select name="status" class="form-select" id="">
-                                                                        <option value="">Select a status</option>
-                                                                        <option value="Ongoing">Ongoing</option>
-                                                                        <option value="Closed">Closed</option>
-                                                                    </select>
-                                                                    <span class="text-danger" id="status_msg_create"></span>
-                                                                </div>
-                                                            </div> --}}
+
                                                             <div class="col-xl-6">
                                                                 <div class="form-group">
                                                                     <label for="">Referral Point</label>
@@ -325,7 +449,8 @@
                                                             </div>
                                                             <div class="col-lg-12 mt-3">
                                                                 <div class="save-btn-div d-flex align-items-center">
-                                                                    <button type="button" class="btn add-anoter-btn previous-step"
+                                                                    <button type="button"
+                                                                        class="btn add-anoter-btn previous-step"
                                                                         data-previous="1">Previous</button>
                                                                     <button type="button"
                                                                         class="btn save-btn next-step-2">Next</button>
@@ -368,7 +493,8 @@
                                                             </div>
                                                             <div class="col-xl-12">
                                                                 <div class="form-group">
-                                                                    <label for="">Interview Location<span>*</span></label>
+                                                                    <label for="">Interview
+                                                                        Location<span>*</span></label>
                                                                     <input type="text" class="form-control"
                                                                         id="interview_location" value=""
                                                                         name="interview_location" placeholder="">
@@ -395,7 +521,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 @endcan
                 <div class="col-xl-8 col-lg-7 col-md-6 mb-3 mb-md-0">
                     <div class="">
@@ -410,7 +536,7 @@
                     <div class="col-xl-4 col-lg-5 col-md-6">
                         <div class="d-flex justify-content-center justify-content-md-start">
                             <div class="btn-group me-4">
-                                <a href="add_candidate.html" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                                     aria-controls="offcanvasRight" class="btn addcandidate_btn"><i class="fas fa-plus"></i>
                                     Add
                                     Company</a>
@@ -524,7 +650,7 @@
             // Handle 'Previous' button click
             $('.previous-step').on('click', function() {
                 let previousStep = $(this).data(
-                'previous'); // Get the previous step from data-previous attribute
+                    'previous'); // Get the previous step from data-previous attribute
                 $('.step-' + (previousStep + 1)).addClass('d-none'); // Hide current step
                 $('.step-' + previousStep).removeClass('d-none'); // Show previous step
             });
@@ -532,8 +658,8 @@
             // Handle form submission for the final step
             $('#company-form-create').submit(function(e) {
                 e.preventDefault();
-                let formData = new FormData($('#company-form-create')[
-                0]); // Use FormData to include file uploads
+
+                let formData = new FormData($('#company-form-create')[0]); // Use FormData for file uploads
 
                 $.ajax({
                     url: $('#company-form-create').attr('action'), // Use form's action attribute
@@ -543,7 +669,17 @@
                     processData: false,
                     success: function(response) {
                         if (response.status == true) {
-                            window.location.reload();
+                            // Close the company creation offcanvas
+                            $('#offcanvasRight').offcanvas('hide');
+                            toastr.success(response.message);
+                            // Update the import offcanvas with the company_id from the response
+                            $('input[name="company_id"]').val(response.company_id);
+
+                            // Open the import offcanvas
+                            $('#importCanvas').offcanvas('show');
+
+                            // Update any additional UI elements, if necessary
+                            $('#company-filter').html(response.view);
                         } else {
                             $('#loading').removeClass('loading');
                             $('#loading-content').removeClass('loading-content');
@@ -567,6 +703,67 @@
                 });
             });
 
+
+        });
+    </script>
+      <script>
+        $(document).on('submit', '#company-job-form-import', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    //windows load with toastr message
+                    window.location.href = response.route;
+
+                    toastr.success('Job imported successfully');
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
+
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // console.log(key);
+                        // Assuming you have a div with class "text-danger" next to each input
+                        $('[name="file"]').next('.text-danger').html(value[
+                            0]);
+                    });
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $(document).on('change', '.toggle-class', function() {
+                var status = $(this).prop('checked') == true ? 1 : 0;
+                var company_id = $(this).data('id');
+                $('#loading').addClass('loading');
+                $('#loading-content').addClass('loading-content');
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: '{{ route('companies.change-status') }}',
+                    data: {
+                        'status': status,
+                        'company_id': company_id
+                    },
+                    success: function(resp) {
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+                        toastr.success(resp.success);
+                    }
+                });
+            });
         });
     </script>
     <script>

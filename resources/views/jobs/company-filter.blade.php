@@ -39,8 +39,8 @@
                 </div>
             </div>
             <div class="interview-slide-wrap">
-                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Not-Appeared' ? 'interview-active' : '' }}"
-                    data-val="Not-Appeared">
+                <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Appeared' ? 'interview-active' : '' }}"
+                    data-val="Appeared">
                     <div class="interview-box-img">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 35 35"
                             style="fill: black;">
@@ -67,8 +67,8 @@
                         </svg>
                     </div>
                     <div class="interview-text">
-                        <h4>Not Appeared</h4>
-                        <h3><span id="all">{{ $count['total_not_appeared'] }}</span></h3>
+                        <h4>Appeared</h4>
+                        <h3><span id="all">{{ $count['total_appeared'] }}</span></h3>
                     </div>
                 </div>
             </div>

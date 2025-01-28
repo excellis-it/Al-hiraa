@@ -109,7 +109,7 @@
             <div class="candidate_form candidate_edit_form">
                 <div class="table-responsive" id="tableContainer">
                     <table class="table" id="candidate-form">
-                        
+
                         <tbody>
                             <tr>
                                 <td>Full Name</td>
@@ -118,7 +118,7 @@
                                 <td>{{ $candidate_job_detail->email ?? 'N/A'}}</td>
                                 <td>Gender</td>
                                 <td>{{ $candidate_job_detail->gender ?? 'N/A'}}</td>
-                                
+
                             </tr>
                             <tr>
                                 <td>Date of birth</td>
@@ -160,7 +160,7 @@
                             <tr>
                                 <td>Job Title</td>
                                 <td>@if ($candidate_job_detail->jobTitle != null)
-                                    {{ $candidate_job_detail->jobTitle->job_name }}
+                                    {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A'}}
                                     @else
                                         {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
                                     @endif
@@ -195,9 +195,9 @@
                                         {{ 'N/A' }}
                                     @endif
                                 </td>
-                                
+
                             </tr>
-                            
+
                         </tbody>
                     </table>
                 </div>
@@ -242,9 +242,9 @@
                                 <td>Date of Interview</td>
                                 <td>{{ $candidate_job_detail->date_of_interview ?? 'N/A'}}</td>
                                 <td>Date of Selection</td>
-                                <td>{{ $candidate_job_detail->date_of_selection ?? 'N/A'}}</td>  
+                                <td>{{ $candidate_job_detail->date_of_selection ?? 'N/A'}}</td>
                                 <td>Mode of Selection</td>
-                                <td>{{ $candidate_job_detail->mode_of_selection ?? 'N/A'}}</td>                                     
+                                <td>{{ $candidate_job_detail->mode_of_selection ?? 'N/A'}}</td>
                             </tr>
                             <tr>
                                 <td>Interview Location</td>
@@ -255,7 +255,7 @@
                                 <td>{{ $candidate_job_detail->other_remarks ?? 'N/A'}}</td>
                             </tr>
                             <tr>
-                               
+
                                 <td>Sponsor</td>
                                 <td>{{ $candidate_job_detail->sponsor ?? 'N/A'}}</td>
                                 <td>Country</td>
@@ -264,12 +264,12 @@
                                 <td>{{ $candidate_job_detail->salary ?? 'N/A'}}</td>
                             </tr>
                             <tr>
-                                
+
                                 <td>Food Allowance</td>
                                 <td>{{ $candidate_job_detail->food_allowance ?? 'N/A'}}</td>
                                 <td>Contract Duration</td>
                                 <td>{{ $candidate_job_detail->contract_duration ?? 'N/A'}}</td>
-                                
+
                             </tr>
                             <tr>
                                 <td>Mofa No</td>
@@ -353,8 +353,8 @@
                 <div class="table-responsive" id="tableContainer">
                     <table class="table" id="candidate-form-medical">
                         <tbody>
-                            <tr>                                        
-                                    
+                            <tr>
+
                                 <td>Medical Application Date</td>
                                 <td>{{ $candidate_job_detail->medical_application_date ?? 'N/A'}}</td>
                                 <td>Medical Completion Date</td>
@@ -440,7 +440,7 @@
                 <div class="table-responsive" id="tableContainer">
                     <table class="table" id="candidate-form-ticket">
                         <tbody>
-                            <tr>                                        
+                            <tr>
                                 <td>Ticket Booking Date</td>
                                 <td>{{ $candidate_job_detail->ticket_booking_date ?? 'N/A'}}</td>
                                 <td>Ticket Confirmation Date</td>
@@ -481,31 +481,31 @@
                 <div class="table-responsive" id="tableContainer">
                     <table class="table" id="candidate-form-payment">
                         <tbody>
-                            <tr>                                        
+                            <tr>
                                 <td>1st Installment Amount</td>
                                 <td>{{ $candidate_job_detail->fst_installment_amount ?? 'N/A'}}</td>
                                 <td>1st Installment Date</td>
                                 <td>{{ $candidate_job_detail->fst_installment_date ?? 'N/A'}}</td>
                                 <td>2nd Installment Amount</td>
-                                <td>{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A'}}</td>                                     
+                                <td>{{ $candidate_job_detail->secnd_installment_amount ?? 'N/A'}}</td>
                             </tr>
-                            
-                            <tr>  
+
+                            <tr>
                                 <td>2nd Installment Date</td>
-                                <td>{{ $candidate_job_detail->secnd_installment_date ?? 'N/A'}}</td>                                      
+                                <td>{{ $candidate_job_detail->secnd_installment_date ?? 'N/A'}}</td>
                                 <td>3rd Installment Amount</td>
                                 <td>{{ $candidate_job_detail->third_installment_amount ?? 'N/A'}}</td>
                                 <td>3rd Installment Date</td>
                                 <td>{{ $candidate_job_detail->third_installment_date ?? 'N/A'}}</td>
                             </tr>
-                            
+
                             <tr>
                                 <td>4th Installment Amount</td>
                                 <td>{{ $candidate_job_detail->fourth_installment_amount ?? 'N/A'}}</td>
                                 <td>4th Installment Date</td>
                                 <td>{{ $candidate_job_detail->fourth_installment_date ?? 'N/A'}}</td>
                                 <td>Total Amount</td>
-                                <td>{{ $candidate_job_detail->total_amount ?? 'N/A'}}</td>                                       
+                                <td>{{ $candidate_job_detail->total_amount ?? 'N/A'}}</td>
                             </tr>
                             <tr>
                                 <td>Deployment Date</td>

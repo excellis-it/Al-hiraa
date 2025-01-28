@@ -79,6 +79,11 @@ class Helper
         return CandidateJob::where('interview_id', $interview_id)->where('assign_by_id', auth()->id())->count();
     }
 
+    public static function getAllRcInterestedCount($interview_id)
+    {
+        return CandidateJob::where('interview_id', $interview_id)->count();
+    }
+
     public static function getCurrentStatus($job_id)
     {
         $candidate_job_details = CandidateJob::where('id', $job_id)->first();
@@ -89,7 +94,7 @@ class Helper
             'Collection' => ($candidate_job_details->total_amount != null),
             'Visa' => ($candidate_job_details->visa_receiving_date != null),
             'Medical' => ($candidate_job_details->medical_status != null),
-            'Not-Appeared' => ($candidate_job_details->job_interview_status == 'Not-Appeared'),
+            'Appeared' => ($candidate_job_details->job_interview_status == 'Appeared'),
             'Selected' => ($candidate_job_details->job_interview_status == 'Selected'),
             'Interview' => ($candidate_job_details->job_interview_status == 'Interested' || $candidate_job_details->job_interview_status == 'Selected'), // Added 'Interested' status
         ];

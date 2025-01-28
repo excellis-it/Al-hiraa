@@ -138,22 +138,26 @@
                                 <table class="table table-bordered mb-0 thead-border-top-0">
                                     <thead>
                                         <tr>
+                                            <th>Job ID</th>
                                             <th>Company Name</th>
                                             <th>Interview Date</th>
                                             <th>Job Title</th>
-                                            <th>Number of people required</th>
+                                            <th>Benifits(Food Allowence)</th>
+                                            <th>People Required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
                                             <th>Interview Location </th>
                                             <th>Salary</th>
-                                            <th>RC Interested Counts</th>
-                                            <th>Doc.View</th>
+                                            <th>RC Interested</th>
+                                            <th>Team Interested</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if (count($new_jobs_openings) > 0)
                                             @foreach ($new_jobs_openings as $new_jobs_opening)
                                                 <tr>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_id : '' }}
+                                                    </td>
                                                     <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
                                                     </td>
                                                     <td>
@@ -162,10 +166,13 @@
                                                                 isset($new_jobs_opening['interview_end_date']) &&
                                                                 $new_jobs_opening['interview_start_date'] != $new_jobs_opening['interview_end_date']
                                                         )
-                                                            - {{ date('d/m/Y', strtotime($new_jobs_opening['interview_end_date'])) }}
+                                                            -
+                                                            {{ date('d/m/Y', strtotime($new_jobs_opening['interview_end_date'])) }}
                                                         @endif
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
+                                                    </td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->benifits : '' }}
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
                                                     </td>
@@ -180,8 +187,7 @@
                                                     </td>
 
                                                     <td>
-                                                        <span
-                                                            title="{{ $new_jobs_opening->interview_location ?? '' }}"
+                                                        <span title="{{ $new_jobs_opening->interview_location ?? '' }}"
                                                             style="cursor: pointer">
                                                             {{ Str::limit($new_jobs_opening->interview_location ? $new_jobs_opening->interview_location : '', 20, '...') }}
                                                         </span>
@@ -190,18 +196,16 @@
                                                         {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
                                                     </td>
 
-                                                    <td>{{ Helper::getRcInterestedCount($new_jobs_opening->id) }}</td>
                                                     <td>
-                                                        @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
-                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}"
-                                                                target="_blank">
-                                                                <i class="fa-solid fa-eye"></i>
-                                                            </a>
-                                                        @else
-                                                            No Document
-                                                        @endif
-
+                                                        <a
+                                                            href="{{ route('jobs.index', ['interested_type' => 'self', 'interview_id' => $new_jobs_opening->id]) }}">
+                                                            {{ Helper::getRcInterestedCount($new_jobs_opening->id) }}
+                                                        </a>
                                                     </td>
+                                                    <td>
+                                                        {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
+                                                    </td>
+
                                                 </tr>
                                             @endforeach
 
@@ -244,22 +248,25 @@
                                 <table class="table table-bordered mb-0 thead-border-top-0">
                                     <thead>
                                         <tr>
+                                            <th>Job ID</th>
                                             <th>Company Name</th>
                                             <th>Interview Date</th>
                                             <th>Job Title</th>
-                                            <th>Number of people required</th>
+                                            <th>Benifits(Food Allowence)</th>
+                                            <th>People Required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
                                             <th>Interview Location </th>
                                             <th>Salary</th>
-                                            <th>RC Interested Counts</th>
-                                            <th>Doc.View</th>
+                                            <th>Team Interested</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @if (count($new_jobs_openings) > 0)
                                             @foreach ($new_jobs_openings as $new_jobs_opening)
                                                 <tr>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_id : '' }}
+                                                    </td>
                                                     <td>{{ $new_jobs_opening->company ? $new_jobs_opening->company->company_name : '' }}
                                                     </td>
                                                     <td>
@@ -268,10 +275,13 @@
                                                                 isset($new_jobs_opening['interview_end_date']) &&
                                                                 $new_jobs_opening['interview_start_date'] != $new_jobs_opening['interview_end_date']
                                                         )
-                                                            - {{ date('d/m/Y', strtotime($new_jobs_opening['interview_end_date'])) }}
+                                                            -
+                                                            {{ date('d/m/Y', strtotime($new_jobs_opening['interview_end_date'])) }}
                                                         @endif
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
+                                                    </td>
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->benifits : '' }}
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
                                                     </td>
@@ -286,8 +296,7 @@
                                                     </td>
 
                                                     <td>
-                                                        <span
-                                                            title="{{ $new_jobs_opening->interview_location ?? '' }}"
+                                                        <span title="{{ $new_jobs_opening->interview_location ?? '' }}"
                                                             style="cursor: pointer">
                                                             {{ Str::limit($new_jobs_opening->interview_location ? $new_jobs_opening->interview_location : '', 20, '...') }}
                                                         </span>
@@ -295,18 +304,11 @@
                                                     <td>
                                                         {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
                                                     </td>
-
-                                                    <td>{{ Helper::getRcInterestedCount($new_jobs_opening->id) }}</td>
                                                     <td>
-                                                        @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
-                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}"
-                                                                target="_blank">
-                                                                <i class="fa-solid fa-eye"></i>
-                                                            </a>
-                                                        @else
-                                                            No Document
-                                                        @endif
-
+                                                        <a
+                                                            href="{{ route('jobs.index', ['interested_type' => 'team', 'interview_id' => $new_jobs_opening->id]) }}">
+                                                            {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @endforeach

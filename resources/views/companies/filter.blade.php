@@ -2,15 +2,24 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-5">
     @foreach ($companies as $company)
         <div class="col mb-4">
-            <div class="food-box">
-                <div class="food-box-img">
-                    @if ($company->company_logo)
-                        <img src="{{ Storage::url($company->company_logo) }}" alt="">
-                    @else
-                        <img src="{{ asset('assets/images/company.png') }}" alt="">
-                    @endif
 
+            <div class="food-box">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="food-box-img">
+                        @if ($company->company_logo)
+                            <img src="{{ Storage::url($company->company_logo) }}" alt="">
+                        @else
+                            <img src="{{ asset('assets/images/company.png') }}" alt="">
+                        @endif
+                    </div>
+                    <div class="button-switch">
+                        <input type="checkbox" id="switch-orange" class="switch toggle-class" data-id="{{ $company['id'] }}"
+                            {{ $company['status'] ? 'checked' : '' }} />
+                        <label for="switch-orange" class="lbl-off"></label>
+                        <label for="switch-orange" class="lbl-on"></label>
+                    </div>
                 </div>
+
                 <div class="food-box-head">
                     <h3>{{ $company->company_name ?? 'N/A' }}</h3>
                 </div>

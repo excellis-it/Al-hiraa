@@ -25,7 +25,7 @@
                                     {{-- vendors --}}
                                     <div class="col-xl-6">
                                         <div class="form-group">
-                                            <label for="">Vendor<span>*</span></label>
+                                            <label for="">Vendor</label>
                                             <select name="vendor_id" class="form-select new_select2" id="">
                                                 <option value="">Select a vendor</option>
                                                 @foreach ($vendors as $vendor)
@@ -83,7 +83,7 @@
                                     </div>
                                     <div class="col-xl-6">
                                         <div class="form-group">
-                                            <label for="">Number of people required<span>*</span></label>
+                                            <label for="">People Required<span>*</span></label>
                                             <input type="number" class="form-control" id=""
                                                 value="" name="quantity_of_people_required" placeholder="">
                                             <span class="text-danger" id="quantity_of_people_required_msg_create"></span>

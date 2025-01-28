@@ -33,7 +33,7 @@ class CompanyController extends Controller
     public function index()
     {
         if (Auth::user()->can('Manage Company')) {
-            $companies = Company::orderBy('id', 'DESC')->paginate(15);
+            $companies = Company::orderBy('id', 'DESC')->paginate(20);
 
             $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
             $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
@@ -64,10 +64,10 @@ class CompanyController extends Controller
             'company_industry' => 'required',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'company_description' => 'nullable',
-            'interview_start_date' => 'nullable|date',
-            'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
-            'interview_location' => 'required',
-            'benifits' => 'nullable|numeric',
+            // 'interview_start_date' => 'nullable|date',
+            // 'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
+            // 'interview_location' => 'required',
+            // 'benifits' => 'nullable|numeric',
         ]);
 
         $count = Company::where(['company_name' => $request->company_name, 'company_address' => $request->company_address])->count();
@@ -85,44 +85,44 @@ class CompanyController extends Controller
         $company->company_logo = $this->imageUpload($request->file('company_logo'), 'company');
         $company->save();
 
-        $job = new Job();
-        $job->candidate_position_id = $request->candidate_position_id;
-        $job->vendor_id = $request->vendor_id;
-        $job->service_charge = $request->service_charge;
-        $job->salary = $request->salary;
-        $job->company_id = $company->id;
-        $job->job_name = $request->job_name;
-        $job->duty_hours = $request->duty_hours;
-        $job->contract = $request->contract;
-        $job->benifits = $request->benifits;
-        $job->quantity_of_people_required = $request->quantity_of_people_required;
-        $job->address = $request->address;
-        $job->job_description = $request->job_description;
-        if ($request->hasFile('document')) {
-            if ($job->document) {
-                $currentImageFilename = $job->document; // get current image name
-                Storage::delete('app/' . $currentImageFilename);
-            }
-            $job->document = $this->imageUpload($request->file('document'), 'job');
-        }
-        $job->status = "Ongoing";
-        $job->referral_point_id = $request->referral_point_id;
-        $job->save();
+        // $job = new Job();
+        // $job->candidate_position_id = $request->candidate_position_id;
+        // $job->vendor_id = $request->vendor_id;
+        // $job->service_charge = $request->service_charge;
+        // $job->salary = $request->salary;
+        // $job->company_id = $company->id;
+        // $job->job_name = $request->job_name;
+        // $job->duty_hours = $request->duty_hours;
+        // $job->contract = $request->contract;
+        // $job->benifits = $request->benifits;
+        // $job->quantity_of_people_required = $request->quantity_of_people_required;
+        // $job->address = $request->address;
+        // $job->job_description = $request->job_description;
+        // if ($request->hasFile('document')) {
+        //     if ($job->document) {
+        //         $currentImageFilename = $job->document; // get current image name
+        //         Storage::delete('app/' . $currentImageFilename);
+        //     }
+        //     $job->document = $this->imageUpload($request->file('document'), 'job');
+        // }
+        // $job->status = "Ongoing";
+        // $job->referral_point_id = $request->referral_point_id;
+        // $job->save();
 
-        $interview = new Interview();
-        $interview->user_id = Auth::user()->id;
-        $interview->company_id = $company->id;
-        $interview->job_id = $job->id;
-        $interview->interview_start_date = $request->interview_start_date;
-        $interview->interview_end_date = $request->interview_end_date;
-        $interview->interview_location = $request->interview_location;
+        // $interview = new Interview();
+        // $interview->user_id = Auth::user()->id;
+        // $interview->company_id = $company->id;
+        // $interview->job_id = $job->id;
+        // $interview->interview_start_date = $request->interview_start_date;
+        // $interview->interview_end_date = $request->interview_end_date;
+        // $interview->interview_location = $request->interview_location;
 
-        $interview->interview_status = "Working";
-        $interview->save();
+        // $interview->interview_status = "Working";
+        // $interview->save();
 
-
-        Session::flash('message', 'Company created successfully');
-        return response()->json(['message' => __('Company created successfully.'), 'status' => true]);
+        $companies = Company::orderBy('id', 'DESC')->paginate(20);
+        // Session::flash('message', 'Company created successfully');
+        return response()->json(['message' => __('Company created successfully.'), 'status' => true, 'view' => view('companies.filter', compact('companies'))->render(), 'company_id' => $company->id]);
     }
 
     /**
@@ -217,7 +217,7 @@ class CompanyController extends Controller
         if (!Auth::user()->hasRole('ADMIN')) {
             $companies->where('user_id', Auth::user()->id);
         }
-        $companies = $companies->orderBy('id', 'DESC')->paginate(15);
+        $companies = $companies->orderBy('id', 'DESC')->paginate(20);
 
         return response()->json(['view' => view('companies.filter', compact('companies'))->render()]);
     }
@@ -226,7 +226,7 @@ class CompanyController extends Controller
     {
         $request->validate([
             'candidate_position_id' => 'required',
-            'vendor_id' => 'required',
+            'vendor_id' => 'nullable',
             'service_charge' => 'required|numeric',
             'job_name' => 'required',
             'contract' => 'nullable|numeric',
@@ -244,7 +244,33 @@ class CompanyController extends Controller
             'salary.numeric' => 'Salary field must be a number',
         ]);
 
+        $year = date('Y');
+
+        // Get the last job for the current year
+        $last_job_this_year = Job::whereYear('created_at', $year)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Check if a job exists for the current year and extract the entry number
+        if ($last_job_this_year && $last_job_this_year->job_id) {
+            // Extract the entry number from the job_id (e.g., 001 from 2025/001/5000)
+            $last_entry_number = (int) explode('/', $last_job_this_year->job_id)[1] ?? 0;
+        } else {
+            // No jobs this year, start with 0
+            $last_entry_number = 0;
+        }
+
+        // Increment the entry number for the new job
+        $new_entry_number = str_pad($last_entry_number + 1, 3, '0', STR_PAD_LEFT); // Format as 3 digits (e.g., 001, 002)
+
+        // Define the service charge (you can replace this with dynamic logic if needed)
+        $service_charge = $request['service_charge'];
+
+        // Generate the new job_id
+        $new_job_id = "{$year}/{$new_entry_number}/{$service_charge}";
+        // dd($new_job_id);
         $job = new Job();
+        $job->job_id = $new_job_id;
         $job->candidate_position_id = $request->candidate_position_id;
         $job->vendor_id = $request->vendor_id;
         $job->service_charge = $request->service_charge;
@@ -369,7 +395,7 @@ class CompanyController extends Controller
             case 2:
                 $rules = [
                     'candidate_position_id' => 'required',
-                    'vendor_id' => 'required',
+                    'vendor_id' => 'nullable',
                     'service_charge' => 'required|numeric',
                     'job_name' => 'required',
                     'contract' => 'nullable|numeric',
@@ -411,7 +437,23 @@ class CompanyController extends Controller
             'file' => 'required|mimes:xls,xlsx',
         ]);
         Excel::import(new InterviewJobImport($company_id), $request->file('file')->store('temp'));
+
+        $route = route('companies.show', Crypt::encrypt($company_id));
         session()->flash('message', 'Job imported successfully');
-        return redirect()->back()->with('message', 'Job imported successfully');
+        return response()->json(['status' => true, 'route' => $route]);
+    }
+
+
+    public function changeStatus(Request $request)
+    {
+        $company = Company::find($request->company_id);
+        $company->status = $request->status;
+        $company->save();
+        if ($request->status == 0) {
+            $message = 'Status deactivated successfully.';
+        } else {
+            $message = 'Status activated successfully.';
+        }
+        return response()->json(['success' => $message]);
     }
 }

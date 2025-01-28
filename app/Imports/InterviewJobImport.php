@@ -35,7 +35,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
         // Perform validation on the filtered dataset
         $validator = Validator::make($rows->toArray(), [
             '*.position' => 'required',
-            '*.vendor_email' => 'required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|exists:users,email',
+            '*.vendor_email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|exists:users,email',
             '*.service_charge' => 'required|numeric',
             '*.job_name' => 'required',
             '*.contract' => 'nullable|numeric',
@@ -76,9 +76,33 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
                 ['name' => $row['position']],
                 ['user_id' => auth()->id(), 'is_active' => 1]
             );
+            $year = date('Y'); // Current year
+
+            // Get the last job for the current year
+            $last_job_this_year = Job::whereYear('created_at', $year)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            if ($last_job_this_year->job_id) {
+                // Extract the entry number from the job_id (e.g., 001 from 2025/001/5000)
+                $last_entry_number = (int) explode('/', $last_job_this_year->job_id)[1] ?? 0;
+            } else {
+                // No jobs this year, start with 0
+                $last_entry_number = 0;
+            }
+
+            // Increment the entry number for the new job
+            $new_entry_number = str_pad($last_entry_number + 1, 3, '0', STR_PAD_LEFT); // Format as 3 digits (e.g., 001, 002)
+
+            // Define the service charge (you can replace this with dynamic logic if needed)
+            $service_charge = $row['service_charge'];
+
+            // Generate the new job_id
+            $new_job_id = "{$year}/{$new_entry_number}/{$service_charge}";
 
             $job = new Job();
             $job->status = "Ongoing";
+            $job->job_id = $new_job_id;
             $job->job_name = $row['job_name'] ?? '';
             $job->company_id = $this->company_id;
             $job->contract = $row['contract'] ?? '';
@@ -99,8 +123,8 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
                     'user_id' => auth()->id(),
                     'interview_location' => $row['interview_location'],
                     'company_id' => $this->company_id,
-                    'interview_start_date' => date('Y-m-d', strtotime($row['interview_start_date'])),
-                    'interview_end_date' => date('Y-m-d', strtotime($row['interview_end_date']))
+                    'interview_start_date' => date('d-m-Y', strtotime($row['interview_start_date'])),
+                    'interview_end_date' => date('d-m-Y', strtotime($row['interview_end_date']))
                 ]);
             }
         }

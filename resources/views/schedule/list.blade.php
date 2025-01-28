@@ -56,8 +56,8 @@
                                                     <div class="form-group">
                                                         <label for="">Start Date </label>
                                                         <input type="text" class="form-control datepicker" id="strt_date"
-                                                            value="{{ date('d-m-Y') }}"
-                                                            name="interview_start_date" placeholder="">
+                                                            value="{{ date('d-m-Y') }}" name="interview_start_date"
+                                                            placeholder="">
                                                         <span class="text-danger" id="interview_start_date_msg"></span>
                                                     </div>
                                                 </div>
@@ -65,8 +65,7 @@
                                                     <div class="form-group">
                                                         <label for="">End Date<span>*</span></label>
                                                         <input type="text" class="form-control datepicker" id="end1_date"
-                                                            value=""  name="interview_end_date"
-                                                            placeholder="">
+                                                            value="" name="interview_end_date" placeholder="">
                                                         <span class="text-danger" id="interview_end_date_msg"></span>
                                                     </div>
                                                 </div>
@@ -74,8 +73,7 @@
                                                     <div class="form-group">
                                                         <label for="">Interview Location<span>*</span></label>
                                                         <input type="text" class="form-control" id="interview_location"
-                                                            value=""
-                                                            name="interview_location" placeholder="">
+                                                            value="" name="interview_location" placeholder="">
                                                         <span class="text-danger" id="interview_location_msg"></span>
                                                     </div>
                                                 </div>
@@ -117,98 +115,39 @@
                 </div>
             @endcan
             <section class="todo_sec text_left_td_th">
-                <div class="text-end pt-3 pt-lg-4 mb-3 mb-md-0">
+
+                <div class="row page__heading">
+                    <div class="col-xl-8 col-lg-7 col-md-6 mb-3 mb-md-0">
+                        <div class="">
+                            <form class="search-form d-flex" action="javascript:void(0);">
+                                <button class="btn" type="submit" role="button"><i
+                                        class="fa-solid fa-magnifying-glass"></i></button>
+                                <input type="text" class="form-control query" placeholder="Advance Search..">
+                            </form>
+                        </div>
+                    </div>
                     @can('Create Schedule')
-                        <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                            aria-controls="offcanvasRight" class="add_interview"><svg xmlns="http://www.w3.org/2000/svg"
-                                width="15.333" height="15.333" viewBox="0 0 15.333 15.333">
-                                <path id="plus-small"
-                                    d="M20.056,12.389H14.944V7.278A1.278,1.278,0,0,0,13.667,6h0a1.278,1.278,0,0,0-1.278,1.278v5.111H7.278A1.278,1.278,0,0,0,6,13.667H6a1.278,1.278,0,0,0,1.278,1.278h5.111v5.111a1.278,1.278,0,0,0,1.278,1.278h0a1.278,1.278,0,0,0,1.278-1.278V14.944h5.111a1.278,1.278,0,0,0,1.278-1.278h0A1.278,1.278,0,0,0,20.056,12.389Z"
-                                    transform="translate(-6 -6)" opacity="0.5" />
-                            </svg>
-                            Add Interview
-                        </a>
+                        <div class="col-xl-4 col-lg-5 col-md-6">
+                            <div class="d-flex justify-content-center justify-content-md-start">
+                                <div class="btn-group me-4">
+                                    <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                        aria-controls="offcanvasRight" class="add_interview mb-5"><svg
+                                            xmlns="http://www.w3.org/2000/svg" width="15.333" height="15.333"
+                                            viewBox="0 0 15.333 15.333">
+                                            <path id="plus-small"
+                                                d="M20.056,12.389H14.944V7.278A1.278,1.278,0,0,0,13.667,6h0a1.278,1.278,0,0,0-1.278,1.278v5.111H7.278A1.278,1.278,0,0,0,6,13.667H6a1.278,1.278,0,0,0,1.278,1.278h5.111v5.111a1.278,1.278,0,0,0,1.278,1.278h0a1.278,1.278,0,0,0,1.278-1.278V14.944h5.111a1.278,1.278,0,0,0,1.278-1.278h0A1.278,1.278,0,0,0,20.056,12.389Z"
+                                                transform="translate(-6 -6)" opacity="0.5" />
+                                        </svg>
+                                        Add Interview
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     @endcan
                 </div>
-                @if (count($interviews) > 0)
-                    @foreach ($interviews as $key => $items)
-                        <div class="mb-3 ps-5 color_h4">
-                            <h4>{{ $key }}</h4>
-                        </div>
-                        <div class="table-responsive" data-toggle="lists">
-                            <table class="table mb-0 table-bordered">
-                                <thead>
-                                    <tr>
-                                        {{-- <th style="width: 50px;">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                    </div>
-                                </th> --}}
-                                        <th>Job Name</th>
-                                        <th>Asignee</th>
-                                        <th>Due Date</th>
-                                        {{-- <th>Status</th> --}}
-                                        <th>Interview Location</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="list" id="user_tbody">
-                                    @foreach ($items as $interview)
-                                        {{-- @dd($interviewjob) --}}
-                                        <tr>
-                                            {{-- <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input js-check-selected-row">
-                                        </div>
-                                    </td> --}}
-                                            <td>{{ $interview['job']['job_name'] ?? '-' }}</td>
-                                            <td><span
-                                                    class="name_textbg">{{ isset($interview['user']['first_name']) ? substr($interview['user']['first_name'], 0, 1) : '' }}
-                                                    {{ isset($interview['user']['last_name']) ? substr($interview['user']['last_name'], 0, 1) : '' }}</span>{{ $interview['user']['first_name'] ?? '' }}
-                                                {{ $interview['user']['last_name'] ?? '' }}</td>
-                                            <td>
-                                                {{ isset($interview['interview_start_date']) ? date('d/m/Y', strtotime($interview['interview_start_date'])) : '' }}
-                                                @if (isset($interview['interview_start_date']) &&
-                                                        isset($interview['interview_end_date']) &&
-                                                        $interview['interview_start_date'] != $interview['interview_end_date']
-                                                )
-                                                    - {{ date('d/m/Y', strtotime($interview['interview_end_date'])) }}
-                                                @endif
-                                            </td>
-                                            <td>{{ $interview['interview_location'] ?? '-' }}</td>
-                                            {{-- <td>
-                                                <div
-                                                    class="round_staus {{ $interview['interview_status'] == 'Completed' ? 'active' : '' }} {{ $interview['interview_status'] == 'Transferred' ? 'inactive' : '' }} {{ $interview['interview_status'] == 'Working' ? 'warning' : '' }}">
-                                                    {{ $interview['interview_status'] ?? '-' }}
-                                                </div>
-                                            </td> --}}
-                                            <td>
-                                                <a href="javascript:void(0);" class="edit-route"
-                                                    data-route="{{ route('schedule-to-do.edit', Crypt::encrypt($interview['id'])) }}"><i
-                                                        class="fas fa-edit"></i></a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        <a href="javascript:void(0);" class="add_task"
-                            data-route="{{ route('schedule-to-do.job-create', Crypt::encrypt($interview['company_id'])) }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="13.483" height="13.483"
-                                viewBox="0 0 13.483 13.483">
-                                <path id="plus-small"
-                                    d="M18.359,11.618H13.865V7.124A1.124,1.124,0,0,0,12.741,6h0a1.124,1.124,0,0,0-1.124,1.124v4.494H7.124A1.124,1.124,0,0,0,6,12.741H6a1.124,1.124,0,0,0,1.124,1.124h4.494v4.494a1.124,1.124,0,0,0,1.124,1.124h0a1.124,1.124,0,0,0,1.124-1.124V13.865h4.494a1.124,1.124,0,0,0,1.124-1.124h0A1.124,1.124,0,0,0,18.359,11.618Z"
-                                    transform="translate(-6 -6)" opacity="0.5" />
-                            </svg>
-                            <span>Add job...</span>
-                        </a>
-                    @endforeach
-                @else
-                    <div class="text-center">
-                        <h4>No Interview Found</h4>
-                    </div>
-                @endif
-
+                <div id="schedule-filter">
+                    @include('schedule.filter')
+                </div>
             </section>
 
         </div>
@@ -268,7 +207,7 @@
                 $('#offcanvasRight').offcanvas('hide');
             });
 
-            $('#schedule-to-do-form-create').submit(function(e) {
+            $(document).on('submit', '#schedule-to-do-form-create', function(e) {
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
@@ -299,7 +238,7 @@
                         $.each(errors, function(key, value) {
                             $('[name="' + key + '"]').next('.text-danger').html(value[
                                 0]);
-                                $('#' + key + '_msg').html(value[0]);
+                            $('#' + key + '_msg').html(value[0]);
                         });
                     }
                 });
@@ -353,7 +292,10 @@
                         // window.location.reload();
                         // toastr.success('Members details updated successfully');
                         if (response.status == true) {
-                            window.location.reload();
+                            // window.location.reload();
+                            $('#offcanvasEdit').offcanvas('hide');
+                            toastr.success(response.message);
+                            $('#single-row-update-' + response.interview.id).html(response.view);
                         } else {
                             toastr.error(response.message);
                         }
@@ -428,6 +370,27 @@
                         });
                     }
                 });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            function fetch_data(query) {
+                $.ajax({
+                    url: "{{ route('schedule-to-do.filter') }}",
+                    data: {
+                        search: query
+                    },
+                    success: function(data) {
+                        $('#schedule-filter').html(data.view);
+                    }
+                });
+            }
+
+            $(document).on('keyup', '.query', function(e) {
+                e.preventDefault();
+                var query = $(this).val();
+                fetch_data(query);
             });
         });
     </script>

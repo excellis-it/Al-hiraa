@@ -39,23 +39,50 @@ class JobsController extends Controller
         $this->textlocalService = $textlocalService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
+        $interestedType = $request->input('interested_type'); // 'self' or 'team'
+        $interviewId = $request->input('interview_id'); // Company ID or related identifier
 
         if (Auth::user()->can('Manage Job')) {
             if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->where('job_interview_status', '!=', 'Not-Interested')->paginate(15);
-                $candidates  = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
-            } else {
+                // Filter candidate jobs based on 'self' type
+                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)
+                    ->where('job_interview_status', '!=', 'Not-Interested');
+                $candidates = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)
+                    ->where('job_interview_status', '!=', 'Not-Interested');
 
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('job_interview_status', '!=', 'Not-Interested')->paginate(15);
-                $candidates  = CandidateJob::orderBy('id', 'desc')->get();
+                if ($interestedType === 'self' && $interviewId) {
+                    $candidate_jobs->where('interview_id', $interviewId); // Adjust to match your company relationship
+                    $candidates->where('interview_id', $interviewId); // Adjust to match your company relationship
+                }
+
+                $candidate_jobs = $candidate_jobs->paginate(15);
+                $candidates = $candidates->get();
+            } else {
+                // For other roles, fetch all candidate jobs
+                $candidate_jobs = CandidateJob::orderBy('id', 'desc')
+                    ->where('job_interview_status', '!=', 'Not-Interested');
+                $candidates = CandidateJob::orderBy('id', 'desc')->where('job_interview_status', '!=', 'Not-Interested');
+
+                if ($interestedType === 'team' && $interviewId) {
+                    $candidate_jobs->where('interview_id', $interviewId); // Adjust to match your company relationship
+                    $candidates->where('interview_id', $interviewId); // Adjust to match your company relationship
+                }
+
+                $candidate_jobs = $candidate_jobs->paginate(15);
+                $candidates = $candidates->get();
+
+                // Fetch all candidates for all users
+
             }
 
-            $companies = Company::orderBy('company_name', 'asc')->with('jobs')->get();
+            $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->with('jobs')->get();
+
+            // Initialize counts
             $count = [
                 'total_interviews' => 0,
-                'total_not_appeared' => 0,
+                'total_appeared' => 0,
                 'total_selection' => 0,
                 'total_medical' => 0,
                 'total_doc' => 0,
@@ -63,14 +90,14 @@ class JobsController extends Controller
                 'total_deployment' => 0,
             ];
 
-
-            foreach ($candidates as $key => $candidate) {
+            // Loop through candidates to calculate counts
+            foreach ($candidates as $candidate) {
                 if (
                     is_null($candidate->deployment_date) &&
                     is_null($candidate->total_amount) &&
                     is_null($candidate->visa_receiving_date) &&
                     is_null($candidate->medical_status) &&
-                    ($candidate->job_interview_status != 'Not-Appeared') &&
+                    ($candidate->job_interview_status != 'Appeared') &&
                     ($candidate->job_interview_status != 'Not-Interested') &&
                     ($candidate->job_interview_status === 'Interested')
                 ) {
@@ -80,9 +107,9 @@ class JobsController extends Controller
                     is_null($candidate->total_amount) &&
                     is_null($candidate->visa_receiving_date) &&
                     is_null($candidate->medical_status) &&
-                    $candidate->job_interview_status === 'Not-Appeared'
+                    $candidate->job_interview_status === 'Appeared'
                 ) {
-                    $count['total_not_appeared']++;
+                    $count['total_appeared']++;
                 } elseif (
                     $candidate->job_interview_status === 'Selected' &&
                     is_null($candidate->deployment_date) &&
@@ -114,16 +141,13 @@ class JobsController extends Controller
                 }
             }
 
-            // Output the counts
-            // echo json_encode($count, JSON_PRETTY_PRINT);
-            // dd($data);
-
-            return view('jobs.list')->with(compact('candidate_jobs', 'companies', 'count'));
+            // Return the view with the required data
+            return view('jobs.list', compact('candidate_jobs', 'companies', 'count'));
         } else {
-
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -160,7 +184,7 @@ class JobsController extends Controller
         $gulf_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
         $assign_job = AssignJob::where('candidate_id', $candidate->id)->orderBy('id', 'desc')->first();
-        $companies = Company::orderBy('company_name', 'asc')->get();
+        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
         $edit = true;
         session()->put('candidate_id', $candidate->id);
         // if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
@@ -231,6 +255,8 @@ class JobsController extends Controller
         $job_id = $request->job_id;
         $company = $request->company;
         $int_pipeline = $request->int_pipeline;
+        $interestedType = $request->interestedType;  // Get interestedType
+        $interviewId = $request->interviewId;        // Get interviewId
 
         // Initialize query
         $query = CandidateJob::query();
@@ -254,8 +280,9 @@ class JobsController extends Controller
             });
         }
 
-        // Filter by job ID
+        // Filter by job ID (Ensure it's an array if it's not already)
         if ($job_id) {
+            $job_id = is_array($job_id) ? $job_id : [$job_id];
             $query->whereIn('job_id', $job_id)->where('job_interview_status', '!=', 'Not-Interested');
         }
 
@@ -270,16 +297,30 @@ class JobsController extends Controller
         }
 
         // Count statistics
-        $count = $this->getJobStatistics($job_id, $company, $search);
+        $count = $this->getJobStatistics($job_id, $company, $search, $interestedType, $interviewId);
+
+        // Check if the user is a "DATA ENTRY OPERATOR" or "RECRUITER"
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
-            // Paginate the results
-            $candidate_jobs = $query->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
+            // Apply filtering for self-assigned interview ID
+            if ($interestedType == 'self' && $interviewId) {
+                $candidate_jobs = $query->where('interview_id', $interviewId)->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
+            } else {
+                $candidate_jobs = $query->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->paginate(15);
+            }
+
+            // Paginate the results, filtering by assigned user ID
+
         } else {
+            // Apply filtering for team-assigned interview ID
+            if ($interestedType == 'team' && $interviewId) {
+                $candidate_jobs = $query->where('interview_id', $interviewId)->orderBy('id', 'desc')->paginate(15);
+            } else {
+                $candidate_jobs = $query->orderBy('id', 'desc')->paginate(15);
+            }
+
             // Paginate the results
-            $candidate_jobs = $query->orderBy('id', 'desc')->paginate(15);
+
         }
-
-
 
         // Render the results into a view
         $view = view('jobs.company-filter', compact('candidate_jobs', 'count', 'int_pipeline'))->render();
@@ -304,8 +345,8 @@ class JobsController extends Controller
                     ->whereNull('medical_status');
                 break;
 
-            case 'Not-Appeared':
-                $query->where('job_interview_status', 'Not-Appeared')
+            case 'Appeared':
+                $query->where('job_interview_status', 'Appeared')
                     ->whereNull('deployment_date')
                     ->whereNull('total_amount')
                     ->whereNull('visa_receiving_date')
@@ -349,7 +390,7 @@ class JobsController extends Controller
 
 
     // Helper function to get job statistics
-    private function getJobStatistics($job_id, $company, $search)
+    private function getJobStatistics($job_id, $company, $search, $interestedType, $interviewId)
     {
         $baseQuery = CandidateJob::query();
 
@@ -379,9 +420,17 @@ class JobsController extends Controller
             $baseQuery->where('company_id', $company)->where('job_interview_status', '!=', 'Not-Interested');
         }
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
-            $candidate_jobs = $baseQuery->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
+            if ($interestedType == 'self' && $interviewId) {
+                $candidate_jobs = $baseQuery->where('interview_id', $interviewId)->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
+            } else {
+                $candidate_jobs = $baseQuery->orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)->get();
+            }
         } else {
-            $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
+            if ($interestedType == 'team' && $interviewId) {
+                $candidate_jobs = $baseQuery->where('interview_id', $interviewId)->orderBy('id', 'desc')->get();
+            } else {
+                $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
+            }
         }
 
         // return [
@@ -391,12 +440,12 @@ class JobsController extends Controller
         //     'total_doc' => $candidate_jobs->whereNotNull('visa_receiving_date')->count(),
         //     'total_collection' => $candidate_jobs->whereNotNull('total_amount')->count(),
         //     'total_deployment' => $candidate_jobs->whereNotNull('deployment_date')->count(),
-        //     'total_not_appeared' => $candidate_jobs->whereIn('job_interview_status', ['Not-Appeared'])->count(),
+        //     'total_appeared' => $candidate_jobs->whereIn('job_interview_status', ['Appeared'])->count(),
         // ];
 
         $count = [
             'total_interviews' => 0,
-            'total_not_appeared' => 0,
+            'total_appeared' => 0,
             'total_selection' => 0,
             'total_medical' => 0,
             'total_doc' => 0,
@@ -411,7 +460,7 @@ class JobsController extends Controller
                 is_null($candidate->total_amount) &&
                 is_null($candidate->visa_receiving_date) &&
                 is_null($candidate->medical_status) &&
-                ($candidate->job_interview_status != 'Not-Appeared') &&
+                ($candidate->job_interview_status != 'Appeared') &&
                 ($candidate->job_interview_status != 'Not-Interested') &&
                 ($candidate->job_interview_status === 'Interested')
             ) {
@@ -421,9 +470,9 @@ class JobsController extends Controller
                 is_null($candidate->total_amount) &&
                 is_null($candidate->visa_receiving_date) &&
                 is_null($candidate->medical_status) &&
-                $candidate->job_interview_status === 'Not-Appeared'
+                $candidate->job_interview_status === 'Appeared'
             ) {
-                $count['total_not_appeared']++;
+                $count['total_appeared']++;
             } elseif (
                 $candidate->job_interview_status === 'Selected' &&
                 is_null($candidate->deployment_date) &&
@@ -886,4 +935,6 @@ class JobsController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
+
+
 }

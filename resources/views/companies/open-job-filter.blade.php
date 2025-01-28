@@ -1,6 +1,7 @@
 @if (count($ongoing_jobs) > 0)
     @foreach ($ongoing_jobs as $item)
         <tr>
+            <td>{{ $item->job_id ?? 'N/A' }}</td>
             <td>{{ $item->job_name ?? 'N/A' }}</td>
             <td> {{ $item->candidatePosition->name ?? 'N/A' }}</td>
             <td>{{ $item->duty_hours ? $item->duty_hours . ' Hours / Day' : 'N/A' }}</td>

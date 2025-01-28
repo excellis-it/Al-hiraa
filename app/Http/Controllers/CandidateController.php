@@ -371,7 +371,7 @@ class CandidateController extends Controller
 
 
 
-        $companies = Company::orderBy('company_name', 'asc')->get();
+        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
         // $cities = City::orderBy('name', 'asc')->get();
         $states = State::orderBy('name', 'asc')->get();
         $edit = true;

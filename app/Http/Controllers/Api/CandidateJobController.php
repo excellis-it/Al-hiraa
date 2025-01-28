@@ -277,7 +277,7 @@ class CandidateJobController extends Controller
                 $candidate_jobs = $candidate_jobs->whereHas('jobTitle', function ($query) use ($search) {
                     $query->where('job_name', 'like', '%' . $search . '%');
                 })->orWhereHas('company', function ($query) use ($search) {
-                    $query->where('company_name', 'like', '%' . $search . '%');
+                    $query->where('company_name', 'like', '%' . $search . '%')->where('status', 1);
                 });
             }
 

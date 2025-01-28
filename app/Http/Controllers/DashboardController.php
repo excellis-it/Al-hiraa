@@ -199,15 +199,16 @@ class DashboardController extends Controller
         $today = date('Y-m-d'); // Format current date for comparison
 
         $new_jobs_openings = Interview::where(function ($query) use ($today) {
-            $query->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
+            $query->whereRaw('STR_TO_DATE(interview_end_date, "%d-%m-%Y") >= ?', [$today]);
         })
-            ->whereHas('job', function ($query) {
-                $query->where('status', 'Ongoing');
-            })
-            ->paginate(10);
+        ->whereHas('job', function ($query) {
+            $query->where('status', 'Ongoing');
+        })
+        ->paginate(10);
 
 
-        $companies = Company::orderBy('company_name', 'asc')->get();
+
+        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
         $new_month = date('m');
         $new_year = date('Y');
 
@@ -324,9 +325,9 @@ class DashboardController extends Controller
 
         // Filter companies based on the selected company if provided
         if ($companyId) {
-            $companies = Company::where('id', $companyId)->orderBy('company_name', 'asc')->get();
+            $companies = Company::where('status', 1)->where('id', $companyId)->orderBy('company_name', 'asc')->get();
         } else {
-            $companies = Company::orderBy('company_name', 'asc')->get();
+            $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
         }
 
         return view('dashboard-job-interview-report-table', compact('companies', 'new_year', 'new_month'));

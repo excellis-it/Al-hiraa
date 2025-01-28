@@ -35,7 +35,7 @@
                                                     {{-- vendors --}}
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
-                                                            <label for="">Vendor<span>*</span></label>
+                                                            <label for="">Vendor</label>
                                                             <select name="vendor_id" class="form-select new_select2"
                                                                 id="">
                                                                 <option value="">Select a vendor</option>
@@ -96,8 +96,7 @@
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="form-group">
-                                                            <label for="">Number of people
-                                                                required<span>*</span></label>
+                                                            <label for="">People Required<span>*</span></label>
                                                             <input type="number" class="form-control" id=""
                                                                 value="" name="quantity_of_people_required"
                                                                 placeholder="">
@@ -433,12 +432,13 @@
                                 <table class="table mb-0 table-bordered">
                                     <thead>
                                         <tr>
+                                            <th>Job ID</th>
                                             <th>Job Title</th>
                                             <th>Positions</th>
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benefits</th>
-                                            <th>Number of people required</th>
+                                            <th>People Required</th>
                                             <th>Doc.View</th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
@@ -461,12 +461,13 @@
                                 <table class="table mb-0 table-bordered">
                                     <thead>
                                         <tr>
+                                            <th>Job ID</th>
                                             <th>Job Title</th>
                                             <th>Positions</th>
                                             <th>Duty Hours</th>
                                             <th>Contract</th>
                                             <th>Benefits</th>
-                                            <th>Number of people required</th>
+                                            <th>People Required</th>
                                             <th>Doc.View</th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
