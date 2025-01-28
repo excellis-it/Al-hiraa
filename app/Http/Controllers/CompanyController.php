@@ -33,12 +33,13 @@ class CompanyController extends Controller
     public function index()
     {
         if (Auth::user()->can('Manage Company')) {
-            $companies = Company::orderBy('id', 'DESC')->paginate(20);
+            $companies = Company::orderBy('id', 'DESC')->where('status', 1)->get();
+            $inactiveCompanies = Company::orderBy('id', 'DESC')->where('status', 0)->get(); // Assuming 0 means inactive
 
             $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
             $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
             $positions = CandidatePosition::where('is_active', 1)->orderBy('name', 'ASC')->get();
-            return view('companies.list')->with(compact('companies', 'referral_points', 'vendors', 'positions'));
+            return view('companies.list')->with(compact('companies', 'referral_points', 'vendors', 'positions', 'inactiveCompanies'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -120,9 +121,10 @@ class CompanyController extends Controller
         // $interview->interview_status = "Working";
         // $interview->save();
 
-        $companies = Company::orderBy('id', 'DESC')->paginate(20);
+        $companies = Company::orderBy('id', 'DESC')->get();
+        $inactiveCompanies = Company::orderBy('id', 'DESC')->where('status', 0)->get(); // Assuming 0 means inactive
         // Session::flash('message', 'Company created successfully');
-        return response()->json(['message' => __('Company created successfully.'), 'status' => true, 'view' => view('companies.filter', compact('companies'))->render(), 'company_id' => $company->id]);
+        return response()->json(['message' => __('Company created successfully.'), 'status' => true, 'view' => view('companies.filter', compact('companies', 'inactiveCompanies'))->render(), 'company_id' => $company->id]);
     }
 
     /**
@@ -218,8 +220,8 @@ class CompanyController extends Controller
             $companies->where('user_id', Auth::user()->id);
         }
         $companies = $companies->orderBy('id', 'DESC')->paginate(20);
-
-        return response()->json(['view' => view('companies.filter', compact('companies'))->render()]);
+        $inactiveCompanies = Company::orderBy('id', 'DESC')->where('status', 0)->get(); // Assuming 0 means inactive
+        return response()->json(['view' => view('companies.filter', compact('companies', 'inactiveCompanies'))->render()]);
     }
 
     public function companyJobStore(Request $request)
@@ -454,6 +456,7 @@ class CompanyController extends Controller
         } else {
             $message = 'Status activated successfully.';
         }
+        session()->flash('message', $message);
         return response()->json(['success' => $message]);
     }
 }

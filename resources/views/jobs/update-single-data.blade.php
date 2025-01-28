@@ -33,7 +33,7 @@
     </div>
 </td>
 
-
+<td class="">{{ $candidate_job->company->company_name ?? 'N/A' }}</td>
 <td class="">{{ $candidate_job->full_name ?? 'N/A' }}</td>
 <td class="content-short">{{ $candidate_job->gender ?? 'N/A' }}</td>
 <td class="content-short">

@@ -51,7 +51,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-12 mb-6">
-                                    <label class="form-label">Download sample candidate CSV file</label>
+                                    <label class="form-label">Download sample candidate Excel file</label>
                                     <a href="{{ route('candidates.download.sample') }}"
                                         class="btn btn-sm btn-primary rounded">
                                         <i class="ti ti-download"></i> Download

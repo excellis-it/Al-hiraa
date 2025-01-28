@@ -370,6 +370,7 @@
                             <th>
                                 Current Status
                             </th>
+                            <th class="can_full">Company Name</th>
                             <th class="can_full">Full Name</th>
                             <th>Gender</th>
                             <th>DOB</th>
@@ -414,7 +415,7 @@
                     <div class="mb-3">
                         <div class="row mb-3">
                             <div class="col-md-12 mb-6">
-                                <label class="form-label">Download job CSV file</label>
+                                <label class="form-label">Download example Excel file</label>
                                 <a href="{{ route('jobs.download.sample') }}" class="btn btn-sm btn-primary rounded">
                                     <i class="ti ti-download"></i> Download
                                 </a>

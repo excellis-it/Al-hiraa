@@ -576,7 +576,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-12 mb-6">
-                                    <label class="form-label">Download job CSV file</label>
+                                    <label class="form-label">Download example Excel file</label>
                                     <a href="{{ route('company-job.download.sample') }}"
                                         class="btn btn-sm btn-primary rounded">
                                         <i class="ti ti-download"></i> Download

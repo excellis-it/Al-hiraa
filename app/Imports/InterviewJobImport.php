@@ -65,12 +65,15 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
         ])->validate();
 
         foreach ($rows as $key => $row) {
-            $vendor = User::role('VENDOR')->where('email', $row['vendor_email'])->first();
+            if ($row['vendor_email']) {
+                $vendor = User::role('VENDOR')->where('email', $row['vendor_email'])->first();
 
-            if (!$vendor) {
-                $errors[$key]['vendor_email'] = "Vendor with email {$row['vendor_email']} not found.";
-                continue;
+                if (!$vendor) {
+                    $errors[$key]['vendor_email'] = "Vendor with email {$row['vendor_email']} not found.";
+                    continue;
+                }
             }
+
 
             $position = CandidatePosition::firstOrCreate(
                 ['name' => $row['position']],
@@ -103,17 +106,17 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             $job = new Job();
             $job->status = "Ongoing";
             $job->job_id = $new_job_id;
-            $job->job_name = $row['job_name'] ?? '';
+            $job->job_name = $row['job_name'] ?? null;
             $job->company_id = $this->company_id;
-            $job->contract = $row['contract'] ?? '';
-            $job->benifits = $row['benifits'] ?? '';
-            $job->salary = $row['salary'] ?? '';
-            $job->service_charge = $row['service_charge'] ?? '';
-            $job->job_description = $row['job_description'] ?? '';
-            $job->duty_hours = $row['duty_hours'] ?? '';
-            $job->address = $row['location'] ?? '';
-            $job->quantity_of_people_required = $row['quantity_of_people_required'] ?? '';
-            $job->vendor_id = $vendor->id;
+            $job->contract = $row['contract'] ?? null;
+            $job->benifits = $row['benifits'] ?? null;
+            $job->salary = $row['salary'] ?? null;
+            $job->service_charge = $row['service_charge'] ?? null;
+            $job->job_description = $row['job_description'] ?? null;
+            $job->duty_hours = $row['duty_hours'] ?? null;
+            $job->address = $row['location'] ?? null;
+            $job->quantity_of_people_required = $row['quantity_of_people_required'] ?? null;
+            $job->vendor_id = $vendor->id ?? null;
             $job->candidate_position_id = $position->id;
             $job->save();
 

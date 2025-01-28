@@ -6,15 +6,15 @@
         @foreach ($interviews as $key => $items)
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading{{ $count }}">
-                    <button class="accordion-button {{ $count === 0 ? '' : 'collapsed' }}" type="button"
+                    <button class="accordion-button collapsed" type="button"
                         data-bs-toggle="collapse" data-bs-target="#collapse{{ $count }}"
-                        aria-expanded="{{ $count === 0 ? 'true' : 'false' }}"
+                        aria-expanded="false"
                         aria-controls="collapse{{ $count }}">
                         {{ $key }}
                     </button>
                 </h2>
                 <div id="collapse{{ $count }}"
-                    class="accordion-collapse collapse {{ $count === 0 ? 'show' : '' }}"
+                    class="accordion-collapse collapse"
                     aria-labelledby="heading{{ $count }}" data-bs-parent="#interviewAccordion">
                     <div class="accordion-body">
                         <div class="table-responsive">

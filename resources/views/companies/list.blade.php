@@ -101,6 +101,44 @@
 
         /* End Toogle   */
     </style>
+    <style>
+        /* General Tabs Styling */
+        .nav-tabs {
+            border-bottom: 2px solid #dee2e6;
+        }
+        .nav-tabs .nav-item {
+            margin-bottom: -1px;
+        }
+        .nav-tabs .nav-link {
+            border: 1px solid transparent;
+            border-top-left-radius: 0.25rem;
+            border-top-right-radius: 0.25rem;
+            color: #6c757d;
+            padding: 0.75rem 1rem;
+            transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #007bff;
+            border-color: #dee2e6 #dee2e6 #fff;
+            color: #fff;
+        }
+        .nav-tabs .nav-link:hover {
+            color: #495057;
+        }
+
+        /* Active & Inactive Tab Content */
+        .tab-content {
+            border: 1px solid #dee2e6;
+            border-top: none;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0 0 0.25rem 0.25rem;
+        }
+
+        /* Food Box Styling */
+        
+    </style>
+
 @endpush
 @section('content')
     <div class="mdk-drawer-layout__content page">
@@ -203,7 +241,7 @@
                                         <div class="mb-3">
                                             <div class="row mb-3">
                                                 <div class="col-md-12 mb-6">
-                                                    <label class="form-label">Download job CSV file</label>
+                                                    <label class="form-label">Download example Excel file</label>
                                                     <a href="{{ route('company-job.download.sample') }}"
                                                         class="btn btn-sm btn-primary rounded">
                                                         <i class="ti ti-download"></i> Download
@@ -760,6 +798,7 @@
                     success: function(resp) {
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
+                        window.location.reload();
                         toastr.success(resp.success);
                     }
                 });
