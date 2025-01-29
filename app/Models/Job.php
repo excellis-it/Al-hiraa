@@ -78,4 +78,9 @@ class Job extends Model
         $today = date('Y-m-d');
         return $this->hasOne(Interview::class, 'job_id')->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $today);
     }
+
+    public function last_interview()
+    {
+        return $this->hasOne(Interview::class, 'job_id')->latest();
+    }
 }

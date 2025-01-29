@@ -11,7 +11,7 @@ class ReportController extends Controller
 {
     public function candidateInterview()
     {
-        $candidates = Candidate::orderBy('full_name', 'ASC')->get();
+        $candidates = Candidate::orderBy('full_name', 'ASC')->whereHas('CandidateJob')->get();
         return view('reports.candidate-interview', compact('candidates'));
     }
     public function getCandidates(Request $request)
@@ -26,7 +26,7 @@ class ReportController extends Controller
             $query->where('full_name', 'like', '%' . $search . '%');
         }
 
-        $candidates = $query->paginate($perPage, ['*'], 'page', $page);
+        $candidates = $query->whereHas('CandidateJob')->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json([
             'results' => $candidates->map(function ($candidate) {

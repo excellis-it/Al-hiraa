@@ -142,12 +142,13 @@
                                             <th>Company Name</th>
                                             <th>Interview Date</th>
                                             <th>Job Title</th>
-                                            <th>Benifits(Food Allowence)</th>
+                                            <th>Salary</th>
                                             <th>People Required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
                                             <th>Interview Location </th>
-                                            <th>Salary</th>
+                                            <th>Benifits</th>
+
                                             <th>RC Interested</th>
                                             <th>Team Interested</th>
                                         </tr>
@@ -172,7 +173,8 @@
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
                                                     </td>
-                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->benifits : '' }}
+                                                    <td>
+                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
                                                     </td>
@@ -192,9 +194,9 @@
                                                             {{ Str::limit($new_jobs_opening->interview_location ? $new_jobs_opening->interview_location : '', 20, '...') }}
                                                         </span>
                                                     </td>
-                                                    <td>
-                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->benifits : '' }}
                                                     </td>
+
 
                                                     <td>
                                                         <a
@@ -252,12 +254,13 @@
                                             <th>Company Name</th>
                                             <th>Interview Date</th>
                                             <th>Job Title</th>
-                                            <th>Benifits(Food Allowence)</th>
+                                            <th>Salary</th>
                                             <th>People Required</th>
                                             <th>Job Postion</th>
                                             <th>Job Location </th>
                                             <th>Interview Location </th>
-                                            <th>Salary</th>
+                                            <th>Benifits</th>
+
                                             <th>Team Interested</th>
                                         </tr>
                                     </thead>
@@ -281,7 +284,8 @@
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
                                                     </td>
-                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->benifits : '' }}
+                                                    <td>
+                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
                                                     </td>
@@ -301,9 +305,9 @@
                                                             {{ Str::limit($new_jobs_opening->interview_location ? $new_jobs_opening->interview_location : '', 20, '...') }}
                                                         </span>
                                                     </td>
-                                                    <td>
-                                                        {{ $new_jobs_opening->job && $new_jobs_opening->job->salary ? '' . $new_jobs_opening->job->salary : '' }}
+                                                    <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->benifits : '' }}
                                                     </td>
+
                                                     <td>
                                                         <a
                                                             href="{{ route('jobs.index', ['interested_type' => 'team', 'interview_id' => $new_jobs_opening->id]) }}">

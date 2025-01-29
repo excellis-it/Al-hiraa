@@ -93,7 +93,7 @@ class AuthenticationController extends Controller
 
         // Construct the OTP message
 
-        $message = "Dear " . $candidate->full_name . ",%nYour One-Time Password (OTP) for the verification process is " . $otp . ". Please do not share this OTP with anyone for security reasons. Enter this OTP in the required field to proceed. %nThanks, %nAL Hiraa";
+        $message = "Dear " . $candidate->full_name . ",%Your OTP for verification process is " . $otp . " %n Thanks, %n AL Hiraa";
 
 
         // Send the OTP message via TextlocalService
@@ -276,8 +276,8 @@ class AuthenticationController extends Controller
 
         // Construct the OTP message
 
-        $message = "Dear " . $name . ",%nYour One-Time Password (OTP) for the verification process is " . $otp . ". Please do not share this OTP with anyone for security reasons. Enter this OTP in the required field to proceed. %nThanks, %nAL Hiraa";
 
+        $message = "Dear " . $name . ",%Your OTP for verification process is " . $otp . " %n Thanks, %n AL Hiraa";
         // Send the OTP message via TextlocalService
         $response = app(TextlocalService::class)->sendSms([$mobileNumber], $message);
 

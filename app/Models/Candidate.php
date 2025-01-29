@@ -148,4 +148,9 @@ class Candidate extends Authenticatable
         return $this->hasOne(AssignJob::class)->orderBy('id', 'desc');
     }
 
+    public function CandidateJob()
+    {
+        return $this->hasMany(CandidateJob::class);
+    }
+
 }

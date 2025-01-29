@@ -92,7 +92,7 @@
 
                                     <div class="col-xl-6">
                                         <div class="form-group">
-                                            <label for="">Benefits (Food Allowance)</label>
+                                            <label for="">Benefits </label>
                                             <input type="text" class="form-control" id="" value=""
                                                 name="benifits" placeholder="">
                                             <span class="text-danger" id="benifits_msg_create"></span>
@@ -148,14 +148,14 @@
                                             <span class="text-danger" id="job_description_msg_create"></span>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12">
+                                    {{-- <div class="col-xl-12">
                                         <div class="form-group">
                                             <label for="">Document </label>
                                             <input type="file" class="form-control" id=""
                                                 value="" name="document" placeholder="">
                                             <span class="text-danger" id=""></span>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-lg-12 mt-3">
                                         <div class="save-btn-div d-flex align-items-center">
                                             <button type="submit" class="btn save-btn"><span><i

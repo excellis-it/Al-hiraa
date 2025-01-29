@@ -10,14 +10,29 @@
             <td>
                 {{ $item->quantity_of_people_required ?? 'N/A' }}
             </td>
-            <td>
+            {{-- <td>
                 @if ($item->document)
                     <a href="{{ Storage::url($item->document) }}" target="_blank">
                         <i class="fa-solid fa-eye"></i>
                     </a>
                 @endif
 
+            </td> --}}
+            <td>
+                @if (isset($item['last_interview']['interview_start_date']))
+                    {{ date('d/m/Y', strtotime($item['last_interview']['interview_start_date'])) }}
+
+                    @if (isset($item['last_interview']['interview_end_date']) &&
+                        $item['last_interview']['interview_start_date'] !== $item['last_interview']['interview_end_date'])
+                        -
+                        {{ date('d/m/Y', strtotime($item['last_interview']['interview_end_date'])) }}
+                    @endif
+                @else
+                    N/A
+                @endif
             </td>
+
+
             <td>{{ $item->created_at != null ? date('d M, Y', strtotime($item->created_at)) : 'N/A' }}
             </td>
 

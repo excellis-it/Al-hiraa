@@ -76,12 +76,12 @@ class Helper
 
     public static function getRcInterestedCount($interview_id)
     {
-        return CandidateJob::where('interview_id', $interview_id)->where('assign_by_id', auth()->id())->count();
+        return CandidateJob::where('interview_id', $interview_id)->where('assign_by_id', auth()->id())->where('job_interview_status', '!=', 'Not-Interested')->count();
     }
 
     public static function getAllRcInterestedCount($interview_id)
     {
-        return CandidateJob::where('interview_id', $interview_id)->count();
+        return CandidateJob::where('interview_id', $interview_id)->where('job_interview_status', '!=', 'Not-Interested')->count();
     }
 
     public static function getCurrentStatus($job_id)

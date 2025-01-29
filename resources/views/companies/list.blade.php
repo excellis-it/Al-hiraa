@@ -136,7 +136,7 @@
         }
 
         /* Food Box Styling */
-        
+
     </style>
 
 @endpush
@@ -428,7 +428,7 @@
 
                                                             <div class="col-xl-6">
                                                                 <div class="form-group">
-                                                                    <label for="">Benefits (Food Allowance)</label>
+                                                                    <label for="">Benefits </label>
                                                                     <input type="text" class="form-control" id=""
                                                                         value="" name="benifits" placeholder="">
                                                                     <span class="text-danger" id="benifits_msg_create"></span>

@@ -23,7 +23,7 @@
                                     <tr>
                                         <th>Job Name</th>
                                         <th>Assignee</th>
-                                        <th>Due Date</th>
+                                        <th>Interview Date</th>
                                         <th>Interview Location</th>
                                         <th>Action</th>
                                     </tr>
