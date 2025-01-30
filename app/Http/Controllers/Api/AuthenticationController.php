@@ -93,9 +93,8 @@ class AuthenticationController extends Controller
 
         // Construct the OTP message
 
-        $message = "Dear " . $candidate->full_name . ",%Your OTP for verification process is " . $otp . " %n Thanks, %n AL Hiraa";
-
-
+        $message = "Dear " . $candidate->full_name . ", %n your OTP for logging into your Al Hiraa account is " . $otp . ". Do not share this with anyone. %n Thanks, %n Al Hiraa";
+        Log::info($message);
         // Send the OTP message via TextlocalService
         $response = app(TextlocalService::class)->sendSms(array($mobileNumber), $message);
 
@@ -246,7 +245,7 @@ class AuthenticationController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'mobile_number' => 'required|numeric|digits:10|unique:candidates,contact_no',
-            'name' => 'required'
+            'full_name' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -254,7 +253,7 @@ class AuthenticationController extends Controller
         }
 
         try {
-            $userOtp = $this->generateOtpRegister($request->mobile_number, $request->name);
+            $userOtp = $this->generateOtpRegister($request->mobile_number, $request->full_name);
             if ($userOtp) {
                 // $userOtp->sendSMS($request->mobile_number);
                 return response()->json(['message' => 'OTP sent successfully.', 'status' => true, 'mobile_number' => $request->mobile_number, 'otp' => $userOtp->otp], 200);
@@ -277,7 +276,7 @@ class AuthenticationController extends Controller
         // Construct the OTP message
 
 
-        $message = "Dear " . $name . ",%Your OTP for verification process is " . $otp . " %n Thanks, %n AL Hiraa";
+        $message = "Dear " . $name . ", %n your OTP for signup into your Al Hiraa account is " . $otp . ". Do not share this with anyone. %n Thanks, %n Al Hiraa";
         // Send the OTP message via TextlocalService
         $response = app(TextlocalService::class)->sendSms([$mobileNumber], $message);
 
