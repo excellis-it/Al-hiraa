@@ -299,6 +299,12 @@
 
                                     </tr>
                                     <tr>
+                                        <td colspan="6" style="font-size: 18px;
+            color: #000;
+            text-transform: capitalize;
+            font-weight: 500; text-align:left;">Call Status</td>
+                                    </tr>
+                                    <tr>
                                         <td>Assigned By</td>
                                         <td>{{ $assign_job->user->full_name ?? 'N/A' }}
                                         </td>
@@ -1034,6 +1040,14 @@
                                     name="abroad_exp" placeholder="">
                                     <span class="text-danger" id="abroad_exp_msg"></span>
                             </td>
+                              <td>ECR Type</td>
+                            <td>
+                                <select name="ecr_type" class="form-select uppercase-text" id="">
+                                    <option value="">Select ECR</option>
+                                    <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
+                                    <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
+                                </select>
+                            </td>
                             <td>Last Call Status</td>
                             <td>
                                 <select name="call_status" class="form-select uppercase-text" id="">
@@ -1045,16 +1059,15 @@
                                 </select>
                                 <span class="text-danger" id="call_status_msg"></span>
                             </td>
-                             <td>ECR Type</td>
-                            <td>
-                                <select name="ecr_type" class="form-select uppercase-text" id="">
-                                    <option value="">Select ECR</option>
-                                    <option value="ECR" {{ $candidate->ecr_type == 'ECR' ? 'selected' : '' }}>ECR</option>
-                                    <option value="ECNR" {{ $candidate->ecr_type == 'ECNR' ? 'selected' : '' }}>ECNR</option>
-                                </select>
-                            </td>
+
 
                         </tr>
+                            <tr>
+                                <td colspan="6" style="font-size: 18px;
+    color: #000;
+    text-transform: capitalize;
+    font-weight: 500;">Call Status</td>
+                            </tr>
                           <tr>
                                             <td>Company </td>
                                             <td>
@@ -1293,6 +1306,12 @@
                                         </td>
                                     </tr>
                                      <tr>
+                                <td colspan="6" style="font-size: 18px;
+    color: #000;
+    text-transform: capitalize;
+    font-weight: 500;text-align:left;">Call Status</td>
+                            </tr>
+                                     <tr>
                                         <td>Assigned By</td>
                                         <td>{{ $assign_job->user->full_name ?? 'N/A' }}
                                         </td>
@@ -1416,7 +1435,9 @@
                     mode_of_registration: mode_of_registration,
                     education: education,
                     city: city,
-                    call_status: '{{ request()->call_status }}',
+                    call_status: '{{ $call_status }}',
+                    candidate_entry: '{{ $candidate_entry }}',
+                    filter_position_id: '{{ $filter_position_id }}',
                     is_update: true
                 },
                 success: function(data) {
@@ -1697,6 +1718,12 @@
         $('#open-job-input').html(
             ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
         $('#candidate-form-job').html(`<tbody>
+            <tr>
+                                <td colspan="6" style="font-size: 18px;
+    color: #000;
+    text-transform: capitalize;
+    font-weight: 500;text-align:left;">Call Status</td>
+                            </tr>
                                     <tr>
                                         <td>Assigned By</td>
                                         <td>{{ $assign_job->user->full_name ?? 'N/A' }}

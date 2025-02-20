@@ -66,6 +66,12 @@ class CandidateController extends Controller
                     });
                 }
 
+                if ($request->has('position_id')) {
+                    $candidates =  $candidates->where('position_applied_for_1', $request->position_id)
+                        ->orWhere('position_applied_for_2', $request->position_id)
+                        ->orWhere('position_applied_for_3', $request->position_id);
+                }
+
                 if ($request->candidate_entry == 'daily') {
                     $candidates->whereDate('created_at', date('Y-m-d'));
                 } elseif ($request->candidate_entry == 'last_month') {
@@ -82,6 +88,13 @@ class CandidateController extends Controller
                         $query->where('call_status', $request->call_status)->where('user_id', Auth::user()->id);
                     });
                 }
+
+                if ($request->has('position_id')) {
+                    $candidates =  $candidates->where('position_applied_for_1', $request->position_id)
+                        ->orWhere('position_applied_for_2', $request->position_id)
+                        ->orWhere('position_applied_for_3', $request->position_id);
+                }
+
                 if ($request->has('candidate_entry')) {
                     if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')) {
                         if ($request->candidate_entry == 'daily') {
@@ -334,7 +347,7 @@ class CandidateController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
         $candidate = Candidate::findOrFail($id);
         $candidate_statuses = CandidateStatus::all();
@@ -397,7 +410,11 @@ class CandidateController extends Controller
             $daily_view_report->save();
         }
 
-        return response()->json(['view' => view('candidates.edit', compact('interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
+        $call_status = $request->call_status;
+        $candidate_entry = $request->candidate_entry;
+        $filter_position_id = $request->filter_position_id;
+
+        return response()->json(['view' => view('candidates.edit', compact('filter_position_id','candidate_entry','call_status','interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -737,23 +754,207 @@ class CandidateController extends Controller
         }
     }
 
+    // public function candidateFilter(Request $request)
+    // {
+
+    //     $candidates = Candidate::query();
+    //     if ($request->has('search')) {
+    //         // Split the search string into an array by commas and trim spaces
+    //         $main_search_text_arr = array_map('trim', explode(',', $request->search));
+
+    //         // Get the position IDs for the search terms if they match any position names
+    //         $position_id = CandidatePosition::whereIn('name', $main_search_text_arr)->pluck('id')->toArray();
+
+    //         // Build the query
+    //         $candidates->where(function ($query) use ($main_search_text_arr, $position_id) {
+    //             foreach ($main_search_text_arr as $term) {
+    //                 $query->where('full_name', 'like', "%$term%")
+    //                     ->orWhere('gender', 'like', "%$term%")
+    //                     ->orWhere('age', $term)
+    //                     ->orWhere('education', 'like', "%$term%")
+    //                     ->orWhere('other_education', 'like', "%$term%")
+    //                     ->orWhere('indian_exp', 'like', "%$term%")
+    //                     ->orWhere('abroad_exp', 'like', "%$term%")
+    //                     ->orWhere('email', 'like', "%$term%")
+    //                     ->orWhere('contact_no', 'like', "%$term%")
+    //                     ->orWhere('alternate_contact_no', 'like', "%$term%")
+    //                     ->orWhere('whatapp_no', 'like', "%$term%")
+    //                     ->orWhere('passport_number', 'like', "%$term%")
+    //                     ->orWhere('city', 'like', "%$term%")
+    //                     ->orWhere('religion', 'like', "%$term%")
+    //                     ->orWhere('ecr_type', 'like', "%$term%")
+    //                     ->orWhere('mode_of_registration', 'like', "%$term%")
+    //                     ->orWhere('source', 'like', "%$term%")
+    //                     ->orWhere('religion', 'like', "%$term%")
+    //                     ->orWhere('english_speak', 'like', "%$term%")
+    //                     ->orWhere('arabic_speak', 'like', "%$term%");
+    //             }
+
+    //             if (!empty($position_id)) {
+    //                 $query->orWhereIn('position_applied_for_1', $position_id)
+    //                     ->orWhereIn('position_applied_for_2', $position_id)
+    //                     ->orWhereIn('position_applied_for_3', $position_id);
+    //             }
+    //         });
+    //     }
+
+    //     if ($request->has('filter_position_id')) {
+    //         $candidates->where('position_applied_for_1', $request->filter_position_id)
+    //             ->orWhere('position_applied_for_2', $request->filter_position_id)
+    //             ->orWhere('position_applied_for_3', $request->filter_position_id);
+    //     }
+
+    //     if ($request->has('cnadidate_status_id')) {
+    //         if (is_array($request->cnadidate_status_id)) {
+    //             $candidates->whereIn('cnadidate_status_id', $request->cnadidate_status_id);
+    //         } else {
+    //             $candidates->where('cnadidate_status_id', $request->cnadidate_status_id);
+    //         }
+    //     }
+
+
+    //     if ($request->has('call_status') && $request->call_status) {
+    //         $candidates->whereHas('candidateActivity', function ($query) use ($request) {
+    //             $query->where('call_status', $request->call_status)->where('user_id', Auth::user()->id);
+    //         });
+    //     }
+
+    //     if ($request->has('candidate_entry')) {
+    //         if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')) {
+    //             if ($request->candidate_entry == 'daily') {
+    //                 $candidates->whereDate('created_at', date('Y-m-d'));
+    //             } elseif ($request->candidate_entry == 'last_month') {
+    //                 $candidates->whereMonth('created_at', Carbon::now()->subMonth()->month);
+    //             } elseif ($request->candidate_entry == 'monthly') {
+    //                 $candidates->whereMonth('created_at', date('m'));
+    //             }
+    //         } else {
+    //             if ($request->candidate_entry == 'daily') {
+    //                 $candidates->where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'));
+    //             } elseif ($request->candidate_entry == 'last_month') {
+    //                 $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month);
+    //             } elseif ($request->candidate_entry == 'monthly') {
+    //                 $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'));
+    //             }
+    //         }
+    //     }
+
+    //     if ($request->source) {
+    //         $candidates->where('source', $request->source);
+    //     }
+
+    //     if ($request->has('gender')) {
+    //         if (is_array($request->gender)) {
+    //             $candidates->whereIn('gender', $request->gender);
+    //         } else {
+    //             $candidates->where('gender', $request->gender);
+    //         }
+    //     }
+
+    //     if ($request->has('education')) {
+    //         if (is_array($request->education)) {
+    //             $candidates->whereIn('education', $request->education);
+    //         } else {
+    //             $candidates->where('education', $request->education);
+    //         }
+    //     }
+
+    //     $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
+    //     if ($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3) {
+    //         $candidates->where(function ($querys) use ($positions, $request) {
+    //             foreach ($positions as $position) {
+    //                 $querys->orWhereIn($position, $request->position_applied_for ?? [])
+    //                     ->orWhereIn($position, $request->position_applied_for_2 ?? [])
+    //                     ->orWhereIn($position, $request->position_applied_for_3 ?? []);
+    //             }
+    //         });
+    //     }
+
+    //     if ($request->english_speak) {
+    //         $candidates->where('english_speak', $request->english_speak);
+    //     }
+
+    //     if ($request->arabic_speak) {
+    //         $candidates->where('arabic_speak', $request->arabic_speak);
+    //     }
+
+    //     if ($request->ecr_type) {
+    //         $candidates->where('ecr_type', $request->ecr_type);
+    //     }
+
+
+
+    //     if ($request->city) {
+    //         $candidates->where('city', $request->city);
+    //     }
+
+    //     if ($request->mode_of_registration) {
+    //         $candidates->where('mode_of_registration', $request->mode_of_registration);
+    //     }
+
+    //     if ($request->last_call_status) {
+    //         $last_activity = CandidateActivity::orderBy('id', 'desc')->get()->groupBy('candidate_id');
+    //         $last_activity = $last_activity->map(function ($item, $key) {
+    //             return $item->first();
+    //         });
+
+    //         $candidates->whereHas('candidateActivity', function ($query) use ($request, $last_activity) {
+    //             $query->where('call_status', $request->last_call_status)->whereIn('id', $last_activity->pluck('id')->toArray());
+    //         });
+    //     }
+
+
+
+    //     if ($request->last_update_by) {
+    //         $last_update_by_can = CandidateUpdated::where('user_id', $request->last_update_by)
+    //             ->orderBy('id', 'desc')
+    //             ->get()
+    //             ->groupBy('candidate_id')
+    //             ->map(function ($item) {
+    //                 return $item->first();
+    //             });
+
+    //         $candidateIds = $last_update_by_can->pluck('candidate_id')->toArray(); // Convert to array
+
+    //         // Apply the filter to the candidates query
+    //         if (!empty($candidateIds)) {
+    //             $candidates->whereIn('id', $candidateIds);
+    //         } else {
+    //             // Handle the case where no candidates are found for the user
+    //             $candidates->whereIn('id', []); // Empty result set
+    //         }
+    //     }
+
+
+    //     if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+    //         $candidates->where('enter_by', Auth::user()->id);
+    //     }
+
+
+    //     // if (isset($request->is_update)) {
+    //     $candidates = $candidates->orderBy('updated_at', 'asc')->paginate(50);
+    //     // } else {
+    //     //     $candidates = $candidates->orderBy('id', 'desc')->paginate(50);
+    //     // }
+
+
+    //     return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
+    // }
+
     public function candidateFilter(Request $request)
     {
-
         $candidates = Candidate::query();
+
         if ($request->has('search')) {
-            // Split the search string into an array by commas and trim spaces
             $main_search_text_arr = array_map('trim', explode(',', $request->search));
 
-            // Get the position IDs for the search terms if they match any position names
             $position_id = CandidatePosition::whereIn('name', $main_search_text_arr)->pluck('id')->toArray();
 
-            // Build the query
             $candidates->where(function ($query) use ($main_search_text_arr, $position_id) {
                 foreach ($main_search_text_arr as $term) {
-                    $query->where('full_name', 'like', "%$term%")
+                    $query->orWhere('full_name', 'like', "%$term%")
                         ->orWhere('gender', 'like', "%$term%")
-                        ->orWhere('age', $term)
+                        ->orWhere('age', 'like', "%$term%")
                         ->orWhere('education', 'like', "%$term%")
                         ->orWhere('other_education', 'like', "%$term%")
                         ->orWhere('indian_exp', 'like', "%$term%")
@@ -768,7 +969,6 @@ class CandidateController extends Controller
                         ->orWhere('ecr_type', 'like', "%$term%")
                         ->orWhere('mode_of_registration', 'like', "%$term%")
                         ->orWhere('source', 'like', "%$term%")
-                        ->orWhere('religion', 'like', "%$term%")
                         ->orWhere('english_speak', 'like', "%$term%")
                         ->orWhere('arabic_speak', 'like', "%$term%");
                 }
@@ -781,143 +981,123 @@ class CandidateController extends Controller
             });
         }
 
-
-        if ($request->has('cnadidate_status_id')) {
-            if (is_array($request->cnadidate_status_id)) {
-                $candidates->whereIn('cnadidate_status_id', $request->cnadidate_status_id);
-            } else {
-                $candidates->where('cnadidate_status_id', $request->cnadidate_status_id);
-            }
-        }
-
-
-        if ($request->has('call_status') && $request->call_status) {
-            $candidates->whereHas('candidateActivity', function ($query) use ($request) {
-                $query->where('call_status', $request->call_status)->where('user_id', Auth::user()->id);
+        if ($request->filled('filter_position_id')) {
+            $candidates->where(function ($query) use ($request) {
+                $query->where('position_applied_for_1', $request->filter_position_id)
+                    ->orWhere('position_applied_for_2', $request->filter_position_id)
+                    ->orWhere('position_applied_for_3', $request->filter_position_id);
             });
         }
 
-        if ($request->has('candidate_entry')) {
-            if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')) {
-                if ($request->candidate_entry == 'daily') {
-                    $candidates->whereDate('created_at', date('Y-m-d'));
-                } elseif ($request->candidate_entry == 'last_month') {
-                    $candidates->whereMonth('created_at', Carbon::now()->subMonth()->month);
-                } elseif ($request->candidate_entry == 'monthly') {
-                    $candidates->whereMonth('created_at', date('m'));
-                }
-            } else {
-                if ($request->candidate_entry == 'daily') {
-                    $candidates->where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'));
-                } elseif ($request->candidate_entry == 'last_month') {
-                    $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month);
-                } elseif ($request->candidate_entry == 'monthly') {
-                    $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'));
-                }
-            }
+        if ($request->filled('candidate_status_id')) {
+            $candidates->whereIn('candidate_status_id', (array) $request->candidate_status_id);
         }
 
-        if ($request->source) {
+        if ($request->filled('call_status')) {
+            $candidates->whereHas('candidateActivity', function ($query) use ($request) {
+                $query->where('call_status', $request->call_status)->where('user_id', Auth::id());
+            });
+        }
+
+        if ($request->filled('candidate_entry')) {
+            $candidates->where(function ($query) use ($request) {
+                if (Auth::user()->hasRole(['ADMIN', 'OPERATION MANAGER'])) {
+                    if ($request->candidate_entry === 'daily') {
+                        $query->whereDate('created_at', now()->toDateString());
+                    } elseif ($request->candidate_entry === 'last_month') {
+                        $query->whereMonth('created_at', now()->subMonth()->month);
+                    } elseif ($request->candidate_entry === 'monthly') {
+                        $query->whereMonth('created_at', now()->month);
+                    }
+                } else {
+                    if ($request->candidate_entry === 'daily') {
+                        $query->where('enter_by', Auth::id())->whereDate('created_at', now()->toDateString());
+                    } elseif ($request->candidate_entry === 'last_month') {
+                        $query->where('enter_by', Auth::id())->whereMonth('created_at', now()->subMonth()->month);
+                    } elseif ($request->candidate_entry === 'monthly') {
+                        $query->where('enter_by', Auth::id())->whereMonth('created_at', now()->month);
+                    }
+                }
+            });
+        }
+
+        if ($request->filled('source')) {
             $candidates->where('source', $request->source);
         }
 
-        if ($request->has('gender')) {
-            if (is_array($request->gender)) {
-                $candidates->whereIn('gender', $request->gender);
-            } else {
-                $candidates->where('gender', $request->gender);
-            }
+        if ($request->filled('gender')) {
+            $candidates->whereIn('gender', (array) $request->gender);
         }
 
-        if ($request->has('education')) {
-            if (is_array($request->education)) {
-                $candidates->whereIn('education', $request->education);
-            } else {
-                $candidates->where('education', $request->education);
-            }
+        if ($request->filled('education')) {
+            $candidates->whereIn('education', (array) $request->education);
         }
 
-        $positions = ['position_applied_for_1', 'position_applied_for_2', 'position_applied_for_3'];
-        if ($request->position_applied_for || $request->position_applied_for_2 || $request->position_applied_for_3) {
-            $candidates->where(function ($querys) use ($positions, $request) {
-                foreach ($positions as $position) {
-                    $querys->orWhereIn($position, $request->position_applied_for ?? [])
-                        ->orWhereIn($position, $request->position_applied_for_2 ?? [])
-                        ->orWhereIn($position, $request->position_applied_for_3 ?? []);
-                }
+        if ($request->filled('position_applied_for')) {
+            $candidates->where(function ($query) use ($request) {
+                $query->orWhereIn('position_applied_for_1', (array) $request->position_applied_for)
+                    ->orWhereIn('position_applied_for_2', (array) $request->position_applied_for_2)
+                    ->orWhereIn('position_applied_for_3', (array) $request->position_applied_for_3);
             });
         }
 
-        if ($request->english_speak) {
+        if ($request->filled('english_speak')) {
             $candidates->where('english_speak', $request->english_speak);
         }
 
-        if ($request->arabic_speak) {
+        if ($request->filled('arabic_speak')) {
             $candidates->where('arabic_speak', $request->arabic_speak);
         }
 
-        if ($request->ecr_type) {
+        if ($request->filled('ecr_type')) {
             $candidates->where('ecr_type', $request->ecr_type);
         }
 
-
-
-        if ($request->city) {
+        if ($request->filled('city')) {
             $candidates->where('city', $request->city);
         }
 
-        if ($request->mode_of_registration) {
+        if ($request->filled('mode_of_registration')) {
             $candidates->where('mode_of_registration', $request->mode_of_registration);
         }
 
-        if ($request->last_call_status) {
-            $last_activity = CandidateActivity::orderBy('id', 'desc')->get()->groupBy('candidate_id');
-            $last_activity = $last_activity->map(function ($item, $key) {
-                return $item->first();
-            });
+        if ($request->filled('last_call_status')) {
+            $last_activity = CandidateActivity::orderBy('id', 'desc')
+                ->get()
+                ->groupBy('candidate_id')
+                ->map(fn($item) => $item->first());
 
             $candidates->whereHas('candidateActivity', function ($query) use ($request, $last_activity) {
-                $query->where('call_status', $request->last_call_status)->whereIn('id', $last_activity->pluck('id')->toArray());
+                $query->where('call_status', $request->last_call_status)
+                    ->whereIn('id', $last_activity->pluck('id')->toArray());
             });
         }
 
-
-
-        if ($request->last_update_by) {
+        if ($request->filled('last_update_by')) {
             $last_update_by_can = CandidateUpdated::where('user_id', $request->last_update_by)
                 ->orderBy('id', 'desc')
                 ->get()
                 ->groupBy('candidate_id')
-                ->map(function ($item) {
-                    return $item->first();
-                });
+                ->map(fn($item) => $item->first());
 
-            $candidateIds = $last_update_by_can->pluck('candidate_id')->toArray(); // Convert to array
+            $candidateIds = $last_update_by_can->pluck('candidate_id')->toArray();
 
-            // Apply the filter to the candidates query
             if (!empty($candidateIds)) {
                 $candidates->whereIn('id', $candidateIds);
             } else {
-                // Handle the case where no candidates are found for the user
-                $candidates->whereIn('id', []); // Empty result set
+                $candidates->where('id', -1); // No candidates found
             }
         }
 
-
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-            $candidates->where('enter_by', Auth::user()->id);
+            $candidates->where('enter_by', Auth::id());
         }
 
-
-        // if (isset($request->is_update)) {
-        $candidates = $candidates->orderBy('updated_at', 'asc')->paginate(50);
-        // } else {
-        //     $candidates = $candidates->orderBy('id', 'desc')->paginate(50);
-        // }
-
+        $candidates = $candidates->orderBy('updated_at', 'desc')->paginate(50);
 
         return response()->json(['view' => view('candidates.filter', compact('candidates'))->render()]);
     }
+
 
     public function export(Request $request)
     {

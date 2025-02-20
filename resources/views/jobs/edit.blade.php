@@ -426,7 +426,7 @@
                                     class="accordion-button collapsed d-flex justify-content-between align-items-center"
                                     type="button" data-bs-toggle="collapse" data-bs-target="#collapseTicket"
                                     aria-expanded="false" aria-controls="collapseTicket">
-                                    <h5>Ticket Details</h5>
+                                    <h5>Flight Details</h5>
 
                                 </button>
                             </h2>
@@ -466,6 +466,41 @@
 
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $(document).off('click', '[data-bs-target="#collapsePayment"], [data-bs-target="#collapseDocument"], [data-bs-target="#collapseVisa"], [data-bs-target="#collapseTicket"]').on("click",
+                '[data-bs-target="#collapsePayment"], [data-bs-target="#collapseDocument"], [data-bs-target="#collapseVisa"], [data-bs-target="#collapseTicket"]',
+                function(event) {
+                    let medicalStatus = $('.medical_status').val(); // Get medical status value
+
+                    if (medicalStatus !== "FIT") {
+                        event.preventDefault(); // Prevent the accordion from opening
+                        setTimeout(() => {
+                            $('#collapsePayment, #collapseDocument, #collapseVisa, #collapseTicket')
+                                .removeClass('show'); // Ensure all sections remain closed
+                        }, 500);
+
+                        alert(
+                            "You can only access payment, courier, visa & flight details if the medical status is FIT."
+                        );
+                    }
+                });
+
+            $(document).on("change", '.medical_status', function() {
+                let medicalStatus = $(this).val(); // Get medical status value
+
+                if (medicalStatus !== "FIT") {
+                    $('#collapsePayment, #collapseDocument, #collapseVisa, #collapseTicket').removeClass(
+                        'show');
+                }
+            });
+        });
+    </script>
+
+
+
+
 
     <script>
         $(document).on('click', '#permission', function(e) {
@@ -792,17 +827,22 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        toastr.success('Candidate ticket details updated successfully');
-                        var candidate_id = "{{ $candidate_job_detail->id }}";
-                        $(".candidate-new-" + candidate_id).html(response.view);
-                        $('#job-ticket-table').html(response.view1);
-                        $('#submit-button-ticket').html(``);
-                        $('#cross-button-ticket').html(``);
+                        if (response.status == true) {
+                            toastr.success('Candidate ticket details updated successfully');
+                            var candidate_id = "{{ $candidate_job_detail->id }}";
+                            $(".candidate-new-" + candidate_id).html(response.view);
+                            $('#job-ticket-table').html(response.view1);
+                            $('#submit-button-ticket').html(``);
+                            $('#cross-button-ticket').html(``);
 
-                        // show the edit button
-                        $('#open-ticket-input').html(
-                            ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                        );
+                            // show the edit button
+                            $('#open-ticket-input').html(
+                                ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                            );
+                        } else {
+                            toastr.error(response.message);
+                        }
+
                     },
                     error: function(xhr) {
                         // Handle errors (e.g., display validation errors)
@@ -819,49 +859,49 @@
             });
     </script>
 
-<script>
-    $(document).off('submit', '#candidate-document-edit-form').on('submit', '#candidate-document-edit-form',
-        function(e) {
-            e.preventDefault();
+    <script>
+        $(document).off('submit', '#candidate-document-edit-form').on('submit', '#candidate-document-edit-form',
+            function(e) {
+                e.preventDefault();
 
-            // Disable the submit button to prevent multiple submissions
-            $('#submit-button-document').prop('disabled', true);
+                // Disable the submit button to prevent multiple submissions
+                $('#submit-button-document').prop('disabled', true);
 
-            var formData = new FormData($(this)[0]);
+                var formData = new FormData($(this)[0]);
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: $(this).attr('method'),
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    toastr.success('Candidate document details updated successfully');
-                    var candidate_id = "{{ $candidate_job_detail->id }}";
-                    $(".candidate-new-" + candidate_id).html(response.view);
-                    $('#job-document-table').html(response.view1);
-                    $('#submit-button-document').html(``);
-                    $('#cross-button-document').html(``);
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: $(this).attr('method'),
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        toastr.success('Candidate document details updated successfully');
+                        var candidate_id = "{{ $candidate_job_detail->id }}";
+                        $(".candidate-new-" + candidate_id).html(response.view);
+                        $('#job-document-table').html(response.view1);
+                        $('#submit-button-document').html(``);
+                        $('#cross-button-document').html(``);
 
-                    // show the edit button
-                    $('#open-document-input').html(
-                        ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
-                    );
-                },
-                error: function(xhr) {
-                    // Handle errors (e.g., display validation errors)
-                    var errors = xhr.responseJSON.errors;
-                    $.each(errors, function(key, value) {
-                        toastr.error(value);
-                    });
-                },
-                complete: function() {
-                    // Re-enable the submit button after the AJAX request is complete
-                    $('#submit-button-document').prop('disabled', false);
-                }
+                        // show the edit button
+                        $('#open-document-input').html(
+                            ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`
+                        );
+                    },
+                    error: function(xhr) {
+                        // Handle errors (e.g., display validation errors)
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value);
+                        });
+                    },
+                    complete: function() {
+                        // Re-enable the submit button after the AJAX request is complete
+                        $('#submit-button-document').prop('disabled', false);
+                    }
+                });
             });
-        });
-</script>
+    </script>
 
     <script>
         //paymnent details
@@ -916,7 +956,8 @@
             var fourth_installment_amount = parseFloat($('input[name="fourth_installment_amount"]').val()) || 0;
 
             // Calculate total amount (sum of installments)
-            var total_amount = fst_installment_amount + secnd_installment_amount + third_installment_amount + fourth_installment_amount;
+            var total_amount = fst_installment_amount + secnd_installment_amount + third_installment_amount +
+                fourth_installment_amount;
             $('input[name="total_amount"]').val(total_amount);
 
             // Get discount and job service charge (default to 0 if empty)
@@ -933,5 +974,4 @@
             'input[name="fst_installment_amount"], input[name="secnd_installment_amount"], input[name="third_installment_amount"], input[name="fourth_installment_amount"], input[name="discount"], input[name="job_service_charge"]',
             calculateTotalAndDue);
     </script>
-
 @endif

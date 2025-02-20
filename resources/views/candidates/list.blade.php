@@ -47,7 +47,9 @@
                         @can('Create Candidate')
                             <div class="btn-group me-4">
                                 <a href="{{ route('candidates.create') }}" class="btn addcandidate_btn">Add Candidate</a>
-                                @if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER') || Auth::user()->hasRole('PROCESS MANAGER'))
+                                @if (Auth::user()->hasRole('ADMIN') ||
+                                        Auth::user()->hasRole('OPERATION MANAGER') ||
+                                        Auth::user()->hasRole('PROCESS MANAGER'))
                                     <button type="button"
                                         class="btn dropdown-toggle dropdown-toggle-split addcandidate_dropdown"
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -691,6 +693,7 @@
                         city: city,
                         call_status: '{{ request()->call_status }}',
                         candidate_entry: '{{ request()->candidate_entry }}',
+                        filter_position_id: '{{ request()->position_id }}',
                     },
                     success: function(data) {
                         // console.log(data.view);
@@ -1113,24 +1116,28 @@
                 var route = $(this).data('route');
                 $('#loading').addClass('loading');
                 $('#loading-content').addClass('loading-content');
+
                 $.ajax({
                     url: route,
                     type: 'GET',
+                    data: {
+                        call_status: '{{ request()->call_status }}',
+                        candidate_entry: '{{ request()->candidate_entry }}',
+                        filter_position_id: '{{ request()->position_id }}',
+                    },
                     success: function(response) {
-                        if (response.status == 'error') {
-                            $('#loading').removeClass('loading');
-                            $('#loading-content').removeClass('loading-content');
+                        $('#loading').removeClass('loading');
+                        $('#loading-content').removeClass('loading-content');
+
+                        if (response.status === 'error') {
                             toastr.error(response.message);
-                            return false;
-                        } else {
-                            $('#candidate-edit').html(response.view);
-                            $('#loading').removeClass('loading');
-                            $('#loading-content').removeClass('loading-content');
-                            $('#offcanvasEdit').offcanvas('show');
+                            return;
                         }
+
+                        $('#candidate-edit').html(response.view);
+                        $('#offcanvasEdit').offcanvas('show');
                     },
                     error: function(xhr) {
-                        // Handle errors
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         console.log(xhr);
@@ -1138,6 +1145,7 @@
                 });
             });
         });
+
 
         // {{-- @if (Session::has('candidate_id'))
         //         var route = "{{ route('candidates.edit', Session::get('candidate_id')) }}";

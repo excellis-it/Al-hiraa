@@ -16,7 +16,19 @@
                 <td>Medical Expiry Date</td>
                 <td>{{ $candidate_job_detail->medical_expiry_date ?? 'dd-mm-yyyy' }}</td>
                 <td>Medical Status</td>
-                <td>{{ $candidate_job_detail->medical_status ?? '' }}</td>
+                <td>{{ $candidate_job_detail->medical_status ?? '' }}
+
+                    <select name="medical_status" class="form-select uppercase-text medical_status" hidden>
+                        <option value="">SELECT A STATUS</option>
+                        <option value="FIT" {{ $candidate_job_detail->medical_status == 'FIT' ? 'selected' : '' }}>FIT
+                        </option>
+                        <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>
+                            UNFIT</option>
+                        <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>
+                            REPEAT</option>
+                    </select>
+                </td>
+
                 @if ($candidate_job_detail->medical_status == 'REPEAT')
                     <td colspan="" class="">Repeat Date</td>
                     <td colspan="" class="">
@@ -75,7 +87,7 @@
                 </td>
                 <td>Medical Status</td>
                 <td>
-                    <select name="medical_status" class="form-select uppercase-text" id="medical_status">
+                    <select name="medical_status" class="form-select uppercase-text medical_status" id="medical_status">
                         <option value="">SELECT A STATUS</option>
                             <option value="FIT" {{ $candidate_job_detail->medical_status == 'FIT' ? 'selected' : '' }}>FIT</option>
                             <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>UNFIT</option>
@@ -174,7 +186,15 @@
                 <td>Medical Expiry Date</td>
                 <td>{{ $candidate_job_detail->medical_expiry_date ?? 'dd-mm-yyyy' }}</td>
                 <td>Medical Status</td>
-                <td>{{ $candidate_job_detail->medical_status ?? '' }}</td>
+                <td>{{ $candidate_job_detail->medical_status ?? '' }}
+
+                    <select name="medical_status" class="form-select uppercase-text medical_status" hidden>
+                            <option value="">SELECT A STATUS</option>
+                                <option value="FIT" {{ $candidate_job_detail->medical_status == 'FIT' ? 'selected' : '' }}>FIT</option>
+                                <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>UNFIT</option>
+                                <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>REPEAT</option>
+                        </select></td>
+
                 @if ($candidate_job_detail->medical_status == 'REPEAT')
                     <td colspan="" class="">Repeat Date</td>
                     <td colspan="" class="">

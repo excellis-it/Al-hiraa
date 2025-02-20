@@ -2,9 +2,9 @@
     <table class="table" id="candidate-form-ticket">
         <tbody>
             <tr>
-                <td>Ticket Booking Date</td>
+                <td>Flight Booking Date</td>
                 <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy' }}</td>
-                <td>Ticket Confirmation Date</td>
+                <td>Flight Confirmation Date</td>
                 <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
                 <td>On Boarding Flight City</td>
                 <td>{{ $candidate_job_detail->onboarding_flight_city ?? 'N/A' }}</td>
@@ -20,7 +20,7 @@
 
 
 <script>
-    // Ticket deatils
+    // Flight deatils
     $(document).on("click", '#open-ticket-input', function(e) {
 
         $(this).html(``);
@@ -36,12 +36,12 @@
         $('#candidate-form-ticket').html(`<tbody class="candidate-form-new">
 
             <tr>
-                <td>Ticket Booking Date*</td>
+                <td>Flight Booking Date*</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="tickt_booking_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_booking_date)->format('d-m-Y') ?? '' }}" name="ticket_booking_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                <td>Ticket Confirmation Date</td>
+                <td>Flight Confirmation Date</td>
                 <td class="date-btn">
                     <input type="text" class="form-control uppercase-text datepicker" id="ticket_confirm_dt" value="{{ \Carbon\Carbon::parse($candidate_job_detail->ticket_confirmation_date)->format('d-m-Y') ?? '' }}" name="ticket_confirmation_date" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_id_job_msg"></span>
@@ -91,9 +91,9 @@
             ` <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>`)
         $('#candidate-form-ticket').html(`<tbody>
                 <tr>
-                    <td>Ticket Booking Date</td>
+                    <td>Flight Booking Date</td>
                     <td>{{ $candidate_job_detail->ticket_booking_date ?? 'dd-mm-yyyy' }}</td>
-                    <td>Ticket Confirmation Date</td>
+                    <td>Flight Confirmation Date</td>
                     <td>{{ $candidate_job_detail->ticket_confirmation_date ?? 'dd-mm-yyyy' }}</td>
                     <td>On Boarding Flight City</td>
                     <td>{{ $candidate_job_detail->onboarding_flight_city ?? 'N/A' }}</td>

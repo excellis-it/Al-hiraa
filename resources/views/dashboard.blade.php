@@ -171,6 +171,7 @@
                                                             {{ date('d/m/Y', strtotime($new_jobs_opening['interview_end_date'])) }}
                                                         @endif
                                                     </td>
+                                                    {{-- @dd($new_jobs_opening->job->candidate_position_id) --}}
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->job_name : '' }}
                                                     </td>
                                                     <td>
@@ -178,7 +179,16 @@
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
                                                     </td>
-                                                    <td>{{ isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }}
+                                                    <td>
+                                                        @if (isset($new_jobs_opening->job->candidatePosition))
+                                                            <a
+                                                                href="{{ route('candidates.index', ['position_id' => $new_jobs_opening->job->candidate_position_id]) }}">
+                                                                {{ isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }}
+                                                            </a>
+                                                        @else
+                                                            N/A
+                                                        @endif
+
                                                     </td>
                                                     <td>
                                                         <span
@@ -289,7 +299,16 @@
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->quantity_of_people_required : '' }}
                                                     </td>
-                                                    <td>{{ isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }}
+                                                    <td>
+                                                        @if (isset($new_jobs_opening->job->candidatePosition))
+                                                            <a
+                                                                href="{{ route('candidates.index', ['position_id' => $new_jobs_opening->job->candidate_position_id]) }}">
+                                                                {{ isset($new_jobs_opening->job->candidatePosition) ? $new_jobs_opening->job->candidatePosition->name : '' }}
+                                                            </a>
+                                                        @else
+                                                            N/A
+                                                        @endif
+
                                                     </td>
                                                     <td>
                                                         <span

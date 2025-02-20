@@ -728,7 +728,23 @@ class JobsController extends Controller
         $ticket_details_update->ticket_booking_date = $request->ticket_booking_date;
         $ticket_details_update->ticket_confirmation_date = $request->ticket_confirmation_date;
         $ticket_details_update->onboarding_flight_city = $request->onboarding_flight_city;
-        $ticket_details_update->deployment_date = $request->deployment_date;
+        if ($request->deployment_date) {
+
+            if ($ticket_details_update->due_amount != null) {
+                // dd($ticket_details_update->due_amount );
+                if ( $ticket_details_update->due_amount <= 0) {
+                    $ticket_details_update->deployment_date = $request->deployment_date;
+                } else {
+                    return response()->json(['status' => false,'message' => 'Deployment date should be provided when due amount is zero.']);
+                }
+            } else {
+                // dd($ticket_details_update->due_amount );
+                // show error message
+                return response()->json(['status' => false,'message' => 'Due amount not null.']);
+            }
+        }
+
+
         $ticket_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
@@ -752,7 +768,7 @@ class JobsController extends Controller
         return response()->json([
             'view' => view('jobs.update-single-data', compact('candidate_job'))->render(),
             'view1' => view('jobs.ticket-details', ['candidate_job_detail' => $candidate_job])->render(),
-            'status' => 'success'
+            'status' => true
         ]);
     }
 
