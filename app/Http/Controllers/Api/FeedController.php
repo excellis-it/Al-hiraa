@@ -45,7 +45,7 @@ class FeedController extends Controller
 
                 // Add encrypted deep link to each feed
                 $encryptedId = Crypt::encryptString($feed->id);
-                $feed->deep_link = url('/feed/' . $encryptedId);
+                $feed->deep_link = url('/feeds/' . $encryptedId);
             });
 
             return response()->json([
