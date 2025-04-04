@@ -144,7 +144,7 @@ class ProfileController extends Controller
             'position_applied_for_3' => 'nullable|exists:candidate_positions,id',
             'alternate_contact_no' => 'nullable|digits:10',
             'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
-            'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
+            'passport_number' => 'required|regex:/^[A-Za-z]\d{7}$/',
             'gender' => 'nullable|in:MALE,FEMALE,OTHER',
             'date_of_birth' => 'nullable|date_format:d-m-Y',
             'mode_of_registration' => 'nullable|in:CALLING,WALK-IN',

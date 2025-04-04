@@ -214,6 +214,7 @@ class AuthenticationController extends Controller
             'full_name' => 'required',
             'contact_no' => 'required|digits:10|unique:candidates,contact_no',
             'job_interest' => 'required|array|min:1|max:3',
+            'passport_number' => 'required|regex:/^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$/|max:20',
             'otp' => 'required|numeric|digits:6'
         ]);
 
@@ -246,6 +247,7 @@ class AuthenticationController extends Controller
                 $candidate->position_applied_for_1 = $request->job_interest[0]  ?? null;
                 $candidate->position_applied_for_2 = $request->job_interest[1]  ?? null;
                 $candidate->position_applied_for_3 = $request->job_interest[2]  ?? null;
+                $candidate->passport_number = $request->passport_number;
                 $candidate->cnadidate_status_id = 1;
                 $candidate->enter_by = 0;
                 $candidate->source = $source->name;

@@ -66,6 +66,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::post('view', [ReferController::class, 'view']);
             Route::post('submit', [ReferController::class, 'submit']);
             Route::post('total-point', [ReferController::class, 'totalPoint']);
+            Route::post('request-otp', [ReferController::class, 'requestOtp']);
         });
     });
 });
