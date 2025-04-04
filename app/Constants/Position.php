@@ -218,8 +218,8 @@ class Position
             5 => 'CALL BACK',
             6 => 'WRONG NUMBER',
             7 => 'NOT ANSWERED',
-            8 => 'REJECTED',
-            9 => 'INTERVIEW SCHEDULE',
+            8 => 'CALL REJECTED',
+            // 9 => 'INTERVIEW SCHEDULE',
         ];
     }
 
@@ -233,7 +233,7 @@ class Position
         return Candidate::orderBy('id','desc')->get() ?? '';
     }
 
-    
 
-    
+
+
 }

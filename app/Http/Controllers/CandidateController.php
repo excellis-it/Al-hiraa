@@ -414,7 +414,7 @@ class CandidateController extends Controller
         $candidate_entry = $request->candidate_entry;
         $filter_position_id = $request->filter_position_id;
 
-        return response()->json(['view' => view('candidates.edit', compact('filter_position_id','candidate_entry','call_status','interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('filter_position_id', 'candidate_entry', 'call_status', 'interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -987,6 +987,14 @@ class CandidateController extends Controller
                     ->orWhere('position_applied_for_2', $request->filter_position_id)
                     ->orWhere('position_applied_for_3', $request->filter_position_id);
             });
+        }
+
+        if ($request->has('cnadidate_status_id')) {
+            if (is_array($request->cnadidate_status_id)) {
+                $candidates->whereIn('cnadidate_status_id', $request->cnadidate_status_id);
+            } else {
+                $candidates->where('cnadidate_status_id', $request->cnadidate_status_id);
+            }
         }
 
         if ($request->filled('candidate_status_id')) {

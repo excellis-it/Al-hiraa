@@ -42,111 +42,143 @@ class JobsController extends Controller
     public function index(Request $request)
     {
         $interestedType = $request->input('interested_type'); // 'self' or 'team'
-        $interviewId = $request->input('interview_id'); // Company ID or related identifier
+        $interviewId = $request->input('interview_id'); // Interview ID
 
-        if (Auth::user()->can('Manage Job')) {
-            if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
-                // Filter candidate jobs based on 'self' type
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)
-                    ->where('job_interview_status', '!=', 'Not-Interested');
-                $candidates = CandidateJob::orderBy('id', 'desc')->where('assign_by_id', Auth::user()->id)
-                    ->where('job_interview_status', '!=', 'Not-Interested');
+        $medicalType = $request->input('medical_type'); // e.g., 'FIT', 'UNFIT'
+        $companyId = $request->input('company_id'); // selected company
 
-                if ($interestedType === 'self' && $interviewId) {
-                    $candidate_jobs->where('interview_id', $interviewId); // Adjust to match your company relationship
-                    $candidates->where('interview_id', $interviewId); // Adjust to match your company relationship
-                }
-
-                $candidate_jobs = $candidate_jobs->paginate(15);
-                $candidates = $candidates->get();
-            } else {
-                // For other roles, fetch all candidate jobs
-                $candidate_jobs = CandidateJob::orderBy('id', 'desc')
-                    ->where('job_interview_status', '!=', 'Not-Interested');
-                $candidates = CandidateJob::orderBy('id', 'desc')->where('job_interview_status', '!=', 'Not-Interested');
-
-                if ($interestedType === 'team' && $interviewId) {
-                    $candidate_jobs->where('interview_id', $interviewId); // Adjust to match your company relationship
-                    $candidates->where('interview_id', $interviewId); // Adjust to match your company relationship
-                }
-
-                $candidate_jobs = $candidate_jobs->paginate(15);
-                $candidates = $candidates->get();
-
-                // Fetch all candidates for all users
-
-            }
-
-            $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->with('jobs')->get();
-
-            // Initialize counts
-            $count = [
-                'total_interviews' => 0,
-                'total_appeared' => 0,
-                'total_selection' => 0,
-                'total_medical' => 0,
-                'total_doc' => 0,
-                'total_collection' => 0,
-                'total_deployment' => 0,
-            ];
-
-            // Loop through candidates to calculate counts
-            foreach ($candidates as $candidate) {
-                if (
-                    is_null($candidate->deployment_date) &&
-                    is_null($candidate->total_amount) &&
-                    is_null($candidate->visa_receiving_date) &&
-                    is_null($candidate->medical_status) &&
-                    ($candidate->job_interview_status != 'Appeared') &&
-                    ($candidate->job_interview_status != 'Not-Interested') &&
-                    ($candidate->job_interview_status === 'Interested')
-                ) {
-                    $count['total_interviews']++;
-                } elseif (
-                    is_null($candidate->deployment_date) &&
-                    is_null($candidate->total_amount) &&
-                    is_null($candidate->visa_receiving_date) &&
-                    is_null($candidate->medical_status) &&
-                    $candidate->job_interview_status === 'Appeared'
-                ) {
-                    $count['total_appeared']++;
-                } elseif (
-                    $candidate->job_interview_status === 'Selected' &&
-                    is_null($candidate->deployment_date) &&
-                    is_null($candidate->total_amount) &&
-                    is_null($candidate->visa_receiving_date) &&
-                    is_null($candidate->medical_status)
-                ) {
-                    $count['total_selection']++;
-                } elseif (
-                    !is_null($candidate->medical_status) &&
-                    is_null($candidate->deployment_date) &&
-                    is_null($candidate->total_amount) &&
-                    is_null($candidate->visa_receiving_date)
-                ) {
-                    $count['total_medical']++;
-                } elseif (
-                    !is_null($candidate->visa_receiving_date) &&
-                    is_null($candidate->deployment_date) &&
-                    is_null($candidate->total_amount)
-                ) {
-                    $count['total_doc']++;
-                } elseif (
-                    !is_null($candidate->total_amount) &&
-                    is_null($candidate->deployment_date)
-                ) {
-                    $count['total_collection']++;
-                } elseif (!is_null($candidate->deployment_date)) {
-                    $count['total_deployment']++;
-                }
-            }
-
-            // Return the view with the required data
-            return view('jobs.list', compact('candidate_jobs', 'companies', 'count'));
-        } else {
+        if (!Auth::user()->can('Manage Job')) {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+
+        $user = Auth::user();
+        $candidate_jobs = CandidateJob::orderBy('id', 'desc')->where('job_interview_status', '!=', 'Not-Interested');
+        $candidates = CandidateJob::orderBy('id', 'desc')->where('job_interview_status', '!=', 'Not-Interested');
+
+        // Role-based filtering
+        if ($user->hasRole('DATA ENTRY OPERATOR') || $user->hasRole('RECRUITER')) {
+            $candidate_jobs->where('assign_by_id', $user->id);
+            $candidates->where('assign_by_id', $user->id);
+
+            if ($interestedType === 'self' && $interviewId) {
+                $candidate_jobs->where('interview_id', $interviewId);
+                $candidates->where('interview_id', $interviewId);
+            }
+
+            $candidate_jobs->whereNull('medical_status')
+                ->whereNull('visa_receiving_date')
+                ->whereNull('total_amount')
+                ->whereNull('deployment_date');
+
+            $candidates->whereNull('medical_status')
+                ->whereNull('visa_receiving_date')
+                ->whereNull('total_amount')
+                ->whereNull('deployment_date');
+        } elseif ($user->hasRole('PROCESS MANAGER')) {
+
+            $candidate_jobs->where(function ($q) {
+                $q->where('job_interview_status', 'Selected')->orWhereNotNull('medical_status')
+                    ->orWhereNotNull('visa_receiving_date')
+                    ->orWhereNotNull('total_amount')
+                    ->orWhereNotNull('deployment_date');
+            });
+
+            $candidates->where(function ($q) {
+                $q->where('job_interview_status', 'Selected')->orWhereNotNull('medical_status')
+                    ->orWhereNotNull('visa_receiving_date')
+                    ->orWhereNotNull('total_amount')
+                    ->orWhereNotNull('deployment_date');
+            });
+
+            if ($interestedType === 'team' && $interviewId) {
+                $candidate_jobs->where('interview_id', $interviewId);
+                $candidates->where('interview_id', $interviewId);
+            }
+            if ($medicalType && $companyId) {
+                $candidate_jobs->where('medical_status', $medicalType)->where('company_id', $companyId);
+                $candidates->where('medical_status', $medicalType)->where('company_id', $companyId);
+            }
+        } else {
+            // Other roles
+            if ($interestedType === 'team' && $interviewId) {
+                $candidate_jobs->where('interview_id', $interviewId);
+                $candidates->where('interview_id', $interviewId);
+            }
+
+            if ($medicalType && $companyId) {
+                $candidate_jobs->where('medical_status', $medicalType)->where('company_id', $companyId);
+                $candidates->where('medical_status', $medicalType)->where('company_id', $companyId);
+            }
+        }
+
+        $candidate_jobs = $candidate_jobs->paginate(15);
+        $candidates = $candidates->get();
+
+        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->with('jobs')->get();
+
+        // Initialize counts
+        $count = [
+            'total_interviews' => 0,
+            'total_appeared' => 0,
+            'total_selection' => 0,
+            'total_medical' => 0,
+            'total_doc' => 0,
+            'total_collection' => 0,
+            'total_deployment' => 0,
+        ];
+
+        // Loop through candidates to calculate stats
+        foreach ($candidates as $candidate) {
+            if (
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->medical_status) &&
+                $candidate->job_interview_status === 'Interested'
+            ) {
+                $count['total_interviews']++;
+            } elseif (
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->medical_status) &&
+                $candidate->job_interview_status === 'Appeared'
+            ) {
+                $count['total_appeared']++;
+            } elseif (
+                $candidate->job_interview_status === 'Selected' &&
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->medical_status)
+            ) {
+                $count['total_selection']++;
+            } elseif (
+                !is_null($candidate->medical_status) &&
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount) &&
+                is_null($candidate->visa_receiving_date)
+            ) {
+                $count['total_medical']++;
+            } elseif (
+                !is_null($candidate->visa_receiving_date) &&
+                is_null($candidate->deployment_date) &&
+                is_null($candidate->total_amount)
+            ) {
+                $count['total_doc']++;
+            } elseif (
+                !is_null($candidate->total_amount) &&
+                is_null($candidate->deployment_date)
+            ) {
+                $count['total_collection']++;
+            } elseif (!is_null($candidate->deployment_date)) {
+                $count['total_deployment']++;
+            }
+        }
+
+        return view('jobs.list', compact('candidate_jobs', 'companies', 'count'));
     }
+
 
 
     /**
@@ -257,6 +289,9 @@ class JobsController extends Controller
         $int_pipeline = $request->int_pipeline;
         $interestedType = $request->interestedType;  // Get interestedType
         $interviewId = $request->interviewId;        // Get interviewId
+        $medicalType = $request->input('medical_type'); // e.g., 'FIT', 'UNFIT'
+        $companyId = $request->input('company_id'); // selected company
+
 
         // Initialize query
         $query = CandidateJob::query();
@@ -280,6 +315,20 @@ class JobsController extends Controller
             });
         }
 
+        if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
+            $query->whereNull('medical_status')
+                ->whereNull('visa_receiving_date')
+                ->whereNull('total_amount')
+                ->whereNull('deployment_date');
+        } elseif (Auth::user()->hasRole('PROCESS MANAGER')) {
+            $query->where(function ($q) {
+                $q->where('job_interview_status', 'Selected')->orWhereNotNull('medical_status')
+                    ->orWhereNotNull('visa_receiving_date')
+                    ->orWhereNotNull('total_amount')
+                    ->orWhereNotNull('deployment_date');
+            });
+        }
+
         // Filter by job ID (Ensure it's an array if it's not already)
         if ($job_id) {
             $job_id = is_array($job_id) ? $job_id : [$job_id];
@@ -297,7 +346,7 @@ class JobsController extends Controller
         }
 
         // Count statistics
-        $count = $this->getJobStatistics($job_id, $company, $search, $interestedType, $interviewId);
+        $count = $this->getJobStatistics($job_id, $company, $search, $interestedType, $interviewId, $medicalType, $companyId);
 
         // Check if the user is a "DATA ENTRY OPERATOR" or "RECRUITER"
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR') || Auth::user()->hasRole('RECRUITER')) {
@@ -311,15 +360,13 @@ class JobsController extends Controller
             // Paginate the results, filtering by assigned user ID
 
         } else {
-            // Apply filtering for team-assigned interview ID
-            if ($interestedType == 'team' && $interviewId) {
+            if ($medicalType && $companyId) {
+                $candidate_jobs = $query->where('medical_status', $medicalType)->where('company_id', $companyId)->orderBy('id', 'desc')->paginate(15);
+            } elseif ($interestedType == 'team' && $interviewId) {
                 $candidate_jobs = $query->where('interview_id', $interviewId)->orderBy('id', 'desc')->paginate(15);
             } else {
                 $candidate_jobs = $query->orderBy('id', 'desc')->paginate(15);
             }
-
-            // Paginate the results
-
         }
 
         // Render the results into a view
@@ -390,7 +437,7 @@ class JobsController extends Controller
 
 
     // Helper function to get job statistics
-    private function getJobStatistics($job_id, $company, $search, $interestedType, $interviewId)
+    private function getJobStatistics($job_id, $company, $search, $interestedType, $interviewId, $medicalType, $companyId)
     {
         $baseQuery = CandidateJob::query();
 
@@ -428,7 +475,9 @@ class JobsController extends Controller
         } else {
             if ($interestedType == 'team' && $interviewId) {
                 $candidate_jobs = $baseQuery->where('interview_id', $interviewId)->orderBy('id', 'desc')->get();
-            } else {
+            } elseif ($medicalType && $companyId) {
+                $candidate_jobs = $baseQuery->where('medical_status', $medicalType)->where('company_id', $companyId)->orderBy('id', 'desc')->get();
+            } {
                 $candidate_jobs = $baseQuery->orderBy('id', 'desc')->get();
             }
         }
@@ -732,15 +781,15 @@ class JobsController extends Controller
 
             if ($ticket_details_update->due_amount != null) {
                 // dd($ticket_details_update->due_amount );
-                if ( $ticket_details_update->due_amount <= 0) {
+                if ($ticket_details_update->due_amount <= 0) {
                     $ticket_details_update->deployment_date = $request->deployment_date;
                 } else {
-                    return response()->json(['status' => false,'message' => 'Deployment date should be provided when due amount is zero.']);
+                    return response()->json(['status' => false, 'message' => 'Deployment date should be provided when due amount is zero.']);
                 }
             } else {
                 // dd($ticket_details_update->due_amount );
                 // show error message
-                return response()->json(['status' => false,'message' => 'Due amount not null.']);
+                return response()->json(['status' => false, 'message' => 'Due amount not null.']);
             }
         }
 
@@ -951,6 +1000,4 @@ class JobsController extends Controller
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
-
-
 }

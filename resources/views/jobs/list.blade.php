@@ -180,7 +180,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- WhatsApp content -->
-                    <form id="send-job-whatsapp" action="{{route('jobs.send-job-whatsapp')}}" method="POST">
+                    <form id="send-job-whatsapp" action="{{ route('jobs.send-job-whatsapp') }}" method="POST">
                         @csrf
                         <div class="mb-3">
                             <label for="whatsappMessage" class="form-label">Message</label>
@@ -196,6 +196,54 @@
 @endsection
 
 @push('scripts')
+    <script>
+        $(".interview-slide").slick({
+            @if (auth()->user()->hasRole('RECRUITER'))
+                slidesToShow: 3,
+            @elseif (auth()->user()->hasRole('PROCESS MANAGER'))
+                slidesToShow: 5,
+            @else
+                slidesToShow: 7,
+            @endif
+            slidesToScroll: 1,
+            arrows: true,
+            dots: false,
+            speed: 300,
+            centerPadding: "20px",
+            infinite: true,
+            autoplaySpeed: 5000,
+            autoplay: false,
+            prevArrow: '<div class="slick-nav prev-arrow"><i class="fa-solid fa-angle-left"></i></div>',
+            nextArrow: '<div class="slick-nav next-arrow"><i class="fa-solid fa-angle-right"></i></div>',
+            responsive: [{
+                    breakpoint: 1025,
+                    settings: {
+                        slidesToShow: 4,
+                        slidesToScroll: 1,
+                        infinite: true,
+                        dots: false,
+                    },
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                    },
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                    },
+                },
+                // You can unslick at a given breakpoint now by adding:
+                // settings: "unslick"
+                // instead of a settings object
+            ],
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -298,7 +346,7 @@
                                 data: {
                                     message: message,
                                     candidate_ids: candidate_ids,
-                                    job_ids:job_ids
+                                    job_ids: job_ids
                                 },
                                 success: function(response) {
                                     //windows load with toastr message
@@ -336,7 +384,9 @@
                         int_pipeline: int_pipeline,
                         job_id: job_id,
                         interestedType: '{{ request()->interested_type }}',
-                        interviewId: '{{ request()->interview_id }}'
+                        interviewId: '{{ request()->interview_id }}',
+                        medical_type: '{{ request()->medical_type }}',
+                        company_id: '{{ request()->company_id }}',
                     },
                     success: function(response) {
                         $('#loading').removeClass('loading');
@@ -506,44 +556,45 @@
         });
     </script>
 
-<script>
-    $(document).on('submit', '#candidate-job-form-import', function(e) {
-        e.preventDefault();
-        var formData = new FormData(this);
-        $('#loading').addClass('loading');
-        $('#loading-content').addClass('loading-content');
-        $.ajax({
-            url: $(this).attr('action'),
-            type: $(this).attr('method'),
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                toastr.success('Candidates imported successfully');
-                setTimeout(function() {
-                    window.location.reload();
-                }, 1000);
+    <script>
+        $(document).on('submit', '#candidate-job-form-import', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $('#loading').addClass('loading');
+            $('#loading-content').addClass('loading-content');
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    toastr.success('Candidates imported successfully');
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 1000);
 
-            },
-            error: function(xhr) {
-                // Handle errors (e.g., display validation errors)
-                //clear any old errors
-                $('#loading').removeClass('loading');
-                $('#loading-content').removeClass('loading-content');
+                },
+                error: function(xhr) {
+                    // Handle errors (e.g., display validation errors)
+                    //clear any old errors
+                    $('#loading').removeClass('loading');
+                    $('#loading-content').removeClass('loading-content');
 
-                $('.text-danger').html('');
-                var errors = xhr.responseJSON.errors;
-                $.each(errors, function(key, value) {
-                    // console.log(key);
-                    // Assuming you have a div with class "text-danger" next to each input
-                    // $('[name="file"]').next('.text-danger').html(value[
-                    //     0]);
+                    $('.text-danger').html('');
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        // console.log(key);
+                        // Assuming you have a div with class "text-danger" next to each input
+                        // $('[name="file"]').next('.text-danger').html(value[
+                        //     0]);
 
-                    // append all error messages
-                    $('[name="file"]').siblings('.text-danger').append('<p>' + value + '</p>');
-                });
-            }
+                        // append all error messages
+                        $('[name="file"]').siblings('.text-danger').append('<p>' + value +
+                            '</p>');
+                    });
+                }
+            });
         });
-    });
-</script>
+    </script>
 @endpush

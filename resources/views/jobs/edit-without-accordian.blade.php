@@ -201,9 +201,11 @@
 
                             </div>
                             <div class="edit-1" id="open-medical-input">
+                                @unless(auth()->user()->hasRole('RECRUITER'))
                                 @can('Edit Job')
                                     <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
                                 @endcan
+                                @endunless
                             </div>
                         </div>
                     </div>

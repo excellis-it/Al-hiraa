@@ -110,10 +110,12 @@
                                             <div class="edit-2 cross-red" id="cross-button"></div>
                                             <div class="edit-2 m-lg-1" id="submit-button"></div>
                                             <div class="edit-1" id="open-input">
+                                                @unless(auth()->user()->hasRole('PROCESS MANAGER'))
                                                 @can('Edit Job')
                                                     <a href="javascript:void(0);"><span><i
                                                                 class="fa-solid fa-pen"></i></span></a>
                                                 @endcan
+                                                @endunless
                                             </div>
                                         </div>
                                     </div>
@@ -158,10 +160,12 @@
                                             <div class="edit-2 cross-red" id="cross-button-job"></div>
                                             <div class="edit-2 m-lg-1" id="submit-button-job"></div>
                                             <div class="edit-1" id="open-job-input">
+                                                @unless(auth()->user()->hasRole('PROCESS MANAGER'))
                                                 @can('Edit Job')
                                                     <a href="javascript:void(0);"><span><i
                                                                 class="fa-solid fa-pen"></i></span></a>
                                                 @endcan
+                                                @endunless
                                             </div>
                                         </div>
                                     </div>
@@ -253,10 +257,12 @@
 
                                             </div>
                                             <div class="edit-1" id="open-medical-input">
+                                                @unless(auth()->user()->hasRole('RECRUITER'))
                                                 @can('Edit Job')
                                                     <a href="javascript:void(0);"><span><i
                                                                 class="fa-solid fa-pen"></i></span></a>
                                                 @endcan
+                                                @endunless
                                             </div>
                                         </div>
                                     </div>
@@ -352,10 +358,12 @@
 
                                             </div>
                                             <div class="edit-1" id="open-document-input">
+                                                @unless(auth()->user()->hasRole('RECRUITER'))
                                                 @can('Edit Job')
                                                     <a href="javascript:void(0);"><span><i
                                                                 class="fa-solid fa-pen"></i></span></a>
                                                 @endcan
+                                                @endunless
                                             </div>
                                         </div>
                                     </div>

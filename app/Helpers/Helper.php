@@ -165,4 +165,10 @@ class Helper
 
         return $count;
     }
+
+    public static function getMedicalReport($type, $company_id)
+    {
+        $count = CandidateJob::where('company_id', $company_id)->where('medical_status', $type)->count();
+        return $count;
+    }
 }

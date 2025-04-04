@@ -6,6 +6,12 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
+    <style>
+        /* thead capital letter */
+        .table thead th {
+            text-transform: uppercase;
+        }
+    </style>
 @endpush
 @section('content')
     @php
@@ -270,8 +276,10 @@
                                             <th>Job Location </th>
                                             <th>Interview Location </th>
                                             <th>Benifits</th>
+                                            @unless (Auth::user()->hasRole('PROCESS MANAGER'))
+                                                <th>Team Interested</th>
+                                            @endunless
 
-                                            <th>Team Interested</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -326,13 +334,15 @@
                                                     </td>
                                                     <td>{{ $new_jobs_opening->job ? $new_jobs_opening->job->benifits : '' }}
                                                     </td>
+                                                    @unless (Auth::user()->hasRole('PROCESS MANAGER'))
+                                                        <td>
+                                                            <a
+                                                                href="{{ route('jobs.index', ['interested_type' => 'team', 'interview_id' => $new_jobs_opening->id]) }}">
+                                                                {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
+                                                            </a>
+                                                        </td>
+                                                    @endunless
 
-                                                    <td>
-                                                        <a
-                                                            href="{{ route('jobs.index', ['interested_type' => 'team', 'interview_id' => $new_jobs_opening->id]) }}">
-                                                            {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
-                                                        </a>
-                                                    </td>
                                                 </tr>
                                             @endforeach
 
@@ -431,6 +441,13 @@
                                 </div>
                             </div>
                         </div>
+
+                    </div>
+                @endif
+                @if (Auth::user()->hasRole('ADMIN') ||
+                        Auth::user()->hasRole('OPERATION MANAGER') ||
+                        Auth::user()->hasRole('PROCESS MANAGER'))
+                    <div class="row">
                         <div class="col-lg-12">
                             <div class="table_right">
                                 <div class="py-3">
@@ -508,6 +525,61 @@
                                             @include('dashboard-job-interview-report-table')
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- MEDICAL REPORT --}}
+                        <div class="col-lg-12">
+                            <div class="table_right">
+                                <div class="py-3">
+                                    <h4 class="card-header__title">Medical Report</h4>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-0 thead-border-top-0">
+                                        <thead>
+                                            <tr>
+                                                <th>COMPANY NAME</th>
+                                                <th>MEDICAL FIT</th>
+                                                <th>MEDICAL UNFIT</th>
+                                                <th>MEDICAL BACKOUT</th>
+                                                <th>MEDICAL REPEAT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (count($companies) > 0)
+                                                @foreach ($companies as $company)
+                                                    <tr>
+                                                        <td>{{ $company->company_name }}</td>
+                                                        <td>
+                                                            <a href="{{ route('jobs.index', ['medical_type' => 'FIT', 'company_id' => $company->id]) }}">
+                                                                {{ Helper::getMedicalReport('FIT', $company->id) }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('jobs.index', ['medical_type' => 'UNFIT', 'company_id' => $company->id]) }}">
+                                                                {{ Helper::getMedicalReport('UNFIT', $company->id) }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('jobs.index', ['medical_type' => 'BACKOUT', 'company_id' => $company->id]) }}">
+                                                                {{ Helper::getMedicalReport('BACKOUT', $company->id) }}
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ route('jobs.index', ['medical_type' => 'REPEAT', 'company_id' => $company->id]) }}">
+                                                                {{ Helper::getMedicalReport('REPEAT', $company->id) }}
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No data found</td>
+                                                </tr>
+                                            @endif
+                                        </tbody>
+                                    </table>
+
                                 </div>
                             </div>
                         </div>

@@ -24,6 +24,8 @@
                         </option>
                         <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>
                             UNFIT</option>
+                            <option value="BACKOUT" {{ $candidate_job_detail->medical_status == 'BACKOUT' ? 'selected' : '' }}>
+                                BACKOUT</option>
                         <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>
                             REPEAT</option>
                     </select>
@@ -91,6 +93,7 @@
                         <option value="">SELECT A STATUS</option>
                             <option value="FIT" {{ $candidate_job_detail->medical_status == 'FIT' ? 'selected' : '' }}>FIT</option>
                             <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>UNFIT</option>
+                             <option value="BACKOUT" {{ $candidate_job_detail->medical_status == 'BACKOUT' ? 'selected' : '' }}>BACKOUT</option>
                             <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>REPEAT</option>
                     </select>
                 </td>
@@ -192,6 +195,7 @@
                             <option value="">SELECT A STATUS</option>
                                 <option value="FIT" {{ $candidate_job_detail->medical_status == 'FIT' ? 'selected' : '' }}>FIT</option>
                                 <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>UNFIT</option>
+                                 <option value="BACKOUT" {{ $candidate_job_detail->medical_status == 'BACKOUT' ? 'selected' : '' }}>BACKOUT</option>
                                 <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>REPEAT</option>
                         </select></td>
 
