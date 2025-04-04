@@ -219,7 +219,7 @@ class Position
             6 => 'WRONG NUMBER',
             7 => 'NOT ANSWERED',
             8 => 'CALL REJECTED',
-            // 9 => 'INTERVIEW SCHEDULE',
+            9 => 'FOLLOW UP',
         ];
     }
 

@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 class CandidateJobImport implements ToCollection, WithHeadingRow
 {
     /**
@@ -29,8 +29,38 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         // interview_start_date	interview_end_date	date_of_interview	date_of_selection	mode_of_selection	interview_location	client_remarks	sponsor	country	salary	food_allowance	mofa_date	vfs_applied_date	vfs_received_date	mofa_received_date	family_contact_name	family_contact_no	medical_application_date	medical_approval_date	medical_completion_date	medical_expiry_date	medical_status	medical_repeat_date	courrier_sent_date	courrier_received_date	visa_receiving_date	visa_issue_date	visa_expiry_date	ticket_booking_date	ticket_confirmation_date	onboarding_flight_city	fst_installment_amount	fst_installment_date	secnd_installment_amount	secnd_installment_date	third_installment_amount	third_installment_date	fourth_installment_amount	fourth_installment_date	deployment_date	job_interview_status
-        // dd($rows);
-        Validator::make($rows->toArray(), [
+
+        $cleanedRows = $rows->map(function ($row) {
+            $row['interview_start_date'] = $this->formatExcelDate($row['interview_start_date']);
+            $row['interview_end_date'] = $this->formatExcelDate($row['interview_end_date']);
+            $row['date_of_interview'] = $this->formatExcelDate($row['date_of_interview']);
+            $row['date_of_selection'] = $this->formatExcelDate($row['date_of_selection']);
+            $row['mofa_date'] = $this->formatExcelDate($row['mofa_date']);
+            $row['vfs_applied_date'] = $this->formatExcelDate($row['vfs_applied_date']);
+            $row['vfs_received_date'] = $this->formatExcelDate($row['vfs_received_date']);
+            $row['mofa_received_date'] = $this->formatExcelDate($row['mofa_received_date']);
+            $row['medical_application_date'] = $this->formatExcelDate($row['medical_application_date']);
+            $row['medical_approval_date'] = $this->formatExcelDate($row['medical_approval_date']);
+            $row['medical_completion_date'] = $this->formatExcelDate($row['medical_completion_date']);
+            $row['medical_expiry_date'] = $this->formatExcelDate($row['medical_expiry_date']);
+            $row['medical_repeat_date'] = $this->formatExcelDate($row['medical_repeat_date']);
+            $row['courrier_sent_date'] = $this->formatExcelDate($row['courrier_sent_date']);
+            $row['courrier_received_date'] = $this->formatExcelDate($row['courrier_received_date']);
+            $row['visa_receiving_date'] = $this->formatExcelDate($row['visa_receiving_date']);
+            $row['visa_issue_date'] = $this->formatExcelDate($row['visa_issue_date']);
+            $row['visa_expiry_date'] = $this->formatExcelDate($row['visa_expiry_date']);
+            $row['ticket_booking_date'] = $this->formatExcelDate($row['ticket_booking_date']);
+            $row['ticket_confirmation_date'] = $this->formatExcelDate($row['ticket_confirmation_date']);
+            $row['fst_installment_date'] = $this->formatExcelDate($row['fst_installment_date']);
+            $row['secnd_installment_date'] = $this->formatExcelDate($row['secnd_installment_date']);
+            $row['third_installment_date'] = $this->formatExcelDate($row['third_installment_date']);
+            $row['fourth_installment_date'] = $this->formatExcelDate($row['fourth_installment_date']);
+            $row['deployment_date'] = $this->formatExcelDate($row['deployment_date']);
+
+            return $row;
+        });
+
+        Validator::make($cleanedRows, [
             '*.contact_no' => 'required|numeric|exists:candidates,contact_no',
             '*.company_name' => [
                 'required',
@@ -170,8 +200,8 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                     $companyName = $row['company_name'];
                     $companyLocation = $row['company_location'];
                     $jobTitle = $row['job_title'];
-                    $interviewStartDate = $row['interview_start_date'];
-                    $interviewEndDate = $row['interview_end_date'];
+                    $interviewStartDate =  $this->formatExcelDate($row['interview_start_date']);
+                    $interviewEndDate = $this->formatExcelDate($row['interview_end_date']);
 
 
                     $company = Company::where('company_name', $companyName)
@@ -249,8 +279,8 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                     $vendor = User::where('id', $job->vendor_id)->first();
                                     $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
 
-                                    $candidate_job->date_of_interview = $row['date_of_interview'] ?? null;
-                                    $candidate_job->date_of_selection = $row['date_of_selection'] ?? null;
+                                    $candidate_job->date_of_interview = $this->formatExcelDate($row['date_of_interview']) ?? null;
+                                    $candidate_job->date_of_selection = $this->formatExcelDate($row['date_of_selection']) ?? null;
                                     $candidate_job->mode_of_selection = $row['mode_of_selection'] ?? null;
                                     $candidate_job->interview_location = $job->address;
                                     $candidate_job->client_remarks = $row['client_remarks'] ?? null;
@@ -264,33 +294,33 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                     $candidate_job->family_contact_name = $row['family_contact_name'] ?? null;
                                     $candidate_job->family_contact_no = $row['family_contact_no'] ?? null;
 
-                                    $candidate_job->medical_application_date = $row['medical_application_date']  ?? null;
-                                    $candidate_job->medical_approval_date = $row['medical_approval_date'] ?? null;
-                                    $candidate_job->medical_completion_date = $row['medical_completion_date'] ?? null;
-                                    $candidate_job->medical_expiry_date  = $row['medical_expiry_date'] ?? null;
+                                    $candidate_job->medical_application_date = $this->formatExcelDate($row['medical_application_date'])  ?? null;
+                                    $candidate_job->medical_approval_date = $this->formatExcelDate($row['medical_approval_date']) ?? null;
+                                    $candidate_job->medical_completion_date = $this->formatExcelDate($row['medical_completion_date']) ?? null;
+                                    $candidate_job->medical_expiry_date  = $this->formatExcelDate($row['medical_expiry_date']) ?? null;
                                     $candidate_job->medical_status = $row['medical_status'] ?? null;
                                     if ($row['medical_status'] == 'REPEAT') {
-                                        $candidate_job->medical_repeat_date =  $row['medical_repeat_date'] ?? null;
+                                        $candidate_job->medical_repeat_date =  $this->formatExcelDate($row['medical_repeat_date']) ?? null;
                                     } else {
                                         $candidate_job->medical_repeat_date = null;
                                     }
 
                                     $candidate_job->visa_receiving_date =  $row['visa_receiving_date'] ?? null;
-                                    $candidate_job->visa_issue_date =  $row['visa_issue_date'] ?? null;
-                                    $candidate_job->visa_expiry_date = $row['visa_expiry_date'] ?? null;
+                                    $candidate_job->visa_issue_date =  $this->formatExcelDate($row['visa_issue_date']) ?? null;
+                                    $candidate_job->visa_expiry_date = $this->formatExcelDate($row['visa_expiry_date']) ?? null;
                                     $candidate_job->mofa_no =   $row['mofa_no'] ?? null;
                                     $candidate_job->mofa_date =   $row['mofa_date'] ?? null;
-                                    $candidate_job->mofa_received_date =  $row['mofa_received_date'] ?? null;
-                                    $candidate_job->vfs_applied_date =  $row['vfs_applied_date'] ?? null;
-                                    $candidate_job->vfs_received_date =  $row['vfs_received_date'] ?? null;
+                                    $candidate_job->mofa_received_date =  $this->formatExcelDate($row['mofa_received_date']) ?? null;
+                                    $candidate_job->vfs_applied_date =  $this->formatExcelDate($row['vfs_applied_date']) ?? null;
+                                    $candidate_job->vfs_received_date =  $this->formatExcelDate($row['vfs_received_date']) ?? null;
 
-                                    $candidate_job->ticket_booking_date =  $row['ticket_booking_date'] ?? null;
-                                    $candidate_job->ticket_confirmation_date = $row['ticket_confirmation_date'] ?? null;
+                                    $candidate_job->ticket_booking_date =  $this->formatExcelDate($row['ticket_booking_date']) ?? null;
+                                    $candidate_job->ticket_confirmation_date = $this->formatExcelDate($row['ticket_confirmation_date']) ?? null;
                                     $candidate_job->onboarding_flight_city = $row['onboarding_flight_city'] ?? null;
 
 
-                                    $candidate_job->courrier_sent_date = $row['courrier_sent_date'] ?? null;
-                                    $candidate_job->courrier_received_date = $row['courrier_received_date'] ?? null;
+                                    $candidate_job->courrier_sent_date = $this->formatExcelDate($row['courrier_sent_date']) ?? null;
+                                    $candidate_job->courrier_received_date = $this->formatExcelDate($row['courrier_received_date']) ?? null;
 
                                     $first_installment = $row['fst_installment_amount'] ?? 0;
                                     $second_installment = $row['secnd_installment_amount'] ?? 0;
@@ -299,15 +329,15 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
 
 
                                     $candidate_job->fst_installment_amount = $row['fst_installment_amount'] > 0 ? $row['fst_installment_amount'] : null;
-                                    $candidate_job->fst_installment_date = $row['fst_installment_date'] ?? null;
+                                    $candidate_job->fst_installment_date = $this->formatExcelDate($row['fst_installment_date']) ?? null;
                                     $candidate_job->secnd_installment_amount =  $row['secnd_installment_amount']  > 0 ? $row['secnd_installment_amount'] : null;
-                                    $candidate_job->secnd_installment_date = $row['secnd_installment_date'] ?? null;
+                                    $candidate_job->secnd_installment_date = $this->formatExcelDate($row['secnd_installment_date']) ?? null;
                                     $candidate_job->third_installment_amount =  $row['third_installment_amount']  > 0 ? $row['third_installment_amount'] : null;
-                                    $candidate_job->third_installment_date = $row['third_installment_date'] ?? null;
+                                    $candidate_job->third_installment_date = $this->formatExcelDate($row['third_installment_date']) ?? null;
                                     $candidate_job->fourth_installment_amount = $row['fourth_installment_amount']  > 0 ? $row['fourth_installment_amount'] : null;
-                                    $candidate_job->fourth_installment_date = $row['fourth_installment_date'] ?? null;
+                                    $candidate_job->fourth_installment_date = $this->formatExcelDate($row['fourth_installment_date']) ?? null;
                                     $candidate_job->total_amount = $first_installment + $second_installment + $third_installment + $fourth_installment;
-                                    $candidate_job->deployment_date = $row['deployment_date'] ?? null;
+                                    $candidate_job->deployment_date = $this->formatExcelDate($row['deployment_date']) ?? null;
 
                                     $candidate_job->save();
 
@@ -357,6 +387,23 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             }
         } catch (\Throwable $th) {
             dd($th->getMessage());
+        }
+    }
+
+    private function formatExcelDate($value)
+    {
+        if (is_numeric($value)) {
+            try {
+                return Date::excelToDateTimeObject($value)->format('d-m-Y');
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
+
+        try {
+            return \Carbon\Carbon::parse($value)->format('d-m-Y');
+        } catch (\Exception $e) {
+            return null;
         }
     }
 }

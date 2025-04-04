@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class InterviewJobImport implements ToCollection, WithHeadingRow
 {
@@ -27,80 +28,58 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $rows)
     {
-        // Filter out blank rows
         $rows = $rows->filter(function ($row) {
-            return array_filter($row->toArray()); // Check if the row has any non-empty values
+            return array_filter($row->toArray());
         });
-        // dd($rows);
-        // Perform validation on the filtered dataset
-        $validator = Validator::make($rows->toArray(), [
+
+        $cleanedRows = $rows->map(function ($row) {
+            $row['interview_start_date'] = $this->formatExcelDate($row['interview_start_date']);
+            $row['interview_end_date'] = $this->formatExcelDate($row['interview_end_date']);
+            return $row;
+        });
+
+        // Now validate the cleaned rows
+        $validator = Validator::make($cleanedRows->toArray(), [
             '*.position' => 'required',
-            '*.vendor_email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix|exists:users,email',
             '*.service_charge' => 'required|numeric',
             '*.job_name' => 'required',
             '*.contract' => 'nullable|numeric',
             '*.location' => 'required',
             '*.interview_location' => 'required',
             '*.salary' => 'required|numeric',
-            '*.duty_hours' => 'numeric',
+            '*.duty_hours' => 'nullable|numeric',
             '*.benifits' => 'nullable|numeric',
             '*.quantity_of_people_required' => 'required|numeric',
-            '*.interview_start_date' => 'required|date|after_or_equal:today',
+            '*.interview_start_date' => 'required|date',
             '*.interview_end_date' => 'required|date|after_or_equal:*.interview_start_date',
-        ], [
-            'vendor_email.exists' => 'Please provide a valid vendor email from the system.',
-            'interview_start_date.after_or_equal' => 'The interview start date must be a date after or equal to today.',
-            'interview_end_date.after_or_equal' => 'The interview end date must be a date after or equal to the interview start date.',
-            'position.required' => 'Position is required',
-            'vendor_email.required' => 'Vendor email is required',
-            'service_charge.required' => 'Service charge is required',
-            'job_name.required' => 'Job name is required',
-            'contract.required' => 'Contract is required',
-            'location.required' => 'Location is required',
-            'salary.required' => 'Salary is required',
-            'duty_hours.required' => 'Duty hours is required',
-            'quantity_of_people_required.required' => 'Quantity of people required is required',
-            'interview_start_date.required' => 'Interview start date is required',
-            'interview_end_date.required' => 'Interview end date is required'
         ])->validate();
 
-        foreach ($rows as $key => $row) {
-            if ($row['vendor_email']) {
-                $vendor = User::role('VENDOR')->where('email', $row['vendor_email'])->first();
+        foreach ($cleanedRows as $key => $row) {
+            $interview_start_date = $row['interview_start_date'];
+            $interview_end_date = $row['interview_end_date'];
 
+            $vendor = null;
+            if (!empty($row['vendor_email'])) {
+                $vendor = User::role('VENDOR')->where('email', $row['vendor_email'])->first();
                 if (!$vendor) {
                     $errors[$key]['vendor_email'] = "Vendor with email {$row['vendor_email']} not found.";
                     continue;
                 }
             }
 
-
             $position = CandidatePosition::firstOrCreate(
                 ['name' => $row['position']],
                 ['user_id' => auth()->id(), 'is_active' => 1]
             );
-            $year = date('Y'); // Current year
 
-            // Get the last job for the current year
-            $last_job_this_year = Job::whereYear('created_at', $year)
-                ->orderBy('id', 'desc')
-                ->first();
+            $year = date('Y');
+            $last_job_this_year = Job::whereYear('created_at', $year)->orderBy('id', 'desc')->first();
+            $last_entry_number = $last_job_this_year && $last_job_this_year->job_id
+                ? (int) explode('/', $last_job_this_year->job_id)[1] ?? 0
+                : 0;
 
-            if ($last_job_this_year->job_id) {
-                // Extract the entry number from the job_id (e.g., 001 from 2025/001/5000)
-                $last_entry_number = (int) explode('/', $last_job_this_year->job_id)[1] ?? 0;
-            } else {
-                // No jobs this year, start with 0
-                $last_entry_number = 0;
-            }
-
-            // Increment the entry number for the new job
-            $new_entry_number = str_pad($last_entry_number + 1, 3, '0', STR_PAD_LEFT); // Format as 3 digits (e.g., 001, 002)
-
-            // Define the service charge (you can replace this with dynamic logic if needed)
+            $new_entry_number = str_pad($last_entry_number + 1, 3, '0', STR_PAD_LEFT);
             $service_charge = $row['service_charge'];
-
-            // Generate the new job_id
             $new_job_id = "{$year}/{$new_entry_number}/{$service_charge}";
 
             $job = new Job();
@@ -120,18 +99,35 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             $job->candidate_position_id = $position->id;
             $job->save();
 
-            if ($row['interview_start_date'] && $row['interview_end_date']) {
-                Interview::create([
-                    'job_id' => $job->id,
-                    'user_id' => auth()->id(),
-                    'interview_location' => $row['interview_location'],
-                    'company_id' => $this->company_id,
-                    'interview_start_date' => date('d-m-Y', strtotime($row['interview_start_date'])),
-                    'interview_end_date' => date('d-m-Y', strtotime($row['interview_end_date']))
-                ]);
-            }
+            Interview::create([
+                'job_id' => $job->id,
+                'user_id' => auth()->id(),
+                'interview_location' => $row['interview_location'],
+                'company_id' => $this->company_id,
+                'interview_start_date' => $interview_start_date,
+                'interview_end_date' => $interview_end_date,
+            ]);
         }
     }
+
+
+    private function formatExcelDate($value)
+    {
+        if (is_numeric($value)) {
+            try {
+                return Date::excelToDateTimeObject($value)->format('d-m-Y');
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
+
+        try {
+            return \Carbon\Carbon::parse($value)->format('d-m-Y');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
 
 
     public function headingRow(): int
