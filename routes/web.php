@@ -41,6 +41,8 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::post('/interview-chart', [DashboardController::class, 'interviewChart'])->name('interview.chart-yearly');
     Route::post('/installment-chart', [DashboardController::class, 'installmentChart'])->name('installment.pie-chart');
     Route::get('report/job-interview/ajax', [DashboardController::class, 'getInterviewReportData'])->name('report.job-interview.ajax');
+    Route::get('dashboard/job/medical-report/filter', [DashboardController::class, 'filterMedicalReport'])->name('dashboard.job.medical.report.filter');
+
 
     Route::post('/get-interview-list', [DashboardController::class, 'getInterviewList'])->name('interview.list');
     Route::get('/report-job-interview', [DashboardController::class, 'reportJobInterview'])->name('report.job-interview.export');

@@ -201,10 +201,10 @@ class DashboardController extends Controller
         $new_jobs_openings = Interview::where(function ($query) use ($today) {
             $query->whereRaw('STR_TO_DATE(interview_end_date, "%d-%m-%Y") >= ?', [$today]);
         })
-        ->whereHas('job', function ($query) {
-            $query->where('status', 'Ongoing');
-        })
-        ->paginate(10);
+            ->whereHas('job', function ($query) {
+                $query->where('status', 'Ongoing');
+            })
+            ->paginate(10);
 
 
 
@@ -311,7 +311,7 @@ class DashboardController extends Controller
             $month = $request->input('month');
             $company_id = $request->input('company_id') ?? null;
             // dd($month);
-            return Excel::download(new JobInterviewReport($year, $month, $company_id),'job_interview_report_' . $year . '_' . $month . '.xlsx');
+            return Excel::download(new JobInterviewReport($year, $month, $company_id), 'job_interview_report_' . $year . '_' . $month . '.xlsx');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -331,5 +331,17 @@ class DashboardController extends Controller
         }
 
         return view('dashboard-job-interview-report-table', compact('companies', 'new_year', 'new_month'));
+    }
+
+    public function filterMedicalReport(Request $request)
+    {
+        $medical_month = $request->month;
+        $medical_year = $request->year;
+
+        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
+
+        $html = view('dashboard-job-medical-report-table', compact('companies', 'medical_month', 'medical_year'))->render();
+
+        return response()->json(['html' => $html]);
     }
 }

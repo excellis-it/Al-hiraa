@@ -160,12 +160,12 @@
                                             <div class="edit-2 cross-red" id="cross-button-job"></div>
                                             <div class="edit-2 m-lg-1" id="submit-button-job"></div>
                                             <div class="edit-1" id="open-job-input">
-                                                @unless(auth()->user()->hasRole('PROCESS MANAGER'))
+                                                {{-- @unless(auth()->user()->hasRole('PROCESS MANAGER')) --}}
                                                 @can('Edit Job')
                                                     <a href="javascript:void(0);"><span><i
                                                                 class="fa-solid fa-pen"></i></span></a>
                                                 @endcan
-                                                @endunless
+                                                {{-- @endunless --}}
                                             </div>
                                         </div>
                                     </div>

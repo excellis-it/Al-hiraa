@@ -228,20 +228,20 @@
                                             @endforeach
 
                                             <tr>
-                                                <td colspan="8" class="text-left">
+                                                <td colspan="11" class="text-left">
                                                     <div class="d-flex justify-content-between">
+                                                        <div>{!! $new_jobs_openings->links() !!}</div>
                                                         <div class="">
                                                             (Showing {{ $new_jobs_openings->firstItem() }} –
                                                             {{ $new_jobs_openings->lastItem() }} users of
                                                             {{ $new_jobs_openings->total() }} users)
                                                         </div>
-                                                        <div>{!! $new_jobs_openings->links() !!}</div>
                                                     </div>
                                                 </td>
                                             </tr>
                                         @else
                                             <tr>
-                                                <td colspan="8" class="text-center">No data found</td>
+                                                <td colspan="11" class="text-center">No data found</td>
                                             </tr>
                                         @endif
 
@@ -347,20 +347,21 @@
                                             @endforeach
 
                                             <tr>
-                                                <td colspan="8" class="text-left">
+                                                <td colspan="11" class="text-left">
                                                     <div class="d-flex justify-content-between">
+
+                                                        <div>{!! $new_jobs_openings->links() !!}</div>
                                                         <div class="">
                                                             (Showing {{ $new_jobs_openings->firstItem() }} –
                                                             {{ $new_jobs_openings->lastItem() }} users of
                                                             {{ $new_jobs_openings->total() }} users)
                                                         </div>
-                                                        <div>{!! $new_jobs_openings->links() !!}</div>
                                                     </div>
                                                 </td>
                                             </tr>
                                         @else
                                             <tr>
-                                                <td colspan="8" class="text-center">No data found</td>
+                                                <td colspan="11" class="text-center">No data found</td>
                                             </tr>
                                         @endif
 
@@ -479,15 +480,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="dashboard_graph" style="margin-right: 5px;">
-                                        <select id="interview-yearly" class="form-select" style="width: 150px;">
-                                            @for ($i = 2023; $i <= date('Y'); $i++)
-                                                <option value="{{ $i }}"
-                                                    @if ($i == $year) selected @endif>{{ $i }}
-                                                </option>
-                                            @endfor
-                                        </select>
-                                    </div>
+
                                     <div class="dashboard_graph" style="margin-right: 5px;">
                                         <select id="interview-monthly" class="form-select" style="width: 150px;">
                                             @foreach ($months as $key => $month)
@@ -497,10 +490,20 @@
                                             @endforeach
                                         </select>
                                     </div>
+
+                                    <div class="dashboard_graph" style="margin-right: 5px;">
+                                        <select id="interview-yearly" class="form-select" style="width: 150px;">
+                                            @for ($i = 2023; $i <= date('Y'); $i++)
+                                                <option value="{{ $i }}"
+                                                    @if ($i == $year) selected @endif>{{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                     <div>
                                         <a href="{{ route('report.job-interview.export', ['year' => request('year', date('Y')), 'month' => request('month', date('m')), 'company_id' => request('company_id')]) }}"
                                             class="support_btn text-end" id="export-button">
-                                            <span><i class="fas fa-file-excel"></i> Export</span>
+                                            <span><i class="fas fa-file-excel"></i> Submit </span>
                                         </a>
                                     </div>
                                 </div>
@@ -534,6 +537,45 @@
                                 <div class="py-3">
                                     <h4 class="card-header__title">Medical Report</h4>
                                 </div>
+                                <div class="justify-content-end mb-2 d-flex">
+                                    @php
+                                        $year = date('Y');
+                                        $months = [
+                                            '01' => 'January',
+                                            '02' => 'February',
+                                            '03' => 'March',
+                                            '04' => 'April',
+                                            '05' => 'May',
+                                            '06' => 'June',
+                                            '07' => 'July',
+                                            '08' => 'August',
+                                            '09' => 'September',
+                                            '10' => 'October',
+                                            '11' => 'November',
+                                            '12' => 'December',
+                                        ];
+                                    @endphp
+
+                                    <div class="dashboard_graph" style="margin-right: 5px;">
+                                        <select id="filter-month" class="form-select" style="width: 150px;">
+                                            <option value="" selected>Select Month</option>
+                                            @foreach ($months as $key => $month)
+                                                <option value="{{ $key }}">{{ $month }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="dashboard_graph" style="margin-right: 5px;">
+                                        <select id="filter-year" class="form-select" style="width: 150px;">
+                                            <option value="" selected>Select Year</option>
+                                            @for ($i = 2023; $i <= date('Y'); $i++)
+                                                <option value="{{ $i }}">{{ $i }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table table-bordered mb-0 thead-border-top-0">
                                         <thead>
@@ -545,38 +587,9 @@
                                                 <th>MEDICAL REPEAT</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            @if (count($companies) > 0)
-                                                @foreach ($companies as $company)
-                                                    <tr>
-                                                        <td>{{ $company->company_name }}</td>
-                                                        <td>
-                                                            <a href="{{ route('jobs.index', ['medical_type' => 'FIT', 'company_id' => $company->id]) }}">
-                                                                {{ Helper::getMedicalReport('FIT', $company->id) }}
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('jobs.index', ['medical_type' => 'UNFIT', 'company_id' => $company->id]) }}">
-                                                                {{ Helper::getMedicalReport('UNFIT', $company->id) }}
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('jobs.index', ['medical_type' => 'BACKOUT', 'company_id' => $company->id]) }}">
-                                                                {{ Helper::getMedicalReport('BACKOUT', $company->id) }}
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <a href="{{ route('jobs.index', ['medical_type' => 'REPEAT', 'company_id' => $company->id]) }}">
-                                                                {{ Helper::getMedicalReport('REPEAT', $company->id) }}
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
-                                                <tr>
-                                                    <td colspan="5" class="text-center">No data found</td>
-                                                </tr>
-                                            @endif
+                                        <tbody id="dashboard-job-medical-report-table">
+                                            @include('dashboard-job-medical-report-table')
+
                                         </tbody>
                                     </table>
 
@@ -636,6 +649,27 @@
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script>
+        $('#filter-month, #filter-year').on('change', function() {
+            let month = $('#filter-month').val();
+            let year = $('#filter-year').val();
+
+            $.ajax({
+                url: "{{ route('dashboard.job.medical.report.filter') }}",
+                method: "GET",
+                data: {
+                    month: month,
+                    year: year
+                },
+                success: function(response) {
+                    $('#dashboard-job-medical-report-table').html(response.html);
+                },
+                error: function() {
+                    alert('Something went wrong while filtering.');
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $(document).on('change', '#company-filter, #interview-yearly, #interview-monthly', function() {

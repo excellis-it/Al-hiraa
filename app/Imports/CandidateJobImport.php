@@ -28,7 +28,11 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $rows)
     {
+
         // interview_start_date	interview_end_date	date_of_interview	date_of_selection	mode_of_selection	interview_location	client_remarks	sponsor	country	salary	food_allowance	mofa_date	vfs_applied_date	vfs_received_date	mofa_received_date	family_contact_name	family_contact_no	medical_application_date	medical_approval_date	medical_completion_date	medical_expiry_date	medical_status	medical_repeat_date	courrier_sent_date	courrier_received_date	visa_receiving_date	visa_issue_date	visa_expiry_date	ticket_booking_date	ticket_confirmation_date	onboarding_flight_city	fst_installment_amount	fst_installment_date	secnd_installment_amount	secnd_installment_date	third_installment_amount	third_installment_date	fourth_installment_amount	fourth_installment_date	deployment_date	job_interview_status
+        $rows = $rows->filter(function ($row) {
+            return array_filter($row->toArray());
+        });
 
         $cleanedRows = $rows->map(function ($row) {
             $row['interview_start_date'] = $this->formatExcelDate($row['interview_start_date']);
@@ -59,8 +63,8 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
 
             return $row;
         });
-
-        Validator::make($cleanedRows, [
+        // dd($cleanedRows->toArray());
+        Validator::make($cleanedRows->toArray(), [
             '*.contact_no' => 'required|numeric|exists:candidates,contact_no',
             '*.company_name' => [
                 'required',
@@ -113,8 +117,8 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             '*.client_remarks' => 'nullable',
             '*.sponsor' => 'nullable',
             '*.country' => 'required',
-            '*.salary' => 'required|numeric',
-            '*.food_allowance' => 'nullable|numeric',
+            '*.salary' => 'required',
+            '*.food_allowance' => 'nullable',
             '*.mofa_date' => 'nullable|date',
             '*.vfs_applied_date' => 'nullable|date',
             '*.vfs_received_date' => 'nullable|date',
@@ -162,8 +166,6 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             'mode_of_selection.in' => 'Mode of selection must be FULL TIME, PART TIME or CONTRACT',
             'country.required' => 'Country is required',
             'salary.required' => 'Salary is required',
-            'salary.numeric' => 'Salary must be a number',
-            'food_allowance.numeric' => 'Food allowance must be a number',
             'family_contact_no.numeric' => 'Family contact number must be a number',
             'family_contact_no.digits' => 'Family contact number must be 10 digits',
             'medical_application_date.required_with' => 'Medical application date is required when medical approval date, medical completion date, medical expiry date, medical status and medical repeat date are provided',
@@ -197,20 +199,21 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                 $candidate = Candidate::where('contact_no', $row['contact_no'])->orderBy('id', 'desc')->first();
 
                 if ($candidate) {
-                    $companyName = $row['company_name'];
-                    $companyLocation = $row['company_location'];
-                    $jobTitle = $row['job_title'];
+                    $companyName = strtolower($row['company_name']);
+                    $companyLocation = strtolower($row['company_location']);
+                    $jobTitle = strtolower($row['job_title']);
                     $interviewStartDate =  $this->formatExcelDate($row['interview_start_date']);
                     $interviewEndDate = $this->formatExcelDate($row['interview_end_date']);
 
 
-                    $company = Company::where('company_name', $companyName)
-                        ->where('company_address', $companyLocation)
-                        ->orderBy('id', 'desc')
-                        ->first();
+                    $company = Company::whereRaw('LOWER(company_name) = ?', [$companyName])
+                                      ->whereRaw('LOWER(company_address) = ?', [$companyLocation])
+                                      ->orderBy('id', 'desc')
+                                      ->first();
+
                         // dd($companyName, $companyLocation, $jobTitle, $interviewStartDate, $interviewEndDate, $company->id);
                     if ($company) {
-                        $job = Job::where('job_name', $jobTitle)
+                        $job = Job::whereRaw('LOWER(job_name) = ?', [$jobTitle])
                             ->where('company_id', $company->id)
                             ->orderBy('id', 'desc')
                             ->first();
@@ -405,5 +408,10 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    public function headingRow(): int
+    {
+        return 1;
     }
 }

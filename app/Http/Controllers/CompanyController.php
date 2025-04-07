@@ -233,9 +233,9 @@ class CompanyController extends Controller
             'job_name' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
-            'salary' => 'required|numeric',
+            'salary' => 'required',
             'quantity_of_people_required' => 'required|numeric',
-            'benifits' => 'nullable|numeric',
+            'benifits' => 'nullable',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
@@ -318,9 +318,9 @@ class CompanyController extends Controller
             // contract was number or float
             'contract' => 'nullable|numeric',
             'address' => 'required',
-            'salary' => 'required|numeric',
+            'salary' => 'required',
             'quantity_of_people_required' => 'required|numeric',
-            'benifits' => 'nullable|numeric',
+            'benifits' => 'nullable',
         ], [
             // 'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',

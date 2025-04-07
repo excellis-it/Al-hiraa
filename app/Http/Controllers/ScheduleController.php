@@ -35,6 +35,8 @@ class ScheduleController extends Controller
             $interviews = $interviews->mapWithKeys(function ($item, $key) {
                 return [$key => $item->toArray()];
             });
+
+            // dd($interviews);
             // } else {
             //     $interviews = Interview::join('companies', 'interviews.company_id', '=', 'companies.id')
             //         ->select('interviews.*', 'companies.company_name as company_name')

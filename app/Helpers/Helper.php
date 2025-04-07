@@ -166,9 +166,21 @@ class Helper
         return $count;
     }
 
-    public static function getMedicalReport($type, $company_id)
+
+    public static function getMedicalReport($type, $company_id, $medical_month = null, $medical_year = null)
     {
-        $count = CandidateJob::where('company_id', $company_id)->where('medical_status', $type)->count();
-        return $count;
+        $query = CandidateJob::where('company_id', $company_id)  // <-- Use parameter
+            ->where('medical_status', $type);
+            // dd($type, $company_id, $medical_month, $medical_year);
+        if (($medical_month) && $medical_month != null) {
+            $query->whereMonth('created_at', $medical_month);
+        }
+
+        if ($medical_year && !is_null($medical_year)) {
+            $query->whereYear('created_at', $medical_year);
+        }
+
+        // dd($query->get()->toArray());  // For debugging
+        return $query->count();
     }
 }
