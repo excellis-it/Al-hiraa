@@ -33,10 +33,17 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('request-otp-register', [AuthenticationController::class, 'requestOtpRegister']);
     Route::post('job-interest', [AuthenticationController::class, 'jobInterest']);
 
+    Route::prefix('feeds')->group(function () {
+        Route::post('list', [FeedController::class, 'feedList']);
+        Route::post('detail', [FeedController::class, 'feedDetail']);
+    });
+
+    Route::prefix('job')->group(function () {
+        Route::post('list', [JobController::class, 'list']);
+    });
+
     Route::middleware('auth:api')->group(function () {
-        Route::prefix('job')->group(function () {
-            Route::post('list', [JobController::class, 'list']);
-        });
+
 
         Route::prefix('candidate-job')->group(function () {
             Route::post('apply', [CandidateJobController::class, 'candidateJobApply']);
@@ -52,9 +59,7 @@ Route::group(['prefix' => 'v1'], function () {
         });
 
         Route::prefix('feeds')->group(function () {
-            Route::post('list', [FeedController::class, 'feedList']);
             Route::post('like', [FeedController::class, 'feedLike']);
-            Route::post('detail', [FeedController::class, 'feedDetail']);
         });
 
         Route::prefix('settings')->group(function () {

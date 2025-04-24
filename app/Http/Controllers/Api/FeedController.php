@@ -10,6 +10,7 @@ use App\Models\FeedLike;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Crypt;
+
 /**
  * @group Feed
  */
@@ -40,13 +41,25 @@ class FeedController extends Controller
                 ->withCount('feedLikes')
                 ->get();
 
-            $feeds->each(function ($feed) {
-                $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::id())->exists();
+            if (auth()->check()) {
+                $feeds->each(function ($feed) {
+                    $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::id())->exists();
 
-                // Add encrypted deep link to each feed
-                $encryptedId = Crypt::encryptString($feed->id);
-                $feed->deep_link = url('/feeds/' . $encryptedId);
-            });
+                    // Add encrypted deep link to each feed
+                    $encryptedId = Crypt::encryptString($feed->id);
+                    $feed->deep_link = url('/feeds/' . $encryptedId);
+                });
+            } else {
+                $feeds->each(function ($feed) {
+                    $feed->is_liked = false;
+
+                    // Add encrypted deep link to each feed
+                    $encryptedId = Crypt::encryptString($feed->id);
+                    $feed->deep_link = url('/feeds/' . $encryptedId);
+                });
+            }
+
+
 
             return response()->json([
                 'message' => 'Feed listed successfully.',
