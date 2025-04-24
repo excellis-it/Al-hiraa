@@ -60,6 +60,7 @@ Route::group(['prefix' => 'v1'], function () {
 
         Route::prefix('feeds')->group(function () {
             Route::post('like', [FeedController::class, 'feedLike']);
+            Route::post('list-with-login', [FeedController::class, 'feedListWithLogin']);
         });
 
         Route::prefix('settings')->group(function () {

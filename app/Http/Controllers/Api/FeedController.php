@@ -41,15 +41,6 @@ class FeedController extends Controller
                 ->withCount('feedLikes')
                 ->get();
 
-            if (auth()->check()) {
-                $feeds->each(function ($feed) {
-                    $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::id())->exists();
-
-                    // Add encrypted deep link to each feed
-                    $encryptedId = Crypt::encryptString($feed->id);
-                    $feed->deep_link = url('/feeds/' . $encryptedId);
-                });
-            } else {
                 $feeds->each(function ($feed) {
                     $feed->is_liked = false;
 
@@ -57,9 +48,6 @@ class FeedController extends Controller
                     $encryptedId = Crypt::encryptString($feed->id);
                     $feed->deep_link = url('/feeds/' . $encryptedId);
                 });
-            }
-
-
 
             return response()->json([
                 'message' => 'Feed listed successfully.',
@@ -73,6 +61,51 @@ class FeedController extends Controller
             ]);
         }
     }
+
+
+    /**
+     * Feed List with login
+     *
+     * This endpoint will be used to list all the feeds.
+     * @response {
+     * "message": "Feed listed successfully."
+     * }
+     *
+     */
+
+    public function feedListWithLogin(Request $request)
+    {
+        try {
+            $feeds = Feed::orderBy('id', 'desc')
+                ->with([
+                    'feedFiles:id,feed_id,file_name',
+                    'author:id,first_name,last_name,profile_picture'
+                ])
+                ->withCount('feedLikes')
+                ->get();
+
+
+            $feeds->each(function ($feed) {
+                $feed->is_liked = $feed->feedLikeCheck()->where('is_like', true)->where('member_id', Auth::id())->exists();
+
+                // Add encrypted deep link to each feed
+                $encryptedId = Crypt::encryptString($feed->id);
+                $feed->deep_link = url('/feeds/' . $encryptedId);
+            });
+
+            return response()->json([
+                'message' => 'Feed listed successfully.',
+                'status' => true,
+                'data' => $feeds
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
 
     /**
      *  Single feed list
