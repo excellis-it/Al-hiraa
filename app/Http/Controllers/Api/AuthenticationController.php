@@ -214,7 +214,7 @@ class AuthenticationController extends Controller
             'full_name' => 'required',
             'contact_no' => 'required|digits:10|unique:candidates,contact_no',
             'job_interest' => 'required|array|min:1|max:3',
-            'passport_number' => 'required|regex:/^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$/|max:20',
+            'passport_number' => 'nullable|regex:/^[A-PR-WYa-pr-wy][1-9]\d\s?\d{4}[1-9]$/|max:20',
             'otp' => 'required|numeric|digits:6'
         ]);
 
