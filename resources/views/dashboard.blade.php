@@ -157,6 +157,7 @@
 
                                             <th>RC Interested</th>
                                             <th>Team Interested</th>
+                                            <th>Doc.View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -223,7 +224,16 @@
                                                     <td>
                                                         {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
                                                     </td>
+                                                     <td>
+                                                        @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
+                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}" target="_blank">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                            @else
+                                                           No Document
+                                                        @endif
 
+                                                    </td>
                                                 </tr>
                                             @endforeach
 
@@ -279,7 +289,7 @@
                                             @unless (Auth::user()->hasRole('PROCESS MANAGER'))
                                                 <th>Team Interested</th>
                                             @endunless
-
+                                              <th>Doc.View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -358,6 +368,16 @@
                                                         </div>
                                                     </div>
                                                 </td>
+                                                 <td>
+                                                        @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
+                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}" target="_blank">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                            @else
+                                                           No Document
+                                                        @endif
+
+                                                    </td>
                                             </tr>
                                         @else
                                             <tr>

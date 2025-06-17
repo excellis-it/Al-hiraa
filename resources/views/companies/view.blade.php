@@ -166,14 +166,14 @@
                                                                 id="job_description_msg_create"></span>
                                                         </div>
                                                     </div>
-                                                    {{-- <div class="col-xl-12">
+                                                    <div class="col-xl-12">
                                                         <div class="form-group">
                                                             <label for="">Document </label>
                                                             <input type="file" class="form-control" id=""
                                                                 value="" name="document" placeholder="">
                                                             <span class="text-danger" id=""></span>
                                                         </div>
-                                                    </div> --}}
+                                                    </div>
                                                     <div class="col-lg-12 mt-3">
                                                         <div class="save-btn-div d-flex align-items-center">
                                                             <button type="button"
@@ -439,6 +439,9 @@
                                             <th>Contract</th>
                                             <th>Benefits</th>
                                             <th>People Required</th>
+                                            <th>
+                                                Doc.View
+                                            </th>
                                             <th>Latest Interview Date</th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
@@ -468,7 +471,7 @@
                                             <th>Contract</th>
                                             <th>Benefits</th>
                                             <th>People Required</th>
-                                            {{-- <th>Doc.View</th> --}}
+                                            <th>Doc.View</th>
                                             <th>Created Date</th>
                                             <th>Edit</th>
                                         </tr>
@@ -874,9 +877,10 @@
                         if (response.status == true) {
                             $('#loading').removeClass('loading');
                             $('#loading-content').removeClass('loading-content');
-                            $('#company-job-form-create')[0].reset();
+                            // $('#company-job-form-create')[0].reset();
+                            $('input[name="job_name"]').val(''); // reset company id
                             // reset select2 dropdown
-                            $('.new_select2').val(null).trigger('change');
+                            // $('.new_select2').val(null).trigger('change');
 
                             // append the new job to the table
                             $('#open_job_filter').html(response.view);
