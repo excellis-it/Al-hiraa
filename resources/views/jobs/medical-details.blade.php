@@ -28,6 +28,8 @@
                                 BACKOUT</option>
                         <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>
                             REPEAT</option>
+                            <option value="PENDING" {{ $candidate_job_detail->medical_status == 'PENDING' ? 'selected' : '' }}>
+                                PENDING</option>
                     </select>
                 </td>
 
@@ -95,7 +97,8 @@
                             <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>UNFIT</option>
                              <option value="BACKOUT" {{ $candidate_job_detail->medical_status == 'BACKOUT' ? 'selected' : '' }}>BACKOUT</option>
                             <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>REPEAT</option>
-                    </select>
+                            <option value="PENDING" {{ $candidate_job_detail->medical_status == 'PENDING' ? 'selected' : '' }}>PENDING</option>
+                            </select>
                 </td>
                 @if ($candidate_job_detail->medical_status == 'REPEAT')
                 <td class="repeat-date-row">Repeat Date</td>
@@ -197,7 +200,8 @@
                                 <option value="UNFIT" {{ $candidate_job_detail->medical_status == 'UNFIT' ? 'selected' : '' }}>UNFIT</option>
                                  <option value="BACKOUT" {{ $candidate_job_detail->medical_status == 'BACKOUT' ? 'selected' : '' }}>BACKOUT</option>
                                 <option value="REPEAT" {{ $candidate_job_detail->medical_status == 'REPEAT' ? 'selected' : '' }}>REPEAT</option>
-                        </select></td>
+                                <option value="PENDING" {{ $candidate_job_detail->medical_status == 'PENDING' ? 'selected' : '' }}>PENDING</option>
+                                </select></td>
 
                 @if ($candidate_job_detail->medical_status == 'REPEAT')
                     <td colspan="" class="">Repeat Date</td>

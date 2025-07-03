@@ -6,7 +6,7 @@
     @foreach ($companies as $company)
         <tr>
             <td>{{ $company->company_name }}</td>
-            @foreach (['FIT', 'UNFIT', 'BACKOUT', 'REPEAT'] as $type)
+            @foreach (['FIT', 'UNFIT', 'BACKOUT', 'REPEAT','PENDING'] as $type)
                 <td>
                     <a href="{{ route('jobs.index', ['medical_type' => $type, 'company_id' => $company->id]) }}">
                         {{ Helper::getMedicalReport($type, $company->id, $medical_month ?? null, $medical_year ?? null) }}

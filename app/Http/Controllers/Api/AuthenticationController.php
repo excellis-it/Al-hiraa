@@ -47,7 +47,7 @@ class AuthenticationController extends Controller
             return response()->json([
                 'message' => $validator->errors()->first(),
                 'status' => false,
-            ], 422); // Use 422 for validation errors
+            ], 201); // Use 201 for validation errors
         }
 
         try {
@@ -68,8 +68,17 @@ class AuthenticationController extends Controller
                 }
             } else {
                 // Generate OTP
-                $userOtp = $this->generateOtp($request->mobile_number);
+                $candidate = Candidate::where('contact_no', $request->mobile_number)->first();
 
+
+                if ($candidate->login_status == 0) {
+                    return response()->json(['message' => 'Your account is not active. Please contact admin.', 'status' => false], 201);
+                }
+
+                if ($candidate->cnadidate_status_id == 3) {
+                    return response()->json(['message' => 'Your account is blacklisted. Please contact admin.', 'status' => false], 201);
+                }
+                $userOtp = $this->generateOtp($request->mobile_number);
                 if ($userOtp) {
                     return response()->json([
                         'message' => 'OTP sent successfully.',
@@ -97,6 +106,8 @@ class AuthenticationController extends Controller
     {
         // Fetch the candidate by contact number
         $candidate = Candidate::where('contact_no', $mobileNumber)->first();
+
+
 
         if (!$candidate) {
             throw new \Exception('Candidate not found.');
@@ -175,6 +186,10 @@ class AuthenticationController extends Controller
 
                 if ($candidate->login_status == 0) {
                     return response()->json(['message' => 'Your account is not active. Please contact admin.', 'status' => false], 201);
+                }
+
+                if ($candidate->cnadidate_status_id == 3) {
+                    return response()->json(['message' => 'Your account is blacklisted. Please contact admin.', 'status' => false], 201);
                 }
 
                 if ($candidate) {

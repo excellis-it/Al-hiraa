@@ -1830,6 +1830,13 @@
                                         <option value="Interested" selected>Interested</option> <option value="Not-Interested">Not-Interested</option>`
                 );
             }
+
+            if (call_status == 'NOT INTERESTED') {
+                $('#interview_status').html(
+                    `<option value="">Interview Status</option>
+                                        <option value="Interested">Interested</option> <option value="Not-Interested" selected>Not-Interested</option>`
+                );
+            }
         });
     });
 </script>

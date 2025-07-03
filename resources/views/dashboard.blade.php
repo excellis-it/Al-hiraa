@@ -605,6 +605,7 @@
                                                 <th>MEDICAL UNFIT</th>
                                                 <th>MEDICAL BACKOUT</th>
                                                 <th>MEDICAL REPEAT</th>
+                                                 <th>MEDICAL PENDING</th>
                                             </tr>
                                         </thead>
                                         <tbody id="dashboard-job-medical-report-table">
