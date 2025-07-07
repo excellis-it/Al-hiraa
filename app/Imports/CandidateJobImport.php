@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\AssignJob;
 use App\Models\Candidate;
 use App\Models\CandidateJob;
+use App\Models\CandidatePosition;
 use App\Models\CandidateReferralPoint;
 use App\Models\CandJobLicence;
 use App\Models\Company;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
+
 class CandidateJobImport implements ToCollection, WithHeadingRow
 {
     /**
@@ -60,12 +62,17 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             $row['third_installment_date'] = $this->formatExcelDate($row['third_installment_date']);
             $row['fourth_installment_date'] = $this->formatExcelDate($row['fourth_installment_date']);
             $row['deployment_date'] = $this->formatExcelDate($row['deployment_date']);
+            $row['dob'] = $this->formatExcelDate($row['dob']);
 
             return $row;
         });
         // dd($cleanedRows->toArray());
         Validator::make($cleanedRows->toArray(), [
-            '*.contact_no' => 'required|numeric|exists:candidates,contact_no',
+            '*.full_name' => 'required',
+            '*.dob' => 'required|date|before:today',
+            '*.contact_no' => 'required|numeric|unique:candidates|digits:10',
+            '*.email' => 'nullable|email|unique:candidates',
+            '*.position_applied_for_1' => 'required',
             '*.company_name' => [
                 'required',
                 function ($attribute, $value, $fail) use ($rows) {
@@ -196,7 +203,65 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
         try {
             foreach ($rows as $row) {
 
-                $candidate = Candidate::where('contact_no', $row['contact_no'])->orderBy('id', 'desc')->first();
+                $candidate = Candidate::where('contact_no', $row['contact_no'])
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+                if (!$candidate) {
+                    $candidate = new Candidate();
+                }
+
+                $candidate->enter_by = Auth::user()->id;
+                $candidate->cnadidate_status_id = 1;
+                $candidate->full_name = $row['full_name'] ?? '';
+                $candidate->contact_no = $row['contact_no'] ?? '';
+                $candidate->email = $row['email'] ?? '';
+                $dob = $this->formatExcelDate($row['dob'] ?? null); // Safely format DOB
+
+                $candidate->date_of_birth = $dob;
+
+                if ($dob) {
+                    try {
+                        $candidate->age = \Carbon\Carbon::parse($dob)->age;
+                    } catch (\Exception $e) {
+                        $candidate->age = null; // Fallback if parsing fails
+                    }
+                } else {
+                    $candidate->age = null;
+                }
+
+                // Handle position_applied_for_1
+                $positionInput = $row['position_applied_for_1'] ?? null;
+
+                if ($positionInput) {
+                    $positionIdExists = CandidatePosition::where('id', $positionInput)->exists();
+
+                    if ($positionIdExists) {
+                        $candidate->position_applied_for_1 = $positionInput;
+                    } else {
+                        // Try matching by name (case and space insensitive)
+                        $normalizedName = strtolower(trim($positionInput));
+
+                        $existingPosition = CandidatePosition::whereRaw('LOWER(TRIM(name)) = ?', [$normalizedName])->first();
+
+                        if ($existingPosition) {
+                            $candidate->position_applied_for_1 = $existingPosition->id;
+                        } else {
+                            $newPosition = CandidatePosition::create([
+                                'user_id'   => Auth::id(),
+                                'name'      => $positionInput, // Store original input
+                                'is_active' => 0,
+                            ]);
+                            $candidate->position_applied_for_1 = $newPosition->id;
+                        }
+                    }
+                } else {
+                    $candidate->position_applied_for_1 = null;
+                }
+
+                $candidate->save();
+
+
 
                 if ($candidate) {
                     $companyName = strtolower($row['company_name']);
@@ -207,11 +272,11 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
 
 
                     $company = Company::whereRaw('LOWER(company_name) = ?', [$companyName])
-                                      ->whereRaw('LOWER(company_address) = ?', [$companyLocation])
-                                      ->orderBy('id', 'desc')
-                                      ->first();
+                        ->whereRaw('LOWER(company_address) = ?', [$companyLocation])
+                        ->orderBy('id', 'desc')
+                        ->first();
 
-                        // dd($companyName, $companyLocation, $jobTitle, $interviewStartDate, $interviewEndDate, $company->id);
+                    // dd($companyName, $companyLocation, $jobTitle, $interviewStartDate, $interviewEndDate, $company->id);
                     if ($company) {
                         $job = Job::whereRaw('LOWER(job_name) = ?', [$jobTitle])
                             ->where('company_id', $company->id)
@@ -232,7 +297,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                     ->where('job_id', $job->id)
                                     ->where('interview_id', $interview->id)
                                     ->count();
-                                    // dd($check);
+                                // dd($check);
                                 if ($check <= 0) {
                                     $assign_job = new AssignJob();
 
@@ -251,7 +316,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                     $candidate_job->full_name = $candidate->full_name ?? null;
                                     $candidate_job->email = $candidate->email ?? null;
                                     $candidate_job->gender = $candidate->gender ?? null;
-                                    $candidate_job->date_of_birth = $candidate->dob ?? null;
+                                    $candidate_job->date_of_birth = $candidate->date_of_birth ?? null;
                                     $candidate_job->whatapp_no = $candidate->whatapp_no ?? null;
                                     $candidate_job->alternate_contact_no = $candidate->alternate_contact_no ?? null;
                                     $candidate_job->religion = $candidate->religion ?? null;
@@ -395,6 +460,10 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
 
     private function formatExcelDate($value)
     {
+        if (empty($value)) {
+            return null;
+        }
+
         if (is_numeric($value)) {
             try {
                 return Date::excelToDateTimeObject($value)->format('d-m-Y');
@@ -409,6 +478,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             return null;
         }
     }
+
 
     public function headingRow(): int
     {

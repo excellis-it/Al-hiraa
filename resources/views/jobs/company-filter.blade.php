@@ -436,7 +436,7 @@
                     <div class="mt-3">
                         <h6>Validation Notes:</h6>
                         <ul>
-                            <li><strong>Contact Number:</strong> Must exist in the system and be numeric.</li>
+                            {{-- <li><strong>Contact Number:</strong> Must exist in the system and be numeric.</li> --}}
                             <li><strong>Company Name & Location:</strong> Ensure that the company name and location
                                 match existing records.</li>
                             <li><strong>Job Title:</strong> Must exist for the selected company and location.</li>

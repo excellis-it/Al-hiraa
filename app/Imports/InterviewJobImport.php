@@ -113,6 +113,10 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
 
     private function formatExcelDate($value)
     {
+        if (empty($value)) {
+            return null;
+        }
+
         if (is_numeric($value)) {
             try {
                 return Date::excelToDateTimeObject($value)->format('d-m-Y');
@@ -127,6 +131,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             return null;
         }
     }
+
 
 
 

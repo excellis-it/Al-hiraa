@@ -10,6 +10,7 @@ use App\Models\City;
 use App\Models\CandidatePosition;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Facades\Validator;
@@ -23,18 +24,27 @@ class CandidateImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $rows)
     {
-       
-        // dd(count($rows));
-        Validator::make($rows->toArray(), [
+
+        $rows = $rows->filter(function ($row) {
+            return array_filter($row->toArray());
+        });
+
+        $cleanedRows = $rows->map(function ($row) {
+            $row['dob'] = $this->formatExcelDate($row['dob']);
+            $row['last_update_date'] = $this->formatExcelDate($row['last_update_date']);
+            return $row;
+        });
+        // dd(($rows));
+        Validator::make($cleanedRows->toArray(), [
             '*.full_name' => 'required',
-            // '*.dob' => 'required',
+            '*.dob' => 'required|date|before:today',
             '*.contact_no' => 'required|numeric|unique:candidates|digits:10',
             '*.email' => 'nullable|email|unique:candidates',
             '*.position_applied_for_1' => 'required',
 
         ])->validate();
-       
-    
+
+
         foreach ($rows as $row) {
             // get state from city
             $city = City::whereRaw('LOWER(TRIM(name)) = ?', [strtolower(trim($row['city']))])->first();
@@ -47,11 +57,23 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->mode_of_registration = $row['mode_of_registration'] ?? '';
             $candidate->source = $row['source'] ?? '';
             $candidate->referred_by = $row['referred_by'] ?? '';
-            $candidate->last_update_date = ($row['last_update_date'] != null) ?  date('Y-d-m', strtotime($row['last_update_date'])) : '';
+            $candidate->last_update_date = $this->formatExcelDate($row['last_update_date'] ?? null) ;
             $candidate->full_name = $row['full_name'] ?? '';
             $candidate->gender = $row['gender'] ?? '';
-            $candidate->date_of_birth = date('Y-d-m', strtotime($row['dob'])) ?? '';
-            $candidate->age = date_diff(date_create($row['dob']), date_create('today'))->y;
+            $dob = $this->formatExcelDate($row['dob'] ?? null); // Safely format DOB
+
+            $candidate->date_of_birth = $dob;
+
+            if ($dob) {
+                try {
+                    $candidate->age = \Carbon\Carbon::parse($dob)->age;
+                } catch (\Exception $e) {
+                    $candidate->age = null; // Fallback if parsing fails
+                }
+            } else {
+                $candidate->age = null;
+            }
+
             $candidate->education = $row['education'] ?? '';
             $candidate->other_education = $row['other_education'] ?? '';
             $candidate->contact_no = $row['contact_no'] ?? '';
@@ -68,69 +90,13 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->indian_exp = $row['indian_exp'] ?? '';
             $candidate->abroad_exp = $row['abroad_exp'] ?? '';
 
-            $position_1_count = CandidatePosition::where('id', $row['position_applied_for_1'])->count();
-            $position_2_count = CandidatePosition::where('id', $row['position_applied_for_2'])->count();
-            $position_3_count = CandidatePosition::where('id', $row['position_applied_for_3'])->count();
 
-            if ($row['position_applied_for_1']) {
-                if ($position_1_count > 0) {
-                    $candidate->position_applied_for_1 = $row['position_applied_for_1'];
-                } else {
-                    $second_position_1_count = CandidatePosition::where('name', $row['position_applied_for_1'])->count();
-                    if ($second_position_1_count > 0) {
-                        $candidate->position_applied_for_1 = CandidatePosition::where('name', $row['position_applied_for_1'])->first()->id;
-                    } else {
-                        $candidate_position_1 = new CandidatePosition();
-                        $candidate_position_1->user_id = Auth::user()->id;
-                        $candidate_position_1->name = $row['position_applied_for_1'];
-                        $candidate_position_1->is_active = 0;
-                        $candidate_position_1->save();
-                        $candidate->position_applied_for_1 = $candidate_position_1->id;
-                    }
-                }
-            } else {
-                $candidate->position_applied_for_1 = null;
-            }
 
-            if ($row['position_applied_for_2']) {
-                if ($position_2_count > 0) {
-                    $candidate->position_applied_for_2 = $row['position_applied_for_2'];
-                } else {
-                    $second_position_2_count = CandidatePosition::where('name', $row['position_applied_for_2'])->count();
-                    if ($second_position_2_count > 0) {
-                        $candidate->position_applied_for_2 = CandidatePosition::where('name', $row['position_applied_for_2'])->first()->id;
-                    } else {
-                        $candidate_position_2 = new CandidatePosition();
-                        $candidate_position_2->user_id = Auth::user()->id;
-                        $candidate_position_2->name = $row['position_applied_for_2'];
-                        $candidate_position_2->is_active = 0;
-                        $candidate_position_2->save();
-                        $candidate->position_applied_for_2 = $candidate_position_2->id;
-                    }
-                }
-            } else {
-                $candidate->position_applied_for_2 = null;
-            }
+            // Assigning all 3 positions:
+            $candidate->position_applied_for_1 = $this->resolvePositionId($row['position_applied_for_1'] ?? null);
+            $candidate->position_applied_for_2 = $this->resolvePositionId($row['position_applied_for_2'] ?? null);
+            $candidate->position_applied_for_3 = $this->resolvePositionId($row['position_applied_for_3'] ?? null);
 
-            if ($row['position_applied_for_3']) {
-                if ($position_3_count > 0) {
-                    $candidate->position_applied_for_3 = $row['position_applied_for_3'];
-                } else {
-                    $second_position_3_count = CandidatePosition::where('name', $row['position_applied_for_3'])->count();
-                    if ($second_position_3_count > 0) {
-                        $candidate->position_applied_for_3 = CandidatePosition::where('name', $row['position_applied_for_3'])->first()->id;
-                    } else {
-                        $candidate_position_3 = new CandidatePosition();
-                        $candidate_position_3->user_id = Auth::user()->id;
-                        $candidate_position_3->name = $row['position_applied_for_3'];
-                        $candidate_position_3->is_active = 0;
-                        $candidate_position_3->save();
-                        $candidate->position_applied_for_3 = $candidate_position_3->id;
-                    }
-                }
-            } else {
-                $candidate->position_applied_for_3 = null;
-            }
 
             $candidate->passport_number = $row['passport_number'] ?? '';
             $candidate->save();
@@ -174,5 +140,54 @@ class CandidateImport implements ToCollection, WithHeadingRow
     public function headingRow(): int
     {
         return 1;
+    }
+
+    public function resolvePositionId($input)
+    {
+        if (is_numeric($input)) {
+            // Check if position with given ID exists
+            return CandidatePosition::where('id', $input)->exists() ? (int) $input : null;
+        }
+
+        if (is_string($input) && trim($input) !== '') {
+            $normalized = trim(strtolower($input));
+
+            $existing = CandidatePosition::whereRaw('LOWER(TRIM(name)) = ?', [$normalized])->first();
+            if ($existing) {
+                return $existing->id;
+            }
+
+            // Create new position
+            $new = new CandidatePosition();
+            $new->user_id = Auth::id();
+            $new->name = $input; // Keep original case
+            $new->is_active = 0;
+            $new->save();
+
+            return $new->id;
+        }
+
+        return null;
+    }
+
+    private function formatExcelDate($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        if (is_numeric($value)) {
+            try {
+                return Date::excelToDateTimeObject($value)->format('d-m-Y');
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
+
+        try {
+            return \Carbon\Carbon::parse($value)->format('d-m-Y');
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
