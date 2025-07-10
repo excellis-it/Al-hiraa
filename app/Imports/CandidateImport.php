@@ -41,6 +41,7 @@ class CandidateImport implements ToCollection, WithHeadingRow
             '*.contact_no' => 'required|numeric|unique:candidates|digits:10',
             '*.email' => 'nullable|email|unique:candidates',
             '*.position_applied_for_1' => 'required',
+            '*.whatapp_no' => 'nullable|digits:12|numeric',
 
         ])->validate();
 
@@ -79,7 +80,7 @@ class CandidateImport implements ToCollection, WithHeadingRow
             $candidate->contact_no = $row['contact_no'] ?? '';
             $candidate->alternate_contact_no = $row['alternate_contact_no'] ?? '';
             $candidate->email = $row['email'] ?? '';
-            $candidate->whatapp_no = $row['whatapp_no'] ?? '';
+            $candidate->whatapp_no = $row['whatapp_no'] ? '+'.$row['whatapp_no'] : '';
             $candidate->state_id = $state_id ?? null;
             $candidate->city = $city_id ?? null;
             $candidate->religion = $row['religion'] ?? '';

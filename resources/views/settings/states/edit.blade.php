@@ -2,38 +2,26 @@
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel"
          aria-hidden="true">
         <div class="offcanvas-body">
-            <form action="{{ route('cities.update', Crypt::encrypt($city->id)) }}" method="POST" enctype="multipart/form-data"
-                id="city-edit-form">
+            <form action="{{ route('states.update', Crypt::encrypt($state->id)) }}" method="POST" enctype="multipart/form-data"
+                id="state-edit-form">
                 @method('PUT')
                 @csrf
 
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="frm-head">
-                            <h2>Update City</h2>
+                            <h2>Update State</h2>
                         </div>
                         <div class="add-mem-form">
 
                             <div class="row">
-                                <div class="col-xl-12">
-                                    <div class="form-group">
-                                        <label for="">State Name<span>*</span></label>
-                                        <select class="form-select" name="state_id" id="state_id">
-                                            <option value="">Select State</option>
-                                            @foreach ($states as $state)
-                                                <option value="{{ $state->id }}" {{ $city->state_id == $state->id ? 'selected' : '' }}>
-                                                    {{ $state->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <span class="text-danger" id="state_id_msg"></span>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-xl-12">
 
                                     <div class="form-group">
-                                        <label for="">City Name<span>*</span></label>
+                                        <label for="">State Name<span>*</span></label>
                                         <input type="text" class="form-control" id=""
-                                            value="{{ $city->name }}" name="name" placeholder="">
+                                            value="{{ $state->name }}" name="name" placeholder="">
                                         <span class="text-danger" id="name_msg"></span>
                                     </div>
                                 </div>

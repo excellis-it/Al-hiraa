@@ -62,6 +62,18 @@
                             <input type="file" class="form-control" id="file" name="file"
                                 style="height: auto">
                             <span class="text-danger" id="file-err"></span>
+
+                            <div class="alert alert-info mt-3 col-md-12 mb-6" role="alert">
+                                <strong>Note:</strong> Please ensure your Excel file follows these rules:
+                                <ul class="mb-0">
+                                    <li><strong>Full Name</strong> is required.</li>
+                                    <li><strong>Date of Birth</strong> must be a valid date before today (e.g., DD-MM-YYYY).</li>
+                                    <li><strong>Contact Number</strong> must be unique, numeric, and exactly 10 digits.</li>
+                                    <li><strong>Email</strong> is optional but must be valid and unique.</li>
+                                    <li><strong>Position Applied For</strong> is required.</li>
+                                    <li><strong>WhatsApp Number</strong> is optional but must be numeric and 12 digits if present (e.g., with country code).</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">

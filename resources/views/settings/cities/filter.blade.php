@@ -2,6 +2,9 @@
     @foreach ($cities as $city)
         <tr>
             <td>{{ ($cities->currentPage()-1) * $cities->perPage() + $loop->index + 1 }}</td>
+            <td>
+                {{ $city->state->name ?? 'N/A' }}
+            </td>
             <td class="edit-route" data-route="{{ route('cities.edit', $city['id']) }}">
                 {{$city->name }}</td>
             <td>

@@ -9,6 +9,7 @@ use App\Models\Cms;
 use App\Models\ContactUs;
 use App\Models\IpRestriction;
 use App\Models\Source;
+use App\Models\State;
 use App\Models\User;
 use App\Traits\ImageTrait;
 use Illuminate\Http\Request;
@@ -246,7 +247,7 @@ class SettingController extends Controller
         if ($request->search) {
             $members->whereRaw("CONCAT(first_name, ' ', last_name) LIKE '%" . $request->search . "%'")
                 ->orWhere('email', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('phone', 'LIKE', '%' . $request->search . '%');
+                ->orWhere('phone', 'LIKE', '%' . $request->search . '%')->orWhere('role_type', 'LIKE', '%' . $request->search . '%');
         }
         $members = $members->orderBy('id', 'desc')->where('role_type', '!=', 'ADMIN')->paginate(15);
         return response()->json(['view' => view('settings.members.filter', compact('members'))->render()]);
@@ -608,7 +609,8 @@ class SettingController extends Controller
     {
         if (Auth::user()->hasRole('ADMIN')) {
             $cities =  City::orderBy('id', 'desc')->paginate(20);
-            return view('settings.cities.list')->with(compact('cities'));
+            $states = State::orderBy('name', 'asc')->get();
+            return view('settings.cities.list')->with(compact('cities','states'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -618,7 +620,9 @@ class SettingController extends Controller
     {
         $cities = City::query();
         if ($request->search) {
-            $cities->where('name', 'LIKE', '%' . $request->search . '%');
+            $cities->where('name', 'LIKE', '%' . $request->search . '%')->orWhereHas('state', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%' . $request->search . '%');
+            });
         }
         $cities = $cities->orderBy('id', 'desc')->paginate(20);
 
@@ -629,6 +633,7 @@ class SettingController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:cities',
+            'state_id' => 'required|exists:states,id',
         ]);
 
         if (Auth::user()->hasRole('ADMIN')) {
@@ -644,8 +649,9 @@ class SettingController extends Controller
     public function citiesEdit($id)
     {
         $city = City::findOrFail($id);
+        $states =State::orderBy('name', 'asc')->get();
         $edit = true;
-        return response()->json(['view' => view('settings.cities.edit', compact('city', 'edit'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('settings.cities.edit', compact('city', 'edit','states'))->render(), 'status' => 'success']);
     }
 
     public function citiesUpdate(Request $request, $id)
@@ -654,6 +660,7 @@ class SettingController extends Controller
 
         $request->validate([
             'name' => 'required|unique:cities,name,' . $id,
+            'state_id' => 'required|exists:states,id',
         ]);
 
         if (Auth::user()->hasRole('ADMIN')) {
@@ -674,6 +681,81 @@ class SettingController extends Controller
             $city = City::findOrFail($id);
             $city->delete();
             return redirect()->back()->with('message', 'City deleted successfully');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+     public function states()
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $states =  State::orderBy('id', 'desc')->paginate(20);
+            return view('settings.states.list')->with(compact('states'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function statesFilter(Request $request)
+    {
+        $states = State::query();
+        if ($request->search) {
+            $states->where('name', 'LIKE', '%' . $request->search . '%');
+        }
+        $states = $states->orderBy('id', 'desc')->paginate(20);
+
+        return response()->json(['view' => view('settings.states.filter', compact('states'))->render()]);
+    }
+
+    public function statesStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:states',
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $state = new State();
+            $state->create($request->all());
+            session()->flash('message', 'State added successfully');
+            return response()->json(['message' => 'State added successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+    public function statesEdit($id)
+    {
+        $state = State::findOrFail($id);
+        $edit = true;
+        return response()->json(['view' => view('settings.states.edit', compact('state', 'edit'))->render(), 'status' => 'success']);
+    }
+
+    public function statesUpdate(Request $request, $id)
+    {
+        $id = Crypt::decrypt($id);
+
+        $request->validate([
+            'name' => 'required|unique:states,name,' . $id,
+        ]);
+
+        if (Auth::user()->hasRole('ADMIN')) {
+            $state = State::find($id);
+            $state->update($request->all());
+            session()->flash('message', 'State updated successfully');
+            return response()->json(['message' => 'State updated successfully', 'status' => 'success']);
+        } else {
+            return response()->json(['error' => 'Permission denied', 'status' => 'error']);
+        }
+    }
+
+
+    public function statesDelete($id)
+    {
+        if (Auth::user()->hasRole('ADMIN')) {
+            $id = Crypt::decrypt($id);
+            $state = State::findOrFail($id);
+            $state->delete();
+            return redirect()->back()->with('message', 'State deleted successfully');
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -762,7 +844,7 @@ class SettingController extends Controller
         $url = url()->current();
         $slug = explode('/', $url);
         $slug = end($slug);
-        
+
         $page = Cms::where(function ($query) use ($slug) {
             $query->where('slug', $slug);
         })->first();

@@ -307,7 +307,7 @@
                     <a class="dropdown-item me-2" href="javascript:void(0);" data-bs-toggle="modal"
                         data-bs-target="#importJobModel" data-bs-whatever="@fat"> <button type="button"
                             class="btn advance_search_btn " style="border-right: none;"> <i
-                                class="fas fa-file-excel"></i> Import CSV</button> </a>
+                                class="fas fa-file-excel"></i> Import Excel</button> </a>
                 @endif
                 <div class="action_btn ">
                     <div class="dropdown">

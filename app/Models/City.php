@@ -27,5 +27,10 @@ class City extends Model
         parent::setAttribute($key, $value);
     }
 
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
 
 }

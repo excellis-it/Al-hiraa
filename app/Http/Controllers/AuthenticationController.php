@@ -17,6 +17,9 @@ class AuthenticationController extends Controller
 {
     public function login()
     {
+        if (auth()->check()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.login');
     }
 
@@ -104,7 +107,7 @@ class AuthenticationController extends Controller
             'password' => 'required|min:8',
             'confirm_password' => 'required|min:8|same:password'
         ]);
-        
+
         try {
             if ($request->id != '') {
                 $id = Crypt::decrypt($request->id);

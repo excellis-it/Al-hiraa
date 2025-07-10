@@ -57,7 +57,7 @@
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-lg-end">
                                         <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" data-bs-whatever="@fat">Import CSV</a></li>
+                                                data-bs-target="#exampleModal" data-bs-whatever="@fat">Import Excel</a></li>
                                     </ul>
                                 @endif
 

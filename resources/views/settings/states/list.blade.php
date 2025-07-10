@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    {{ env('APP_NAME') }} - City List
+    {{ env('APP_NAME') }} - State List
 @endsection
 @push('styles')
 @endpush
@@ -11,32 +11,19 @@
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
                          aria-hidden="true">
                         <div class="offcanvas-body">
-                            <form action="{{ route('cities.store') }}" method="POST" enctype="multipart/form-data"
+                            <form action="{{ route('states.store') }}" method="POST" enctype="multipart/form-data"
                                 id="member-form-create">
                                 @csrf
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <div class="frm-head">
-                                            <h2>Add City</h2>
+                                            <h2>Add State</h2>
                                         </div>
                                         <div class="add-mem-form">
                                             <div class="row">
                                                 <div class="col-xl-12">
                                                     <div class="form-group">
                                                         <label for="">State Name<span>*</span></label>
-                                                        <select class="form-select" name="state_id" id="state_id">
-                                                            <option value="">Select State</option>
-                                                            @foreach ($states as $state)
-                                                                <option value="{{ $state->id }}">{{ $state->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <span class="text-danger"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-xl-12">
-                                                    <div class="form-group">
-                                                        <label for="">City Name<span>*</span></label>
                                                         <input type="text" class="form-control" id="" value=""
                                                             name="name" placeholder="">
                                                         <span class="text-danger"></span>
@@ -60,8 +47,8 @@
                     </div>
 
                 {{-- member create end --}}
-                <div id="edit-city">
-                    @include('settings.cities.edit')
+                <div id="edit-state">
+                    @include('settings.states.edit')
                 </div>
 
                 {{-- member edit end --}}
@@ -87,7 +74,7 @@
                             <a href="add_candidate.html" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                                 aria-controls="offcanvasRight" class="btn addcandidate_btn"><i class="fas fa-plus"></i>
                                 Add
-                                City</a>
+                                State</a>
                         </div>
                     </div>
                 </div>
@@ -97,14 +84,14 @@
                 <div class="page__heading row align-items-center mb-0">
                     <div class="col-lg-6 col-6 mb-2">
                         <div class="integrations-head">
-                            <h2>Manage City</h2>
+                            <h2>Manage State</h2>
                         </div>
                     </div>
 
                     <div class="col-lg-6 col-6 mb-2" style="display: flex;justify-content: end;">
                         <div class="action_btn">
                             <div class="dropdown">
-                                <a class="btn reset-btn" href="{{route('cities.index')}}" ><i class="fas fa-redo-alt"></i> Reset</a>
+                                <a class="btn reset-btn" href="{{route('states.index')}}" ><i class="fas fa-redo-alt"></i> Reset</a>
                             </div>
                         </div>
                     </div>
@@ -122,7 +109,6 @@
                                             <tr>
                                                 <th>#ID</th>
                                                  <th>State Name</th>
-                                                <th>City Name</th>
                                                 <th><svg xmlns="http://www.w3.org/2000/svg" width="2" height="12"
                                                         viewBox="0 0 2 12">
                                                         <g id="Group_87" data-name="Group 87"
@@ -141,7 +127,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="list" id="user_tbody">
-                                            @include('settings.cities.filter')
+                                            @include('settings.states.filter')
                                         </tbody>
                                     </table>
                                     <input type="hidden" name="hidden_page" id="hidden_page" value="1" />
@@ -215,7 +201,7 @@
         $(document).on('click', '#delete', function(e) {
             swal({
                     title: "Are you sure?",
-                    text: "To delete this city.",
+                    text: "To delete this state.",
                     type: "warning",
                     confirmButtonText: "Yes",
                     showCancelButton: true
@@ -249,7 +235,7 @@
                     url: route,
                     type: 'GET',
                     success: function(response) {
-                        $('#edit-city').html(response.view);
+                        $('#edit-state').html(response.view);
                         $('#loading').removeClass('loading');
                         $('#loading-content').removeClass('loading-content');
                         $('#offcanvasEdit').offcanvas('show');
@@ -264,7 +250,7 @@
             });
 
             // Handle the form submission
-            $(document).on('submit', '#city-edit-form', function(e) {
+            $(document).on('submit', '#state-edit-form', function(e) {
 
 
                 e.preventDefault();
@@ -299,7 +285,7 @@
 
             function fetch_data(page, query) {
                 $.ajax({
-                    url: "{{ route('cities.filter') }}",
+                    url: "{{ route('states.filter') }}",
                     data: {
                         page: page,
                         search: query,

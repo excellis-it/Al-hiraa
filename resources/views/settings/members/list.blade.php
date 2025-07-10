@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    {{ env('APP_NAME') }} - Socail Media
+    {{ env('APP_NAME') }} - Team Members
 @endsection
 @push('styles')
 @endpush

@@ -31,7 +31,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/download-pdf/{id}', [PDFController::class, 'downloadPdf'])->name('download.pdf');
 
 Route::get('/', [AuthenticationController::class, 'login'])->name('login');
+
 Route::post('/login-check', [AuthenticationController::class, 'loginCheck'])->name('login.check');
+
+
 Route::post('forget-password', [AuthenticationController::class, 'forgetPassword'])->name('forget.password');
 Route::get('forget-password/show', [AuthenticationController::class, 'forgetPasswordShow'])->name('forget.password.show');
 Route::get('reset-password/{id}/{token}', [AuthenticationController::class, 'resetPassword'])->name('reset.password');
@@ -125,6 +128,15 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
             Route::put('/update/{id}', [SettingController::class, 'citiesUpdate'])->name('cities.update');
             Route::get('/delete/{id}', [SettingController::class, 'citiesDelete'])->name('cities.delete');
             Route::get('/filter', [SettingController::class, 'citiesFilter'])->name('cities.filter');
+        });
+
+         Route::group(['prefix' => 'states'], function () {
+            Route::get('/', [SettingController::class, 'states'])->name('states.index');
+            Route::post('/store', [SettingController::class, 'statesStore'])->name('states.store');
+            Route::get('/edit/{id}', [SettingController::class, 'statesEdit'])->name('states.edit');
+            Route::put('/update/{id}', [SettingController::class, 'statesUpdate'])->name('states.update');
+            Route::get('/delete/{id}', [SettingController::class, 'statesDelete'])->name('states.delete');
+            Route::get('/filter', [SettingController::class, 'statesFilter'])->name('states.filter');
         });
 
         // contact us

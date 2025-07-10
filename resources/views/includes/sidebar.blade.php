@@ -211,6 +211,12 @@
                                         <span class="sidebar-menu-text"> City Manage</span>
                                     </a>
                                 </li>
+
+                                 <li class="sidebar-menu-item">
+                                    <a class="sidebar-menu-button" href="{{ route('states.index') }}">
+                                        <span class="sidebar-menu-text"> State Manage</span>
+                                    </a>
+                                </li>
                             @endif
                             @if (Auth::user()->hasRole('ADMIN'))
                                 <li class="sidebar-menu-item">

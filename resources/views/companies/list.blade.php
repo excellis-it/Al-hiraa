@@ -233,7 +233,7 @@
                                     @csrf
                                     <input type="hidden" name="company_id" value="">
                                     <div class="offcanvas-header">
-                                        <h5 class="offcanvas-title" id="importCanvasLabel">Import Excel</h5>
+                                        <h5 class="offcanvas-title" id="importCanvasLabel">Import Excel For Job Entry</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                             aria-label="Close"></button>
                                     </div>
@@ -252,6 +252,25 @@
                                             <input type="file" class="form-control" id="file" name="file"
                                                 style="height: auto">
                                             <span class="text-danger" id="file-err"></span>
+
+                                            <div class="alert alert-info mt-3 col-md-12 mb-6" role="alert">
+                                                <strong>Note:</strong> Please ensure your Excel file follows these rules:
+                                                <ul class="mb-0">
+                                                    <li><strong>Position</strong> is required.</li>
+                                                    <li><strong>Service Charge</strong> is required and must be a numeric value.</li>
+                                                    <li><strong>Job Name</strong> is required.</li>
+                                                    <li><strong>Contract</strong> is optional but must be numeric if provided.</li>
+                                                    <li><strong>Location</strong> is required.</li>
+                                                    <li><strong>Interview Location</strong> is required.</li>
+                                                    <li><strong>Salary</strong> is required.</li>
+                                                    <li><strong>Duty Hours</strong> is optional but must be numeric if provided.</li>
+                                                    <li><strong>Benefits</strong> are optional.</li>
+                                                    <li><strong>Quantity of People Required</strong> is required and must be numeric.</li>
+                                                    <li><strong>Interview Start Date</strong> is required and must be a valid date.</li>
+                                                    <li><strong>Interview End Date</strong> is required, must be a valid date, and must be on or after the Interview Start Date.</li>
+                                                </ul>
+                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="offcanvas-footer">

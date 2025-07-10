@@ -68,10 +68,11 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
         });
         // dd($cleanedRows->toArray());
         Validator::make($cleanedRows->toArray(), [
+             '*.whatapp_no' => 'nullable|digits:12|numeric',
             '*.full_name' => 'required',
             '*.dob' => 'required|date|before:today',
-            '*.contact_no' => 'required|numeric|unique:candidates|digits:10',
-            '*.email' => 'nullable|email|unique:candidates',
+            '*.contact_no' => 'required|numeric|digits:10',
+            '*.email' => 'nullable|email',
             '*.position_applied_for_1' => 'required',
             '*.company_name' => [
                 'required',
@@ -216,6 +217,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                 $candidate->full_name = $row['full_name'] ?? '';
                 $candidate->contact_no = $row['contact_no'] ?? '';
                 $candidate->email = $row['email'] ?? '';
+                 $candidate->whatapp_no = $row['whatapp_no'] ? '+'.$row['whatapp_no'] : '';
                 $dob = $this->formatExcelDate($row['dob'] ?? null); // Safely format DOB
 
                 $candidate->date_of_birth = $dob;
@@ -404,7 +406,8 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                     $candidate_job->third_installment_date = $this->formatExcelDate($row['third_installment_date']) ?? null;
                                     $candidate_job->fourth_installment_amount = $row['fourth_installment_amount']  > 0 ? $row['fourth_installment_amount'] : null;
                                     $candidate_job->fourth_installment_date = $this->formatExcelDate($row['fourth_installment_date']) ?? null;
-                                    $candidate_job->total_amount = $first_installment + $second_installment + $third_installment + $fourth_installment;
+                                    $total_amout = $first_installment + $second_installment + $third_installment + $fourth_installment;
+                                    $candidate_job->total_amount = $total_amout > 0 ? $total_amout : null;
                                     $candidate_job->deployment_date = $this->formatExcelDate($row['deployment_date']) ?? null;
 
                                     $candidate_job->save();
