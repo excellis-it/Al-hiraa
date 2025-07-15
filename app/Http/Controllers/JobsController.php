@@ -302,15 +302,21 @@ class JobsController extends Controller
             $query->where(function ($q) use ($searchTerms) {
                 foreach ($searchTerms as $term) {
                     $term = trim($term);
-                    $q->orWhere('full_name', 'like', "%{$term}%")
-                        ->orWhere('gender', 'like', "%{$term}%")
-                        ->orWhere('job_interview_status', 'like', "%{$term}%")
-                        ->orWhere('whatapp_no', 'like', "%{$term}%")
-                        ->orWhere('alternate_contact_no', 'like', "%{$term}%")
-                        ->orWhere('mofa_no', 'like', "%{$term}%")
-                        ->orWhere('medical_status', 'like', "%{$term}%")
-                        ->orWhere('fst_installment_amount', 'like', "%{$term}%")
-                        ->orWhere('secnd_installment_amount', 'like', "%{$term}%");
+
+                    $q->where(function ($subQuery) use ($term) {
+                        $subQuery->orWhere('full_name', 'like', "%{$term}%")
+                            ->orWhere('gender', 'like', "%{$term}%")
+                            ->orWhere('job_interview_status', 'like', "%{$term}%")
+                            ->orWhere('whatapp_no', 'like', "%{$term}%")
+                            ->orWhere('alternate_contact_no', 'like', "%{$term}%")
+                            ->orWhere('mofa_no', 'like', "%{$term}%")
+                            ->orWhere('medical_status', 'like', "%{$term}%")
+                            ->orWhere('fst_installment_amount', 'like', "%{$term}%")
+                            ->orWhere('secnd_installment_amount', 'like', "%{$term}%")
+                            ->orWhereHas('company', function ($q) use ($term) {
+                                $q->where('company_name', 'like', "%{$term}%");
+                            });
+                    });
                 }
             });
         }
@@ -454,7 +460,9 @@ class JobsController extends Controller
                         ->orWhere('mofa_no', 'like', "%{$term}%")
                         ->orWhere('medical_status', 'like', "%{$term}%")
                         ->orWhere('fst_installment_amount', 'like', "%{$term}%")
-                        ->orWhere('secnd_installment_amount', 'like', "%{$term}%");
+                        ->orWhere('secnd_installment_amount', 'like', "%{$term}%")->orWhereHas('company', function ($q) use ($term) {
+                            $q->where('company_name', 'like', "%{$term}%");
+                        });
                 }
             });
         }

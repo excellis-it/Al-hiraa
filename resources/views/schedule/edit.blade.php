@@ -15,9 +15,9 @@
                             <div class="row">
                                 <div class="col-xl-12">
                                     <div class="form-group">
-                                        <label for="">Task <span>*</span></label>
+                                        <label for="">Job <span>*</span></label>
                                         <select name="job_id" id="job_id" class="form-select">
-                                            <option value="">Choose Task</option>
+                                            <option value="">Choose Job</option>
                                             @foreach ($jobs as $job)
                                                 <option value="{{ $job->id }}"
                                                     @if ($job->id == $interview->job_id) selected @endif>

@@ -44,7 +44,7 @@
     @if ($candidate_job->assign_by_id != null)
         {{ isset($candidate_job->assignBy) && $candidate_job->assignBy ? $candidate_job->assignBy->first_name . ' ' . $candidate_job->assignBy->last_name : 'N/A' }}
     @else
-        {{ $candidate_job->assignBy ?? 'N/A' }}
+        APP
     @endif
 </td>
 <td class="content-short">{{ $candidate_job->date_of_interview ?? 'N/A' }}</td>

@@ -45,9 +45,9 @@
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <div class="form-group">
-                                                        <label for="">Task <span>*</span></label>
+                                                        <label for="">Job <span>*</span></label>
                                                         <select name="job_id" id="job_id" class="form-select">
-                                                            <option value="">Choose Task</option>
+                                                            <option value="">Choose Job</option>
                                                         </select>
                                                         <span class="text-danger"></span>
                                                     </div>
@@ -182,7 +182,7 @@
                         success: function(res) {
                             if (res) {
                                 $("#job_id").empty();
-                                $("#job_id").append('<option value="">Choose Task</option>');
+                                $("#job_id").append('<option value="">Choose Job</option>');
                                 $.each(res, function(key, value) {
                                     console.log(key, value);
                                     $("#job_id").append('<option value="' + value.id +

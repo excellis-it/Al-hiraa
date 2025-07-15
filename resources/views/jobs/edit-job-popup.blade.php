@@ -153,7 +153,7 @@
                                 <td>@if ($candidate_job_detail->assign_by_id != null)
                                         {{ $candidate_job_detail->assignBy->first_name.' '.$candidate_job_detail->assignBy->last_name }}
                                     @else
-                                        {{ $candidate_job_detail->assignBy ?? 'N/A' }}
+                                        APP
                                     @endif
                                 </td>
                             </tr>

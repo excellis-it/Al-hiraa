@@ -49,7 +49,7 @@
                     @if ($candidate_job_detail->assign_by_id != null)
                         {{ isset($candidate_job_detail->assignBy) && $candidate_job_detail->assignBy ? $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name : 'N/A' }}
                     @else
-                        {{ $candidate_job_detail->assignBy ?? 'N/A' }}
+                        APP
                     @endif
                 </td>
             </tr>
@@ -265,8 +265,10 @@
                     </td>
                     <td>Assign by</td>
                     <td>
-                    <input type="text" class="form-control uppercase-text" id="" name="assign_by_id"
-                            value="{{ $candidate_job_detail->assignBy->first_name ?? '' }} {{ $candidate_job_detail->assignBy->last_name ?? '' }}"placeholder="" readonly>
+                   <input type="text" class="form-control uppercase-text" id="" name="assign_by_id"
+    value="{{ $candidate_job_detail->assignBy ? $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name : 'APP' }}"
+    placeholder="" readonly>
+
                     </td>
                 </tr>
                 <tr>
@@ -400,7 +402,7 @@
                     @if ($candidate_job_detail->assign_by_id != null)
                         {{ isset($candidate_job_detail->assignBy) && $candidate_job_detail->assignBy ? $candidate_job_detail->assignBy->first_name . ' ' . $candidate_job_detail->assignBy->last_name : 'N/A' }}
                     @else
-                        {{ $candidate_job_detail->assignBy ?? 'N/A' }}
+                        APP
                     @endif
                 </td>
             </tr>
