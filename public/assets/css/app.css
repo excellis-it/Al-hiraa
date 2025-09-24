@@ -6139,3 +6139,12 @@ border: none !important;
     }
 
 }
+
+
+.multi-select-box-1.select_border .select2-selection{
+    border: 1px solid #ccc !important;
+    padding: 0px 5px;
+}
+.multi-select-box-1.select_border .select2-container--default .select2-selection--multiple:before{
+    top: 41% !important;
+}

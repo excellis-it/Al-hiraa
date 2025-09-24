@@ -693,6 +693,7 @@
                         city: city,
                         call_status: '{{ request()->call_status }}',
                         candidate_entry: '{{ request()->candidate_entry }}',
+                        candidate_status: '{{ request()->candidate_status }}',
                         filter_position_id: '{{ request()->position_id }}',
                     },
                     success: function(data) {
@@ -1123,6 +1124,7 @@
                     data: {
                         call_status: '{{ request()->call_status }}',
                         candidate_entry: '{{ request()->candidate_entry }}',
+                        candidate_status: '{{ request()->candidate_status }}',
                         filter_position_id: '{{ request()->position_id }}',
                     },
                     success: function(response) {

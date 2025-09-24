@@ -21,7 +21,7 @@
                                             @foreach ($jobs as $job)
                                                 <option value="{{ $job->id }}"
                                                     @if ($job->id == $interview->job_id) selected @endif>
-                                                    {{ $job->job_name }}</option>
+                                                    {{ $job->job_name }} ({{$job->job_id}})</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger" id="job_id_msg_error"></span>

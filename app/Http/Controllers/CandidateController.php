@@ -80,6 +80,12 @@ class CandidateController extends Controller
                     $candidates->whereMonth('created_at', date('m'));
                 }
 
+                if ($request->has('candidate_status')) {
+                    $candidates->whereHas('candidateStatus', function ($statusquery) use ($request) {
+                        $statusquery->where('name', $request->candidate_status);
+                    });
+                }
+
                 $candidates = $candidates->paginate(50);
             } else {
                 $candidates = Candidate::orderBy('id', 'desc');
@@ -95,16 +101,8 @@ class CandidateController extends Controller
                         ->orWhere('position_applied_for_3', $request->position_id);
                 }
 
-                if ($request->has('candidate_entry')) {
-                    if (Auth::user()->hasRole('ADMIN') || Auth::user()->hasRole('OPERATION MANAGER')) {
-                        if ($request->candidate_entry == 'daily') {
-                            $candidates->whereDate('created_at', date('Y-m-d'));
-                        } elseif ($request->candidate_entry == 'last_month') {
-                            $candidates->whereMonth('created_at', Carbon::now()->subMonth()->month);
-                        } elseif ($request->candidate_entry == 'monthly') {
-                            $candidates->whereMonth('created_at', date('m'));
-                        }
-                    } else {
+                if (Auth::user()->hasRole('RECRUITER')) {
+                    if ($request->has('candidate_entry')) {
                         if ($request->candidate_entry == 'daily') {
                             $candidates->where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'));
                         } elseif ($request->candidate_entry == 'last_month') {
@@ -113,7 +111,25 @@ class CandidateController extends Controller
                             $candidates->where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'));
                         }
                     }
+                } else {
+                    if ($request->has('candidate_entry')) {
+                        if ($request->candidate_entry == 'daily') {
+                            $candidates->whereDate('created_at', date('Y-m-d'));
+                        } elseif ($request->candidate_entry == 'last_month') {
+                            $candidates->whereMonth('created_at', Carbon::now()->subMonth()->month);
+                        } elseif ($request->candidate_entry == 'monthly') {
+                            $candidates->whereMonth('created_at', date('m'));
+                        }
+                    }
                 }
+
+                if ($request->has('candidate_status')) {
+                    $candidates->whereHas('candidateStatus', function ($statusquery) use ($request) {
+                        $statusquery->where('name', $request->candidate_status);
+                    });
+                }
+
+
 
                 $candidates = $candidates->paginate(50);
             }
@@ -412,9 +428,11 @@ class CandidateController extends Controller
 
         $call_status = $request->call_status;
         $candidate_entry = $request->candidate_entry;
+        $candidate_status = $request->candidate_status;
+
         $filter_position_id = $request->filter_position_id;
 
-        return response()->json(['view' => view('candidates.edit', compact('filter_position_id', 'candidate_entry', 'call_status', 'interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('candidates.edit', compact('filter_position_id', 'candidate_status', 'candidate_entry', 'call_status', 'interviews', 'candidate', 'sources', 'companies', 'candidate_positions', 'assign_job', 'edit', 'candidate_statuses', 'indian_driving_license', 'gulf_driving_license', 'states'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -1009,15 +1027,8 @@ class CandidateController extends Controller
 
         if ($request->filled('candidate_entry')) {
             $candidates->where(function ($query) use ($request) {
-                if (Auth::user()->hasRole(['ADMIN', 'OPERATION MANAGER'])) {
-                    if ($request->candidate_entry === 'daily') {
-                        $query->whereDate('created_at', now()->toDateString());
-                    } elseif ($request->candidate_entry === 'last_month') {
-                        $query->whereMonth('created_at', now()->subMonth()->month);
-                    } elseif ($request->candidate_entry === 'monthly') {
-                        $query->whereMonth('created_at', now()->month);
-                    }
-                } else {
+
+                if (Auth::user()->hasRole('RECRUITER')) {
                     if ($request->candidate_entry === 'daily') {
                         $query->where('enter_by', Auth::id())->whereDate('created_at', now()->toDateString());
                     } elseif ($request->candidate_entry === 'last_month') {
@@ -1025,7 +1036,21 @@ class CandidateController extends Controller
                     } elseif ($request->candidate_entry === 'monthly') {
                         $query->where('enter_by', Auth::id())->whereMonth('created_at', now()->month);
                     }
+                } else {
+                    if ($request->candidate_entry === 'daily') {
+                        $query->whereDate('created_at', now()->toDateString());
+                    } elseif ($request->candidate_entry === 'last_month') {
+                        $query->whereMonth('created_at', now()->subMonth()->month);
+                    } elseif ($request->candidate_entry === 'monthly') {
+                        $query->whereMonth('created_at', now()->month);
+                    }
                 }
+            });
+        }
+
+        if ($request->filled('candidate_status')) {
+            $candidates->whereHas('candidateStatus', function ($statusquery) use ($request) {
+                $statusquery->where('name', $request->candidate_status);
             });
         }
 
@@ -1235,7 +1260,7 @@ class CandidateController extends Controller
             $html = '';
             $html .= '<option value="">Select Job</option>';
             foreach ($interviews as $interview) {
-                $html .= '<option value="' . $interview->id . '">' . $interview->job->job_name . '</option>';
+                $html .= '<option value="' . $interview->id . '">' . $interview->job->job_name . '(' . $interview->job->job_id . ')' . '</option>';
             }
             return response()->json(['status' => true, 'interviews' => $html]);
         }

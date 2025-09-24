@@ -7,6 +7,7 @@ use App\Models\Candidate;
 use App\Models\CandidateJob;
 use App\Models\CandidateActivity;
 use App\Models\CandidateDailyViewReport;
+use App\Models\CandidateStatus;
 use App\Models\Company;
 use App\Models\Interview;
 use Illuminate\Http\Request;
@@ -22,7 +23,21 @@ class DashboardController extends Controller
     public function dashboard()
     {
         if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-            $count['total_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->count() ?? 0;
+            // Get first 3 statuses from candidate_statuses table
+            $statuses = CandidateStatus::take(3)->get();
+
+            // Build counts dynamically
+            $statusCounts = [];
+            foreach ($statuses as $status) {
+                $statusCounts[] = [
+                    'name' => $status->name, // e.g. Active, Passive, Blacklisted
+                    'count' => Candidate::where('enter_by', Auth::id())
+                        ->where('cnadidate_status_id', $status->id)
+                        ->count(),
+                ];
+            }
+
+
             $count['today_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'))->count() ?? 0;
             $count['monthly_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
@@ -40,8 +55,30 @@ class DashboardController extends Controller
             // last month entry
             $candidates = Candidate::where('enter_by', Auth::user()->id)->get();
             $recruiters = [];
+            $statuses = CandidateStatus::take(3)->get();
+
+            // Build counts dynamically
+            $statusCounts = [];
+            foreach ($statuses as $status) {
+                $statusCounts[] = [
+                    'name' => $status->name, // e.g. Active, Passive, Blacklisted
+                    'count' => Candidate::where('cnadidate_status_id', $status->id)
+                        ->count(),
+                ];
+            }
         } else {
-            $count['total_candidate_entry'] = Candidate::count() ?? 0;
+            $statuses = CandidateStatus::take(3)->get();
+
+            // Build counts dynamically
+            $statusCounts = [];
+            foreach ($statuses as $status) {
+                $statusCounts[] = [
+                    'name' => $status->name, // e.g. Active, Passive, Blacklisted
+                    'count' => Candidate::where('cnadidate_status_id', $status->id)
+                        ->count(),
+                ];
+            }
+
             $count['today_candidate_entry'] = Candidate::whereDate('created_at', date('Y-m-d'))->count() ?? 0;
             $count['monthly_candidate_entry'] = Candidate::whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
@@ -212,7 +249,7 @@ class DashboardController extends Controller
         $new_month = date('m');
         $new_year = date('Y');
 
-        return view('dashboard')->with(compact('companies', 'new_month', 'new_year', 'count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings', 'recruiters'));
+        return view('dashboard')->with(compact('companies', 'statusCounts', 'new_month', 'new_year', 'count', 'candidates', 'most_candidates', 'interview_list', 'chartDataJSON', 'total_installments', 'total_service_fee', 'intv', 'payment_due', 'new_jobs_openings', 'recruiters'));
     }
 
     public function getInterviewList(Request $request)

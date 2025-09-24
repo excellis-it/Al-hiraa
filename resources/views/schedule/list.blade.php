@@ -186,8 +186,8 @@
                                 $.each(res, function(key, value) {
                                     console.log(key, value);
                                     $("#job_id").append('<option value="' + value.id +
-                                        '">' + value.job_name +
-                                        '</option>');
+                                        '">' + value.job_name + '(' + value.job_id +
+                                        ')</option>');
                                 });
                             } else {
                                 $("#job_id").empty();
@@ -295,7 +295,8 @@
                             // window.location.reload();
                             $('#offcanvasEdit').offcanvas('hide');
                             toastr.success(response.message);
-                            $('#single-row-update-' + response.interview.id).html(response.view);
+                            $('#single-row-update-' + response.interview.id).html(response
+                            .view);
                         } else {
                             toastr.error(response.message);
                         }

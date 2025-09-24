@@ -44,17 +44,20 @@
                     Auth::user()->hasRole('OPERATION MANAGER') ||
                     Auth::user()->hasRole('DATA ENTRY OPERATOR') ||
                     Auth::user()->hasRole('PROCESS MANAGER'))
-                <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
-                    <div class="col">
-                        <a href="{{ route('candidates.index') }}">
-                            <div class="border_left_hh">
-                                <div class="card-header__title mb-2">All Time Stats</div>
-                                <div class="text-amount">{{ $count['total_candidate_entry'] }} </div>
-                                <div class="text-stats">Candidate Entry</div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col">
+                <div class="row  staye">
+                    @foreach ($statusCounts as $status)
+                        <div class="col-md-2">
+                            <a href="{{ route('candidates.index', ['candidate_status' => $status['name']]) }}">
+                                <div class="border_left_hh">
+                                    <div class="card-header__title mb-2">{{ $status['name'] }} Candidate</div>
+                                    <div class="text-amount">{{ $status['count'] }}</div>
+                                    <div class="text-stats">Candidate Entry</div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+
+                    <div class="col-md-2">
                         <a href="{{ route('candidates.index', ['candidate_entry' => 'monthly']) }}">
                             <div class="border_left_hh">
                                 <div class="card-header__title mb-2">Monthly Stats</div>
@@ -63,7 +66,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col">
+                    <div class="col-md-2">
                         <a href="{{ route('candidates.index', ['candidate_entry' => 'daily']) }}">
                             <div class="border_left_hh">
                                 <div class="card-header__title mb-2">Today Stats</div>
@@ -74,7 +77,7 @@
                     </div>
 
                     @if (Auth::user()->hasRole('DATA ENTRY OPERATOR'))
-                        <div class="col">
+                        <div class="col-md-2">
                             <a href="{{ route('candidates.index', ['call_status' => 'INTERVIEW SCHEDULE']) }}">
                                 <div class="border_left_hh">
                                     <div class="card-header__title mb-2">Total Interview Schedule</div>
@@ -83,7 +86,7 @@
                             </a>
                         </div>
                     @else
-                        <div class="col">
+                        <div class="col-md-2">
                             <a href="{{ route('candidates.index', ['candidate_entry' => 'last_month']) }}">
                                 <div class="border_left_hh">
                                     <div class="card-header__title mb-2">Last Month</div>
@@ -99,14 +102,17 @@
             @endif
             @if (Auth::user()->hasRole('RECRUITER'))
                 <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 staye">
-                    <div class="col">
-                        <a href="{{ route('candidates.index', ['candidate_entry' => 'daily']) }}">
-                            <div class="border_left_hh">
-                                <div class="card-header__title mb-2">Daily Candidate Entry</div>
-                                <div class="text-amount">{{ $count['daily_entry'] }} </div>
-                            </div>
-                        </a>
-                    </div>
+                    @foreach ($statusCounts as $status)
+                        <div class="col">
+                            <a href="{{ route('candidates.index', ['candidate_status' => $status['name']]) }}">
+                                <div class="border_left_hh">
+                                    <div class="card-header__title mb-2">{{ $status['name'] }} Candidate</div>
+                                    <div class="text-amount">{{ $status['count'] }}</div>
+                                    <div class="text-stats">Candidate Entry</div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
                     <div class="col">
                         <a href="{{ route('candidates.index', ['call_status' => 'CALL BACK']) }}">
                             <div class="border_left_hh">
@@ -224,13 +230,14 @@
                                                     <td>
                                                         {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
                                                     </td>
-                                                     <td>
+                                                    <td>
                                                         @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
-                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}" target="_blank">
+                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}"
+                                                                target="_blank">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </a>
-                                                            @else
-                                                           No Document
+                                                        @else
+                                                            No Document
                                                         @endif
 
                                                     </td>
@@ -289,7 +296,7 @@
                                             @unless (Auth::user()->hasRole('PROCESS MANAGER'))
                                                 <th>Team Interested</th>
                                             @endunless
-                                              <th>Doc.View</th>
+                                            <th>Doc.View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -368,16 +375,17 @@
                                                         </div>
                                                     </div>
                                                 </td>
-                                                 <td>
-                                                        @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
-                                                            <a href="{{ Storage::url($new_jobs_opening->job->document) }}" target="_blank">
-                                                                <i class="fa-solid fa-eye"></i>
-                                                            </a>
-                                                            @else
-                                                           No Document
-                                                        @endif
+                                                <td>
+                                                    @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
+                                                        <a href="{{ Storage::url($new_jobs_opening->job->document) }}"
+                                                            target="_blank">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                    @else
+                                                        No Document
+                                                    @endif
 
-                                                    </td>
+                                                </td>
                                             </tr>
                                         @else
                                             <tr>
@@ -605,7 +613,7 @@
                                                 <th>MEDICAL UNFIT</th>
                                                 <th>MEDICAL BACKOUT</th>
                                                 <th>MEDICAL REPEAT</th>
-                                                 <th>MEDICAL PENDING</th>
+                                                <th>MEDICAL PENDING</th>
                                             </tr>
                                         </thead>
                                         <tbody id="dashboard-job-medical-report-table">

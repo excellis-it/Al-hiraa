@@ -6,21 +6,20 @@
         @foreach ($interviews as $key => $items)
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading{{ $count }}">
-                    <button class="accordion-button collapsed" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $count }}"
-                        aria-expanded="false"
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{ $count }}" aria-expanded="false"
                         aria-controls="collapse{{ $count }}">
                         {{ $key }}
                     </button>
                 </h2>
-                <div id="collapse{{ $count }}"
-                    class="accordion-collapse collapse"
+                <div id="collapse{{ $count }}" class="accordion-collapse collapse"
                     aria-labelledby="heading{{ $count }}" data-bs-parent="#interviewAccordion">
                     <div class="accordion-body">
                         <div class="table-responsive">
                             <table class="table mb-0 table-bordered">
                                 <thead>
                                     <tr>
+                                        <th>Job ID</th>
                                         <th>Job Name</th>
                                         <th>Assignee</th>
                                         <th>Interview Date</th>
@@ -30,7 +29,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($items as $interview)
-                                        <tr id="single-row-update-{{$interview['id']}}">
+                                        <tr id="single-row-update-{{ $interview['id'] }}">
                                             @include('schedule.single-row-update')
                                         </tr>
                                     @endforeach

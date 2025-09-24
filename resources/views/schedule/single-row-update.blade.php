@@ -1,3 +1,4 @@
+<td>{{ $interview['job']['job_id'] ?? '-' }}</td>
 <td>{{ $interview['job']['job_name'] ?? '-' }}</td>
 <td>
     <span

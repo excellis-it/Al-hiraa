@@ -299,10 +299,12 @@
 
                                     </tr>
                                     <tr>
-                                        <td colspan="6" style="font-size: 18px;
+                                        <td colspan="6"
+                                            style="font-size: 18px;
             color: #000;
             text-transform: capitalize;
-            font-weight: 500; text-align:left;">Call Status</td>
+            font-weight: 500; text-align:left;">
+                                            Call Status</td>
                                     </tr>
                                     <tr>
                                         <td>Assigned By</td>
@@ -313,6 +315,7 @@
                                         </td>
                                         <td>Job Title</td>
                                         <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                            ({{ $assign_job->job->job_id ?? 'N/A' }})
                                         </td>
                                     </tr>
 
@@ -1091,7 +1094,7 @@
                                                 @if (isset($interviews) && $interviews->count() > 0)
                                                     @foreach ($interviews as $interview)
                                                         <option value="{{ $interview->id }}" @if (isset($assign_job) && $assign_job->interview_id == $interview->id) selected @endif>
-                                                {{ $interview->job->job_name ?? 'N/A' }}
+                                                {{ $interview->job->job_name ?? 'N/A' }} ( {{ $interview->job->job_id ?? '-' }})
                                                 </option>
                                                     @endforeach
                                                 @endif
@@ -1319,7 +1322,7 @@
                                         <td>{{ $assign_job->company->company_name ?? 'N/A' }}
                                         </td>
                                         <td>Job Title</td>
-                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }} ({{ $assign_job->job->job_id ?? '-' }})
                                         </td>
                                     </tr>
 
@@ -1436,6 +1439,7 @@
                     education: education,
                     city: city,
                     call_status: '{{ $call_status }}',
+                    candidate_status: '{{ $candidate_status }}',
                     candidate_entry: '{{ $candidate_entry }}',
                     filter_position_id: '{{ $filter_position_id }}',
                     is_update: true
@@ -1732,7 +1736,7 @@
                                         <td>{{ $assign_job->company->company_name ?? 'N/A' }}
                                         </td>
                                         <td>Job Title</td>
-                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
+                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }} ({{ $assign_job->job->job_id ?? '-' }})
                                         </td>
                                     </tr>
                                     <tr>
