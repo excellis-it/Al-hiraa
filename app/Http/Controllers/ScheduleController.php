@@ -23,30 +23,48 @@ class ScheduleController extends Controller
     {
         if (Auth::user()->can('Manage Schedule')) {
             $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
-            // if (Auth::user()->hasRole('ADMIN')) {
-            $interviews = Interview::with(['company', 'job', 'user'])
-                ->orderBy('id', 'DESC')
-                ->get();
 
-            $interviews = $interviews->groupBy(function ($interview) {
-                return $interview->company->company_name ?? '';
-            });
+            $perPage = 15;
+            $page = 1;
 
-            $interviews = $interviews->mapWithKeys(function ($item, $key) {
-                return [$key => $item->toArray()];
-            });
+            $interviewsQuery = Interview::with(['company', 'job', 'user'])
+                ->orderBy('id', 'DESC');
 
-            // dd($interviews);
-            // } else {
-            //     $interviews = Interview::join('companies', 'interviews.company_id', '=', 'companies.id')
-            //         ->select('interviews.*', 'companies.company_name as company_name')
-            //         ->get()
-            //         ->groupBy('company_name')
-            //         ->mapWithKeys(function ($item, $key) {
-            //             return [$key => $item->toArray()];
-            //         })->toArray();
-            // }
-            return view('schedule.list')->with(compact('companies', 'interviews'));
+            $total = $interviewsQuery->count();
+
+            $interviews = $interviewsQuery
+                ->skip(($page - 1) * $perPage)
+                ->take($perPage)
+                ->get()
+                ->toArray();
+
+            // Create pagination HTML
+            $totalPages = ceil($total / $perPage);
+            $paginationHtml = '';
+
+            if ($totalPages > 1) {
+                $paginationHtml = '<nav><ul class="pagination justify-content-center">';
+
+                $paginationHtml .= '<li class="page-item disabled"><span class="page-link">Previous</span></li>';
+
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    if ($i == 1) {
+                        $paginationHtml .= '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+                    } else {
+                        $paginationHtml .= '<li class="page-item"><a class="page-link pagination-link" href="#" data-page="' . $i . '">' . $i . '</a></li>';
+                    }
+                }
+
+                if ($totalPages > 1) {
+                    $paginationHtml .= '<li class="page-item"><a class="page-link pagination-link" href="#" data-page="2">Next</a></li>';
+                } else {
+                    $paginationHtml .= '<li class="page-item disabled"><span class="page-link">Next</span></li>';
+                }
+
+                $paginationHtml .= '</ul></nav>';
+            }
+
+            return view('schedule.list')->with(compact('companies', 'interviews', 'paginationHtml'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -208,32 +226,87 @@ class ScheduleController extends Controller
     public function filter(Request $request)
     {
         $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
-        // if (Auth::user()->hasRole('ADMIN')) {
-        // Assume $search is the search term input by the user
-        $search = $request->input('search');
 
-        // Query the interviews with search conditions
-        $interviews = Interview::with(['company', 'job', 'user'])
+        // Get filter parameters - treat empty strings as null
+        $search = $request->input('search') ?: null;
+        $companyId = $request->input('company_id') ?: null;
+        $date = $request->input('date') ?: null;
+        $page = $request->input('page', 1);
+        $perPage = 15;
+
+        // Query the interviews with search and filter conditions
+        $interviewsQuery = Interview::with(['company', 'job', 'user'])
             ->when($search, function ($query, $search) {
-                $query->whereHas('company', function ($q) use ($search) {
-                    $q->where('company_name', 'like', '%' . $search . '%');
-                })->orWhereHas('job', function ($q) use ($search) {
-                    $q->where('job_name', 'like', '%' . $search . '%');
+                $query->where(function ($q) use ($search) {
+                    $q->whereHas('company', function ($subQ) use ($search) {
+                        $subQ->where('company_name', 'like', '%' . $search . '%');
+                    })->orWhereHas('job', function ($subQ) use ($search) {
+                        $subQ->where('job_name', 'like', '%' . $search . '%')
+                            ->orWhere('job_id', 'like', '%' . $search . '%');
+                    })->orWhereHas('user', function ($subQ) use ($search) {
+                        $subQ->where('first_name', 'like', '%' . $search . '%')
+                            ->orWhere('last_name', 'like', '%' . $search . '%');
+                    })->orWhere('interview_location', 'like', '%' . $search . '%');
                 });
             })
-            ->orderBy('id', 'DESC')
-            ->get();
+            ->when($companyId, function ($query, $companyId) {
+                $query->where('company_id', $companyId);
+            })
+            ->when($date, function ($query, $date) {
+                // Convert date to Y-m-d format for comparison
+                $formattedDate = date('Y-m-d', strtotime($date));
+                $query->where(function ($q) use ($formattedDate) {
+                    $q->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $formattedDate)
+                        ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $formattedDate);
+                });
+            })
+            ->orderBy('id', 'DESC');
 
-        // Group interviews by company name
-        $interviews = $interviews->groupBy(function ($interview) {
-            return $interview->company->company_name ?? '';
-        });
+        // Get total count for pagination
+        $total = $interviewsQuery->count();
 
-        // Convert grouped interviews to array
-        $interviews = $interviews->mapWithKeys(function ($item, $key) {
-            return [$key => $item->toArray()];
-        });
+        // Apply pagination
+        $interviews = $interviewsQuery
+            ->skip(($page - 1) * $perPage)
+            ->take($perPage)
+            ->get()
+            ->toArray();
 
-        return response()->json(['view' => view('schedule.filter', compact('companies', 'interviews'))->render()]);
+        // Create pagination HTML
+        $totalPages = ceil($total / $perPage);
+        $paginationHtml = '';
+
+        if ($totalPages > 1) {
+            $paginationHtml = '<nav><ul class="pagination justify-content-center">';
+
+            // Previous button
+            if ($page > 1) {
+                $paginationHtml .= '<li class="page-item"><a class="page-link pagination-link" href="#" data-page="' . ($page - 1) . '">Previous</a></li>';
+            } else {
+                $paginationHtml .= '<li class="page-item disabled"><span class="page-link">Previous</span></li>';
+            }
+
+            // Page numbers
+            for ($i = 1; $i <= $totalPages; $i++) {
+                if ($i == $page) {
+                    $paginationHtml .= '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+                } else {
+                    $paginationHtml .= '<li class="page-item"><a class="page-link pagination-link" href="#" data-page="' . $i . '">' . $i . '</a></li>';
+                }
+            }
+
+            // Next button
+            if ($page < $totalPages) {
+                $paginationHtml .= '<li class="page-item"><a class="page-link pagination-link" href="#" data-page="' . ($page + 1) . '">Next</a></li>';
+            } else {
+                $paginationHtml .= '<li class="page-item disabled"><span class="page-link">Next</span></li>';
+            }
+
+            $paginationHtml .= '</ul></nav>';
+        }
+
+        return response()->json([
+            'view' => view('schedule.filter', compact('companies', 'interviews', 'paginationHtml'))->render()
+        ]);
     }
 }
