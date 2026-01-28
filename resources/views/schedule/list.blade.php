@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    {{ env('APP_NAME') }} - Schedule & To-Do
+    {{ env('APP_NAME') }} - Schedule Interview
 @endsection
 @push('styles')
     <style>
@@ -126,7 +126,7 @@
                 <div class="row page__heading mb-4">
                     <div class="col-12">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h4 class="mb-0">Schedule & To-Do</h4>
+                            <h4 class="mb-0">Schedule Interview</h4>
                             @can('Create Schedule')
                                 <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                                     aria-controls="offcanvasRight" class="btn btn-primary">
