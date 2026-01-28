@@ -9,7 +9,7 @@ use App\Models\ReferCms;
 use App\Models\CandidateReferralPoint;
 use App\Models\ReferralOtp;
 use App\Models\Source;
-use App\Services\TwilioService;
+use App\Services\TextlocalService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -52,7 +52,7 @@ class ReferController extends Controller
             'ecr_type' => 'nullable|in:ECR,ECNR',
             'english_speak' => 'nullable|in:GOOD,BASIC,POOR,NO',
             'arabic_speak' => 'nullable|in:GOOD,BASIC,POOR,NO',
-            'otp' => 'required|numeric|digits:6'
+             'otp' => 'required|numeric|digits:6'
         ]);
 
         if ($validator->fails()) {
@@ -262,15 +262,15 @@ class ReferController extends Controller
 
         // Construct the OTP message
 
-
-        $message = "Hey  " . $fullname . ", your OTP " . $otp . " is for verifying the referral from your friend on Al Hiraa. \n Let's get started!";
+      
+        $message = "Hey  " . $fullname . ", your OTP " . $otp . " is for verifying the referral from your friend on Al Hiraa. %n Let's get started!";
         // $message = "Dear " . $fullname . ", %n your OTP for logging into your Al Hiraa account is " . $otp . ". Do not share this with anyone. %n Thanks, %n Al Hiraa";
         Log::info($message . ' OTP: ' . $mobileNumber);
-        // Send the OTP message via TwilioService
-        $response = app(TwilioService::class)->sendSms(array($mobileNumber), $message);
+        // Send the OTP message via TextlocalService
+        $response = app(TextlocalService::class)->sendSms(array($mobileNumber), $message);
 
         // Log the response for debugging
-        Log::info('Twilio SMS Response: ' . json_encode($response));
+        Log::info('Textlocal SMS Response: ' . json_encode($response));
 
         // Check if the SMS was sent successfully
         if (isset($response['error'])) {

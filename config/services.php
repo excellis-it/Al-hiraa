@@ -36,4 +36,10 @@ return [
         'sender_id' => env('TEXTLOCAL_SENDER'),
     ],
 
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'token' => env('TWILIO_TOKEN'),
+        'from' => env('TWILIO_FROM'),
+    ],
+
 ];
