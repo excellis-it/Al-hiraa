@@ -42,4 +42,11 @@ return [
         'from' => env('TWILIO_FROM'),
     ],
 
+    'coins' => [
+        'api_key' => env('COINS_API_KEY'),
+        'peid' => env('COINS_PEID'),
+        'mask' => env('COINS_MASK'),
+        'mtype' => env('COINS_MTYPE'),
+    ],
+
 ];

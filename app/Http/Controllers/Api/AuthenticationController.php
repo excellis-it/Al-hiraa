@@ -7,7 +7,7 @@ use App\Models\Candidate;
 use App\Models\CandidateOtp;
 use App\Models\CandidatePosition;
 use App\Models\Source;
-use App\Services\TwilioService;
+use App\Services\Coins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -19,11 +19,11 @@ class AuthenticationController extends Controller
 {
     protected $successStatus = 200;
 
-    protected $twilioService;
+    protected $coinsService;
 
-    public function __construct(TwilioService $twilioService)
+    public function __construct(Coins $coinsService)
     {
-        $this->twilioService = $twilioService;
+        $this->coinsService = $coinsService;
     }
 
     /**
@@ -122,12 +122,7 @@ class AuthenticationController extends Controller
         // Construct the OTP message
 
         $message = "Dear " . $candidate->full_name . ", your OTP for logging into your Al Hiraa account is " . $otp . ". Do not share this with anyone. Thanks, Al Hiraa";
-        Log::info($message);
-        // Send the OTP message via TwilioService
-        $response = $this->twilioService->sendSms(array($mobileNumber), $message);
-
-        // Log the response for debugging
-        Log::info('Twilio SMS Response: ' . json_encode($response));
+        $response = app(Coins::class)->sendSms(array($mobileNumber), $message, 1707173821841893685);
 
         // Check if the SMS was sent successfully
         if (isset($response['error'])) {
@@ -315,9 +310,10 @@ class AuthenticationController extends Controller
         // Construct the OTP message
 
 
-        $message = "Dear " . $name . ", your OTP for signup into your Al Hiraa account is " . $otp . ". Do not share this with anyone. Thanks, Al Hiraa";
-        // Send the OTP message via TwilioService
-        $response = $this->twilioService->sendSms([$mobileNumber], $message);
+        $message = "Dear " . $name . ", your OTP for signup into your Al Hiraa account is " . $otp . ". Do not share this with anyone.\n  Thanks, \n Al Hiraa";
+        // $message = "Dear " . $name . ", your OTP for signup into your Al Hiraa account is " . $otp . ". Do not share this with anyone. Thanks, Al Hiraa";
+        // Send the OTP message via TextlocalService
+        $response = app(Coins::class)->sendSms(array($mobileNumber), $message, 1707173822296572169);
 
         // Save the OTP in the database with an expiry time
         return CandidateOtp::create([
