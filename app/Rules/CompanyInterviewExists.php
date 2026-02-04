@@ -26,6 +26,9 @@ class CompanyInterviewExists implements Rule
 
     public function passes($attribute, $value)
     {
+        $this->interviewEndDate = $this->formatExcelDate($this->interviewEndDate);
+        $this->startDate = $this->formatExcelDate($this->startDate);
+        
         return Interview::where('interview_end_date', $this->interviewEndDate)
             ->where('interview_start_date', $this->startDate)->whereHas('company', function ($query) {
                 $query->where('company_name', $this->companyName)
@@ -34,6 +37,27 @@ class CompanyInterviewExists implements Rule
                 $query->where('job_name', $this->jobTitle);
             })
             ->exists();
+    }
+
+     private function formatExcelDate($value)
+    {
+        if (empty($value)) {
+            return null;
+        }
+
+        if (is_numeric($value)) {
+            try {
+                return Date::excelToDateTimeObject($value)->format('d-m-Y');
+            } catch (\Exception $e) {
+                return null;
+            }
+        }
+
+        try {
+            return \Carbon\Carbon::parse($value)->format('d-m-Y');
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     public function message()

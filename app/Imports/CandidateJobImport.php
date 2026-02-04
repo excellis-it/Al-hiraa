@@ -18,6 +18,7 @@ use App\Rules\CompanyNameJobExists;
 use App\Rules\CompanyNameLocationExists;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -68,7 +69,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
         });
         // dd($cleanedRows->toArray());
         Validator::make($cleanedRows->toArray(), [
-             '*.whatapp_no' => 'nullable|digits:12|numeric',
+            '*.whatapp_no' => 'nullable|digits:10|numeric',
             '*.full_name' => 'required',
             '*.dob' => 'required|date|before:today',
             '*.contact_no' => 'required|numeric|digits:10',
@@ -217,7 +218,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                 $candidate->full_name = $row['full_name'] ?? '';
                 $candidate->contact_no = $row['contact_no'] ?? '';
                 $candidate->email = $row['email'] ?? '';
-                 $candidate->whatapp_no = $row['whatapp_no'] ? '+'.$row['whatapp_no'] : '';
+                $candidate->whatapp_no = $row['whatapp_no'] ? '+91' . $row['whatapp_no'] : '';
                 $dob = $this->formatExcelDate($row['dob'] ?? null); // Safely format DOB
 
                 $candidate->date_of_birth = $dob;
@@ -299,6 +300,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                     ->where('job_id', $job->id)
                                     ->where('interview_id', $interview->id)
                                     ->count();
+                                    Log::info( 'check job - '. $candidate->full_name . ' - ' . $check);
                                 // dd($check);
                                 if ($check <= 0) {
                                     $assign_job = new AssignJob();
