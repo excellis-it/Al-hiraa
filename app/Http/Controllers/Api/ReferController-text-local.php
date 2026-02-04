@@ -9,7 +9,6 @@ use App\Models\ReferCms;
 use App\Models\CandidateReferralPoint;
 use App\Models\ReferralOtp;
 use App\Models\Source;
-use App\Services\Coins;
 use App\Services\TextlocalService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -261,11 +260,17 @@ class ReferController extends Controller
         $now = now();
         $otp = rand(100000, 999999);
 
-        // $message = "Hey " . $fullname . ", your OTP " . $otp . " is for verifying the referral from your friend on Al Hiraa. Let’s get started!";
+        // Construct the OTP message
 
-        $message = "Hey " . $fullname . ", your OTP is " . $otp . " to verify the referral from your friend on Al Hiraa. Please do not share this code.";
-        $response = app(Coins::class)->sendSms(array($mobileNumber), $message, 1707176977877862702);
+      
+        $message = "Hey  " . $fullname . ", your OTP " . $otp . " is for verifying the referral from your friend on Al Hiraa. %n Let's get started!";
+        // $message = "Dear " . $fullname . ", %n your OTP for logging into your Al Hiraa account is " . $otp . ". Do not share this with anyone. %n Thanks, %n Al Hiraa";
+        Log::info($message . ' OTP: ' . $mobileNumber);
+        // Send the OTP message via TextlocalService
+        $response = app(TextlocalService::class)->sendSms(array($mobileNumber), $message);
 
+        // Log the response for debugging
+        Log::info('Textlocal SMS Response: ' . json_encode($response));
 
         // Check if the SMS was sent successfully
         if (isset($response['error'])) {

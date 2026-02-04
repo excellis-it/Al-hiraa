@@ -109,7 +109,7 @@
                                             <div class="food-status">
 
 
-                                                <div class="multi-select-box-1">
+                                                <div class="multi-select-box-1 select_border">
                                                     <select name="job_id[]" id="job_id" class="form-select job_select"
                                                         multiple size="3">
                                                         <option value="">Search job</option>
@@ -122,9 +122,12 @@
                                                                         ? substr($jobName, 0, $maxLength) . '...'
                                                                         : $jobName;
                                                             @endphp
-                                                            <option value="{{ $job->id }}">{{ $truncatedJobName }}
+                                                            <option value="{{ $job->job_id }}">
+                                                                {{ $truncatedJobName }} ({{ $job->job_id }})
                                                             </option>
                                                         @endforeach
+
+
                                                     </select>
                                                 </div>
                                             </div>

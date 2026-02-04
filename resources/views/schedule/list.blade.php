@@ -1,8 +1,15 @@
 @extends('layouts.master')
 @section('title')
-    {{ env('APP_NAME') }} - Schedule & To-Do
+    {{ env('APP_NAME') }} - Schedule Interview
 @endsection
 @push('styles')
+    <style>
+        ::placeholder {
+            color: #161616 !important;
+            opacity: 1;
+            /* important for Firefox */
+        }
+    </style>
 @endpush
 @section('content')
     <div class="mdk-drawer-layout__content page">
@@ -116,35 +123,21 @@
             @endcan
             <section class="todo_sec text_left_td_th">
 
-                <div class="row page__heading">
-                    <div class="col-xl-8 col-lg-7 col-md-6 mb-3 mb-md-0">
-                        <div class="">
-                            <form class="search-form d-flex" action="javascript:void(0);">
-                                <button class="btn" type="submit" role="button"><i
-                                        class="fa-solid fa-magnifying-glass"></i></button>
-                                <input type="text" class="form-control query" placeholder="Advance Search..">
-                            </form>
+                <div class="row page__heading mb-4">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="mb-0">Schedule Interview</h4>
+                            @can('Create Schedule')
+                                <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                    aria-controls="offcanvasRight" class="btn btn-primary">
+                                    <i class="fa-solid fa-plus me-2"></i>
+                                    Add Interview
+                                </a>
+                            @endcan
                         </div>
                     </div>
-                    @can('Create Schedule')
-                        <div class="col-xl-4 col-lg-5 col-md-6">
-                            <div class="d-flex justify-content-center justify-content-md-start">
-                                <div class="btn-group me-4">
-                                    <a href="javascript:void(0);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
-                                        aria-controls="offcanvasRight" class="add_interview mb-5"><svg
-                                            xmlns="http://www.w3.org/2000/svg" width="15.333" height="15.333"
-                                            viewBox="0 0 15.333 15.333">
-                                            <path id="plus-small"
-                                                d="M20.056,12.389H14.944V7.278A1.278,1.278,0,0,0,13.667,6h0a1.278,1.278,0,0,0-1.278,1.278v5.111H7.278A1.278,1.278,0,0,0,6,13.667H6a1.278,1.278,0,0,0,1.278,1.278h5.111v5.111a1.278,1.278,0,0,0,1.278,1.278h0a1.278,1.278,0,0,0,1.278-1.278V14.944h5.111a1.278,1.278,0,0,0,1.278-1.278h0A1.278,1.278,0,0,0,20.056,12.389Z"
-                                                transform="translate(-6 -6)" opacity="0.5" />
-                                        </svg>
-                                        Add Interview
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    @endcan
                 </div>
+
                 <div id="schedule-filter">
                     @include('schedule.filter')
                 </div>
@@ -186,8 +179,8 @@
                                 $.each(res, function(key, value) {
                                     console.log(key, value);
                                     $("#job_id").append('<option value="' + value.id +
-                                        '">' + value.job_name +
-                                        '</option>');
+                                        '">' + value.job_name + '(' + value.job_id +
+                                        ')</option>');
                                 });
                             } else {
                                 $("#job_id").empty();
@@ -295,7 +288,8 @@
                             // window.location.reload();
                             $('#offcanvasEdit').offcanvas('hide');
                             toastr.success(response.message);
-                            $('#single-row-update-' + response.interview.id).html(response.view);
+                            $('#single-row-update-' + response.interview.id).html(response
+                                .view);
                         } else {
                             toastr.error(response.message);
                         }
@@ -375,22 +369,111 @@
     </script>
     <script>
         $(document).ready(function() {
-            function fetch_data(query) {
+            // Initialize datepicker for date filter
+            var dateFilter = $('#date-filter').datepicker({
+                uiLibrary: 'bootstrap5',
+                format: 'dd-mm-yyyy',
+                change: function(e) {
+                    // Trigger filter when date is selected
+                    var date = e.target.value;
+                    var company = $('#company-filter').val();
+                    var search = $('#search-filter').val();
+                    fetch_data(search, company, date, 1);
+                }
+            });
+
+            function fetch_data(search = '', company = '', date = '', page = 1, showLoader = true) {
+                if (showLoader) {
+                    $('#loading').addClass('loading');
+                    $('#loading-content').addClass('loading-content');
+                }
+
                 $.ajax({
                     url: "{{ route('schedule-to-do.filter') }}",
+                    type: 'GET',
                     data: {
-                        search: query
+                        search: search,
+                        company_id: company,
+                        date: date,
+                        page: page,
+                        _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
                         $('#schedule-filter').html(data.view);
+
+                        if (showLoader) {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                        }
+
+                        // Re-initialize datepicker after AJAX load
+                        $('#date-filter').datepicker({
+                            uiLibrary: 'bootstrap5',
+                            format: 'dd-mm-yyyy',
+                            change: function(e) {
+                                var date = e.target.value;
+                                var company = $('#company-filter').val();
+                                var search = $('#search-filter').val();
+                                fetch_data(search, company, date, 1);
+                            }
+                        });
+
+                        // Scroll to top of table only if showing loader (indicates major change)
+                        if (showLoader && $("#schedule-filter").length) {
+                            $('html, body').animate({
+                                scrollTop: $("#schedule-filter").offset().top - 100
+                            }, 500);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        if (showLoader) {
+                            $('#loading').removeClass('loading');
+                            $('#loading-content').removeClass('loading-content');
+                        }
+                        console.error('AJAX Error:', error);
+                        toastr.error('Error loading data. Please try again.');
                     }
                 });
             }
 
-            $(document).on('keyup', '.query', function(e) {
+            // Company filter
+            $(document).on('change', '#company-filter', function() {
+                var company = $(this).val();
+                var search = $('#search-filter').val();
+                var date = $('#date-filter').val();
+                fetch_data(search, company, date, 1);
+            });
+
+            // Search filter in table with debounce
+            var searchTimer;
+            $(document).on('keyup', '#search-filter', function() {
+                var search = $(this).val();
+                var company = $('#company-filter').val();
+                var date = $('#date-filter').val();
+
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(function() {
+                    // Disable loader for search to avoid intrusive UI while typing
+                    fetch_data(search, company, date, 1, false);
+                }, 500); // Wait for 500ms after user stops typing
+            });
+
+            // Clear filters
+            $(document).on('click', '#clear-filters', function() {
+                $('#company-filter').val('');
+                $('#date-filter').val('');
+                $('#search-filter').val('');
+                fetch_data('', '', '', 1);
+            });
+
+            // Pagination links
+            $(document).on('click', '.pagination-link', function(e) {
                 e.preventDefault();
-                var query = $(this).val();
-                fetch_data(query);
+                var page = $(this).data('page');
+                var search = $('#search-filter').val();
+                var company = $('#company-filter').val();
+                var date = $('#date-filter').val();
+                fetch_data(search, company, date, page);
             });
         });
     </script>

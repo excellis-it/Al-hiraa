@@ -21,7 +21,7 @@
                                             @foreach ($jobs as $job)
                                                 <option value="{{ $job->id }}"
                                                     @if ($job->id == $interview->job_id) selected @endif>
-                                                    {{ $job->job_name }}</option>
+                                                    {{ $job->job_name }} ({{ $job->job_id }})</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger" id="job_id_msg_error"></span>
@@ -64,8 +64,8 @@
                                     <div class="form-group">
                                         <label for="">Interview Location<span>*</span></label>
                                         <input type="text" class="form-control" id="interview_location"
-                                            value="{{ $interview->interview_location ?? '' }}"
-                                            name="interview_location" placeholder="">
+                                            value="{{ $interview->interview_location ?? '' }}" name="interview_location"
+                                            placeholder="">
                                         <span class="text-danger" id="interview_location_msg_error"></span>
                                     </div>
                                 </div>

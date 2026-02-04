@@ -87,7 +87,7 @@
                         <a class="sidebar-menu-button" href="{{ route('schedule-to-do.index') }}">
                             <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                     src="{{ asset('assets/images/sidebar-icon/calendar.svg') }}"></i>
-                            <span class="sidebar-menu-text">Schedule & To-Do</span>
+                            <span class="sidebar-menu-text">Schedule Interview</span>
                         </a>
                     </li>
                 @endif

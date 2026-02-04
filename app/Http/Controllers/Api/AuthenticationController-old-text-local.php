@@ -7,7 +7,7 @@ use App\Models\Candidate;
 use App\Models\CandidateOtp;
 use App\Models\CandidatePosition;
 use App\Models\Source;
-use App\Services\Coins;
+use App\Services\TextlocalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -19,11 +19,11 @@ class AuthenticationController extends Controller
 {
     protected $successStatus = 200;
 
-    protected $coinsService;
+    protected $textlocalService;
 
-    public function __construct(Coins $coinsService)
+    public function __construct(TextlocalService $textlocalService)
     {
-        $this->coinsService = $coinsService;
+        $this->textlocalService = $textlocalService;
     }
 
     /**
@@ -121,8 +121,13 @@ class AuthenticationController extends Controller
 
         // Construct the OTP message
 
-        $message = "Dear " . $candidate->full_name . ", your OTP for logging into your Al Hiraa account is " . $otp . ". Do not share this with anyone. Thanks, Al Hiraa";
-        $response = app(Coins::class)->sendSms(array($mobileNumber), $message, 1707173821841893685);
+        $message = "Dear " . $candidate->full_name . ", your OTP for logging into your Al Hiraa account is " . $otp . ". Do not share this with anyone.\n\n Thanks,\n Al Hiraa";
+        Log::info($message);
+        // Send the OTP message via TextlocalService
+        $response = app(TextlocalService::class)->sendSms(array($mobileNumber), $message);
+
+        // Log the response for debugging
+        Log::info('Textlocal SMS Response: ' . json_encode($response));
 
         // Check if the SMS was sent successfully
         if (isset($response['error'])) {
@@ -311,9 +316,8 @@ class AuthenticationController extends Controller
 
 
         $message = "Dear " . $name . ", your OTP for signup into your Al Hiraa account is " . $otp . ". Do not share this with anyone.\n  Thanks, \n Al Hiraa";
-        // $message = "Dear " . $name . ", your OTP for signup into your Al Hiraa account is " . $otp . ". Do not share this with anyone. Thanks, Al Hiraa";
         // Send the OTP message via TextlocalService
-        $response = app(Coins::class)->sendSms(array($mobileNumber), $message, 1707173822296572169);
+        $response = app(TextlocalService::class)->sendSms([$mobileNumber], $message);
 
         // Save the OTP in the database with an expiry time
         return CandidateOtp::create([

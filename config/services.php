@@ -36,4 +36,17 @@ return [
         'sender_id' => env('TEXTLOCAL_SENDER'),
     ],
 
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'token' => env('TWILIO_TOKEN'),
+        'from' => env('TWILIO_FROM'),
+    ],
+
+    'coins' => [
+        'api_key' => env('COINS_API_KEY'),
+        'peid' => env('COINS_PEID'),
+        'mask' => env('COINS_MASK'),
+        'mtype' => env('COINS_MTYPE'),
+    ],
+
 ];

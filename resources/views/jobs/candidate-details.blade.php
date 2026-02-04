@@ -57,7 +57,8 @@
                 <td>Job Title</td>
                 <td>
                     @if ($candidate_job_detail->jobTitle != null)
-                        {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A' }}
+                        {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A' }} (
+                        {{ $candidate_job_detail->jobTitle->job_id ?? 'N/A' }})
                     @else
                         {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
                     @endif
@@ -278,7 +279,7 @@
                         <option value="">Select A Job Title</option>
                         @foreach ($jobs as $job)
                             <option value="{{ $job->id }}" {{ $candidate_job_detail->job_id == $job->id ? 'selected' : '' }}>
-                                {{ $job->job_name }}</option>
+                                {{ $job->job_name }} ({{ $job->job_id ?? '-' }})</option>
                         @endforeach
                     </select>
                     <input type="hidden" name="job_title" value="{{ $candidate_job_detail->job_id }}">
@@ -410,7 +411,7 @@
                 <td>Job Title</td>
                 <td>
                     @if ($candidate_job_detail->jobTitle != null)
-                        {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A' }}
+                        {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A' }} ( {{ $candidate_job_detail->jobTitle->job_id ?? '-' }})
                     @else
                         {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
                     @endif

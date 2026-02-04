@@ -160,7 +160,7 @@
                             <tr>
                                 <td>Job Title</td>
                                 <td>@if ($candidate_job_detail->jobTitle != null)
-                                    {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A'}}
+                                    {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A'}} ({{ $candidate_job_detail->jobTitle->job_id ?? '-'}})
                                     @else
                                         {{ $candidate_job_detail->jobTitle ?? 'N/A' }}
                                     @endif
