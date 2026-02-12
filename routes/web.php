@@ -212,8 +212,6 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::get('/candidates-check-email', [CandidateController::class, 'checkEmail'])->name('candidates.check-email');
     Route::get('/check-position', [CandidateController::class, 'checkPosition'])->name('candidates.check-position');
     Route::get('/get-jobs', [CandidateController::class, 'getJobs'])->name('candidates.getJobs');
-    // candidates.assign-job
-    Route::put('/assign-job/{id}', [CandidateController::class, 'assignJob'])->name('candidates.assign-job');
     Route::post('/send-candidate-sms', [CandidateController::class, 'sendSms'])->name('candidates.send-sms');
     Route::post('/send-candidate-whatsapp', [CandidateController::class, 'sendWhatsapp'])->name('candidates.send-whatsapp');
     Route::post('/update-candidate-contact-number', [CandidateController::class, 'updateCandidateContactNumber'])->name('candidates.update-candidate-contact-number');

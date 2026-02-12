@@ -308,27 +308,27 @@
                                     </tr>
                                     <tr>
                                         <td>Assigned By</td>
-                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        <td>{{ $lineup->user->full_name ?? 'N/A' }}
                                         </td>
                                         <td>Company</td>
-                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        <td>{{ $lineup->company->company_name ?? 'N/A' }}
                                         </td>
                                         <td>Job Title</td>
-                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }}
-                                            ({{ $assign_job->job->job_id ?? 'N/A' }})
+                                        <td>{{ $lineup->job->job_name ?? 'N/A' }}
+                                            ({{ $lineup->job->job_id ?? 'N/A' }})
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td>Job Position</td>
-                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        <td>{{ $lineup->job->candidatePosition->name ?? 'N/A' }}
                                         </td>
                                         <td>Job Location</td>
-                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        <td>{{ $lineup->job->address ?? 'N/A' }}
                                         </td>
                                         <td style="text-transform: uppercase">Interview status</td>
                                         <td>
-                                            {{ $assign_job->interview_status ?? 'N/A' }}
+                                            {{ $lineup->interview_status ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -428,64 +428,6 @@
     </div>
 </div>
 
-{{-- <form action="{{ route('candidates.assign-job', $candidate->id) }}" method="POST" id="candidate-job-create-form">
-    @method('PUT')
-    @csrf
-    <div class="candidate_details">
-        <div class="can-div d-flex justify-content-between align-items-center">
-            <div class="can-head">
-                <h4>Assign Job Details</h4>
-            </div>
-            <div class="edit-1-btn d-flex align-items-center">
-
-                <div class="edit-2 cross-red" id="cross-button-job">
-
-                </div>
-                <div class="edit-2 m-lg-1" id="submit-button-job">
-
-                </div>
-                <div class="edit-1" id="open-job-input">
-                    @can('Edit Candidate')
-                        <a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>
-                    @endcan
-                </div>
-            </div>
-        </div>
-        <div class="candidate_form candidate_edit_form">
-            <div class="table-responsive" id="tableContainer">
-                <table class="table" id="candidate-form-job">
-                    <tbody>
-                        <tr>
-                            <td>Assigned By</td>
-                            <td>{{ $assign_job->user->full_name ?? 'N/A' }}
-                            </td>
-                            <td>Company</td>
-                            <td>{{ $assign_job->company->company_name ?? 'N/A' }}
-                            </td>
-                            <td>Job Title</td>
-                            <td>{{ $assign_job->job->job_name ?? 'N/A' }}
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Job Position</td>
-                            <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
-                            </td>
-                            <td>Job Location</td>
-                            <td>{{ $assign_job->job->address ?? 'N/A' }}
-                            </td>
-                            <td>Interview status</td>
-                            <td>
-                                {{ $assign_job->interview_status ?? 'N/A' }}
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</form> --}}
 </div>
 </div>
 <script>
@@ -1078,7 +1020,7 @@
                                                 <select name="company_id" class="form-select uppercase-text company_id" id="company_id">
                                                 <option value=""> Company</option>
                                                 @foreach ($companies as $company)
-                                                <option value="{{ $company->id }}" @if (isset($assign_job) && $assign_job->company_id == $company->id) selected @endif>
+                                                <option value="{{ $company->id }}" @if (isset($lineup) && $lineup->company_id == $company->id) selected @endif>
                                                 {{ $company->company_name }}
                                                 </option>
                                                 @endforeach
@@ -1093,7 +1035,7 @@
                                                 <option value=""> Job Title</option>
                                                 @if (isset($interviews) && $interviews->count() > 0)
                                                     @foreach ($interviews as $interview)
-                                                        <option value="{{ $interview->id }}" @if (isset($assign_job) && $assign_job->interview_id == $interview->id) selected @endif>
+                                                        <option value="{{ $interview->id }}" @if (isset($lineup) && $lineup->interview_id == $interview->id) selected @endif>
                                                 {{ $interview->job->job_name ?? 'N/A' }} ( {{ $interview->job->job_id ?? '-' }})
                                                 </option>
                                                     @endforeach
@@ -1106,8 +1048,8 @@
                                             <td>
                                             <select name="interview_status" class="form-select uppercase-text" id="interview_status">
                                                 <option value="">Interview Status</option>
-                                                <option value="Interested" @if (isset($assign_job) && $assign_job->interview_status == 'Interested') selected @endif>Interested</option>
-                                                <option value="Not-Interested" @if (isset($assign_job) && $assign_job->interview_status == 'Not-Interested') selected @endif>Not-Interested</option>
+                                                <option value="Interested" @if (isset($lineup) && $lineup->interview_status == 'Interested') selected @endif>Interested</option>
+                                                <option value="Not-Interested" @if (isset($lineup) && $lineup->interview_status == 'Not-Interested') selected @endif>Not-Interested</option>
                                             </select>
                                             <span class="text-danger" id="interview_status_job_msg"></span>
                                             </td>
@@ -1316,26 +1258,26 @@
                             </tr>
                                      <tr>
                                         <td>Assigned By</td>
-                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        <td>{{ $lineup->user->full_name ?? 'N/A' }}
                                         </td>
                                         <td>Company</td>
-                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        <td>{{ $lineup->company->company_name ?? 'N/A' }}
                                         </td>
                                         <td>Job Title</td>
-                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }} ({{ $assign_job->job->job_id ?? '-' }})
+                                        <td>{{ $lineup->job->job_name ?? 'N/A' }} ({{ $lineup->job->job_id ?? '-' }})
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td>Job Position</td>
-                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        <td>{{ $lineup->job->candidatePosition->name ?? 'N/A' }}
                                         </td>
                                         <td>Job Location</td>
-                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        <td>{{ $lineup->job->address ?? 'N/A' }}
                                         </td>
                                         <td style="text-transform: uppercase">Interview status</td>
                                         <td>
-                                            {{ $assign_job->interview_status ?? 'N/A' }}
+                                            {{ $lineup->interview_status ?? 'N/A' }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -1730,24 +1672,24 @@
                             </tr>
                                     <tr>
                                         <td>Assigned By</td>
-                                        <td>{{ $assign_job->user->full_name ?? 'N/A' }}
+                                        <td>{{ $lineup->user->full_name ?? 'N/A' }}
                                         </td>
                                         <td>Company</td>
-                                        <td>{{ $assign_job->company->company_name ?? 'N/A' }}
+                                        <td>{{ $lineup->company->company_name ?? 'N/A' }}
                                         </td>
                                         <td>Job Title</td>
-                                        <td>{{ $assign_job->job->job_name ?? 'N/A' }} ({{ $assign_job->job->job_id ?? '-' }})
+                                        <td>{{ $lineup->job->job_name ?? 'N/A' }} ({{ $lineup->job->job_id ?? '-' }})
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Job Location</td>
-                                        <td>{{ $assign_job->job->address ?? 'N/A' }}
+                                        <td>{{ $lineup->job->address ?? 'N/A' }}
                                         </td>
                                         <td>Job Position</td>
-                                        <td>{{ $assign_job->job->candidatePosition->name ?? 'N/A' }}
+                                        <td>{{ $lineup->job->candidatePosition->name ?? 'N/A' }}
                                         </td>
                                         <td>Interview Status</td>
-                                        <td>{{ $assign_job->interview_status ?? 'N/A' }}</td>
+                                        <td>{{ $lineup->interview_status ?? 'N/A' }}</td>
                                     </tr>
 
                                 </tbody>`);
