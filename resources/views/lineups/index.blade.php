@@ -202,6 +202,8 @@
                             <label class="filter-label">Status</label>
                             <select name="interview_status" class="form-select select2">
                                 <option value="">All Status</option>
+                                <option value="Pending" {{ request('interview_status') == 'Pending' ? 'selected' : '' }}>
+                                    Pending</option>
                                 <option value="Interested"
                                     {{ request('interview_status') == 'Interested' ? 'selected' : '' }}>Interested</option>
                                 <option value="Not-Interested"
@@ -209,8 +211,31 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="col-md-2">
+                            <label class="filter-label">Show</label>
+                            <select name="per_page" id="per_page_filter" class="form-select select2">
+                                <option value="20" {{ request('per_page') == '20' ? 'selected' : '' }}>20 per page
+                                </option>
+                                <option value="50" {{ request('per_page') == '50' ? 'selected' : '' }}>50 per page
+                                </option>
+                                <option value="100" {{ request('per_page') == '100' ? 'selected' : '' }}>100 per page
+                                </option>
+                                <option value="200" {{ request('per_page') == '200' ? 'selected' : '' }}>200 per page
+                                </option>
+                                <option value="500" {{ request('per_page') == '500' ? 'selected' : '' }}>500 per page
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-end gap-1">
+                            <button type="submit" class="btn btn-primary px-3" title="Filter"><i
+                                    class="fa fa-filter"></i></button>
+                            <button type="button" id="reset-filter-btn" class="btn btn-secondary px-3" title="Reset"><i
+                                    class="fa fa-sync"></i></button>
+                        </div>
                         <div class="col-md-1 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100"><i class="fa fa-filter"></i></button>
+                            <button type="button" id="export-btn" class="btn btn-success w-100" title="Export to Excel">
+                                <i class="fa fa-file-excel"></i>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -225,13 +250,16 @@
                     <table class="table premium-table mb-0">
                         <thead>
                             <tr>
+                                <th class="text-center" width="50">
+                                    <input type="checkbox" class="form-check-input" id="select-all-lineups">
+                                </th>
                                 <th>Candidate Name</th>
                                 <th>Contact</th>
                                 <th>Company</th>
                                 <th>Job Title</th>
                                 <th>Interview Date</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th class="text-end">Action</th>
                             </tr>
                         </thead>
                         <tbody id="lineup-table-body">
@@ -434,6 +462,45 @@
                         }
                     });
                 }
+            });
+
+
+            // Reset Filter Button
+            $(document).on('click', '#reset-filter-btn', function() {
+                $('#filter-form')[0].reset();
+                $('#filter-form select').val('').trigger('change.select2');
+                $('#search_input').val('');
+
+                // Manually clear cascading selects that might have been populated
+                $('#job_filter').html('<option value="">All Jobs</option>');
+                $('#interview_filter').html('<option value="">All Dates</option>');
+
+                fetchFilteredData();
+            });
+
+            // Select All Checkboxes
+            $(document).on('change', '#select-all-lineups', function() {
+                $('.select-lineup').prop('checked', $(this).prop('checked'));
+            });
+
+            // Export Button Functionality
+            $(document).on('click', '#export-btn', function() {
+                var selectedIds = [];
+                $('.select-lineup:checked').each(function() {
+                    selectedIds.push($(this).val());
+                });
+
+                var baseUrl = "{{ route('lineups.export') }}";
+                var formData = $('#filter-form').serializeArray();
+
+                // Add select2 values specifically if needed (serialize usually handles them)
+                var queryParams = $.param(formData);
+
+                if (selectedIds.length > 0) {
+                    queryParams += '&ids=' + selectedIds.join(',');
+                }
+
+                window.location.href = baseUrl + '?' + queryParams;
             });
 
             // View Details Modal Trigger

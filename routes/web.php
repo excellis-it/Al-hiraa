@@ -224,6 +224,7 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
         Route::get('/', [LineupController::class, 'index'])->name('index');
         Route::get('/get-jobs-by-company', [LineupController::class, 'getJobsByCompany'])->name('get-jobs-by-company');
         Route::get('/get-interviews-by-job', [LineupController::class, 'getInterviewsByJob'])->name('get-interviews-by-job');
+        Route::get('/export', [LineupController::class, 'export'])->name('export');
         Route::get('/{id}', [LineupController::class, 'show'])->name('show');
         Route::post('/{id}/update-status', [LineupController::class, 'updateStatus'])->name('update-status');
     });

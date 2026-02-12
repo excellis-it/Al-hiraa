@@ -108,4 +108,9 @@ class Lineup extends Model
     {
         return $this->belongsTo(City::class, 'city');
     }
+
+    public function jobPosition()
+    {
+        return $this->belongsTo(CandidatePosition::class, 'job_position', 'id');
+    }
 }

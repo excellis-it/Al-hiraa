@@ -7,6 +7,8 @@ use App\Models\LineupStatusLog;
 use App\Models\Company;
 use App\Models\Job;
 use App\Models\Interview;
+use App\Exports\LineupsExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -71,10 +73,11 @@ class LineupController extends Controller
         }
 
         // Get lineups ordered by interview date
+        $perPage = $request->get('per_page', 20);
         $lineups = $query->orderBy(
             DB::raw('(SELECT STR_TO_DATE(interview_start_date, "%d-%m-%Y") FROM interviews WHERE interviews.id = lineups.interview_id)'),
             'asc'
-        )->paginate(20);
+        )->paginate($perPage);
 
         // Get selected filter values for cascading dropdowns
         $selectedCompany = $request->company_id;
@@ -169,6 +172,11 @@ class LineupController extends Controller
             'status' => 'success',
             'message' => 'Lineup status updated successfully'
         ]);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new LineupsExport($request->all()), 'lineups_' . date('Y-m-d_H-i-s') . '.xlsx');
     }
 
     /**

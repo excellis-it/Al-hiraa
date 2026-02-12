@@ -1,5 +1,8 @@
 @forelse($lineups as $lineup)
     <tr>
+        <td class="text-center">
+            <input type="checkbox" class="form-check-input select-lineup" value="{{ $lineup->id }}">
+        </td>
         <td>
             <div class="d-flex align-items-center">
                 <div class="avatar avatar-xs me-2">
@@ -9,8 +12,9 @@
                     </span>
                 </div>
                 <div>
-                    <div class="fw-bold">{{ $lineup->candidate->full_name ?? 'N/A' }}</div>
-                    <small class="text-muted">{{ $lineup->candidate->passport_number ?? 'No Passport' }}</small>
+                    <div class="fw-bold text-nowrap">{{ $lineup->candidate->full_name ?? 'N/A' }}</div>
+                    <small
+                        class="text-muted text-nowrap">{{ $lineup->candidate->passport_number ?? 'No Passport' }}</small>
                 </div>
             </div>
         </td>
@@ -18,7 +22,7 @@
         <td>{{ $lineup->interview->company->company_name ?? 'N/A' }}</td>
         <td>{{ $lineup->interview->job->job_name ?? 'N/A' }}</td>
         <td>
-            <span class="badge bg-soft-info text-info p-2">
+            <span class="badge bg-soft-info text-info p-2 text-nowrap">
                 <i class="fa fa-calendar-alt me-1"></i>
                 {{ $lineup->interview->interview_start_date ?? 'N/A' }}
             </span>
@@ -34,16 +38,14 @@
                     $statusClass = 'status-pending';
                 }
             @endphp
-
-            <span class="status-badge {{ $statusClass }}">
+            <span class="status-badge {{ $statusClass }} text-nowrap">
                 {{ $lineup->interview_status ?? 'Pending' }}
             </span>
-
         </td>
-        <td>
+        <td class="text-end">
             <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-info view-lineup-btn" data-id="{{ $lineup->id }}"
-                    title="View Details">
+                <button type="button" class="btn btn-sm btn-outline-info view-lineup-btn"
+                    data-id="{{ $lineup->id }}" title="View Details">
                     <i class="fa fa-eye"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-outline-success edit-status-btn"
@@ -60,7 +62,7 @@
     </tr>
 @empty
     <tr>
-        <td colspan="7" class="text-center py-5">
+        <td colspan="8" class="text-center py-5">
             <div class="text-muted">No lineups found.</div>
         </td>
     </tr>
