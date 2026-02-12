@@ -1031,19 +1031,31 @@
 
                                             <td>Job Title</td>
                                             <td>
-                                            <select name="interview_id" class="form-select uppercase-text job_id" id="interview_id">
-                                                <option value=""> Job Title</option>
-                                                @if (isset($interviews) && $interviews->count() > 0)
-                                                    @foreach ($interviews as $interview)
-                                                        <option value="{{ $interview->id }}" @if (isset($lineup) && $lineup->interview_id == $interview->id) selected @endif>
-                                                {{ $interview->job->job_name ?? 'N/A' }} ( {{ $interview->job->job_id ?? '-' }})
-                                                </option>
-                                                    @endforeach
+                                            <select name="job_id" class="form-select uppercase-text job_id" id="job_id">
+                                                <option value="">Select Job Title</option>
+                                                @if (isset($lineup) && $lineup->job_id)
+                                                    <option value="{{ $lineup->job_id }}" selected>
+                                                        {{ $lineup->job->job_name ?? 'N/A' }} ({{ $lineup->job->job_id ?? '-' }})
+                                                    </option>
                                                 @endif
                                             </select>
-                                            <span class="text-danger" id="interview_id_job_msg"></span>
+                                            <span class="text-danger" id="job_id_msg"></span>
                                             </td>
 
+                                            <td>Interview Date</td>
+                                            <td>
+                                            <select name="interview_id" class="form-select uppercase-text" id="interview_date_id">
+                                                <option value="">Select Interview Date</option>
+                                                @if (isset($lineup) && $lineup->interview_id)
+                                                    <option value="{{ $lineup->interview_id }}" selected>
+                                                        {{ $lineup->interview->interview_start_date ?? 'N/A' }}
+                                                    </option>
+                                                @endif
+                                            </select>
+                                            <span class="text-danger" id="interview_date_msg"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <td>Interview Status</td>
                                             <td>
                                             <select name="interview_status" class="form-select uppercase-text" id="interview_status">
@@ -1053,6 +1065,7 @@
                                             </select>
                                             <span class="text-danger" id="interview_status_job_msg"></span>
                                             </td>
+                                            <td colspan="4"></td>
                                         </tr>
                         <tr>
 
@@ -1699,20 +1712,20 @@
 
 <script>
     $(document).ready(function() {
-        $(document).on('change', '.company_id', function() {
-            var company_id = $(this).val();
-            $.ajax({
-                url: "{{ route('candidates.getJobs') }}",
-                type: 'GET',
-                data: {
-                    company_id: company_id
-                },
-                success: function(response) {
-                    $('.job_id').html('');
-                    $('.job_id').html(response.interviews);
-                }
-            });
-        });
+        // $(document).on('change', '.company_id', function() {
+        //     var company_id = $(this).val();
+        //     $.ajax({
+        //         url: "{{ route('candidates.getJobs') }}",
+        //         type: 'GET',
+        //         data: {
+        //             company_id: company_id
+        //         },
+        //         success: function(response) {
+        //             $('.job_id').html('');
+        //             $('.job_id').html(response.interviews);
+        //         }
+        //     });
+        // });
         $(document).on('submit', '#candidate-job-create-form', function(e) {
             e.preventDefault();
 
@@ -1782,6 +1795,91 @@
                     `<option value="">Interview Status</option>
                                         <option value="Interested">Interested</option> <option value="Not-Interested" selected>Not-Interested</option>`
                 );
+            }
+        });
+    });
+</script>
+<script>
+    // Cascading Dropdown: Company -> Job Title -> Interview Date
+    $(document).ready(function() {
+        // When company is selected, load related jobs with future dates
+        $(document).on('change', '#company_id', function() {
+            var companyId = $(this).val();
+            var $jobSelect = $('#job_id');
+            var $interviewDateSelect = $('#interview_date_id');
+
+            // Clear job title and interview date dropdowns
+            $jobSelect.html('<option value="">Loading...</option>');
+            $interviewDateSelect.html('<option value="">Select Interview Date</option>');
+
+            if (companyId) {
+                $.ajax({
+                    url: "{{ route('candidates.get-interviews-by-company') }}",
+                    type: 'GET',
+                    data: {
+                        company_id: companyId
+                    },
+                    success: function(response) {
+                        if (response.status == 'success' && response.jobs.length > 0) {
+                            var options = '<option value="">Select Job Title</option>';
+                            $.each(response.jobs, function(index, job) {
+                                var jobName = job.job_name ? job.job_name : 'N/A';
+                                var jobId = job.job_id ? job.job_id : '-';
+                                options += '<option value="' + job.id + '">' +
+                                    jobName + ' (' + jobId + ')</option>';
+                            });
+                            $jobSelect.html(options);
+                        } else {
+                            $jobSelect.html('<option value="">No  available jobs</option>');
+                        }
+                    },
+                    error: function() {
+                        $jobSelect.html('<option value="">Error loading jobs</option>');
+                    }
+                });
+            } else {
+                $jobSelect.html('<option value="">Select Job Title</option>');
+            }
+        });
+
+        // When job title is selected, load interview dates (>= today)
+        $(document).on('change', '#job_id', function() {
+            var jobId = $(this).val();
+            var $interviewDateSelect = $('#interview_date_id');
+
+            // Clear interview date dropdown
+            $interviewDateSelect.html('<option value="">Loading...</option>');
+
+            if (jobId) {
+                $.ajax({
+                    url: "{{ route('candidates.get-interview-dates-by-job') }}",
+                    type: 'GET',
+                    data: {
+                        job_id: jobId
+                    },
+                    success: function(response) {
+                        if (response.status == 'success' && response.interviews.length >
+                            0) {
+                            var options = '<option value="">Select Interview Date</option>';
+                            $.each(response.interviews, function(index, interview) {
+                                var interviewDate = interview
+                                    .interview_start_date || 'N/A';
+                                options += '<option value="' + interview.id + '">' +
+                                    interviewDate + '</option>';
+                            });
+                            $interviewDateSelect.html(options);
+                        } else {
+                            $interviewDateSelect.html(
+                                '<option value="">No available dates</option>');
+                        }
+                    },
+                    error: function() {
+                        $interviewDateSelect.html(
+                            '<option value="">Error loading dates</option>');
+                    }
+                });
+            } else {
+                $interviewDateSelect.html('<option value="">Select Interview Date</option>');
             }
         });
     });

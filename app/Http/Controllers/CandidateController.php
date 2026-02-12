@@ -401,7 +401,15 @@ class CandidateController extends Controller
 
 
 
-        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
+        // Get only companies that have interviews with present/future dates
+        $today = date('Y-m-d');
+        $companies = Company::where('status', 1)
+            ->whereHas('interviews', function ($query) use ($today) {
+                $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '>=', $today);
+            })
+            ->orderBy('company_name', 'asc')
+            ->get();
+
         // $cities = City::orderBy('name', 'asc')->get();
         $states = State::orderBy('name', 'asc')->get();
         $edit = true;
@@ -666,8 +674,8 @@ class CandidateController extends Controller
                 $lineup->job_location = $job_details->address ?? null;
                 $lineup->company_id = $job_details->company_id ?? null;
                 $lineup->date_of_interview = $job->interview_start_date ?? null;
+                $lineup->interview_status = $request->interview_status ?? null;
                 $lineup->save();
-
             }
         }
 
@@ -675,6 +683,48 @@ class CandidateController extends Controller
 
         Session::forget('candidate_id');
         return response()->json(['view' => view('candidates.update-single-data', compact('candidate'))->render(), 'status' => true]);
+    }
+
+    /**
+     * Get unique jobs for a selected company with present/future interview dates
+     */
+    public function getInterviewsByCompany(Request $request)
+    {
+        $today = date('Y-m-d');
+        $companyId = $request->company_id;
+
+        // Get unique jobs that have interviews with future dates
+        $jobs = Job::where('company_id', $companyId)
+            ->where('status', 'Ongoing')
+            ->whereHas('interviews', function ($query) use ($today) {
+                $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '>=', $today);
+            })
+            ->get();
+
+        return response()->json(['jobs' => $jobs, 'status' => 'success']);
+    }
+
+    /**
+     * Get interview dates for selected job with dates >= today
+     */
+    public function getInterviewDatesByJob(Request $request)
+    {
+        $today = date('Y-m-d');
+        $jobId = $request->job_id;
+
+        $interviews = Interview::where('job_id', $jobId)
+            ->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '>=', $today)
+            ->orderBy(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), 'asc')
+            ->get();
+
+        if ($interviews->count() > 0) {
+            return response()->json([
+                'interviews' => $interviews,
+                'status' => 'success'
+            ]);
+        }
+
+        return response()->json(['status' => 'error', 'message' => 'No interviews found']);
     }
 
     /**

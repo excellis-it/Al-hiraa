@@ -33,6 +33,7 @@ class Lineup extends Model
         'job_location',
         'company_id',
         'date_of_interview',
+        'interview_status',
     ];
 
     /**
@@ -79,8 +80,14 @@ class Lineup extends Model
     /**
      * Get the user who assigned the lineup.
      */
-    public function assignedBy()
+    public function user()
     {
         return $this->belongsTo(User::class, 'assign_by_id');
+    }
+
+    // city relationship
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city');
     }
 }

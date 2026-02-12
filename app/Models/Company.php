@@ -9,7 +9,7 @@ class Company extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
+    protected $fillable = [
         'user_id',
         'company_name',
         'company_address',
@@ -52,5 +52,8 @@ class Company extends Model
         return $this->hasMany(Job::class, 'company_id')->where('status', 'Ongoing');
     }
 
-
+    public function interviews()
+    {
+        return $this->hasMany(Interview::class, 'company_id');
+    }
 }
