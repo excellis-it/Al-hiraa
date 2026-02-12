@@ -61,6 +61,12 @@
                             <span class="sidebar-menu-text">Candidates</span>
                         </a>
                     </li>
+                    <li class="sidebar-menu-item {{ Request::is('lineups*') ? 'active open' : '' }}">
+                        <a class="sidebar-menu-button" href="{{ route('lineups.index') }}">
+                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><i class="fa fa-users-line"></i></i>
+                            <span class="sidebar-menu-text">Lineup Management</span>
+                        </a>
+                    </li>
                 @endif
 
                 @if (Gate::check('Manage Job'))
@@ -92,7 +98,9 @@
                     </li>
                 @endif
 
-                @if (Gate::check('Manage Candidate Interview Report') || Gate::check('Manage Revenue') || Gate::check('Manage Team Performance'))
+                @if (Gate::check('Manage Candidate Interview Report') ||
+                        Gate::check('Manage Revenue') ||
+                        Gate::check('Manage Team Performance'))
                     <li class="sidebar-menu-item">
                         <a class="sidebar-menu-button" data-bs-toggle="collapse" href="#collapseReports" role="button"
                             aria-expanded="false" aria-controls="collapseReports">
@@ -102,8 +110,9 @@
                         </a>
                         <ul class="sidebar-submenu collapse" id="collapseReports">
                             @if (Gate::check('Manage Candidate Interview Report'))
-                                <li class="sidebar-menu-item {{ Request::is('reports/candidate-interview*') ? 'active open' : '' }}">
-                                    <a class="sidebar-menu-button" href="{{route('reports.candidate-interview')}}">
+                                <li
+                                    class="sidebar-menu-item {{ Request::is('reports/candidate-interview*') ? 'active open' : '' }}">
+                                    <a class="sidebar-menu-button" href="{{ route('reports.candidate-interview') }}">
                                         <span class="sidebar-menu-text">Candidate Interview</span>
                                     </a>
                                 </li>
@@ -212,7 +221,7 @@
                                     </a>
                                 </li>
 
-                                 <li class="sidebar-menu-item">
+                                <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="{{ route('states.index') }}">
                                         <span class="sidebar-menu-text"> State Manage</span>
                                     </a>

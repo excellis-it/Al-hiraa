@@ -34,6 +34,8 @@ class Lineup extends Model
         'company_id',
         'date_of_interview',
         'interview_status',
+        'status_updated_by',
+        'status_remarks',
     ];
 
     /**
@@ -83,6 +85,22 @@ class Lineup extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'assign_by_id');
+    }
+
+    /**
+     * Get the user who updated the status.
+     */
+    public function statusUpdater()
+    {
+        return $this->belongsTo(User::class, 'status_updated_by');
+    }
+
+    /**
+     * Get the status logs for the lineup.
+     */
+    public function statusLogs()
+    {
+        return $this->hasMany(LineupStatusLog::class)->orderBy('created_at', 'desc');
     }
 
     // city relationship
