@@ -6,6 +6,7 @@ use App\Models\Candidate;
 use App\Models\CandidatePosition;
 use App\Models\Company;
 use App\Models\Interview;
+use App\Models\Job;
 use App\Models\ReferralPoint;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -85,47 +86,53 @@ class ScheduleController extends Controller
     {
         $request->validate([
             'company_id' => 'required',
-            'job_id' => 'required',
+            'job_id' => 'required|array',
             'interview_location' => 'required',
-            'interview_start_date' => 'nullable|date',
-            'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
+            'interview_date' => 'required|date',
         ], [
             'company_id.required' => 'The company field is required.',
             'job_id.required' => 'The job field is required.',
-            'interview_start_date.required' => 'The interview start date field is required.',
-            'interview_end_date.required' => 'The interview end date field is required.',
+            'interview_date.required' => 'The interview date field is required.',
         ]);
-        // check if interview already scheduled
-        $interviewStartDate = date('Y-m-d', strtotime($request->interview_start_date));
-        $interviewEndDate = date('Y-m-d', strtotime($request->interview_end_date));
 
+        $interviewDate = date('d-m-Y', strtotime($request->interview_date));
+        $interviewDateSystem = date('Y-m-d', strtotime($request->interview_date));
 
-        $checkInterview = Interview::where('company_id', $request->company_id)
-            ->where('job_id', $request->job_id)
-            ->where(function ($query) use ($interviewStartDate, $interviewEndDate) {
-                // Check for overlapping dates while considering the correct format
-                $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $interviewEndDate)
-                    ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $interviewStartDate);
-            })
-            ->first();
+        $createdInterviews = [];
 
+        foreach ($request->job_id as $jobId) {
+            // check if interview already scheduled
+            $checkInterview = Interview::where('company_id', $request->company_id)
+                ->where('job_id', $jobId)
+                ->where(function ($query) use ($interviewDateSystem) {
+                    $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $interviewDateSystem)
+                        ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $interviewDateSystem);
+                })
+                ->first();
 
-        if ($checkInterview) {
-            return response()->json(['status' => false, 'message' => 'Interview already scheduled for this job.']);
+            if ($checkInterview) {
+                $job = Job::find($jobId);
+                return response()->json(['status' => false, 'message' => "Interview already scheduled for job: {$job->job_name} on this date."]);
+            }
+
+            $interview = new Interview();
+            $interview->user_id = Auth::user()->id;
+            $interview->company_id = $request->company_id;
+            $interview->interview_location = $request->interview_location;
+            $interview->job_id = $jobId;
+            $interview->interview_start_date = $interviewDate;
+            $interview->interview_end_date = $interviewDate;
+            $interview->interview_status = 'Working';
+
+            // Auto-generate and save interview_id
+            $interview->interview_id = $interview->generateInterviewId();
+            $interview->save();
+
+            $createdInterviews[] = $interview;
         }
 
-        $interview = new Interview();
-        $interview->user_id = Auth::user()->id;
-        $interview->company_id = $request->company_id;
-        $interview->interview_location = $request->interview_location;
-        $interview->job_id = $request->job_id;
-        $interview->interview_start_date = $request->interview_start_date;
-        $interview->interview_end_date = $request->interview_end_date;
-        $interview->interview_status = 'Working';
-        $interview->save();
-
-        Session::flash('message', 'Interview scheduled successfully.');
-        return response()->json(['status' => true, 'message' => 'Interview scheduled successfully.']);
+        Session::flash('message', 'Interview(s) scheduled successfully.');
+        return response()->json(['status' => true, 'message' => 'Interview(s) scheduled successfully.']);
     }
 
     /**
@@ -156,41 +163,35 @@ class ScheduleController extends Controller
         $request->validate([
             'job_id' => 'required',
             'interview_location' => 'required',
-            'interview_start_date' => 'nullable|date',
-            'interview_end_date' => 'required|date|after_or_equal:interview_start_date',
+            'interview_date' => 'required|date',
         ], [
             'job_id.required' => 'The job field is required.',
-            'interview_start_date.required' => 'The interview start date field is required.',
-            'interview_end_date.required' => 'The interview end date field is required.',
+            'interview_date.required' => 'The interview date field is required.',
         ]);
-
-
 
         $id = Crypt::decrypt($id);
         $interview = Interview::find($id);
 
-        $interviewStartDate = date('Y-m-d', strtotime($request->interview_start_date));
-        $interviewEndDate = date('Y-m-d', strtotime($request->interview_end_date));
+        $interviewDateSystem = date('Y-m-d', strtotime($request->interview_date));
+        $interviewDate = date('d-m-Y', strtotime($request->interview_date));
 
         $checkInterview = Interview::where('company_id', $interview->company_id)
             ->where('job_id', $request->job_id)
             ->where('id', '!=', $id)
-            ->where(function ($query) use ($interviewStartDate, $interviewEndDate) {
-                // Check for overlapping dates while considering the correct format
-                $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $interviewEndDate)
-                    ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $interviewStartDate);
+            ->where(function ($query) use ($interviewDateSystem) {
+                $query->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '<=', $interviewDateSystem)
+                    ->where(DB::raw('STR_TO_DATE(interview_end_date, "%d-%m-%Y")'), '>=', $interviewDateSystem);
             })
             ->first();
 
-
         if ($checkInterview) {
-            return response()->json(['status' => false, 'message' => 'Interview already scheduled for this job.']);
+            return response()->json(['status' => false, 'message' => 'Interview already scheduled for this job on this date.']);
         }
 
         $interview->interview_location = $request->interview_location;
         $interview->job_id = $request->job_id;
-        $interview->interview_start_date = $request->interview_start_date;
-        $interview->interview_end_date = $request->interview_end_date;
+        $interview->interview_start_date = $interviewDate;
+        $interview->interview_end_date = $interviewDate;
         $interview->save();
 
         Session::flash('message', 'Interview updated successfully.');
@@ -221,6 +222,14 @@ class ScheduleController extends Controller
         $referral_points = ReferralPoint::orderBy('id', 'DESC')->get();
         $vendors = User::role('VENDOR')->orderBy('first_name', 'ASC')->get();
         return response()->json(['view' => view('schedule.add-task', compact('company', 'add', 'positions', 'vendors', 'referral_points'))->render(), 'status' => 'success']);
+    }
+
+    public function getJobCreateUrl($id)
+    {
+        $encryptedId = Crypt::encrypt($id);
+        return response()->json([
+            'url' => route('schedule-to-do.job-create', $encryptedId)
+        ]);
     }
 
     public function filter(Request $request)

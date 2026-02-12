@@ -124,7 +124,13 @@ class CompanyController extends Controller
         $companies = Company::orderBy('id', 'DESC')->get();
         $inactiveCompanies = Company::orderBy('id', 'DESC')->where('status', 0)->get(); // Assuming 0 means inactive
         // Session::flash('message', 'Company created successfully');
-        return response()->json(['message' => __('Company created successfully.'), 'status' => true, 'view' => view('companies.filter', compact('companies', 'inactiveCompanies'))->render(), 'company_id' => $company->id]);
+        return response()->json([
+            'message' => __('Company created successfully.'),
+            'status' => true,
+            'view' => view('companies.filter', compact('companies', 'inactiveCompanies'))->render(),
+            'company_id' => $company->id,
+            'company_name' => $company->company_name
+        ]);
     }
 
     /**

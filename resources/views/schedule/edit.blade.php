@@ -42,22 +42,13 @@
                                         <span class="text-danger" id="interview_status_msg"></span>
                                     </div>
                                 </div> --}}
-                                <div class="col-xl-6">
+                                <div class="col-xl-12">
                                     <div class="form-group">
-                                        <label for="">Start Date </label>
-                                        <input type="text" class="form-control" id="str_date"
+                                        <label for="">Interview Date<span>*</span></label>
+                                        <input type="text" class="form-control datepicker" id="edit_interview_date"
                                             value="{{ $interview->interview_start_date ? date('d-m-Y', strtotime($interview->interview_start_date)) : '' }}"
-                                            name="interview_start_date" placeholder="">
-                                        <span class="text-danger" id="interview_start_date_msg_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="form-group">
-                                        <label for="">End Date<span>*</span></label>
-                                        <input type="text" class="form-control datepicker" id="end_date"
-                                            value="{{ $interview->interview_end_date ? date('d-m-Y', strtotime($interview->interview_end_date)) : '' }}"
-                                            name="interview_end_date" placeholder="">
-                                        <span class="text-danger" id="interview_end_date_msg_error"></span>
+                                            name="interview_date" placeholder="">
+                                        <span class="text-danger" id="interview_date_msg_error"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-12">
@@ -87,12 +78,7 @@
         </div>
     </div>
     <script>
-        $('#str_date').datepicker({
-            uiLibrary: 'bootstrap5',
-            format: 'dd-mm-yyyy',
-        });
-
-        $('#end_date').datepicker({
+        $('#edit_interview_date').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
         });

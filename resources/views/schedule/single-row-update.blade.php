@@ -1,13 +1,15 @@
- <td class="py-3">{{ $interview['company']['company_name'] }}</td>
- <td class="py-3">{{ $interview['job']['job_id'] ?? '-' }}</td>
- <td class="py-3">{{ $interview['job']['job_name'] ?? '-' }}</td>
+ <td class="py-3 ps-4 text-dark">{{ $interview['company']['company_name'] ?? 'N/A' }}</td>
+ <td class="py-3 text-dark">{{ $interview['interview_id'] ?? '-' }}</td>
+ <td class="py-3 text-dark">{{ $interview['job']['job_name'] ?? '-' }}</td>
  <td class="py-3">
      <div class="d-flex align-items-center">
-         <span class="name_textbg">
+         <span class="name_textbg" style="margin-right: 12px;">
              {{ isset($interview['user']['first_name']) ? substr($interview['user']['first_name'], 0, 1) : '' }}{{ isset($interview['user']['last_name']) ? substr($interview['user']['last_name'], 0, 1) : '' }}
          </span>
-         <span class="text-dark">{{ $interview['user']['first_name'] ?? '' }}
-             {{ $interview['user']['last_name'] ?? '' }}</span>
+         <span class="text-dark fw-medium">
+             {{ $interview['user']['first_name'] ?? 'Unassigned' }}
+             {{ $interview['user']['last_name'] ?? '' }}
+         </span>
      </div>
  </td>
  <td class="py-3">
@@ -22,8 +24,8 @@
          @endif
      </span>
  </td>
- <td class="py-3">{{ $interview['interview_location'] ?? '-' }}</td>
- <td class="py-3 text-center">
+ <td class="py-3 text-dark">{{ $interview['interview_location'] ?? '-' }}</td>
+ <td class="py-3 text-center pe-4">
      <a href="javascript:void(0);" class="edit-route text-primary"
          data-route="{{ route('schedule-to-do.edit', Crypt::encrypt($interview['id'])) }}" title="Edit Interview">
          <i class="fas fa-edit"></i>

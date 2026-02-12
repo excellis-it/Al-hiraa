@@ -92,7 +92,7 @@
         }
 
         .button-switch .switch#switch-orange:checked:before {
-            background: #1492e6;
+            background: #04589a;
         }
 
         .button-switch .switch#switch-blue:checked:before {
@@ -106,9 +106,11 @@
         .nav-tabs {
             border-bottom: 2px solid #dee2e6;
         }
+
         .nav-tabs .nav-item {
             margin-bottom: -1px;
         }
+
         .nav-tabs .nav-link {
             border: 1px solid transparent;
             border-top-left-radius: 0.25rem;
@@ -117,11 +119,13 @@
             padding: 0.75rem 1rem;
             transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
         }
+
         .nav-tabs .nav-link.active {
-            background-color: #007bff;
+            background-color: #04589a;
             border-color: #dee2e6 #dee2e6 #fff;
             color: #fff;
         }
+
         .nav-tabs .nav-link:hover {
             color: #495057;
         }
@@ -136,9 +140,7 @@
         }
 
         /* Food Box Styling */
-
     </style>
-
 @endpush
 @section('content')
     <div class="mdk-drawer-layout__content page">
@@ -257,17 +259,23 @@
                                                 <strong>Note:</strong> Please ensure your Excel file follows these rules:
                                                 <ul class="mb-0">
                                                     <li><strong>Position</strong> is required.</li>
-                                                    <li><strong>Service Charge</strong> is required and must be a numeric value.</li>
+                                                    <li><strong>Service Charge</strong> is required and must be a numeric value.
+                                                    </li>
                                                     <li><strong>Job Name</strong> is required.</li>
-                                                    <li><strong>Contract</strong> is optional but must be numeric if provided.</li>
+                                                    <li><strong>Contract</strong> is optional but must be numeric if provided.
+                                                    </li>
                                                     <li><strong>Location</strong> is required.</li>
                                                     <li><strong>Interview Location</strong> is required.</li>
                                                     <li><strong>Salary</strong> is required.</li>
-                                                    <li><strong>Duty Hours</strong> is optional but must be numeric if provided.</li>
+                                                    <li><strong>Duty Hours</strong> is optional but must be numeric if provided.
+                                                    </li>
                                                     <li><strong>Benefits</strong> are optional.</li>
-                                                    <li><strong>Quantity of People Required</strong> is required and must be numeric.</li>
-                                                    <li><strong>Interview Start Date</strong> is required and must be a valid date.</li>
-                                                    <li><strong>Interview End Date</strong> is required, must be a valid date, and must be on or after the Interview Start Date.</li>
+                                                    <li><strong>Quantity of People Required</strong> is required and must be
+                                                        numeric.</li>
+                                                    <li><strong>Interview Start Date</strong> is required and must be a valid
+                                                        date.</li>
+                                                    <li><strong>Interview End Date</strong> is required, must be a valid date,
+                                                        and must be on or after the Interview Start Date.</li>
                                                 </ul>
                                             </div>
 
@@ -763,7 +771,7 @@
 
         });
     </script>
-      <script>
+    <script>
         $(document).on('submit', '#company-job-form-import', function(e) {
             e.preventDefault();
             var formData = new FormData(this);

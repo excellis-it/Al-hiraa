@@ -130,7 +130,7 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
             Route::get('/filter', [SettingController::class, 'citiesFilter'])->name('cities.filter');
         });
 
-         Route::group(['prefix' => 'states'], function () {
+        Route::group(['prefix' => 'states'], function () {
             Route::get('/', [SettingController::class, 'states'])->name('states.index');
             Route::post('/store', [SettingController::class, 'statesStore'])->name('states.store');
             Route::get('/edit/{id}', [SettingController::class, 'statesEdit'])->name('states.edit');
@@ -183,6 +183,7 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::post('/get-job-list', [ScheduleController::class, 'getJobList'])->name('get-job-list');
     // schedule-to-do.job-create
     Route::get('/job-create/{id}', [ScheduleController::class, 'jobCreate'])->name('schedule-to-do.job-create');
+    Route::get('/get-job-create-url/{id}', [ScheduleController::class, 'getJobCreateUrl'])->name('get-job-create-url');
     Route::get('/schedule-to-do-filter', [ScheduleController::class, 'filter'])->name('schedule-to-do.filter');
 
     Route::group(['prefix' => 'company-job'], function () {

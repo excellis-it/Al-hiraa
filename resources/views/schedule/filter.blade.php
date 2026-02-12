@@ -39,7 +39,7 @@
                         <thead class="candy-p">
                             <tr class="border-bottom">
                                 <th class="">Company</th>
-                                <th class="">Job ID</th>
+                                <th class="">Interview ID</th>
                                 <th class="">Job Name</th>
                                 <th class="">Assignee</th>
                                 <th class="">Interview Date</th>
