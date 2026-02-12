@@ -88,11 +88,12 @@ class ScheduleController extends Controller
             'company_id' => 'required',
             'job_id' => 'required|array',
             'interview_location' => 'required',
-            'interview_date' => 'required|date',
+            'interview_date' => 'required|date|after_or_equal:today',
         ], [
             'company_id.required' => 'The company field is required.',
             'job_id.required' => 'The job field is required.',
             'interview_date.required' => 'The interview date field is required.',
+            'interview_date.after_or_equal' => 'The interview date cannot be in the past.',
         ]);
 
         $interviewDate = date('d-m-Y', strtotime($request->interview_date));
@@ -163,10 +164,11 @@ class ScheduleController extends Controller
         $request->validate([
             'job_id' => 'required',
             'interview_location' => 'required',
-            'interview_date' => 'required|date',
+            'interview_date' => 'required|date|after_or_equal:today',
         ], [
             'job_id.required' => 'The job field is required.',
             'interview_date.required' => 'The interview date field is required.',
+            'interview_date.after_or_equal' => 'The interview date cannot be in the past.',
         ]);
 
         $id = Crypt::decrypt($id);
