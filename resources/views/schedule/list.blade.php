@@ -596,7 +596,7 @@
                 $('#loading-content').addClass('loading-content');
 
                 $.ajax({
-                    url: '/get-job-create-url/' + company_id,
+                    url: "{{ route('get-job-create-url', '') }}/" + company_id,
                     type: 'GET',
                     success: function(urlResponse) {
                         $.ajax({
