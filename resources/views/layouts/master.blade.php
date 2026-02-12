@@ -71,7 +71,7 @@
                                     <li><strong>Contact Number</strong> must be unique, numeric, and exactly 10 digits.</li>
                                     <li><strong>Email</strong> is optional but must be valid and unique.</li>
                                     <li><strong>Position Applied For</strong> is required.</li>
-                                    <li><strong>WhatsApp Number</strong> is optional but must be numeric and 12 digits if present (e.g., with country code).</li>
+                                    <li><strong>WhatsApp Number</strong> is optional but must be numeric and 10 digits if present (e.g., with country code).</li>
                                 </ul>
                             </div>
                         </div>
