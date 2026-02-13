@@ -11,11 +11,11 @@
                     class="flex d-flex align-items-center text-underline-0 text-body">
                     <span class="avatar me-3">
                         @if (Auth::user()->profile_picture)
-                            <img src="{{ Storage::url(Auth::user()->profile_picture) }}" alt="avatar"
-                                class="avatar-img rounded-circle">
+                        <img src="{{ Storage::url(Auth::user()->profile_picture) }}" alt="avatar"
+                            class="avatar-img rounded-circle">
                         @else
-                            <img src="{{ asset('assets/images/avatar/demi.png') }}" alt="avatar"
-                                class="avatar-img rounded-circle">
+                        <img src="{{ asset('assets/images/avatar/demi.png') }}" alt="avatar"
+                            class="avatar-img rounded-circle">
                         @endif
                     </span>
                     <span class="flex d-flex flex-column">
@@ -35,8 +35,8 @@
                         <a class="dropdown-item {{ Request::is('dashboard*') ? 'active' : '' }}"
                             href="{{ route('dashboard') }}">Dashboard</a>
                         @if (Gate::check('Manage Schedule'))
-                            <a class="dropdown-item {{ Request::is('profile*') ? 'active' : '' }}"
-                                href="{{ route('profile') }}">My profile</a>
+                        <a class="dropdown-item {{ Request::is('profile*') ? 'active' : '' }}"
+                            href="{{ route('profile') }}">My profile</a>
                         @endif
                         <a class="dropdown-item {{ Request::is('change-password*') ? 'active' : '' }}"
                             href="{{ route('change.password') }}">Change Password</a>
@@ -54,70 +54,72 @@
                     </a>
                 </li>
                 @if (Gate::check('Manage Candidate'))
-                    <li class="sidebar-menu-item {{ Request::is('candidates*') ? 'active open' : '' }}">
-                        <a class="sidebar-menu-button" href="{{ route('candidates.index') }}">
-                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
-                                    src="{{ asset('assets/images/sidebar-icon/user-helmet-safety.svg') }}"></i>
-                            <span class="sidebar-menu-text">Candidates</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-menu-item {{ Request::is('lineups*') ? 'active open' : '' }}">
-                        <a class="sidebar-menu-button" href="{{ route('lineups.index') }}">
-                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><i class="fa fa-users-line"></i></i>
-                            <span class="sidebar-menu-text">Lineup Management</span>
-                        </a>
-                    </li>
+                <li class="sidebar-menu-item {{ Request::is('candidates*') ? 'active open' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('candidates.index') }}">
+                        <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
+                                src="{{ asset('assets/images/sidebar-icon/user-helmet-safety.svg') }}"></i>
+                        <span class="sidebar-menu-text">Candidates</span>
+                    </a>
+                </li>
+                @can('Manage Lineup')
+                <li class="sidebar-menu-item {{ Request::is('lineups*') ? 'active open' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('lineups.index') }}">
+                        <i class="sidebar-menu-icon sidebar-menu-icon--left"><i class="fa fa-users-line"></i></i>
+                        <span class="sidebar-menu-text">Lineup Management</span>
+                    </a>
+                </li>
+                @endcan
                 @endif
 
                 @if (Gate::check('Manage Job'))
-                    <li class="sidebar-menu-item {{ Request::is('jobs*') ? 'active open' : '' }}">
-                        <a class="sidebar-menu-button" href="{{ route('jobs.index') }}">
-                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
-                                    src="{{ asset('assets/images/sidebar-icon/briefcase.svg') }}"></i>
-                            <span class="sidebar-menu-text">Jobs</span>
-                        </a>
-                    </li>
+                <li class="sidebar-menu-item {{ Request::is('jobs*') ? 'active open' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('jobs.index') }}">
+                        <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
+                                src="{{ asset('assets/images/sidebar-icon/briefcase.svg') }}"></i>
+                        <span class="sidebar-menu-text">Jobs</span>
+                    </a>
+                </li>
                 @endif
 
                 @if (Gate::check('Manage Company'))
-                    <li class="sidebar-menu-item {{ Request::is('companies*') ? 'active open' : '' }}">
-                        <a class="sidebar-menu-button" href="{{ route('companies.index') }}">
-                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
-                                    src="{{ asset('assets/images/sidebar-icon/OfficeBuildings.svg') }}"></i>
-                            <span class="sidebar-menu-text">Companies</span>
-                        </a>
-                    </li>
+                <li class="sidebar-menu-item {{ Request::is('companies*') ? 'active open' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('companies.index') }}">
+                        <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
+                                src="{{ asset('assets/images/sidebar-icon/OfficeBuildings.svg') }}"></i>
+                        <span class="sidebar-menu-text">Companies</span>
+                    </a>
+                </li>
                 @endif
                 @if (Gate::check('Manage Schedule'))
-                    <li class="sidebar-menu-item {{ Request::is('schedule-to-do*') ? 'active open' : '' }}">
-                        <a class="sidebar-menu-button" href="{{ route('schedule-to-do.index') }}">
-                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
-                                    src="{{ asset('assets/images/sidebar-icon/calendar.svg') }}"></i>
-                            <span class="sidebar-menu-text">Schedule Interview</span>
-                        </a>
-                    </li>
+                <li class="sidebar-menu-item {{ Request::is('schedule-to-do*') ? 'active open' : '' }}">
+                    <a class="sidebar-menu-button" href="{{ route('schedule-to-do.index') }}">
+                        <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
+                                src="{{ asset('assets/images/sidebar-icon/calendar.svg') }}"></i>
+                        <span class="sidebar-menu-text">Schedule Interview</span>
+                    </a>
+                </li>
                 @endif
 
                 @if (Gate::check('Manage Candidate Interview Report') ||
-                        Gate::check('Manage Revenue') ||
-                        Gate::check('Manage Team Performance'))
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" data-bs-toggle="collapse" href="#collapseReports" role="button"
-                            aria-expanded="false" aria-controls="collapseReports">
-                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
-                                    src="{{ asset('assets/images/sidebar-icon/file-medical-alt.svg') }}"></i>
-                            <span class="sidebar-menu-text">Reports</span>
-                        </a>
-                        <ul class="sidebar-submenu collapse" id="collapseReports">
-                            @if (Gate::check('Manage Candidate Interview Report'))
-                                <li
-                                    class="sidebar-menu-item {{ Request::is('reports/candidate-interview*') ? 'active open' : '' }}">
-                                    <a class="sidebar-menu-button" href="{{ route('reports.candidate-interview') }}">
-                                        <span class="sidebar-menu-text">Candidate Interview</span>
-                                    </a>
-                                </li>
-                            @endif
-                            {{-- @if (Gate::check('Manage Revenue'))
+                Gate::check('Manage Revenue') ||
+                Gate::check('Manage Team Performance'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" data-bs-toggle="collapse" href="#collapseReports" role="button"
+                        aria-expanded="false" aria-controls="collapseReports">
+                        <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
+                                src="{{ asset('assets/images/sidebar-icon/file-medical-alt.svg') }}"></i>
+                        <span class="sidebar-menu-text">Reports</span>
+                    </a>
+                    <ul class="sidebar-submenu collapse" id="collapseReports">
+                        @if (Gate::check('Manage Candidate Interview Report'))
+                        <li
+                            class="sidebar-menu-item {{ Request::is('reports/candidate-interview*') ? 'active open' : '' }}">
+                            <a class="sidebar-menu-button" href="{{ route('reports.candidate-interview') }}">
+                                <span class="sidebar-menu-text">Candidate Interview</span>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- @if (Gate::check('Manage Revenue'))
                                 <li class="sidebar-menu-item">
                                     <a class="sidebar-menu-button" href="#">
                                         <span class="sidebar-menu-text">Revenue & Collection</span>
@@ -131,133 +133,141 @@
                                     </a>
                                 </li>
                             @endif --}}
-                        </ul>
-                    </li>
+                    </ul>
+                </li>
                 @endif
 
                 @if (Gate::check('Manage Team') ||
-                        Gate::check('Manage User Access') ||
-                        Gate::check('Manage Position') ||
-                        Gate::check('Manage Support'))
-                    <li class="sidebar-menu-item">
-                        <a class="sidebar-menu-button" data-bs-toggle="collapse" href="#collapseExample"
-                            role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
-                                    src="{{ asset('assets/images/sidebar-icon/setting.svg') }}"></i>
-                            <span class="sidebar-menu-text">Settings</span>
-                        </a>
-                        <ul class="sidebar-submenu collapse" id="collapseExample">
-                            @if (Gate::check('Manage Team'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('members.index') }}">
-                                        <span class="sidebar-menu-text">Team Members - List & Details</span>
-                                    </a>
-                                </li>
-                            @endif
-
-
-                            @if (Gate::check('Manage User Access'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('user-access.index') }}">
-                                        <span class="sidebar-menu-text">User Access Control</span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (Gate::check('Manage Position'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('positions.index') }}">
-                                        <span class="sidebar-menu-text"> Position Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('feeds.index') }}">
-                                        <span class="sidebar-menu-text"> Feed Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('referral-points.index') }}">
-                                        <span class="sidebar-menu-text"> Referral Point Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('referral-cms.edit') }}">
-                                        <span class="sidebar-menu-text"> Refer Cms Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-                            {{-- <li class="sidebar-menu-item">
-                            <a clas s="sidebar-menu-button" href="{{route('social-media')}}">
-                                <span class="sidebar-menu-text">Email & WhatsApp Integration</span>
+                Gate::check('Manage User Access') ||
+                Gate::check('Manage Position') ||
+                Gate::check('Manage Support'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" data-bs-toggle="collapse" href="#collapseExample"
+                        role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
+                                src="{{ asset('assets/images/sidebar-icon/setting.svg') }}"></i>
+                        <span class="sidebar-menu-text">Settings</span>
+                    </a>
+                    <ul class="sidebar-submenu collapse" id="collapseExample">
+                        @if (Gate::check('Manage Team'))
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('members.index') }}">
+                                <span class="sidebar-menu-text">Team Members - List & Details</span>
                             </a>
-                        </li> --}}
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('status.index') }}">
-                                        <span class="sidebar-menu-text"> Status Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('sources.index') }}">
-                                        <span class="sidebar-menu-text"> Source Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('cities.index') }}">
-                                        <span class="sidebar-menu-text"> City Manage</span>
-                                    </a>
-                                </li>
+                        </li>
+                        @endif
+                        @if (Auth::user()->hasRole('ADMIN'))
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('associates.index') }}">
+                                <span class="sidebar-menu-text">Associates List</span>
+                            </a>
+                        </li>
+                        @endif
 
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('states.index') }}">
-                                        <span class="sidebar-menu-text"> State Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('ip-restrictions.index') }}">
-                                        <span class="sidebar-menu-text"> IP Manage</span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (Gate::check('Manage Support'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('support') }}">
-                                        <span class="sidebar-menu-text">Support</span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('contact-us.index') }}">
-                                        <span class="sidebar-menu-text">Contact Us</span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (Auth::user()->hasRole('ADMIN'))
-                                <li class="sidebar-menu-item">
-                                    <a class="sidebar-menu-button" href="{{ route('cms.index') }}">
-                                        <span class="sidebar-menu-text">Pages</span>
-                                    </a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
+
+                        @if (Gate::check('Manage User Access'))
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('user-access.index') }}">
+                                <span class="sidebar-menu-text">User Access Control</span>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if (Gate::check('Manage Position'))
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('positions.index') }}">
+                                <span class="sidebar-menu-text"> Position Manage</span>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if (Auth::user()->hasRole('ADMIN'))
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('feeds.index') }}">
+                                <span class="sidebar-menu-text"> Feed Manage</span>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if (Auth::user()->hasRole('ADMIN'))
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('referral-points.index') }}">
+                                <span class="sidebar-menu-text"> Referral Point Manage</span>
+                            </a>
+                        </li>
+                        @endif
+
+                        @if (Auth::user()->hasRole('ADMIN'))
+                        <li class="sidebar-menu-item">
+                            <a class="sidebar-menu-button" href="{{ route('referral-cms.edit') }}">
+                                <span class="sidebar-menu-text"> Refer Cms Manage</span>
+                            </a>
+                        </li>
+                        @endif
+                        {{-- <li class="sidebar-menu-item">
+                            <a clas s="sidebar-menu-button" href="{{route('social-media')}}">
+                        <span class="sidebar-menu-text">Email & WhatsApp Integration</span>
+                        </a>
+                </li> --}}
+                @if (Auth::user()->hasRole('ADMIN'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('status.index') }}">
+                        <span class="sidebar-menu-text"> Status Manage</span>
+                    </a>
+                </li>
                 @endif
+                @if (Auth::user()->hasRole('ADMIN'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('sources.index') }}">
+                        <span class="sidebar-menu-text"> Source Manage</span>
+                    </a>
+                </li>
+                @endif
+                @if (Auth::user()->hasRole('ADMIN'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('cities.index') }}">
+                        <span class="sidebar-menu-text"> City Manage</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('states.index') }}">
+                        <span class="sidebar-menu-text"> State Manage</span>
+                    </a>
+                </li>
+                @endif
+                @if (Auth::user()->hasRole('ADMIN'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('ip-restrictions.index') }}">
+                        <span class="sidebar-menu-text"> IP Manage</span>
+                    </a>
+                </li>
+                @endif
+                @if (Gate::check('Manage Support'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('support') }}">
+                        <span class="sidebar-menu-text">Support</span>
+                    </a>
+                </li>
+                @endif
+                @if (Auth::user()->hasRole('ADMIN'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('contact-us.index') }}">
+                        <span class="sidebar-menu-text">Contact Us</span>
+                    </a>
+                </li>
+                @endif
+                @if (Auth::user()->hasRole('ADMIN'))
+                <li class="sidebar-menu-item">
+                    <a class="sidebar-menu-button" href="{{ route('cms.index') }}">
+                        <span class="sidebar-menu-text">Pages</span>
+                    </a>
+                </li>
+                @endif
+
+            </ul>
+            </li>
+            @endif
             </ul>
             <div class="conversation">
                 <h4>Conversations</h4>

@@ -6,7 +6,7 @@
         <tr>
             <td>{{ $company->company_name }}</td>
             <!-- Adjust if company name is under a different field -->
-            <td>{{ Helper::getInterviewReport('Interested', $company->id, $new_month, $new_year) }} </td>
+            {{-- <td>{{ Helper::getInterviewReport('Interested', $company->id, $new_month, $new_year) }} </td> --}}
             <td>{{ Helper::getInterviewReport('Selected', $company->id, $new_month, $new_year) }} </td>
             <td>{{ Helper::getInterviewReport('Medical', $company->id, $new_month, $new_year) }} </td>
             <td>{{ Helper::getInterviewReport('Documentaion', $company->id, $new_month, $new_year) }} </td>

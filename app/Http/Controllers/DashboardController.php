@@ -22,7 +22,9 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
-        if (Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if ($user->hasRole('DATA ENTRY OPERATOR')) {
             // Get first 3 statuses from candidate_statuses table
             $statuses = CandidateStatus::take(3)->get();
 
@@ -42,16 +44,14 @@ class DashboardController extends Controller
             $count['monthly_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
             $count['last_month_candidate_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
-            $count['interview_schedule'] = CandidateActivity::where('call_status', 'INTERVIEW SCHEDULE')->whereHas('candidate', function ($query) {
-                $query->where('enter_by', Auth::user()->id);
-            })->count();
+            $count['interview_schedule'] = \App\Models\Lineup::where('assign_by_id', Auth::id())->count() ?? 0;
             $candidates = Candidate::where('enter_by', Auth::user()->id)->orderBy('id', 'desc')->paginate(5);
             $recruiters = [];
-        } else if (Auth::user()->hasRole('RECRUITER')) {
+        } else if ($user->hasRole('RECRUITER')) {
             $count['daily_entry'] = Candidate::where('enter_by', Auth::user()->id)->whereDate('created_at', date('Y-m-d'))->count() ?? 0;
             $count['call_back'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'CALL BACK')->count() ?? 0;
-            $count['interview_schedule'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'INTERVIEW SCHEDULE')->count() ?? 0;
-            $count['selection'] = CandidateActivity::where('user_id', Auth::user()->id)->where('call_status', 'INTERESTED')->count() ?? 0;
+            $count['interview_schedule'] = \App\Models\Lineup::where('assign_by_id', Auth::user()->id)->count() ?? 0;
+            $count['selection'] = \App\Models\Lineup::where('assign_by_id', Auth::user()->id)->where('interview_status', 'Interested')->count() ?? 0;
             // last month entry
             $candidates = Candidate::where('enter_by', Auth::user()->id)->get();
             $recruiters = [];
@@ -82,7 +82,7 @@ class DashboardController extends Controller
             $count['today_candidate_entry'] = Candidate::whereDate('created_at', date('Y-m-d'))->count() ?? 0;
             $count['monthly_candidate_entry'] = Candidate::whereMonth('created_at', date('m'))->count() ?? 0;
             // last month entry
-            $count['last_month_candidate_entry'] = Candidate::whereMonth('created_at', Carbon::now()->subMonth()->month)->count() ?? 0;
+            $count['interview_schedule'] = \App\Models\Lineup::count() ?? 0;
             $candidates = Candidate::orderBy('id', 'desc')->paginate(10);
 
             // Fetch recruiters with custom pagination key
@@ -97,8 +97,8 @@ class DashboardController extends Controller
                     ->count();
 
 
-                $recruiter->interested_job_count = CandidateJob::where('assign_by_id', $recruiter->id)
-                    ->where('job_interview_status', 'Interested') // Adjust this string based on your actual status value
+                $recruiter->interested_job_count = \App\Models\Lineup::where('assign_by_id', $recruiter->id)
+                    ->where('interview_status', 'Interested') // Using Lineup status
                     ->count();
 
 
@@ -118,8 +118,7 @@ class DashboardController extends Controller
             ->join('users', 'candidates.enter_by', '=', 'users.id')
             ->leftJoin(DB::raw('
                 (SELECT assign_by_id, COUNT(*) as total_schedules
-                FROM candidate_jobs
-                WHERE date_of_interview IS NOT NULL
+                FROM lineups
                 GROUP BY assign_by_id) as schedule_counts
             '), 'users.id', '=', 'schedule_counts.assign_by_id')
             ->leftJoin(DB::raw('
@@ -150,11 +149,11 @@ class DashboardController extends Controller
 
         // dd($most_candidates);
 
-        $interview_list = CandidateJob::where('date_of_interview', date('d-m-Y'))->orderBy('id', 'desc')->paginate(1);
+        $interview_list = \App\Models\Lineup::where('date_of_interview', date('d-m-Y'))->orderBy('id', 'desc')->paginate(1);
 
         // Assuming you have a method to get month-wise counts for each status
-        $intv['total_interviews'] = CandidateJob::orderBy('id', 'desc')->count();
-        $intv['total_selection'] = CandidateJob::where('job_interview_status', 'Interested')->count();
+        $intv['total_interviews'] = \App\Models\Lineup::orderBy('id', 'desc')->count();
+        $intv['total_selection'] = \App\Models\Lineup::where('interview_status', 'Interested')->count();
         $intv['total_medical'] = CandidateJob::where('medical_status', '!=', null)->count();
         $intv['total_doc'] = CandidateJob::where('visa_receiving_date', '!=', null)->count();
         $intv['total_collection'] = CandidateJob::where('total_amount', '!=', null)->count();
@@ -168,14 +167,13 @@ class DashboardController extends Controller
             'Deployment' => [],
             'Medical' => [],
             'Selection' => [],
-
-            'Interview' => [],
+            // 'Interview' => [],
         ];
 
         for ($i = 1; $i <= $totalMonths; $i++) {
             $month = Carbon::createFromDate($thisYear, $i, 1)->format('m');
-            $data['Interview'][] = CandidateJob::whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
-            $data['Selection'][] = CandidateJob::where('job_interview_status', 'Interested')->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
+            // $data['Interview'][] = CandidateJob::whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
+            $data['Selection'][] = \App\Models\Lineup::where('interview_status', 'Interested')->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
             $data['Medical'][] = CandidateJob::where('medical_status', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
 
             $data['Deployment'][] = CandidateJob::where('deployment_date', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $thisYear)->count();
@@ -188,9 +186,10 @@ class DashboardController extends Controller
         ];
 
         foreach ($data as $label => $values) {
-            if ($label == 'Interview') {
+            /*if ($label == 'Interview') {
                 $color = 'rgba(75, 192, 192, 0.2)';
-            } elseif ($label == 'Selection') {
+            } else*/
+            if ($label == 'Selection') {
                 $color = '#a8d8ff';
             } elseif ($label == 'Medical') {
                 $color = '#0059a2';
@@ -257,7 +256,7 @@ class DashboardController extends Controller
 
         $date = str_replace('/', '-', $request->date);
         $dateFormatted = DateTime::createFromFormat('d-m-Y', $date)->format('d-m-Y');
-        $interview_list = CandidateJob::where('date_of_interview', $dateFormatted)->orderBy('id', 'desc')->paginate(1);
+        $interview_list = \App\Models\Lineup::where('date_of_interview', $dateFormatted)->orderBy('id', 'desc')->paginate(1);
 
 
         return response()->json(['view' => view('dashboard-interview-card', compact('interview_list'))->render()]);
@@ -283,7 +282,7 @@ class DashboardController extends Controller
                 $month = Carbon::createFromDate($year, $i, 1)->format('m');
                 $labels[] = Carbon::createFromDate($year, $i, 1)->format('F');
                 $data['Interview'][] = CandidateJob::whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
-                $data['Selection'][] = CandidateJob::where('job_interview_status', 'Interested')->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
+                $data['Selection'][] = \App\Models\Lineup::where('interview_status', 'Interested')->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
                 $data['Medical'][] = CandidateJob::where('medical_status', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();
 
                 $data['Deployment'][] = CandidateJob::where('deployment_date', '!=', null)->whereMonth('created_at', $month)->whereYear('created_at', $year)->count();

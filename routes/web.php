@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\AssociateController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\DashboardController;
@@ -154,6 +155,17 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
             Route::put('/update/{id}', [SettingController::class, 'cmsUpdate'])->name('cms.update');
             Route::get('/delete/{id}', [SettingController::class, 'cmsDelete'])->name('cms.delete');
             Route::get('/filter', [SettingController::class, 'cmsFilter'])->name('cms.filter');
+        });
+
+        // associates
+        Route::group(['prefix' => 'associates'], function () {
+            Route::get('/', [AssociateController::class, 'index'])->name('associates.index');
+            Route::get('/create', [AssociateController::class, 'create'])->name('associates.create');
+            Route::post('/store', [AssociateController::class, 'store'])->name('associates.store');
+            Route::get('/edit/{id}', [AssociateController::class, 'edit'])->name('associates.edit');
+            Route::put('/update/{id}', [AssociateController::class, 'update'])->name('associates.update');
+            Route::get('/delete/{id}', [AssociateController::class, 'delete'])->name('associates.delete');
+            Route::get('/filter', [AssociateController::class, 'filter'])->name('associates.filter');
         });
     });
 

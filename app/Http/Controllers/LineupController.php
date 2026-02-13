@@ -20,6 +20,11 @@ class LineupController extends Controller
      */
     public function index(Request $request)
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user->can('Manage Lineup')) {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
         $today = date('Y-m-d');
 
         // Get companies with future interviews
@@ -31,6 +36,7 @@ class LineupController extends Controller
             ->get();
 
         // Build query for lineups
+        // removed date filter to show all lineups
         $query = Lineup::with([
             'candidate',
             'interview',
@@ -38,10 +44,7 @@ class LineupController extends Controller
             'interview.company',
             'job',
             'statusUpdater'
-        ])
-            ->whereHas('interview', function ($q) use ($today) {
-                $q->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '>=', $today);
-            });
+        ]);
 
         // Apply filters
         if ($request->filled('company_id')) {
@@ -58,6 +61,10 @@ class LineupController extends Controller
 
         if ($request->filled('interview_status')) {
             $query->where('interview_status', $request->interview_status);
+        }
+
+        if ($request->filled('assign_by_id')) {
+            $query->where('assign_by_id', $request->assign_by_id);
         }
 
         if ($request->filled('search')) {

@@ -13,8 +13,9 @@
                 </div>
                 <div>
                     <div class="fw-bold text-nowrap">{{ $lineup->candidate->full_name ?? 'N/A' }}</div>
-                    <small
-                        class="text-muted text-nowrap">{{ $lineup->candidate->passport_number ?? 'No Passport' }}</small>
+                    <small class="text-muted text-nowrap text-start d-block">
+                        {{ $lineup->candidate->passport_number ?? 'No Passport' }}
+                    </small>
                 </div>
             </div>
         </td>
@@ -42,27 +43,33 @@
                 {{ $lineup->interview_status ?? 'Pending' }}
             </span>
         </td>
-        <td class="text-end">
-            <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-info view-lineup-btn"
-                    data-id="{{ $lineup->id }}" title="View Details">
-                    <i class="fa fa-eye"></i>
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-success edit-status-btn"
-                    data-id="{{ $lineup->id }}" data-status="{{ $lineup->interview_status }}"
-                    data-remarks="{{ $lineup->status_remarks }}" title="Change Status">
-                    <i class="fa fa-exchange-alt"></i>
-                </button>
-                <a href="{{ route('candidates.edit', $lineup->candidate_id) }}" class="btn btn-sm btn-outline-primary"
-                    title="Edit candidate">
-                    <i class="fa fa-edit"></i>
-                </a>
-            </div>
+        <td>
+            <span class="text-nowrap">{{ $lineup->user->full_name ?? 'N/A' }}</span>
         </td>
+        @canany(['View Lineup', 'Edit Lineup'])
+            <td class="text-end">
+                <div class="btn-group">
+                    @can('View Lineup')
+                        <button type="button" class="btn btn-sm btn-outline-info view-lineup-btn"
+                            data-id="{{ $lineup->id }}" title="View Details">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    @endcan
+
+                    @can('Edit Lineup')
+                        <button type="button" class="btn btn-sm btn-outline-success edit-status-btn"
+                            data-id="{{ $lineup->id }}" data-status="{{ $lineup->interview_status }}"
+                            data-remarks="{{ $lineup->status_remarks }}" title="Change Status">
+                            <i class="fa fa-exchange-alt"></i>
+                        </button>
+                    @endcan
+                </div>
+            </td>
+        @endcanany
     </tr>
 @empty
     <tr>
-        <td colspan="8" class="text-center py-5">
+        <td colspan="@canany(['View Lineup', 'Edit Lineup']) 9 @else 8 @endcanany" class="text-center py-5">
             <div class="text-muted">No lineups found.</div>
         </td>
     </tr>
@@ -70,7 +77,7 @@
 
 @if ($lineups->hasPages())
     <tr>
-        <td colspan="7" class="p-3">
+        <td colspan="@canany(['View Lineup', 'Edit Lineup']) 9 @else 8 @endcanany" class="p-3">
             <div class="d-flex justify-content-center">
                 {{ $lineups->appends(request()->query())->links() }}
             </div>

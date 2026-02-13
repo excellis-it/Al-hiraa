@@ -6,6 +6,7 @@ use App\Models\CandidateFieldUpdate;
 use App\Models\IpRestriction;
 use app\Models\User;
 use App\Models\CandidateJob;
+use App\Models\Lineup;
 use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -55,13 +56,14 @@ class Helper
 
     public static function interviewSchedule($id = null)
     {
-
-        $interviewSchedule = CandidateJob::where('assign_by_id', $id)->where('date_of_interview', '!=', null)->count();
-        if ($interviewSchedule) {
-            return $interviewSchedule;
-        } else {
-            return 0;
-        }
+        //  $interviewSchedule = CandidateJob::where('assign_by_id', $id)->where('date_of_interview', '!=', null)->count();
+        // if ($interviewSchedule) {
+        //     return $interviewSchedule;
+        // } else {
+        //     return 0;
+        // }
+        $interviewSchedule = Lineup::where('assign_by_id', $id)->count();
+        return $interviewSchedule ?: 0;
     }
 
     public static function interviewAppear($id = null)
@@ -76,12 +78,12 @@ class Helper
 
     public static function getRcInterestedCount($interview_id)
     {
-        return CandidateJob::where('interview_id', $interview_id)->where('assign_by_id', auth()->id())->where('job_interview_status', '!=', 'Not-Interested')->count();
+        return Lineup::where('interview_id', $interview_id)->where('assign_by_id', auth()->id())->count();
     }
 
     public static function getAllRcInterestedCount($interview_id)
     {
-        return CandidateJob::where('interview_id', $interview_id)->where('job_interview_status', '!=', 'Not-Interested')->count();
+        return Lineup::where('interview_id', $interview_id)->count();
     }
 
     public static function getCurrentStatus($job_id)
@@ -171,7 +173,7 @@ class Helper
     {
         $query = CandidateJob::where('company_id', $company_id)  // <-- Use parameter
             ->where('medical_status', $type);
-            // dd($type, $company_id, $medical_month, $medical_year);
+        // dd($type, $company_id, $medical_month, $medical_year);
         if (($medical_month) && $medical_month != null) {
             $query->whereMonth('created_at', $medical_month);
         }
