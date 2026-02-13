@@ -35,6 +35,9 @@ class LineupController extends Controller
             ->orderBy('company_name', 'asc')
             ->get();
 
+        // $interestedType = $request->input('interested_type'); // 'self' or 'team'
+        $interviewId = $request->input('get_interview_id'); // Interview ID
+
         // Build query for lineups
         // removed date filter to show all lineups
         $query = Lineup::with([
@@ -45,6 +48,10 @@ class LineupController extends Controller
             'job',
             'statusUpdater'
         ]);
+
+        if ($user->hasRole('DATA ENTRY OPERATOR') || $user->hasRole('RECRUITER')) {
+            $query->where('assign_by_id', $user->id);
+        }
 
         // Apply filters
         if ($request->filled('company_id')) {
@@ -57,6 +64,10 @@ class LineupController extends Controller
 
         if ($request->filled('interview_id')) {
             $query->where('interview_id', $request->interview_id);
+        }
+
+        if ($request->filled('get_interview_id')) {
+            $query->where('interview_id', $request->get_interview_id);
         }
 
         if ($request->filled('interview_status')) {
