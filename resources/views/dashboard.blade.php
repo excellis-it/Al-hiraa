@@ -215,15 +215,11 @@ use App\Helpers\Helper;
 
                                     <td>
                                         <a
-                                            href="{{ route('jobs.index', ['interested_type' => 'self', 'interview_id' => $new_jobs_opening->id]) }}">
+                                            href="{{ route('lineups.index', ['interested_type' => 'self', 'interview_id' => $new_jobs_opening->id]) }}">
                                             {{ Helper::getRcInterestedCount($new_jobs_opening->id) }}
                                         </a>
                                     </td>
-                                    <td>
-                                        <a href="{{ route('lineups.index', ['interview_id' => $new_jobs_opening->id]) }}">
-                                            {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
-                                        </a>
-                                    </td>
+                                  
                                     <td>
                                         @if (isset($new_jobs_opening->job->document) && $new_jobs_opening->job->document)
                                         <a href="{{ Storage::url($new_jobs_opening->job->document) }}"

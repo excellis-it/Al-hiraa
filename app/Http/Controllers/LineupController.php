@@ -45,6 +45,10 @@ class LineupController extends Controller
             'job',
             'statusUpdater'
         ]);
+        
+        if ($user->hasRole('DATA ENTRY OPERATOR') || $user->hasRole('RECRUITER')) {
+            $query->where('assign_by_id', $user->id);
+        }
 
         // Apply filters
         if ($request->filled('company_id')) {
