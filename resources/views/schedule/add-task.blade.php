@@ -1,8 +1,7 @@
 @if (isset($add))
     <div class="offcanvas offcanvas-end border-0 shadow-lg" tabindex="-1" id="offcanvasRightJob"
         aria-labelledby="offcanvasRightLabel" aria-hidden="true" style="width: 600px;">
-        <div class="offcanvas-header bg-gradient border-0"
-            style="background: #014d8f">
+        <div class="offcanvas-header bg-gradient border-0" style="background: #014d8f">
             <h5 class="offcanvas-title text-white fw-bold" id="offcanvasRightLabel">
                 <i class="fas fa-briefcase me-2"></i>Create New Job for {{ $company->company_name }}
             </h5>
@@ -135,6 +134,19 @@
                                     placeholder="Enter charge">
                             </div>
                             <span class="text-danger small" id="service_charge_msg_create"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6">
+                        <div class="form-group mb-0">
+                            <label class="form-label fw-semibold text-dark mb-2">Associate Charge</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i
+                                        class="fas fa-handshake text-muted"></i></span>
+                                <input type="text" class="form-control border-start-0 ps-0"
+                                    name="associate_charge" placeholder="Enter associate charge">
+                            </div>
+                            <span class="text-danger small" id="associate_charge_msg_create"></span>
                         </div>
                     </div>
 

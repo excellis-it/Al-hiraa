@@ -2,62 +2,8 @@
     use App\Helpers\Helper;
     use App\Constants\Position;
 @endphp
-<div class="table-responsive" id="tableContainer">
-    <table class="table" id="candidate-form">
 
-        <tbody>
-            <tr>
-                <td>Full Name</td>
-                <td>{{ $candidate_job_detail->full_name ?? 'N/A' }}</td>
-                <td>Date of Birth</td>
-                <td>{{ $candidate_job_detail->date_of_birth ?? 'N/A' }}</td>
-                <td>Gender</td>
-                <td>{{ $candidate_job_detail->gender ?? 'N/A' }}</td>
-            </tr>
-            <tr>
-                <td>Passport Number</td>
-                <td>{{ $candidate_job_detail->passport_number ?? 'N/A' }}</td>
-                <td>Passport Expiry Date</td>
-                <td>{{ $candidate_job_detail->passport_expiry ?? 'N/A' }}</td>
-                <td>ECR Type</td>
-                <td>{{ $candidate_job_detail->ecr_type ?? 'N/A' }}</td>
-            </tr>
-            <tr>
-                <td>Contact No</td>
-                <td>{{ $candidate_job_detail->contact_no ?? 'N/A' }}</td>
-                <td>WhatsApp No</td>
-                <td>{{ $candidate_job_detail->whatapp_no ?? 'N/A' }}</td>
-                <td>Alternate Contact No</td>
-                <td>{{ $candidate_job_detail->alternate_contact_no ?? 'N/A' }}</td>
-            </tr>
-            <tr>
-                <td>Associate</td>
-                <td>
-                    @if ($candidate_job_detail->associate_id && $candidate_job_detail->associate)
-                        {{ $candidate_job_detail->associate->name ?? 'N/A' }}
-                        ({{ $candidate_job_detail->associate->phone_number ?? '' }})
-                    @else
-                        N/A
-                    @endif
-                </td>
-                <td>Address</td>
-                <td>{{ $candidate_job_detail->address ?? 'N/A' }}</td>
-                <td>Email</td>
-                <td>{{ $candidate_job_detail->email ?? 'N/A' }}</td>
-            </tr>
-            <tr>
-                <td>Religion</td>
-                <td>{{ $candidate_job_detail->religion ?? 'N/A' }}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-{{-- Hidden container for edit form - rendered by Blade outside JS template literal --}}
+{{-- Hidden template for edit mode --}}
 <div id="candidate-edit-template" style="display:none;">
     <table>
         <tbody class="candidate-form-new">
@@ -211,7 +157,7 @@
     </table>
 </div>
 
-{{-- Hidden container for view-mode content --}}
+{{-- Hidden template for view mode --}}
 <div id="candidate-view-template" style="display:none;">
     <table>
         <tbody>
@@ -266,71 +212,110 @@
     </table>
 </div>
 
+{{-- Visible table container --}}
+<div class="table-responsive" id="tableContainer">
+    <table class="table" id="candidate-form">
+        <tbody>
+            <tr>
+                <td>Full Name</td>
+                <td>{{ $candidate_job_detail->full_name ?? 'N/A' }}</td>
+                <td>Date of Birth</td>
+                <td>{{ $candidate_job_detail->date_of_birth ?? 'N/A' }}</td>
+                <td>Gender</td>
+                <td>{{ $candidate_job_detail->gender ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>Passport Number</td>
+                <td>{{ $candidate_job_detail->passport_number ?? 'N/A' }}</td>
+                <td>Passport Expiry Date</td>
+                <td>{{ $candidate_job_detail->passport_expiry ?? 'N/A' }}</td>
+                <td>ECR Type</td>
+                <td>{{ $candidate_job_detail->ecr_type ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>Contact No</td>
+                <td>{{ $candidate_job_detail->contact_no ?? 'N/A' }}</td>
+                <td>WhatsApp No</td>
+                <td>{{ $candidate_job_detail->whatapp_no ?? 'N/A' }}</td>
+                <td>Alternate Contact No</td>
+                <td>{{ $candidate_job_detail->alternate_contact_no ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>Associate</td>
+                <td>
+                    @if ($candidate_job_detail->associate_id && $candidate_job_detail->associate)
+                        {{ $candidate_job_detail->associate->name ?? 'N/A' }}
+                        ({{ $candidate_job_detail->associate->phone_number ?? '' }})
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>Address</td>
+                <td>{{ $candidate_job_detail->address ?? 'N/A' }}</td>
+                <td>Email</td>
+                <td>{{ $candidate_job_detail->email ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>Religion</td>
+                <td>{{ $candidate_job_detail->religion ?? 'N/A' }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <script>
     //candidates details form
-    (function() {
-        function initCandidateDetails() {
+    $(document).on("click", '#open-input', function(e) {
 
-            $(document).on("click", '#open-input', function(e) {
+        $(this).html('');
 
-                $(this).html('');
+        $(".see-more-container").hide();
+        $('#submit-button').html(
+            '<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>'
+        );
 
-                $(".see-more-container").hide();
-                $('#submit-button').html(
-                    '<button type="submit"><span class=""><i class="fa-solid fa-check"></i></span></button>'
-                );
+        $('#cross-button').html(
+            '<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>'
+        );
 
-                $('#cross-button').html(
-                    '<button type="button"><span class=""><i class="fa-solid fa-close"></i></span></button>'
-                );
+        // Get edit form HTML from hidden template
+        var editHtml = $('#candidate-edit-template').find('tbody').parent().html();
+        $('#candidate-form').html(editHtml);
 
-                // Get edit form HTML from hidden template
-                var editHtml = $('#candidate-edit-template').find('tbody').parent().html();
-                $('#candidate-form').html(editHtml);
+        // Initialize datepickers
+        $('#dob').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+        });
 
-                $('#dob').datepicker({
-                    uiLibrary: 'bootstrap5',
-                    format: 'dd-mm-yyyy',
-                });
+        $('#passport_expiry_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy',
+        });
 
-                $('#passport_expiry_date').datepicker({
-                    uiLibrary: 'bootstrap5',
-                    format: 'dd-mm-yyyy',
-                });
-
-                $('.new_select2').each(function() {
-                    $(this).select2({
-                        dropdownParent: $(this).parent()
-                    });
-                });
-
+        // Initialize Select2 ONLY on visible form elements
+        $('#candidate-form .new_select2').each(function() {
+            $(this).select2({
+                dropdownParent: $(this).parent()
             });
+        });
 
-            $(document).on("click", '#cross-button', function(e) {
+    });
 
-                $(this).html('');
-                $(".see-more-container").hide();
-                $('#submit-button').html('');
-                $('#open-input').html(
-                    '<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>');
+    $(document).on("click", '#cross-button', function(e) {
 
-                // Get view-mode HTML from hidden template
-                var viewHtml = $('#candidate-view-template').find('tbody').parent().html();
-                $('#candidate-form').html(viewHtml);
-            });
-        }
-        if (typeof $ !== 'undefined') {
-            $(document).ready(initCandidateDetails);
-        } else {
-            document.addEventListener('DOMContentLoaded', function() {
-                var checkjQuery = setInterval(function() {
-                    if (typeof $ !== 'undefined') {
-                        clearInterval(checkjQuery);
-                        initCandidateDetails();
-                    }
-                }, 100);
-            });
-        }
-    })();
+        $(this).html('');
+        $(".see-more-container").hide();
+        $('#submit-button').html('');
+        $('#open-input').html(
+            '<a href="javascript:void(0);"><span><i class="fa-solid fa-pen"></i></span></a>');
+
+        // Get view mode HTML from hidden template
+        var viewHtml = $('#candidate-view-template').find('tbody').parent().html();
+        $('#candidate-form').html(viewHtml);
+    });
 </script>

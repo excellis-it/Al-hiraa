@@ -584,28 +584,25 @@ class JobsController extends Controller
             'email.email' => 'The email must be a valid email address.',
         ]);
 
-        $candidate_job_update = CandidateJob::findOrFail($id);
-        $candidate_job_update->full_name = $request->full_name;
-        $candidate_job_update->email = $request->email;
-        $candidate_job_update->gender = $request->gender;
-        $candidate_job_update->date_of_birth = $request->dob;
-        $candidate_job_update->passport_number = $request->passport_number;
-        $candidate_job_update->passport_expiry = $request->passport_expiry;
-        $candidate_job_update->ecr_type = $request->ecr_type;
-        $candidate_job_update->contact_no = $request->contact_no;
-        $candidate_job_update->whatapp_no = $request->whatapp_no;
-        $candidate_job_update->alternate_contact_no = $request->alternate_contact_no;
-        $candidate_job_update->associate_id = $request->associate_id;
-        $candidate_job_update->address = $request->address;
-        $candidate_job_update->religion = $request->religion;
-        $candidate_job_update->update();
-
         $candidate_job = CandidateJob::findOrFail($id);
-        $indian_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
-        $gulf_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
+        $candidate_job->full_name = $request->full_name;
+        $candidate_job->email = $request->email;
+        $candidate_job->gender = $request->gender;
+        $candidate_job->date_of_birth = $request->dob;
+        $candidate_job->passport_number = $request->passport_number;
+        $candidate_job->passport_expiry = $request->passport_expiry;
+        $candidate_job->ecr_type = $request->ecr_type;
+        $candidate_job->contact_no = $request->contact_no;
+        $candidate_job->whatapp_no = $request->whatapp_no;
+        $candidate_job->alternate_contact_no = $request->alternate_contact_no;
+        $candidate_job->associate_id = $request->associate_id;
+        $candidate_job->address = $request->address;
+        $candidate_job->religion = $request->religion;
+        $candidate_job->update();
+
         $associates = Associate::orderBy('name', 'asc')->get();
 
-        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success', 'view1' => view('jobs.candidate-details', ['candidate_job_detail' => $candidate_job, 'indian_driving_license' => $indian_driving_license, 'gulf_driving_license' => $gulf_driving_license, 'associates' => $associates])->render()]);
+        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success', 'view1' => view('jobs.candidate-details', ['candidate_job_detail' => $candidate_job, 'associates' => $associates])->render()]);
     }
 
     public function candidateJobDetailsUpdate(Request $request, string $id)

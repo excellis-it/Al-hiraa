@@ -243,7 +243,6 @@ class CompanyController extends Controller
             'salary' => 'required',
             'quantity_of_people_required' => 'required|numeric',
             'benifits' => 'nullable',
-            'associate_charge' => 'nullable|numeric',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
