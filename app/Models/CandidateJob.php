@@ -30,9 +30,14 @@ class CandidateJob extends Model
     {
         return $this->belongsTo(Company::class, 'company_id');
     }
-    
+
     public function cityName()
     {
         return $this->belongsTo(City::class, 'city');
+    }
+
+    public function associate()
+    {
+        return $this->belongsTo(Associate::class, 'associate_id');
     }
 }
