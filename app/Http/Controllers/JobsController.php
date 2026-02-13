@@ -568,98 +568,60 @@ class JobsController extends Controller
 
         $request->validate([
             'full_name' => 'required',
-            'gender' => 'required',
             'dob' => 'required|date',
-            'whatapp_no' => 'nullable|regex:/^\+91\d{10}$/',
+            'passport_number' => 'required|regex:/^[A-Za-z]\d{7}$/',
+            'whatapp_no' => 'nullable',
+            'contact_no' => 'nullable|digits:10',
             'alternate_contact_no' => 'nullable|digits:10',
+            'email' => 'nullable|email',
         ], [
             'dob.required' => 'The date of birth field is required.',
             'full_name.required' => 'The full name field is required.',
+            'passport_number.required' => 'The passport number field is required.',
+            'passport_number.regex' => 'The passport number must be valid (e.g., A1234567).',
+            'contact_no.digits' => 'The contact no must be 10 digits.',
             'alternate_contact_no.digits' => 'The alternate contact no must be 10 digits.',
-            'whatapp_no.regex' => 'The whatapp no must be +91xxxxxxxxxx format.',
+            'email.email' => 'The email must be a valid email address.',
         ]);
-
-        $company_id = Job::where('id', $request->job_title)->first()->company_id;
 
         $candidate_job_update = CandidateJob::findOrFail($id);
         $candidate_job_update->full_name = $request->full_name;
         $candidate_job_update->email = $request->email;
         $candidate_job_update->gender = $request->gender;
         $candidate_job_update->date_of_birth = $request->dob;
+        $candidate_job_update->passport_number = $request->passport_number;
+        $candidate_job_update->passport_expiry = $request->passport_expiry;
+        $candidate_job_update->ecr_type = $request->ecr_type;
+        $candidate_job_update->contact_no = $request->contact_no;
         $candidate_job_update->whatapp_no = $request->whatapp_no;
         $candidate_job_update->alternate_contact_no = $request->alternate_contact_no;
-        $candidate_job_update->religion = $request->religion;
-        $candidate_job_update->city = $request->city;
+        $candidate_job_update->associate_id = $request->associate_id;
         $candidate_job_update->address = $request->address;
-        $candidate_job_update->education = $request->education;
-        $candidate_job_update->other_education = $request->other_education;
-        $candidate_job_update->passport_number = $request->passport_number;
-        $candidate_job_update->english_speak = $request->english_speak;
-        $candidate_job_update->arabic_speak = $request->arabic_speak;
-        $candidate_job_update->job_id = $request->job_title;
-        $candidate_job_update->job_location = $request->job_location;
-        $candidate_job_update->job_interview_status = $request->interview_status;
+        $candidate_job_update->religion = $request->religion;
         $candidate_job_update->update();
 
-        if ($request->indian_driving_license) {
-            // delete old licence
-            CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'indian')->delete();
-
-            foreach ($request->indian_driving_license as $key => $value) {
-                $candidate_ind_licence = new CandJobLicence();
-                $candidate_ind_licence->candidate_job_id = $candidate_job_update->id;
-                $candidate_ind_licence->candidate_id = $request->candidate_id;
-                $candidate_ind_licence->licence_type = 'indian';
-                $candidate_ind_licence->licence_name = $value;
-                $candidate_ind_licence->save();
-            }
-        }
-
-        if ($request->international_driving_license) {
-            // delete old licence
-            CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'gulf')->delete();
-
-            foreach ($request->international_driving_license as $key => $value) {
-                $candidate_gulf_licence = new CandJobLicence();
-                $candidate_gulf_licence->candidate_job_id = $candidate_job_update->id;
-                $candidate_gulf_licence->candidate_id = $request->candidate_id;
-                $candidate_gulf_licence->licence_type = 'gulf';
-                $candidate_gulf_licence->licence_name = $value;
-                $candidate_gulf_licence->save();
-            }
-        }
-
-        $jobs = Job::where('status', 'Ongoing')->get();
         $candidate_job = CandidateJob::findOrFail($id);
         $indian_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
         $gulf_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
-        $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
-        // session()->flash('message', 'Candidate details updated successfully');
-        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success', 'view1' => view('jobs.candidate-details', ['candidate_job_detail' => $candidate_job, 'indian_driving_license' => $indian_driving_license, 'gulf_driving_license' => $gulf_driving_license, 'candidate_positions' => $candidate_positions, 'jobs' => $jobs])->render()]);
+        $associates = Associate::orderBy('name', 'asc')->get();
 
-        // session()->flash('message', 'Candidate details updated successfully');
-        // return response()->json(['message' => 'Candidate details updated successfully.', 'status' => 'success']);
-
+        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success', 'view1' => view('jobs.candidate-details', ['candidate_job_detail' => $candidate_job, 'indian_driving_license' => $indian_driving_license, 'gulf_driving_license' => $gulf_driving_license, 'associates' => $associates])->render()]);
     }
 
     public function candidateJobDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
-            'date_of_interview' => 'required|date',
             'date_of_selection' => 'nullable|date',
-            'salary' => 'required',
+            'salary' => 'nullable',
             'contract_duration' => 'nullable|numeric',
             'food_allowance' => 'nullable',
         ], [
             'salary.required' => 'The salary field is required.',
-            'date_of_interview.required' => 'The date of interview is required.',
         ]);
 
         $job_details_update = CandidateJob::findOrFail($id);
-        $job_details_update->date_of_interview = $request->date_of_interview;
         $job_details_update->date_of_selection = $request->date_of_selection;
         $job_details_update->mode_of_selection = $request->mode_of_selection;
-        $job_details_update->interview_location = $request->interview_location;
         $job_details_update->client_remarks = $request->client_remarks;
         $job_details_update->other_remarks = $request->other_remarks;
         $job_details_update->sponsor = $request->sponsor;
@@ -671,8 +633,10 @@ class JobsController extends Controller
         $job_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        // session()->flash('message', 'Candidate job details updated successfully');
-        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success', 'view1' => view('jobs.job-details', ['candidate_job_detail' => $candidate_job])->render()]);
+        $jobs = Job::where('status', 'Ongoing')->get();
+        $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
+
+        return response()->json(['view' => view('jobs.update-single-data', compact('candidate_job'))->render(), 'status' => 'success', 'view1' => view('jobs.job-details', ['candidate_job_detail' => $candidate_job, 'jobs' => $jobs, 'companies' => $companies])->render()]);
     }
 
     public function candidateFamilyDetailsUpdate(Request $request, string $id)
