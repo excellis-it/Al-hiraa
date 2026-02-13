@@ -113,7 +113,7 @@ use App\Helpers\Helper;
             </div>
             @can('Manage Lineup')
             <div class="col">
-                <a href="{{ route('lineups.index', ['assign_by_id' => Auth::id()]) }}">
+                <a href="{{ route('lineups.index') }}">
                     <div class="border_left_hh">
                         <div class="card-header__title mb-2">Total Interview Schedule</div>
                         <div class="text-amount">{{ $count['interview_schedule'] }} </div>
@@ -154,7 +154,6 @@ use App\Helpers\Helper;
                                     <th>Benifits</th>
 
                                     <th>RC Interested</th>
-                                    <th>Team Interested</th>
                                     <th>Doc.View</th>
                                 </tr>
                             </thead>
@@ -215,7 +214,7 @@ use App\Helpers\Helper;
 
                                     <td>
                                         <a
-                                            href="{{ route('lineups.index', ['interested_type' => 'self', 'interview_id' => $new_jobs_opening->id]) }}">
+                                            href="{{ route('lineups.index', ['interested_type' => 'self', 'get_interview_id' => $new_jobs_opening->id]) }}">
                                             {{ Helper::getRcInterestedCount($new_jobs_opening->id) }}
                                         </a>
                                     </td>
@@ -235,7 +234,7 @@ use App\Helpers\Helper;
                                 @endforeach
 
                                 <tr>
-                                    <td colspan="11" class="text-left">
+                                    <td colspan="12" class="text-left">
                                         <div class="d-flex justify-content-between">
                                             <div>{!! $new_jobs_openings->links() !!}</div>
                                             <div class="">
@@ -248,7 +247,7 @@ use App\Helpers\Helper;
                                 </tr>
                                 @else
                                 <tr>
-                                    <td colspan="11" class="text-center">No data found</td>
+                                    <td colspan="12" class="text-center">No data found</td>
                                 </tr>
                                 @endif
 
@@ -343,7 +342,7 @@ use App\Helpers\Helper;
                                     </td>
                                     @unless (Auth::user()->hasRole('PROCESS MANAGER'))
                                     <td>
-                                        <a href="{{ route('lineups.index', ['interview_id' => $new_jobs_opening->id]) }}">
+                                        <a href="{{ route('lineups.index', ['get_interview_id' => $new_jobs_opening->id]) }}">
                                             {{ Helper::getAllRcInterestedCount($new_jobs_opening->id) }}
                                         </a>
                                     </td>

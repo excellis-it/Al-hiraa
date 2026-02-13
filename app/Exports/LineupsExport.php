@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Lineup;
+use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -23,8 +24,13 @@ class LineupsExport implements FromQuery, WithHeadings, WithMapping
     public function query()
     {
         $today = date('Y-m-d');
+        $user = Auth::user();
+
         $query = Lineup::with(['vendor', 'company', 'job', 'interview', 'user', 'statusUpdater']);
 
+        if ($user->hasRole('DATA ENTRY OPERATOR') || $user->hasRole('RECRUITER')) {
+            $query->where('assign_by_id', $user->id);
+        }
         // Base filter: only upcoming/today interviews (consistent with UI logic)
         $query->whereHas('interview', function ($q) use ($today) {
             $q->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '>=', $today);
@@ -46,6 +52,12 @@ class LineupsExport implements FromQuery, WithHeadings, WithMapping
             if (!empty($this->request['interview_id'])) {
                 $query->where('interview_id', $this->request['interview_id']);
             }
+
+             if (!empty($this->request['get_interview_id'])) {
+                $query->where('interview_id', $this->request['get_interview_id']);
+            }
+
+
 
             if (!empty($this->request['interview_status'])) {
                 $query->where('interview_status', $this->request['interview_status']);

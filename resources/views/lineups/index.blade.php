@@ -161,6 +161,7 @@
         <!-- Filters -->
         <div class="filter-card">
             <form action="{{ route('lineups.index') }}" method="GET" id="filter-form">
+                <input type="hidden" name="get_interview_id" value="{{ request()->get('get_interview_id') }}">
                 <div class="row g-3">
                     <div class="col-md-2">
                         <label class="filter-label">Search</label>
@@ -344,7 +345,9 @@
         function fetchFilteredData() {
             $('#table-loading').css('display', 'flex');
             var formData = $('#filter-form').serialize();
-
+            var get_interview_id = "{{ request()->get('get_interview_id') }}";
+            // alert(get_interview_id);
+            formData += '&get_interview_id=' + get_interview_id;
             $.ajax({
                 url: "{{ route('lineups.index') }}",
                 type: 'GET',
