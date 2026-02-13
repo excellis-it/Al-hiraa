@@ -227,7 +227,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                 $candidate_job->associate_id = $associate->id;
                             }
                             $candidate_job->due_amount = $interview->job->associate_charge ?? null;
-                            $candidate_job->associate_charge = $interview->job->associate_charge ?? null;
+                            $candidate_job->job_service_charge = $interview->job->associate_charge ?? null;
                         } else {
                             $candidate_job->due_amount = $interview->job->service_charge ?? null;
                             $candidate_job->job_service_charge = $interview->job->service_charge ?? null;

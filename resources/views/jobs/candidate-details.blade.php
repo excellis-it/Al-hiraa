@@ -212,8 +212,7 @@
     </table>
 </div>
 
-{{-- Visible table container --}}
-<div class="table-responsive" id="tableContainer">
+<div class="table-responsive" id="tableContainerCandidate">
     <table class="table" id="candidate-form">
         <tbody>
             <tr>
@@ -269,7 +268,7 @@
 
 <script>
     //candidates details form
-    $(document).on("click", '#open-input', function(e) {
+    $(document).off("click", '#open-input').on("click", '#open-input', function(e) {
 
         $(this).html('');
 
@@ -286,7 +285,7 @@
         var editHtml = $('#candidate-edit-template').find('tbody').parent().html();
         $('#candidate-form').html(editHtml);
 
-        // Initialize datepickers
+        // Initialize datepickers (after elements exist in DOM)
         $('#dob').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
@@ -306,7 +305,7 @@
 
     });
 
-    $(document).on("click", '#cross-button', function(e) {
+    $(document).off("click", '#cross-button').on("click", '#cross-button', function(e) {
 
         $(this).html('');
         $(".see-more-container").hide();

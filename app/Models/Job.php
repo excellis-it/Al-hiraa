@@ -23,6 +23,8 @@ class Job extends Model
         'job_description',
         'document',
         'status',
+        'service_charge',
+        'associate_charge'
     ];
 
     public function getAllFields()

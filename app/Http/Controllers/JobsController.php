@@ -585,6 +585,11 @@ class JobsController extends Controller
         ]);
 
         $candidate_job = CandidateJob::findOrFail($id);
+        if ($candidate_job->associate_id == null && $request->associate_id != null) {
+            $candidate_job->job_service_charge = $candidate_job->jobTitle->associate_charge;
+            //calculate the due amount
+            $candidate_job->due_amount = $candidate_job->job_service_charge - $candidate_job->total_amount;
+        }
         $candidate_job->full_name = $request->full_name;
         $candidate_job->email = $request->email;
         $candidate_job->gender = $request->gender;
@@ -608,16 +613,20 @@ class JobsController extends Controller
     public function candidateJobDetailsUpdate(Request $request, string $id)
     {
         $request->validate([
-            'date_of_selection' => 'nullable|date',
+            'date_of_selection' => 'required|date',
+            'date_of_interview' => 'required|date',
             'salary' => 'nullable',
             'contract_duration' => 'nullable|numeric',
             'food_allowance' => 'nullable',
         ], [
             'salary.required' => 'The salary field is required.',
+            'date_of_selection.required' => 'The date of selection field is required.',
+            'date_of_interview.required' => 'The date of interview field is required.',
         ]);
 
         $job_details_update = CandidateJob::findOrFail($id);
         $job_details_update->date_of_selection = $request->date_of_selection;
+        $job_details_update->date_of_interview = $request->date_of_interview;
         $job_details_update->mode_of_selection = $request->mode_of_selection;
         $job_details_update->client_remarks = $request->client_remarks;
         $job_details_update->other_remarks = $request->other_remarks;

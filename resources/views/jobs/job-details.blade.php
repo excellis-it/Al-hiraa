@@ -5,11 +5,10 @@
             <tr>
                 <td>Date of Interview</td>
                 <td class="date-btn">
-                    <input type="text" class="form-control uppercase-text" id="interview_date"
+                    <input type="text" class="form-control uppercase-text datepicker" id="interview_date"
                         value="{{ $candidate_job_detail->date_of_interview ? \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') : '' }}"
-                        name="" placeholder="dd-mm-yyyy" readonly disabled style="background-color: #e9ecef;">
-                    <input type="hidden" name="date_of_interview"
-                        value="{{ $candidate_job_detail->date_of_interview ?? '' }}">
+                        name="date_of_interview" placeholder="dd-mm-yyyy">
+                    <span class="text-danger" id="interview_date_msg"></span>
                 </td>
 
                 <td>Date of Selection</td>
@@ -37,8 +36,7 @@
             <tr>
                 <td>Service Charge</td>
                 <td><input type="text" class="form-control uppercase-text" id=""
-                        value="{{ $candidate_job_detail->job_service_charge ?? '0.00' }}" placeholder="" readonly
-                        style="background-color: #e9ecef;">
+                        value="{{ $candidate_job_detail->job_service_charge ?? '0.00' }}" placeholder="">
                 </td>
                 <td>Company</td>
                 <td>
@@ -176,7 +174,7 @@
 </div>
 
 {{-- Visible table container --}}
-<div class="table-responsive" id="tableContainer">
+<div class="table-responsive" id="tableContainerJob">
     <table class="table" id="candidate-form-job">
         <tbody>
             <tr>
@@ -237,7 +235,7 @@
 
 <script>
     //job details
-    $(document).on("click", '#open-job-input', function(e) {
+    $(document).off("click", '#open-job-input').on("click", '#open-job-input', function(e) {
 
         $(this).html('');
 
@@ -253,16 +251,20 @@
         var editHtml = $('#job-edit-template').find('tbody').parent().html();
         $('#candidate-form-job').html(editHtml);
 
-        // Initialize datepicker
+        // Initialize datepickers (after elements exist in DOM)
         $('#selection_date').datepicker({
             uiLibrary: 'bootstrap5',
-            format: 'dd-mm-yyyy',
-            value: "{{ $candidate_job_detail->date_of_selection ? \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') : '' }}"
+            format: 'dd-mm-yyyy'
+        });
+
+        $('#interview_date').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mm-yyyy'
         });
 
     });
 
-    $(document).on("click", '#cross-button-job', function(e) {
+    $(document).off("click", '#cross-button-job').on("click", '#cross-button-job', function(e) {
 
         $(this).html('');
         $('#submit-button-job').html('');
