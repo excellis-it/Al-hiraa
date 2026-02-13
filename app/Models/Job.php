@@ -24,7 +24,8 @@ class Job extends Model
         'document',
         'status',
         'service_charge',
-        'associate_charge'
+        'associate_charge',
+        'salary'
     ];
 
     public function getAllFields()

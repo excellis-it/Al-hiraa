@@ -234,6 +234,11 @@
         <div class="col-lg-6 col-md-6 mb-2">
             <div class="all_filter_btn">
                 <ul>
+                    <li>
+                        <a href="{{ route('jobs.create') }}" class="active_aa">
+                            <i class="fa-solid fa-plus"></i> Add Job
+                        </a>
+                    </li>
                     {{-- <li>
                         <a href="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19.598" height="19.633" viewBox="0 0 19.598 19.633">

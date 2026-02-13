@@ -271,6 +271,10 @@ Route::group(['middleware' => ['user', 'preventBackHistory', 'ip-permission']], 
     Route::get('/jobs-download-sample', [JobsController::class, 'downloadSample'])->name('jobs.download.sample');
     Route::post('/jobs-import', [JobsController::class, 'import'])->name('jobs.import');
 
+    Route::get('/get-company-jobs-ajax/{company_id}', [JobsController::class, 'getCompanyJobsAJAX'])->name('jobs.get-company-jobs-ajax');
+    Route::get('/get-job-interviews-ajax/{job_id}', [JobsController::class, 'getJobInterviewsAJAX'])->name('jobs.get-job-interviews-ajax');
+    Route::get('/get-interview-data-ajax/{interview_id}', [JobsController::class, 'getInterviewDataAJAX'])->name('jobs.get-interview-data-ajax');
+
     //referral cms routes
     Route::get('/referral-cms', [ReferCmsController::class, 'referCmsView'])->name('referral-cms.edit');
     Route::post('/jobs-details-update', [ReferCmsController::class, 'referCmsUpdate'])->name('referral-cms.update');

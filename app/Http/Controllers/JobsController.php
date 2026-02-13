@@ -194,13 +194,116 @@ class JobsController extends Controller
      */
     public function create()
     {
-        return view('jobs.create');
+         if (!Auth::user()->can('Create Job')) {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+
+        $recent_interviews = Interview::with(['company', 'job.candidatePosition'])
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') >= ?", [now()->subDays(30)->format('Y-m-d')])
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') <= ?", [now()->format('Y-m-d')])
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $associates = Associate::orderBy('name', 'asc')->get();
+
+        return view('jobs.create', compact('recent_interviews', 'associates'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required|exists:companies,id',
+            'job_id' => 'required|exists:jobs,id',
+            'interview_id' => 'required|exists:interviews,id',
+            'full_name' => 'required|string|max:255',
+            'passport_number' => 'required|string|max:255',
+            'contact_no' => 'required|string|max:15',
+            'gender' => 'required|in:MALE,FEMALE,OTHER',
+            'dob' => 'required|date',
+        ]);
+
+        $interview = Interview::with(['company', 'job'])->findOrFail($request->interview_id);
+
+        $exists = CandidateJob::where('passport_number', $request->passport_number)
+            ->where('job_id', $interview->job_id)
+            ->where('interview_id', $interview->id)
+            ->exists();
+
+        if ($exists) {
+            return redirect()->back()->with('error', 'Candidate already exists for this job and interview.');
+        }
+
+        DB::beginTransaction();
+        try {
+            // Assign Job Logic
+            $assign_job = new AssignJob();
+            $assign_job->job_id = $interview->job_id;
+            $assign_job->company_id = $interview->company_id;
+            $assign_job->interview_id = $interview->id;
+            $assign_job->user_id = Auth::id();
+            $assign_job->interview_status = 'Interested';
+            $assign_job->save();
+
+            // Candidate Job Logic
+            $candidate_job = new CandidateJob();
+            $candidate_job->assign_by_id = Auth::id();
+            $candidate_job->assign_job_id = $assign_job->id;
+            $candidate_job->full_name = $request->full_name;
+            $candidate_job->passport_number = $request->passport_number;
+            $candidate_job->contact_no = $request->contact_no;
+            $candidate_job->gender = $request->gender;
+            $candidate_job->date_of_birth = $request->dob;
+            $candidate_job->whatapp_no = $request->whatapp_no;
+            $candidate_job->email = $request->email;
+            $candidate_job->religion = $request->religion;
+            $candidate_job->address = $request->address;
+            $candidate_job->ecr_type = $request->ecr_type;
+
+            // Associate logic
+            if ($request->associate_id) {
+                $candidate_job->associate_id = $request->associate_id;
+                $serviceCharge = $interview->job->associate_charge ?? null;
+            } else {
+                $serviceCharge = $interview->job->service_charge ?? null;
+            }
+
+            $candidate_job->due_amount = $serviceCharge;
+            $candidate_job->job_service_charge = $serviceCharge;
+
+            $candidate_job->job_id = $interview->job_id;
+            $candidate_job->company_id = $interview->company_id;
+            $candidate_job->interview_id = $interview->id;
+
+            $candidate_job->job_position = $interview->job->candidate_position_id ?? null;
+            $candidate_job->job_location = $interview->job->address ?? null;
+
+            $candidate_job->food_allowance = $interview->job->benifits ?? null;
+            $candidate_job->contract_duration = $interview->job->contract ?? null;
+            $candidate_job->salary = $interview->job->salary ?? null;
+
+            $candidate_job->date_of_interview = $interview->interview_start_date ?? null;
+            $candidate_job->interview_location = $interview->interview_location ?? null;
+
+            $candidate_job->job_interview_status = 'Selected';
+
+            $candidate_job->vendor_id = $interview->job->vendor_id ?? null;
+            if ($interview->job->vendor_id) {
+                $vendor = User::find($interview->job->vendor_id);
+                $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
+            }
+
+            $candidate_job->save();
+
+            DB::commit();
+            return redirect()->route('jobs.index')->with('success', 'Candidate Job created successfully.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Error creating candidate job: ' . $e->getMessage())->withInput();
+        }
+    }
 
     /**
      * Display the specified resource.
@@ -995,5 +1098,39 @@ class JobsController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    public function getCompanyJobsAJAX($company_id)
+    {
+        $jobs = Job::where('company_id', $company_id)->where('status', 'Ongoing')->whereHas('interviews', function ($query) {
+            $query->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') >= ?", [now()->subDays(30)->format('Y-m-d')]);
+            $query->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') <= ?", [now()->format('Y-m-d')]);
+        })->get();
+        return response()->json(['jobs' => $jobs, 'status' => 'success']);
+    }
+
+    public function getJobInterviewsAJAX($job_id)
+    {
+        $interviews = Interview::where('job_id', $job_id)
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') >= ?", [now()->subDays(30)->format('Y-m-d')])
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') <= ?", [now()->format('Y-m-d')])
+            ->get();
+        return response()->json(['interviews' => $interviews, 'status' => 'success']);
+    }
+
+    public function getInterviewDataAJAX($interview_id)
+    {
+        $interview = Interview::with('job')->find($interview_id);
+        if ($interview) {
+            return response()->json([
+                'status' => 'success',
+                'salary' => $interview->job->salary ?? '',
+                'food_allowance' => $interview->job->benifits ?? '',
+                'contract_duration' => $interview->job->contract ?? '',
+                'service_charge' => $interview->job->service_charge ?? '',
+                'associate_charge' => $interview->job->associate_charge ?? '',
+            ]);
+        }
+        return response()->json(['status' => 'error']);
     }
 }
