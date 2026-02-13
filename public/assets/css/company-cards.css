@@ -1,0 +1,479 @@
+/* ===================================
+   HORIZONTAL SPLIT COMPANY CARD DESIGN
+   ================================= */
+
+/* Company Card Container - Horizontal Layout */
+.company-card {
+    padding: 14px 16px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    /* display: flex; */
+    /* align-items: center;
+    justify-content: space-between; */
+    /* gap: 16px; */
+    min-height: 100px;
+}
+
+.company-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #667eea 0%, #1482f8 50%, #1482f8 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.company-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+    border-color: rgba(102, 126, 234, 0.3);
+    background: linear-gradient(135deg, #ffffff 0%, #f0f3ff 100%);
+}
+
+.company-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Left Section - Logo & Info */
+.company-card-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+    /* Allow text truncation */
+}
+
+/* Header with Logo and Title */
+.company-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Company Logo - Compact for Horizontal */
+.company-card-logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(135deg, #667eea 0%, #764ba2 100%) border-box;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.company-card-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 4px;
+}
+
+.company-card:hover .company-card-logo {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.35);
+}
+
+.company-card:hover .company-card-logo img {
+    transform: scale(1.08);
+}
+
+/* Company Title with Toggle */
+.company-card-title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+}
+
+.company-card-title h3 {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #1482f8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.company-card:hover .company-card-title h3 {
+    transform: translateX(2px);
+}
+
+/* Company Info Items - Horizontal */
+.company-card-info {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+}
+
+.company-info-item {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 12px;
+    width: 100%;
+}
+
+.info-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: #8B92A8;
+    /* text-transform: uppercase; */
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.info-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #2D3748;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Right Section - Jobs Badge & Button */
+.company-card-right {
+    flexshrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Jobs Badge - Circular Design */
+.company-jobs-badge {
+    width: 100px;
+    height: 38px;
+    border-radius: 7px;
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.company-card:hover .company-jobs-badge {
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.5);
+}
+
+.jobs-count {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1;
+    margin-bottom: 0;
+}
+
+.jobs-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgb(0 0 0 / 90%);
+    text-transform: uppercase;
+    /* letter-spacing: 0.3px; */
+    text-align: center;
+    margin-left: 4px;
+}
+
+/* Company Primary Button - Compact Horizontal */
+.company-btn-primary {
+    background: linear-gradient(135deg, #2db976 0%, #2db976 100%);
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgb(45 185 118 / 13%);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.company-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1482f8 0%, #667eea 100%);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+}
+
+.company-btn-primary:hover::before {
+    left: 0;
+}
+
+.company-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(102, 126, 234, 0.4);
+    color: #fff;
+    text-decoration: none;
+}
+
+.company-btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.35);
+}
+
+.company-btn-primary * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Modern Toggle Switch - Compact */
+.company-toggle {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.company-toggle .switch {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.company-toggle label {
+    display: block;
+    width: 40px;
+    height: 20px;
+    background: linear-gradient(135deg, #e0e0e0 0%, #bdbdbd 100%);
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.company-toggle label::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.company-toggle .switch:checked~.lbl-off {
+    display: none;
+}
+
+.company-toggle .switch:not(:checked)~.lbl-on {
+    display: none;
+}
+
+.company-toggle .lbl-on {
+    background: linear-gradient(135deg, #667eea 0%, #1482f8 100%) !important;
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.35);
+}
+
+.company-toggle .lbl-on::after {
+    left: 22px !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.company-toggle label:hover {
+    transform: scale(1.05);
+}
+
+/* Modern Tabs Enhancement */
+.tabs {
+    margin-bottom: 24px;
+}
+
+.tabs .nav-tabs {
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 20px;
+}
+
+.tabs .nav-tabs .nav-item {
+    margin-bottom: -2px;
+}
+
+.tabs .nav-tabs .nav-link {
+    border: none;
+    background: transparent;
+    color: #8B92A8;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    letter-spacing: 0.3px;
+}
+
+.tabs .nav-tabs .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tabs .nav-tabs .nav-link:hover {
+    color: #667eea;
+    background: rgba(102, 126, 234, 0.05);
+}
+
+.tabs .nav-tabs .nav-link.active {
+    color: #667eea;
+    background: transparent;
+    font-weight: 700;
+}
+
+.tabs .nav-tabs .nav-link.active::after {
+    transform: scaleX(1);
+}
+
+/* Enhanced Grid Spacing */
+.row.row-cols-1,
+.row.row-cols-md-2,
+.row.row-cols-lg-3,
+.row.row-cols-xl-4,
+.row.row-cols-xxl-6,
+.row.row-cols-xxl-5 {
+    row-gap: 14px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .company-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        min-height: auto;
+    }
+
+    .company-card-left {
+        width: 100%;
+    }
+
+    .company-card-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .company-jobs-badge {
+        width: 70px;
+        height: 70px;
+    }
+
+    .company-btn-primary {
+        flex: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .company-card {
+        padding: 12px 14px;
+    }
+
+    .company-card-logo {
+        width: 44px;
+        height: 44px;
+    }
+
+    .company-card-title h3 {
+        font-size: 14px;
+    }
+
+    .company-btn-primary {
+        padding: 9px 16px;
+        font-size: 11px;
+    }
+
+    .company-jobs-badge {
+        width: 60px;
+        height: 60px;
+    }
+
+    .jobs-count {
+        font-size: 20px;
+    }
+
+    .info-label {
+        font-size: 9px;
+    }
+
+    .info-value {
+        font-size: 10px;
+    }
+}
+
+/* Animation for card entrance */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.company-card {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+/* Grid Gap Overrides */
+.gx-2 {
+    --bs-gutter-x: 0.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1rem !important;
+}
