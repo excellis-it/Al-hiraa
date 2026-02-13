@@ -123,6 +123,15 @@
                                                                 id="service_charge_msg_create"></span>
                                                         </div>
                                                     </div>
+                                                    <div class="col-xl-6">
+                                                        <div class="form-group">
+                                                            <label for="">Associate Charge*</label>
+                                                            <input type="text" class="form-control" id=""
+                                                                value="" name="associate_charge" placeholder="">
+                                                            <span class="text-danger"
+                                                                id="associate_charge_msg_create"></span>
+                                                        </div>
+                                                    </div>
                                                     {{-- <div class="col-xl-4">
                                                         <div class="form-group">
                                                             <label for="">Status <span>*</span></label>
@@ -604,9 +613,8 @@
                                     <li><strong>Duty Hours</strong> is optional but must be numeric if provided.</li>
                                     <li><strong>Benefits</strong> are optional.</li>
                                     <li><strong>Quantity of People Required</strong> is required and must be numeric.</li>
+                                    <li><strong>Associate Charge</strong> is required and must be numeric if provided.</li>
                                     <li><strong>Interview Start Date</strong> is required and must be a valid date.</li>
-                                    <li><strong>Interview End Date</strong> is required, must be a valid date, and must be
-                                        on or after the Interview Start Date.</li>
                                 </ul>
                             </div>
 

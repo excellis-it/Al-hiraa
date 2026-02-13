@@ -236,12 +236,14 @@ class CompanyController extends Controller
             'candidate_position_id' => 'required',
             'vendor_id' => 'nullable',
             'service_charge' => 'required|numeric',
+            'associate_charge' => 'required|numeric',
             'job_name' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
             'salary' => 'required',
             'quantity_of_people_required' => 'required|numeric',
             'benifits' => 'nullable',
+            'associate_charge' => 'nullable|numeric',
         ], [
             'vendor_id.required' => 'The vendor field is required.',
             'service_charge.required' => 'The service charge field is required.',
@@ -282,6 +284,7 @@ class CompanyController extends Controller
         $job->candidate_position_id = $request->candidate_position_id;
         $job->vendor_id = $request->vendor_id;
         $job->service_charge = $request->service_charge;
+        $job->associate_charge = $request->associate_charge;
         $job->salary = $request->salary;
         $job->company_id = $request->company_id;
         $job->job_name = $request->job_name;
@@ -319,6 +322,7 @@ class CompanyController extends Controller
             'candidate_position_id' => 'required', // candidate_position_id was missing in the validation
             // 'vendor_id' => 'required',
             'service_charge' => 'required|numeric',
+            'associate_charge' => 'required|numeric',
             'job_name' => 'required',
             'status' => 'required',
             // contract was number or float
@@ -335,12 +339,14 @@ class CompanyController extends Controller
             'status.required' => 'The status field is required.',
             'contract.numeric' => 'The contract field must be a number.',
             'address.required' => 'The location field is required.',
+            'associate_charge.required' => 'The associate charge field is required.',
         ]);
 
         $job = Job::findOrFail(Crypt::decrypt($id));
         $job->candidate_position_id = $request->candidate_position_id;
         // $job->vendor_id = $request->vendor_id;
         $job->service_charge = $request->service_charge;
+        $job->associate_charge = $request->associate_charge;
         $job->salary = $request->salary;
         $job->job_name = $request->job_name;
         $job->quantity_of_people_required = $request->quantity_of_people_required;
@@ -410,6 +416,7 @@ class CompanyController extends Controller
                     'address' => 'required',
                     'salary' => 'required|numeric',
                     'quantity_of_people_required' => 'required|numeric',
+                    'associate_charge' => 'required|numeric',
                 ];
                 break;
 

@@ -274,8 +274,8 @@
                                                         numeric.</li>
                                                     <li><strong>Interview Start Date</strong> is required and must be a valid
                                                         date.</li>
-                                                    <li><strong>Interview End Date</strong> is required, must be a valid date,
-                                                        and must be on or after the Interview Start Date.</li>
+                                                    <li><strong>Associate Charge</strong> is required and must be numeric if provided.</li>
+
                                                 </ul>
                                             </div>
 

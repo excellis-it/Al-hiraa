@@ -25,7 +25,8 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Vendors</label>
-                                        <select name="vendor_id" class="form-select new_select2" id="" disabled>
+                                        <select name="vendor_id" class="form-select new_select2" id=""
+                                            disabled>
                                             <option value="">Select an vendor</option>
                                             @foreach ($vendors as $vendor)
                                                 <option value="{{ $vendor->id }}"
@@ -39,7 +40,8 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Position<span>*</span></label>
-                                        <select name="candidate_position_id" class="form-select new_select2" id="">
+                                        <select name="candidate_position_id" class="form-select new_select2"
+                                            id="">
                                             <option value="">Select a position</option>
                                             @foreach ($positions as $position)
                                                 <option value="{{ $position->id }}"
@@ -87,7 +89,8 @@
                                     <div class="form-group">
                                         <label for="">People Required<span>*</span></label>
                                         <input type="number" class="form-control" id=""
-                                            value="{{ $job->quantity_of_people_required }}" name="quantity_of_people_required" placeholder="">
+                                            value="{{ $job->quantity_of_people_required }}"
+                                            name="quantity_of_people_required" placeholder="">
                                         <span class="text-danger" id="quantity_of_people_required_msg_job"></span>
                                     </div>
                                 </div>
@@ -99,13 +102,21 @@
                                         <span class="text-danger" id="benifits_msg_job"></span>
                                     </div>
                                 </div>
-                                 {{-- service_charge --}}
-                                <div class="col-xl-4">
+                                <div class="col-xl-6">
                                     <div class="form-group">
                                         <label for="">Service Charge<span>*</span></label>
                                         <input type="text" class="form-control" id=""
                                             value="{{ $job->service_charge }}" name="service_charge" placeholder="">
                                         <span class="text-danger" id="service_charge_msg_job"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="form-group">
+                                        <label for="">Associate Charge*</label>
+                                        <input type="text" class="form-control" id=""
+                                            value="{{ $job->associate_charge }}" name="associate_charge"
+                                            placeholder="">
+                                        <span class="text-danger" id="associate_charge_msg_job"></span>
                                     </div>
                                 </div>
                                 <div class="col-xl-4">
@@ -127,7 +138,8 @@
                                         <select name="referral_point_id" class="form-select" id="">
                                             <option value="">Select a referral point</option>
                                             @foreach ($referral_points as $referral_point)
-                                                <option value="{{ $referral_point->id }}"{{ $job->referral_point_id == $referral_point->id ? 'selected' : ''}}>
+                                                <option
+                                                    value="{{ $referral_point->id }}"{{ $job->referral_point_id == $referral_point->id ? 'selected' : '' }}>
                                                     {{ $referral_point->point }}</option>
                                             @endforeach
                                         </select>
@@ -179,12 +191,12 @@
 <script>
     // select2
     $(document).ready(function() {
-            $('.new_select2').each(function() {
-                $(this).select2({
-                    dropdownParent: $(this).parent()
-                });
-            })
-        });
+        $('.new_select2').each(function() {
+            $(this).select2({
+                dropdownParent: $(this).parent()
+            });
+        })
+    });
 </script>
 <script>
     function loadCities(state_id) {
@@ -201,7 +213,8 @@
                     $('#edit_city_id').append('<option value="">Select a city</option>');
                     var city_id = "{{ $job->city_id ?? '' }}";
                     $.each(response.cities, function(key, value) {
-                        $('#edit_city_id').append('<option value="' + value.id + '"' + (city_id == value.id ? 'selected' : '') + '>' + value.name + '</option>');
+                        $('#edit_city_id').append('<option value="' + value.id + '"' + (city_id ==
+                            value.id ? 'selected' : '') + '>' + value.name + '</option>');
                     });
                 }
             });

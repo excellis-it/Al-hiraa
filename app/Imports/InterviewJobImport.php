@@ -34,7 +34,6 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
 
         $cleanedRows = $rows->map(function ($row) {
             $row['interview_start_date'] = $this->formatExcelDate($row['interview_start_date']);
-            $row['interview_end_date'] = $this->formatExcelDate($row['interview_end_date']);
             return $row;
         });
 
@@ -49,14 +48,14 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             '*.salary' => 'required',
             '*.duty_hours' => 'nullable|numeric',
             '*.benifits' => 'nullable',
+            '*.associate_charge' => 'required|numeric',
             '*.quantity_of_people_required' => 'required|numeric',
             '*.interview_start_date' => 'required|date',
-            '*.interview_end_date' => 'required|date|after_or_equal:*.interview_start_date',
         ])->validate();
 
         foreach ($cleanedRows as $key => $row) {
             $interview_start_date = $row['interview_start_date'];
-            $interview_end_date = $row['interview_end_date'];
+            $interview_end_date = $row['interview_start_date'];
 
             $vendor = null;
             if (!empty($row['vendor_email'])) {
@@ -91,6 +90,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             $job->benifits = $row['benifits'] ?? null;
             $job->salary = $row['salary'] ?? null;
             $job->service_charge = $row['service_charge'] ?? null;
+            $job->associate_charge = $row['associate_charge'] ?? null;
             $job->job_description = $row['job_description'] ?? null;
             $job->duty_hours = $row['duty_hours'] ?? null;
             $job->address = $row['location'] ?? null;
@@ -101,6 +101,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
 
             Interview::create([
                 'job_id' => $job->id,
+                'interview_id' => $job->generateInterviewId(),
                 'user_id' => auth()->id(),
                 'interview_location' => $row['interview_location'],
                 'company_id' => $this->company_id,
