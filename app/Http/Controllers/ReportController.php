@@ -20,7 +20,7 @@ class ReportController extends Controller
         $page = $request->input('page', 1); // Current page
         $perPage = 10; // Results per page
 
-        $query = Candidate::query();
+        $query = Candidate::whereNotNull('passport_number')->query();
 
         if ($search) {
             $query->where('full_name', 'like', '%' . $search . '%');
@@ -42,19 +42,16 @@ class ReportController extends Controller
     }
 
     public function candidateInterviewExport(Request $request)
-{
-    // Get the selected candidate IDs from the request
-    $candidateIds = $request->input('candidate_id'); // or use a different name if necessary
+    {
+        // Get the selected candidate IDs from the request
+        $candidateIds = $request->input('passport_number'); // or use a different name if necessary
 
-    // Ensure candidates are selected
-    if (!$candidateIds) {
-        return redirect()->back()->with('error', 'Please select at least one candidate.');
+        // Ensure candidates are selected
+        if (!$candidateIds) {
+            return redirect()->back()->with('error', 'Please select at least one candidate.');
+        }
+
+        // Export the selected candidates
+        return Excel::download(new CandidateInterviewExport($candidateIds), 'candidates_interview.xlsx');
     }
-
-    // Export the selected candidates
-    return Excel::download(new CandidateInterviewExport($candidateIds), 'candidates_interview.xlsx');
-}
-
-
-
 }

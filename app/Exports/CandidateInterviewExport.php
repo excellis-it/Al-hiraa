@@ -25,7 +25,7 @@ class CandidateInterviewExport implements FromQuery, WithMapping, WithHeadings
     public function query()
     {
         return CandidateJob::query()
-            ->where('candidate_id', $this->candidateIds);
+            ->where('passport_number', $this->candidateIds);
     }
 
     /**

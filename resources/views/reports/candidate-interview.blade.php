@@ -36,18 +36,18 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label for="">Candidates <span>*</span></label>
-                                                <select name="candidate_id[]" class="form-select uppercase-text select_candidate" id="" >
+                                                <select name="passport_number[]" class="form-select uppercase-text select_candidate" id="" >
                                                     <option value="" disabled>Select Candidates</option>
                                                     @foreach ($candidates as $candidate)
-                                                        <option value="{{ $candidate->id }}"
-                                                            {{ old('candidate_id') == $candidate->id ? 'selected' : (isset($selectedLicenses) && in_array($candidate->id, $selectedLicenses) ? 'selected' : '') }}>
+                                                        <option value="{{ $candidate->passport_number }}"
+                                                            {{ old('passport_number') == $candidate->passport_number ? 'selected' : (isset($selectedLicenses) && in_array($candidate->id, $selectedLicenses) ? 'selected' : '') }}>
                                                             {{ $candidate->full_name }} ({{ $candidate->contact_no }})
                                                         </option>
                                                     @endforeach
                                                 </select>
 
-                                                @if ($errors->has('candidate_id'))
-                                                    <span class="text-danger">{{ $errors->first('candidate_id') }}</span>
+                                                @if ($errors->has('passport_number'))
+                                                    <span class="text-danger">{{ $errors->first('passport_number') }}</span>
                                                 @endif
                                             </div>
                                         </div>

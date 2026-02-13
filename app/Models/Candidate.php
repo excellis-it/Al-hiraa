@@ -150,7 +150,7 @@ class Candidate extends Authenticatable
 
     public function CandidateJob()
     {
-        return $this->hasMany(CandidateJob::class);
+        return $this->hasMany(CandidateJob::class, 'passport_number', 'passport_number');
     }
 
 }
