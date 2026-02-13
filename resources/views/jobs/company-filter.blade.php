@@ -334,14 +334,21 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+                            <input type="hidden" id="export_candidate_ids" name="candidate_ids">
+                            <input type="hidden" id="export_search" name="search">
+                            <input type="hidden" id="export_company" name="company">
+                            <input type="hidden" id="export_int_pipeline" name="int_pipeline">
+                            <input type="hidden" id="export_job_id" name="job_id">
+
                             <div class="mb-3">
-                                <label for="start_date" class="form-label">Start Date</label>
-                                <input type="date" class="form-control" id="start_date" name="start_date"
-                                    required>
+                                <label for="start_date" class="form-label">Start Date (Optional if selecting
+                                    records)</label>
+                                <input type="date" class="form-control" id="start_date" name="start_date">
                             </div>
                             <div class="mb-3">
-                                <label for="end_date" class="form-label">End Date</label>
-                                <input type="date" class="form-control" id="end_date" name="end_date" required>
+                                <label for="end_date" class="form-label">End Date (Optional if selecting
+                                    records)</label>
+                                <input type="date" class="form-control" id="end_date" name="end_date">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -377,6 +384,10 @@
                             </th>
                             <th class="can_full">Company Name</th>
                             <th class="can_full">Full Name</th>
+                            {{-- associate name and phone number --}}
+                            <th>
+                                Associate Details
+                            </th>
                             <th>Gender</th>
                             <th>DOB</th>
                             <th>WhatsApp No.</th>

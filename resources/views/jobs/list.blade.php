@@ -600,4 +600,31 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#exportModal').on('show.bs.modal', function() {
+                var candidate_ids = [];
+                $('.checkd-row:checked').each(function() {
+                    candidate_ids.push($(this).data('id'));
+                });
+
+                var query = $('#query').val();
+                var company = $('.filter-company.active').data('id');
+                var int_pipeline = $('.interview-active').data('val');
+                var job_id = $('select[name="job_id[]"]').val();
+
+                $('#export_candidate_ids').val(candidate_ids.join(','));
+                $('#export_search').val(query);
+                $('#export_company').val(company);
+                $('#export_int_pipeline').val(int_pipeline);
+                $('#export_job_id').val(job_id);
+
+                if (candidate_ids.length > 0) {
+                    $('#exportModalLabel').text('Export Selected Records (' + candidate_ids.length + ')');
+                } else {
+                    $('#exportModalLabel').text('Export Filtered Data');
+                }
+            });
+        });
+    </script>
 @endpush

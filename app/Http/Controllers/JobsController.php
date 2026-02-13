@@ -308,6 +308,12 @@ class JobsController extends Controller
                             ->orWhere('secnd_installment_amount', 'like', "%{$term}%")
                             ->orWhereHas('company', function ($q) use ($term) {
                                 $q->where('company_name', 'like', "%{$term}%");
+                            })
+                            ->orWhereHas('associate', function ($q) use ($term) {
+                                $q->where('name', 'like', "%{$term}%");
+                            })
+                            ->orWhereHas('associate', function ($q) use ($term) {
+                                $q->where('phone_number', 'like', "%{$term}%");
                             });
                     });
                 }
@@ -461,6 +467,12 @@ class JobsController extends Controller
                         ->orWhere('fst_installment_amount', 'like', "%{$term}%")
                         ->orWhere('secnd_installment_amount', 'like', "%{$term}%")->orWhereHas('company', function ($q) use ($term) {
                             $q->where('company_name', 'like', "%{$term}%");
+                        })
+                        ->orWhereHas('associate', function ($q) use ($term) {
+                            $q->where('name', 'like', "%{$term}%");
+                        })
+                        ->orWhereHas('associate', function ($q) use ($term) {
+                            $q->where('phone_number', 'like', "%{$term}%");
                         });
                 }
             });
@@ -960,15 +972,22 @@ class JobsController extends Controller
     public function export(Request $request)
     {
         if (Auth::user()->can('Export Candidate')) {
-            $request->validate([
-                'start_date' => 'required|date|before_or_equal:end_date',
-                'end_date' => 'required|date|after_or_equal:start_date',
-            ]);
+            // Optional: validate date range only if no specific IDs are provided
+            if (!$request->has('candidate_ids')) {
+                // $request->validate([
+                //     'start_date' => 'nullable|date|before_or_equal:end_date',
+                //     'end_date' => 'nullable|date|after_or_equal:start_date',
+                // ]);
+            }
 
             try {
+                $filters = $request->all();
+                $fileName = 'candidate-export-' . now()->format('Y-m-d') . '.csv';
+
                 return Excel::download(
-                    new CandidateJobExport($request->start_date, $request->end_date),
-                    'candidate-export-' . now()->format('Y-m-d') . '.xlsx'
+                    new CandidateJobExport($filters),
+                    $fileName,
+                    \Maatwebsite\Excel\Excel::CSV
                 );
             } catch (\Throwable $th) {
                 return redirect()->back()->with('error', $th->getMessage());

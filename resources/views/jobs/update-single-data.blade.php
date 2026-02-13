@@ -35,6 +35,8 @@
 
 <td class="">{{ $candidate_job->company->company_name ?? 'N/A' }}</td>
 <td class="">{{ $candidate_job->full_name ?? 'N/A' }}</td>
+{{-- associate name and phone number --}}
+<td class="content-short">{{ $candidate_job->associate->name ?? 'N/A' }} <br> {{ $candidate_job->associate->phone_number ?? 'N/A' }}</td>
 <td class="content-short">{{ $candidate_job->gender ?? 'N/A' }}</td>
 <td class="content-short">
     {{ $candidate_job->date_of_birth != null ? date('d.m.Y', strtotime($candidate_job->date_of_birth)) : 'N/A' }}</td>
