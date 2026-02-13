@@ -75,7 +75,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             '*.contact_no' => 'nullable|numeric|digits:10',
             '*.email' => 'nullable|email',
             // passport no
-            '*.passport_no' => 'required|regex:/^[A-Za-z]\d{7}$/',
+            '*.passport_number' => 'required|regex:/^[A-Za-z]\d{7}$/',
             '*.passport_expiry_date' => 'required|date|after:today',
             //ecr type
             '*.ecr_type' => 'nullable|in:ECR,ECNR',
@@ -92,7 +92,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             // COUNTRY
             '*.country' => 'nullable',
             '*.date_of_selection' => 'required|date|after_or_equal:*.date_of_interview',
-            '*.mode_of_selection' => 'required|in:FACE TO FACE, ONLINE, DIRECT',
+            '*.mode_of_selection' => 'nullable|in:FACE TO FACE,ONLINE,DIRECT',
             '*.client_remarks' => 'nullable',
             '*.interview_id' => 'required|exists:interviews,interview_id',
             '*.sponsor' => 'nullable',
@@ -106,7 +106,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             '*.medical_approval_date' => 'nullable|date|required_with:*.medical_completion_date,*.medical_expiry_date, *.medical_status, *.medical_repeat_date',
             '*.medical_completion_date' => 'nullable|date|required_with:*.medical_expiry_date, *.medical_status, *.medical_repeat_date',
             '*.medical_expiry_date' => 'nullable|date|required_with:*.medical_status, *.medical_repeat_date',
-            '*.medical_status' => 'nullable',
+            '*.medical_status' => 'nullable|in:FIT,UNFIT,REPEAT',
             '*.medical_repeat_date' => 'nullable|date|required_if:*.medical_status,REPEAT',
             '*.courrier_sent_date' => 'nullable|date',
             '*.courrier_received_date' => 'nullable|date',
@@ -125,7 +125,6 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             '*.fourth_installment_amount' => 'nullable|numeric',
             '*.fourth_installment_date' => 'nullable|date',
             '*.deployment_date' => 'nullable|date',
-            '*.job_interview_status' => 'nullable|in:SELECTED,INTERESTED,NOT-INTERESTED',
         ], [
             'full_name.required' => 'Full name is required',
             'dob.required' => 'Date of birth is required',
@@ -134,8 +133,8 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             'contact_no.required' => 'Contact number is required',
             'contact_no.numeric' => 'Contact number must be a number',
             'contact_no.exists' => 'Contact number does not exist in the system',
-            'passport_no.required' => 'Passport number is required',
-            'passport_no.regex' => 'Passport number must be a valid passport number',
+            'passport_number.required' => 'Passport number is required',
+            'passport_number.regex' => 'Passport number must be a valid passport number',
             'passport_expiry_date.required' => 'Passport expiry date is required',
             'passport_expiry_date.date' => 'Passport expiry date must be a date',
             'passport_expiry_date.after' => 'Passport expiry date must be a date after today',
@@ -148,7 +147,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
 
             'date_of_selection.required' => 'Date of selection is required',
             'date_of_selection.after_or_equal' => 'Date of selection must be a date after or equal to the date of interview',
-            'mode_of_selection.required' => 'Mode of selection is required',
+            // 'mode_of_selection.required' => 'Mode of selection is required',
             'mode_of_selection.in' => 'Mode of selection must be FULL TIME, PART TIME or CONTRACT',
 
             'family_contact_no.numeric' => 'Family contact number must be a number',
@@ -180,9 +179,6 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
         try {
             foreach ($rows as $row) {
 
-
-                $dob = $this->formatExcelDate($row['dob'] ?? null); // Safely format DOB
-
                 $interview = Interview::with(['company', 'job'])->where('interview_id', $row['interview_id'])
                     ->first();
                 if ($interview) {
@@ -208,7 +204,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                         $candidate_job->full_name = $row['full_name'] ?? null;
                         $candidate_job->email = $row['email'] ?? null;
                         $candidate_job->gender = $row['gender'] ?? null;
-                        $candidate_job->date_of_birth = $row['date_of_birth'] ?? null;
+                        $candidate_job->date_of_birth = $row['dob'] ?? null;
                         $candidate_job->whatapp_no = $row['whatapp_no'] ?? null;
                         $candidate_job->alternate_contact_no = $row['alternate_contact_no'] ?? null;
                         $candidate_job->religion = $row['religion'] ?? null;
@@ -225,6 +221,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                                 $associate = Associate::create([
                                     'phone_number' => $row['associate_phone'],
                                     'name' => $row['associate_name'],
+                                    'associate_id' => Associate::generateAssociateId(),
                                 ]);
                                 $candidate_job->associate_id = $associate->id;
                             }
@@ -247,7 +244,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                         $candidate_job->interview_location = $interview->interview_location ?? null;
 
 
-                        $candidate_job->job_interview_status = $row['job_interview_status'];
+                        $candidate_job->job_interview_status = 'SELECTED';
                         $candidate_job->interview_id = $interview->id;
                         $candidate_job->vendor_id = $interview->job->vendor_id ?? null;
 
@@ -256,7 +253,6 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                             $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
                         }
 
-                        $candidate_job->date_of_interview = $this->formatExcelDate($row['date_of_interview']) ?? null;
                         $candidate_job->date_of_selection = $this->formatExcelDate($row['date_of_selection']) ?? null;
                         $candidate_job->mode_of_selection = $row['mode_of_selection'] ?? null;
                         $candidate_job->interview_location = $interview->job->address ?? null;
@@ -333,29 +329,6 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
                             $refer_point->amount = $referral_amount->amount ?? null;
                             $refer_point->refer_job_id = $candidate_job->job_id ?? null;
                             $refer_point->save();
-                        }
-
-
-                        if (isset($candidate->candidateIndianLicence) && count($candidate->candidateIndianLicence) > 0) {
-                            foreach ($candidate->candidateIndianLicence as $indianLicence) {
-                                $candidate_ind_licence = new CandJobLicence();
-                                $candidate_ind_licence->candidate_job_id = $candidate_job->id;
-                                $candidate_ind_licence->candidate_id = $candidate->id;
-                                $candidate_ind_licence->licence_type = 'indian';
-                                $candidate_ind_licence->licence_name = $indianLicence->licence_name;
-                                $candidate_ind_licence->save();
-                            }
-                        }
-
-                        if (isset($candidate->candidateGulfLicence) && count($candidate->candidateGulfLicence) > 0) {
-                            foreach ($candidate->candidateGulfLicence as $gulfLicence) {
-                                $candidate_gulf_licence = new CandJobLicence();
-                                $candidate_gulf_licence->candidate_job_id = $candidate_job->id;
-                                $candidate_gulf_licence->candidate_id = $candidate->id;
-                                $candidate_gulf_licence->licence_type = 'gulf';
-                                $candidate_gulf_licence->licence_name = $gulfLicence->licence_name;
-                                $candidate_gulf_licence->save();
-                            }
                         }
                     }
                 }

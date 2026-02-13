@@ -407,7 +407,7 @@
 </div>
 {{-- Import Model  --}}
 <div class="modal fade" id="importJobModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
@@ -432,31 +432,65 @@
                         <span class="text-danger" id="file-err"></span>
                     </div>
 
+                    <!-- Last 30 Days Interview List -->
+                    @if (isset($recent_interviews) && count($recent_interviews) > 0)
+                        <div class="mt-3">
+                            <h6>Last 30 Days Interviews (use Interview ID in your Excel):</h6>
+                            <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+                                <table class="table table-sm table-bordered">
+                                    <thead style="position: sticky; top: 0; background: #fff;">
+                                        <tr>
+                                            <th>Interview ID</th>
+                                            <th>Company Name</th>
+                                            <th>Job Name</th>
+                                            <th>Interview Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($recent_interviews as $interview)
+                                            <tr>
+                                                <td><strong>{{ $interview->interview_id ?? 'N/A' }}</strong></td>
+                                                <td>{{ $interview->company->company_name ?? 'N/A' }}</td>
+                                                <td>{{ $interview->job->job_name ?? 'N/A' }}</td>
+                                                <td>{{ $interview->interview_start_date ?? 'N/A' }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    @endif
+
                     <!-- Validation notes for users -->
                     <div class="mt-3">
                         <h6>Validation Notes:</h6>
                         <ul>
-                            {{-- <li><strong>Contact Number:</strong> Must exist in the system and be numeric.</li> --}}
-                            <li><strong>Company Name & Location:</strong> Ensure that the company name and location
-                                match existing records.</li>
-                            <li><strong>Job Title:</strong> Must exist for the selected company and location.</li>
-                            <li><strong>Interview Dates:</strong> Ensure that the interview start and end dates are
-                                valid and that the end date is after or equal to the start date.</li>
-                            <li><strong>Selection Date:</strong> Must be a date after or equal to the date of interview.
-                            </li>
-                            <li><strong>Salary:</strong> Must be numeric.</li>
-                            <li><strong>Medical Dates:</strong> Medical dates (application, approval, etc.) must match
-                                specific conditions, e.g., they must be provided together or with other relevant fields.
-                            </li>
-                            <li><strong>Installments:</strong> Ensure installment amounts are numeric and that dates are
-                                valid.</li>
-                            <li><strong>Mode of Selection:</strong> Must be one of the following: FULL TIME, PART TIME,
-                                CONTRACT.</li>
-                            <li><strong>Job Interview Status:</strong> Must be one of the following: SELECTED,
-                                INTERESTED, NOT-INTERESTED.</li>
-                            {{-- date format --}}
-                            <li><strong>Date Format:</strong> Date format must be in the following format: dd-mm-yyyy.
-                            </li>
+                            <li><strong>Interview ID:</strong> Required. Must be a valid Interview ID from the system
+                                (see list above).</li>
+                            <li><strong>Full Name:</strong> Required for each candidate.</li>
+                            <li><strong>Date of Birth (dob):</strong> Required, must be a valid date before today.</li>
+                            <li><strong>Passport Number:</strong> Required, must be a valid passport number (e.g.,
+                                A1234567).</li>
+                            <li><strong>Passport Expiry Date:</strong> Required, must be a date after today.</li>
+                            <li><strong>Date of Selection:</strong> Required, must be a date after or equal to the date
+                                of interview.</li>
+                            <li><strong>WhatsApp No. / Contact No. / Alternate Contact No.:</strong> Must be a 10-digit
+                                number if provided.</li>
+                            <li><strong>Email:</strong> Must be a valid email address if provided.</li>
+                            <li><strong>ECR Type:</strong> Must be ECR or ECNR if provided.</li>
+                            <li><strong>Gender:</strong> Must be MALE, FEMALE, or OTHER if provided.</li>
+                            <li><strong>Religion:</strong> Must be HINDU, MUSLIM, CHRISTIAN, SIKH, BUDDHIST, JAIN, or
+                                OTHER if provided.</li>
+                            <li><strong>Mode of Selection:</strong> Must be one of: FACE TO FACE, ONLINE, DIRECT (if
+                                provided).</li>
+                            <li><strong>Associate Phone:</strong> Must be a 10-digit number if provided.</li>
+                            <li><strong>Family Contact No.:</strong> Must be a 10-digit number if provided.</li>
+                            <li><strong>Medical Status:</strong> Must be FIT, UNFIT, or REPEAT if provided.</li>
+                            <li><strong>Medical Dates:</strong> Medical dates (application, approval, completion,
+                                expiry) must be provided together with subsequent fields.</li>
+                            <li><strong>Medical Repeat Date:</strong> Required if medical status is REPEAT.</li>
+                            <li><strong>Installments:</strong> Amounts must be numeric. Dates must be valid.</li>
+                            <li><strong>Date Format:</strong> All dates must be in the format: dd-mm-yyyy.</li>
                         </ul>
                     </div>
                 </div>

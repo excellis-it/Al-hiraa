@@ -12,6 +12,7 @@ use App\Models\Candidate;
 use App\Models\CandidateActivity;
 use App\Models\CandidatePosition;
 use App\Models\Company;
+use App\Models\Interview;
 use App\Models\Job;
 use App\Models\CandidateJob;
 use App\Models\User;
@@ -176,7 +177,13 @@ class JobsController extends Controller
             }
         }
 
-        return view('jobs.list', compact('candidate_jobs', 'companies', 'count'));
+        $recent_interviews = Interview::with(['company', 'job.candidatePosition'])
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') >= ?", [now()->subDays(30)->format('Y-m-d')])
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') <= ?", [now()->format('Y-m-d')])
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('jobs.list', compact('candidate_jobs', 'companies', 'count', 'recent_interviews'));
     }
 
 
@@ -209,32 +216,16 @@ class JobsController extends Controller
     {
         $users = User::where('is_active', 1)->get();
         $candidate_job_detail = CandidateJob::findOrFail($id);
-        // dd($candidate_job_detail);
-        $candidate = Candidate::findOrFail($candidate_job_detail->candidate_id);
+
         $jobs = Job::where('status', 'Ongoing')->get();
         $indian_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'indian')->pluck('licence_name')->toArray();
         $gulf_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
-        $assign_job = AssignJob::where('candidate_id', $candidate->id)->orderBy('id', 'desc')->first();
         $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
         $edit = true;
-        session()->put('candidate_id', $candidate->id);
-        // if (!Auth::user()->hasRole('ADMIN') && !Auth::user()->hasRole('DATA ENTRY OPERATOR')) {
-        //     if ($candidate->is_call_id != null && $candidate->is_call_id != Auth::user()->id) {
-        //         return response()->json(['message' => __('Candidate already called.'), 'status' => 'error']);
-        //     } else {
-        //         $candidate_update = new CandidateUpdated();
-        //         $candidate_update->user_id = Auth::user()->id;
-        //         $candidate_update->candidate_id = $candidate->id;
-        //         $candidate_update->save();
-        //         session()->put('candidate_id', $candidate->id);
-        //         $candidate->is_call_id = Auth::user()->id;
-        //         $candidate->save();
-        //         event(new CallCandidateEvent($candidate->id));
-        //     }
-        // }
 
-        return response()->json(['view' => view('jobs.edit', compact('candidate', 'jobs', 'candidate_job_detail', 'users', 'companies', 'candidate_positions', 'assign_job', 'edit', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+
+        return response()->json(['view' => view('jobs.edit', compact('jobs', 'candidate_job_detail', 'users', 'companies', 'candidate_positions', 'edit', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
     }
 
     /**
@@ -376,7 +367,13 @@ class JobsController extends Controller
         }
 
         // Render the results into a view
-        $view = view('jobs.company-filter', compact('candidate_jobs', 'count', 'int_pipeline'))->render();
+        $recent_interviews = Interview::with(['company', 'job.candidatePosition'])
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') >= ?", [now()->subDays(30)->format('Y-m-d')])
+            ->whereRaw("STR_TO_DATE(interview_start_date, '%d-%m-%Y') <= ?", [now()->format('Y-m-d')])
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $view = view('jobs.company-filter', compact('candidate_jobs', 'count', 'int_pipeline', 'recent_interviews'))->render();
 
         // Return a JSON response
         return response()->json([
