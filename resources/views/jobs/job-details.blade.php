@@ -3,50 +3,56 @@
         <tbody>
             <tr>
                 <td>Date of Interview</td>
-                <td>{{ $candidate_job_detail->date_of_interview ?? 'dd-mm-yyyy' }}</td>
+                <td>{{ $candidate_job_detail->date_of_interview ?? 'N/A' }}</td>
                 <td>Date of Selection</td>
-                <td>{{ $candidate_job_detail->date_of_selection ?? 'dd-mm-yyyy' }}</td>
+                <td>{{ $candidate_job_detail->date_of_selection ?? 'N/A' }}</td>
                 <td>Mode of Selection</td>
-                <td>{{ $candidate_job_detail->mode_of_selection ?? '' }}</td>
+                <td>{{ $candidate_job_detail->mode_of_selection ?? 'N/A' }}</td>
             </tr>
             <tr>
                 <td>Service Charge</td>
-                <td>{{ $candidate_job_detail->job_service_charge ?? '' }}</td>
-                <td>Food Allowance</td>
-                <td>{{ $candidate_job_detail->food_allowance ?? '' }}</td>
-                <td>Contract Duration (Year)</td>
-                <td colspan="3">
-                    {{ $candidate_job_detail->contract_duration ? $candidate_job_detail->contract_duration . ' years' : 'N/A' }}
-                </td>
-
-            </tr>
-
-            <tr>
+                <td>{{ $candidate_job_detail->job_service_charge ?? 'N/A' }}</td>
+                <td>Company</td>
+                <td>{{ $candidate_job_detail->company->company_name ?? 'N/A' }}</td>
                 <td>Sponsor</td>
-                <td>{{ $candidate_job_detail->sponsor ?? '' }}</td>
-                <td>Country</td>
-                <td>{{ $candidate_job_detail->country ?? '' }}</td>
-                <td>Salary</td>
-                @if ($candidate_job_detail->salary != null)
-                    <td>{{ $candidate_job_detail->salary ?? 'N/A' }}</td>
-                @else
-                    <td>{{ $candidate_job_detail->jobTitle->salary ?? 'N/A' }}</td>
-                @endif
-
+                <td>{{ $candidate_job_detail->sponsor ?? 'N/A' }}</td>
             </tr>
             <tr>
-                <td>Interview Location</td>
-                <td colspan="3">{{ $candidate_job_detail->interview_location ?? '' }}</td>
-                <td>Company Name</td>
-                <td colspan="3">{{ $candidate_job_detail->company->company_name ?? '' }}</td>
+                <td>Job Title</td>
+                <td>
+                    @if ($candidate_job_detail->jobTitle != null)
+                        {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A' }}
+                        ({{ $candidate_job_detail->jobTitle->job_id ?? '-' }})
+                    @else
+                        N/A
+                    @endif
+                </td>
+                <td>Salary</td>
+                <td>
+                    @if ($candidate_job_detail->salary != null)
+                        {{ $candidate_job_detail->salary }}
+                    @else
+                        {{ $candidate_job_detail->jobTitle->salary ?? 'N/A' }}
+                    @endif
+                </td>
+                <td>Food Allowance</td>
+                <td>{{ $candidate_job_detail->food_allowance ?? 'N/A' }}</td>
+            </tr>
+            <tr>
+                <td>Country</td>
+                <td>{{ $candidate_job_detail->country ?? 'N/A' }}</td>
+                <td>Contract Duration (Year)</td>
+                <td>{{ $candidate_job_detail->contract_duration ? $candidate_job_detail->contract_duration . ' years' : 'N/A' }}
+                </td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td>Client Remarks</td>
-                <td colspan="3">{{ $candidate_job_detail->client_remarks ?? '' }}</td>
+                <td colspan="2">{{ $candidate_job_detail->client_remarks ?? 'N/A' }}</td>
                 <td>Other Remarks</td>
-                <td colspan="3">{{ $candidate_job_detail->other_remarks ?? '' }}</td>
+                <td colspan="2">{{ $candidate_job_detail->other_remarks ?? 'N/A' }}</td>
             </tr>
-
         </tbody>
     </table>
 </div>
@@ -69,87 +75,89 @@
         $('#candidate-form-job').html(`<tbody class="candidate-form-new">
 
             <tr>
-                <td>Date of Interview*</td>
+                <td>Date of Interview</td>
                 <td class="date-btn">
-                    <input type="text" class="form-control uppercase-text datepicker" id="interview_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') ?? '' }}" name="date_of_interview" placeholder="dd-mm-yyyy">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
+                    <input type="text" class="form-control uppercase-text" id="interview_date" value="{{ $candidate_job_detail->date_of_interview ? \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') : '' }}" name="" placeholder="dd-mm-yyyy" readonly disabled style="background-color: #e9ecef;">
+                    <input type="hidden" name="date_of_interview" value="{{ $candidate_job_detail->date_of_interview ?? '' }}">
                 </td>
 
                 <td>Date of Selection</td>
                 <td class="date-btn">
-                    <input type="text" class="form-control uppercase-text datepicker" id="selection_date" value="{{ \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') ?? '' }}" name="date_of_selection" placeholder="dd-mm-yyyy">
-
-                    <span class="text-danger" id="interview_id_job_msg"></span>
+                    <input type="text" class="form-control uppercase-text datepicker" id="selection_date" value="{{ $candidate_job_detail->date_of_selection ? \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') : '' }}" name="date_of_selection" placeholder="dd-mm-yyyy">
+                    <span class="text-danger" id="selection_date_msg"></span>
                 </td>
                 <td>Mode of Selection</td>
                 <td>
                     <select name="mode_of_selection" class="form-select uppercase-text" id="" >
-                        <option value="">mode of selection</option>
-                        <option value="Full Time" {{ $candidate_job_detail->mode_of_selection == 'Full Time' ? 'selected' : '' }}>Full Time</option>
-                        <option value="Part Time" {{ $candidate_job_detail->mode_of_selection == 'Part Time' ? 'selected' : '' }}>Part Time</option>
-                        <option value="Contract" {{ $candidate_job_detail->mode_of_selection == 'Contract' ? 'selected' : '' }}>Contract</option>
+                        <option value="">Select Mode</option>
+                        <option value="FACE TO FACE" {{ $candidate_job_detail->mode_of_selection == 'FACE TO FACE' ? 'selected' : '' }}>FACE TO FACE</option>
+                        <option value="ONLINE" {{ $candidate_job_detail->mode_of_selection == 'ONLINE' ? 'selected' : '' }}>ONLINE</option>
+                        <option value="DIRECT" {{ $candidate_job_detail->mode_of_selection == 'DIRECT' ? 'selected' : '' }}>DIRECT</option>
                     </select>
-
-                    <span class="text-danger" id="interview_id_job_msg"></span>
+                    <span class="text-danger" id="mode_of_selection_msg"></span>
                 </td>
             </tr>
- <tr>
+            <tr>
                 <td>Service Charge</td>
-                <td><input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->job_service_charge ?? '00.00' }}"  placeholder="" readonly>
-                    <span class="text-danger" id="interview_id_job_msg"></span>
+                <td><input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->job_service_charge ?? '0.00' }}" placeholder="" readonly style="background-color: #e9ecef;">
+                </td>
+                <td>Company</td>
+                <td>
+                    <select name="" class="form-select uppercase-text" id="" disabled style="background-color: #e9ecef;">
+                        <option value="">Select Company</option>
+                        @foreach ($companies as $company)
+                            <option value="{{ $company->id }}" {{ $candidate_job_detail->company_id == $company->id ? 'selected' : '' }}>
+                                {{ $company->company_name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="hidden" name="company_id" value="{{ $candidate_job_detail->company_id }}">
+                </td>
+                <td>Sponsor</td>
+                <td>
+                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->sponsor ?? '' }}" name="sponsor" placeholder="">
+                </td>
+            </tr>
+            <tr>
+                <td>Job Title</td>
+                <td>
+                    <select name="" class="form-select uppercase-text" id="" disabled style="background-color: #e9ecef;">
+                        <option value="">Select Job Title</option>
+                        @foreach ($jobs as $job)
+                            <option value="{{ $job->id }}" {{ $candidate_job_detail->job_id == $job->id ? 'selected' : '' }}>
+                                {{ $job->job_name }} ({{ $job->job_id ?? '-' }})</option>
+                        @endforeach
+                    </select>
+                    <input type="hidden" name="job_id" value="{{ $candidate_job_detail->job_id }}">
+                </td>
+                <td>Salary</td>
+                <td>
+                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->salary ?? '' }}" name="salary" placeholder="">
                 </td>
                 <td>Food Allowance</td>
                 <td>
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->food_allowance ?? '' }}" name="food_allowance" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                <td>Contract Duration (Year)</td>
-                <td colspan="3">
-                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->contract_duration ?? '' }}" name="contract_duration" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
-                </td>
-
             </tr>
             <tr>
-                <td>Sponsor</td>
-                <td>
-                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->sponsor ?? '' }}" name="sponsor" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
-                </td>
                 <td>Country</td>
                 <td>
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->country ?? '' }}" name="country" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
-                <td>Salary*</td>
+                <td>Contract Duration (Year)</td>
                 <td>
-                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->salary ?? '' }}" name="salary" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
+                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->contract_duration ?? '' }}" name="contract_duration" placeholder="">
                 </td>
+                <td></td>
+                <td></td>
             </tr>
-
-             <tr>
-                <td>Interview Location</td>
-                <td colspan="3">
-                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->interview_location ?? '' }}" name="interview_location" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
-                </td>
-                <td>Company Name</td>
-                <td colspan="3">
-                    <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->company->company_name ?? '' }}" name="company_name" placeholder="" disabled>
-                    <span class="text-danger" id="interview_id_job_msg"></span>
-                </td>
-            </tr>
-                <tr>
+            <tr>
                 <td>Client Remarks</td>
-                <td colspan="3">
+                <td colspan="2">
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->client_remarks ?? '' }}" name="client_remarks" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
                 <td>Other Remarks</td>
-                <td colspan="3">
+                <td colspan="2">
                     <input type="text" class="form-control uppercase-text" id="" value="{{ $candidate_job_detail->other_remarks ?? '' }}" name="other_remarks" placeholder="">
-                    <span class="text-danger" id="interview_id_job_msg"></span>
                 </td>
             </tr>
             </tbody>`);
@@ -162,11 +170,6 @@
             value: "{{ $candidate_job_detail->date_of_selection ? \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') : '' }}"
         });
 
-        $('#interview_date').datepicker({
-            uiLibrary: 'bootstrap5',
-            format: 'dd-mm-yyyy',
-            value: "{{ $candidate_job_detail->date_of_interview ? \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') : '' }}"
-        });
     });
 
     $(document).on("click", '#cross-button-job', function(e) {
@@ -178,41 +181,53 @@
         $('#candidate-form-job').html(`<tbody>
                                 <tr>
                                     <td>Date of Interview</td>
-                                    <td>{{ $candidate_job_detail->date_of_interview ?? 'dd-mm-yyyy' }}</td>
+                                    <td>{{ $candidate_job_detail->date_of_interview ?? 'N/A' }}</td>
                                     <td>Date of Selection</td>
-                                    <td>{{ $candidate_job_detail->date_of_selection ?? 'dd-mm-yyyy' }}</td>
+                                    <td>{{ $candidate_job_detail->date_of_selection ?? 'N/A' }}</td>
                                     <td>Mode of Selection</td>
-                                    <td>{{ $candidate_job_detail->mode_of_selection ?? '' }}</td>
+                                    <td>{{ $candidate_job_detail->mode_of_selection ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
                                     <td>Service Charge</td>
-                                    <td>{{ $candidate_job_detail->job_service_charge ?? '' }}</td>
-                                    <td>Food Allowance</td>
-                                    <td>{{ $candidate_job_detail->food_allowance ?? '' }}</td>
-                                    <td>Contract Duration (Year)</td>
-                                    <td colspan="3">{{ $candidate_job_detail->contract_duration ?? '' }}</td>
-
-                                </tr>
-                                <tr>
-
+                                    <td>{{ $candidate_job_detail->job_service_charge ?? 'N/A' }}</td>
+                                    <td>Company</td>
+                                    <td>{{ $candidate_job_detail->company->company_name ?? 'N/A' }}</td>
                                     <td>Sponsor</td>
-                                    <td>{{ $candidate_job_detail->sponsor ?? '' }}</td>
-                                    <td>Country</td>
-                                    <td>{{ $candidate_job_detail->country ?? '' }}</td>
-                                    <td>Salary</td>
-                                    <td>{{ $candidate_job_detail->salary ?? '' }}</td>
+                                    <td>{{ $candidate_job_detail->sponsor ?? 'N/A' }}</td>
                                 </tr>
                                 <tr>
-                                    <td>Interview Location</td>
-                                    <td colspan="3">{{ $candidate_job_detail->interview_location ?? '' }}</td>
-                                    <td>Company Name</td>
-                                    <td colspan="3">{{ $candidate_job_detail->company->company_name ?? '' }}</td>
+                                    <td>Job Title</td>
+                                    <td>
+                                        @if ($candidate_job_detail->jobTitle != null)
+                                            {{ $candidate_job_detail->jobTitle->job_name ?? 'N/A' }} ({{ $candidate_job_detail->jobTitle->job_id ?? '-' }})
+                                        @else
+                                            N/A
+                                        @endif
+                                    </td>
+                                    <td>Salary</td>
+                                    <td>
+                                        @if ($candidate_job_detail->salary != null)
+                                            {{ $candidate_job_detail->salary }}
+                                        @else
+                                            {{ $candidate_job_detail->jobTitle->salary ?? 'N/A' }}
+                                        @endif
+                                    </td>
+                                    <td>Food Allowance</td>
+                                    <td>{{ $candidate_job_detail->food_allowance ?? 'N/A' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Country</td>
+                                    <td>{{ $candidate_job_detail->country ?? 'N/A' }}</td>
+                                    <td>Contract Duration (Year)</td>
+                                    <td>{{ $candidate_job_detail->contract_duration ? $candidate_job_detail->contract_duration . ' years' : 'N/A' }}</td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>Client Remarks</td>
-                                    <td colspan="3">{{ $candidate_job_detail->client_remarks ?? '' }}</td>
+                                    <td colspan="2">{{ $candidate_job_detail->client_remarks ?? 'N/A' }}</td>
                                     <td>Other Remarks</td>
-                                    <td colspan="3">{{ $candidate_job_detail->other_remarks ?? '' }}</td>
+                                    <td colspan="2">{{ $candidate_job_detail->other_remarks ?? 'N/A' }}</td>
                                 </tr>
                             </tbody>`);
 

@@ -200,12 +200,13 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
 
                         $candidate_job = new CandidateJob();
                         $candidate_job->assign_by_id = auth()->id();
+                        $candidate_job->contact_no = $row['contact_no'] ?? null;
                         $candidate_job->assign_job_id = $assign_job->id;
                         $candidate_job->full_name = $row['full_name'] ?? null;
                         $candidate_job->email = $row['email'] ?? null;
                         $candidate_job->gender = $row['gender'] ?? null;
                         $candidate_job->date_of_birth = $row['dob'] ?? null;
-                        $candidate_job->whatapp_no = $row['whatapp_no'] ?? null;
+                        $candidate_job->whatapp_no = $row['whatapp_no'] ? '+91' . $row['whatapp_no'] : null;
                         $candidate_job->alternate_contact_no = $row['alternate_contact_no'] ?? null;
                         $candidate_job->religion = $row['religion'] ?? null;
                         $candidate_job->address = $row['address'] ?? null;

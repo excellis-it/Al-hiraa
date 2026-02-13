@@ -17,6 +17,7 @@ use App\Models\Job;
 use App\Models\CandidateJob;
 use App\Models\User;
 use App\Models\CandJobLicence;
+use App\Models\Associate;
 use App\Models\ReferralPoint;
 use App\Models\CandidateReferralPoint;
 use App\Services\TextlocalService;
@@ -222,10 +223,11 @@ class JobsController extends Controller
         $gulf_driving_license = CandJobLicence::where('candidate_job_id', $id)->where('licence_type', 'gulf')->pluck('licence_name')->toArray();
         $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
         $companies = Company::where('status', 1)->orderBy('company_name', 'asc')->get();
+        $associates = Associate::orderBy('name', 'asc')->get();
         $edit = true;
 
 
-        return response()->json(['view' => view('jobs.edit', compact('jobs', 'candidate_job_detail', 'users', 'companies', 'candidate_positions', 'edit', 'indian_driving_license', 'gulf_driving_license'))->render(), 'status' => 'success']);
+        return response()->json(['view' => view('jobs.edit', compact('jobs', 'candidate_job_detail', 'users', 'companies', 'candidate_positions', 'edit', 'indian_driving_license', 'gulf_driving_license', 'associates'))->render(), 'status' => 'success']);
     }
 
     /**
