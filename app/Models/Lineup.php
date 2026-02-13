@@ -62,7 +62,6 @@ class Lineup extends Model
         return $this->belongsTo(Interview::class, 'interview_id');
     }
 
-
     /**
      * Get the job that owns the lineup.
      */
