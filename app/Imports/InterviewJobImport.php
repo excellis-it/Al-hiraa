@@ -99,15 +99,15 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             $job->candidate_position_id = $position->id;
             $job->save();
 
-            Interview::create([
-                'job_id' => $job->id,
-                'interview_id' => $job->generateInterviewId(),
-                'user_id' => auth()->id(),
-                'interview_location' => $row['interview_location'],
-                'company_id' => $this->company_id,
-                'interview_start_date' => $interview_start_date,
-                'interview_end_date' => $interview_end_date,
-            ]);
+            $interview = new Interview();
+            $interview->job_id = $job->id;
+            $interview->user_id = auth()->id();
+            $interview->interview_location = $row['interview_location'];
+            $interview->company_id = $this->company_id;
+            $interview->interview_start_date = $interview_start_date;
+            $interview->interview_end_date = $interview_end_date;
+            $interview->interview_id = $interview->generateInterviewId();
+            $interview->save();
         }
     }
 
