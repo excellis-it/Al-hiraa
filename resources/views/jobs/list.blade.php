@@ -70,71 +70,59 @@
                         <div class="col-md-12">
                             <div class="food_box_slid">
                                 @foreach ($companies as $company)
-                                    <div class="food_box_padding " data-id="{{ $company->id }}">
-                                        <div class="food-box filter-company" data-id="{{ $company->id }}">
-                                            <div class="food-box-img">
-                                                <img src="{{ $company->company_logo ? Storage::url($company->company_logo) : asset('assets/images/company.png') }}"
-                                                    alt="">
-                                            </div>
-                                            <div class="food-box-head">
-                                                <h3>{{ $company->company_name }}</h3>
-                                            </div>
-                                            <div class="food-status">
-                                                <div class="food-status-1">
-                                                    <h4>Location:</h4>
+                                    <div class="food_box_padding" data-id="{{ $company->id }}">
+                                        <div class="company-card filter-company" data-id="{{ $company->id }}">
+                                            <div class="company-card-left">
+                                                <div class="company-card-header">
+                                                    <div class="company-card-logo">
+                                                        <img src="{{ $company->company_logo ? Storage::url($company->company_logo) : asset('assets/images/company.png') }}"
+                                                            alt="{{ $company->company_name }}">
+                                                    </div>
+                                                    <div class="company-card-title">
+                                                        <h3>{{ $company->company_name }}</h3>
+                                                    </div>
                                                 </div>
-                                                <div class="food-status-2">
-                                                    <h4>{{ Str::limit($company->company_address, 10) }}</h4>
-                                                </div>
-                                            </div>
-
-                                            <div class="food-status">
-                                                <div class="food-status-1">
-                                                    <h4>Website:</h4>
-                                                </div>
-                                                <div class="food-status-2">
-                                                    <h4>{{ Str::limit($company->company_website, 15) }}</h4>
-                                                </div>
-                                            </div>
-
-                                            <div class="food-status">
-                                                <div class="food-status-1">
-                                                    <h4>Date:</h4>
-                                                </div>
-                                                <div class="food-status-2">
-                                                    <h4>{{ $company->created_at->format('d.m.Y') }}</h4>
+                                                <div class="company-card-info">
+                                                    <div class="company-info-item">
+                                                        <span class="info-label">Location:</span>
+                                                        <span class="info-value">{{ Str::limit($company->company_address, 15) ?? 'N/A' }}</span>
+                                                    </div>
+                                                    <div class="company-info-item">
+                                                        <span class="info-label">Website:</span>
+                                                        <span class="info-value">{{ Str::limit($company->company_website, 20) ?? 'N/A' }}</span>
+                                                    </div>
+                                                    <div class="company-info-item">
+                                                        <span class="info-label">Since:</span>
+                                                        <span class="info-value">{{ $company->created_at->format('d.m.Y') }}</span>
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                            <div class="food-status">
-
-
-                                                <div class="multi-select-box-1 select_border">
-                                                    <select name="job_id[]" id="job_id" class="form-select job_select"
-                                                        multiple size="3">
-                                                        <option value="">Search job</option>
-                                                        @foreach ($company->jobs as $job)
-                                                            @php
-                                                                $maxLength = 15;
-                                                                $jobName = $job->job_name;
-                                                                $truncatedJobName =
-                                                                    strlen($jobName) > $maxLength
-                                                                        ? substr($jobName, 0, $maxLength) . '...'
-                                                                        : $jobName;
-                                                            @endphp
-                                                            <option value="{{ $job->job_id }}">
-                                                                {{ $truncatedJobName }} ({{ $job->job_id }})
-                                                            </option>
-                                                        @endforeach
-
-
-                                                    </select>
+                                            <div class="company-card-right">
+                                                <div class="company-jobs-search">
+                                                    <div class="multi-select-box-1 select_border">
+                                                        <select name="job_id[]" id="job_id_{{ $company->id }}" class="form-select job_select"
+                                                            multiple size="3">
+                                                            <option value="">Search Job</option>
+                                                            @foreach ($company->jobs as $job)
+                                                                @php
+                                                                    $maxLength = 15;
+                                                                    $jobName = $job->job_name;
+                                                                    $truncatedJobName =
+                                                                        strlen($jobName) > $maxLength
+                                                                            ? substr($jobName, 0, $maxLength) . '...'
+                                                                            : $jobName;
+                                                                @endphp
+                                                                <option value="{{ $job->job_id }}">
+                                                                    {{ $truncatedJobName }} ({{ $job->job_id }})
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
-
                             </div>
                         </div>
                     </div>

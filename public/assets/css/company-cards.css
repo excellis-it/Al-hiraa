@@ -161,11 +161,28 @@
 
 /* Right Section - Jobs Badge & Button */
 .company-card-right {
-    flexshrink: 0;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     gap: 12px;
 }
+
+/* Company Jobs Search Dropdown */
+.company-jobs-search {
+    width: 100%;
+    min-width: 200px;
+}
+
+.company-jobs-search .multi-select-box-1 {
+    margin-top: 0;
+}
+
+.company-jobs-search .form-select {
+    font-size: 12px;
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
 
 /* Jobs Badge - Circular Design */
 .company-jobs-badge {
