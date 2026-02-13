@@ -20,7 +20,9 @@ class LineupController extends Controller
      */
     public function index(Request $request)
     {
-        if (!Auth::user()->can('Manage Lineup')) {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (!$user->can('Manage Lineup')) {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
         $today = date('Y-m-d');

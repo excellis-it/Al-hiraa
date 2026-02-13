@@ -45,6 +45,7 @@
     <td>
         <span class="text-nowrap">{{ $lineup->user->full_name ?? 'N/A' }}</span>
     </td>
+    @canany(['View Lineup', 'Edit Lineup'])
     <td class="text-end">
         <div class="btn-group">
             @can('View Lineup')
@@ -61,19 +62,13 @@
                 <i class="fa fa-exchange-alt"></i>
             </button>
             @endcan
-
-            {{-- @can('Edit Lineup')
-            <a href="javascript:void(0);" class="btn btn-sm btn-outline-primary edit-route"
-                data-route="{{ route('candidates.edit', $lineup->candidate_id) }}" title="Edit candidate">
-                <i class="fa fa-edit"></i>
-            </a>
-            @endcan --}}
         </div>
     </td>
+    @endcanany
 </tr>
 @empty
 <tr>
-    <td colspan="8" class="text-center py-5">
+    <td colspan="@canany(['View Lineup', 'Edit Lineup']) 9 @else 8 @endcanany" class="text-center py-5">
         <div class="text-muted">No lineups found.</div>
     </td>
 </tr>
@@ -81,7 +76,7 @@
 
 @if ($lineups->hasPages())
 <tr>
-    <td colspan="7" class="p-3">
+    <td colspan="@canany(['View Lineup', 'Edit Lineup']) 9 @else 8 @endcanany" class="p-3">
         <div class="d-flex justify-content-center">
             {{ $lineups->appends(request()->query())->links() }}
         </div>

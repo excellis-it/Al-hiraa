@@ -266,7 +266,9 @@
                             <th>Interview Date</th>
                             <th>Status</th>
                             <th>Assigned By</th>
+                            @canany(['View Lineup', 'Edit Lineup'])
                             <th class="text-end">Action</th>
+                            @endcanany
                         </tr>
                     </thead>
                     <tbody id="lineup-table-body">
