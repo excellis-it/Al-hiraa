@@ -5,7 +5,7 @@
     <div class="interview-box-sec">
         <div class="interview-slide">
             {{-- if process magaer role not show below 3 --}}
-            @unless (auth()->user()->hasRole('PROCESS MANAGER'))
+            {{-- @unless (auth()->user()->hasRole('PROCESS MANAGER'))
                 <div class="interview-slide-wrap">
                     <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'All' ? 'interview-active' : '' }}"
                         data-val="All">
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-            @endunless
+            @endunless --}}
             <div class="interview-slide-wrap">
                 <div class="interview-box filter-select {{ isset($int_pipeline) && $int_pipeline == 'Selection' ? 'interview-active' : '' }}"
                     data-val="Selection">

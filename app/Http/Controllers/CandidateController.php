@@ -9,6 +9,7 @@ use App\Imports\CandidateImport;
 use App\Jobs\SendCandidateSms;
 use App\Jobs\SendCandidateWhatsapp;
 use App\Models\AssignJob;
+use App\Models\Associate;
 use App\Models\Candidate;
 use App\Models\CandidateActivity;
 use App\Models\CandidateDailyViewReport;
@@ -152,7 +153,7 @@ class CandidateController extends Controller
         if (Auth::user()->can('Create Candidate')) {
             $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
-            $associates = User::role('ASSOCIATE')->get();
+            $associates = Associate::orderBy('name', 'asc')->get();
             $referrers = Candidate::orderBy('id', 'desc')->get();
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $states = State::orderBy('name', 'asc')->get();
@@ -746,13 +747,13 @@ class CandidateController extends Controller
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $sources = Source::orderBy('name', 'asc')->get();
             $candidate_statuses = CandidateStatus::all();
-            $associates = User::role('ASSOCIATE')->get();
+            $associates = Associate::orderBy('name', 'asc')->get();
             $states = State::orderBy('name', 'asc')->get();
             return response()->json(['view' => view('candidates.auto-fill', compact('candidate', 'sources', 'candidate_statuses', 'associates', 'candidate_positions', 'states', 'cities', 'referrers'))->render(), 'status' => 'error']);
         } else {
             $candidate_positions = CandidatePosition::orderBy('name', 'asc')->where('is_active', 1)->get();
             $candidate_statuses = CandidateStatus::all();
-            $associates = User::role('ASSOCIATE')->get();
+            $associates = Associate::orderBy('name', 'asc')->get();
             $indian_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'INDIAN')->pluck('licence_name')->toArray();
             $gulf_driving_license = CandidateLicence::where('candidate_id', $candidate->id)->where('licence_type', 'GULF')->pluck('licence_name')->toArray();
             $sources = Source::orderBy('name', 'asc')->get();

@@ -38,9 +38,8 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
         });
 
         $cleanedRows = $rows->map(function ($row) {
-            $row['interview_start_date'] = $this->formatExcelDate($row['interview_start_date']);
-            $row['interview_end_date'] = $this->formatExcelDate($row['interview_end_date']);
-            $row['date_of_interview'] = $this->formatExcelDate($row['date_of_interview']);
+            // passport expiry
+            $row['passport_expiry_date'] = $this->formatExcelDate($row['passport_expiry_date']);
             $row['date_of_selection'] = $this->formatExcelDate($row['date_of_selection']);
             $row['mofa_date'] = $this->formatExcelDate($row['mofa_date']);
             $row['vfs_applied_date'] = $this->formatExcelDate($row['vfs_applied_date']);
@@ -72,62 +71,24 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             '*.whatapp_no' => 'nullable|digits:10|numeric',
             '*.full_name' => 'required',
             '*.dob' => 'required|date|before:today',
-            '*.contact_no' => 'required|numeric|digits:10',
+            '*.contact_no' => 'nullable|numeric|digits:10',
             '*.email' => 'nullable|email',
-            '*.position_applied_for_1' => 'required',
-            '*.company_name' => [
-                'required',
-                function ($attribute, $value, $fail) use ($rows) {
-                    $index = explode('.', $attribute)[0];
-                    $companyLocation = data_get($rows, "$index.company_location");
+            // passport no
+            '*.passport_no' => 'required|regex:/^[A-Za-z]\d{7}$/',
+            '*.passport_expiry_date' => 'required|date|after:today',
+            //ecr type
+            '*.ecr_type' => 'nullable|in:ECR,ECNR',
+            // alternate_contact_no
+            '*.alternate_contact_no' => 'nullable|numeric|digits:10',
+            // address
+            '*.address' => 'nullable',
+            '*.associate_phone' => 'nullable|numeric|digits:10',
+            '*.associate_name' => 'nullable',
 
-                    $rule = new CompanyNameLocationExists($value, $companyLocation);
-                    if (!$rule->passes($attribute, $value)) {
-                        $fail($rule->message());
-                    }
-                }
-            ],
-            '*.company_location' => 'required',
-            '*.job_title' => [
-                'required',
-                function ($attribute, $value, $fail) use ($rows) {
-                    $index = explode('.', $attribute)[0];
-                    $companyName = data_get($rows, "$index.company_name");
-                    $companyLocation = data_get($rows, "$index.company_location");
-                    $rule = new CompanyNameJobExists($companyName,  $value, $companyLocation);
-                    if (!$rule->passes($attribute, $value)) {
-                        $fail($rule->message());
-                    }
-                }
-
-            ],
-            '*.interview_start_date' => 'required|date',
-            // '*.interview_end_date' => 'required|date|after_or_equal:*.interview_start_date',
-            '*.interview_end_date' => [
-                'required',
-                'date',
-                'after_or_equal:*.interview_start_date',
-                function ($attribute, $value, $fail) use ($rows) {
-                    $index = explode('.', $attribute)[0];
-                    $companyName = data_get($rows, "$index.company_name");
-                    $companyLocation = data_get($rows, "$index.company_location");
-                    $jobTitle = data_get($rows, "$index.job_title");
-                    $startDate = data_get($rows, "$index.interview_start_date");
-                    $rule = new CompanyInterviewExists($companyName,  $value, $companyLocation, $jobTitle, $startDate);
-                    if (!$rule->passes($attribute, $value)) {
-                        $fail($rule->message());
-                    }
-                }
-
-            ],
-            '*.date_of_interview' => 'required|date',
             '*.date_of_selection' => 'required|date|after_or_equal:*.date_of_interview',
             '*.mode_of_selection' => 'required|in:FULL TIME, PART TIME, CONTRACT',
             '*.client_remarks' => 'nullable',
             '*.sponsor' => 'nullable',
-            '*.country' => 'required',
-            '*.salary' => 'required',
-            '*.food_allowance' => 'nullable',
             '*.mofa_date' => 'nullable|date',
             '*.vfs_applied_date' => 'nullable|date',
             '*.vfs_received_date' => 'nullable|date',
@@ -159,16 +120,22 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             '*.deployment_date' => 'nullable|date',
             '*.job_interview_status' => 'nullable|in:SELECTED,INTERESTED,NOT-INTERESTED',
         ], [
+            'full_name.required' => 'Full name is required',
+            'dob.required' => 'Date of birth is required',
+            'dob.date' => 'Date of birth must be a date',
+            'dob.before' => 'Date of birth must be a date before today',
             'contact_no.required' => 'Contact number is required',
             'contact_no.numeric' => 'Contact number must be a number',
             'contact_no.exists' => 'Contact number does not exist in the system',
-            'company_name.required' => 'Company name is required',
-            'company_location.required' => 'Company location is required',
-            'job_title.required' => 'Job title is required',
-            'interview_start_date.required' => 'Interview start date is required',
-            'interview_end_date.required' => 'Interview end date is required',
-            'interview_end_date.after_or_equal' => 'Interview end date must be a date after or equal to the interview start date',
-            'date_of_interview.required' => 'Date of interview is required',
+            'passport_no.required' => 'Passport number is required',
+            'passport_no.regex' => 'Passport number must be a valid passport number',
+            'passport_expiry_date.required' => 'Passport expiry date is required',
+            'passport_expiry_date.date' => 'Passport expiry date must be a date',
+            'passport_expiry_date.after' => 'Passport expiry date must be a date after today',
+            'ecr_type.in' => 'ECR type must be ECR or ECNR',
+            'alternate_contact_no.numeric' => 'Alternate contact number must be a number',
+            'alternate_contact_no.digits' => 'Alternate contact number must be a 10 digit number',
+
             'date_of_selection.required' => 'Date of selection is required',
             'date_of_selection.after_or_equal' => 'Date of selection must be a date after or equal to the date of interview',
             'mode_of_selection.required' => 'Mode of selection is required',
@@ -198,7 +165,6 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             'fourth_installment_amount.numeric' => 'Fourth installment amount must be a number',
             'fourth_installment_date.date' => 'Fourth installment date must be a date',
             'deployment_date.date' => 'Deployment date must be a date',
-            'job_interview_status.in' => 'Job interview status must be SELECTED, INTERESTED or NOT-INTERESTED',
         ])->validate();
 
         // dd($rows);

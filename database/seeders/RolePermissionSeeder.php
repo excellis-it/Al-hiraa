@@ -309,12 +309,12 @@ class RolePermissionSeeder extends Seeder
 
         $processManagerRole->givePermissionTo($processManagerPermissions);
 
-        $associateRole = Role::where('name', 'ASSOCIATE')->first();
-        $associatePermissions = [
-            "Manage Support",
-        ];
+        // $associateRole = Role::where('name', 'ASSOCIATE')->first();
+        // $associatePermissions = [
+        //     "Manage Support",
+        // ];
 
-        $associateRole->givePermissionTo($associatePermissions);
+        // $associateRole->givePermissionTo($associatePermissions);
 
         $vendorRole = Role::where('name', 'VENDOR')->first();
         $vendorPermissions = [

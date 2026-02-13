@@ -114,23 +114,23 @@ class SettingController extends Controller
             }
 
             // Handle ASSOCIATE role code
-            elseif ($request->role_type == 'ASSOCIATE') {
-                if (!$user->exists || $user->role_type !== 'ASSOCIATE') {
-                    // Generate new code for associates
-                    $lastAssociate = User::where('role_type', 'ASSOCIATE')->orderBy('id', 'desc')->first();
-                    if ($lastAssociate) {
-                        if ($lastAssociate->code == null) {
-                            $lastAssociate->code = 'AL-AS-00000';
-                        }
-                        $lastAssociateId = explode('-', $lastAssociate->code);
-                        $associateId = $lastAssociateId[2] + 1;
-                        $associateId = str_pad($associateId, 5, '0', STR_PAD_LEFT);
-                        $user->code = 'AL-AS-' . $associateId;
-                    } else {
-                        $user->code = 'AL-AS-00001';
-                    }
-                }
-            }
+            // elseif ($request->role_type == 'ASSOCIATE') {
+            //     if (!$user->exists || $user->role_type !== 'ASSOCIATE') {
+            //         // Generate new code for associates
+            //         $lastAssociate = User::where('role_type', 'ASSOCIATE')->orderBy('id', 'desc')->first();
+            //         if ($lastAssociate) {
+            //             if ($lastAssociate->code == null) {
+            //                 $lastAssociate->code = 'AL-AS-00000';
+            //             }
+            //             $lastAssociateId = explode('-', $lastAssociate->code);
+            //             $associateId = $lastAssociateId[2] + 1;
+            //             $associateId = str_pad($associateId, 5, '0', STR_PAD_LEFT);
+            //             $user->code = 'AL-AS-' . $associateId;
+            //         } else {
+            //             $user->code = 'AL-AS-00001';
+            //         }
+            //     }
+            // }
 
             // Handle profile picture upload
             if ($request->hasFile('profile_picture')) {
