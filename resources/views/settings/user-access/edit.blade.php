@@ -1,6 +1,6 @@
 @if (isset($edit))
 @php
-$modules = ['Profile','Candidate', 'Job', 'Company', 'Schedule', 'Candidate Interview Report', 'Team', 'User Access','Position', 'Support', 'Lineup'];
+$modules = ['Profile','Candidate', 'Lineup', 'Job', 'Company', 'Schedule', 'Candidate Interview Report', 'Team', 'User Access','Position', 'Support'];
 
 @endphp
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEdit" aria-labelledby="offcanvasRightLabel"
