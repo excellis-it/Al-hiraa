@@ -50,8 +50,10 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             '*.benifits' => 'nullable',
             '*.associate_charge' => 'required|numeric',
             '*.quantity_of_people_required' => 'required|numeric',
-            '*.interview_start_date' => 'required|date',
-        ])->validate();
+            '*.interview_start_date' => 'required|date|after_or_equal:today',
+        ]);
+
+        $validator->validate();
 
         foreach ($cleanedRows as $key => $row) {
             $interview_start_date = $row['interview_start_date'];
@@ -62,7 +64,10 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
                 $vendor = User::role('VENDOR')->where('email', $row['vendor_email'])->first();
                 if (!$vendor) {
                     $errors[$key]['vendor_email'] = "Vendor with email {$row['vendor_email']} not found.";
-                    continue;
+                    // passed the vendor email with validation error
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'vendor_email' => ["Vendor with email {$row['vendor_email']} not found."]
+                    ]);
                 }
             }
 

@@ -404,8 +404,7 @@
                             </button>
                         </div>
 
-                        <a class="dropdown-item " href="javascript:void(0);" data-bs-toggle="modal"
-                            data-bs-target="#importModel" data-bs-whatever="@fat"> <button type="submit"
+                        <a class="dropdown-item import_interview_excel" href="javascript:void(0);"> <button type="submit"
                                 class="btn advance_search_btn " style="border-right: none;"> <i
                                     class="fas fa-file-excel"></i> Import Excel</button> </a>
                     </div>
@@ -1013,6 +1012,14 @@
                     $('#city_id').append('<option value="">Select a city</option>');
                 }
             });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.import_interview_excel', function() {
+            // reset the input field data of form and validation error
+            $('#importModel').find('form')[0].reset();
+            $('#importModel').find('.text-danger').text('');
+            $('#importModel').modal('show');
         });
     </script>
 @endpush
