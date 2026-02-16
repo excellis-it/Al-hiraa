@@ -45,7 +45,7 @@ class InterviewJobImport implements ToCollection, WithHeadingRow
             '*.contract' => 'nullable|numeric',
             '*.location' => 'required',
             '*.interview_location' => 'required',
-            '*.salary' => 'required',
+            '*.salary' => 'required|numeric',
             '*.duty_hours' => 'nullable|numeric',
             '*.benifits' => 'nullable',
             '*.associate_charge' => 'required|numeric',

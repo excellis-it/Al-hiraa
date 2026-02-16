@@ -737,7 +737,7 @@ class JobsController extends Controller
         $request->validate([
             'date_of_selection' => 'required|date',
             'date_of_interview' => 'required|date',
-            'salary' => 'nullable',
+            'salary' => 'nullable|numeric',
             'contract_duration' => 'nullable|numeric',
             'food_allowance' => 'nullable',
         ], [

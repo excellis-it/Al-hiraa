@@ -240,7 +240,7 @@ class CompanyController extends Controller
             'job_name' => 'required',
             'contract' => 'nullable|numeric',
             'address' => 'required',
-            'salary' => 'required',
+            'salary' => 'required|numeric',
             'quantity_of_people_required' => 'required|numeric',
             'benifits' => 'nullable',
         ], [
@@ -327,7 +327,7 @@ class CompanyController extends Controller
             // contract was number or float
             'contract' => 'nullable|numeric',
             'address' => 'required',
-            'salary' => 'required',
+            'salary' => 'required|numeric',
             'quantity_of_people_required' => 'required|numeric',
             'benifits' => 'nullable',
         ], [
