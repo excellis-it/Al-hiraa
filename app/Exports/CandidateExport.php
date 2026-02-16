@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\Candidate;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -29,18 +30,20 @@ class CandidateExport implements FromQuery, WithHeadings, WithMapping, WithChunk
      */
     public function query()
     {
+        $start = Carbon::parse($this->startDate)->startOfDay();
+        $end   = Carbon::parse($this->endDate)->endOfDay();
         return Candidate::query()
             ->with([
                 'lastCandidateActivity',
                 'enterBy',
-                'candidateStatus',
+                'candidateStatus',  
                 'associatedBy',
                 'candidateIndianLicence',
                 'candidateGulfLicence',
                 'positionAppliedFor1',
                 'positionAppliedFor2',
                 'positionAppliedFor3'
-            ])->whereBetween('created_at', [$this->startDate, $this->endDate]);
+            ])->whereBetween('created_at', [$start, $end]);
     }
 
     /**
@@ -51,13 +54,41 @@ class CandidateExport implements FromQuery, WithHeadings, WithMapping, WithChunk
     public function headings(): array
     {
         return [
-            'Date', 'Remarks', 'Enter By', 'Status', 'Mode of Registration', 'Source',
-            'Last Update Date', 'Full Name', 'Gender', 'DOB', 'Age', 'Education',
-            'Contact No', 'Alternate Contact No', 'Whatsapp No', 'Email ID', 'Referred By',
-            'Associate By', 'Other Education', 'State', 'City', 'Religion', 'ECR Type',
-            'Indian Driving License', 'Gulf Driving License', 'English Speak', 'Arabic Speak',
-            'Return', 'Position Applied For(1)', 'Position Applied For(2)', 'Position Applied For(3)',
-            'Passport Number', 'Indian Experience', 'Abroad Experience', 'Remarks'
+            'Date',
+            'Remarks',
+            'Enter By',
+            'Status',
+            'Mode of Registration',
+            'Source',
+            'Last Update Date',
+            'Full Name',
+            'Gender',
+            'DOB',
+            'Age',
+            'Education',
+            'Contact No',
+            'Alternate Contact No',
+            'Whatsapp No',
+            'Email ID',
+            'Referred By',
+            'Associate By',
+            'Other Education',
+            'State',
+            'City',
+            'Religion',
+            'ECR Type',
+            'Indian Driving License',
+            'Gulf Driving License',
+            'English Speak',
+            'Arabic Speak',
+            'Return',
+            'Position Applied For(1)',
+            'Position Applied For(2)',
+            'Position Applied For(3)',
+            'Passport Number',
+            'Indian Experience',
+            'Abroad Experience',
+            'Remarks'
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\CandidateJob;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -30,7 +31,11 @@ class CandidateJobExport implements FromQuery, WithMapping, WithHeadings, WithCh
         } else {
             // Apply date filters if present
             if (!empty($this->filters['start_date']) && !empty($this->filters['end_date'])) {
-                $query->whereBetween('created_at', [$this->filters['start_date'], $this->filters['end_date']]);
+                $start = Carbon::parse($this->filters['start_date'])->startOfDay();
+                $end   = Carbon::parse($this->filters['end_date'])->endOfDay();
+
+                $query->whereBetween('created_at', [$start, $end]);
+                // $query->whereBetween('created_at', [$this->filters['start_date'], $this->filters['end_date']]);
             }
 
             // Apply search filter
