@@ -311,8 +311,7 @@
                         data-bs-target="#exportModal"> <button type="button" class="btn advance_search_btn "
                             style="border-right: none;"> <i class="fas fa-file-excel"></i> Export CSV</button> </a>
 
-                    <a class="dropdown-item me-2" href="javascript:void(0);" data-bs-toggle="modal"
-                        data-bs-target="#importJobModel" data-bs-whatever="@fat"> <button type="button"
+                    <a class="dropdown-item me-2 import_excel_job" href="javascript:void(0);"> <button type="button"
                             class="btn advance_search_btn " style="border-right: none;"> <i
                                 class="fas fa-file-excel"></i> Import Excel</button> </a>
                 @endif
@@ -571,3 +570,4 @@
         ],
     });
 </script>
+

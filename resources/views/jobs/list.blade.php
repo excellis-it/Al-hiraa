@@ -615,4 +615,12 @@
             });
         });
     </script>
+    <script>
+    // importJobModel
+        $(document).on('click', '.import_excel_job', function() {
+            $('#importJobModel').find('form')[0].reset();
+            $('#importJobModel').find('.text-danger').text('');
+            $('#importJobModel').modal('show');
+        });
+    </script>
 @endpush

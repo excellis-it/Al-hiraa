@@ -56,8 +56,7 @@
                                         <span class="visually-hidden">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-lg-end">
-                                        <li><a class="dropdown-item" href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal" data-bs-whatever="@fat">Import Excel</a></li>
+                                        <li><a class="dropdown-item" href="javascript:void(0);" id="import_candidate_excel">Import Excel</a></li>
                                     </ul>
                                 @endif
 
@@ -1562,4 +1561,13 @@
             });
         });
     </script>
+    <script>
+        $('#import_candidate_excel').click(function() {
+            // reset the input field data of form and validation error
+                $('#exampleModal').find('form')[0].reset();
+                $('#exampleModal').find('.text-danger').text('');
+            $('#exampleModal').modal('show');
+        });
+    </script>
+
 @endpush

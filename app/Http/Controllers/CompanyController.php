@@ -61,7 +61,7 @@ class CompanyController extends Controller
         $request->validate([
             'company_name' => 'required',
             'company_address' => 'required',
-            'company_website' => 'nullable',
+            'company_website' => 'nullable|url',
             'company_industry' => 'required',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
             'company_description' => 'nullable',
@@ -398,7 +398,7 @@ class CompanyController extends Controller
                 $rules = [
                     'company_name' => 'required',
                     'company_address' => 'required',
-                    'company_website' => 'nullable',
+                    'company_website' => 'nullable|url',
                     'company_industry' => 'required',
                     'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg',
                     'company_description' => 'nullable',
