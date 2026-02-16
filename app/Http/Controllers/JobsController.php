@@ -27,6 +27,7 @@ use Excel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Twilio\Rest\Client;
 
 class JobsController extends Controller
@@ -194,7 +195,7 @@ class JobsController extends Controller
      */
     public function create()
     {
-         if (!Auth::user()->can('Create Job')) {
+        if (!Auth::user()->can('Create Job')) {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
 
@@ -214,7 +215,7 @@ class JobsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'company_id' => 'required|exists:companies,id',
             'job_id' => 'required|exists:jobs,id',
             'interview_id' => 'required|exists:interviews,id',
@@ -222,8 +223,13 @@ class JobsController extends Controller
             'passport_number' => 'required|string|max:255',
             'contact_no' => 'required|string|max:15',
             'gender' => 'required|in:MALE,FEMALE,OTHER',
-            'dob' => 'required|date',
+            'dob' => 'required|date|before_or_equal:today',
+            'date_of_selection' => 'required|date',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 422);
+        }
 
         $interview = Interview::with(['company', 'job'])->findOrFail($request->interview_id);
 
@@ -233,7 +239,7 @@ class JobsController extends Controller
             ->exists();
 
         if ($exists) {
-            return redirect()->back()->with('error', 'Candidate already exists for this job and interview.');
+            return response()->json(['status' => 'error', 'message' => 'Candidate already exists for this job and interview.']);
         }
 
         DB::beginTransaction();
@@ -261,6 +267,7 @@ class JobsController extends Controller
             $candidate_job->religion = $request->religion;
             $candidate_job->address = $request->address;
             $candidate_job->ecr_type = $request->ecr_type;
+            $candidate_job->date_of_selection = $request->date_of_selection; // Add Selection Date
 
             // Associate logic
             if ($request->associate_id) {
@@ -298,10 +305,10 @@ class JobsController extends Controller
             $candidate_job->save();
 
             DB::commit();
-            return redirect()->route('jobs.index')->with('success', 'Candidate Job created successfully.');
+            return response()->json(['status' => 'success', 'message' => 'Candidate Job created successfully.', 'redirect_url' => route('jobs.index')]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error creating candidate job: ' . $e->getMessage())->withInput();
+            return response()->json(['status' => 'error', 'message' => 'Error creating candidate job: ' . $e->getMessage()]);
         }
     }
 

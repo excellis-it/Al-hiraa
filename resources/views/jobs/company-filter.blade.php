@@ -524,11 +524,11 @@
 <script>
     $(".interview-slide").slick({
         @if (auth()->user()->hasRole('RECRUITER'))
-            slidesToShow: 3,
+            slidesToShow: 1,
         @elseif (auth()->user()->hasRole('PROCESS MANAGER'))
             slidesToShow: 5,
         @else
-            slidesToShow: 7,
+            slidesToShow: 5,
         @endif
         slidesToScroll: 1,
         arrows: false,

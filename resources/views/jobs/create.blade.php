@@ -25,8 +25,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="company_id">Company <span>*</span></label>
-                                                <select name="company_id" id="company_id" class="form-select select2"
-                                                    required>
+                                                <select name="company_id" id="company_id" class="form-select select2">
                                                     <option value="">Select Company</option>
                                                     @foreach ($recent_interviews->pluck('company')->unique('id') as $company)
                                                         <option value="{{ $company->id }}">{{ $company->company_name }}
@@ -41,8 +40,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="job_id">Job <span>*</span></label>
-                                                <select name="job_id" id="job_id" class="form-select select2" required
-                                                    disabled>
+                                                <select name="job_id" id="job_id" class="form-select select2" disabled>
                                                     <option value="">Select Job</option>
                                                 </select>
                                                 @error('job_id')
@@ -54,7 +52,7 @@
                                             <div class="form-group">
                                                 <label for="interview_id">Interview <span>*</span></label>
                                                 <select name="interview_id" id="interview_id" class="form-select select2"
-                                                    required disabled>
+                                                    disabled>
                                                     <option value="">Select Interview</option>
                                                 </select>
                                                 @error('interview_id')
@@ -69,7 +67,8 @@
                                                     <option value="">Select Associate</option>
                                                     @foreach ($associates as $associate)
                                                         <option value="{{ $associate->id }}">{{ $associate->name }}
-                                                            ({{ $associate->phone_number }})</option>
+                                                            ({{ $associate->phone_number }})
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                                 @error('associate_id')
@@ -118,7 +117,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="full_name">Full Name <span>*</span></label>
-                                                <input type="text" name="full_name" class="form-control" required
+                                                <input type="text" name="full_name" class="form-control"
                                                     value="{{ old('full_name') }}">
                                                 @error('full_name')
                                                     <span class="text-danger">{{ $message }}</span>
@@ -128,7 +127,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="passport_number">Passport Number <span>*</span></label>
-                                                <input type="text" name="passport_number" class="form-control" required
+                                                <input type="text" name="passport_number" class="form-control"
                                                     value="{{ old('passport_number') }}">
                                                 @error('passport_number')
                                                     <span class="text-danger">{{ $message }}</span>
@@ -138,7 +137,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="contact_no">Contact No <span>*</span></label>
-                                                <input type="text" name="contact_no" class="form-control" required
+                                                <input type="text" name="contact_no" class="form-control"
                                                     value="{{ old('contact_no') }}">
                                                 @error('contact_no')
                                                     <span class="text-danger">{{ $message }}</span>
@@ -148,7 +147,7 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="gender">Gender <span>*</span></label>
-                                                <select name="gender" class="form-select" required>
+                                                <select name="gender" class="form-select">
                                                     <option value="MALE"
                                                         {{ old('gender') == 'MALE' ? 'selected' : '' }}>MALE</option>
                                                     <option value="FEMALE"
@@ -164,8 +163,8 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="dob">Date of Birth <span>*</span></label>
-                                                <input type="date" name="dob" class="form-control" required
-                                                    value="{{ old('dob') }}">
+                                                <input type="date" name="dob" class="form-control"
+                                                    max="{{ date('Y-m-d') }}" value="{{ old('dob') }}">
                                                 @error('dob')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -173,9 +172,22 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
+                                                <label for="date_of_selection">Selection Date <span>*</span></label>
+                                                <input type="date" name="date_of_selection" class="form-control"
+                                                    value="{{ old('date_of_selection') }}">
+                                                @error('date_of_selection')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
                                                 <label for="whatapp_no">WhatsApp No</label>
-                                                <input type="text" name="whatapp_no" class="form-control"
-                                                    value="{{ old('whatapp_no') }}">
+                                                <div class="input-group">
+                                                    <span class="input-group-text">+91</span>
+                                                    <input type="text" name="whatapp_no" class="form-control"
+                                                        value="{{ old('whatapp_no') }}">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -259,7 +271,7 @@
                 var company_id = $(this).val();
                 $('#job_id').html('<option value="">Select Job</option>').prop('disabled', true);
                 $('#interview_id').html('<option value="">Select Interview</option>').prop('disabled',
-                true);
+                    true);
                 resetAutoFill();
 
                 if (company_id) {
@@ -278,7 +290,7 @@
             $('#job_id').on('change', function() {
                 var job_id = $(this).val();
                 $('#interview_id').html('<option value="">Select Interview</option>').prop('disabled',
-                true);
+                    true);
                 resetAutoFill();
 
                 if (job_id) {
@@ -339,6 +351,91 @@
                 $('#contract_duration').val('');
                 $('#service_charge').val('');
             }
+
+            $('#create-candidate-job').on('submit', function(e) {
+                e.preventDefault();
+                $('.text-danger').remove();
+
+                var isValid = true;
+
+                // Manual validation since required attributes were removed
+                var requiredFields = [
+                    'company_id', 'job_id', 'interview_id',
+                    'full_name', 'passport_number', 'contact_no',
+                    'gender', 'dob', 'date_of_selection'
+                ];
+
+                requiredFields.forEach(function(field) {
+                    var element = $('[name="' + field + '"]');
+                    if (element.length > 0 && !element.val()) {
+                        isValid = false;
+                        // For select2 elements, place error after the container
+                        if (element.hasClass('select2-hidden-accessible')) {
+                            element.next('.select2-container').after(
+                                '<span class="text-danger">This field is required</span>');
+                        } else {
+                            element.after(
+                                '<span class="text-danger">This field is required</span>');
+                        }
+                    }
+                });
+
+                if (!isValid) return;
+
+                var formData = new FormData(this);
+                var whatsapp = formData.get('whatapp_no');
+                if (whatsapp && !whatsapp.startsWith('+91')) {
+                    formData.set('whatapp_no', '+91' + whatsapp);
+                }
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            toastr.success(response.message);
+                            window.location.href = response.redirect_url;
+                        } else {
+                            if (response.errors) {
+                                $.each(response.errors, function(key, val) {
+                                    var element = $('[name="' + key + '"]');
+                                    if (element.hasClass('select2-hidden-accessible')) {
+                                        element.next('.select2-container').after(
+                                            '<span class="text-danger">' + val[0] +
+                                            '</span>');
+                                    } else {
+                                        element.after('<span class="text-danger">' +
+                                            val[0] + '</span>');
+                                    }
+                                });
+                            } else {
+                                toastr.error(response.message);
+                            }
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            var errors = xhr.responseJSON.errors;
+                            $.each(errors, function(key, val) {
+                                var element = $('[name="' + key + '"]');
+                                if (element.hasClass('select2-hidden-accessible')) {
+                                    element.next('.select2-container').after(
+                                        '<span class="text-danger">' + val[0] +
+                                        '</span>');
+                                } else {
+                                    element.after('<span class="text-danger">' + val[
+                                        0] + '</span>');
+                                }
+                            });
+                        } else {
+                            toastr.error('Something went wrong. Please try again.');
+                        }
+                    }
+                });
+            });
         });
     </script>
 @endpush
