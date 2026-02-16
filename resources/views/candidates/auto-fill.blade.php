@@ -637,9 +637,9 @@
     <div class="col-lg-3">
         <div class="form-group date-btn">
             <label for="">DOB <span>*</span></label>
-            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}" id="dob"
-                autocomplete="false" name="dob" max="{{ date('d-m-Y') }}" placeholder="dd-mm-yy"
-                >
+            <input type="text" class="form-control  uppercase-text datepicker" value="{{ old('dob') }}"
+                id="dob" autocomplete="false" name="dob" max="{{ date('d-m-Y') }}"
+                placeholder="dd-mm-yy">
         </div>
         @if ($errors->has('dob'))
             <span class="text-danger">{{ $errors->first('dob') }}</span>
@@ -1070,9 +1070,13 @@
         $('#dob').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
-            maxDate: new Date(),
-
+            maxDate: function() {
+                var today = new Date();
+                today.setDate(today.getDate() - 1);
+                return today;
+            }
         });
+
 
     });
 </script>

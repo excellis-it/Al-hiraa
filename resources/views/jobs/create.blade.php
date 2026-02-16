@@ -163,8 +163,8 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="dob">Date of Birth <span>*</span></label>
-                                                <input type="date" name="dob" class="form-control"
-                                                    max="{{ date('Y-m-d') }}" value="{{ old('dob') }}">
+                                                <input type="text" name="dob" class="form-control" 
+                                                    id="dob" value="{{ old('dob') }}">
                                                 @error('dob')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -173,8 +173,8 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="date_of_selection">Selection Date <span>*</span></label>
-                                                <input type="date" name="date_of_selection" class="form-control"
-                                                    value="{{ old('date_of_selection') }}">
+                                                <input type="text" name="date_of_selection"
+                                                    class="form-control datepicker" value="{{ old('date_of_selection') }}">
                                                 @error('date_of_selection')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -266,6 +266,22 @@
             $('.select2').select2({
                 width: '100%'
             });
+
+            $('.datepicker').datepicker({
+                uiLibrary: 'bootstrap5',
+                format: 'dd-mm-yyyy',
+            });
+
+            $('#dob').datepicker({
+                uiLibrary: 'bootstrap5',
+                format: 'dd-mm-yyyy',
+                maxDate: function() {
+                    var today = new Date();
+                    today.setDate(today.getDate() - 1);
+                    return today;
+                }
+            });
+
 
             $('#company_id').on('change', function() {
                 var company_id = $(this).val();

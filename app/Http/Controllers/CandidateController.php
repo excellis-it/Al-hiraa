@@ -172,7 +172,7 @@ class CandidateController extends Controller
         $request->validate([
             'contact_no' => 'required|digits:10',
             'full_name' => 'required',
-            'dob' => 'required',
+            'dob' => 'required|before:today',
             'cnadidate_status_id' => 'required',
             'email' => 'nullable|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix',
             'position_applied_for_1' => 'required',
@@ -449,7 +449,7 @@ class CandidateController extends Controller
             'passport_number' => 'nullable|regex:/^[A-Za-z]\d{7}$/',
             // 'remark' => 'required',
             'call_status' => 'required',
-            'dob' => 'nullable|date_format:d-m-Y',
+            'dob' => 'nullable|date_format:d-m-Y|before:today',
             // indian_exp word limit validation
             'remark' => 'nullable|required_if:call_status,REJECTED',
             'company_id' => 'nullable|required_if:call_status,INTERESTED',

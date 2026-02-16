@@ -223,7 +223,7 @@ class JobsController extends Controller
             'passport_number' => 'required|string|max:255',
             'contact_no' => 'required|string|max:15',
             'gender' => 'required|in:MALE,FEMALE,OTHER',
-            'dob' => 'required|date|before_or_equal:today',
+           'dob' => 'required|date|before:today',
             'date_of_selection' => 'required|date',
         ]);
 
@@ -690,7 +690,7 @@ class JobsController extends Controller
 
         $request->validate([
             'full_name' => 'required',
-            'dob' => 'required|date',
+            'dob' => 'required|date|before:today',
             'passport_number' => 'required|regex:/^[A-Za-z]\d{7}$/',
             'whatapp_no' => 'nullable',
             'contact_no' => 'nullable|digits:10',
