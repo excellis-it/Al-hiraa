@@ -49,6 +49,10 @@ class LineupController extends Controller
             'statusUpdater'
         ]);
 
+        $query->whereHas('interview', function ($q) use ($today) {
+            $q->where(DB::raw('STR_TO_DATE(interview_start_date, "%d-%m-%Y")'), '>=', $today);
+        }); 
+
         if ($user->hasRole('DATA ENTRY OPERATOR') || $user->hasRole('RECRUITER')) {
             $query->where('assign_by_id', $user->id);
         }
@@ -77,6 +81,8 @@ class LineupController extends Controller
         if ($request->filled('assign_by_id')) {
             $query->where('assign_by_id', $request->assign_by_id);
         }
+
+
 
         if ($request->filled('search')) {
             $search = $request->search;
