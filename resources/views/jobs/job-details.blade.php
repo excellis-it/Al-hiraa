@@ -5,7 +5,7 @@
             <tr>
                 <td>Date of Interview</td>
                 <td class="date-btn">
-                    <input type="text" class="form-control uppercase-text datepicker" id="interview_date"
+                    <input type="text" class="form-control uppercase-text interview_date" id="interview_date"
                         value="{{ $candidate_job_detail->date_of_interview ? \Carbon\Carbon::parse($candidate_job_detail->date_of_interview)->format('d-m-Y') : '' }}"
                         name="date_of_interview" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="interview_date_msg"></span>
@@ -13,7 +13,7 @@
 
                 <td>Date of Selection</td>
                 <td class="date-btn">
-                    <input type="text" class="form-control uppercase-text datepicker" id="selection_date"
+                    <input type="text" class="form-control uppercase-text selection_date" id="selection_date"
                         value="{{ $candidate_job_detail->date_of_selection ? \Carbon\Carbon::parse($candidate_job_detail->date_of_selection)->format('d-m-Y') : '' }}"
                         name="date_of_selection" placeholder="dd-mm-yyyy">
                     <span class="text-danger" id="selection_date_msg"></span>
@@ -252,12 +252,12 @@
         $('#candidate-form-job').html(editHtml);
 
         // Initialize datepickers (after elements exist in DOM)
-        $('#selection_date').datepicker({
+        $('#candidate-form-job .selection_date').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy'
         });
 
-        $('#interview_date').datepicker({
+        $('#candidate-form-job .interview_date').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy'
         });

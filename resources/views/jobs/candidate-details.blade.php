@@ -19,7 +19,7 @@
                 <td>DOB*</td>
                 <td>
                     <div class="form-group date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="dob"
+                        <input type="text" class="form-control uppercase-text dob" id="dob"
                             value="{{ $candidate_job_detail->date_of_birth ? \Carbon\Carbon::parse($candidate_job_detail->date_of_birth)->format('d-m-Y') : '' }}"
                             name="dob" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="date_of_birth_msg"></span>
@@ -54,7 +54,8 @@
                 <td>Passport Expiry Date*</td>
                 <td>
                     <div class="form-group date-btn">
-                        <input type="text" class="form-control uppercase-text datepicker" id="passport_expiry_date"
+                        <input type="text" class="form-control uppercase-text passport_expiry_date"
+                            id="passport_expiry_date"
                             value="{{ $candidate_job_detail->passport_expiry ? \Carbon\Carbon::parse($candidate_job_detail->passport_expiry)->format('d-m-Y') : '' }}"
                             name="passport_expiry" placeholder="dd-mm-yyyy">
                         <span class="text-danger" id="passport_expiry_msg"></span>
@@ -286,15 +287,22 @@
         $('#candidate-form').html(editHtml);
 
         // Initialize datepickers (after elements exist in DOM)
-        $('#dob').datepicker({
+        $('#candidate-form .dob').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
+            maxDate: function() {
+                var today = new Date();
+                today.setDate(today.getDate() - 1);
+                return today;
+            }
         });
 
-        $('#passport_expiry_date').datepicker({
+        $('#candidate-form .passport_expiry_date').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
+            minDate: new Date() // today + future allowed
         });
+
 
         // Initialize Select2 ONLY on visible form elements
         $('#candidate-form .new_select2').each(function() {

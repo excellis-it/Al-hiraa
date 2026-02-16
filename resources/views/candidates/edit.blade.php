@@ -1092,7 +1092,11 @@
                 $('#dob').datepicker({
                     uiLibrary: 'bootstrap5',
                     format: 'dd-mm-yyyy',
-                    maxDate: new Date()
+                    maxDate: function() {
+                        var today = new Date();
+                        today.setDate(today.getDate() - 1);
+                        return today;
+                    }
                 });
             });
 
