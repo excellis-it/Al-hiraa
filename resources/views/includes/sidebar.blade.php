@@ -65,7 +65,7 @@
                 <li class="sidebar-menu-item {{ Request::is('lineups*') ? 'active open' : '' }}">
                     <a class="sidebar-menu-button" href="{{ route('lineups.index') }}">
                         <i class="sidebar-menu-icon sidebar-menu-icon--left"><i class="fa fa-users-line"></i></i>
-                        <span class="sidebar-menu-text">Lineup Management</span>
+                        <span class="sidebar-menu-text">Lineup </span>
                     </a>
                 </li>
                 @endcan
@@ -76,7 +76,7 @@
                     <a class="sidebar-menu-button" href="{{ route('jobs.index') }}">
                         <i class="sidebar-menu-icon sidebar-menu-icon--left"><img
                                 src="{{ asset('assets/images/sidebar-icon/briefcase.svg') }}"></i>
-                        <span class="sidebar-menu-text">Jobs</span>
+                        <span class="sidebar-menu-text">Process</span>
                     </a>
                 </li>
                 @endif

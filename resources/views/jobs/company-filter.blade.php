@@ -234,13 +234,7 @@
         <div class="col-lg-6 col-md-6 mb-2">
             <div class="all_filter_btn">
                 <ul>
-                    @if (auth()->user()->can('Create Job'))
-                        <li>
-                            <a href="{{ route('jobs.create') }}" class="active_aa">
-                                <i class="fa-solid fa-plus"></i> Add Job
-                            </a>
-                        </li>
-                    @endif
+
                     {{-- <li>
                         <a href="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19.598" height="19.633" viewBox="0 0 19.598 19.633">
@@ -304,6 +298,11 @@
 
         <div class="col-lg-6 col-md-6 mb-2" style="display: flex;justify-content: end;">
             <div class="d-flex">
+                @if (auth()->user()->can('Create Job'))
+                    <a href="{{ route('jobs.create') }}" class="btn reset-btn advance_search_btn me-2">
+                        <i class="fa-solid fa-plus"></i> Add Selelcted Candidate
+                    </a>
+                @endif
                 @if (Auth::user()->hasRole('ADMIN') ||
                         Auth::user()->hasRole('OPERATION MANAGER') ||
                         Auth::user()->hasRole('PROCESS MANAGER'))
@@ -570,4 +569,3 @@
         ],
     });
 </script>
-
