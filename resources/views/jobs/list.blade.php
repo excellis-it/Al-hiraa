@@ -422,6 +422,9 @@
                 var query = $('#query').val();
                 var int_pipeline = $('.interview-active').data('val');
                 var job_id = $('select[name="job_id[]"]').val();
+                // add active clsass
+                $('.filter-company').removeClass('active');
+                $(this).addClass('active');
 
                 fetch_data(page, query, company, int_pipeline, job_id);
 
