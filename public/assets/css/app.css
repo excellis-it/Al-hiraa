@@ -355,7 +355,7 @@ select.form-control {
 
 } */
 
-.form-control {
+/* .form-control {
     display: block;
     width: 100%;
     height: 55px;
@@ -373,7 +373,7 @@ select.form-control {
         border-color 0.15s ease-in-out,
         box-shadow 0.15s ease-in-out;
     position: relative;
-}
+} */
 
 .form-select {
     background-image:
@@ -443,25 +443,31 @@ select.form-control {
     opacity: 1;
 }
 
-.search-form .form-control::-webkit-input-placeholder {
+.search-form .form-control::-webkit-input-placeholder,
+.filter-card .form-control::-webkit-input-placeholder {
     color: #989898;
     opacity: 1;
 }
 
-.search-form .form-control:-ms-input-placeholder {
+.search-form .form-control:-ms-input-placeholder,
+.filter-card .form-control:-ms-input-placeholder {
     color: #989898;
     opacity: 1;
 }
 
-.search-form .form-control::-ms-input-placeholder {
+.search-form .form-control::-ms-input-placeholder,
+.filter-card .form-control::-ms-input-placeholder {
     color: #989898;
     opacity: 1;
 }
 
-.search-form .form-control::placeholder {
+.search-form .form-control::placeholder,
+.filter-card .form-control::placeholder {
     color: #989898;
     opacity: 1;
 }
+
+
 
 .form-control:disabled,
 .form-control[readonly] {

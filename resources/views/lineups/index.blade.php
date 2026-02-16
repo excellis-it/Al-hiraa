@@ -168,7 +168,7 @@
                         <input type="text" name="search" id="search_input" class="form-control"
                             placeholder="Name, Passport, Contact..." value="{{ request('search') }}">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <label class="filter-label">Company</label>
                         <select name="company_id" id="company_filter" class="form-select select2">
                             <option value="">All Companies</option>
