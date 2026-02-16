@@ -48,8 +48,8 @@
                         </div>
                         <div class="">
                             <div class="name_box_text">
-                                <p>WhatsApp No:</p>
-                                <h4>{{ $candidate_job_detail->whatapp_no ?? 'N/A' }}</h4>
+                                <p>Contact No:</p>
+                                <h4>{{ $candidate_job_detail->contact_no ?? '' }}</h4>
                             </div>
                         </div>
                     </div>

@@ -68,7 +68,7 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
             return $row;
         });
         // dd($cleanedRows->toArray());
-        Validator::make($cleanedRows->toArray(), [
+        $validator = Validator::make($cleanedRows->toArray(), [
             '*.whatapp_no' => 'nullable|digits:10|numeric',
             '*.full_name' => 'required',
             '*.dob' => 'required|date|before:today',
@@ -176,166 +176,169 @@ class CandidateJobImport implements ToCollection, WithHeadingRow
         ])->validate();
 
         // dd($rows);
-        try {
-            foreach ($rows as $row) {
+        foreach ($rows as $key => $row) {
 
-                $interview = Interview::with(['company', 'job'])->where('interview_id', $row['interview_id'])
-                    ->first();
-                if ($interview) {
+            $interview = Interview::with(['company', 'job'])->where('interview_id', $row['interview_id'])
+                ->first();
+            if ($interview) {
 
-                    $check = CandidateJob::where('passport_number', $row['passport_number'])
-                        ->where('job_id', $interview->job_id)
-                        ->where('interview_id', $interview->id)
-                        ->count();
+                $check = CandidateJob::where('passport_number', $row['passport_number'])
+                    ->where('job_id', $interview->job_id)
+                    ->where('interview_id', $interview->id)
+                    ->count();
 
-                    // dd($check);
-                    if ($check <= 0) {
-                        $assign_job = new AssignJob();
-                        $assign_job->job_id = $interview->job_id;
-                        $assign_job->company_id = $interview->company_id;
-                        $assign_job->interview_id = $interview->id;
-                        $assign_job->user_id = Auth::user()->id;
-                        $assign_job->interview_status = 'Interested';
-                        $assign_job->save();
+                // dd($check);
+                if ($check <= 0) {
+                    $assign_job = new AssignJob();
+                    $assign_job->job_id = $interview->job_id;
+                    $assign_job->company_id = $interview->company_id;
+                    $assign_job->interview_id = $interview->id;
+                    $assign_job->user_id = Auth::user()->id;
+                    $assign_job->interview_status = 'Interested';
+                    $assign_job->save();
 
-                        $candidate_job = new CandidateJob();
-                        $candidate_job->assign_by_id = auth()->id();
-                        $candidate_job->contact_no = $row['contact_no'] ?? null;
-                        $candidate_job->assign_job_id = $assign_job->id;
-                        $candidate_job->full_name = $row['full_name'] ?? null;
-                        $candidate_job->email = $row['email'] ?? null;
-                        $candidate_job->gender = $row['gender'] ?? null;
-                        $candidate_job->date_of_birth = $row['dob'] ?? null;
-                        $candidate_job->whatapp_no = $row['whatapp_no'] ? '+91' . $row['whatapp_no'] : null;
-                        $candidate_job->alternate_contact_no = $row['alternate_contact_no'] ?? null;
-                        $candidate_job->religion = $row['religion'] ?? null;
-                        $candidate_job->address = $row['address'] ?? null;
-                        $candidate_job->passport_number = $row['passport_number'] ?? null;
-                        $candidate_job->passport_expiry = $row['passport_expiry_date'] ?? null;
-                        $candidate_job->ecr_type = $row['ecr_type'] ?? null;
+                    $candidate_job = new CandidateJob();
+                    $candidate_job->assign_by_id = auth()->id();
+                    $candidate_job->contact_no = $row['contact_no'] ?? null;
+                    $candidate_job->assign_job_id = $assign_job->id;
+                    $candidate_job->full_name = $row['full_name'] ?? null;
+                    $candidate_job->email = $row['email'] ?? null;
+                    $candidate_job->gender = $row['gender'] ?? null;
+                    $candidate_job->date_of_birth = $row['dob'] ?? null;
+                    $candidate_job->whatapp_no = $row['whatapp_no'] ? '+91' . $row['whatapp_no'] : null;
+                    $candidate_job->alternate_contact_no = $row['alternate_contact_no'] ?? null;
+                    $candidate_job->religion = $row['religion'] ?? null;
+                    $candidate_job->address = $row['address'] ?? null;
+                    $candidate_job->passport_number = $row['passport_number'] ?? null;
+                    $candidate_job->passport_expiry = $row['passport_expiry_date'] ?? null;
+                    $candidate_job->ecr_type = $row['ecr_type'] ?? null;
 
-                        if (isset($row['associate_phone'])) {
-                            $associate = Associate::where('phone_number', $row['associate_phone'])->first();
-                            if ($associate) {
-                                $candidate_job->associate_id = $associate->id;
-                            } else {
-                                $associate = Associate::create([
-                                    'phone_number' => $row['associate_phone'],
-                                    'name' => $row['associate_name'],
-                                    'associate_id' => Associate::generateAssociateId(),
+                    if (isset($row['associate_phone'])) {
+                        $associate = Associate::where('phone_number', $row['associate_phone'])->first();
+                        if ($associate) {
+                            $candidate_job->associate_id = $associate->id;
+                        } else {
+                            // if associate name null show validation error
+                            if (empty($row['associate_name'])) {
+                                // show the row number with error
+                                throw \Illuminate\Validation\ValidationException::withMessages([
+                                    'associate_name' => 'Row number ' . ($key + 1) . ' Associate name is required when associate phone is provided'
                                 ]);
-                                $candidate_job->associate_id = $associate->id;
                             }
-                            $candidate_job->due_amount = $interview->job->associate_charge ?? null;
-                            $candidate_job->job_service_charge = $interview->job->associate_charge ?? null;
-                        } else {
-                            $candidate_job->due_amount = $interview->job->service_charge ?? null;
-                            $candidate_job->job_service_charge = $interview->job->service_charge ?? null;
+                            $associate = Associate::create([
+                                'phone_number' => $row['associate_phone'],
+                                'name' => $row['associate_name'],
+                                'associate_id' => Associate::generateAssociateId(),
+                            ]);
+                            $candidate_job->associate_id = $associate->id;
                         }
+                        $candidate_job->due_amount = $interview->job->associate_charge ?? null;
+                        $candidate_job->job_service_charge = $interview->job->associate_charge ?? null;
+                    } else {
+                        $candidate_job->due_amount = $interview->job->service_charge ?? null;
+                        $candidate_job->job_service_charge = $interview->job->service_charge ?? null;
+                    }
 
-                        $candidate_job->job_id = $interview->job_id;
-                        $candidate_job->job_position = $interview->job->candidate_position_id ?? null;
-                        $candidate_job->job_location = $interview->job->address ?? null;
-                        $candidate_job->company_id = $interview->company_id;
-
-
-                        $candidate_job->food_allowance = $interview->job->benifits ?? null;
-                        $candidate_job->contract_duration = $interview->job->contract ?? null;
-                        $candidate_job->date_of_interview = $interview->interview_start_date ?? null;
-                        $candidate_job->interview_location = $interview->interview_location ?? null;
-
-
-                        $candidate_job->job_interview_status = 'SELECTED';
-                        $candidate_job->interview_id = $interview->id;
-                        $candidate_job->vendor_id = $interview->job->vendor_id ?? null;
-
-                        if (isset($interview->job->vendor_id)) {
-                            $vendor = User::where('id', $interview->job->vendor_id)->first();
-                            $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
-                        }
-
-                        $candidate_job->date_of_selection = $this->formatExcelDate($row['date_of_selection']) ?? null;
-                        $candidate_job->mode_of_selection = $row['mode_of_selection'] ?? null;
-                        $candidate_job->interview_location = $interview->job->address ?? null;
-                        $candidate_job->client_remarks = $row['client_remarks'] ?? null;
-                        $candidate_job->other_remarks = $row['other_remarks'] ?? null;
-                        $candidate_job->sponsor = $row['sponsor'] ?? null;
-                        $candidate_job->country = $row['country'] ?? null;
-                        $candidate_job->salary = $interview->job->salary ?? null;
-
-                        $candidate_job->contract_duration = $interview->job->contract ?? null;
-
-                        $candidate_job->family_contact_name = $row['family_contact_name'] ?? null;
-                        $candidate_job->family_contact_no = $row['family_contact_no'] ?? null;
-
-                        $candidate_job->medical_application_date = $this->formatExcelDate($row['medical_application_date'])  ?? null;
-                        $candidate_job->medical_approval_date = $this->formatExcelDate($row['medical_approval_date']) ?? null;
-                        $candidate_job->medical_completion_date = $this->formatExcelDate($row['medical_completion_date']) ?? null;
-                        $candidate_job->medical_expiry_date  = $this->formatExcelDate($row['medical_expiry_date']) ?? null;
-                        $candidate_job->medical_status = $row['medical_status'] ?? null;
-                        if ($row['medical_status'] == 'REPEAT') {
-                            $candidate_job->medical_repeat_date =  $this->formatExcelDate($row['medical_repeat_date']) ?? null;
-                        } else {
-                            $candidate_job->medical_repeat_date = null;
-                        }
-
-                        $candidate_job->visa_receiving_date =  $row['visa_receiving_date'] ?? null;
-                        $candidate_job->visa_issue_date =  $this->formatExcelDate($row['visa_issue_date']) ?? null;
-                        $candidate_job->visa_expiry_date = $this->formatExcelDate($row['visa_expiry_date']) ?? null;
-                        $candidate_job->mofa_no =   $row['mofa_no'] ?? null;
-                        $candidate_job->mofa_date =   $row['mofa_date'] ?? null;
-                        $candidate_job->mofa_received_date =  $this->formatExcelDate($row['mofa_received_date']) ?? null;
-                        $candidate_job->vfs_applied_date =  $this->formatExcelDate($row['vfs_applied_date']) ?? null;
-                        $candidate_job->vfs_received_date =  $this->formatExcelDate($row['vfs_received_date']) ?? null;
-
-                        $candidate_job->ticket_booking_date =  $this->formatExcelDate($row['ticket_booking_date']) ?? null;
-                        $candidate_job->ticket_confirmation_date = $this->formatExcelDate($row['ticket_confirmation_date']) ?? null;
-                        $candidate_job->onboarding_flight_city = $row['onboarding_flight_city'] ?? null;
+                    $candidate_job->job_id = $interview->job_id;
+                    $candidate_job->job_position = $interview->job->candidate_position_id ?? null;
+                    $candidate_job->job_location = $interview->job->address ?? null;
+                    $candidate_job->company_id = $interview->company_id;
 
 
-                        $candidate_job->courrier_sent_date = $this->formatExcelDate($row['courrier_sent_date']) ?? null;
-                        $candidate_job->courrier_received_date = $this->formatExcelDate($row['courrier_received_date']) ?? null;
-
-                        $first_installment = $row['fst_installment_amount'] ?? 0;
-                        $second_installment = $row['secnd_installment_amount'] ?? 0;
-                        $third_installment = $row['third_installment_amount'] ?? 0;
-                        $fourth_installment = $row['fourth_installment_amount'] ?? 0;
+                    $candidate_job->food_allowance = $interview->job->benifits ?? null;
+                    $candidate_job->contract_duration = $interview->job->contract ?? null;
+                    $candidate_job->date_of_interview = $interview->interview_start_date ?? null;
+                    $candidate_job->interview_location = $interview->interview_location ?? null;
 
 
-                        $candidate_job->fst_installment_amount = $row['fst_installment_amount'] > 0 ? $row['fst_installment_amount'] : null;
-                        $candidate_job->fst_installment_date = $this->formatExcelDate($row['fst_installment_date']) ?? null;
-                        $candidate_job->secnd_installment_amount =  $row['secnd_installment_amount']  > 0 ? $row['secnd_installment_amount'] : null;
-                        $candidate_job->secnd_installment_date = $this->formatExcelDate($row['secnd_installment_date']) ?? null;
-                        $candidate_job->third_installment_amount =  $row['third_installment_amount']  > 0 ? $row['third_installment_amount'] : null;
-                        $candidate_job->third_installment_date = $this->formatExcelDate($row['third_installment_date']) ?? null;
-                        $candidate_job->fourth_installment_amount = $row['fourth_installment_amount']  > 0 ? $row['fourth_installment_amount'] : null;
-                        $candidate_job->fourth_installment_date = $this->formatExcelDate($row['fourth_installment_date']) ?? null;
-                        $total_amout = $first_installment + $second_installment + $third_installment + $fourth_installment;
-                        $candidate_job->total_amount = $total_amout > 0 ? $total_amout : null;
-                        $candidate_job->deployment_date = $this->formatExcelDate($row['deployment_date']) ?? null;
+                    $candidate_job->job_interview_status = 'SELECTED';
+                    $candidate_job->interview_id = $interview->id;
+                    $candidate_job->vendor_id = $interview->job->vendor_id ?? null;
 
-                        $candidate_job->save();
+                    if (isset($interview->job->vendor_id)) {
+                        $vendor = User::where('id', $interview->job->vendor_id)->first();
+                        $candidate_job->vendor_service_charge = $vendor->vendor_service_charge ?? null;
+                    }
 
-                        $candidate_refer = Candidate::where('id', $candidate_job->candidate_id)->first() ?? '';
-                        $job_referral_point = Job::where('id', $candidate_job->job_id)->first() ?? '';
-                        $referral_amount = ReferralPoint::where('id', $job_referral_point->referral_point_id)->first() ?? '';
-                        // dd($candidate_refer);
-                        if ($row['deployment_date'] && isset($candidate_refer->referred_by_id)) {
+                    $candidate_job->date_of_selection = $this->formatExcelDate($row['date_of_selection']) ?? null;
+                    $candidate_job->mode_of_selection = $row['mode_of_selection'] ?? null;
+                    $candidate_job->interview_location = $interview->job->address ?? null;
+                    $candidate_job->client_remarks = $row['client_remarks'] ?? null;
+                    $candidate_job->other_remarks = $row['other_remarks'] ?? null;
+                    $candidate_job->sponsor = $row['sponsor'] ?? null;
+                    $candidate_job->country = $row['country'] ?? null;
+                    $candidate_job->salary = $interview->job->salary ?? null;
 
-                            $refer_point = new CandidateReferralPoint();
-                            $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
-                            $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
-                            $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
-                            $refer_point->refer_point = $referral_amount->point ?? null;
-                            $refer_point->amount = $referral_amount->amount ?? null;
-                            $refer_point->refer_job_id = $candidate_job->job_id ?? null;
-                            $refer_point->save();
-                        }
+                    $candidate_job->contract_duration = $interview->job->contract ?? null;
+
+                    $candidate_job->family_contact_name = $row['family_contact_name'] ?? null;
+                    $candidate_job->family_contact_no = $row['family_contact_no'] ?? null;
+
+                    $candidate_job->medical_application_date = $this->formatExcelDate($row['medical_application_date'])  ?? null;
+                    $candidate_job->medical_approval_date = $this->formatExcelDate($row['medical_approval_date']) ?? null;
+                    $candidate_job->medical_completion_date = $this->formatExcelDate($row['medical_completion_date']) ?? null;
+                    $candidate_job->medical_expiry_date  = $this->formatExcelDate($row['medical_expiry_date']) ?? null;
+                    $candidate_job->medical_status = $row['medical_status'] ?? null;
+                    if ($row['medical_status'] == 'REPEAT') {
+                        $candidate_job->medical_repeat_date =  $this->formatExcelDate($row['medical_repeat_date']) ?? null;
+                    } else {
+                        $candidate_job->medical_repeat_date = null;
+                    }
+
+                    $candidate_job->visa_receiving_date =  $row['visa_receiving_date'] ?? null;
+                    $candidate_job->visa_issue_date =  $this->formatExcelDate($row['visa_issue_date']) ?? null;
+                    $candidate_job->visa_expiry_date = $this->formatExcelDate($row['visa_expiry_date']) ?? null;
+                    $candidate_job->mofa_no =   $row['mofa_no'] ?? null;
+                    $candidate_job->mofa_date =   $row['mofa_date'] ?? null;
+                    $candidate_job->mofa_received_date =  $this->formatExcelDate($row['mofa_received_date']) ?? null;
+                    $candidate_job->vfs_applied_date =  $this->formatExcelDate($row['vfs_applied_date']) ?? null;
+                    $candidate_job->vfs_received_date =  $this->formatExcelDate($row['vfs_received_date']) ?? null;
+
+                    $candidate_job->ticket_booking_date =  $this->formatExcelDate($row['ticket_booking_date']) ?? null;
+                    $candidate_job->ticket_confirmation_date = $this->formatExcelDate($row['ticket_confirmation_date']) ?? null;
+                    $candidate_job->onboarding_flight_city = $row['onboarding_flight_city'] ?? null;
+
+
+                    $candidate_job->courrier_sent_date = $this->formatExcelDate($row['courrier_sent_date']) ?? null;
+                    $candidate_job->courrier_received_date = $this->formatExcelDate($row['courrier_received_date']) ?? null;
+
+                    $first_installment = $row['fst_installment_amount'] ?? 0;
+                    $second_installment = $row['secnd_installment_amount'] ?? 0;
+                    $third_installment = $row['third_installment_amount'] ?? 0;
+                    $fourth_installment = $row['fourth_installment_amount'] ?? 0;
+
+
+                    $candidate_job->fst_installment_amount = $row['fst_installment_amount'] > 0 ? $row['fst_installment_amount'] : null;
+                    $candidate_job->fst_installment_date = $this->formatExcelDate($row['fst_installment_date']) ?? null;
+                    $candidate_job->secnd_installment_amount =  $row['secnd_installment_amount']  > 0 ? $row['secnd_installment_amount'] : null;
+                    $candidate_job->secnd_installment_date = $this->formatExcelDate($row['secnd_installment_date']) ?? null;
+                    $candidate_job->third_installment_amount =  $row['third_installment_amount']  > 0 ? $row['third_installment_amount'] : null;
+                    $candidate_job->third_installment_date = $this->formatExcelDate($row['third_installment_date']) ?? null;
+                    $candidate_job->fourth_installment_amount = $row['fourth_installment_amount']  > 0 ? $row['fourth_installment_amount'] : null;
+                    $candidate_job->fourth_installment_date = $this->formatExcelDate($row['fourth_installment_date']) ?? null;
+                    $total_amout = $first_installment + $second_installment + $third_installment + $fourth_installment;
+                    $candidate_job->total_amount = $total_amout > 0 ? $total_amout : null;
+                    $candidate_job->deployment_date = $this->formatExcelDate($row['deployment_date']) ?? null;
+
+                    $candidate_job->save();
+
+                    $candidate_refer = Candidate::where('id', $candidate_job->candidate_id)->first() ?? '';
+                    $job_referral_point = Job::where('id', $candidate_job->job_id)->first() ?? '';
+                    $referral_amount = ReferralPoint::where('id', $job_referral_point->referral_point_id)->first() ?? '';
+                    // dd($candidate_refer);
+                    if ($row['deployment_date'] && isset($candidate_refer->referred_by_id)) {
+
+                        $refer_point = new CandidateReferralPoint();
+                        $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
+                        $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
+                        $refer_point->refer_point_id = $job_referral_point->referral_point_id ?? null;
+                        $refer_point->refer_point = $referral_amount->point ?? null;
+                        $refer_point->amount = $referral_amount->amount ?? null;
+                        $refer_point->refer_job_id = $candidate_job->job_id ?? null;
+                        $refer_point->save();
                     }
                 }
             }
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
         }
     }
 
