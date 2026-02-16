@@ -223,8 +223,11 @@ class JobsController extends Controller
             'passport_number' => 'required|string|max:255',
             'contact_no' => 'required|string|max:15',
             'gender' => 'required|in:MALE,FEMALE,OTHER',
-           'dob' => 'required|date|before:today',
+            'dob' => 'required|date|before:today',
+            'passport_expiry' => 'required|date|after:today',
             'date_of_selection' => 'required|date',
+            'whatapp_no' => ['required', 'regex:/^\+91[6-9]\d{9}$/'],
+
         ]);
 
         if ($validator->fails()) {
@@ -262,6 +265,7 @@ class JobsController extends Controller
             $candidate_job->contact_no = $request->contact_no;
             $candidate_job->gender = $request->gender;
             $candidate_job->date_of_birth = $request->dob;
+            $candidate_job->passport_expiry = $request->passport_expiry;
             $candidate_job->whatapp_no = $request->whatapp_no;
             $candidate_job->email = $request->email;
             $candidate_job->religion = $request->religion;

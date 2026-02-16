@@ -32,9 +32,7 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @error('company_id')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="company_id_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -43,9 +41,7 @@
                                                 <select name="job_id" id="job_id" class="form-select select2" disabled>
                                                     <option value="">Select Job</option>
                                                 </select>
-                                                @error('job_id')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="job_id_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -55,9 +51,7 @@
                                                     disabled>
                                                     <option value="">Select Interview</option>
                                                 </select>
-                                                @error('interview_id')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="interview_id_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -71,9 +65,7 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @error('associate_id')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="associate_id_error"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -119,9 +111,7 @@
                                                 <label for="full_name">Full Name <span>*</span></label>
                                                 <input type="text" name="full_name" class="form-control"
                                                     value="{{ old('full_name') }}">
-                                                @error('full_name')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="full_name_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -129,9 +119,15 @@
                                                 <label for="passport_number">Passport Number <span>*</span></label>
                                                 <input type="text" name="passport_number" class="form-control"
                                                     value="{{ old('passport_number') }}">
-                                                @error('passport_number')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="passport_number_error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="passport_expiry">Passport Expiry Date <span>*</span></label>
+                                                <input type="text" name="passport_expiry" id="passport_expiry"
+                                                    class="form-control datepicker" value="{{ old('passport_expiry') }}">
+                                                <span class="text-danger" id="passport_expiry_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -139,9 +135,7 @@
                                                 <label for="contact_no">Contact No <span>*</span></label>
                                                 <input type="text" name="contact_no" class="form-control"
                                                     value="{{ old('contact_no') }}">
-                                                @error('contact_no')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="contact_no_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -155,29 +149,24 @@
                                                     <option value="OTHER"
                                                         {{ old('gender') == 'OTHER' ? 'selected' : '' }}>OTHER</option>
                                                 </select>
-                                                @error('gender')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <span class="text-danger" id="gender_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="dob">Date of Birth <span>*</span></label>
-                                                <input type="text" name="dob" class="form-control" 
-                                                    id="dob" value="{{ old('dob') }}">
-                                                @error('dob')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <input type="text" name="dob" class="form-control" id="dob"
+                                                    value="{{ old('dob') }}">
+                                                <span class="text-danger" id="dob_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label for="date_of_selection">Selection Date <span>*</span></label>
-                                                <input type="text" name="date_of_selection"
-                                                    class="form-control datepicker" value="{{ old('date_of_selection') }}">
-                                                @error('date_of_selection')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
+                                                <input type="text" name="date_of_selection" id="date_of_selection"
+                                                    class="form-control datepicker"
+                                                    value="{{ old('date_of_selection') }}">
+                                                <span class="text-danger" id="date_of_selection_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -188,6 +177,7 @@
                                                     <input type="text" name="whatapp_no" class="form-control"
                                                         value="{{ old('whatapp_no') }}">
                                                 </div>
+                                                <span class="text-danger" id="whatapp_no_error"></span>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -267,7 +257,7 @@
                 width: '100%'
             });
 
-            $('.datepicker').datepicker({
+            $('#date_of_selection').datepicker({
                 uiLibrary: 'bootstrap5',
                 format: 'dd-mm-yyyy',
             });
@@ -282,6 +272,15 @@
                 }
             });
 
+            $('#passport_expiry').datepicker({
+                uiLibrary: 'bootstrap5',
+                format: 'dd-mm-yyyy',
+                minDate: function() {
+                    var today = new Date();
+                    today.setDate(today.getDate());
+                    return today;
+                }
+            });
 
             $('#company_id').on('change', function() {
                 var company_id = $(this).val();
@@ -368,35 +367,13 @@
                 $('#service_charge').val('');
             }
 
+            function showError(field, message) {
+                $('#' + field + '_error').text(message);
+            }
+
             $('#create-candidate-job').on('submit', function(e) {
                 e.preventDefault();
-                $('.text-danger').remove();
-
-                var isValid = true;
-
-                // Manual validation since required attributes were removed
-                var requiredFields = [
-                    'company_id', 'job_id', 'interview_id',
-                    'full_name', 'passport_number', 'contact_no',
-                    'gender', 'dob', 'date_of_selection'
-                ];
-
-                requiredFields.forEach(function(field) {
-                    var element = $('[name="' + field + '"]');
-                    if (element.length > 0 && !element.val()) {
-                        isValid = false;
-                        // For select2 elements, place error after the container
-                        if (element.hasClass('select2-hidden-accessible')) {
-                            element.next('.select2-container').after(
-                                '<span class="text-danger">This field is required</span>');
-                        } else {
-                            element.after(
-                                '<span class="text-danger">This field is required</span>');
-                        }
-                    }
-                });
-
-                if (!isValid) return;
+                $('.text-danger').text('');
 
                 var formData = new FormData(this);
                 var whatsapp = formData.get('whatapp_no');
@@ -417,15 +394,7 @@
                         } else {
                             if (response.errors) {
                                 $.each(response.errors, function(key, val) {
-                                    var element = $('[name="' + key + '"]');
-                                    if (element.hasClass('select2-hidden-accessible')) {
-                                        element.next('.select2-container').after(
-                                            '<span class="text-danger">' + val[0] +
-                                            '</span>');
-                                    } else {
-                                        element.after('<span class="text-danger">' +
-                                            val[0] + '</span>');
-                                    }
+                                    showError(key, val[0]);
                                 });
                             } else {
                                 toastr.error(response.message);
@@ -436,15 +405,7 @@
                         if (xhr.status === 422) {
                             var errors = xhr.responseJSON.errors;
                             $.each(errors, function(key, val) {
-                                var element = $('[name="' + key + '"]');
-                                if (element.hasClass('select2-hidden-accessible')) {
-                                    element.next('.select2-container').after(
-                                        '<span class="text-danger">' + val[0] +
-                                        '</span>');
-                                } else {
-                                    element.after('<span class="text-danger">' + val[
-                                        0] + '</span>');
-                                }
+                                showError(key, val[0]);
                             });
                         } else {
                             toastr.error('Something went wrong. Please try again.');
