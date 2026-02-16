@@ -163,7 +163,7 @@
             <form action="{{ route('lineups.index') }}" method="GET" id="filter-form">
                 <input type="hidden" name="get_interview_id" value="{{ request()->get('get_interview_id') }}">
                 <div class="row g-3">
-                    <div class="col-md-2">
+                    <div class="col-md-6">
                         <label class="filter-label">Search</label>
                         <input type="text" name="search" id="search_input" class="form-control"
                             placeholder="Name, Passport, Contact..." value="{{ request('search') }}">
@@ -231,19 +231,19 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-md-1 d-flex align-items-end gap-1">
+                    <div class="col-md-3 col-lg-2 col-xl-2 d-flex align-items-end gap-1">
                         <button type="submit" class="btn btn-primary px-3" title="Filter"><i
                                 class="fa fa-filter"></i></button>
                         <button type="button" id="reset-filter-btn" class="btn btn-secondary px-3" title="Reset"><i
                                 class="fa fa-sync"></i></button>
-                    </div>
-                    @can('Export Lineup')
-                    <div class="col-md-1 d-flex align-items-end">
-                        <button type="button" id="export-btn" class="btn btn-success w-100" title="Export to Excel">
+
+                        @can('Export Lineup')
+                        <button type="button" id="export-btn" class="btn btn-success" title="Export to Excel">
                             <i class="fa fa-file-excel"></i>
                         </button>
+                        @endcan
                     </div>
-                    @endcan
+
                 </div>
             </form>
         </div>
