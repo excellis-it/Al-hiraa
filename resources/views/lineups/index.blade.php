@@ -143,7 +143,7 @@
 <div class="mdk-drawer-layout__content page">
     <div class="container-fluid page__heading-container">
         <div class="page__heading d-flex align-items-center justify-content-between">
-            <h1 class="m-0">Lineup Management</h1>
+            <h4 class="m-0">Lineup Management</h4>
             {{-- edit candidates --}}
             <div id="candidate-edit" class="jobs_canvas">
             </div>
@@ -191,7 +191,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3 col-xl-3 col-xxl-2">
                         <label class="filter-label">Interview Date</label>
                         <select name="interview_id" id="interview_filter" class="form-select select2">
                             <option value="">All Dates</option>
@@ -203,7 +203,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3 col-xl-3 col-xxl-2">
                         <label class="filter-label">Status</label>
                         <select name="interview_status" class="form-select select2">
                             <option value="">All Status</option>
@@ -216,7 +216,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3 col-xl-3 col-xxl-2">
                         <label class="filter-label">Show</label>
                         <select name="per_page" id="per_page_filter" class="form-select select2">
                             <option value="20" {{ request('per_page') == '20' ? 'selected' : '' }}>20 per page
