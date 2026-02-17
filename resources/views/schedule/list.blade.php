@@ -466,29 +466,17 @@
                         _token: '{{ csrf_token() }}'
                     },
                     success: function(data) {
-                        $('#schedule-filter').html(data.view);
+                        $('#schedule-results').html(data.view);
 
                         if (showLoader) {
                             $('#loading').removeClass('loading');
                             $('#loading-content').removeClass('loading-content');
                         }
 
-                        // Re-initialize datepicker after AJAX load
-                        $('#date-filter').datepicker({
-                            uiLibrary: 'bootstrap5',
-                            format: 'dd-mm-yyyy',
-                            change: function(e) {
-                                var date = e.target.value;
-                                var company = $('#company-filter').val();
-                                var search = $('#search-filter').val();
-                                fetch_data(search, company, date, 1);
-                            }
-                        });
-
                         // Scroll to top of table only if showing loader (indicates major change)
-                        if (showLoader && $("#schedule-filter").length) {
+                        if (showLoader && $("#schedule-results").length) {
                             $('html, body').animate({
-                                scrollTop: $("#schedule-filter").offset().top - 100
+                                scrollTop: $("#schedule-results").offset().top - 100
                             }, 500);
                         }
                     },

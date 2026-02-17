@@ -41,7 +41,7 @@
                             </label>
                             <div class="input-group">
                                 <input type="text" class="form-control datepicker border-start-0 ps-0"
-                                    id="edit_interview_date"
+                                    id="edit_interview_date_{{ $interview->id }}"
                                     value="{{ $interview->interview_start_date ? date('d-m-Y', strtotime($interview->interview_start_date)) : '' }}"
                                     name="interview_date" placeholder="Select date">
                             </div>
@@ -83,7 +83,7 @@
     </div>
 
     <script>
-        $('#edit_interview_date').datepicker({
+        $('#edit_interview_date_{{ $interview->id }}').datepicker({
             uiLibrary: 'bootstrap5',
             format: 'dd-mm-yyyy',
             minDate: new Date()

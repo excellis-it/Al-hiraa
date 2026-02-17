@@ -317,7 +317,7 @@ class ScheduleController extends Controller
         }
 
         return response()->json([
-            'view' => view('schedule.filter', compact('companies', 'interviews', 'paginationHtml'))->render()
+            'view' => view('schedule.results', compact('companies', 'interviews', 'paginationHtml'))->render()
         ]);
     }
 }
