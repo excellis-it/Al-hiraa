@@ -257,7 +257,8 @@ class ScheduleController extends Controller
                     })->orWhereHas('user', function ($subQ) use ($search) {
                         $subQ->where('first_name', 'like', '%' . $search . '%')
                             ->orWhere('last_name', 'like', '%' . $search . '%');
-                    })->orWhere('interview_location', 'like', '%' . $search . '%');
+                    })->orWhere('interview_location', 'like', '%' . $search . '%')
+                    ->orWhere('interview_id', 'like', '%' . $search . '%');
                 });
             })
             ->when($companyId, function ($query, $companyId) {
