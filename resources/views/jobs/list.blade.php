@@ -112,7 +112,7 @@
                                                                             ? substr($jobName, 0, $maxLength) . '...'
                                                                             : $jobName;
                                                                 @endphp
-                                                                <option value="{{ $job->job_id }}">
+                                                                <option value="{{ $job->id }}">
                                                                     {{ $truncatedJobName }} ({{ $job->job_id }})
                                                                 </option>
                                                             @endforeach

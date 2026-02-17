@@ -900,12 +900,11 @@ class JobsController extends Controller
         $ticket_details_update->update();
 
         $candidate_job = CandidateJob::findOrFail($id);
-        $candidate_refer = Candidate::where('id', $candidate_job->candidate_id)->first() ?? '';
+        $candidate_refer = Candidate::where('passport_number', $candidate_job->passport_number)->first() ?? '';
         $job_referral_point = Job::where('id', $candidate_job->job_id)->first() ?? '';
         $referral_amount = ReferralPoint::where('id', $job_referral_point->referral_point_id)->first() ?? '';
-
-        if ($request->deployment_date && $candidate_refer->referred_by_id) {
-
+        // dd($candidate_refer);
+        if ($candidate_refer && $request->deployment_date && $candidate_refer->referred_by_id) {
             $refer_point = new CandidateReferralPoint();
             $refer_point->refer_candidate_id = $candidate_job->candidate_id ?? null;
             $refer_point->referrer_candidate_id = $candidate_refer->referred_by_id ?? null;
