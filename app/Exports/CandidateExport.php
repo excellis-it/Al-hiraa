@@ -100,18 +100,21 @@ class CandidateExport implements FromQuery, WithHeadings, WithMapping, WithChunk
      */
     public function map($candidate): array
     {
+        $dob = $candidate->date_of_birth ? Carbon::parse($candidate->date_of_birth) : null;
+        $lastActivityRemarks = $candidate->lastCandidateActivity->remarks ?? 'N/A';
+
         return [
-            date('d.m.Y', strtotime($candidate->created_at)) ?? 'N/A',
-            $candidate->lastCandidateActivity->remarks ?? 'N/A',
+            $candidate->created_at ? $candidate->created_at->format('d.m.Y') : 'N/A',
+            $lastActivityRemarks,
             $candidate->enterBy->full_name ?? 'N/A',
             $candidate->candidateStatus->name ?? 'N/A',
             $candidate->mode_of_registration ?? 'N/A',
             $candidate->source ?? 'N/A',
-            date('d.m.Y', strtotime($candidate->last_update_date)) ?? 'N/A',
+            $candidate->last_update_date ? Carbon::parse($candidate->last_update_date)->format('d.m.Y') : 'N/A',
             $candidate->full_name ?? 'N/A',
             $candidate->gender ?? 'N/A',
-            date('d.m.Y', strtotime($candidate->date_of_birth)) ?? 'N/A',
-            \Carbon\Carbon::parse($candidate->date_of_birth)->age ?? 'N/A',
+            $dob ? $dob->format('d.m.Y') : 'N/A',
+            $dob ? $dob->age : 'N/A',
             $candidate->education ?? 'N/A',
             $candidate->contact_no ?? 'N/A',
             $candidate->alternate_contact_no ?? 'N/A',
@@ -135,7 +138,7 @@ class CandidateExport implements FromQuery, WithHeadings, WithMapping, WithChunk
             $candidate->passport_number ?? 'N/A',
             $candidate->indian_exp ?? 'N/A',
             $candidate->abroad_exp ?? 'N/A',
-            $candidate->lastCandidateActivity->remarks ?? 'N/A',
+            $lastActivityRemarks,
         ];
     }
 
@@ -161,6 +164,6 @@ class CandidateExport implements FromQuery, WithHeadings, WithMapping, WithChunk
      */
     public function chunkSize(): int
     {
-        return 1000; // Customize chunk size as per your requirement
+        return 5000;
     }
 }
