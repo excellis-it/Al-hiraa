@@ -1133,14 +1133,26 @@ class CandidateController extends Controller
                 'end_date' => 'required|date|after_or_equal:start_date',
             ]);
 
-            try {
-                return FacadesExcel::download(
-                    new CandidateExport($request->start_date, $request->end_date),
-                    'candidate-export-' . now()->format('Y-m-d') . '.xlsx'
-                );
-            } catch (\Throwable $th) {
-                return redirect()->back()->with('error', $th->getMessage());
-            }
+            set_time_limit(0);
+
+            $export = new CandidateExport($request->start_date, $request->end_date);
+            $fileName = 'candidate-export-' . now()->format('Y-m-d') . '.csv';
+
+            return response()->streamDownload(function () use ($export) {
+                $handle = fopen('php://output', 'w');
+                fputcsv($handle, $export->headings());
+
+                $export->query()->chunk($export->chunkSize(), function ($candidates) use ($handle, $export) {
+                    foreach ($candidates as $candidate) {
+                        fputcsv($handle, $export->map($candidate));
+                    }
+                    flush();
+                });
+
+                fclose($handle);
+            }, $fileName, [
+                'Content-Type' => 'text/csv',
+            ]);
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
